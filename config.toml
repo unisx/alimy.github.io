@@ -8,6 +8,6 @@ theme = "hugo-uno"
 
 [params]
     name = "Alimy"
-    logo = "/images/log.jpg"
+    logo = "/images/logo.jpg"
     description = "This is a test static html website for Alimy."
     github = "alimy"
