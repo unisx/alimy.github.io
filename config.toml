@@ -1,12 +1,13 @@
 baseurl = "http://alimy.me"
 title = "Alimy"
-author = "Alex Mcray"
-copyright = "Copyright (c) 20015 - 2016, Alex Mcray; all rights reserved."
+author = "Alimy"
+copyright = "Copyright (c) 20015 - 2016, Alimy; all rights reserved."
 canonifyurls = true
 paginate = 3
 theme = "hugo-uno"
 
 [params]
-    name = "Gility"
+    name = "Alimy"
+    logo = "/images/log.jpg"
     description = "This is a test static html website for Alimy."
     github = "alimy"
