@@ -9,5 +9,5 @@ theme = "hugo-uno"
 [params]
     name = "Alimy"
     logo = "/images/logo.jpg"
-    description = "This is a test static html website for Alimy."
+    description = "乱花渐欲迷人眼，浅草才能没马蹄。"
     github = "alimy"
