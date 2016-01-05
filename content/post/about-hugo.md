@@ -1,7 +1,7 @@
 +++
 title = "About Hugo"
 date = "2015-12-31"
-menu = "main"
+menu = "About"
 +++
 
 Hugo is a static site engine written in Go.
