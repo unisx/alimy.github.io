@@ -1,0 +1,423 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> 关于TOML &middot; Alimy </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.ico">
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js">
+    </script>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/" title="link to homepage for Alimy"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/"  title="link to homepage for Alimy">Alimy</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me#blog" title="link to Alimy blog" class="blog-button">Blog</a> </li>
+                            </br>  </ul>
+                    </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation">   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="alimy on github"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/" title="link to homepage for Alimy"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/"  title="link to homepage for Alimy">Alimy</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/#blog" title="link to Alimy blog" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation">   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="alimy on github"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post">
+          <h1>关于TOML</h1>
+          <span class="post-date">Tue, Jan 5, 2016</span>
+          
+
+<h2 id="toml的由来:70e9c4511f4e097e24015203d5d3b1b2">TOML的由来</h2>
+
+<p>TOML的全称是　Tom&rsquo;s Obvious, Minimal Language，因为它是GitHub　前CEO,联合创始人
+Tom Preston-Werner 于2013年创建的语言。</p>
+
+<p>配置文件的使用由来已久，从.ini、XML、JSON、YAML再到TOML，语言的表达能力越来越强，同时书
+写便捷性也在不断提升。</p>
+
+<h2 id="toml-的目标:70e9c4511f4e097e24015203d5d3b1b2">TOML 的目标</h2>
+
+<p>TOML的目标是成为一个小规模的易于使用的语义化配置文件格式。TOML被设计为可以无二义性的转换
+为一个哈希表(Hash table)，从而被多种语言解析。</p>
+
+<h3 id="例子:70e9c4511f4e097e24015203d5d3b1b2">例子</h3>
+
+<pre><code>title = &quot;TOML 例子&quot;
+
+[owner]
+name = &quot;Tom Preston-Werner&quot;
+organization = &quot;GitHub&quot;
+bio = &quot;GitHub Cofounder &amp; CEO\nLikes tater tots and beer.&quot;
+dob = 1979-05-27T07:32:00Z # 日期时间是一等公民。为什么不呢？
+
+[database]
+server = &quot;192.168.1.1&quot;
+ports = [ 8001, 8001, 8002 ]
+connection_max = 5000
+enabled = true
+
+[servers]
+
+  # 你可以依照你的意愿缩进。使用空格或Tab。TOML不会在意。
+  [servers.alpha]
+  ip = &quot;10.0.0.1&quot;
+  dc = &quot;eqdc10&quot;
+
+  [servers.beta]
+  ip = &quot;10.0.0.2&quot;
+  dc = &quot;eqdc10&quot;
+
+[clients]
+data = [ [&quot;gamma&quot;, &quot;delta&quot;], [1, 2] ]
+
+# 在数组里换行没有关系。
+hosts = [
+  &quot;alpha&quot;,
+  &quot;omega&quot;
+]
+</code></pre>
+
+<p>TOML是大小写敏感的。</p>
+
+<h3 id="注释:70e9c4511f4e097e24015203d5d3b1b2">注释</h3>
+
+<p>使用 # 表示注释：</p>
+
+<pre><code># I am a comment. Hear me roar. Roar.
+key = &quot;value&quot; # Yeah, you can do this.
+</code></pre>
+
+<h3 id="字符串:70e9c4511f4e097e24015203d5d3b1b2">字符串</h3>
+
+<p>字符串和 JSON 的定义一致，只有一点除外：　TOML 要求使用　UTF-8 编码。</p>
+
+<p>注释以引号包裹，里面的字符必须是　UTF-8 格式。引号、反斜杠和控制字符（U+0000 到 U+001F）
+需要转义。</p>
+
+<pre><code>&quot;I'm a string. \&quot;You can quote me\&quot;. Name\tJos\u00E9\nLocation\tSF.&quot;
+</code></pre>
+
+<p>常用的转义序列：</p>
+
+<pre><code>\b     - backspace       (U+0008)
+\t     - tab             (U+0009)
+\n     - linefeed        (U+000A)
+\f     - form feed       (U+000C)
+\r     - carriage return (U+000D)
+\&quot;     - quote           (U+0022)
+\/     - slash           (U+002F)
+\\     - backslash       (U+005C)
+\uXXXX - unicode         (U+XXXX)
+</code></pre>
+
+<p>使用保留的特殊字符，TOML　会抛出错误。例如，在　Windows 平台上，应该使用两个反斜杠来表示
+路径：</p>
+
+<pre><code>wrong = &quot;C:\Users\nodejs\templates&quot; # 注意：这不会生成合法的路径。
+right = &quot;C:\\Users\\nodejs\\templates&quot;
+</code></pre>
+
+<p>二进制数据建议使用　Base64　或其他合适的编码。具体的处理取决于特定的应用。</p>
+
+<h3 id="整数:70e9c4511f4e097e24015203d5d3b1b2">整数</h3>
+
+<p>整数就是一些没有小数点的数字。想用负数？按直觉来就行。整数的尺寸最小为64位。</p>
+
+<h3 id="浮点数:70e9c4511f4e097e24015203d5d3b1b2">浮点数</h3>
+
+<p>浮点数带小数点。小数点两边都有数字。64位精度。</p>
+
+<pre><code>3.1415
+-0.01
+</code></pre>
+
+<h3 id="布尔值:70e9c4511f4e097e24015203d5d3b1b2">布尔值</h3>
+
+<p>布尔值永远是小写。</p>
+
+<pre><code>true
+false
+</code></pre>
+
+<h3 id="日期时间:70e9c4511f4e097e24015203d5d3b1b2">日期时间</h3>
+
+<p>使用　ISO 8601　完整格式。</p>
+
+<pre><code>1979-05-27T07:32:00Z
+</code></pre>
+
+<h3 id="数组:70e9c4511f4e097e24015203d5d3b1b2">数组</h3>
+
+<p>数组使用方括号包裹。空格会被忽略。元素使用逗号分隔。注意，不允许混用数据类型。</p>
+
+<pre><code>[ 1, 2, 3 ]
+[ &quot;red&quot;, &quot;yellow&quot;, &quot;green&quot; ]
+[ [ 1, 2 ], [3, 4, 5] ]
+[ [ 1, 2 ], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] ] # 这是可以的。
+[ 1, 2.0 ] # 注意：这是不行的。
+</code></pre>
+
+<p>数组可以多行。也就是说，除了空格之外，方括号间的换行也会被忽略。在关闭方括号前的最终项后的
+逗号是允许的。</p>
+
+<h3 id="表格:70e9c4511f4e097e24015203d5d3b1b2">表格</h3>
+
+<p>表格（也叫哈希表或字典）是键值对的集合。它们在方括号内，自成一行。注意和数组相区分，数组只
+有值。</p>
+
+<pre><code>[table]
+</code></pre>
+
+<p>在此之下，直到下一个　table 或　EOF 之前，是这个表格的键值对。键在左，值在右，等号在中间。
+键以非空字符开始，以等号前的非空字符为结尾。键值对是无序的。</p>
+
+<pre><code>[table]
+key = &quot;value&quot;
+</code></pre>
+
+<p>你可以随意缩进，使用 Tab 或空格。为什么要缩进呢？因为你可以嵌套表格。</p>
+
+<p>嵌套表格的表格名称中使用.。你可以任意命名你的表格，只是不要用点，点是保留的。</p>
+
+<pre><code>[dog.tater]
+type = &quot;pug&quot;
+</code></pre>
+
+<p>以上等价于如下的 JSON 结构：</p>
+
+<pre><code>{ &quot;dog&quot;: { &quot;tater&quot;: { &quot;type&quot;: &quot;pug&quot; } } }
+</code></pre>
+
+<p>如果你不想的话，你不用声明所有的父表。TOML　知道该如何处理。</p>
+
+<pre><code># [x] 你
+# [x.y] 不需要
+# [x.y.z] 这些
+[x.y.z.w] # 可以直接写
+</code></pre>
+
+<p>空表是允许的，其中没有键值对。</p>
+
+<p>只要父表没有被直接定义，而且没有定义一个特定的键，你可以继续写入：</p>
+
+<pre><code>[a.b]
+c = 1
+
+[a]
+d = 2
+</code></pre>
+
+<p>然而你不能多次定义键和表格。这么做是不合法的。</p>
+
+<pre><code># 别这么干！
+
+[a]
+b = 1
+
+[a]
+c = 2
+</code></pre>
+
+<pre><code># 也别这个干
+
+[a]
+b = 1
+
+[a.b]
+c = 2
+</code></pre>
+
+<h3 id="表格数组:70e9c4511f4e097e24015203d5d3b1b2">表格数组</h3>
+
+<p>最后要介绍的类型是表格数组。表格数组可以通过包裹在双方括号内的表格名来表达。使用相同的双方
+括号名称的表格是同一个数组的元素。表格按照书写的顺序插入。双方括号表格如果没有键值对，会被
+当成空表。</p>
+
+<pre><code>[[products]]
+name = &quot;Hammer&quot;
+sku = 738594937
+
+[[products]]
+
+[[products]]
+name = &quot;Nail&quot;
+sku = 284758393
+color = &quot;gray&quot;
+</code></pre>
+
+<p>等价于以下的　JSON 结构：</p>
+
+<pre><code>{
+  &quot;products&quot;: [
+    { &quot;name&quot;: &quot;Hammer&quot;, &quot;sku&quot;: 738594937 },
+    { },
+    { &quot;name&quot;: &quot;Nail&quot;, &quot;sku&quot;: 284758393, &quot;color&quot;: &quot;gray&quot; }
+  ]
+}
+</code></pre>
+
+<p>表格数组同样可以嵌套。只需在子表格上使用相同的双方括号语法。每一个双方括号子表格回从属于最
+近定义的上层表格元素。</p>
+
+<pre><code>[[fruit]]
+  name = &quot;apple&quot;
+
+  [fruit.physical]
+    color = &quot;red&quot;
+    shape = &quot;round&quot;
+
+  [[fruit.variety]]
+    name = &quot;red delicious&quot;
+
+  [[fruit.variety]]
+    name = &quot;granny smith&quot;
+
+[[fruit]]
+  name = &quot;banana&quot;
+
+  [[fruit.variety]]
+    name = &quot;plantain&quot;
+</code></pre>
+
+<p>等价于如下的　JSON 结构：</p>
+
+<pre><code>{
+  &quot;fruit&quot;: [
+    {
+      &quot;name&quot;: &quot;apple&quot;,
+      &quot;physical&quot;: {
+        &quot;color&quot;: &quot;red&quot;,
+        &quot;shape&quot;: &quot;round&quot;
+      },
+      &quot;variety&quot;: [
+        { &quot;name&quot;: &quot;red delicious&quot; },
+        { &quot;name&quot;: &quot;granny smith&quot; }
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;banana&quot;,
+      &quot;variety&quot;: [
+        { &quot;name&quot;: &quot;plantain&quot; }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<p>尝试定义一个普通的表格，使用已经定义的数组的名称，将抛出一个解析错误：</p>
+
+<pre><code># 不合法的　TOML
+
+[[fruit]]
+  name = &quot;apple&quot;
+
+  [[fruit.variety]]
+    name = &quot;red delicious&quot;
+
+  # 和上面冲突了
+  [fruit.variety]
+    name = &quot;granny smith&quot;
+</code></pre>
+
+        </div>
+        <div class="sharing">
+<a href="https://twitter.com/intent/tweet?status=%e5%85%b3%e4%ba%8eTOML-http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f" target="_blank" title="Follow me on Twitter" class="twitter">
+<span class="fa fa-twitter-square fa-3x"></span></a>
+<a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f" target="_blank" title="Join me on Facebook" class="facebook">
+<span class="fa fa-facebook-square fa-3x"></span></a>
+<a href="https://plus.google.com/share?url=http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f" target="_blank" title="Google+" class="googleplus">
+<span class="fa fa-google-plus-square fa-3x"></span></a>
+<a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f&title=%e5%85%b3%e4%ba%8eTOML" target="_blank" title="LinkedIn" class="linkedin">
+<span class="fa fa-linkedin-square fa-3x"></span></a>
+<a href="http://www.reddit.com/submit?url=http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f" target="_blank" title="Reddit" class="reddit"><span class="fa fa-reddit-square fa-3x"></span></a>
+<a href="http://www.stumbleupon.com/submit?url=http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f" target="_blank" title="StumbleUpon" class="stumbleupon"><span class="fa fa-stumbleupon fa-3x">
+</span></a>
+</div>
+        
+
+
+
+      </div>
+    </div>
+
+  </body>
+  
+</html>

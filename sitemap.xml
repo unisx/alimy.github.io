@@ -3,17 +3,27 @@
   
   <url>
     <loc>http://alimy.me/</loc>
-    <lastmod>2015-12-31T00:00:00+00:00</lastmod>
+    <lastmod>2016-01-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://alimy.me/post/trave/</loc>
+    <loc>http://alimy.me/post/toml-spec-v0.4.0/</loc>
+    <lastmod>2016-01-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/post/about-toml/</loc>
+    <lastmod>2016-01-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/post/just-a-trave/</loc>
     <lastmod>2015-12-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://alimy.me/post/about/</loc>
+    <loc>http://alimy.me/post/about-hugo/</loc>
     <lastmod>2015-12-31T00:00:00+00:00</lastmod>
   </url>
   

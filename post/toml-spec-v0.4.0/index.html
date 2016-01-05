@@ -1,0 +1,794 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> TOML v0.4.0 &middot; Alimy </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.ico">
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js">
+    </script>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/" title="link to homepage for Alimy"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/"  title="link to homepage for Alimy">Alimy</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me#blog" title="link to Alimy blog" class="blog-button">Blog</a> </li>
+                            </br>  </ul>
+                    </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation">   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="alimy on github"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/" title="link to homepage for Alimy"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/"  title="link to homepage for Alimy">Alimy</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/#blog" title="link to Alimy blog" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation">   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="alimy on github"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post">
+          <h1>TOML v0.4.0</h1>
+          <span class="post-date">Tue, Jan 5, 2016</span>
+          
+
+<p>Tom&rsquo;s Obvious, Minimal Language.</p>
+
+<p>By Tom Preston-Werner.</p>
+
+<p>Be warned, this spec is still changing a lot. Until it&rsquo;s marked as 1.0, you
+should assume that it is unstable and act accordingly.</p>
+
+<h2 id="objectives:429b3e6a0503f1328a6a513d6aade076">Objectives</h2>
+
+<p>TOML aims to be a minimal configuration file format that&rsquo;s easy to read due to
+obvious semantics. TOML is designed to map unambiguously to a hash table. TOML
+should be easy to parse into data structures in a wide variety of languages.</p>
+
+<h2 id="example:429b3e6a0503f1328a6a513d6aade076">Example</h2>
+
+<pre><code class="language-toml"># This is a TOML document. Boom.
+
+title = &quot;TOML Example&quot;
+
+[owner]
+name = &quot;Lance Uppercut&quot;
+dob = 1979-05-27T07:32:00-08:00 # First class dates? Why not?
+
+[database]
+server = &quot;192.168.1.1&quot;
+ports = [ 8001, 8001, 8002 ]
+connection_max = 5000
+enabled = true
+
+[servers]
+
+  # You can indent as you please. Tabs or spaces. TOML don't care.
+  [servers.alpha]
+  ip = &quot;10.0.0.1&quot;
+  dc = &quot;eqdc10&quot;
+
+  [servers.beta]
+  ip = &quot;10.0.0.2&quot;
+  dc = &quot;eqdc10&quot;
+
+[clients]
+data = [ [&quot;gamma&quot;, &quot;delta&quot;], [1, 2] ]
+
+# Line breaks are OK when inside arrays
+hosts = [
+  &quot;alpha&quot;,
+  &quot;omega&quot;
+]
+</code></pre>
+
+<h2 id="spec:429b3e6a0503f1328a6a513d6aade076">Spec</h2>
+
+<ul>
+<li>TOML is case sensitive.</li>
+<li>A TOML file must contain only UTF-8 encoded Unicode characters.</li>
+<li>Whitespace means tab (0x09) or space (0x20).</li>
+<li>Newline means LF (0x0A) or CRLF (0x0D0A).</li>
+</ul>
+
+<h2 id="comment:429b3e6a0503f1328a6a513d6aade076">Comment</h2>
+
+<p>Speak your mind with the hash symbol. They go from the symbol to the end of the
+line.</p>
+
+<pre><code class="language-toml"># I am a comment. Hear me roar. Roar.
+key = &quot;value&quot; # Yeah, you can do this.
+</code></pre>
+
+<h2 id="string:429b3e6a0503f1328a6a513d6aade076">String</h2>
+
+<p>There are four ways to express strings: basic, multi-line basic, literal, and
+multi-line literal. All strings must contain only valid UTF-8 characters.</p>
+
+<p><strong>Basic strings</strong> are surrounded by quotation marks. Any Unicode character may
+be used except those that must be escaped: quotation mark, backslash, and the
+control characters (U+0000 to U+001F).</p>
+
+<pre><code class="language-toml">&quot;I'm a string. \&quot;You can quote me\&quot;. Name\tJos\u00E9\nLocation\tSF.&quot;
+</code></pre>
+
+<p>For convenience, some popular characters have a compact escape sequence.</p>
+
+<pre><code>\b         - backspace       (U+0008)
+\t         - tab             (U+0009)
+\n         - linefeed        (U+000A)
+\f         - form feed       (U+000C)
+\r         - carriage return (U+000D)
+\&quot;         - quote           (U+0022)
+\\         - backslash       (U+005C)
+\uXXXX     - unicode         (U+XXXX)
+\UXXXXXXXX - unicode         (U+XXXXXXXX)
+</code></pre>
+
+<p>Any Unicode character may be escaped with the <code>\uXXXX</code> or <code>\UXXXXXXXX</code> forms.
+The escape codes must be valid Unicode <a href="http://unicode.org/glossary/#unicode_scalar_value">scalar values</a>.</p>
+
+<p>All other escape sequences not listed above are reserved and, if used, TOML
+should produce an error.</p>
+
+<p>Sometimes you need to express passages of text (e.g. translation files) or would
+like to break up a very long string into multiple lines. TOML makes this easy.
+<strong>Multi-line basic strings</strong> are surrounded by three quotation marks on each
+side and allow newlines. A newline immediately following the opening delimiter
+will be trimmed. All other whitespace and newline characters remain intact.</p>
+
+<pre><code class="language-toml">key1 = &quot;&quot;&quot;
+Roses are red
+Violets are blue&quot;&quot;&quot;
+</code></pre>
+
+<p>TOML parsers should feel free to normalize newline to whatever makes sense for
+their platform.</p>
+
+<pre><code class="language-toml"># On a Unix system, the above multi-line string will most likely be the same as:
+key2 = &quot;Roses are red\nViolets are blue&quot;
+
+# On a Windows system, it will most likely be equivalent to:
+key3 = &quot;Roses are red\r\nViolets are blue&quot;
+</code></pre>
+
+<p>For writing long strings without introducing extraneous whitespace, end a line
+with a <code>\</code>. The <code>\</code> will be trimmed along with all whitespace (including
+newlines) up to the next non-whitespace character or closing delimiter. If the
+first characters after the opening delimiter are a backslash and a newline, then
+they will both be trimmed along with all whitespace and newlines up to the next
+non-whitespace character or closing delimiter. All of the escape sequences that
+are valid for basic strings are also valid for multi-line basic strings.</p>
+
+<pre><code class="language-toml"># The following strings are byte-for-byte equivalent:
+key1 = &quot;The quick brown fox jumps over the lazy dog.&quot;
+
+key2 = &quot;&quot;&quot;
+The quick brown \
+
+
+  fox jumps over \
+    the lazy dog.&quot;&quot;&quot;
+
+key3 = &quot;&quot;&quot;\
+       The quick brown \
+       fox jumps over \
+       the lazy dog.\
+       &quot;&quot;&quot;
+</code></pre>
+
+<p>Any Unicode character may be used except those that must be escaped: backslash
+and the control characters (U+0000 to U+001F). Quotation marks need not be
+escaped unless their presence would create a premature closing delimiter.</p>
+
+<p>If you&rsquo;re a frequent specifier of Windows paths or regular expressions, then
+having to escape backslashes quickly becomes tedious and error prone. To help,
+TOML supports literal strings where there is no escaping allowed at all.
+<strong>Literal strings</strong> are surrounded by single quotes. Like basic strings, they
+must appear on a single line:</p>
+
+<pre><code class="language-toml"># What you see is what you get.
+winpath  = 'C:\Users\nodejs\templates'
+winpath2 = '\\ServerX\admin$\system32\'
+quoted   = 'Tom &quot;Dubs&quot; Preston-Werner'
+regex    = '&lt;\i\c*\s*&gt;'
+</code></pre>
+
+<p>Since there is no escaping, there is no way to write a single quote inside a
+literal string enclosed by single quotes. Luckily, TOML supports a multi-line
+version of literal strings that solves this problem. <strong>Multi-line literal
+strings</strong> are surrounded by three single quotes on each side and allow newlines.
+Like literal strings, there is no escaping whatsoever. A newline immediately
+following the opening delimiter will be trimmed. All other content between the
+delimiters is interpreted as-is without modification.</p>
+
+<pre><code class="language-toml">regex2 = '''I [dw]on't need \d{2} apples'''
+lines  = '''
+The first newline is
+trimmed in raw strings.
+   All other whitespace
+   is preserved.
+'''
+</code></pre>
+
+<p>For binary data it is recommended that you use Base64 or another suitable ASCII
+or UTF-8 encoding. The handling of that encoding will be application specific.</p>
+
+<h2 id="integer:429b3e6a0503f1328a6a513d6aade076">Integer</h2>
+
+<p>Integers are whole numbers. Positive numbers may be prefixed with a plus sign.
+Negative numbers are prefixed with a minus sign.</p>
+
+<pre><code class="language-toml">+99
+42
+0
+-17
+</code></pre>
+
+<p>For large numbers, you may use underscores to enhance readability. Each
+underscore must be surrounded by at least one digit.</p>
+
+<pre><code class="language-toml">1_000
+5_349_221
+1_2_3_4_5     # valid but inadvisable
+</code></pre>
+
+<p>Leading zeros are not allowed. Hex, octal, and binary forms are not allowed.
+Values such as &ldquo;infinity&rdquo; and &ldquo;not a number&rdquo; that cannot be expressed as a
+series of digits are not allowed.</p>
+
+<p>64 bit (signed long) range expected (âˆ’9,223,372,036,854,775,808 to
+9,223,372,036,854,775,807).</p>
+
+<h2 id="float:429b3e6a0503f1328a6a513d6aade076">Float</h2>
+
+<p>A float consists of an integer part (which may be prefixed with a plus or minus
+sign) followed by a fractional part and/or an exponent part. If both a
+fractional part and exponent part are present, the fractional part must precede
+the exponent part.</p>
+
+<pre><code class="language-toml"># fractional
++1.0
+3.1415
+-0.01
+
+# exponent
+5e+22
+1e6
+-2E-2
+
+# both
+6.626e-34
+</code></pre>
+
+<p>A fractional part is a decimal point followed by one or more digits.</p>
+
+<p>An exponent part is an E (upper or lower case) followed by an integer part
+(which may be prefixed with a plus or minus sign).</p>
+
+<p>Similar to integers, you may use underscores to enhance readability. Each
+underscore must be surrounded by at least one digit.</p>
+
+<pre><code class="language-toml">9_224_617.445_991_228_313
+1e1_000
+</code></pre>
+
+<p>64-bit (double) precision expected.</p>
+
+<h2 id="boolean:429b3e6a0503f1328a6a513d6aade076">Boolean</h2>
+
+<p>Booleans are just the tokens you&rsquo;re used to. Always lowercase.</p>
+
+<pre><code class="language-toml">true
+false
+</code></pre>
+
+<h2 id="datetime:429b3e6a0503f1328a6a513d6aade076">Datetime</h2>
+
+<p>Datetimes are <a href="http://tools.ietf.org/html/rfc3339">RFC 3339</a> dates.</p>
+
+<pre><code class="language-toml">1979-05-27T07:32:00Z
+1979-05-27T00:32:00-07:00
+1979-05-27T00:32:00.999999-07:00
+</code></pre>
+
+<h2 id="array:429b3e6a0503f1328a6a513d6aade076">Array</h2>
+
+<p>Arrays are square brackets with other primitives inside. Whitespace is ignored.
+Elements are separated by commas. Data types may not be mixed (though all string
+types should be considered the same type).</p>
+
+<pre><code class="language-toml">[ 1, 2, 3 ]
+[ &quot;red&quot;, &quot;yellow&quot;, &quot;green&quot; ]
+[ [ 1, 2 ], [3, 4, 5] ]
+[ &quot;all&quot;, 'strings', &quot;&quot;&quot;are the same&quot;&quot;&quot;, '''type'''] # this is ok
+[ [ 1, 2 ], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] ] # this is ok
+[ 1, 2.0 ] # note: this is NOT ok
+</code></pre>
+
+<p>Arrays can also be multiline. So in addition to ignoring whitespace, arrays also
+ignore newlines between the brackets. Terminating commas are ok before the
+closing bracket.</p>
+
+<pre><code class="language-toml">key = [
+  1, 2, 3
+]
+
+key = [
+  1,
+  2, # this is ok
+]
+</code></pre>
+
+<h2 id="table:429b3e6a0503f1328a6a513d6aade076">Table</h2>
+
+<p>Tables (also known as hash tables or dictionaries) are collections of key/value
+pairs. They appear in square brackets on a line by themselves. You can tell them
+apart from arrays because arrays are only ever values.</p>
+
+<pre><code class="language-toml">[table]
+</code></pre>
+
+<p>Under that, and until the next table or EOF are the key/values of that table.
+Keys are on the left of the equals sign and values are on the right. Whitespace
+is ignored around key names and values. The key, equals sign, and value must
+be on the same line (though some values can be broken over multiple lines).</p>
+
+<p>Keys may be either bare or quoted. <strong>Bare keys</strong> may only contain letters,
+numbers, underscores, and dashes (<code>A-Za-z0-9_-</code>). <strong>Quoted keys</strong> follow the
+exact same rules as basic strings and allow you to use a much broader set of key
+names. Best practice is to use bare keys except when absolutely necessary.</p>
+
+<p>Key/value pairs within tables are not guaranteed to be in any specific order.</p>
+
+<pre><code class="language-toml">[table]
+key = &quot;value&quot;
+bare_key = &quot;value&quot;
+bare-key = &quot;value&quot;
+
+&quot;127.0.0.1&quot; = &quot;value&quot;
+&quot;character encoding&quot; = &quot;value&quot;
+&quot;ÊŽÇÊž&quot; = &quot;value&quot;
+</code></pre>
+
+<p>Dots are prohibited in bare keys because dots are used to signify nested tables!
+Naming rules for each dot separated part are the same as for keys (see above).</p>
+
+<pre><code class="language-toml">[dog.&quot;tater.man&quot;]
+type = &quot;pug&quot;
+</code></pre>
+
+<p>In JSON land, that would give you the following structure:</p>
+
+<pre><code class="language-json">{ &quot;dog&quot;: { &quot;tater.man&quot;: { &quot;type&quot;: &quot;pug&quot; } } }
+</code></pre>
+
+<p>Whitespace around dot-separated parts is ignored, however, best practice is to
+not use any extraneous whitespace.</p>
+
+<pre><code class="language-toml">[a.b.c]          # this is best practice
+[ d.e.f ]        # same as [d.e.f]
+[ g .  h  . i ]  # same as [g.h.i]
+[ j . &quot;Êž&quot; . l ]  # same as [j.&quot;Êž&quot;.l]
+</code></pre>
+
+<p>You don&rsquo;t need to specify all the super-tables if you don&rsquo;t want to. TOML knows
+how to do it for you.</p>
+
+<pre><code class="language-toml"># [x] you
+# [x.y] don't
+# [x.y.z] need these
+[x.y.z.w] # for this to work
+</code></pre>
+
+<p>Empty tables are allowed and simply have no key/value pairs within them.</p>
+
+<p>As long as a super-table hasn&rsquo;t been directly defined and hasn&rsquo;t defined a
+specific key, you may still write to it.</p>
+
+<pre><code class="language-toml">[a.b]
+c = 1
+
+[a]
+d = 2
+</code></pre>
+
+<p>You cannot define any key or table more than once. Doing so is invalid.</p>
+
+<pre><code class="language-toml"># DO NOT DO THIS
+
+[a]
+b = 1
+
+[a]
+c = 2
+</code></pre>
+
+<pre><code class="language-toml"># DO NOT DO THIS EITHER
+
+[a]
+b = 1
+
+[a.b]
+c = 2
+</code></pre>
+
+<p>All table names and keys must be non-empty.</p>
+
+<pre><code class="language-toml"># NOT VALID TOML
+[]
+[a.]
+[a..b]
+[.b]
+[.]
+ = &quot;no key name&quot; # not allowed
+</code></pre>
+
+<h2 id="inline-table:429b3e6a0503f1328a6a513d6aade076">Inline Table</h2>
+
+<p>Inline tables provide a more compact syntax for expressing tables. They are
+especially useful for grouped data that can otherwise quickly become verbose.
+Inline tables are enclosed in curly braces <code>{</code> and <code>}</code>. Within the braces, zero
+or more comma separated key/value pairs may appear. Key/value pairs take the
+same form as key/value pairs in standard tables. All value types are allowed,
+including inline tables.</p>
+
+<p>Inline tables are intended to appear on a single line. No newlines are allowed
+between the curly braces unless they are valid within a value. Even so, it is
+strongly discouraged to break an inline table onto multiples lines. If you find
+yourself gripped with this desire, it means you should be using standard tables.</p>
+
+<pre><code class="language-toml">name = { first = &quot;Tom&quot;, last = &quot;Preston-Werner&quot; }
+point = { x = 1, y = 2 }
+</code></pre>
+
+<p>The inline tables above are identical to the following standard table
+definitions:</p>
+
+<pre><code class="language-toml">[name]
+first = &quot;Tom&quot;
+last = &quot;Preston-Werner&quot;
+
+[point]
+x = 1
+y = 2
+</code></pre>
+
+<h2 id="array-of-tables:429b3e6a0503f1328a6a513d6aade076">Array of Tables</h2>
+
+<p>The last type that has not yet been expressed is an array of tables. These can
+be expressed by using a table name in double brackets. Each table with the same
+double bracketed name will be an element in the array. The tables are inserted
+in the order encountered. A double bracketed table without any key/value pairs
+will be considered an empty table.</p>
+
+<pre><code class="language-toml">[[products]]
+name = &quot;Hammer&quot;
+sku = 738594937
+
+[[products]]
+
+[[products]]
+name = &quot;Nail&quot;
+sku = 284758393
+color = &quot;gray&quot;
+</code></pre>
+
+<p>In JSON land, that would give you the following structure.</p>
+
+<pre><code class="language-json">{
+  &quot;products&quot;: [
+    { &quot;name&quot;: &quot;Hammer&quot;, &quot;sku&quot;: 738594937 },
+    { },
+    { &quot;name&quot;: &quot;Nail&quot;, &quot;sku&quot;: 284758393, &quot;color&quot;: &quot;gray&quot; }
+  ]
+}
+</code></pre>
+
+<p>You can create nested arrays of tables as well. Just use the same double bracket
+syntax on sub-tables. Each double-bracketed sub-table will belong to the most
+recently defined table element above it.</p>
+
+<pre><code class="language-toml">[[fruit]]
+  name = &quot;apple&quot;
+
+  [fruit.physical]
+    color = &quot;red&quot;
+    shape = &quot;round&quot;
+
+  [[fruit.variety]]
+    name = &quot;red delicious&quot;
+
+  [[fruit.variety]]
+    name = &quot;granny smith&quot;
+
+[[fruit]]
+  name = &quot;banana&quot;
+
+  [[fruit.variety]]
+    name = &quot;plantain&quot;
+</code></pre>
+
+<p>The above TOML maps to the following JSON.</p>
+
+<pre><code class="language-json">{
+  &quot;fruit&quot;: [
+    {
+      &quot;name&quot;: &quot;apple&quot;,
+      &quot;physical&quot;: {
+        &quot;color&quot;: &quot;red&quot;,
+        &quot;shape&quot;: &quot;round&quot;
+      },
+      &quot;variety&quot;: [
+        { &quot;name&quot;: &quot;red delicious&quot; },
+        { &quot;name&quot;: &quot;granny smith&quot; }
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;banana&quot;,
+      &quot;variety&quot;: [
+        { &quot;name&quot;: &quot;plantain&quot; }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<p>Attempting to define a normal table with the same name as an already established
+array must produce an error at parse time.</p>
+
+<pre><code class="language-toml"># INVALID TOML DOC
+[[fruit]]
+  name = &quot;apple&quot;
+
+  [[fruit.variety]]
+    name = &quot;red delicious&quot;
+
+  # This table conflicts with the previous table
+  [fruit.variety]
+    name = &quot;granny smith&quot;
+</code></pre>
+
+<p>You may also use inline tables where appropriate:</p>
+
+<pre><code class="language-toml">points = [ { x = 1, y = 2, z = 3 },
+           { x = 7, y = 8, z = 9 },
+           { x = 2, y = 4, z = 8 } ]
+</code></pre>
+
+<h2 id="seriously:429b3e6a0503f1328a6a513d6aade076">Seriously?</h2>
+
+<p>Yep.</p>
+
+<h2 id="but-why:429b3e6a0503f1328a6a513d6aade076">But why?</h2>
+
+<p>Because we need a decent human-readable format that unambiguously maps to a hash
+table and the YAML spec is like 80 pages long and gives me rage. No, JSON
+doesn&rsquo;t count. You know why.</p>
+
+<h2 id="oh-god-you-re-right:429b3e6a0503f1328a6a513d6aade076">Oh god, you&rsquo;re right</h2>
+
+<p>Yuuuup. Wanna help? Send a pull request. Or write a parser. BE BRAVE.</p>
+
+<h2 id="projects-using-toml:429b3e6a0503f1328a6a513d6aade076">Projects using TOML</h2>
+
+<ul>
+<li><a href="http://doc.crates.io/">Cargo</a> - The Rust language&rsquo;s package manager.</li>
+<li><a href="http://influxdb.com/">InfluxDB</a> - Distributed time series database.</li>
+<li><a href="https://hekad.readthedocs.org">Heka</a> - Stream processing system by Mozilla.</li>
+<li><a href="http://gohugo.io/">Hugo</a> - Static site generator in Go.</li>
+</ul>
+
+<h2 id="implementations:429b3e6a0503f1328a6a513d6aade076">Implementations</h2>
+
+<p>If you have an implementation, send a pull request adding to this list. Please
+note the commit SHA1 or version tag that your parser supports in your Readme.</p>
+
+<ul>
+<li>C#/.NET - <a href="https://github.com/LBreedlove/Toml.net">https://github.com/LBreedlove/Toml.net</a></li>
+<li>C#/.NET - <a href="https://github.com/rossipedia/toml-net">https://github.com/rossipedia/toml-net</a></li>
+<li>C#/.NET - <a href="https://github.com/RichardVasquez/TomlDotNet">https://github.com/RichardVasquez/TomlDotNet</a></li>
+<li>C#/.NET - <a href="https://github.com/azyobuzin/HyperTomlProcessor">https://github.com/azyobuzin/HyperTomlProcessor</a></li>
+<li>C (@ajwans) - <a href="https://github.com/ajwans/libtoml">https://github.com/ajwans/libtoml</a></li>
+<li>C (@mzgoddard) - <a href="https://github.com/mzgoddard/tomlc">https://github.com/mzgoddard/tomlc</a></li>
+<li>C++ (@evilncrazy) - <a href="https://github.com/evilncrazy/ctoml">https://github.com/evilncrazy/ctoml</a></li>
+<li>C++ (@skystrife) - <a href="https://github.com/skystrife/cpptoml">https://github.com/skystrife/cpptoml</a></li>
+<li>C++ (@mayah) - <a href="https://github.com/mayah/tinytoml">https://github.com/mayah/tinytoml</a></li>
+<li>Clojure (@lantiga) - <a href="https://github.com/lantiga/clj-toml">https://github.com/lantiga/clj-toml</a></li>
+<li>Clojure (@manicolosi) - <a href="https://github.com/manicolosi/clojoml">https://github.com/manicolosi/clojoml</a></li>
+<li>CoffeeScript (@biilmann) - <a href="https://github.com/biilmann/coffee-toml">https://github.com/biilmann/coffee-toml</a></li>
+<li>Common Lisp (@pnathan) - <a href="https://github.com/pnathan/pp-toml">https://github.com/pnathan/pp-toml</a></li>
+<li>D - <a href="https://github.com/iccodegr/toml.d">https://github.com/iccodegr/toml.d</a></li>
+<li>Dart (@just95) - <a href="https://github.com/just95/toml.dart">https://github.com/just95/toml.dart</a></li>
+<li>Erlang - <a href="https://github.com/kalta/etoml.git">https://github.com/kalta/etoml.git</a></li>
+<li>Erlang - <a href="https://github.com/kaos/tomle">https://github.com/kaos/tomle</a></li>
+<li>Emacs Lisp (@gongoZ) - <a href="https://github.com/gongo/emacs-toml">https://github.com/gongo/emacs-toml</a></li>
+<li>Go (@thompelletier) - <a href="https://github.com/pelletier/go-toml">https://github.com/pelletier/go-toml</a></li>
+<li>Go (@laurent22) - <a href="https://github.com/laurent22/toml-go">https://github.com/laurent22/toml-go</a></li>
+<li>Go w/ Reflection (@BurntSushi) - <a href="https://github.com/BurntSushi/toml">https://github.com/BurntSushi/toml</a></li>
+<li>Go (@achun) - <a href="https://github.com/achun/tom-toml">https://github.com/achun/tom-toml</a></li>
+<li>Go (@naoina) - <a href="https://github.com/naoina/toml">https://github.com/naoina/toml</a></li>
+<li>Haskell (@seliopou) - <a href="https://github.com/seliopou/toml">https://github.com/seliopou/toml</a></li>
+<li>Haxe (@raincole) - <a href="https://github.com/raincole/haxetoml">https://github.com/raincole/haxetoml</a></li>
+<li>Java (@agrison) - <a href="https://github.com/agrison/jtoml">https://github.com/agrison/jtoml</a></li>
+<li>Java (@johnlcox) - <a href="https://github.com/johnlcox/toml4j">https://github.com/johnlcox/toml4j</a></li>
+<li>Java (@mwanji) - <a href="https://github.com/mwanji/toml4j">https://github.com/mwanji/toml4j</a></li>
+<li>Java - <a href="https://github.com/asafh/jtoml">https://github.com/asafh/jtoml</a></li>
+<li>Java w/ ANTLR (@MatthiasSchuetz) - <a href="https://github.com/mschuetz/toml">https://github.com/mschuetz/toml</a></li>
+<li>Julia (@pygy) - <a href="https://github.com/pygy/TOML.jl">https://github.com/pygy/TOML.jl</a></li>
+<li>Literate CoffeeScript (@JonathanAbrams) - <a href="https://github.com/JonAbrams/tomljs">https://github.com/JonAbrams/tomljs</a></li>
+<li>Nim (@ziotom78) - <a href="https://github.com/ziotom78/parsetoml">https://github.com/ziotom78/parsetoml</a></li>
+<li>node.js/browser - <a href="https://github.com/ricardobeat/toml.js">https://github.com/ricardobeat/toml.js</a> (npm install tomljs)</li>
+<li>node.js - <a href="https://github.com/BinaryMuse/toml-node">https://github.com/BinaryMuse/toml-node</a></li>
+<li>node.js/browser (@redhotvengeance) - <a href="https://github.com/redhotvengeance/topl">https://github.com/redhotvengeance/topl</a> (topl npm package)</li>
+<li>node.js/browser (@alexanderbeletsky) - <a href="https://github.com/alexanderbeletsky/toml-js">https://github.com/alexanderbeletsky/toml-js</a> (npm browser amd)</li>
+<li>Objective C (@mneorr) - <a href="https://github.com/mneorr/toml-objc.git">https://github.com/mneorr/toml-objc.git</a></li>
+<li>Objective-C (@SteveStreza) - <a href="https://github.com/amazingsyco/TOML">https://github.com/amazingsyco/TOML</a></li>
+<li>OCaml (@mackwic) <a href="https://github.com/mackwic/to.ml">https://github.com/mackwic/to.ml</a></li>
+<li>Perl (@alexkalderimis) - <a href="https://github.com/alexkalderimis/config-toml.pl">https://github.com/alexkalderimis/config-toml.pl</a></li>
+<li>Perl - <a href="https://github.com/dlc/toml">https://github.com/dlc/toml</a></li>
+<li>PHP (@leonelquinteros) - <a href="https://github.com/leonelquinteros/php-toml.git">https://github.com/leonelquinteros/php-toml.git</a></li>
+<li>PHP (@jimbomoss) - <a href="https://github.com/jamesmoss/toml">https://github.com/jamesmoss/toml</a></li>
+<li>PHP (@coop182) - <a href="https://github.com/coop182/toml-php">https://github.com/coop182/toml-php</a></li>
+<li>PHP (@checkdomain) - <a href="https://github.com/checkdomain/toml">https://github.com/checkdomain/toml</a></li>
+<li>PHP (@zidizei) - <a href="https://github.com/zidizei/toml-php">https://github.com/zidizei/toml-php</a></li>
+<li>PHP (@yosymfony) - <a href="https://github.com/yosymfony/toml">https://github.com/yosymfony/toml</a></li>
+<li>Python (@f03lipe) - <a href="https://github.com/f03lipe/toml-python">https://github.com/f03lipe/toml-python</a></li>
+<li>Python (@uiri) - <a href="https://github.com/uiri/toml">https://github.com/uiri/toml</a></li>
+<li>Python - <a href="https://github.com/bryant/pytoml">https://github.com/bryant/pytoml</a></li>
+<li>Python (@elssar) - <a href="https://github.com/elssar/tomlgun">https://github.com/elssar/tomlgun</a></li>
+<li>Python (@marksteve) - <a href="https://github.com/marksteve/toml-ply">https://github.com/marksteve/toml-ply</a></li>
+<li>Python (@hit9) - <a href="https://github.com/hit9/toml.py">https://github.com/hit9/toml.py</a></li>
+<li>Racket (@greghendershott) - <a href="https://github.com/greghendershott/toml">https://github.com/greghendershott/toml</a></li>
+<li>Ruby (@jm) - <a href="https://github.com/jm/toml">https://github.com/jm/toml</a> (toml gem)</li>
+<li>Ruby (@eMancu) - <a href="https://github.com/eMancu/toml-rb">https://github.com/eMancu/toml-rb</a> (toml-rb gem)</li>
+<li>Ruby (@charliesome) - <a href="https://github.com/charliesome/toml2">https://github.com/charliesome/toml2</a> (toml2 gem)</li>
+<li>Ruby (@sandeepravi) - <a href="https://github.com/sandeepravi/tomlp">https://github.com/sandeepravi/tomlp</a> (tomlp gem)</li>
+<li>Rust (@mneumann) - <a href="https://github.com/mneumann/rust-toml">https://github.com/mneumann/rust-toml</a></li>
+<li>Rust (@alexcrichton) - <a href="https://github.com/alexcrichton/toml-rs">https://github.com/alexcrichton/toml-rs</a></li>
+<li>Scala - <a href="https://github.com/axelarge/tomelette">https://github.com/axelarge/tomelette</a></li>
+</ul>
+
+<h2 id="validators:429b3e6a0503f1328a6a513d6aade076">Validators</h2>
+
+<ul>
+<li>Go (@BurntSushi) - <a href="https://github.com/BurntSushi/toml/tree/master/cmd/tomlv">https://github.com/BurntSushi/toml/tree/master/cmd/tomlv</a></li>
+</ul>
+
+<h2 id="language-agnostic-test-suite-for-toml-decoders-and-encoders:429b3e6a0503f1328a6a513d6aade076">Language agnostic test suite for TOML decoders and encoders</h2>
+
+<ul>
+<li>toml-test (@BurntSushi) - <a href="https://github.com/BurntSushi/toml-test">https://github.com/BurntSushi/toml-test</a></li>
+</ul>
+
+<h2 id="editor-support:429b3e6a0503f1328a6a513d6aade076">Editor support</h2>
+
+<ul>
+<li>Atom - <a href="https://github.com/atom/language-toml">https://github.com/atom/language-toml</a></li>
+<li>Emacs (@dryman) - <a href="https://github.com/dryman/toml-mode.el">https://github.com/dryman/toml-mode.el</a></li>
+<li>Notepad++ (@fireforge) - <a href="https://github.com/fireforge/toml-notepadplusplus">https://github.com/fireforge/toml-notepadplusplus</a></li>
+<li>Sublime Text 2 &amp; 3 (@Gakai) - <a href="https://github.com/Gakai/sublime_toml_highlighting">https://github.com/Gakai/sublime_toml_highlighting</a></li>
+<li>Synwrite - <a href="http://uvviewsoft.com/synwrite/download.html">http://uvviewsoft.com/synwrite/download.html</a> ; call Options/ Addons manager/ Install</li>
+<li>TextMate (@infininight) - <a href="https://github.com/textmate/toml.tmbundle">https://github.com/textmate/toml.tmbundle</a></li>
+<li>Vim (@cespare) - <a href="https://github.com/cespare/vim-toml">https://github.com/cespare/vim-toml</a></li>
+</ul>
+
+<h2 id="encoder:429b3e6a0503f1328a6a513d6aade076">Encoder</h2>
+
+<ul>
+<li>Dart (@just95) - <a href="https://github.com/just95/toml.dart">https://github.com/just95/toml.dart</a></li>
+<li>Go w/ Reflection (@BurntSushi) - <a href="https://github.com/BurntSushi/toml">https://github.com/BurntSushi/toml</a></li>
+<li>PHP (@ayushchd) - <a href="https://github.com/ayushchd/php-toml-encoder">https://github.com/ayushchd/php-toml-encoder</a></li>
+</ul>
+
+<h2 id="converters:429b3e6a0503f1328a6a513d6aade076">Converters</h2>
+
+<ul>
+<li>remarshal (@dbohdan) - <a href="https://github.com/dbohdan/remarshal">https://github.com/dbohdan/remarshal</a></li>
+<li>yaml2toml (@jtyr) - <a href="https://github.com/jtyr/yaml2toml-converter">https://github.com/jtyr/yaml2toml-converter</a></li>
+<li>yaml2toml.dart (@just95) - <a href="https://github.com/just95/yaml2toml.dart">https://github.com/just95/yaml2toml.dart</a></li>
+</ul>
+
+<h2 id="organization:429b3e6a0503f1328a6a513d6aade076">Organization</h2>
+
+<ul>
+<li>toml-lang (@BurntSushi) - <a href="https://github.com/toml-lang">https://github.com/toml-lang</a></li>
+</ul>
+
+        </div>
+        <div class="sharing">
+<a href="https://twitter.com/intent/tweet?status=TOML%20v0.4.0-http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f" target="_blank" title="Follow me on Twitter" class="twitter">
+<span class="fa fa-twitter-square fa-3x"></span></a>
+<a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f" target="_blank" title="Join me on Facebook" class="facebook">
+<span class="fa fa-facebook-square fa-3x"></span></a>
+<a href="https://plus.google.com/share?url=http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f" target="_blank" title="Google+" class="googleplus">
+<span class="fa fa-google-plus-square fa-3x"></span></a>
+<a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f&title=TOML%20v0.4.0" target="_blank" title="LinkedIn" class="linkedin">
+<span class="fa fa-linkedin-square fa-3x"></span></a>
+<a href="http://www.reddit.com/submit?url=http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f" target="_blank" title="Reddit" class="reddit"><span class="fa fa-reddit-square fa-3x"></span></a>
+<a href="http://www.stumbleupon.com/submit?url=http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f" target="_blank" title="StumbleUpon" class="stumbleupon"><span class="fa fa-stumbleupon fa-3x">
+</span></a>
+</div>
+        
+
+
+
+      </div>
+    </div>
+
+  </body>
+  
+</html>
