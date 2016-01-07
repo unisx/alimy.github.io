@@ -11,6 +11,6 @@ categories = [
 menu = "Art"
 +++
 
-![](/images/post/20160107161300.png)
+![](/images/post/20160107165800.jpg)
 
 * 很喜欢这幅画（[查看大图](/images/post/20160107161300.png)）
