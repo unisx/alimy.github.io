@@ -112,13 +112,13 @@
 <p>Be warned, this spec is still changing a lot. Until it&rsquo;s marked as 1.0, you
 should assume that it is unstable and act accordingly.</p>
 
-<h2 id="objectives:429b3e6a0503f1328a6a513d6aade076">Objectives</h2>
+<h2 id="objectives:51366347626da851910c7e48ce28f7e3">Objectives</h2>
 
 <p>TOML aims to be a minimal configuration file format that&rsquo;s easy to read due to
 obvious semantics. TOML is designed to map unambiguously to a hash table. TOML
 should be easy to parse into data structures in a wide variety of languages.</p>
 
-<h2 id="example:429b3e6a0503f1328a6a513d6aade076">Example</h2>
+<h2 id="example:51366347626da851910c7e48ce28f7e3">Example</h2>
 
 <pre><code class="language-toml"># This is a TOML document. Boom.
 
@@ -155,7 +155,7 @@ hosts = [
 ]
 </code></pre>
 
-<h2 id="spec:429b3e6a0503f1328a6a513d6aade076">Spec</h2>
+<h2 id="spec:51366347626da851910c7e48ce28f7e3">Spec</h2>
 
 <ul>
 <li>TOML is case sensitive.</li>
@@ -164,7 +164,7 @@ hosts = [
 <li>Newline means LF (0x0A) or CRLF (0x0D0A).</li>
 </ul>
 
-<h2 id="comment:429b3e6a0503f1328a6a513d6aade076">Comment</h2>
+<h2 id="comment:51366347626da851910c7e48ce28f7e3">Comment</h2>
 
 <p>Speak your mind with the hash symbol. They go from the symbol to the end of the
 line.</p>
@@ -173,7 +173,7 @@ line.</p>
 key = &quot;value&quot; # Yeah, you can do this.
 </code></pre>
 
-<h2 id="string:429b3e6a0503f1328a6a513d6aade076">String</h2>
+<h2 id="string:51366347626da851910c7e48ce28f7e3">String</h2>
 
 <p>There are four ways to express strings: basic, multi-line basic, literal, and
 multi-line literal. All strings must contain only valid UTF-8 characters.</p>
@@ -287,7 +287,7 @@ trimmed in raw strings.
 <p>For binary data it is recommended that you use Base64 or another suitable ASCII
 or UTF-8 encoding. The handling of that encoding will be application specific.</p>
 
-<h2 id="integer:429b3e6a0503f1328a6a513d6aade076">Integer</h2>
+<h2 id="integer:51366347626da851910c7e48ce28f7e3">Integer</h2>
 
 <p>Integers are whole numbers. Positive numbers may be prefixed with a plus sign.
 Negative numbers are prefixed with a minus sign.</p>
@@ -313,7 +313,7 @@ series of digits are not allowed.</p>
 <p>64 bit (signed long) range expected (âˆ’9,223,372,036,854,775,808 to
 9,223,372,036,854,775,807).</p>
 
-<h2 id="float:429b3e6a0503f1328a6a513d6aade076">Float</h2>
+<h2 id="float:51366347626da851910c7e48ce28f7e3">Float</h2>
 
 <p>A float consists of an integer part (which may be prefixed with a plus or minus
 sign) followed by a fractional part and/or an exponent part. If both a
@@ -348,7 +348,7 @@ underscore must be surrounded by at least one digit.</p>
 
 <p>64-bit (double) precision expected.</p>
 
-<h2 id="boolean:429b3e6a0503f1328a6a513d6aade076">Boolean</h2>
+<h2 id="boolean:51366347626da851910c7e48ce28f7e3">Boolean</h2>
 
 <p>Booleans are just the tokens you&rsquo;re used to. Always lowercase.</p>
 
@@ -356,7 +356,7 @@ underscore must be surrounded by at least one digit.</p>
 false
 </code></pre>
 
-<h2 id="datetime:429b3e6a0503f1328a6a513d6aade076">Datetime</h2>
+<h2 id="datetime:51366347626da851910c7e48ce28f7e3">Datetime</h2>
 
 <p>Datetimes are <a href="http://tools.ietf.org/html/rfc3339">RFC 3339</a> dates.</p>
 
@@ -365,7 +365,7 @@ false
 1979-05-27T00:32:00.999999-07:00
 </code></pre>
 
-<h2 id="array:429b3e6a0503f1328a6a513d6aade076">Array</h2>
+<h2 id="array:51366347626da851910c7e48ce28f7e3">Array</h2>
 
 <p>Arrays are square brackets with other primitives inside. Whitespace is ignored.
 Elements are separated by commas. Data types may not be mixed (though all string
@@ -393,7 +393,7 @@ key = [
 ]
 </code></pre>
 
-<h2 id="table:429b3e6a0503f1328a6a513d6aade076">Table</h2>
+<h2 id="table:51366347626da851910c7e48ce28f7e3">Table</h2>
 
 <p>Tables (also known as hash tables or dictionaries) are collections of key/value
 pairs. They appear in square brackets on a line by themselves. You can tell them
@@ -497,7 +497,7 @@ c = 2
  = &quot;no key name&quot; # not allowed
 </code></pre>
 
-<h2 id="inline-table:429b3e6a0503f1328a6a513d6aade076">Inline Table</h2>
+<h2 id="inline-table:51366347626da851910c7e48ce28f7e3">Inline Table</h2>
 
 <p>Inline tables provide a more compact syntax for expressing tables. They are
 especially useful for grouped data that can otherwise quickly become verbose.
@@ -527,7 +527,7 @@ x = 1
 y = 2
 </code></pre>
 
-<h2 id="array-of-tables:429b3e6a0503f1328a6a513d6aade076">Array of Tables</h2>
+<h2 id="array-of-tables:51366347626da851910c7e48ce28f7e3">Array of Tables</h2>
 
 <p>The last type that has not yet been expressed is an array of tables. These can
 be expressed by using a table name in double brackets. Each table with the same
@@ -629,21 +629,21 @@ array must produce an error at parse time.</p>
            { x = 2, y = 4, z = 8 } ]
 </code></pre>
 
-<h2 id="seriously:429b3e6a0503f1328a6a513d6aade076">Seriously?</h2>
+<h2 id="seriously:51366347626da851910c7e48ce28f7e3">Seriously?</h2>
 
 <p>Yep.</p>
 
-<h2 id="but-why:429b3e6a0503f1328a6a513d6aade076">But why?</h2>
+<h2 id="but-why:51366347626da851910c7e48ce28f7e3">But why?</h2>
 
 <p>Because we need a decent human-readable format that unambiguously maps to a hash
 table and the YAML spec is like 80 pages long and gives me rage. No, JSON
 doesn&rsquo;t count. You know why.</p>
 
-<h2 id="oh-god-you-re-right:429b3e6a0503f1328a6a513d6aade076">Oh god, you&rsquo;re right</h2>
+<h2 id="oh-god-you-re-right:51366347626da851910c7e48ce28f7e3">Oh god, you&rsquo;re right</h2>
 
 <p>Yuuuup. Wanna help? Send a pull request. Or write a parser. BE BRAVE.</p>
 
-<h2 id="projects-using-toml:429b3e6a0503f1328a6a513d6aade076">Projects using TOML</h2>
+<h2 id="projects-using-toml:51366347626da851910c7e48ce28f7e3">Projects using TOML</h2>
 
 <ul>
 <li><a href="http://doc.crates.io/">Cargo</a> - The Rust language&rsquo;s package manager.</li>
@@ -652,7 +652,7 @@ doesn&rsquo;t count. You know why.</p>
 <li><a href="http://gohugo.io/">Hugo</a> - Static site generator in Go.</li>
 </ul>
 
-<h2 id="implementations:429b3e6a0503f1328a6a513d6aade076">Implementations</h2>
+<h2 id="implementations:51366347626da851910c7e48ce28f7e3">Implementations</h2>
 
 <p>If you have an implementation, send a pull request adding to this list. Please
 note the commit SHA1 or version tag that your parser supports in your Readme.</p>
@@ -722,19 +722,19 @@ note the commit SHA1 or version tag that your parser supports in your Readme.</p
 <li>Scala - <a href="https://github.com/axelarge/tomelette">https://github.com/axelarge/tomelette</a></li>
 </ul>
 
-<h2 id="validators:429b3e6a0503f1328a6a513d6aade076">Validators</h2>
+<h2 id="validators:51366347626da851910c7e48ce28f7e3">Validators</h2>
 
 <ul>
 <li>Go (@BurntSushi) - <a href="https://github.com/BurntSushi/toml/tree/master/cmd/tomlv">https://github.com/BurntSushi/toml/tree/master/cmd/tomlv</a></li>
 </ul>
 
-<h2 id="language-agnostic-test-suite-for-toml-decoders-and-encoders:429b3e6a0503f1328a6a513d6aade076">Language agnostic test suite for TOML decoders and encoders</h2>
+<h2 id="language-agnostic-test-suite-for-toml-decoders-and-encoders:51366347626da851910c7e48ce28f7e3">Language agnostic test suite for TOML decoders and encoders</h2>
 
 <ul>
 <li>toml-test (@BurntSushi) - <a href="https://github.com/BurntSushi/toml-test">https://github.com/BurntSushi/toml-test</a></li>
 </ul>
 
-<h2 id="editor-support:429b3e6a0503f1328a6a513d6aade076">Editor support</h2>
+<h2 id="editor-support:51366347626da851910c7e48ce28f7e3">Editor support</h2>
 
 <ul>
 <li>Atom - <a href="https://github.com/atom/language-toml">https://github.com/atom/language-toml</a></li>
@@ -746,7 +746,7 @@ note the commit SHA1 or version tag that your parser supports in your Readme.</p
 <li>Vim (@cespare) - <a href="https://github.com/cespare/vim-toml">https://github.com/cespare/vim-toml</a></li>
 </ul>
 
-<h2 id="encoder:429b3e6a0503f1328a6a513d6aade076">Encoder</h2>
+<h2 id="encoder:51366347626da851910c7e48ce28f7e3">Encoder</h2>
 
 <ul>
 <li>Dart (@just95) - <a href="https://github.com/just95/toml.dart">https://github.com/just95/toml.dart</a></li>
@@ -754,7 +754,7 @@ note the commit SHA1 or version tag that your parser supports in your Readme.</p
 <li>PHP (@ayushchd) - <a href="https://github.com/ayushchd/php-toml-encoder">https://github.com/ayushchd/php-toml-encoder</a></li>
 </ul>
 
-<h2 id="converters:429b3e6a0503f1328a6a513d6aade076">Converters</h2>
+<h2 id="converters:51366347626da851910c7e48ce28f7e3">Converters</h2>
 
 <ul>
 <li>remarshal (@dbohdan) - <a href="https://github.com/dbohdan/remarshal">https://github.com/dbohdan/remarshal</a></li>
@@ -762,30 +762,13 @@ note the commit SHA1 or version tag that your parser supports in your Readme.</p
 <li>yaml2toml.dart (@just95) - <a href="https://github.com/just95/yaml2toml.dart">https://github.com/just95/yaml2toml.dart</a></li>
 </ul>
 
-<h2 id="organization:429b3e6a0503f1328a6a513d6aade076">Organization</h2>
+<h2 id="organization:51366347626da851910c7e48ce28f7e3">Organization</h2>
 
 <ul>
 <li>toml-lang (@BurntSushi) - <a href="https://github.com/toml-lang">https://github.com/toml-lang</a></li>
 </ul>
 
         </div>
-        <div class="sharing">
-<a href="https://twitter.com/intent/tweet?status=TOML%20v0.4.0-http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f" target="_blank" title="Follow me on Twitter" class="twitter">
-<span class="fa fa-twitter-square fa-3x"></span></a>
-<a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f" target="_blank" title="Join me on Facebook" class="facebook">
-<span class="fa fa-facebook-square fa-3x"></span></a>
-<a href="https://plus.google.com/share?url=http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f" target="_blank" title="Google+" class="googleplus">
-<span class="fa fa-google-plus-square fa-3x"></span></a>
-<a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f&title=TOML%20v0.4.0" target="_blank" title="LinkedIn" class="linkedin">
-<span class="fa fa-linkedin-square fa-3x"></span></a>
-<a href="http://www.reddit.com/submit?url=http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f" target="_blank" title="Reddit" class="reddit"><span class="fa fa-reddit-square fa-3x"></span></a>
-<a href="http://www.stumbleupon.com/submit?url=http%3a%2f%2falimy.me%2fpost%2ftoml-spec-v0.4.0%2f" target="_blank" title="StumbleUpon" class="stumbleupon"><span class="fa fa-stumbleupon fa-3x">
-</span></a>
-</div>
-        
-
-
-
       </div>
     </div>
 

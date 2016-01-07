@@ -105,7 +105,7 @@
           <span class="post-date">Mon, Mar 10, 2014</span>
           
 
-<h2 id="move-static-content-to-static:964c172ef5e837f03573891408d8d631">Move static content to <code>static</code></h2>
+<h2 id="move-static-content-to-static:7a5e724f7a6d075996934407a68109d1">Move static content to <code>static</code></h2>
 
 <p>Jekyll has a rule that any directory not starting with <code>_</code> will be copied as-is to the <code>_site</code> output. Hugo keeps all static content under <code>static</code>. You should therefore move it all there.
 With Jekyll, something that looked like</p>
@@ -125,11 +125,11 @@ With Jekyll, something that looked like</p>
 
 <p>Additionally, you&rsquo;ll want any files that should reside at the root (such as <code>CNAME</code>) to be moved to <code>static</code>.</p>
 
-<h2 id="create-your-hugo-configuration-file:964c172ef5e837f03573891408d8d631">Create your Hugo configuration file</h2>
+<h2 id="create-your-hugo-configuration-file:7a5e724f7a6d075996934407a68109d1">Create your Hugo configuration file</h2>
 
 <p>Hugo can read your configuration as JSON, YAML or TOML. Hugo supports parameters custom configuration too. Refer to the <a href="http://alimy.me/overview/configuration/">Hugo configuration documentation</a> for details.</p>
 
-<h2 id="set-your-configuration-publish-folder-to-site:964c172ef5e837f03573891408d8d631">Set your configuration publish folder to <code>_site</code></h2>
+<h2 id="set-your-configuration-publish-folder-to-site:7a5e724f7a6d075996934407a68109d1">Set your configuration publish folder to <code>_site</code></h2>
 
 <p>The default is for Jekyll to publish to <code>_site</code> and for Hugo to publish to <code>public</code>. If, like me, you have <a href="http://blog.blindgaenger.net/generate_github_pages_in_a_submodule.html"><code>_site</code> mapped to a git submodule on the <code>gh-pages</code> branch</a>, you&rsquo;ll want to do one of two alternatives:</p>
 
@@ -151,17 +151,17 @@ git submodule add -b gh-pages git@github.com:your-username/your-repo.git public
 </code></pre></li>
 </ol>
 
-<h2 id="convert-jekyll-templates-to-hugo-templates:964c172ef5e837f03573891408d8d631">Convert Jekyll templates to Hugo templates</h2>
+<h2 id="convert-jekyll-templates-to-hugo-templates:7a5e724f7a6d075996934407a68109d1">Convert Jekyll templates to Hugo templates</h2>
 
 <p>That&rsquo;s the bulk of the work right here. The documentation is your friend. You should refer to <a href="http://jekyllrb.com/docs/templates/">Jekyll&rsquo;s template documentation</a> if you need to refresh your memory on how you built your blog and <a href="http://alimy.me/layout/templates/">Hugo&rsquo;s template</a> to learn Hugo&rsquo;s way.</p>
 
 <p>As a single reference data point, converting my templates for <a href="http://heyitsalex.net/">heyitsalex.net</a> took me no more than a few hours.</p>
 
-<h2 id="convert-jekyll-plugins-to-hugo-shortcodes:964c172ef5e837f03573891408d8d631">Convert Jekyll plugins to Hugo shortcodes</h2>
+<h2 id="convert-jekyll-plugins-to-hugo-shortcodes:7a5e724f7a6d075996934407a68109d1">Convert Jekyll plugins to Hugo shortcodes</h2>
 
 <p>Jekyll has <a href="http://jekyllrb.com/docs/plugins/">plugins</a>; Hugo has <a href="http://alimy.me/doc/shortcodes/">shortcodes</a>. It&rsquo;s fairly trivial to do a port.</p>
 
-<h3 id="implementation:964c172ef5e837f03573891408d8d631">Implementation</h3>
+<h3 id="implementation:7a5e724f7a6d075996934407a68109d1">Implementation</h3>
 
 <p>As an example, I was using a custom <a href="https://github.com/alexandre-normand/alexandre-normand/blob/74bb12036a71334fdb7dba84e073382fc06908ec/_plugins/image_tag.rb"><code>image_tag</code></a> plugin to generate figures with caption when running Jekyll. As I read about shortcodes, I found Hugo had a nice built-in shortcode that does exactly the same thing.</p>
 
@@ -244,7 +244,7 @@ Liquid::Template.register_tag('image', Jekyll::ImageTag)
 &lt;!-- image --&gt;
 </code></pre>
 
-<h3 id="usage:964c172ef5e837f03573891408d8d631">Usage</h3>
+<h3 id="usage:7a5e724f7a6d075996934407a68109d1">Usage</h3>
 
 <p>I simply changed:</p>
 
@@ -258,38 +258,21 @@ Liquid::Template.register_tag('image', Jekyll::ImageTag)
 
 <p>As a bonus, the shortcode named parameters are, arguably, more readable.</p>
 
-<h2 id="finishing-touches:964c172ef5e837f03573891408d8d631">Finishing touches</h2>
+<h2 id="finishing-touches:7a5e724f7a6d075996934407a68109d1">Finishing touches</h2>
 
-<h3 id="fix-content:964c172ef5e837f03573891408d8d631">Fix content</h3>
+<h3 id="fix-content:7a5e724f7a6d075996934407a68109d1">Fix content</h3>
 
 <p>Depending on the amount of customization that was done with each post with Jekyll, this step will require more or less effort. There are no hard and fast rules here except that <code>hugo server --watch</code> is your friend. Test your changes and fix errors as needed.</p>
 
-<h3 id="clean-up:964c172ef5e837f03573891408d8d631">Clean up</h3>
+<h3 id="clean-up:7a5e724f7a6d075996934407a68109d1">Clean up</h3>
 
 <p>You&rsquo;ll want to remove the Jekyll configuration at this point. If you have anything else that isn&rsquo;t used, delete it.</p>
 
-<h2 id="a-practical-example-in-a-diff:964c172ef5e837f03573891408d8d631">A practical example in a diff</h2>
+<h2 id="a-practical-example-in-a-diff:7a5e724f7a6d075996934407a68109d1">A practical example in a diff</h2>
 
 <p><a href="http://heyitsalex.net/">Hey, it&rsquo;s Alex</a> was migrated in less than a <em>father-with-kids day</em> from Jekyll to Hugo. You can see all the changes (and screw-ups) by looking at this <a href="https://github.com/alexandre-normand/alexandre-normand/compare/869d69435bd2665c3fbf5b5c78d4c22759d7613a...b7f6605b1265e83b4b81495423294208cc74d610">diff</a>.</p>
 
         </div>
-        <div class="sharing">
-<a href="https://twitter.com/intent/tweet?status=Migrate%20to%20Hugo%20from%20Jekyll-http%3a%2f%2falimy.me%2fpost%2fmigrate-from-jekyll%2f" target="_blank" title="Follow me on Twitter" class="twitter">
-<span class="fa fa-twitter-square fa-3x"></span></a>
-<a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2falimy.me%2fpost%2fmigrate-from-jekyll%2f" target="_blank" title="Join me on Facebook" class="facebook">
-<span class="fa fa-facebook-square fa-3x"></span></a>
-<a href="https://plus.google.com/share?url=http%3a%2f%2falimy.me%2fpost%2fmigrate-from-jekyll%2f" target="_blank" title="Google+" class="googleplus">
-<span class="fa fa-google-plus-square fa-3x"></span></a>
-<a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2falimy.me%2fpost%2fmigrate-from-jekyll%2f&title=Migrate%20to%20Hugo%20from%20Jekyll" target="_blank" title="LinkedIn" class="linkedin">
-<span class="fa fa-linkedin-square fa-3x"></span></a>
-<a href="http://www.reddit.com/submit?url=http%3a%2f%2falimy.me%2fpost%2fmigrate-from-jekyll%2f" target="_blank" title="Reddit" class="reddit"><span class="fa fa-reddit-square fa-3x"></span></a>
-<a href="http://www.stumbleupon.com/submit?url=http%3a%2f%2falimy.me%2fpost%2fmigrate-from-jekyll%2f" target="_blank" title="StumbleUpon" class="stumbleupon"><span class="fa fa-stumbleupon fa-3x">
-</span></a>
-</div>
-        
-
-
-
       </div>
     </div>
 

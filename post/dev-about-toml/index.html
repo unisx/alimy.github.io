@@ -105,7 +105,7 @@
           <span class="post-date">Tue, Jan 5, 2016</span>
           
 
-<h2 id="toml的由来:70e9c4511f4e097e24015203d5d3b1b2">TOML的由来</h2>
+<h2 id="toml的由来:84b803b541e2b9e1b1796654d73d2a1c">TOML的由来</h2>
 
 <p>TOML的全称是　Tom&rsquo;s Obvious, Minimal Language，因为它是GitHub　前CEO,联合创始人
 Tom Preston-Werner 于2013年创建的语言。</p>
@@ -113,12 +113,12 @@ Tom Preston-Werner 于2013年创建的语言。</p>
 <p>配置文件的使用由来已久，从.ini、XML、JSON、YAML再到TOML，语言的表达能力越来越强，同时书
 写便捷性也在不断提升。</p>
 
-<h2 id="toml-的目标:70e9c4511f4e097e24015203d5d3b1b2">TOML 的目标</h2>
+<h2 id="toml-的目标:84b803b541e2b9e1b1796654d73d2a1c">TOML 的目标</h2>
 
 <p>TOML的目标是成为一个小规模的易于使用的语义化配置文件格式。TOML被设计为可以无二义性的转换
 为一个哈希表(Hash table)，从而被多种语言解析。</p>
 
-<h3 id="例子:70e9c4511f4e097e24015203d5d3b1b2">例子</h3>
+<h3 id="例子:84b803b541e2b9e1b1796654d73d2a1c">例子</h3>
 
 <pre><code>title = &quot;TOML 例子&quot;
 
@@ -157,7 +157,7 @@ hosts = [
 
 <p>TOML是大小写敏感的。</p>
 
-<h3 id="注释:70e9c4511f4e097e24015203d5d3b1b2">注释</h3>
+<h3 id="注释:84b803b541e2b9e1b1796654d73d2a1c">注释</h3>
 
 <p>使用 # 表示注释：</p>
 
@@ -165,7 +165,7 @@ hosts = [
 key = &quot;value&quot; # Yeah, you can do this.
 </code></pre>
 
-<h3 id="字符串:70e9c4511f4e097e24015203d5d3b1b2">字符串</h3>
+<h3 id="字符串:84b803b541e2b9e1b1796654d73d2a1c">字符串</h3>
 
 <p>字符串和 JSON 的定义一致，只有一点除外：　TOML 要求使用　UTF-8 编码。</p>
 
@@ -197,11 +197,11 @@ right = &quot;C:\\Users\\nodejs\\templates&quot;
 
 <p>二进制数据建议使用　Base64　或其他合适的编码。具体的处理取决于特定的应用。</p>
 
-<h3 id="整数:70e9c4511f4e097e24015203d5d3b1b2">整数</h3>
+<h3 id="整数:84b803b541e2b9e1b1796654d73d2a1c">整数</h3>
 
 <p>整数就是一些没有小数点的数字。想用负数？按直觉来就行。整数的尺寸最小为64位。</p>
 
-<h3 id="浮点数:70e9c4511f4e097e24015203d5d3b1b2">浮点数</h3>
+<h3 id="浮点数:84b803b541e2b9e1b1796654d73d2a1c">浮点数</h3>
 
 <p>浮点数带小数点。小数点两边都有数字。64位精度。</p>
 
@@ -209,7 +209,7 @@ right = &quot;C:\\Users\\nodejs\\templates&quot;
 -0.01
 </code></pre>
 
-<h3 id="布尔值:70e9c4511f4e097e24015203d5d3b1b2">布尔值</h3>
+<h3 id="布尔值:84b803b541e2b9e1b1796654d73d2a1c">布尔值</h3>
 
 <p>布尔值永远是小写。</p>
 
@@ -217,14 +217,14 @@ right = &quot;C:\\Users\\nodejs\\templates&quot;
 false
 </code></pre>
 
-<h3 id="日期时间:70e9c4511f4e097e24015203d5d3b1b2">日期时间</h3>
+<h3 id="日期时间:84b803b541e2b9e1b1796654d73d2a1c">日期时间</h3>
 
 <p>使用　ISO 8601　完整格式。</p>
 
 <pre><code>1979-05-27T07:32:00Z
 </code></pre>
 
-<h3 id="数组:70e9c4511f4e097e24015203d5d3b1b2">数组</h3>
+<h3 id="数组:84b803b541e2b9e1b1796654d73d2a1c">数组</h3>
 
 <p>数组使用方括号包裹。空格会被忽略。元素使用逗号分隔。注意，不允许混用数据类型。</p>
 
@@ -238,7 +238,7 @@ false
 <p>数组可以多行。也就是说，除了空格之外，方括号间的换行也会被忽略。在关闭方括号前的最终项后的
 逗号是允许的。</p>
 
-<h3 id="表格:70e9c4511f4e097e24015203d5d3b1b2">表格</h3>
+<h3 id="表格:84b803b541e2b9e1b1796654d73d2a1c">表格</h3>
 
 <p>表格（也叫哈希表或字典）是键值对的集合。它们在方括号内，自成一行。注意和数组相区分，数组只
 有值。</p>
@@ -305,7 +305,7 @@ b = 1
 c = 2
 </code></pre>
 
-<h3 id="表格数组:70e9c4511f4e097e24015203d5d3b1b2">表格数组</h3>
+<h3 id="表格数组:84b803b541e2b9e1b1796654d73d2a1c">表格数组</h3>
 
 <p>最后要介绍的类型是表格数组。表格数组可以通过包裹在双方括号内的表格名来表达。使用相同的双方
 括号名称的表格是同一个数组的元素。表格按照书写的顺序插入。双方括号表格如果没有键值对，会被
@@ -398,23 +398,6 @@ color = &quot;gray&quot;
 </code></pre>
 
         </div>
-        <div class="sharing">
-<a href="https://twitter.com/intent/tweet?status=%e5%85%b3%e4%ba%8eTOML-http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f" target="_blank" title="Follow me on Twitter" class="twitter">
-<span class="fa fa-twitter-square fa-3x"></span></a>
-<a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f" target="_blank" title="Join me on Facebook" class="facebook">
-<span class="fa fa-facebook-square fa-3x"></span></a>
-<a href="https://plus.google.com/share?url=http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f" target="_blank" title="Google+" class="googleplus">
-<span class="fa fa-google-plus-square fa-3x"></span></a>
-<a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f&title=%e5%85%b3%e4%ba%8eTOML" target="_blank" title="LinkedIn" class="linkedin">
-<span class="fa fa-linkedin-square fa-3x"></span></a>
-<a href="http://www.reddit.com/submit?url=http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f" target="_blank" title="Reddit" class="reddit"><span class="fa fa-reddit-square fa-3x"></span></a>
-<a href="http://www.stumbleupon.com/submit?url=http%3a%2f%2falimy.me%2fpost%2fabout-toml%2f" target="_blank" title="StumbleUpon" class="stumbleupon"><span class="fa fa-stumbleupon fa-3x">
-</span></a>
-</div>
-        
-
-
-
       </div>
     </div>
 

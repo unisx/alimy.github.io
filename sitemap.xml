@@ -3,27 +3,37 @@
   
   <url>
     <loc>http://alimy.me/</loc>
-    <lastmod>2016-01-05T00:00:00+00:00</lastmod>
+    <lastmod>2016-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://alimy.me/post/toml-spec-v0.4.0/</loc>
+    <loc>http://alimy.me/post/art-xzsn/</loc>
+    <lastmod>2016-01-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/post/art-xzlr/</loc>
+    <lastmod>2016-01-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/post/dev-toml-spec-v0.4.0/</loc>
     <lastmod>2016-01-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://alimy.me/post/about-toml/</loc>
+    <loc>http://alimy.me/post/dev-about-toml/</loc>
     <lastmod>2016-01-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://alimy.me/post/just-a-trave/</loc>
-    <lastmod>2015-12-31T00:00:00+00:00</lastmod>
+    <loc>http://alimy.me/post/day-begin-2016/</loc>
+    <lastmod>2016-01-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://alimy.me/post/about-hugo/</loc>
+    <loc>http://alimy.me/post/day-end-2015/</loc>
     <lastmod>2015-12-31T00:00:00+00:00</lastmod>
   </url>
   
@@ -33,22 +43,22 @@
   </url>
   
   <url>
-    <loc>http://alimy.me/post/goisforlovers/</loc>
+    <loc>http://alimy.me/post/etc-goisforlovers/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://alimy.me/post/hugoisforlovers/</loc>
+    <loc>http://alimy.me/post/etc-hugoisforlovers/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://alimy.me/post/creating-a-new-theme/</loc>
+    <loc>http://alimy.me/post/etc-creating-a-new-theme/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://alimy.me/post/migrate-from-jekyll/</loc>
+    <loc>http://alimy.me/post/etc-migrate-from-jekyll/</loc>
     <lastmod>2014-03-10T00:00:00+00:00</lastmod>
   </url>
   
