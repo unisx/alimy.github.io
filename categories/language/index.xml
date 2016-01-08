@@ -7,14 +7,316 @@
     
     
     <copyright>Copyright (c) 20015 - 2016, Alimy; all rights reserved.</copyright>
-    <updated>Tue, 05 Jan 2016 00:00:00 UTC</updated>
+    <updated>Sun, 03 Jan 2016 00:00:00 UTC</updated>
+    
+    <item>
+      <title>关于TOML</title>
+      <link>http://alimy.me/post/dev_201601031221/</link>
+      <pubDate>Sun, 03 Jan 2016 00:00:00 UTC</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201601031221/</guid>
+      <description>
+
+&lt;h2 id=&#34;toml的由来:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;TOML的由来&lt;/h2&gt;
+
+&lt;p&gt;TOML的全称是　Tom&amp;rsquo;s Obvious, Minimal Language，因为它是GitHub　前CEO,联合创始人
+Tom Preston-Werner 于2013年创建的语言。&lt;/p&gt;
+
+&lt;p&gt;配置文件的使用由来已久，从.ini、XML、JSON、YAML再到TOML，语言的表达能力越来越强，同时书
+写便捷性也在不断提升。&lt;/p&gt;
+
+&lt;h2 id=&#34;toml-的目标:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;TOML 的目标&lt;/h2&gt;
+
+&lt;p&gt;TOML的目标是成为一个小规模的易于使用的语义化配置文件格式。TOML被设计为可以无二义性的转换
+为一个哈希表(Hash table)，从而被多种语言解析。&lt;/p&gt;
+
+&lt;h3 id=&#34;例子:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;例子&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;title = &amp;quot;TOML 例子&amp;quot;
+
+[owner]
+name = &amp;quot;Tom Preston-Werner&amp;quot;
+organization = &amp;quot;GitHub&amp;quot;
+bio = &amp;quot;GitHub Cofounder &amp;amp; CEO\nLikes tater tots and beer.&amp;quot;
+dob = 1979-05-27T07:32:00Z # 日期时间是一等公民。为什么不呢？
+
+[database]
+server = &amp;quot;192.168.1.1&amp;quot;
+ports = [ 8001, 8001, 8002 ]
+connection_max = 5000
+enabled = true
+
+[servers]
+
+  # 你可以依照你的意愿缩进。使用空格或Tab。TOML不会在意。
+  [servers.alpha]
+  ip = &amp;quot;10.0.0.1&amp;quot;
+  dc = &amp;quot;eqdc10&amp;quot;
+
+  [servers.beta]
+  ip = &amp;quot;10.0.0.2&amp;quot;
+  dc = &amp;quot;eqdc10&amp;quot;
+
+[clients]
+data = [ [&amp;quot;gamma&amp;quot;, &amp;quot;delta&amp;quot;], [1, 2] ]
+
+# 在数组里换行没有关系。
+hosts = [
+  &amp;quot;alpha&amp;quot;,
+  &amp;quot;omega&amp;quot;
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;TOML是大小写敏感的。&lt;/p&gt;
+
+&lt;h3 id=&#34;注释:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;注释&lt;/h3&gt;
+
+&lt;p&gt;使用 # 表示注释：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# I am a comment. Hear me roar. Roar.
+key = &amp;quot;value&amp;quot; # Yeah, you can do this.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;字符串:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;字符串&lt;/h3&gt;
+
+&lt;p&gt;字符串和 JSON 的定义一致，只有一点除外：　TOML 要求使用　UTF-8 编码。&lt;/p&gt;
+
+&lt;p&gt;注释以引号包裹，里面的字符必须是　UTF-8 格式。引号、反斜杠和控制字符（U+0000 到 U+001F）
+需要转义。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;I&#39;m a string. \&amp;quot;You can quote me\&amp;quot;. Name\tJos\u00E9\nLocation\tSF.&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;常用的转义序列：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;\b     - backspace       (U+0008)
+\t     - tab             (U+0009)
+\n     - linefeed        (U+000A)
+\f     - form feed       (U+000C)
+\r     - carriage return (U+000D)
+\&amp;quot;     - quote           (U+0022)
+\/     - slash           (U+002F)
+\\     - backslash       (U+005C)
+\uXXXX - unicode         (U+XXXX)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用保留的特殊字符，TOML　会抛出错误。例如，在　Windows 平台上，应该使用两个反斜杠来表示
+路径：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;wrong = &amp;quot;C:\Users\nodejs\templates&amp;quot; # 注意：这不会生成合法的路径。
+right = &amp;quot;C:\\Users\\nodejs\\templates&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;二进制数据建议使用　Base64　或其他合适的编码。具体的处理取决于特定的应用。&lt;/p&gt;
+
+&lt;h3 id=&#34;整数:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;整数&lt;/h3&gt;
+
+&lt;p&gt;整数就是一些没有小数点的数字。想用负数？按直觉来就行。整数的尺寸最小为64位。&lt;/p&gt;
+
+&lt;h3 id=&#34;浮点数:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;浮点数&lt;/h3&gt;
+
+&lt;p&gt;浮点数带小数点。小数点两边都有数字。64位精度。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;3.1415
+-0.01
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;布尔值:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;布尔值&lt;/h3&gt;
+
+&lt;p&gt;布尔值永远是小写。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;true
+false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;日期时间:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;日期时间&lt;/h3&gt;
+
+&lt;p&gt;使用　ISO 8601　完整格式。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1979-05-27T07:32:00Z
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;数组:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;数组&lt;/h3&gt;
+
+&lt;p&gt;数组使用方括号包裹。空格会被忽略。元素使用逗号分隔。注意，不允许混用数据类型。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[ 1, 2, 3 ]
+[ &amp;quot;red&amp;quot;, &amp;quot;yellow&amp;quot;, &amp;quot;green&amp;quot; ]
+[ [ 1, 2 ], [3, 4, 5] ]
+[ [ 1, 2 ], [&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;c&amp;quot;] ] # 这是可以的。
+[ 1, 2.0 ] # 注意：这是不行的。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;数组可以多行。也就是说，除了空格之外，方括号间的换行也会被忽略。在关闭方括号前的最终项后的
+逗号是允许的。&lt;/p&gt;
+
+&lt;h3 id=&#34;表格:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;表格&lt;/h3&gt;
+
+&lt;p&gt;表格（也叫哈希表或字典）是键值对的集合。它们在方括号内，自成一行。注意和数组相区分，数组只
+有值。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[table]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在此之下，直到下一个　table 或　EOF 之前，是这个表格的键值对。键在左，值在右，等号在中间。
+键以非空字符开始，以等号前的非空字符为结尾。键值对是无序的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[table]
+key = &amp;quot;value&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你可以随意缩进，使用 Tab 或空格。为什么要缩进呢？因为你可以嵌套表格。&lt;/p&gt;
+
+&lt;p&gt;嵌套表格的表格名称中使用.。你可以任意命名你的表格，只是不要用点，点是保留的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[dog.tater]
+type = &amp;quot;pug&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上等价于如下的 JSON 结构：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{ &amp;quot;dog&amp;quot;: { &amp;quot;tater&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;pug&amp;quot; } } }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果你不想的话，你不用声明所有的父表。TOML　知道该如何处理。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# [x] 你
+# [x.y] 不需要
+# [x.y.z] 这些
+[x.y.z.w] # 可以直接写
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;空表是允许的，其中没有键值对。&lt;/p&gt;
+
+&lt;p&gt;只要父表没有被直接定义，而且没有定义一个特定的键，你可以继续写入：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[a.b]
+c = 1
+
+[a]
+d = 2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然而你不能多次定义键和表格。这么做是不合法的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# 别这么干！
+
+[a]
+b = 1
+
+[a]
+c = 2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;# 也别这个干
+
+[a]
+b = 1
+
+[a.b]
+c = 2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;表格数组:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;表格数组&lt;/h3&gt;
+
+&lt;p&gt;最后要介绍的类型是表格数组。表格数组可以通过包裹在双方括号内的表格名来表达。使用相同的双方
+括号名称的表格是同一个数组的元素。表格按照书写的顺序插入。双方括号表格如果没有键值对，会被
+当成空表。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[[products]]
+name = &amp;quot;Hammer&amp;quot;
+sku = 738594937
+
+[[products]]
+
+[[products]]
+name = &amp;quot;Nail&amp;quot;
+sku = 284758393
+color = &amp;quot;gray&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;等价于以下的　JSON 结构：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;products&amp;quot;: [
+    { &amp;quot;name&amp;quot;: &amp;quot;Hammer&amp;quot;, &amp;quot;sku&amp;quot;: 738594937 },
+    { },
+    { &amp;quot;name&amp;quot;: &amp;quot;Nail&amp;quot;, &amp;quot;sku&amp;quot;: 284758393, &amp;quot;color&amp;quot;: &amp;quot;gray&amp;quot; }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;表格数组同样可以嵌套。只需在子表格上使用相同的双方括号语法。每一个双方括号子表格回从属于最
+近定义的上层表格元素。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[[fruit]]
+  name = &amp;quot;apple&amp;quot;
+
+  [fruit.physical]
+    color = &amp;quot;red&amp;quot;
+    shape = &amp;quot;round&amp;quot;
+
+  [[fruit.variety]]
+    name = &amp;quot;red delicious&amp;quot;
+
+  [[fruit.variety]]
+    name = &amp;quot;granny smith&amp;quot;
+
+[[fruit]]
+  name = &amp;quot;banana&amp;quot;
+
+  [[fruit.variety]]
+    name = &amp;quot;plantain&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;等价于如下的　JSON 结构：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;fruit&amp;quot;: [
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;apple&amp;quot;,
+      &amp;quot;physical&amp;quot;: {
+        &amp;quot;color&amp;quot;: &amp;quot;red&amp;quot;,
+        &amp;quot;shape&amp;quot;: &amp;quot;round&amp;quot;
+      },
+      &amp;quot;variety&amp;quot;: [
+        { &amp;quot;name&amp;quot;: &amp;quot;red delicious&amp;quot; },
+        { &amp;quot;name&amp;quot;: &amp;quot;granny smith&amp;quot; }
+      ]
+    },
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;banana&amp;quot;,
+      &amp;quot;variety&amp;quot;: [
+        { &amp;quot;name&amp;quot;: &amp;quot;plantain&amp;quot; }
+      ]
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;尝试定义一个普通的表格，使用已经定义的数组的名称，将抛出一个解析错误：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# 不合法的　TOML
+
+[[fruit]]
+  name = &amp;quot;apple&amp;quot;
+
+  [[fruit.variety]]
+    name = &amp;quot;red delicious&amp;quot;
+
+  # 和上面冲突了
+  [fruit.variety]
+    name = &amp;quot;granny smith&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>TOML v0.4.0</title>
-      <link>http://alimy.me/post/dev-toml-spec-v0.4.0/</link>
-      <pubDate>Tue, 05 Jan 2016 00:00:00 UTC</pubDate>
+      <link>http://alimy.me/post/dev_201601021221/</link>
+      <pubDate>Sat, 02 Jan 2016 00:00:00 UTC</pubDate>
       
-      <guid>http://alimy.me/post/dev-toml-spec-v0.4.0/</guid>
+      <guid>http://alimy.me/post/dev_201601021221/</guid>
       <description>
 
 &lt;p&gt;Tom&amp;rsquo;s Obvious, Minimal Language.&lt;/p&gt;
@@ -24,13 +326,13 @@
 &lt;p&gt;Be warned, this spec is still changing a lot. Until it&amp;rsquo;s marked as 1.0, you
 should assume that it is unstable and act accordingly.&lt;/p&gt;
 
-&lt;h2 id=&#34;objectives:51366347626da851910c7e48ce28f7e3&#34;&gt;Objectives&lt;/h2&gt;
+&lt;h2 id=&#34;objectives:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Objectives&lt;/h2&gt;
 
 &lt;p&gt;TOML aims to be a minimal configuration file format that&amp;rsquo;s easy to read due to
 obvious semantics. TOML is designed to map unambiguously to a hash table. TOML
 should be easy to parse into data structures in a wide variety of languages.&lt;/p&gt;
 
-&lt;h2 id=&#34;example:51366347626da851910c7e48ce28f7e3&#34;&gt;Example&lt;/h2&gt;
+&lt;h2 id=&#34;example:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Example&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# This is a TOML document. Boom.
 
@@ -67,7 +369,7 @@ hosts = [
 ]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;spec:51366347626da851910c7e48ce28f7e3&#34;&gt;Spec&lt;/h2&gt;
+&lt;h2 id=&#34;spec:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Spec&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;TOML is case sensitive.&lt;/li&gt;
@@ -76,7 +378,7 @@ hosts = [
 &lt;li&gt;Newline means LF (0x0A) or CRLF (0x0D0A).&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;comment:51366347626da851910c7e48ce28f7e3&#34;&gt;Comment&lt;/h2&gt;
+&lt;h2 id=&#34;comment:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Comment&lt;/h2&gt;
 
 &lt;p&gt;Speak your mind with the hash symbol. They go from the symbol to the end of the
 line.&lt;/p&gt;
@@ -85,7 +387,7 @@ line.&lt;/p&gt;
 key = &amp;quot;value&amp;quot; # Yeah, you can do this.
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;string:51366347626da851910c7e48ce28f7e3&#34;&gt;String&lt;/h2&gt;
+&lt;h2 id=&#34;string:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;String&lt;/h2&gt;
 
 &lt;p&gt;There are four ways to express strings: basic, multi-line basic, literal, and
 multi-line literal. All strings must contain only valid UTF-8 characters.&lt;/p&gt;
@@ -199,7 +501,7 @@ trimmed in raw strings.
 &lt;p&gt;For binary data it is recommended that you use Base64 or another suitable ASCII
 or UTF-8 encoding. The handling of that encoding will be application specific.&lt;/p&gt;
 
-&lt;h2 id=&#34;integer:51366347626da851910c7e48ce28f7e3&#34;&gt;Integer&lt;/h2&gt;
+&lt;h2 id=&#34;integer:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Integer&lt;/h2&gt;
 
 &lt;p&gt;Integers are whole numbers. Positive numbers may be prefixed with a plus sign.
 Negative numbers are prefixed with a minus sign.&lt;/p&gt;
@@ -225,7 +527,7 @@ series of digits are not allowed.&lt;/p&gt;
 &lt;p&gt;64 bit (signed long) range expected (âˆ’9,223,372,036,854,775,808 to
 9,223,372,036,854,775,807).&lt;/p&gt;
 
-&lt;h2 id=&#34;float:51366347626da851910c7e48ce28f7e3&#34;&gt;Float&lt;/h2&gt;
+&lt;h2 id=&#34;float:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Float&lt;/h2&gt;
 
 &lt;p&gt;A float consists of an integer part (which may be prefixed with a plus or minus
 sign) followed by a fractional part and/or an exponent part. If both a
@@ -260,7 +562,7 @@ underscore must be surrounded by at least one digit.&lt;/p&gt;
 
 &lt;p&gt;64-bit (double) precision expected.&lt;/p&gt;
 
-&lt;h2 id=&#34;boolean:51366347626da851910c7e48ce28f7e3&#34;&gt;Boolean&lt;/h2&gt;
+&lt;h2 id=&#34;boolean:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Boolean&lt;/h2&gt;
 
 &lt;p&gt;Booleans are just the tokens you&amp;rsquo;re used to. Always lowercase.&lt;/p&gt;
 
@@ -268,7 +570,7 @@ underscore must be surrounded by at least one digit.&lt;/p&gt;
 false
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;datetime:51366347626da851910c7e48ce28f7e3&#34;&gt;Datetime&lt;/h2&gt;
+&lt;h2 id=&#34;datetime:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Datetime&lt;/h2&gt;
 
 &lt;p&gt;Datetimes are &lt;a href=&#34;http://tools.ietf.org/html/rfc3339&#34;&gt;RFC 3339&lt;/a&gt; dates.&lt;/p&gt;
 
@@ -277,7 +579,7 @@ false
 1979-05-27T00:32:00.999999-07:00
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;array:51366347626da851910c7e48ce28f7e3&#34;&gt;Array&lt;/h2&gt;
+&lt;h2 id=&#34;array:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Array&lt;/h2&gt;
 
 &lt;p&gt;Arrays are square brackets with other primitives inside. Whitespace is ignored.
 Elements are separated by commas. Data types may not be mixed (though all string
@@ -305,7 +607,7 @@ key = [
 ]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;table:51366347626da851910c7e48ce28f7e3&#34;&gt;Table&lt;/h2&gt;
+&lt;h2 id=&#34;table:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Table&lt;/h2&gt;
 
 &lt;p&gt;Tables (also known as hash tables or dictionaries) are collections of key/value
 pairs. They appear in square brackets on a line by themselves. You can tell them
@@ -409,7 +711,7 @@ c = 2
  = &amp;quot;no key name&amp;quot; # not allowed
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;inline-table:51366347626da851910c7e48ce28f7e3&#34;&gt;Inline Table&lt;/h2&gt;
+&lt;h2 id=&#34;inline-table:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Inline Table&lt;/h2&gt;
 
 &lt;p&gt;Inline tables provide a more compact syntax for expressing tables. They are
 especially useful for grouped data that can otherwise quickly become verbose.
@@ -439,7 +741,7 @@ x = 1
 y = 2
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;array-of-tables:51366347626da851910c7e48ce28f7e3&#34;&gt;Array of Tables&lt;/h2&gt;
+&lt;h2 id=&#34;array-of-tables:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Array of Tables&lt;/h2&gt;
 
 &lt;p&gt;The last type that has not yet been expressed is an array of tables. These can
 be expressed by using a table name in double brackets. Each table with the same
@@ -541,21 +843,21 @@ array must produce an error at parse time.&lt;/p&gt;
            { x = 2, y = 4, z = 8 } ]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;seriously:51366347626da851910c7e48ce28f7e3&#34;&gt;Seriously?&lt;/h2&gt;
+&lt;h2 id=&#34;seriously:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Seriously?&lt;/h2&gt;
 
 &lt;p&gt;Yep.&lt;/p&gt;
 
-&lt;h2 id=&#34;but-why:51366347626da851910c7e48ce28f7e3&#34;&gt;But why?&lt;/h2&gt;
+&lt;h2 id=&#34;but-why:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;But why?&lt;/h2&gt;
 
 &lt;p&gt;Because we need a decent human-readable format that unambiguously maps to a hash
 table and the YAML spec is like 80 pages long and gives me rage. No, JSON
 doesn&amp;rsquo;t count. You know why.&lt;/p&gt;
 
-&lt;h2 id=&#34;oh-god-you-re-right:51366347626da851910c7e48ce28f7e3&#34;&gt;Oh god, you&amp;rsquo;re right&lt;/h2&gt;
+&lt;h2 id=&#34;oh-god-you-re-right:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Oh god, you&amp;rsquo;re right&lt;/h2&gt;
 
 &lt;p&gt;Yuuuup. Wanna help? Send a pull request. Or write a parser. BE BRAVE.&lt;/p&gt;
 
-&lt;h2 id=&#34;projects-using-toml:51366347626da851910c7e48ce28f7e3&#34;&gt;Projects using TOML&lt;/h2&gt;
+&lt;h2 id=&#34;projects-using-toml:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Projects using TOML&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://doc.crates.io/&#34;&gt;Cargo&lt;/a&gt; - The Rust language&amp;rsquo;s package manager.&lt;/li&gt;
@@ -564,7 +866,7 @@ doesn&amp;rsquo;t count. You know why.&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; - Static site generator in Go.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;implementations:51366347626da851910c7e48ce28f7e3&#34;&gt;Implementations&lt;/h2&gt;
+&lt;h2 id=&#34;implementations:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Implementations&lt;/h2&gt;
 
 &lt;p&gt;If you have an implementation, send a pull request adding to this list. Please
 note the commit SHA1 or version tag that your parser supports in your Readme.&lt;/p&gt;
@@ -634,19 +936,19 @@ note the commit SHA1 or version tag that your parser supports in your Readme.&lt
 &lt;li&gt;Scala - &lt;a href=&#34;https://github.com/axelarge/tomelette&#34;&gt;https://github.com/axelarge/tomelette&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;validators:51366347626da851910c7e48ce28f7e3&#34;&gt;Validators&lt;/h2&gt;
+&lt;h2 id=&#34;validators:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Validators&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Go (@BurntSushi) - &lt;a href=&#34;https://github.com/BurntSushi/toml/tree/master/cmd/tomlv&#34;&gt;https://github.com/BurntSushi/toml/tree/master/cmd/tomlv&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;language-agnostic-test-suite-for-toml-decoders-and-encoders:51366347626da851910c7e48ce28f7e3&#34;&gt;Language agnostic test suite for TOML decoders and encoders&lt;/h2&gt;
+&lt;h2 id=&#34;language-agnostic-test-suite-for-toml-decoders-and-encoders:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Language agnostic test suite for TOML decoders and encoders&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;toml-test (@BurntSushi) - &lt;a href=&#34;https://github.com/BurntSushi/toml-test&#34;&gt;https://github.com/BurntSushi/toml-test&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;editor-support:51366347626da851910c7e48ce28f7e3&#34;&gt;Editor support&lt;/h2&gt;
+&lt;h2 id=&#34;editor-support:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Editor support&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Atom - &lt;a href=&#34;https://github.com/atom/language-toml&#34;&gt;https://github.com/atom/language-toml&lt;/a&gt;&lt;/li&gt;
@@ -658,7 +960,7 @@ note the commit SHA1 or version tag that your parser supports in your Readme.&lt
 &lt;li&gt;Vim (@cespare) - &lt;a href=&#34;https://github.com/cespare/vim-toml&#34;&gt;https://github.com/cespare/vim-toml&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;encoder:51366347626da851910c7e48ce28f7e3&#34;&gt;Encoder&lt;/h2&gt;
+&lt;h2 id=&#34;encoder:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Encoder&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Dart (@just95) - &lt;a href=&#34;https://github.com/just95/toml.dart&#34;&gt;https://github.com/just95/toml.dart&lt;/a&gt;&lt;/li&gt;
@@ -666,7 +968,7 @@ note the commit SHA1 or version tag that your parser supports in your Readme.&lt
 &lt;li&gt;PHP (@ayushchd) - &lt;a href=&#34;https://github.com/ayushchd/php-toml-encoder&#34;&gt;https://github.com/ayushchd/php-toml-encoder&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;converters:51366347626da851910c7e48ce28f7e3&#34;&gt;Converters&lt;/h2&gt;
+&lt;h2 id=&#34;converters:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Converters&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;remarshal (@dbohdan) - &lt;a href=&#34;https://github.com/dbohdan/remarshal&#34;&gt;https://github.com/dbohdan/remarshal&lt;/a&gt;&lt;/li&gt;
@@ -674,313 +976,11 @@ note the commit SHA1 or version tag that your parser supports in your Readme.&lt
 &lt;li&gt;yaml2toml.dart (@just95) - &lt;a href=&#34;https://github.com/just95/yaml2toml.dart&#34;&gt;https://github.com/just95/yaml2toml.dart&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;organization:51366347626da851910c7e48ce28f7e3&#34;&gt;Organization&lt;/h2&gt;
+&lt;h2 id=&#34;organization:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Organization&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;toml-lang (@BurntSushi) - &lt;a href=&#34;https://github.com/toml-lang&#34;&gt;https://github.com/toml-lang&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>关于TOML</title>
-      <link>http://alimy.me/post/dev-about-toml/</link>
-      <pubDate>Tue, 05 Jan 2016 00:00:00 UTC</pubDate>
-      
-      <guid>http://alimy.me/post/dev-about-toml/</guid>
-      <description>
-
-&lt;h2 id=&#34;toml的由来:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;TOML的由来&lt;/h2&gt;
-
-&lt;p&gt;TOML的全称是　Tom&amp;rsquo;s Obvious, Minimal Language，因为它是GitHub　前CEO,联合创始人
-Tom Preston-Werner 于2013年创建的语言。&lt;/p&gt;
-
-&lt;p&gt;配置文件的使用由来已久，从.ini、XML、JSON、YAML再到TOML，语言的表达能力越来越强，同时书
-写便捷性也在不断提升。&lt;/p&gt;
-
-&lt;h2 id=&#34;toml-的目标:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;TOML 的目标&lt;/h2&gt;
-
-&lt;p&gt;TOML的目标是成为一个小规模的易于使用的语义化配置文件格式。TOML被设计为可以无二义性的转换
-为一个哈希表(Hash table)，从而被多种语言解析。&lt;/p&gt;
-
-&lt;h3 id=&#34;例子:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;例子&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;title = &amp;quot;TOML 例子&amp;quot;
-
-[owner]
-name = &amp;quot;Tom Preston-Werner&amp;quot;
-organization = &amp;quot;GitHub&amp;quot;
-bio = &amp;quot;GitHub Cofounder &amp;amp; CEO\nLikes tater tots and beer.&amp;quot;
-dob = 1979-05-27T07:32:00Z # 日期时间是一等公民。为什么不呢？
-
-[database]
-server = &amp;quot;192.168.1.1&amp;quot;
-ports = [ 8001, 8001, 8002 ]
-connection_max = 5000
-enabled = true
-
-[servers]
-
-  # 你可以依照你的意愿缩进。使用空格或Tab。TOML不会在意。
-  [servers.alpha]
-  ip = &amp;quot;10.0.0.1&amp;quot;
-  dc = &amp;quot;eqdc10&amp;quot;
-
-  [servers.beta]
-  ip = &amp;quot;10.0.0.2&amp;quot;
-  dc = &amp;quot;eqdc10&amp;quot;
-
-[clients]
-data = [ [&amp;quot;gamma&amp;quot;, &amp;quot;delta&amp;quot;], [1, 2] ]
-
-# 在数组里换行没有关系。
-hosts = [
-  &amp;quot;alpha&amp;quot;,
-  &amp;quot;omega&amp;quot;
-]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;TOML是大小写敏感的。&lt;/p&gt;
-
-&lt;h3 id=&#34;注释:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;注释&lt;/h3&gt;
-
-&lt;p&gt;使用 # 表示注释：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# I am a comment. Hear me roar. Roar.
-key = &amp;quot;value&amp;quot; # Yeah, you can do this.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;字符串:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;字符串&lt;/h3&gt;
-
-&lt;p&gt;字符串和 JSON 的定义一致，只有一点除外：　TOML 要求使用　UTF-8 编码。&lt;/p&gt;
-
-&lt;p&gt;注释以引号包裹，里面的字符必须是　UTF-8 格式。引号、反斜杠和控制字符（U+0000 到 U+001F）
-需要转义。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;quot;I&#39;m a string. \&amp;quot;You can quote me\&amp;quot;. Name\tJos\u00E9\nLocation\tSF.&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;常用的转义序列：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;\b     - backspace       (U+0008)
-\t     - tab             (U+0009)
-\n     - linefeed        (U+000A)
-\f     - form feed       (U+000C)
-\r     - carriage return (U+000D)
-\&amp;quot;     - quote           (U+0022)
-\/     - slash           (U+002F)
-\\     - backslash       (U+005C)
-\uXXXX - unicode         (U+XXXX)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;使用保留的特殊字符，TOML　会抛出错误。例如，在　Windows 平台上，应该使用两个反斜杠来表示
-路径：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;wrong = &amp;quot;C:\Users\nodejs\templates&amp;quot; # 注意：这不会生成合法的路径。
-right = &amp;quot;C:\\Users\\nodejs\\templates&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;二进制数据建议使用　Base64　或其他合适的编码。具体的处理取决于特定的应用。&lt;/p&gt;
-
-&lt;h3 id=&#34;整数:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;整数&lt;/h3&gt;
-
-&lt;p&gt;整数就是一些没有小数点的数字。想用负数？按直觉来就行。整数的尺寸最小为64位。&lt;/p&gt;
-
-&lt;h3 id=&#34;浮点数:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;浮点数&lt;/h3&gt;
-
-&lt;p&gt;浮点数带小数点。小数点两边都有数字。64位精度。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;3.1415
--0.01
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;布尔值:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;布尔值&lt;/h3&gt;
-
-&lt;p&gt;布尔值永远是小写。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;true
-false
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;日期时间:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;日期时间&lt;/h3&gt;
-
-&lt;p&gt;使用　ISO 8601　完整格式。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1979-05-27T07:32:00Z
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;数组:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;数组&lt;/h3&gt;
-
-&lt;p&gt;数组使用方括号包裹。空格会被忽略。元素使用逗号分隔。注意，不允许混用数据类型。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[ 1, 2, 3 ]
-[ &amp;quot;red&amp;quot;, &amp;quot;yellow&amp;quot;, &amp;quot;green&amp;quot; ]
-[ [ 1, 2 ], [3, 4, 5] ]
-[ [ 1, 2 ], [&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;c&amp;quot;] ] # 这是可以的。
-[ 1, 2.0 ] # 注意：这是不行的。
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;数组可以多行。也就是说，除了空格之外，方括号间的换行也会被忽略。在关闭方括号前的最终项后的
-逗号是允许的。&lt;/p&gt;
-
-&lt;h3 id=&#34;表格:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;表格&lt;/h3&gt;
-
-&lt;p&gt;表格（也叫哈希表或字典）是键值对的集合。它们在方括号内，自成一行。注意和数组相区分，数组只
-有值。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[table]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;在此之下，直到下一个　table 或　EOF 之前，是这个表格的键值对。键在左，值在右，等号在中间。
-键以非空字符开始，以等号前的非空字符为结尾。键值对是无序的。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[table]
-key = &amp;quot;value&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;你可以随意缩进，使用 Tab 或空格。为什么要缩进呢？因为你可以嵌套表格。&lt;/p&gt;
-
-&lt;p&gt;嵌套表格的表格名称中使用.。你可以任意命名你的表格，只是不要用点，点是保留的。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[dog.tater]
-type = &amp;quot;pug&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;以上等价于如下的 JSON 结构：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{ &amp;quot;dog&amp;quot;: { &amp;quot;tater&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;pug&amp;quot; } } }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;如果你不想的话，你不用声明所有的父表。TOML　知道该如何处理。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# [x] 你
-# [x.y] 不需要
-# [x.y.z] 这些
-[x.y.z.w] # 可以直接写
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;空表是允许的，其中没有键值对。&lt;/p&gt;
-
-&lt;p&gt;只要父表没有被直接定义，而且没有定义一个特定的键，你可以继续写入：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[a.b]
-c = 1
-
-[a]
-d = 2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然而你不能多次定义键和表格。这么做是不合法的。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# 别这么干！
-
-[a]
-b = 1
-
-[a]
-c = 2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;# 也别这个干
-
-[a]
-b = 1
-
-[a.b]
-c = 2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;表格数组:84b803b541e2b9e1b1796654d73d2a1c&#34;&gt;表格数组&lt;/h3&gt;
-
-&lt;p&gt;最后要介绍的类型是表格数组。表格数组可以通过包裹在双方括号内的表格名来表达。使用相同的双方
-括号名称的表格是同一个数组的元素。表格按照书写的顺序插入。双方括号表格如果没有键值对，会被
-当成空表。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[[products]]
-name = &amp;quot;Hammer&amp;quot;
-sku = 738594937
-
-[[products]]
-
-[[products]]
-name = &amp;quot;Nail&amp;quot;
-sku = 284758393
-color = &amp;quot;gray&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;等价于以下的　JSON 结构：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{
-  &amp;quot;products&amp;quot;: [
-    { &amp;quot;name&amp;quot;: &amp;quot;Hammer&amp;quot;, &amp;quot;sku&amp;quot;: 738594937 },
-    { },
-    { &amp;quot;name&amp;quot;: &amp;quot;Nail&amp;quot;, &amp;quot;sku&amp;quot;: 284758393, &amp;quot;color&amp;quot;: &amp;quot;gray&amp;quot; }
-  ]
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;表格数组同样可以嵌套。只需在子表格上使用相同的双方括号语法。每一个双方括号子表格回从属于最
-近定义的上层表格元素。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[[fruit]]
-  name = &amp;quot;apple&amp;quot;
-
-  [fruit.physical]
-    color = &amp;quot;red&amp;quot;
-    shape = &amp;quot;round&amp;quot;
-
-  [[fruit.variety]]
-    name = &amp;quot;red delicious&amp;quot;
-
-  [[fruit.variety]]
-    name = &amp;quot;granny smith&amp;quot;
-
-[[fruit]]
-  name = &amp;quot;banana&amp;quot;
-
-  [[fruit.variety]]
-    name = &amp;quot;plantain&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;等价于如下的　JSON 结构：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{
-  &amp;quot;fruit&amp;quot;: [
-    {
-      &amp;quot;name&amp;quot;: &amp;quot;apple&amp;quot;,
-      &amp;quot;physical&amp;quot;: {
-        &amp;quot;color&amp;quot;: &amp;quot;red&amp;quot;,
-        &amp;quot;shape&amp;quot;: &amp;quot;round&amp;quot;
-      },
-      &amp;quot;variety&amp;quot;: [
-        { &amp;quot;name&amp;quot;: &amp;quot;red delicious&amp;quot; },
-        { &amp;quot;name&amp;quot;: &amp;quot;granny smith&amp;quot; }
-      ]
-    },
-    {
-      &amp;quot;name&amp;quot;: &amp;quot;banana&amp;quot;,
-      &amp;quot;variety&amp;quot;: [
-        { &amp;quot;name&amp;quot;: &amp;quot;plantain&amp;quot; }
-      ]
-    }
-  ]
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;尝试定义一个普通的表格，使用已经定义的数组的名称，将抛出一个解析错误：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# 不合法的　TOML
-
-[[fruit]]
-  name = &amp;quot;apple&amp;quot;
-
-  [[fruit.variety]]
-    name = &amp;quot;red delicious&amp;quot;
-
-  # 和上面冲突了
-  [fruit.variety]
-    name = &amp;quot;granny smith&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     

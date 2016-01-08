@@ -11,10 +11,10 @@
     
     <item>
       <title>(Hu)go Template Primer</title>
-      <link>http://alimy.me/post/etc-goisforlovers/</link>
+      <link>http://alimy.me/post/etc_201404021221/</link>
       <pubDate>Wed, 02 Apr 2014 00:00:00 UTC</pubDate>
       
-      <guid>http://alimy.me/post/etc-goisforlovers/</guid>
+      <guid>http://alimy.me/post/etc_201404021221/</guid>
       <description>
 
 &lt;p&gt;Hugo uses the excellent &lt;a href=&#34;http://golang.org/&amp;gt;&#34;&gt;go&lt;/a&gt; &lt;a href=&#34;http://golang.org/pkg/html/template/&amp;gt;&#34;&gt;html/template&lt;/a&gt; library for
@@ -27,7 +27,7 @@ similarities in go templates.&lt;/p&gt;
 &lt;p&gt;This document is a brief primer on using go templates. The &lt;a href=&#34;http://golang.org/pkg/html/template/&amp;gt;&#34;&gt;go docs&lt;/a&gt;
 provide more details.&lt;/p&gt;
 
-&lt;h2 id=&#34;introduction-to-go-templates:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Introduction to Go Templates&lt;/h2&gt;
+&lt;h2 id=&#34;introduction-to-go-templates:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Introduction to Go Templates&lt;/h2&gt;
 
 &lt;p&gt;Go templates provide an extremely simple template language. It adheres to the
 belief that only the most basic of logic belongs in the template or view layer.
@@ -37,7 +37,7 @@ One consequence of this simplicity is that go templates parse very quickly.&lt;/
 content will be sanitized depending on the context of where they are used. More
 details can be found in the &lt;a href=&#34;http://golang.org/pkg/html/template/&amp;gt;&#34;&gt;go docs&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h2 id=&#34;basic-syntax:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Basic Syntax&lt;/h2&gt;
+&lt;h2 id=&#34;basic-syntax:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Basic Syntax&lt;/h2&gt;
 
 &lt;p&gt;Go lang templates are html files with the addition of variables and
 functions.&lt;/p&gt;
@@ -68,7 +68,7 @@ functions.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;{{ if or (isset .Params &amp;quot;alt&amp;quot;) (isset .Params &amp;quot;caption&amp;quot;) }} Caption {{ end }}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;variables:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Variables&lt;/h2&gt;
+&lt;h2 id=&#34;variables:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Variables&lt;/h2&gt;
 
 &lt;p&gt;Each go template has a struct (object) made available to it. In hugo each
 template is passed either a page or a node struct depending on which type of
@@ -86,7 +86,7 @@ page you are rendering. More details are available on the
 {{ $address }}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;functions:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Functions&lt;/h2&gt;
+&lt;h2 id=&#34;functions:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Functions&lt;/h2&gt;
 
 &lt;p&gt;Go template ship with a few functions which provide basic functionality. The go
 template system also provides a mechanism for applications to extend the
@@ -101,7 +101,7 @@ functions cannot be added without recompiling hugo.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;{{ add 1 2 }}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;includes:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Includes&lt;/h2&gt;
+&lt;h2 id=&#34;includes:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Includes&lt;/h2&gt;
 
 &lt;p&gt;When including another template you will pass to it the data it will be
 able to access. To pass along the current context please remember to
@@ -113,11 +113,11 @@ the /layout/ directory within Hugo.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;{{ template &amp;quot;chrome/header.html&amp;quot; . }}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;logic:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Logic&lt;/h2&gt;
+&lt;h2 id=&#34;logic:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Logic&lt;/h2&gt;
 
 &lt;p&gt;Go templates provide the most basic iteration and conditional logic.&lt;/p&gt;
 
-&lt;h3 id=&#34;iteration:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Iteration&lt;/h3&gt;
+&lt;h3 id=&#34;iteration:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Iteration&lt;/h3&gt;
 
 &lt;p&gt;Just like in go, the go templates make heavy use of range to iterate over
 a map, array or slice. The following are different examples of how to use
@@ -145,7 +145,7 @@ range.&lt;/p&gt;
 {{ end }}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;conditionals:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Conditionals&lt;/h3&gt;
+&lt;h3 id=&#34;conditionals:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Conditionals&lt;/h3&gt;
 
 &lt;p&gt;If, else, with, or, &amp;amp; and provide the framework for handling conditional
 logic in Go Templates. Like range, each statement is closed with &lt;code&gt;end&lt;/code&gt;.&lt;/p&gt;
@@ -197,7 +197,7 @@ and skips the block if the variable is absent.&lt;/p&gt;
 {{ end }}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;pipes:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Pipes&lt;/h2&gt;
+&lt;h2 id=&#34;pipes:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Pipes&lt;/h2&gt;
 
 &lt;p&gt;One of the most powerful components of go templates is the ability to
 stack actions one after another. This is done by using pipes. Borrowed
@@ -245,7 +245,7 @@ Stuff Here
 {{ end }}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;context-aka-the-dot:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Context (aka. the dot)&lt;/h2&gt;
+&lt;h2 id=&#34;context-aka-the-dot:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Context (aka. the dot)&lt;/h2&gt;
 
 &lt;p&gt;The most easily overlooked concept to understand about go templates is that {{ . }}
 always refers to the current context. In the top level of your template this
@@ -267,7 +267,7 @@ instead of depending on the context.&lt;/p&gt;
 have defined a variable outside of the loop so we have access to it from within
 the loop.&lt;/p&gt;
 
-&lt;h1 id=&#34;hugo-parameters:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Hugo Parameters&lt;/h1&gt;
+&lt;h1 id=&#34;hugo-parameters:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Hugo Parameters&lt;/h1&gt;
 
 &lt;p&gt;Hugo provides the option of passing values to the template language
 through the site configuration (for sitewide values), or through the meta
@@ -275,7 +275,7 @@ data of each specific piece of content. You can define any values of any
 type (supported by your front matter/config format) and use them however
 you want to inside of your templates.&lt;/p&gt;
 
-&lt;h2 id=&#34;using-content-page-parameters:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Using Content (page) Parameters&lt;/h2&gt;
+&lt;h2 id=&#34;using-content-page-parameters:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Using Content (page) Parameters&lt;/h2&gt;
 
 &lt;p&gt;In each piece of content you can provide variables to be used by the
 templates. This happens in the &lt;a href=&#34;http://alimy.me/content/front-matter&#34;&gt;front matter&lt;/a&gt;.&lt;/p&gt;
@@ -307,7 +307,7 @@ notoc: true
   {{ end }}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;using-site-config-parameters:78fdbb4200695675c39409b56cc3bd75&#34;&gt;Using Site (config) Parameters&lt;/h2&gt;
+&lt;h2 id=&#34;using-site-config-parameters:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Using Site (config) Parameters&lt;/h2&gt;
 
 &lt;p&gt;In your top-level configuration file (eg, &lt;code&gt;config.yaml&lt;/code&gt;) you can define site
 parameters, which are values which will be available to you in chrome.&lt;/p&gt;
