@@ -1,0 +1,299 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> Too many open files 的解决方法 &middot; Alimy </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.ico">
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js">
+    </script>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/" title="link to homepage for Alimy"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/"  title="link to homepage for Alimy">Alimy</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me#blog" title="link to Alimy blog" class="blog-button">Blog</a> </li>
+                            </br>  </ul>
+                    </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation">   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="alimy on github"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/" title="link to homepage for Alimy"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/"  title="link to homepage for Alimy">Alimy</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/#blog" title="link to Alimy blog" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation">   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="alimy on github"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post">
+          <h1>Too many open files 的解决方法</h1>
+          <span class="post-date">Tue, Jan 12, 2016</span>
+          
+
+<h2 id="由来:24c92de71c82cd5c5c09db7aef53b004">&gt;由来</h2>
+
+<p>gogs 打开一个android app库的资源文件夹(<a href="http://gogs.me/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi">http://gogs.me/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi</a>)
+返回 500</p>
+
+<h2 id="源头:24c92de71c82cd5c5c09db7aef53b004">&gt;源头</h2>
+
+<pre><code>[git@linux gogs]$ ./gogs web
+2016/01/12 15:35:31 [T] Custom path: /home/git/opt/gogs/custom
+2016/01/12 15:35:31 [T] Log path: /home/git/opt/gogs/log
+2016/01/12 15:35:31 [I] Gogs 0.8.19.0111
+2016/01/12 15:35:31 [I] Log Mode: File(Info)
+2016/01/12 15:35:31 [I] Cache Service Enabled
+2016/01/12 15:35:31 [I] Session Service Enabled
+2016/01/12 15:35:31 [I] Git Version: 2.5.0
+2016/01/12 15:35:31 [I] SQLite3 Supported
+2016/01/12 15:35:31 [I] Run Mode: Production
+2016/01/12 15:35:31 [T] Doing: CheckRepoStats
+2016/01/12 15:35:31 [I] Listen: http://0.0.0.0:2048
+[Macaron] Started GET /coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi for 127.0.0.1
+2016/01/12 15:35:36 [D] Session ID: bd615aa3d0616740
+2016/01/12 15:35:36 [D] CSRF Token: Ff7aL72oaVjpxMgcOS0fqcVokWE6MTQ1MjU2NzkxMjM0NTE3Njg2MA==
+2016/01/12 15:35:37 [...routers/repo/view.go:134 Home()] [E] GetCommitsInfo: GetCommitByPath (app/src/main/res/drawable-xxhdpi//ic_location_list_check.png): pipe2: too many open files
+
+</code></pre>
+
+<p>&bull; 原来是<code>pipe2: too many open files</code></p>
+
+<h2 id="ulimit:24c92de71c82cd5c5c09db7aef53b004">&gt;ulimit</h2>
+
+<pre><code>[git@linux gogs]# ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 31850
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 4096
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 8182
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+</code></pre>
+
+<p>&bull; 嗯，(open files)=4096，那也不小啊，gogs君，这是Bug吗？好吧，我改&hellip;</p>
+
+<h2 id="解决方案:24c92de71c82cd5c5c09db7aef53b004">&gt;解决方案</h2>
+
+<pre><code>[root@linux gogs]# ulimit -n 32768
+
+[root@linux gogs]# ulimit -u 32768
+
+[root@linux gogs]# ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 31850
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 32768
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 32768
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+</code></pre>
+
+<h2 id="终极方案:24c92de71c82cd5c5c09db7aef53b004">&gt;终极方案</h2>
+
+<pre><code>[root@linux gogs]# cat /etc/security/limits.conf
+# /etc/security/limits.conf
+#
+#This file sets the resource limits for the users logged in via PAM.
+#It does not affect resource limits of the system services.
+#
+#Also note that configuration files in /etc/security/limits.d directory,
+#which are read in alphabetical order, override the settings in this
+#file in case the domain is the same or more specific.
+#That means for example that setting a limit for wildcard domain here
+#can be overriden with a wildcard setting in a config file in the
+#subdirectory, but a user specific setting here can be overriden only
+#with a user specific setting in the subdirectory.
+#
+#Each line describes a limit for a user in the form:
+#
+#&lt;domain&gt;        &lt;type&gt;  &lt;item&gt;  &lt;value&gt;
+#
+#Where:
+#&lt;domain&gt; can be:
+#        - a user name
+#        - a group name, with @group syntax
+#        - the wildcard *, for default entry
+#        - the wildcard %, can be also used with %group syntax,
+#                 for maxlogin limit
+#
+#&lt;type&gt; can have the two values:
+#        - &quot;soft&quot; for enforcing the soft limits
+#        - &quot;hard&quot; for enforcing hard limits
+#
+#&lt;item&gt; can be one of the following:
+#        - core - limits the core file size (KB)
+#        - data - max data size (KB)
+#        - fsize - maximum filesize (KB)
+#        - memlock - max locked-in-memory address space (KB)
+#        - nofile - max number of open file descriptors
+#        - rss - max resident set size (KB)
+#        - stack - max stack size (KB)
+#        - cpu - max CPU time (MIN)
+#        - nproc - max number of processes
+#        - as - address space limit (KB)
+#        - maxlogins - max number of logins for this user
+#        - maxsyslogins - max number of logins on the system
+#        - priority - the priority to run user process with
+#        - locks - max number of file locks the user can hold
+#        - sigpending - max number of pending signals
+#        - msgqueue - max memory used by POSIX message queues (bytes)
+#        - nice - max nice priority allowed to raise to values: [-20, 19]
+#        - rtprio - max realtime priority
+#
+#&lt;domain&gt;      &lt;type&gt;  &lt;item&gt;         &lt;value&gt;
+#
+
+#*               soft    core            0
+#*               hard    rss             10000
+#@student        hard    nproc           20
+#@faculty        soft    nproc           20
+#@faculty        hard    nproc           50
+#ftp             hard    nproc           0
+#@student        -       maxlogins       4
+
+# End of file
+</code></pre>
+
+<p>&bull; 编辑这个配置文件修改limits</p>
+
+<pre><code>[root@linux gogs]# vi /etc/security/limits.conf
+
+[root@linux gogs]# cat /etc/security/limits.conf
+# /etc/security/limits.conf
+#
+#&lt;domain&gt;      &lt;type&gt;  &lt;item&gt;         &lt;value&gt;
+*   soft    nproc   32768
+*   hard    nproc   65536
+*   soft    nofile  32768
+*   hard    nofile  65536
+# End of file
+</code></pre>
+
+<p>&bull; 系统重启后生效。</p>
+
+<h2 id="limits-conf的工作原理:24c92de71c82cd5c5c09db7aef53b004">&gt;limits.conf的工作原理</h2>
+
+<ul>
+<li>limits.conf是pam_limits.so的配置文件</li>
+<li>/etc/pam.d/下的应用程序调用pam_***.so模块</li>
+<li>当用户访问服务器，服务程序将请求发送到PAM模块，PAM模块根据服务名称在/etc/pam.d
+目录下选择一个对应的服务文件，然后根据服务文件的内容选择具体的PAM模块进行处理。</li>
+<li>例：限制admin用户登录到sshd的服务不能超过2个
+在/etc/pam.d/sshd 中添加 session required pam_limits.so
+在/etc/security/limits.conf中添加 admin - maxlogins 2</li>
+<li>查看应用程序能否被PAM支持，用ldd</li>
+</ul>
+
+<h2 id="limits-conf文件中的参数配置方式:24c92de71c82cd5c5c09db7aef53b004">&gt;limits.conf文件中的参数配置方式</h2>
+
+<ul>
+<li>暂时地，登录 shell 会话期间使用ulimit 命令配置</li>
+<li>永久地，通过将一个相应的 ulimit 语句添加到由登录 shell 读取的文件之一
+（例如 ~/.profile 或者 ~/.bashrc），即特定于 shell 的用户资源文件；
+或者通过编辑 /etc/security/limits.conf.</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</html>

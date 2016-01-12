@@ -7,7 +7,198 @@
     
     
     <copyright>Copyright (c) 20015 - 2016, Alimy; all rights reserved.</copyright>
-    <updated>Sun, 03 Jan 2016 00:00:00 UTC</updated>
+    <updated>Tue, 12 Jan 2016 00:00:00 UTC</updated>
+    
+    <item>
+      <title>Too many open files 的解决方法</title>
+      <link>http://alimy.me/post/dev_201601121531/</link>
+      <pubDate>Tue, 12 Jan 2016 00:00:00 UTC</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201601121531/</guid>
+      <description>
+
+&lt;h2 id=&#34;由来:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;由来&lt;/h2&gt;
+
+&lt;p&gt;gogs 打开一个android app库的资源文件夹(&lt;a href=&#34;http://gogs.me/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi&#34;&gt;http://gogs.me/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi&lt;/a&gt;)
+返回 500&lt;/p&gt;
+
+&lt;h2 id=&#34;源头:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;源头&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;[git@linux gogs]$ ./gogs web
+2016/01/12 15:35:31 [T] Custom path: /home/git/opt/gogs/custom
+2016/01/12 15:35:31 [T] Log path: /home/git/opt/gogs/log
+2016/01/12 15:35:31 [I] Gogs 0.8.19.0111
+2016/01/12 15:35:31 [I] Log Mode: File(Info)
+2016/01/12 15:35:31 [I] Cache Service Enabled
+2016/01/12 15:35:31 [I] Session Service Enabled
+2016/01/12 15:35:31 [I] Git Version: 2.5.0
+2016/01/12 15:35:31 [I] SQLite3 Supported
+2016/01/12 15:35:31 [I] Run Mode: Production
+2016/01/12 15:35:31 [T] Doing: CheckRepoStats
+2016/01/12 15:35:31 [I] Listen: http://0.0.0.0:2048
+[Macaron] Started GET /coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi for 127.0.0.1
+2016/01/12 15:35:36 [D] Session ID: bd615aa3d0616740
+2016/01/12 15:35:36 [D] CSRF Token: Ff7aL72oaVjpxMgcOS0fqcVokWE6MTQ1MjU2NzkxMjM0NTE3Njg2MA==
+2016/01/12 15:35:37 [...routers/repo/view.go:134 Home()] [E] GetCommitsInfo: GetCommitByPath (app/src/main/res/drawable-xxhdpi//ic_location_list_check.png): pipe2: too many open files
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;bull; 原来是&lt;code&gt;pipe2: too many open files&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ulimit:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;ulimit&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;[git@linux gogs]# ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 31850
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 4096
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 8182
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;bull; 嗯，(open files)=4096，那也不小啊，gogs君，这是Bug吗？好吧，我改&amp;hellip;&lt;/p&gt;
+
+&lt;h2 id=&#34;解决方案:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;解决方案&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@linux gogs]# ulimit -n 32768
+
+[root@linux gogs]# ulimit -u 32768
+
+[root@linux gogs]# ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 31850
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 32768
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 32768
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;终极方案:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;终极方案&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@linux gogs]# cat /etc/security/limits.conf
+# /etc/security/limits.conf
+#
+#This file sets the resource limits for the users logged in via PAM.
+#It does not affect resource limits of the system services.
+#
+#Also note that configuration files in /etc/security/limits.d directory,
+#which are read in alphabetical order, override the settings in this
+#file in case the domain is the same or more specific.
+#That means for example that setting a limit for wildcard domain here
+#can be overriden with a wildcard setting in a config file in the
+#subdirectory, but a user specific setting here can be overriden only
+#with a user specific setting in the subdirectory.
+#
+#Each line describes a limit for a user in the form:
+#
+#&amp;lt;domain&amp;gt;        &amp;lt;type&amp;gt;  &amp;lt;item&amp;gt;  &amp;lt;value&amp;gt;
+#
+#Where:
+#&amp;lt;domain&amp;gt; can be:
+#        - a user name
+#        - a group name, with @group syntax
+#        - the wildcard *, for default entry
+#        - the wildcard %, can be also used with %group syntax,
+#                 for maxlogin limit
+#
+#&amp;lt;type&amp;gt; can have the two values:
+#        - &amp;quot;soft&amp;quot; for enforcing the soft limits
+#        - &amp;quot;hard&amp;quot; for enforcing hard limits
+#
+#&amp;lt;item&amp;gt; can be one of the following:
+#        - core - limits the core file size (KB)
+#        - data - max data size (KB)
+#        - fsize - maximum filesize (KB)
+#        - memlock - max locked-in-memory address space (KB)
+#        - nofile - max number of open file descriptors
+#        - rss - max resident set size (KB)
+#        - stack - max stack size (KB)
+#        - cpu - max CPU time (MIN)
+#        - nproc - max number of processes
+#        - as - address space limit (KB)
+#        - maxlogins - max number of logins for this user
+#        - maxsyslogins - max number of logins on the system
+#        - priority - the priority to run user process with
+#        - locks - max number of file locks the user can hold
+#        - sigpending - max number of pending signals
+#        - msgqueue - max memory used by POSIX message queues (bytes)
+#        - nice - max nice priority allowed to raise to values: [-20, 19]
+#        - rtprio - max realtime priority
+#
+#&amp;lt;domain&amp;gt;      &amp;lt;type&amp;gt;  &amp;lt;item&amp;gt;         &amp;lt;value&amp;gt;
+#
+
+#*               soft    core            0
+#*               hard    rss             10000
+#@student        hard    nproc           20
+#@faculty        soft    nproc           20
+#@faculty        hard    nproc           50
+#ftp             hard    nproc           0
+#@student        -       maxlogins       4
+
+# End of file
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;bull; 编辑这个配置文件修改limits&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@linux gogs]# vi /etc/security/limits.conf
+
+[root@linux gogs]# cat /etc/security/limits.conf
+# /etc/security/limits.conf
+#
+#&amp;lt;domain&amp;gt;      &amp;lt;type&amp;gt;  &amp;lt;item&amp;gt;         &amp;lt;value&amp;gt;
+*   soft    nproc   32768
+*   hard    nproc   65536
+*   soft    nofile  32768
+*   hard    nofile  65536
+# End of file
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;bull; 系统重启后生效。&lt;/p&gt;
+
+&lt;h2 id=&#34;limits-conf的工作原理:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;limits.conf的工作原理&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;limits.conf是pam_limits.so的配置文件&lt;/li&gt;
+&lt;li&gt;/etc/pam.d/下的应用程序调用pam_***.so模块&lt;/li&gt;
+&lt;li&gt;当用户访问服务器，服务程序将请求发送到PAM模块，PAM模块根据服务名称在/etc/pam.d
+目录下选择一个对应的服务文件，然后根据服务文件的内容选择具体的PAM模块进行处理。&lt;/li&gt;
+&lt;li&gt;例：限制admin用户登录到sshd的服务不能超过2个
+在/etc/pam.d/sshd 中添加 session required pam_limits.so
+在/etc/security/limits.conf中添加 admin - maxlogins 2&lt;/li&gt;
+&lt;li&gt;查看应用程序能否被PAM支持，用ldd&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;limits-conf文件中的参数配置方式:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;limits.conf文件中的参数配置方式&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;暂时地，登录 shell 会话期间使用ulimit 命令配置&lt;/li&gt;
+&lt;li&gt;永久地，通过将一个相应的 ulimit 语句添加到由登录 shell 读取的文件之一
+（例如 ~/.profile 或者 ~/.bashrc），即特定于 shell 的用户资源文件；
+或者通过编辑 /etc/security/limits.conf.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>关于TOML</title>

@@ -7,7 +7,198 @@
     
     
     <copyright>Copyright (c) 20015 - 2016, Alimy; all rights reserved.</copyright>
-    <updated>Sun, 10 Jan 2016 00:00:00 UTC</updated>
+    <updated>Tue, 12 Jan 2016 00:00:00 UTC</updated>
+    
+    <item>
+      <title>Too many open files 的解决方法</title>
+      <link>http://alimy.me/post/dev_201601121531/</link>
+      <pubDate>Tue, 12 Jan 2016 00:00:00 UTC</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201601121531/</guid>
+      <description>
+
+&lt;h2 id=&#34;由来:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;由来&lt;/h2&gt;
+
+&lt;p&gt;gogs 打开一个android app库的资源文件夹(&lt;a href=&#34;http://gogs.me/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi&#34;&gt;http://gogs.me/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi&lt;/a&gt;)
+返回 500&lt;/p&gt;
+
+&lt;h2 id=&#34;源头:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;源头&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;[git@linux gogs]$ ./gogs web
+2016/01/12 15:35:31 [T] Custom path: /home/git/opt/gogs/custom
+2016/01/12 15:35:31 [T] Log path: /home/git/opt/gogs/log
+2016/01/12 15:35:31 [I] Gogs 0.8.19.0111
+2016/01/12 15:35:31 [I] Log Mode: File(Info)
+2016/01/12 15:35:31 [I] Cache Service Enabled
+2016/01/12 15:35:31 [I] Session Service Enabled
+2016/01/12 15:35:31 [I] Git Version: 2.5.0
+2016/01/12 15:35:31 [I] SQLite3 Supported
+2016/01/12 15:35:31 [I] Run Mode: Production
+2016/01/12 15:35:31 [T] Doing: CheckRepoStats
+2016/01/12 15:35:31 [I] Listen: http://0.0.0.0:2048
+[Macaron] Started GET /coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi for 127.0.0.1
+2016/01/12 15:35:36 [D] Session ID: bd615aa3d0616740
+2016/01/12 15:35:36 [D] CSRF Token: Ff7aL72oaVjpxMgcOS0fqcVokWE6MTQ1MjU2NzkxMjM0NTE3Njg2MA==
+2016/01/12 15:35:37 [...routers/repo/view.go:134 Home()] [E] GetCommitsInfo: GetCommitByPath (app/src/main/res/drawable-xxhdpi//ic_location_list_check.png): pipe2: too many open files
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;bull; 原来是&lt;code&gt;pipe2: too many open files&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ulimit:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;ulimit&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;[git@linux gogs]# ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 31850
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 4096
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 8182
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;bull; 嗯，(open files)=4096，那也不小啊，gogs君，这是Bug吗？好吧，我改&amp;hellip;&lt;/p&gt;
+
+&lt;h2 id=&#34;解决方案:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;解决方案&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@linux gogs]# ulimit -n 32768
+
+[root@linux gogs]# ulimit -u 32768
+
+[root@linux gogs]# ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 31850
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 32768
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 32768
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;终极方案:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;终极方案&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@linux gogs]# cat /etc/security/limits.conf
+# /etc/security/limits.conf
+#
+#This file sets the resource limits for the users logged in via PAM.
+#It does not affect resource limits of the system services.
+#
+#Also note that configuration files in /etc/security/limits.d directory,
+#which are read in alphabetical order, override the settings in this
+#file in case the domain is the same or more specific.
+#That means for example that setting a limit for wildcard domain here
+#can be overriden with a wildcard setting in a config file in the
+#subdirectory, but a user specific setting here can be overriden only
+#with a user specific setting in the subdirectory.
+#
+#Each line describes a limit for a user in the form:
+#
+#&amp;lt;domain&amp;gt;        &amp;lt;type&amp;gt;  &amp;lt;item&amp;gt;  &amp;lt;value&amp;gt;
+#
+#Where:
+#&amp;lt;domain&amp;gt; can be:
+#        - a user name
+#        - a group name, with @group syntax
+#        - the wildcard *, for default entry
+#        - the wildcard %, can be also used with %group syntax,
+#                 for maxlogin limit
+#
+#&amp;lt;type&amp;gt; can have the two values:
+#        - &amp;quot;soft&amp;quot; for enforcing the soft limits
+#        - &amp;quot;hard&amp;quot; for enforcing hard limits
+#
+#&amp;lt;item&amp;gt; can be one of the following:
+#        - core - limits the core file size (KB)
+#        - data - max data size (KB)
+#        - fsize - maximum filesize (KB)
+#        - memlock - max locked-in-memory address space (KB)
+#        - nofile - max number of open file descriptors
+#        - rss - max resident set size (KB)
+#        - stack - max stack size (KB)
+#        - cpu - max CPU time (MIN)
+#        - nproc - max number of processes
+#        - as - address space limit (KB)
+#        - maxlogins - max number of logins for this user
+#        - maxsyslogins - max number of logins on the system
+#        - priority - the priority to run user process with
+#        - locks - max number of file locks the user can hold
+#        - sigpending - max number of pending signals
+#        - msgqueue - max memory used by POSIX message queues (bytes)
+#        - nice - max nice priority allowed to raise to values: [-20, 19]
+#        - rtprio - max realtime priority
+#
+#&amp;lt;domain&amp;gt;      &amp;lt;type&amp;gt;  &amp;lt;item&amp;gt;         &amp;lt;value&amp;gt;
+#
+
+#*               soft    core            0
+#*               hard    rss             10000
+#@student        hard    nproc           20
+#@faculty        soft    nproc           20
+#@faculty        hard    nproc           50
+#ftp             hard    nproc           0
+#@student        -       maxlogins       4
+
+# End of file
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;bull; 编辑这个配置文件修改limits&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@linux gogs]# vi /etc/security/limits.conf
+
+[root@linux gogs]# cat /etc/security/limits.conf
+# /etc/security/limits.conf
+#
+#&amp;lt;domain&amp;gt;      &amp;lt;type&amp;gt;  &amp;lt;item&amp;gt;         &amp;lt;value&amp;gt;
+*   soft    nproc   32768
+*   hard    nproc   65536
+*   soft    nofile  32768
+*   hard    nofile  65536
+# End of file
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;bull; 系统重启后生效。&lt;/p&gt;
+
+&lt;h2 id=&#34;limits-conf的工作原理:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;limits.conf的工作原理&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;limits.conf是pam_limits.so的配置文件&lt;/li&gt;
+&lt;li&gt;/etc/pam.d/下的应用程序调用pam_***.so模块&lt;/li&gt;
+&lt;li&gt;当用户访问服务器，服务程序将请求发送到PAM模块，PAM模块根据服务名称在/etc/pam.d
+目录下选择一个对应的服务文件，然后根据服务文件的内容选择具体的PAM模块进行处理。&lt;/li&gt;
+&lt;li&gt;例：限制admin用户登录到sshd的服务不能超过2个
+在/etc/pam.d/sshd 中添加 session required pam_limits.so
+在/etc/security/limits.conf中添加 admin - maxlogins 2&lt;/li&gt;
+&lt;li&gt;查看应用程序能否被PAM支持，用ldd&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;limits-conf文件中的参数配置方式:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;limits.conf文件中的参数配置方式&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;暂时地，登录 shell 会话期间使用ulimit 命令配置&lt;/li&gt;
+&lt;li&gt;永久地，通过将一个相应的 ulimit 语句添加到由登录 shell 读取的文件之一
+（例如 ~/.profile 或者 ~/.bashrc），即特定于 shell 的用户资源文件；
+或者通过编辑 /etc/security/limits.conf.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>咏春</title>
@@ -2645,183 +2836,6 @@ $ vi themes/zafta/layouts/_default/single.html
 &lt;h3 id=&#34;don-t-repeat-yourself:be6ca92dbcba53408e93bcd531f7c334&#34;&gt;Don&amp;rsquo;t Repeat Yourself&lt;/h3&gt;
 
 &lt;p&gt;DRY is a good design goal and Hugo does a great job supporting it. Part of the art of a good template is knowing when to add a new template and when to update an existing one. While you&amp;rsquo;re figuring that out, accept that you&amp;rsquo;ll be doing some refactoring. Hugo makes that easy and fast, so it&amp;rsquo;s okay to delay splitting up a template.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Migrate to Hugo from Jekyll</title>
-      <link>http://alimy.me/post/etc_201403101221/</link>
-      <pubDate>Mon, 10 Mar 2014 00:00:00 UTC</pubDate>
-      
-      <guid>http://alimy.me/post/etc_201403101221/</guid>
-      <description>
-
-&lt;h2 id=&#34;move-static-content-to-static:3c833d6678d931e88fcb352a04c06960&#34;&gt;Move static content to &lt;code&gt;static&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;Jekyll has a rule that any directory not starting with &lt;code&gt;_&lt;/code&gt; will be copied as-is to the &lt;code&gt;_site&lt;/code&gt; output. Hugo keeps all static content under &lt;code&gt;static&lt;/code&gt;. You should therefore move it all there.
-With Jekyll, something that looked like&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;▾ &amp;lt;root&amp;gt;/
-    ▾ images/
-        logo.png
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;should become&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;▾ &amp;lt;root&amp;gt;/
-    ▾ static/
-        ▾ images/
-            logo.png
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Additionally, you&amp;rsquo;ll want any files that should reside at the root (such as &lt;code&gt;CNAME&lt;/code&gt;) to be moved to &lt;code&gt;static&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;create-your-hugo-configuration-file:3c833d6678d931e88fcb352a04c06960&#34;&gt;Create your Hugo configuration file&lt;/h2&gt;
-
-&lt;p&gt;Hugo can read your configuration as JSON, YAML or TOML. Hugo supports parameters custom configuration too. Refer to the &lt;a href=&#34;http://alimy.me/overview/configuration/&#34;&gt;Hugo configuration documentation&lt;/a&gt; for details.&lt;/p&gt;
-
-&lt;h2 id=&#34;set-your-configuration-publish-folder-to-site:3c833d6678d931e88fcb352a04c06960&#34;&gt;Set your configuration publish folder to &lt;code&gt;_site&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;The default is for Jekyll to publish to &lt;code&gt;_site&lt;/code&gt; and for Hugo to publish to &lt;code&gt;public&lt;/code&gt;. If, like me, you have &lt;a href=&#34;http://blog.blindgaenger.net/generate_github_pages_in_a_submodule.html&#34;&gt;&lt;code&gt;_site&lt;/code&gt; mapped to a git submodule on the &lt;code&gt;gh-pages&lt;/code&gt; branch&lt;/a&gt;, you&amp;rsquo;ll want to do one of two alternatives:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Change your submodule to point to map &lt;code&gt;gh-pages&lt;/code&gt; to public instead of &lt;code&gt;_site&lt;/code&gt; (recommended).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;git submodule deinit _site
-git rm _site
-git submodule add -b gh-pages git@github.com:your-username/your-repo.git public
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Or, change the Hugo configuration to use &lt;code&gt;_site&lt;/code&gt; instead of &lt;code&gt;public&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{
-    ..
-    &amp;quot;publishdir&amp;quot;: &amp;quot;_site&amp;quot;,
-    ..
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&#34;convert-jekyll-templates-to-hugo-templates:3c833d6678d931e88fcb352a04c06960&#34;&gt;Convert Jekyll templates to Hugo templates&lt;/h2&gt;
-
-&lt;p&gt;That&amp;rsquo;s the bulk of the work right here. The documentation is your friend. You should refer to &lt;a href=&#34;http://jekyllrb.com/docs/templates/&#34;&gt;Jekyll&amp;rsquo;s template documentation&lt;/a&gt; if you need to refresh your memory on how you built your blog and &lt;a href=&#34;http://alimy.me/layout/templates/&#34;&gt;Hugo&amp;rsquo;s template&lt;/a&gt; to learn Hugo&amp;rsquo;s way.&lt;/p&gt;
-
-&lt;p&gt;As a single reference data point, converting my templates for &lt;a href=&#34;http://heyitsalex.net/&#34;&gt;heyitsalex.net&lt;/a&gt; took me no more than a few hours.&lt;/p&gt;
-
-&lt;h2 id=&#34;convert-jekyll-plugins-to-hugo-shortcodes:3c833d6678d931e88fcb352a04c06960&#34;&gt;Convert Jekyll plugins to Hugo shortcodes&lt;/h2&gt;
-
-&lt;p&gt;Jekyll has &lt;a href=&#34;http://jekyllrb.com/docs/plugins/&#34;&gt;plugins&lt;/a&gt;; Hugo has &lt;a href=&#34;http://alimy.me/doc/shortcodes/&#34;&gt;shortcodes&lt;/a&gt;. It&amp;rsquo;s fairly trivial to do a port.&lt;/p&gt;
-
-&lt;h3 id=&#34;implementation:3c833d6678d931e88fcb352a04c06960&#34;&gt;Implementation&lt;/h3&gt;
-
-&lt;p&gt;As an example, I was using a custom &lt;a href=&#34;https://github.com/alexandre-normand/alexandre-normand/blob/74bb12036a71334fdb7dba84e073382fc06908ec/_plugins/image_tag.rb&#34;&gt;&lt;code&gt;image_tag&lt;/code&gt;&lt;/a&gt; plugin to generate figures with caption when running Jekyll. As I read about shortcodes, I found Hugo had a nice built-in shortcode that does exactly the same thing.&lt;/p&gt;
-
-&lt;p&gt;Jekyll&amp;rsquo;s plugin:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;module Jekyll
-  class ImageTag &amp;lt; Liquid::Tag
-    @url = nil
-    @caption = nil
-    @class = nil
-    @link = nil
-    // Patterns
-    IMAGE_URL_WITH_CLASS_AND_CAPTION =
-    IMAGE_URL_WITH_CLASS_AND_CAPTION_AND_LINK = /(\w+)(\s+)((https?:\/\/|\/)(\S+))(\s+)&amp;quot;(.*?)&amp;quot;(\s+)-&amp;gt;((https?:\/\/|\/)(\S+))(\s*)/i
-    IMAGE_URL_WITH_CAPTION = /((https?:\/\/|\/)(\S+))(\s+)&amp;quot;(.*?)&amp;quot;/i
-    IMAGE_URL_WITH_CLASS = /(\w+)(\s+)((https?:\/\/|\/)(\S+))/i
-    IMAGE_URL = /((https?:\/\/|\/)(\S+))/i
-    def initialize(tag_name, markup, tokens)
-      super
-      if markup =~ IMAGE_URL_WITH_CLASS_AND_CAPTION_AND_LINK
-        @class   = $1
-        @url     = $3
-        @caption = $7
-        @link = $9
-      elsif markup =~ IMAGE_URL_WITH_CLASS_AND_CAPTION
-        @class   = $1
-        @url     = $3
-        @caption = $7
-      elsif markup =~ IMAGE_URL_WITH_CAPTION
-        @url     = $1
-        @caption = $5
-      elsif markup =~ IMAGE_URL_WITH_CLASS
-        @class = $1
-        @url   = $3
-      elsif markup =~ IMAGE_URL
-        @url = $1
-      end
-    end
-    def render(context)
-      if @class
-        source = &amp;quot;&amp;lt;figure class=&#39;#{@class}&#39;&amp;gt;&amp;quot;
-      else
-        source = &amp;quot;&amp;lt;figure&amp;gt;&amp;quot;
-      end
-      if @link
-        source += &amp;quot;&amp;lt;a href=\&amp;quot;#{@link}\&amp;quot;&amp;gt;&amp;quot;
-      end
-      source += &amp;quot;&amp;lt;img src=\&amp;quot;#{@url}\&amp;quot;&amp;gt;&amp;quot;
-      if @link
-        source += &amp;quot;&amp;lt;/a&amp;gt;&amp;quot;
-      end
-      source += &amp;quot;&amp;lt;figcaption&amp;gt;#{@caption}&amp;lt;/figcaption&amp;gt;&amp;quot; if @caption
-      source += &amp;quot;&amp;lt;/figure&amp;gt;&amp;quot;
-      source
-    end
-  end
-end
-Liquid::Template.register_tag(&#39;image&#39;, Jekyll::ImageTag)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;is written as this Hugo shortcode:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;!-- image --&amp;gt;
-&amp;lt;figure {{ with .Get &amp;quot;class&amp;quot; }}class=&amp;quot;{{.}}&amp;quot;{{ end }}&amp;gt;
-    {{ with .Get &amp;quot;link&amp;quot;}}&amp;lt;a href=&amp;quot;{{.}}&amp;quot;&amp;gt;{{ end }}
-        &amp;lt;img src=&amp;quot;{{ .Get &amp;quot;src&amp;quot; }}&amp;quot; {{ if or (.Get &amp;quot;alt&amp;quot;) (.Get &amp;quot;caption&amp;quot;) }}alt=&amp;quot;{{ with .Get &amp;quot;alt&amp;quot;}}{{.}}{{else}}{{ .Get &amp;quot;caption&amp;quot; }}{{ end }}&amp;quot;{{ end }} /&amp;gt;
-    {{ if .Get &amp;quot;link&amp;quot;}}&amp;lt;/a&amp;gt;{{ end }}
-    {{ if or (or (.Get &amp;quot;title&amp;quot;) (.Get &amp;quot;caption&amp;quot;)) (.Get &amp;quot;attr&amp;quot;)}}
-    &amp;lt;figcaption&amp;gt;{{ if isset .Params &amp;quot;title&amp;quot; }}
-        {{ .Get &amp;quot;title&amp;quot; }}{{ end }}
-        {{ if or (.Get &amp;quot;caption&amp;quot;) (.Get &amp;quot;attr&amp;quot;)}}&amp;lt;p&amp;gt;
-        {{ .Get &amp;quot;caption&amp;quot; }}
-        {{ with .Get &amp;quot;attrlink&amp;quot;}}&amp;lt;a href=&amp;quot;{{.}}&amp;quot;&amp;gt; {{ end }}
-            {{ .Get &amp;quot;attr&amp;quot; }}
-        {{ if .Get &amp;quot;attrlink&amp;quot;}}&amp;lt;/a&amp;gt; {{ end }}
-        &amp;lt;/p&amp;gt; {{ end }}
-    &amp;lt;/figcaption&amp;gt;
-    {{ end }}
-&amp;lt;/figure&amp;gt;
-&amp;lt;!-- image --&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;usage:3c833d6678d931e88fcb352a04c06960&#34;&gt;Usage&lt;/h3&gt;
-
-&lt;p&gt;I simply changed:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{% image full http://farm5.staticflickr.com/4136/4829260124_57712e570a_o_d.jpg &amp;quot;One of my favorite touristy-type photos. I secretly waited for the good light while we were &amp;quot;having fun&amp;quot; and took this. Only regret: a stupid pole in the top-left corner of the frame I had to clumsily get rid of at post-processing.&amp;quot; -&amp;gt;http://www.flickr.com/photos/alexnormand/4829260124/in/set-72157624547713078/ %}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;to this (this example uses a slightly extended version named &lt;code&gt;fig&lt;/code&gt;, different than the built-in &lt;code&gt;figure&lt;/code&gt;):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{% fig class=&amp;quot;full&amp;quot; src=&amp;quot;http://farm5.staticflickr.com/4136/4829260124_57712e570a_o_d.jpg&amp;quot; title=&amp;quot;One of my favorite touristy-type photos. I secretly waited for the good light while we were having fun and took this. Only regret: a stupid pole in the top-left corner of the frame I had to clumsily get rid of at post-processing.&amp;quot; link=&amp;quot;http://www.flickr.com/photos/alexnormand/4829260124/in/set-72157624547713078/&amp;quot; %}}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;As a bonus, the shortcode named parameters are, arguably, more readable.&lt;/p&gt;
-
-&lt;h2 id=&#34;finishing-touches:3c833d6678d931e88fcb352a04c06960&#34;&gt;Finishing touches&lt;/h2&gt;
-
-&lt;h3 id=&#34;fix-content:3c833d6678d931e88fcb352a04c06960&#34;&gt;Fix content&lt;/h3&gt;
-
-&lt;p&gt;Depending on the amount of customization that was done with each post with Jekyll, this step will require more or less effort. There are no hard and fast rules here except that &lt;code&gt;hugo server --watch&lt;/code&gt; is your friend. Test your changes and fix errors as needed.&lt;/p&gt;
-
-&lt;h3 id=&#34;clean-up:3c833d6678d931e88fcb352a04c06960&#34;&gt;Clean up&lt;/h3&gt;
-
-&lt;p&gt;You&amp;rsquo;ll want to remove the Jekyll configuration at this point. If you have anything else that isn&amp;rsquo;t used, delete it.&lt;/p&gt;
-
-&lt;h2 id=&#34;a-practical-example-in-a-diff:3c833d6678d931e88fcb352a04c06960&#34;&gt;A practical example in a diff&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://heyitsalex.net/&#34;&gt;Hey, it&amp;rsquo;s Alex&lt;/a&gt; was migrated in less than a &lt;em&gt;father-with-kids day&lt;/em&gt; from Jekyll to Hugo. You can see all the changes (and screw-ups) by looking at this &lt;a href=&#34;https://github.com/alexandre-normand/alexandre-normand/compare/869d69435bd2665c3fbf5b5c78d4c22759d7613a...b7f6605b1265e83b4b81495423294208cc74d610&#34;&gt;diff&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
