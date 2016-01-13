@@ -22,7 +22,7 @@ distclean: clean
 	$(RM) $(Cache_Path)
 
 serve:
-	hugo serve || true
+	hugo serve -w || true
 
 test:
 	caddy -root master
