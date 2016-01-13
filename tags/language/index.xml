@@ -7,7 +7,205 @@
     
     
     <copyright>Copyright (c) 20015 - 2016, Alimy; all rights reserved.</copyright>
-    <updated>Tue, 12 Jan 2016 00:00:00 UTC</updated>
+    <updated>Wed, 13 Jan 2016 00:00:00 UTC</updated>
+    
+    <item>
+      <title>Markdown</title>
+      <link>http://alimy.me/post/dev_201601131558/</link>
+      <pubDate>Wed, 13 Jan 2016 00:00:00 UTC</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201601131558/</guid>
+      <description>
+
+&lt;h3 id=&#34;bull-what-is-markdown:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;&amp;bull; What is Markdown?&lt;/h3&gt;
+
+&lt;p&gt;Markdown is a way to style text on the web. You control the display of the
+document; formatting words as bold or italic, adding images, and creating lists
+are just a few of the things we can do with Markdown. Mostly, Markdown is just
+regular text with a few non-alphabetic characters thrown in, like # or *.&lt;br /&gt;
+&lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34; title=&#34;Daring FireBall: Home&#34;&gt;[Markdown Reference]&lt;/a&gt; &lt;a href=&#34;https://guides.github.com/features/mastering-markdown/&#34; title=&#34;GitHub&#39;s Mastering Markdown&#34;&gt;[Mastering Markdown]&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;bull-syntax-cheatsheet:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;&amp;bull; Syntax Cheatsheet:&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Phrase Emphasis&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt; *italic*   **bold**
+ _italic_   __bold__
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;italic&lt;/em&gt;   &lt;strong&gt;bold&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;italic&lt;/em&gt;   &lt;strong&gt;bold&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Links-Inline(titles are optional)&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;An [example](http://url.com/ &amp;quot;Title&amp;quot;)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;An &lt;a href=&#34;http://url.com/&#34; title=&#34;Title&#34;&gt;example&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Links-Reference-style labels(titles are optional)&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;[example][id] reference-style link.
+[example] [id] reference-style link.
+[example][] reference-style link.
+
+[id]: http://example.com/ &amp;quot;Optional Title Here&amp;quot;
+[id]: http://example.com/ &#39;Option Tile Here&#39;
+[id]: http://example.com/ (Option Tile Here)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;reference-style link: &lt;a href=&#34;https://github.com/alimy&#34; title=&#34;alimy&#39;s github&#34;&gt;GitHub&lt;/a&gt; &lt;a href=&#34;https://twitter.com/alimy86&#34; title=&#34;alimy&#39;s twitter&#34;&gt;Twitter&lt;/a&gt; &lt;a href=&#34;http://alimy.me/&#34; title=&#34;alimy&#39;s blog&#34;&gt;Alimy&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Images-Inline(titles are optional)&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;![alt text](/path/img.jpg &amp;quot;Optional Title Here&amp;quot;)&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Images-Reference-style(titles are optional)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;![alt text][id]
+[id]: /url/to/img.jpg &amp;quot;Optional Title Here&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Headers-Setext-style&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Header 1
+========
+Header 2
+--------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;h1 id=&#34;header-1:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 1&lt;/h1&gt;
+
+&lt;h2 id=&#34;header-2:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 2&lt;/h2&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Headers-Atx-style(closing #&amp;rsquo;s are optional)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Header 1 #
+## Header 2 ##
+### Header 3
+#### Header 4
+##### Header 5
+###### Header 6
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;h1 id=&#34;header-1-1:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 1&lt;/h1&gt;
+
+&lt;h2 id=&#34;header-2-1:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 2&lt;/h2&gt;
+
+&lt;h3 id=&#34;header-3:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 3&lt;/h3&gt;
+
+&lt;h4 id=&#34;header-4:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 4&lt;/h4&gt;
+
+&lt;h5 id=&#34;header-5:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 5&lt;/h5&gt;
+
+&lt;h6 id=&#34;header-6:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 6&lt;/h6&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;List-Ordered,without paragraphs&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;gt;   1. first
+  &amp;gt;   2. second
+  &amp;gt;   3. Three
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;List-Unordered,with paragraphs&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;gt;   * A list item.
+  &amp;gt;     with multiple paragraphs
+  &amp;gt;   * Bar
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Blockquotes&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; Email-style angle brackets
+&amp;gt; are used for blockquotes.
+
+
+&amp;gt; &amp;gt; And, they can be nested.
+
+
+&amp;gt; #### Headers in blockquotes
+&amp;gt;
+&amp;gt; * You can quote a list.
+&amp;gt; * Etc.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Preview below:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Email-style angle brackets
+are used for blockquotes.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;And, they can be nested.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&#34;headers-in-blockquotes:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Headers in blockquotes&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You can quote a list.&lt;/li&gt;
+&lt;li&gt;Etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Code Spans&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;`&amp;lt;code&amp;gt;` spans are delimited by backticks.
+You can include literal backticks like `` `this` ``.
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Preformatted Code Blocks
+Indent every line of a code block by at least 4 spaces or 1 tab.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;This is a normal paragraph.
+
+
+  This is a preformatted
+  code block.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Preview below:&lt;/p&gt;
+
+&lt;p&gt;This is a normal paragraph.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;This is a preformatted
+code block.
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Horizontal Rules&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  ---
+  ***
+  * * *
+  - - - -
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Manual Line Breaks&lt;br /&gt;
+end a line with two or more spaces:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;Roses are red,  
+Violets are blue.  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Preview below:&lt;/p&gt;
+
+&lt;p&gt;Roses are red,&lt;br /&gt;
+Violets are blue.&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>Too many open files 的解决方法</title>
