@@ -166,9 +166,16 @@ file locks                      (-x) unlimited
 
 <h2 id="解决方案:24c92de71c82cd5c5c09db7aef53b004">&gt;解决方案</h2>
 
-<pre><code>[root@linux gogs]# ulimit -n 32768
+<pre><code>[root@linux gogs]# cat /proc/sys/fs/file-max
+813396
 
-[root@linux gogs]# ulimit -u 32768
+[root@linux gogs]# ulimit -n 32768
+
+[root@linux gogs]# ulimit -Sn
+32768
+
+[root@linux gogs]# ulimit -Hn
+65536
 
 [root@linux gogs]# ulimit -a
 core file size          (blocks, -c) 0
@@ -293,6 +300,43 @@ file locks                      (-x) unlimited
 （例如 ~/.profile 或者 ~/.bashrc），即特定于 shell 的用户资源文件；
 或者通过编辑 /etc/security/limits.conf.</li>
 </ul>
+
+<h2 id="后记:24c92de71c82cd5c5c09db7aef53b004">&gt;后记</h2>
+
+<ul>
+<li>以上方法并没有完全解决gogs:too many files -&gt; return 500的问题,如果以服务的模式运行
+<code>[root@linux gogs]# systemctl start gogs.service</code>问题依然存在，但是在Shell
+会话中<code>[git@linux gogs]$ ./gogs web</code>就没有问题了。Google了一下还是没有什么好
+的思路，就去github.com/gogits/gogs的Issue中找答案，那里本来就有一个关于too many
+files的讨论。</li>
+<li>原来是sysemd在搞怪。systemd对limits的配置是在相应的服务定义文件中（如gogs的服务定义是在
+/usr/lib/systemd/system/gogs.service），如果需要配置相应的limits，systemd
+提供了对应的<code>directive</code>(eg: <code>LimitNOFILE</code> <code>LimitMEMLOCK</code> &hellip;)，
+systemd忽略通过ulimit配置的limits（是否理会/etc/security/limits.conf中的配置以及如
+何响应就不得而知了，没有深究）对systemd不是特别了解，有时间再深入研究。</li>
+<li>下面是我的gogs.service</li>
+</ul>
+
+<pre><code>[git@linux gogs]$ cat /usr/lib/systemd/system/gogs.service
+[Unit]
+Description=Gogs (Go Git Service)
+After=syslog.target
+After=network.target
+
+[Service]
+LimitMEMLOCK=infinity
+LimitNOFILE=65535
+Type=simple
+User=git
+Group=git
+WorkingDirectory=/home/git/opt/gogs
+ExecStart=/home/git/opt/gogs/gogs web
+Restart=always
+Environment=USER=git HOME=/home/git
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
 
         </div>
       </div>
