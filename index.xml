@@ -7,7 +7,151 @@
     
     
     <copyright>Copyright (c) 20015 - 2016, Alimy; all rights reserved.</copyright>
-    <updated>Wed, 13 Jan 2016 00:00:00 UTC</updated>
+    <updated>Sat, 16 Jan 2016 00:00:00 UTC</updated>
+    
+    <item>
+      <title>DogeOS,SmartOS,illumos</title>
+      <link>http://alimy.me/post/dev_201601161712/</link>
+      <pubDate>Sat, 16 Jan 2016 00:00:00 UTC</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201601161712/</guid>
+      <description>
+
+&lt;h2 id=&#34;dogeos-smartos-illumos-这些都是什么:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;DogeOS, SmartOS, illumos，这些都是什么？&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;都是操作系统&lt;/li&gt;
+&lt;li&gt;都是云计算操作系统&lt;/li&gt;
+&lt;li&gt;都是先进的云计算操作系统&lt;/li&gt;
+&lt;li&gt;都是小众的先进的云计算操作系统&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;del&gt;讲完收工&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;当然不是这么简单 :)&lt;/p&gt;
+
+&lt;p&gt;但是也不希望写的太长。以下就尽量言简意垓的把来龙去脉，历史纠纷，以及革命先进性都说清楚。&lt;/p&gt;
+
+&lt;h2 id=&#34;从illumos开始:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;从illumos开始&lt;/h2&gt;
+
+&lt;p&gt;什么是&lt;a href=&#34;http://www.illumos.org&#34;&gt;illumos&lt;/a&gt;？简单的讲，illumos是OpenSolaris的后续开源项目。万恶的Oracle收购了Sun之后，原有OpenSolaris的开发者基本上都离开了Oracle，组成了illumos社区，继续对OpenSolaris先进的内核进行维护，更新，以及添加nb的新功能。这种事情在Oracle的收购史上似乎一再出现，想想MySQL，OpenOffice，Java，强烈的既视感。&lt;/p&gt;
+
+&lt;p&gt;当然，OpenSolaris不是完蛋了，其实还&lt;a href=&#34;http://solaris.java.net/&#34;&gt;存活着&lt;/a&gt;。不过因为核心开发者的出走，都在illumos那边玩，很多&lt;a href=&#34;http://www.slideshare.net/ahl0003/illumos-innovations-that-will-never-be-in-oracle-solaris&#34;&gt;先进特性&lt;/a&gt;（尤以存储和虚拟化方面为甚）都不再回流。&lt;/p&gt;
+
+&lt;p&gt;illumos继承了所有OpenSolaris的先进特性，例如ZFS，Zone，Crossbow和Dtrace。简单的总结如下&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;ZFS可以说是终极文件系统，提供了卷管理，快照，和所有想得到的nb东西&lt;code&gt;在linux里面，这个功能由
+LVM以及一堆不同的文件系统完成&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Zone是OS Container，即操作系统隔离，或者叫做轻量级虚拟机&lt;code&gt;linux在Zone出现5年之后，也
+模仿开发了LXC功能&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Crossbow是网络虚拟化，说白了就是将网卡硬件和软件设备分离，一块硬件对应好多个软件设备，并且
+提供了nb的虚拟switch支持&lt;code&gt;linux这部分的成果也基本上进入了内核，在几年之后&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Dtrace是系统管理员的终极武器，无痛在线勘察系统瓶颈的手术刀&lt;code&gt;MacOSX借用FreeBSD的成果
+移植了Dtrace，构成了Xcode中nb闪闪的instruments功能（乔老爷子亲自宣布的），linux这边
+限于授权协议问题，则由IBM联合RedHat克隆了一份，名为SystemTap&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;然后，在joyent公司里面&lt;a href=&#34;http://www.slideshare.net/bcantrill/experiences-porting-kvm-to-smartos&#34;&gt;两位神人的努力下&lt;/a&gt;，KVM被移植到了illumos内核上，于是illumos也拥有了通常所说的&lt;a href=&#34;http://en.wikipedia.org/wiki/Hypervisor&#34;&gt;Type 2虚拟化技术&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;于是illumos = ZFS + Zone + Crossbow + Dtrace + KVM。所有云计算的关键服务在这里集合，形成了一个为云计算而生的系统内核。&lt;/p&gt;
+
+&lt;p&gt;但是需要注意的是illumos只是一个内核（正确的说是，内核(OS)加网络层(Network)，即ON）。在geek的手里，它已经完备;放在生产环境，则还欠缺一个包装。&lt;/p&gt;
+
+&lt;h2 id=&#34;然后是smartos:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;然后是SmartOS&lt;/h2&gt;
+
+&lt;p&gt;怎么把illumos包装成通常意义上的OS，这是接下来需要考虑的问题，也是最好的商业化的契机。&lt;/p&gt;
+
+&lt;p&gt;于是就诞生了一批社区和公司围绕着illumos做包装工作，产品谓之发行版。&lt;/p&gt;
+
+&lt;p&gt;第一个明显的方向，即是让GNU工具，也就是通常意义上我们认识的linux部分（Gnome，KDE，X11等等）跑在illumos内核上，组成一个可以天天使用和开发的平台。这方面诞生了&lt;a href=&#34;http://www.openindiana.org&#34;&gt;OpenIndiana&lt;/a&gt;，安装使用这个系统，在感官层次，基本上与linux也区别不大。&lt;/p&gt;
+
+&lt;p&gt;但是illumos的优势毕竟不是在桌面系统，而是在服务器上。所以第二个方向，就是打包成一个可以给数据中心使用的云操作系统。这方面的公司，就有&lt;a href=&#34;http://www.nexenta.com&#34;&gt;nexenta&lt;/a&gt;，&lt;a href=&#34;http://www.delphix.com&#34;&gt;delphix&lt;/a&gt;和&lt;a href=&#34;http://www.joyent.com&#34;&gt;joyent&lt;/a&gt;三家公司。前两者集中火力发挥ZFS存储的威力，对准EMC开炮。joyent则走向了云计算，不仅运营自己的公有云，也提供私有云解决方案。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.smartos.org&#34;&gt;SmartOS&lt;/a&gt;即是joyent在包装illumos方面的答案。joyent将illumos内核和必要的组件和命令行工具，打包成为了一个300MB左右的LiveCD，实现了“启动即拥有云计算能力”这个目标。&lt;/p&gt;
+
+&lt;p&gt;joyent公司其实更加为人熟知的，是其&lt;a href=&#34;http://www.nodejs.org&#34;&gt;nodejs&lt;/a&gt;平台。SmartOS里面的关键命令行工具和组件，都是用nodejs来实现的。用javascript来实现严肃认真的服务器功能，或许这很让人觉得有些不可思议。但是joyent就是这样做的，而且用事实证明，他们干的很不错，实现的效率并不比编译好的二进制程序差。&lt;/p&gt;
+
+&lt;p&gt;因为KVM技术是由joyent第一次整合进入illumos，所以SmartOS理所当然成为第一个能提供KVM服务（即运行CentOS，Ubuntu和Windows）的illumos发行版。鉴于illumos社区的良好风气，&lt;a href=&#34;https://github.com/joyent/illumos-kvm&#34;&gt;KVM on illumos&lt;/a&gt;从一开始就是开源项目，最后也进入illumos内核。&lt;/p&gt;
+
+&lt;p&gt;SmartOS的特点总结如下&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;继承了illumos所有的特点（ZFS + Zone + Crossbow + Dtrace + KVM）&lt;code&gt;linux近年来，在KVM
+和LXC进入内核之后，也逐步具有了以上功能，但是网络虚拟化和Dtrace部分，则始终差一点&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;集成了joyent所开发的vmadm，imgadm等工具软件，使得虚拟化部分具有了可操作性&lt;code&gt;linux系统则是
+由libvirt+一系列小工具来完成这些功能&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;秉承LiveOS的理念，强调无需安装，将几乎全部的服务器资源留给了租户&lt;code&gt;linux方面，这方面的进步则
+不明显，但是有商业公司进行探讨&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;project-fifo:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;Project FiFo&lt;/h2&gt;
+
+&lt;p&gt;SmartOS是纯粹为云计算而生的操作系统，出世之后即引起了群众的注意，开始应用。但是数据中心维护的管理员熟知，安装好方才是梦魇的开始。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;怎么维护系统？&lt;/li&gt;
+&lt;li&gt;怎么管理系统的各项资源？&lt;/li&gt;
+&lt;li&gt;怎么进行日常的操作？&lt;/li&gt;
+&lt;li&gt;怎么监控系统？&lt;/li&gt;
+&lt;li&gt;怎么处理系统的故障？&lt;/li&gt;
+&lt;li&gt;怎么升级系统？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;回答这些问题，方才是系统管理员最终选择一个操作系统的真正考察点。&lt;/p&gt;
+
+&lt;p&gt;SmartOS只可以部分的回答上述问题。&lt;/p&gt;
+
+&lt;p&gt;joyent是一个商业公司，它并没有把所有的东西都放在SmartOS里面让大家免费使用。准确的说，joyent将回答所有上述问题的*能力*，无私的都放在了SmartOS中。但是体现这些能力的*工具*，或者以更为熟知的术语表述，*运维管理系统*，并没有放出来。joyent的运维管理工具，名为SmartDataCenter，是一个商业产品，需要不菲的授权费用才可以使用。&lt;/p&gt;
+
+&lt;p&gt;于是使用SmartOS运营数据中心，就变成如下两种常见的方式：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;强者不需要任何运维工具。因为既然能力都已经具备，那么实际上所有事情都可以通过一些基本管理工具，以及API的调用完成。换言之，强者会开发自己的运维系统。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;不具备开发自己运维系统能力的用户。要么就是小规模的使用SmartOS，生产虚拟机之后，即很长时间不去动弹它（SmartOS的稳定性基本可以保证终身不怎么出问题），要么就是去获取SmartDataCetner的授权。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;em&gt;如果有一个开源的运维管理系统就好了？&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;通常我们都会这么想。&lt;/p&gt;
+
+&lt;p&gt;运维管理系统的开发，理论上来讲，并不是一个很难的事情，只是需要付出大量的时间和开发精力（因此可能illumos内核那帮家伙不屑去做:)）。然而，这套系统又是运维的核心部分，天然的具有巨大的商业价值。因此不排除有些运营SmartOS的商业公司，开发了这套系统，但是并没有将之开源。&lt;/p&gt;
+
+&lt;p&gt;直到&lt;a href=&#34;http://www.project-fifo.net&#34;&gt;Project FiFo&lt;/a&gt;的出现。&lt;/p&gt;
+
+&lt;p&gt;Project FiFo贡献了一套开源SmartOS的运维管理系统，它的开发者主要是德国人&lt;a href=&#34;https://github.com/Licenser&#34;&gt;Heinz N. Gies&lt;/a&gt;。FiFo不仅仅是一套运维系统，实际上它还做了更多，完成了镜像管理，高可用，多数据中心管理等多方面的任务。简言之，Project FiFo解决了前面提出的大多数的问题。&lt;/p&gt;
+
+&lt;p&gt;让我们感谢Heinz先。&lt;/p&gt;
+
+&lt;h2 id=&#34;最后是dogeos:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;最后是DogeOS&lt;/h2&gt;
+
+&lt;p&gt;Project FiFo作为一套运维管理系统，补全了SmartOS，但是它并不是SmartOS的一部分。&lt;/p&gt;
+
+&lt;p&gt;简单的说，用户仍然需要先安装SmartOS，再安装好FiFo。注意，SmartOS理论上是没有安装这种概念的，但是FiFo作为管理系统，显然是需要安装以解决持久化的问题的。&lt;/p&gt;
+
+&lt;p&gt;于是用户再一次可能陷入混乱。&lt;/p&gt;
+
+&lt;p&gt;作为一个SmartOS的爱好者，本来我是准备克隆一套SmartDataCenter来扬名立万的:)，但是发现Heinz把这件事情做的这么好，我就放弃了自己开发，转而投入到*粉*Heinz的事业中去。&lt;/p&gt;
+
+&lt;p&gt;直到我发现了Project FiFo还并不是SmartOS一部分这个问题，便开始解决这个问题。&lt;/p&gt;
+
+&lt;p&gt;我计划将SmartOS拆散重组，整合FiFo进去，形成了一个可能稍微好用一点点的系统。&lt;/p&gt;
+
+&lt;p&gt;这个系统被我叫做&lt;a href=&#34;http://www.dogeos.net&#34;&gt;DogeOS&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;一个理想中的，生来用来管理数据中心的，完备的云计算操作系统，终于可能成为现实。&lt;/p&gt;
+
+&lt;p&gt;这让我为之兴奋不已。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://liyu1981.github.io/dogeos-smartos-illumos/&#34; title=&#34;liyu1981&#39;s page&#34;&gt;【转载自liyu1981】&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Markdown</title>
@@ -1581,352 +1725,6 @@ note the commit SHA1 or version tag that your parser supports in your Readme.&lt
 &lt;p&gt;Have questions or suggestions? Feel free to &lt;a href=&#34;https://github.com/spf13/hugo/issues/new&#34;&gt;open an issue on GitHub&lt;/a&gt; or &lt;a href=&#34;https://twitter.com/spf13&#34;&gt;ask me on Twitter&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Thanks for reading!&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>(Hu)go Template Primer</title>
-      <link>http://alimy.me/post/etc_201404021221/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 UTC</pubDate>
-      
-      <guid>http://alimy.me/post/etc_201404021221/</guid>
-      <description>
-
-&lt;p&gt;Hugo uses the excellent &lt;a href=&#34;http://golang.org/&amp;gt;&#34;&gt;go&lt;/a&gt; &lt;a href=&#34;http://golang.org/pkg/html/template/&amp;gt;&#34;&gt;html/template&lt;/a&gt; library for
-its template engine. It is an extremely lightweight engine that provides a very
-small amount of logic. In our experience that it is just the right amount of
-logic to be able to create a good static website. If you have used other
-template systems from different languages or frameworks you will find a lot of
-similarities in go templates.&lt;/p&gt;
-
-&lt;p&gt;This document is a brief primer on using go templates. The &lt;a href=&#34;http://golang.org/pkg/html/template/&amp;gt;&#34;&gt;go docs&lt;/a&gt;
-provide more details.&lt;/p&gt;
-
-&lt;h2 id=&#34;introduction-to-go-templates:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Introduction to Go Templates&lt;/h2&gt;
-
-&lt;p&gt;Go templates provide an extremely simple template language. It adheres to the
-belief that only the most basic of logic belongs in the template or view layer.
-One consequence of this simplicity is that go templates parse very quickly.&lt;/p&gt;
-
-&lt;p&gt;A unique characteristic of go templates is they are content aware. Variables and
-content will be sanitized depending on the context of where they are used. More
-details can be found in the &lt;a href=&#34;http://golang.org/pkg/html/template/&amp;gt;&#34;&gt;go docs&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;basic-syntax:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Basic Syntax&lt;/h2&gt;
-
-&lt;p&gt;Go lang templates are html files with the addition of variables and
-functions.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Go variables and functions are accessible within {{ }}&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Accessing a predefined variable &amp;ldquo;foo&amp;rdquo;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ foo }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Parameters are separated using spaces&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Calling the add function with input of 1, 2:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ add 1 2 }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Methods and fields are accessed via dot notation&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Accessing the Page Parameter &amp;ldquo;bar&amp;rdquo;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ .Params.bar }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Parentheses can be used to group items together&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ if or (isset .Params &amp;quot;alt&amp;quot;) (isset .Params &amp;quot;caption&amp;quot;) }} Caption {{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;variables:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Variables&lt;/h2&gt;
-
-&lt;p&gt;Each go template has a struct (object) made available to it. In hugo each
-template is passed either a page or a node struct depending on which type of
-page you are rendering. More details are available on the
-&lt;a href=&#34;http://alimy.me/layout/variables&#34;&gt;variables&lt;/a&gt; page.&lt;/p&gt;
-
-&lt;p&gt;A variable is accessed by referencing the variable name.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;title&amp;gt;{{ .Title }}&amp;lt;/title&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Variables can also be defined and referenced.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ $address := &amp;quot;123 Main St.&amp;quot;}}
-{{ $address }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;functions:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Functions&lt;/h2&gt;
-
-&lt;p&gt;Go template ship with a few functions which provide basic functionality. The go
-template system also provides a mechanism for applications to extend the
-available functions with their own. &lt;a href=&#34;http://alimy.me/layout/functions&#34;&gt;Hugo template
-functions&lt;/a&gt; provide some additional functionality we believe
-are useful for building websites. Functions are called by using their name
-followed by the required parameters separated by spaces. Template
-functions cannot be added without recompiling hugo.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ add 1 2 }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;includes:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Includes&lt;/h2&gt;
-
-&lt;p&gt;When including another template you will pass to it the data it will be
-able to access. To pass along the current context please remember to
-include a trailing dot. The templates location will always be starting at
-the /layout/ directory within Hugo.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ template &amp;quot;chrome/header.html&amp;quot; . }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;logic:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Logic&lt;/h2&gt;
-
-&lt;p&gt;Go templates provide the most basic iteration and conditional logic.&lt;/p&gt;
-
-&lt;h3 id=&#34;iteration:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Iteration&lt;/h3&gt;
-
-&lt;p&gt;Just like in go, the go templates make heavy use of range to iterate over
-a map, array or slice. The following are different examples of how to use
-range.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 1: Using Context&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ range array }} 
-    {{ . }}
-{{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 2: Declaring value variable name&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{range $element := array}} 
-    {{ $element }} 
-{{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 2: Declaring key and value variable name&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{range $index, $element := array}}
-    {{ $index }} 
-    {{ $element }} 
-{{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;conditionals:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Conditionals&lt;/h3&gt;
-
-&lt;p&gt;If, else, with, or, &amp;amp; and provide the framework for handling conditional
-logic in Go Templates. Like range, each statement is closed with &lt;code&gt;end&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Go Templates treat the following values as false:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;false&lt;/li&gt;
-&lt;li&gt;0&lt;/li&gt;
-&lt;li&gt;any array, slice, map, or string of length zero&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 1: If&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ if isset .Params &amp;quot;title&amp;quot; }}&amp;lt;h4&amp;gt;{{ index .Params &amp;quot;title&amp;quot; }}&amp;lt;/h4&amp;gt;{{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 2: If -&amp;gt; Else&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ if isset .Params &amp;quot;alt&amp;quot; }} 
-    {{ index .Params &amp;quot;alt&amp;quot; }}
-{{else}}
-    {{ index .Params &amp;quot;caption&amp;quot; }}
-{{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 3: And &amp;amp; Or&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ if and (or (isset .Params &amp;quot;title&amp;quot;) (isset .Params &amp;quot;caption&amp;quot;)) (isset .Params &amp;quot;attr&amp;quot;)}}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 4: With&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;An alternative way of writing &amp;ldquo;if&amp;rdquo; and then referencing the same value
-is to use &amp;ldquo;with&amp;rdquo; instead. With rebinds the context &lt;code&gt;.&lt;/code&gt; within its scope,
-and skips the block if the variable is absent.&lt;/p&gt;
-
-&lt;p&gt;The first example above could be simplified as:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ with .Params.title }}&amp;lt;h4&amp;gt;{{ . }}&amp;lt;/h4&amp;gt;{{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 5: If -&amp;gt; Else If&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ if isset .Params &amp;quot;alt&amp;quot; }} 
-    {{ index .Params &amp;quot;alt&amp;quot; }}
-{{ else if isset .Params &amp;quot;caption&amp;quot; }}
-    {{ index .Params &amp;quot;caption&amp;quot; }}
-{{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;pipes:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Pipes&lt;/h2&gt;
-
-&lt;p&gt;One of the most powerful components of go templates is the ability to
-stack actions one after another. This is done by using pipes. Borrowed
-from unix pipes, the concept is simple, each pipeline&amp;rsquo;s output becomes the
-input of the following pipe.&lt;/p&gt;
-
-&lt;p&gt;Because of the very simple syntax of go templates, the pipe is essential
-to being able to chain together function calls. One limitation of the
-pipes is that they only can work with a single value and that value
-becomes the last parameter of the next pipeline.&lt;/p&gt;
-
-&lt;p&gt;A few simple examples should help convey how to use the pipe.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 1 :&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ if eq 1 1 }} Same {{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;is the same as&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ eq 1 1 | if }} Same {{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It does look odd to place the if at the end, but it does provide a good
-illustration of how to use the pipes.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 2 :&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ index .Params &amp;quot;disqus_url&amp;quot; | html }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Access the page parameter called &amp;ldquo;disqus_url&amp;rdquo; and escape the HTML.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 3 :&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ if or (or (isset .Params &amp;quot;title&amp;quot;) (isset .Params &amp;quot;caption&amp;quot;)) (isset .Params &amp;quot;attr&amp;quot;)}}
-Stuff Here
-{{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Could be rewritten as&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{  isset .Params &amp;quot;caption&amp;quot; | or isset .Params &amp;quot;title&amp;quot; | or isset .Params &amp;quot;attr&amp;quot; | if }}
-Stuff Here 
-{{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;context-aka-the-dot:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Context (aka. the dot)&lt;/h2&gt;
-
-&lt;p&gt;The most easily overlooked concept to understand about go templates is that {{ . }}
-always refers to the current context. In the top level of your template this
-will be the data set made available to it. Inside of a iteration it will have
-the value of the current item. When inside of a loop the context has changed. .
-will no longer refer to the data available to the entire page. If you need to
-access this from within the loop you will likely want to set it to a variable
-instead of depending on the context.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;  {{ $title := .Site.Title }}
-  {{ range .Params.tags }}
-    &amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;{{ $baseurl }}/tags/{{ . | urlize }}&amp;quot;&amp;gt;{{ . }}&amp;lt;/a&amp;gt; - {{ $title }} &amp;lt;/li&amp;gt;
-  {{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Notice how once we have entered the loop the value of {{ . }} has changed. We
-have defined a variable outside of the loop so we have access to it from within
-the loop.&lt;/p&gt;
-
-&lt;h1 id=&#34;hugo-parameters:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Hugo Parameters&lt;/h1&gt;
-
-&lt;p&gt;Hugo provides the option of passing values to the template language
-through the site configuration (for sitewide values), or through the meta
-data of each specific piece of content. You can define any values of any
-type (supported by your front matter/config format) and use them however
-you want to inside of your templates.&lt;/p&gt;
-
-&lt;h2 id=&#34;using-content-page-parameters:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Using Content (page) Parameters&lt;/h2&gt;
-
-&lt;p&gt;In each piece of content you can provide variables to be used by the
-templates. This happens in the &lt;a href=&#34;http://alimy.me/content/front-matter&#34;&gt;front matter&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;An example of this is used in this documentation site. Most of the pages
-benefit from having the table of contents provided. Sometimes the TOC just
-doesn&amp;rsquo;t make a lot of sense. We&amp;rsquo;ve defined a variable in our front matter
-of some pages to turn off the TOC from being displayed.&lt;/p&gt;
-
-&lt;p&gt;Here is the example front matter:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;---
-title: &amp;quot;Permalinks&amp;quot;
-date: &amp;quot;2013-11-18&amp;quot;
-aliases:
-  - &amp;quot;/doc/permalinks/&amp;quot;
-groups: [&amp;quot;extras&amp;quot;]
-groups_weight: 30
-notoc: true
----
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here is the corresponding code inside of the template:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;  {{ if not .Params.notoc }}
-    &amp;lt;div id=&amp;quot;toc&amp;quot; class=&amp;quot;well col-md-4 col-sm-6&amp;quot;&amp;gt;
-    {{ .TableOfContents }}
-    &amp;lt;/div&amp;gt;
-  {{ end }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;using-site-config-parameters:ec87cabe957ab49ad878f14a8d0e406f&#34;&gt;Using Site (config) Parameters&lt;/h2&gt;
-
-&lt;p&gt;In your top-level configuration file (eg, &lt;code&gt;config.yaml&lt;/code&gt;) you can define site
-parameters, which are values which will be available to you in chrome.&lt;/p&gt;
-
-&lt;p&gt;For instance, you might declare:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;params:
-  CopyrightHTML: &amp;quot;Copyright &amp;amp;#xA9; 2013 John Doe. All Rights Reserved.&amp;quot;
-  TwitterUser: &amp;quot;spf13&amp;quot;
-  SidebarRecentLimit: 5
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Within a footer layout, you might then declare a &lt;code&gt;&amp;lt;footer&amp;gt;&lt;/code&gt; which is only
-provided if the &lt;code&gt;CopyrightHTML&lt;/code&gt; parameter is provided, and if it is given,
-you would declare it to be HTML-safe, so that the HTML entity is not escaped
-again.  This would let you easily update just your top-level config file each
-January 1st, instead of hunting through your templates.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{if .Site.Params.CopyrightHTML}}&amp;lt;footer&amp;gt;
-&amp;lt;div class=&amp;quot;text-center&amp;quot;&amp;gt;{{.Site.Params.CopyrightHTML | safeHtml}}&amp;lt;/div&amp;gt;
-&amp;lt;/footer&amp;gt;{{end}}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;An alternative way of writing the &amp;ldquo;if&amp;rdquo; and then referencing the same value
-is to use &amp;ldquo;with&amp;rdquo; instead. With rebinds the context &lt;code&gt;.&lt;/code&gt; within its scope,
-and skips the block if the variable is absent:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{with .Site.Params.TwitterUser}}&amp;lt;span class=&amp;quot;twitter&amp;quot;&amp;gt;
-&amp;lt;a href=&amp;quot;https://twitter.com/{{.}}&amp;quot; rel=&amp;quot;author&amp;quot;&amp;gt;
-&amp;lt;img src=&amp;quot;/images/twitter.png&amp;quot; width=&amp;quot;48&amp;quot; height=&amp;quot;48&amp;quot; title=&amp;quot;Twitter: {{.}}&amp;quot;
- alt=&amp;quot;Twitter&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
-&amp;lt;/span&amp;gt;{{end}}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Finally, if you want to pull &amp;ldquo;magic constants&amp;rdquo; out of your layouts, you can do
-so, such as in this example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;nav class=&amp;quot;recent&amp;quot;&amp;gt;
-  &amp;lt;h1&amp;gt;Recent Posts&amp;lt;/h1&amp;gt;
-  &amp;lt;ul&amp;gt;{{range first .Site.Params.SidebarRecentLimit .Site.Recent}}
-    &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;{{.RelPermalink}}&amp;quot;&amp;gt;{{.Title}}&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
-  {{end}}&amp;lt;/ul&amp;gt;
-&amp;lt;/nav&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
