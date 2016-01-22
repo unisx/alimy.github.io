@@ -17,13 +17,11 @@
       <guid>http://alimy.me/post/dev_201601222145/</guid>
       <description>
 
-&lt;h3 id=&#34;about:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;About&lt;/h3&gt;
+&lt;h3 id=&#34;sect-about:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;About&lt;/h3&gt;
 
 &lt;p&gt;IRC(Internet Relay Chat) is an application layer protocol that facilitates communication in the form of text.&lt;a href=&#34;https://en.wikipedia.org/wiki/Internet_Relay_Chat&#34; title=&#34;Internet Relay Chat&#34;&gt;[wikipedia]&lt;/a&gt;&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;h3 id=&#34;the-beginning:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;The Beginning&lt;/h3&gt;
+&lt;h3 id=&#34;sect-the-beginning:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;The Beginning&lt;/h3&gt;
 
 &lt;p&gt;IRC was born during summer 1988 when Jarkko &amp;ldquo;WiZ&amp;rdquo; Oikarinen wrote the first IRC client and server at the University of Oulu, Finland (where he was working at the Department of Information Processing Science).&lt;/p&gt;
 
@@ -47,9 +45,7 @@
 
 &lt;p&gt;In 1990, a new network was set up in order to develop a new version (2.6) of the ircd. The network named ChNet (about 25 servers and no users) existed a few months before disagreements among the programmers caused it to dissolve.&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;h3 id=&#34;efnet:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;EFnet&lt;/h3&gt;
+&lt;h3 id=&#34;sect-efnet:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;EFnet&lt;/h3&gt;
 
 &lt;p&gt;In August 1990 the first major disagreement took place in the IRC world. The &amp;ldquo;A-net&amp;rdquo; (Anarchy net) included as server named eris.berkeley.edu. It was all open, required no passwords and had no limit on the number of connects. As Greg &amp;ldquo;wumpus&amp;rdquo; Lindahl explains: &amp;ldquo;it had a wildcard server line, so people were hooking up servers and nick-colliding everyone&amp;rdquo;.&lt;/p&gt;
 
@@ -59,25 +55,19 @@
 
 &lt;p&gt;One often-talked-about event in the history of IRC is the gulf war. In early 1991, live reports were available and more than 300 concurrent users were experienced for the first time.&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;h3 id=&#34;undernet:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;Undernet&lt;/h3&gt;
+&lt;h3 id=&#34;sect-undernet:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;Undernet&lt;/h3&gt;
 
 &lt;p&gt;Another fork effort, the first that really made a big and lasting difference, was initiated by &amp;lsquo;Wildthang&amp;rsquo; in USA October 1992 (it forked off the EFnet ircd version 2.8.10). It was meant to be just a test network to develop bots on but it quickly grew to a network &amp;ldquo;for friends and their friends&amp;rdquo;. In Europe and Canada a separate new network was being worked on (by &amp;lsquo;_dl&amp;rsquo; and &amp;lsquo;WIZZARD&amp;rsquo;) and in December the french servers connected to the canadian ones, and in the end of the month, the .fr-.ca network was connected to the US one and the network that later came to be called &amp;ldquo;The Undernet&amp;rdquo; was born.&lt;/p&gt;
 
 &lt;p&gt;The &amp;ldquo;undernetters&amp;rdquo; wanted to take ircd further in an attempt to make it less bandwidth consumptive and to try to sort out the channel chaos (netsplits and takeovers) that EFnet started to suffer from. For the latter purpose, the Undernet implemented timestamps, new routing and offered the CService &amp;ndash; a program that allowed users to register channels and then attempted to protect them from troublemakers. (More or less a global defense bot.) The very first server list presented, from Febrary 15th 1993, includes servers from USA, Canada, France, Kroatia and Japan. On August 15th, the new user count record was set to 57 users.&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;h3 id=&#34;rfc:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;RFC&lt;/h3&gt;
+&lt;h3 id=&#34;sect-rfc:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;RFC&lt;/h3&gt;
 
 &lt;p&gt;In May 1993, the Request For Comments 1459, for the IRC protocol is out for the public. It has since been subject to many violations and extensions.&lt;/p&gt;
 
 &lt;p&gt;It is notable that the CTCP parts and things like colors and formats are not included in the protocol spec. Nor is character encoding.&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;h3 id=&#34;dalnet:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;Dalnet&lt;/h3&gt;
+&lt;h3 id=&#34;sect-dalnet:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;Dalnet&lt;/h3&gt;
 
 &lt;p&gt;During the summer (some sources mention July) 1994, the Undernet is itself forked. This time, the new Network is called Dalnet (named after its founder: dalvenjah), and they formed the new network for better user service and even more user and channel protections. One of the more significant changes in Dalnet already from the beginning is their use of longer nicknames (the original ircd limit being 9 letters). Dalnet ircd modifications were made by Alexei &amp;ldquo;Lefler&amp;rdquo; Kosut.&lt;/p&gt;
 
@@ -87,19 +77,15 @@
 
 &lt;p&gt;Much of Dalnet&amp;rsquo;s new functions were written in early 1995 by Brian &amp;ldquo;Morpher&amp;rdquo; Smith and allow users to own nicknames, channels, send memos and more.&lt;/p&gt;
 
-&lt;h3 id=&#34;oz-org:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;oz.org&lt;/h3&gt;
+&lt;h3 id=&#34;sect-oz-org:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;oz.org&lt;/h3&gt;
 
 &lt;p&gt;Undernet split (again) in March 1996 when the sole Australian server delinked from Undernet because of difficulties with the connection across the TransPacific Australian/United States network link. The first few months of oz.org&amp;rsquo;s existance were primarily a trial delink from the Undernet because of the inability to maintain a link during peak usage hours. One of the two designers (chaos and seks) of the orginal Undernet X and W chanserv was Australian, and the same code was used for Oz.org&amp;rsquo;s Z (the name of the chanserv). In June 2001, ozorg boasted peak usages of 4,000 simultaneous users.&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;h3 id=&#34;ircnet:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;IRCnet&lt;/h3&gt;
+&lt;h3 id=&#34;sect-ircnet:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;IRCnet&lt;/h3&gt;
 
 &lt;p&gt;In July 1996, after months of flame wars and discussions on the mailing list, there was yet another split due to disagreement in how the development of the ircd should evolve. Most notably, the &amp;ldquo;european&amp;rdquo; (most of those servers were in europe) side that later named itself IRCnet argued for nick and channel delays, where the EFnet side argued for timestamps. Most (not all) of the IRCnet servers were in Europe, while most of the EFnet server were in the US. This event is also known as &amp;ldquo;The Great Split&amp;rdquo; in many IRC societies. EFnet has since (as of August 1998) grown and passed the number of users it had then. In the autumn year 2000, EFnet has some 50,000 users and IRCnet 70,000.&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;h3 id=&#34;freenode-open-projects-network:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;Freenode - Open Projects Network&lt;/h3&gt;
+&lt;h3 id=&#34;sect-freenode-open-projects-network:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;Freenode - Open Projects Network&lt;/h3&gt;
 
 &lt;p&gt;Yet another IRC network that opened its doors in 1998 named the Open Projects Network, and had about 100 users and less than 20 channels that year. In late 2001 it had grown to nearly 4,000 users and over 1,300 channels. The OPN uses the Dancer IRCD server, after having been using ircu the intial few years.&lt;/p&gt;
 
@@ -107,17 +93,13 @@
 
 &lt;p&gt;In 2011, it peaks at 65,000 users in 40,000 channels.&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;h3 id=&#34;other-networks:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;Other Networks&lt;/h3&gt;
+&lt;h3 id=&#34;sect-other-networks:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;Other Networks&lt;/h3&gt;
 
 &lt;p&gt;Of course, while internet is booming so does IRC. There exists hundreds of independent IRC networks today (like amiganet, linuxnet, galaxynet, bestnet, NewNet, AnotherNet, ChatNet, UpperNet, ZAnet, X-Net, GammaNet, SuperChat, IceNet, RedBrasil, GR-Net, AlphaStar, SorceryNet etc), but luckily there is &amp;ldquo;only&amp;rdquo; four of the main ones (this was the reality back in 1998) that keep develop their own version of the ircd server software.&lt;/p&gt;
 
 &lt;p&gt;Of course, as of 2002, lots of other networks have popped up and now numerous of them are developing their own customized versions of the IRC protocol.&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;h3 id=&#34;further-standardization-attempts:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;Further Standardization Attempts&lt;/h3&gt;
+&lt;h3 id=&#34;sect-further-standardization-attempts:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;Further Standardization Attempts&lt;/h3&gt;
 
 &lt;p&gt;IETF-IRCUP was an initiative started in January 1998, to gather all the flavours of IRC servers to document a new RFC and possibly set a new standard for all networks to commit to. That project died.&lt;/p&gt;
 
@@ -125,7 +107,7 @@
 
 &lt;p&gt;We&amp;rsquo;ll just have to wait and see what the future of IRC has to show&amp;hellip;&lt;/p&gt;
 
-&lt;h3 id=&#34;irc-popularity:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;gt;IRC Popularity&lt;/h3&gt;
+&lt;h3 id=&#34;sect-irc-popularity:cd0c7a29cb84719e2c5940354f1276de&#34;&gt;&amp;sect;IRC Popularity&lt;/h3&gt;
 
 &lt;p&gt;According to measurements done by &lt;a href=&#34;http://irc.netsplit.de/networks/top10.php&#34;&gt;&lt;strong&gt;irc.netsplit.de&lt;/strong&gt;&lt;/a&gt;, IRC in general have lost users gradually since &lt;sup&gt;2004&lt;/sup&gt;&amp;frasl;&lt;sub&gt;2005&lt;/sub&gt;. Those years, the top 4 IRC networks all had over 100,000 users each on a daily basis. Those networks were Quakenet, Undernet, IRCnet and EFnet. Quakenet was in the lead with more than 200,000 users.&lt;/p&gt;
 
