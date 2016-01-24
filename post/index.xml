@@ -191,7 +191,7 @@
       <guid>http://alimy.me/post/dev_201601161712/</guid>
       <description>
 
-&lt;h2 id=&#34;dogeos-smartos-illumos-这些都是什么:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;DogeOS, SmartOS, illumos，这些都是什么？&lt;/h2&gt;
+&lt;h3 id=&#34;sect-dogeos-smartos-illumos-这些都是什么:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;DogeOS, SmartOS, illumos，这些都是什么？&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;都是操作系统&lt;/li&gt;
@@ -206,7 +206,7 @@
 
 &lt;p&gt;但是也不希望写的太长。以下就尽量言简意垓的把来龙去脉，历史纠纷，以及革命先进性都说清楚。&lt;/p&gt;
 
-&lt;h2 id=&#34;从illumos开始:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;从illumos开始&lt;/h2&gt;
+&lt;h3 id=&#34;sect-从illumos开始:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;从illumos开始&lt;/h3&gt;
 
 &lt;p&gt;什么是&lt;a href=&#34;http://www.illumos.org&#34;&gt;illumos&lt;/a&gt;？简单的讲，illumos是OpenSolaris的后续开源项目。万恶的Oracle收购了Sun之后，原有OpenSolaris的开发者基本上都离开了Oracle，组成了illumos社区，继续对OpenSolaris先进的内核进行维护，更新，以及添加nb的新功能。这种事情在Oracle的收购史上似乎一再出现，想想MySQL，OpenOffice，Java，强烈的既视感。&lt;/p&gt;
 
@@ -235,7 +235,7 @@ LVM以及一堆不同的文件系统完成&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;p&gt;但是需要注意的是illumos只是一个内核（正确的说是，内核(OS)加网络层(Network)，即ON）。在geek的手里，它已经完备;放在生产环境，则还欠缺一个包装。&lt;/p&gt;
 
-&lt;h2 id=&#34;然后是smartos:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;然后是SmartOS&lt;/h2&gt;
+&lt;h3 id=&#34;sect-然后是smartos:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;然后是SmartOS&lt;/h3&gt;
 
 &lt;p&gt;怎么把illumos包装成通常意义上的OS，这是接下来需要考虑的问题，也是最好的商业化的契机。&lt;/p&gt;
 
@@ -262,7 +262,7 @@ LVM以及一堆不同的文件系统完成&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 不明显，但是有商业公司进行探讨&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;project-fifo:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;Project FiFo&lt;/h2&gt;
+&lt;h3 id=&#34;sect-project-fifo:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;Project FiFo&lt;/h3&gt;
 
 &lt;p&gt;SmartOS是纯粹为云计算而生的操作系统，出世之后即引起了群众的注意，开始应用。但是数据中心维护的管理员熟知，安装好方才是梦魇的开始。&lt;/p&gt;
 
@@ -301,7 +301,7 @@ LVM以及一堆不同的文件系统完成&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;p&gt;让我们感谢Heinz先。&lt;/p&gt;
 
-&lt;h2 id=&#34;最后是dogeos:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;最后是DogeOS&lt;/h2&gt;
+&lt;h3 id=&#34;sect-最后是dogeos:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;最后是DogeOS&lt;/h3&gt;
 
 &lt;p&gt;Project FiFo作为一套运维管理系统，补全了SmartOS，但是它并不是SmartOS的一部分。&lt;/p&gt;
 
@@ -324,6 +324,20 @@ LVM以及一堆不同的文件系统完成&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://liyu1981.github.io/dogeos-smartos-illumos/&#34; title=&#34;liyu1981&#39;s page&#34;&gt;【转载自liyu1981】&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>尘埃</title>
+      <link>http://alimy.me/post/art_201601141212/</link>
+      <pubDate>Thu, 14 Jan 2016 00:00:00 UTC</pubDate>
+      
+      <guid>http://alimy.me/post/art_201601141212/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://alimy.me/images/post/20160114121200.webp&#34; alt=&#34;请使用支持Webp的浏览器(最新版Chrome/FireFox)查看&#34; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;无题（&lt;a href=&#34;http://alimy.me/images/post/20160114121200.webp&#34; title=&#34;webp格式图片&#34;&gt;查看大图&lt;/a&gt; &amp;middot; &lt;a href=&#34;http://alimy.me/images/post/20160114121200.jpg&#34; title=&#34;jpeg格式图片&#34;&gt;JPEG&lt;/a&gt;）&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     
@@ -761,6 +775,20 @@ WantedBy=multi-user.target
     </item>
     
     <item>
+      <title>诱惑</title>
+      <link>http://alimy.me/post/art_201601111212/</link>
+      <pubDate>Mon, 11 Jan 2016 00:00:00 UTC</pubDate>
+      
+      <guid>http://alimy.me/post/art_201601111212/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://alimy.me/images/post/20160111121200.webp&#34; alt=&#34;请使用支持Webp的浏览器(最新版Chrome/FireFox)查看&#34; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;如题（&lt;a href=&#34;http://alimy.me/images/post/20160111121200.webp&#34; title=&#34;webp格式图片&#34;&gt;查看大图&lt;/a&gt; &amp;middot; &lt;a href=&#34;http://alimy.me/images/post/20160111121200.jpg&#34; title=&#34;jpeg格式图片&#34;&gt;JPEG&lt;/a&gt;）&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>咏春</title>
       <link>http://alimy.me/post/art_201601100836/</link>
       <pubDate>Sun, 10 Jan 2016 00:00:00 UTC</pubDate>
@@ -1157,690 +1185,6 @@ color = &amp;quot;gray&amp;quot;
   [fruit.variety]
     name = &amp;quot;granny smith&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>TOML v0.4.0</title>
-      <link>http://alimy.me/post/dev_201601021221/</link>
-      <pubDate>Sat, 02 Jan 2016 00:00:00 UTC</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201601021221/</guid>
-      <description>
-
-&lt;p&gt;Tom&amp;rsquo;s Obvious, Minimal Language.&lt;/p&gt;
-
-&lt;p&gt;By Tom Preston-Werner.&lt;/p&gt;
-
-&lt;p&gt;Be warned, this spec is still changing a lot. Until it&amp;rsquo;s marked as 1.0, you
-should assume that it is unstable and act accordingly.&lt;/p&gt;
-
-&lt;h2 id=&#34;objectives:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Objectives&lt;/h2&gt;
-
-&lt;p&gt;TOML aims to be a minimal configuration file format that&amp;rsquo;s easy to read due to
-obvious semantics. TOML is designed to map unambiguously to a hash table. TOML
-should be easy to parse into data structures in a wide variety of languages.&lt;/p&gt;
-
-&lt;h2 id=&#34;example:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Example&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# This is a TOML document. Boom.
-
-title = &amp;quot;TOML Example&amp;quot;
-
-[owner]
-name = &amp;quot;Lance Uppercut&amp;quot;
-dob = 1979-05-27T07:32:00-08:00 # First class dates? Why not?
-
-[database]
-server = &amp;quot;192.168.1.1&amp;quot;
-ports = [ 8001, 8001, 8002 ]
-connection_max = 5000
-enabled = true
-
-[servers]
-
-  # You can indent as you please. Tabs or spaces. TOML don&#39;t care.
-  [servers.alpha]
-  ip = &amp;quot;10.0.0.1&amp;quot;
-  dc = &amp;quot;eqdc10&amp;quot;
-
-  [servers.beta]
-  ip = &amp;quot;10.0.0.2&amp;quot;
-  dc = &amp;quot;eqdc10&amp;quot;
-
-[clients]
-data = [ [&amp;quot;gamma&amp;quot;, &amp;quot;delta&amp;quot;], [1, 2] ]
-
-# Line breaks are OK when inside arrays
-hosts = [
-  &amp;quot;alpha&amp;quot;,
-  &amp;quot;omega&amp;quot;
-]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;spec:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Spec&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;TOML is case sensitive.&lt;/li&gt;
-&lt;li&gt;A TOML file must contain only UTF-8 encoded Unicode characters.&lt;/li&gt;
-&lt;li&gt;Whitespace means tab (0x09) or space (0x20).&lt;/li&gt;
-&lt;li&gt;Newline means LF (0x0A) or CRLF (0x0D0A).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;comment:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Comment&lt;/h2&gt;
-
-&lt;p&gt;Speak your mind with the hash symbol. They go from the symbol to the end of the
-line.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# I am a comment. Hear me roar. Roar.
-key = &amp;quot;value&amp;quot; # Yeah, you can do this.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;string:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;String&lt;/h2&gt;
-
-&lt;p&gt;There are four ways to express strings: basic, multi-line basic, literal, and
-multi-line literal. All strings must contain only valid UTF-8 characters.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Basic strings&lt;/strong&gt; are surrounded by quotation marks. Any Unicode character may
-be used except those that must be escaped: quotation mark, backslash, and the
-control characters (U+0000 to U+001F).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;&amp;quot;I&#39;m a string. \&amp;quot;You can quote me\&amp;quot;. Name\tJos\u00E9\nLocation\tSF.&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;For convenience, some popular characters have a compact escape sequence.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;\b         - backspace       (U+0008)
-\t         - tab             (U+0009)
-\n         - linefeed        (U+000A)
-\f         - form feed       (U+000C)
-\r         - carriage return (U+000D)
-\&amp;quot;         - quote           (U+0022)
-\\         - backslash       (U+005C)
-\uXXXX     - unicode         (U+XXXX)
-\UXXXXXXXX - unicode         (U+XXXXXXXX)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Any Unicode character may be escaped with the &lt;code&gt;\uXXXX&lt;/code&gt; or &lt;code&gt;\UXXXXXXXX&lt;/code&gt; forms.
-The escape codes must be valid Unicode &lt;a href=&#34;http://unicode.org/glossary/#unicode_scalar_value&#34;&gt;scalar values&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;All other escape sequences not listed above are reserved and, if used, TOML
-should produce an error.&lt;/p&gt;
-
-&lt;p&gt;Sometimes you need to express passages of text (e.g. translation files) or would
-like to break up a very long string into multiple lines. TOML makes this easy.
-&lt;strong&gt;Multi-line basic strings&lt;/strong&gt; are surrounded by three quotation marks on each
-side and allow newlines. A newline immediately following the opening delimiter
-will be trimmed. All other whitespace and newline characters remain intact.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;key1 = &amp;quot;&amp;quot;&amp;quot;
-Roses are red
-Violets are blue&amp;quot;&amp;quot;&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;TOML parsers should feel free to normalize newline to whatever makes sense for
-their platform.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# On a Unix system, the above multi-line string will most likely be the same as:
-key2 = &amp;quot;Roses are red\nViolets are blue&amp;quot;
-
-# On a Windows system, it will most likely be equivalent to:
-key3 = &amp;quot;Roses are red\r\nViolets are blue&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;For writing long strings without introducing extraneous whitespace, end a line
-with a &lt;code&gt;\&lt;/code&gt;. The &lt;code&gt;\&lt;/code&gt; will be trimmed along with all whitespace (including
-newlines) up to the next non-whitespace character or closing delimiter. If the
-first characters after the opening delimiter are a backslash and a newline, then
-they will both be trimmed along with all whitespace and newlines up to the next
-non-whitespace character or closing delimiter. All of the escape sequences that
-are valid for basic strings are also valid for multi-line basic strings.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# The following strings are byte-for-byte equivalent:
-key1 = &amp;quot;The quick brown fox jumps over the lazy dog.&amp;quot;
-
-key2 = &amp;quot;&amp;quot;&amp;quot;
-The quick brown \
-
-
-  fox jumps over \
-    the lazy dog.&amp;quot;&amp;quot;&amp;quot;
-
-key3 = &amp;quot;&amp;quot;&amp;quot;\
-       The quick brown \
-       fox jumps over \
-       the lazy dog.\
-       &amp;quot;&amp;quot;&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Any Unicode character may be used except those that must be escaped: backslash
-and the control characters (U+0000 to U+001F). Quotation marks need not be
-escaped unless their presence would create a premature closing delimiter.&lt;/p&gt;
-
-&lt;p&gt;If you&amp;rsquo;re a frequent specifier of Windows paths or regular expressions, then
-having to escape backslashes quickly becomes tedious and error prone. To help,
-TOML supports literal strings where there is no escaping allowed at all.
-&lt;strong&gt;Literal strings&lt;/strong&gt; are surrounded by single quotes. Like basic strings, they
-must appear on a single line:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# What you see is what you get.
-winpath  = &#39;C:\Users\nodejs\templates&#39;
-winpath2 = &#39;\\ServerX\admin$\system32\&#39;
-quoted   = &#39;Tom &amp;quot;Dubs&amp;quot; Preston-Werner&#39;
-regex    = &#39;&amp;lt;\i\c*\s*&amp;gt;&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Since there is no escaping, there is no way to write a single quote inside a
-literal string enclosed by single quotes. Luckily, TOML supports a multi-line
-version of literal strings that solves this problem. &lt;strong&gt;Multi-line literal
-strings&lt;/strong&gt; are surrounded by three single quotes on each side and allow newlines.
-Like literal strings, there is no escaping whatsoever. A newline immediately
-following the opening delimiter will be trimmed. All other content between the
-delimiters is interpreted as-is without modification.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;regex2 = &#39;&#39;&#39;I [dw]on&#39;t need \d{2} apples&#39;&#39;&#39;
-lines  = &#39;&#39;&#39;
-The first newline is
-trimmed in raw strings.
-   All other whitespace
-   is preserved.
-&#39;&#39;&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;For binary data it is recommended that you use Base64 or another suitable ASCII
-or UTF-8 encoding. The handling of that encoding will be application specific.&lt;/p&gt;
-
-&lt;h2 id=&#34;integer:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Integer&lt;/h2&gt;
-
-&lt;p&gt;Integers are whole numbers. Positive numbers may be prefixed with a plus sign.
-Negative numbers are prefixed with a minus sign.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;+99
-42
-0
--17
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;For large numbers, you may use underscores to enhance readability. Each
-underscore must be surrounded by at least one digit.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;1_000
-5_349_221
-1_2_3_4_5     # valid but inadvisable
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Leading zeros are not allowed. Hex, octal, and binary forms are not allowed.
-Values such as &amp;ldquo;infinity&amp;rdquo; and &amp;ldquo;not a number&amp;rdquo; that cannot be expressed as a
-series of digits are not allowed.&lt;/p&gt;
-
-&lt;p&gt;64 bit (signed long) range expected (âˆ’9,223,372,036,854,775,808 to
-9,223,372,036,854,775,807).&lt;/p&gt;
-
-&lt;h2 id=&#34;float:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Float&lt;/h2&gt;
-
-&lt;p&gt;A float consists of an integer part (which may be prefixed with a plus or minus
-sign) followed by a fractional part and/or an exponent part. If both a
-fractional part and exponent part are present, the fractional part must precede
-the exponent part.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# fractional
-+1.0
-3.1415
--0.01
-
-# exponent
-5e+22
-1e6
--2E-2
-
-# both
-6.626e-34
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A fractional part is a decimal point followed by one or more digits.&lt;/p&gt;
-
-&lt;p&gt;An exponent part is an E (upper or lower case) followed by an integer part
-(which may be prefixed with a plus or minus sign).&lt;/p&gt;
-
-&lt;p&gt;Similar to integers, you may use underscores to enhance readability. Each
-underscore must be surrounded by at least one digit.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;9_224_617.445_991_228_313
-1e1_000
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;64-bit (double) precision expected.&lt;/p&gt;
-
-&lt;h2 id=&#34;boolean:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Boolean&lt;/h2&gt;
-
-&lt;p&gt;Booleans are just the tokens you&amp;rsquo;re used to. Always lowercase.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;true
-false
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;datetime:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Datetime&lt;/h2&gt;
-
-&lt;p&gt;Datetimes are &lt;a href=&#34;http://tools.ietf.org/html/rfc3339&#34;&gt;RFC 3339&lt;/a&gt; dates.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;1979-05-27T07:32:00Z
-1979-05-27T00:32:00-07:00
-1979-05-27T00:32:00.999999-07:00
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;array:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Array&lt;/h2&gt;
-
-&lt;p&gt;Arrays are square brackets with other primitives inside. Whitespace is ignored.
-Elements are separated by commas. Data types may not be mixed (though all string
-types should be considered the same type).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;[ 1, 2, 3 ]
-[ &amp;quot;red&amp;quot;, &amp;quot;yellow&amp;quot;, &amp;quot;green&amp;quot; ]
-[ [ 1, 2 ], [3, 4, 5] ]
-[ &amp;quot;all&amp;quot;, &#39;strings&#39;, &amp;quot;&amp;quot;&amp;quot;are the same&amp;quot;&amp;quot;&amp;quot;, &#39;&#39;&#39;type&#39;&#39;&#39;] # this is ok
-[ [ 1, 2 ], [&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;c&amp;quot;] ] # this is ok
-[ 1, 2.0 ] # note: this is NOT ok
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Arrays can also be multiline. So in addition to ignoring whitespace, arrays also
-ignore newlines between the brackets. Terminating commas are ok before the
-closing bracket.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;key = [
-  1, 2, 3
-]
-
-key = [
-  1,
-  2, # this is ok
-]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;table:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Table&lt;/h2&gt;
-
-&lt;p&gt;Tables (also known as hash tables or dictionaries) are collections of key/value
-pairs. They appear in square brackets on a line by themselves. You can tell them
-apart from arrays because arrays are only ever values.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;[table]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Under that, and until the next table or EOF are the key/values of that table.
-Keys are on the left of the equals sign and values are on the right. Whitespace
-is ignored around key names and values. The key, equals sign, and value must
-be on the same line (though some values can be broken over multiple lines).&lt;/p&gt;
-
-&lt;p&gt;Keys may be either bare or quoted. &lt;strong&gt;Bare keys&lt;/strong&gt; may only contain letters,
-numbers, underscores, and dashes (&lt;code&gt;A-Za-z0-9_-&lt;/code&gt;). &lt;strong&gt;Quoted keys&lt;/strong&gt; follow the
-exact same rules as basic strings and allow you to use a much broader set of key
-names. Best practice is to use bare keys except when absolutely necessary.&lt;/p&gt;
-
-&lt;p&gt;Key/value pairs within tables are not guaranteed to be in any specific order.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;[table]
-key = &amp;quot;value&amp;quot;
-bare_key = &amp;quot;value&amp;quot;
-bare-key = &amp;quot;value&amp;quot;
-
-&amp;quot;127.0.0.1&amp;quot; = &amp;quot;value&amp;quot;
-&amp;quot;character encoding&amp;quot; = &amp;quot;value&amp;quot;
-&amp;quot;ÊŽÇÊž&amp;quot; = &amp;quot;value&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Dots are prohibited in bare keys because dots are used to signify nested tables!
-Naming rules for each dot separated part are the same as for keys (see above).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;[dog.&amp;quot;tater.man&amp;quot;]
-type = &amp;quot;pug&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In JSON land, that would give you the following structure:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{ &amp;quot;dog&amp;quot;: { &amp;quot;tater.man&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;pug&amp;quot; } } }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Whitespace around dot-separated parts is ignored, however, best practice is to
-not use any extraneous whitespace.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;[a.b.c]          # this is best practice
-[ d.e.f ]        # same as [d.e.f]
-[ g .  h  . i ]  # same as [g.h.i]
-[ j . &amp;quot;Êž&amp;quot; . l ]  # same as [j.&amp;quot;Êž&amp;quot;.l]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You don&amp;rsquo;t need to specify all the super-tables if you don&amp;rsquo;t want to. TOML knows
-how to do it for you.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# [x] you
-# [x.y] don&#39;t
-# [x.y.z] need these
-[x.y.z.w] # for this to work
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Empty tables are allowed and simply have no key/value pairs within them.&lt;/p&gt;
-
-&lt;p&gt;As long as a super-table hasn&amp;rsquo;t been directly defined and hasn&amp;rsquo;t defined a
-specific key, you may still write to it.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;[a.b]
-c = 1
-
-[a]
-d = 2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You cannot define any key or table more than once. Doing so is invalid.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# DO NOT DO THIS
-
-[a]
-b = 1
-
-[a]
-c = 2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# DO NOT DO THIS EITHER
-
-[a]
-b = 1
-
-[a.b]
-c = 2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;All table names and keys must be non-empty.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# NOT VALID TOML
-[]
-[a.]
-[a..b]
-[.b]
-[.]
- = &amp;quot;no key name&amp;quot; # not allowed
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;inline-table:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Inline Table&lt;/h2&gt;
-
-&lt;p&gt;Inline tables provide a more compact syntax for expressing tables. They are
-especially useful for grouped data that can otherwise quickly become verbose.
-Inline tables are enclosed in curly braces &lt;code&gt;{&lt;/code&gt; and &lt;code&gt;}&lt;/code&gt;. Within the braces, zero
-or more comma separated key/value pairs may appear. Key/value pairs take the
-same form as key/value pairs in standard tables. All value types are allowed,
-including inline tables.&lt;/p&gt;
-
-&lt;p&gt;Inline tables are intended to appear on a single line. No newlines are allowed
-between the curly braces unless they are valid within a value. Even so, it is
-strongly discouraged to break an inline table onto multiples lines. If you find
-yourself gripped with this desire, it means you should be using standard tables.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;name = { first = &amp;quot;Tom&amp;quot;, last = &amp;quot;Preston-Werner&amp;quot; }
-point = { x = 1, y = 2 }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The inline tables above are identical to the following standard table
-definitions:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;[name]
-first = &amp;quot;Tom&amp;quot;
-last = &amp;quot;Preston-Werner&amp;quot;
-
-[point]
-x = 1
-y = 2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;array-of-tables:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Array of Tables&lt;/h2&gt;
-
-&lt;p&gt;The last type that has not yet been expressed is an array of tables. These can
-be expressed by using a table name in double brackets. Each table with the same
-double bracketed name will be an element in the array. The tables are inserted
-in the order encountered. A double bracketed table without any key/value pairs
-will be considered an empty table.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;[[products]]
-name = &amp;quot;Hammer&amp;quot;
-sku = 738594937
-
-[[products]]
-
-[[products]]
-name = &amp;quot;Nail&amp;quot;
-sku = 284758393
-color = &amp;quot;gray&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In JSON land, that would give you the following structure.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
-  &amp;quot;products&amp;quot;: [
-    { &amp;quot;name&amp;quot;: &amp;quot;Hammer&amp;quot;, &amp;quot;sku&amp;quot;: 738594937 },
-    { },
-    { &amp;quot;name&amp;quot;: &amp;quot;Nail&amp;quot;, &amp;quot;sku&amp;quot;: 284758393, &amp;quot;color&amp;quot;: &amp;quot;gray&amp;quot; }
-  ]
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can create nested arrays of tables as well. Just use the same double bracket
-syntax on sub-tables. Each double-bracketed sub-table will belong to the most
-recently defined table element above it.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;[[fruit]]
-  name = &amp;quot;apple&amp;quot;
-
-  [fruit.physical]
-    color = &amp;quot;red&amp;quot;
-    shape = &amp;quot;round&amp;quot;
-
-  [[fruit.variety]]
-    name = &amp;quot;red delicious&amp;quot;
-
-  [[fruit.variety]]
-    name = &amp;quot;granny smith&amp;quot;
-
-[[fruit]]
-  name = &amp;quot;banana&amp;quot;
-
-  [[fruit.variety]]
-    name = &amp;quot;plantain&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The above TOML maps to the following JSON.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
-  &amp;quot;fruit&amp;quot;: [
-    {
-      &amp;quot;name&amp;quot;: &amp;quot;apple&amp;quot;,
-      &amp;quot;physical&amp;quot;: {
-        &amp;quot;color&amp;quot;: &amp;quot;red&amp;quot;,
-        &amp;quot;shape&amp;quot;: &amp;quot;round&amp;quot;
-      },
-      &amp;quot;variety&amp;quot;: [
-        { &amp;quot;name&amp;quot;: &amp;quot;red delicious&amp;quot; },
-        { &amp;quot;name&amp;quot;: &amp;quot;granny smith&amp;quot; }
-      ]
-    },
-    {
-      &amp;quot;name&amp;quot;: &amp;quot;banana&amp;quot;,
-      &amp;quot;variety&amp;quot;: [
-        { &amp;quot;name&amp;quot;: &amp;quot;plantain&amp;quot; }
-      ]
-    }
-  ]
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Attempting to define a normal table with the same name as an already established
-array must produce an error at parse time.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# INVALID TOML DOC
-[[fruit]]
-  name = &amp;quot;apple&amp;quot;
-
-  [[fruit.variety]]
-    name = &amp;quot;red delicious&amp;quot;
-
-  # This table conflicts with the previous table
-  [fruit.variety]
-    name = &amp;quot;granny smith&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You may also use inline tables where appropriate:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;points = [ { x = 1, y = 2, z = 3 },
-           { x = 7, y = 8, z = 9 },
-           { x = 2, y = 4, z = 8 } ]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;seriously:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Seriously?&lt;/h2&gt;
-
-&lt;p&gt;Yep.&lt;/p&gt;
-
-&lt;h2 id=&#34;but-why:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;But why?&lt;/h2&gt;
-
-&lt;p&gt;Because we need a decent human-readable format that unambiguously maps to a hash
-table and the YAML spec is like 80 pages long and gives me rage. No, JSON
-doesn&amp;rsquo;t count. You know why.&lt;/p&gt;
-
-&lt;h2 id=&#34;oh-god-you-re-right:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Oh god, you&amp;rsquo;re right&lt;/h2&gt;
-
-&lt;p&gt;Yuuuup. Wanna help? Send a pull request. Or write a parser. BE BRAVE.&lt;/p&gt;
-
-&lt;h2 id=&#34;projects-using-toml:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Projects using TOML&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://doc.crates.io/&#34;&gt;Cargo&lt;/a&gt; - The Rust language&amp;rsquo;s package manager.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://influxdb.com/&#34;&gt;InfluxDB&lt;/a&gt; - Distributed time series database.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://hekad.readthedocs.org&#34;&gt;Heka&lt;/a&gt; - Stream processing system by Mozilla.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; - Static site generator in Go.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;implementations:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Implementations&lt;/h2&gt;
-
-&lt;p&gt;If you have an implementation, send a pull request adding to this list. Please
-note the commit SHA1 or version tag that your parser supports in your Readme.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;C#/.NET - &lt;a href=&#34;https://github.com/LBreedlove/Toml.net&#34;&gt;https://github.com/LBreedlove/Toml.net&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;C#/.NET - &lt;a href=&#34;https://github.com/rossipedia/toml-net&#34;&gt;https://github.com/rossipedia/toml-net&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;C#/.NET - &lt;a href=&#34;https://github.com/RichardVasquez/TomlDotNet&#34;&gt;https://github.com/RichardVasquez/TomlDotNet&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;C#/.NET - &lt;a href=&#34;https://github.com/azyobuzin/HyperTomlProcessor&#34;&gt;https://github.com/azyobuzin/HyperTomlProcessor&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;C (@ajwans) - &lt;a href=&#34;https://github.com/ajwans/libtoml&#34;&gt;https://github.com/ajwans/libtoml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;C (@mzgoddard) - &lt;a href=&#34;https://github.com/mzgoddard/tomlc&#34;&gt;https://github.com/mzgoddard/tomlc&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;C++ (@evilncrazy) - &lt;a href=&#34;https://github.com/evilncrazy/ctoml&#34;&gt;https://github.com/evilncrazy/ctoml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;C++ (@skystrife) - &lt;a href=&#34;https://github.com/skystrife/cpptoml&#34;&gt;https://github.com/skystrife/cpptoml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;C++ (@mayah) - &lt;a href=&#34;https://github.com/mayah/tinytoml&#34;&gt;https://github.com/mayah/tinytoml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Clojure (@lantiga) - &lt;a href=&#34;https://github.com/lantiga/clj-toml&#34;&gt;https://github.com/lantiga/clj-toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Clojure (@manicolosi) - &lt;a href=&#34;https://github.com/manicolosi/clojoml&#34;&gt;https://github.com/manicolosi/clojoml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;CoffeeScript (@biilmann) - &lt;a href=&#34;https://github.com/biilmann/coffee-toml&#34;&gt;https://github.com/biilmann/coffee-toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Common Lisp (@pnathan) - &lt;a href=&#34;https://github.com/pnathan/pp-toml&#34;&gt;https://github.com/pnathan/pp-toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;D - &lt;a href=&#34;https://github.com/iccodegr/toml.d&#34;&gt;https://github.com/iccodegr/toml.d&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Dart (@just95) - &lt;a href=&#34;https://github.com/just95/toml.dart&#34;&gt;https://github.com/just95/toml.dart&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Erlang - &lt;a href=&#34;https://github.com/kalta/etoml.git&#34;&gt;https://github.com/kalta/etoml.git&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Erlang - &lt;a href=&#34;https://github.com/kaos/tomle&#34;&gt;https://github.com/kaos/tomle&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Emacs Lisp (@gongoZ) - &lt;a href=&#34;https://github.com/gongo/emacs-toml&#34;&gt;https://github.com/gongo/emacs-toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Go (@thompelletier) - &lt;a href=&#34;https://github.com/pelletier/go-toml&#34;&gt;https://github.com/pelletier/go-toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Go (@laurent22) - &lt;a href=&#34;https://github.com/laurent22/toml-go&#34;&gt;https://github.com/laurent22/toml-go&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Go w/ Reflection (@BurntSushi) - &lt;a href=&#34;https://github.com/BurntSushi/toml&#34;&gt;https://github.com/BurntSushi/toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Go (@achun) - &lt;a href=&#34;https://github.com/achun/tom-toml&#34;&gt;https://github.com/achun/tom-toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Go (@naoina) - &lt;a href=&#34;https://github.com/naoina/toml&#34;&gt;https://github.com/naoina/toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Haskell (@seliopou) - &lt;a href=&#34;https://github.com/seliopou/toml&#34;&gt;https://github.com/seliopou/toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Haxe (@raincole) - &lt;a href=&#34;https://github.com/raincole/haxetoml&#34;&gt;https://github.com/raincole/haxetoml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Java (@agrison) - &lt;a href=&#34;https://github.com/agrison/jtoml&#34;&gt;https://github.com/agrison/jtoml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Java (@johnlcox) - &lt;a href=&#34;https://github.com/johnlcox/toml4j&#34;&gt;https://github.com/johnlcox/toml4j&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Java (@mwanji) - &lt;a href=&#34;https://github.com/mwanji/toml4j&#34;&gt;https://github.com/mwanji/toml4j&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Java - &lt;a href=&#34;https://github.com/asafh/jtoml&#34;&gt;https://github.com/asafh/jtoml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Java w/ ANTLR (@MatthiasSchuetz) - &lt;a href=&#34;https://github.com/mschuetz/toml&#34;&gt;https://github.com/mschuetz/toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Julia (@pygy) - &lt;a href=&#34;https://github.com/pygy/TOML.jl&#34;&gt;https://github.com/pygy/TOML.jl&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Literate CoffeeScript (@JonathanAbrams) - &lt;a href=&#34;https://github.com/JonAbrams/tomljs&#34;&gt;https://github.com/JonAbrams/tomljs&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Nim (@ziotom78) - &lt;a href=&#34;https://github.com/ziotom78/parsetoml&#34;&gt;https://github.com/ziotom78/parsetoml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;node.js/browser - &lt;a href=&#34;https://github.com/ricardobeat/toml.js&#34;&gt;https://github.com/ricardobeat/toml.js&lt;/a&gt; (npm install tomljs)&lt;/li&gt;
-&lt;li&gt;node.js - &lt;a href=&#34;https://github.com/BinaryMuse/toml-node&#34;&gt;https://github.com/BinaryMuse/toml-node&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;node.js/browser (@redhotvengeance) - &lt;a href=&#34;https://github.com/redhotvengeance/topl&#34;&gt;https://github.com/redhotvengeance/topl&lt;/a&gt; (topl npm package)&lt;/li&gt;
-&lt;li&gt;node.js/browser (@alexanderbeletsky) - &lt;a href=&#34;https://github.com/alexanderbeletsky/toml-js&#34;&gt;https://github.com/alexanderbeletsky/toml-js&lt;/a&gt; (npm browser amd)&lt;/li&gt;
-&lt;li&gt;Objective C (@mneorr) - &lt;a href=&#34;https://github.com/mneorr/toml-objc.git&#34;&gt;https://github.com/mneorr/toml-objc.git&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Objective-C (@SteveStreza) - &lt;a href=&#34;https://github.com/amazingsyco/TOML&#34;&gt;https://github.com/amazingsyco/TOML&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;OCaml (@mackwic) &lt;a href=&#34;https://github.com/mackwic/to.ml&#34;&gt;https://github.com/mackwic/to.ml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Perl (@alexkalderimis) - &lt;a href=&#34;https://github.com/alexkalderimis/config-toml.pl&#34;&gt;https://github.com/alexkalderimis/config-toml.pl&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Perl - &lt;a href=&#34;https://github.com/dlc/toml&#34;&gt;https://github.com/dlc/toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;PHP (@leonelquinteros) - &lt;a href=&#34;https://github.com/leonelquinteros/php-toml.git&#34;&gt;https://github.com/leonelquinteros/php-toml.git&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;PHP (@jimbomoss) - &lt;a href=&#34;https://github.com/jamesmoss/toml&#34;&gt;https://github.com/jamesmoss/toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;PHP (@coop182) - &lt;a href=&#34;https://github.com/coop182/toml-php&#34;&gt;https://github.com/coop182/toml-php&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;PHP (@checkdomain) - &lt;a href=&#34;https://github.com/checkdomain/toml&#34;&gt;https://github.com/checkdomain/toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;PHP (@zidizei) - &lt;a href=&#34;https://github.com/zidizei/toml-php&#34;&gt;https://github.com/zidizei/toml-php&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;PHP (@yosymfony) - &lt;a href=&#34;https://github.com/yosymfony/toml&#34;&gt;https://github.com/yosymfony/toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Python (@f03lipe) - &lt;a href=&#34;https://github.com/f03lipe/toml-python&#34;&gt;https://github.com/f03lipe/toml-python&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Python (@uiri) - &lt;a href=&#34;https://github.com/uiri/toml&#34;&gt;https://github.com/uiri/toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Python - &lt;a href=&#34;https://github.com/bryant/pytoml&#34;&gt;https://github.com/bryant/pytoml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Python (@elssar) - &lt;a href=&#34;https://github.com/elssar/tomlgun&#34;&gt;https://github.com/elssar/tomlgun&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Python (@marksteve) - &lt;a href=&#34;https://github.com/marksteve/toml-ply&#34;&gt;https://github.com/marksteve/toml-ply&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Python (@hit9) - &lt;a href=&#34;https://github.com/hit9/toml.py&#34;&gt;https://github.com/hit9/toml.py&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Racket (@greghendershott) - &lt;a href=&#34;https://github.com/greghendershott/toml&#34;&gt;https://github.com/greghendershott/toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Ruby (@jm) - &lt;a href=&#34;https://github.com/jm/toml&#34;&gt;https://github.com/jm/toml&lt;/a&gt; (toml gem)&lt;/li&gt;
-&lt;li&gt;Ruby (@eMancu) - &lt;a href=&#34;https://github.com/eMancu/toml-rb&#34;&gt;https://github.com/eMancu/toml-rb&lt;/a&gt; (toml-rb gem)&lt;/li&gt;
-&lt;li&gt;Ruby (@charliesome) - &lt;a href=&#34;https://github.com/charliesome/toml2&#34;&gt;https://github.com/charliesome/toml2&lt;/a&gt; (toml2 gem)&lt;/li&gt;
-&lt;li&gt;Ruby (@sandeepravi) - &lt;a href=&#34;https://github.com/sandeepravi/tomlp&#34;&gt;https://github.com/sandeepravi/tomlp&lt;/a&gt; (tomlp gem)&lt;/li&gt;
-&lt;li&gt;Rust (@mneumann) - &lt;a href=&#34;https://github.com/mneumann/rust-toml&#34;&gt;https://github.com/mneumann/rust-toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Rust (@alexcrichton) - &lt;a href=&#34;https://github.com/alexcrichton/toml-rs&#34;&gt;https://github.com/alexcrichton/toml-rs&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Scala - &lt;a href=&#34;https://github.com/axelarge/tomelette&#34;&gt;https://github.com/axelarge/tomelette&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;validators:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Validators&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Go (@BurntSushi) - &lt;a href=&#34;https://github.com/BurntSushi/toml/tree/master/cmd/tomlv&#34;&gt;https://github.com/BurntSushi/toml/tree/master/cmd/tomlv&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;language-agnostic-test-suite-for-toml-decoders-and-encoders:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Language agnostic test suite for TOML decoders and encoders&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;toml-test (@BurntSushi) - &lt;a href=&#34;https://github.com/BurntSushi/toml-test&#34;&gt;https://github.com/BurntSushi/toml-test&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;editor-support:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Editor support&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Atom - &lt;a href=&#34;https://github.com/atom/language-toml&#34;&gt;https://github.com/atom/language-toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Emacs (@dryman) - &lt;a href=&#34;https://github.com/dryman/toml-mode.el&#34;&gt;https://github.com/dryman/toml-mode.el&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Notepad++ (@fireforge) - &lt;a href=&#34;https://github.com/fireforge/toml-notepadplusplus&#34;&gt;https://github.com/fireforge/toml-notepadplusplus&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Sublime Text 2 &amp;amp; 3 (@Gakai) - &lt;a href=&#34;https://github.com/Gakai/sublime_toml_highlighting&#34;&gt;https://github.com/Gakai/sublime_toml_highlighting&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Synwrite - &lt;a href=&#34;http://uvviewsoft.com/synwrite/download.html&#34;&gt;http://uvviewsoft.com/synwrite/download.html&lt;/a&gt; ; call Options/ Addons manager/ Install&lt;/li&gt;
-&lt;li&gt;TextMate (@infininight) - &lt;a href=&#34;https://github.com/textmate/toml.tmbundle&#34;&gt;https://github.com/textmate/toml.tmbundle&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Vim (@cespare) - &lt;a href=&#34;https://github.com/cespare/vim-toml&#34;&gt;https://github.com/cespare/vim-toml&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;encoder:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Encoder&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Dart (@just95) - &lt;a href=&#34;https://github.com/just95/toml.dart&#34;&gt;https://github.com/just95/toml.dart&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Go w/ Reflection (@BurntSushi) - &lt;a href=&#34;https://github.com/BurntSushi/toml&#34;&gt;https://github.com/BurntSushi/toml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;PHP (@ayushchd) - &lt;a href=&#34;https://github.com/ayushchd/php-toml-encoder&#34;&gt;https://github.com/ayushchd/php-toml-encoder&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;converters:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Converters&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;remarshal (@dbohdan) - &lt;a href=&#34;https://github.com/dbohdan/remarshal&#34;&gt;https://github.com/dbohdan/remarshal&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;yaml2toml (@jtyr) - &lt;a href=&#34;https://github.com/jtyr/yaml2toml-converter&#34;&gt;https://github.com/jtyr/yaml2toml-converter&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;yaml2toml.dart (@just95) - &lt;a href=&#34;https://github.com/just95/yaml2toml.dart&#34;&gt;https://github.com/just95/yaml2toml.dart&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;organization:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Organization&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;toml-lang (@BurntSushi) - &lt;a href=&#34;https://github.com/toml-lang&#34;&gt;https://github.com/toml-lang&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>2016年的第一天</title>
-      <link>http://alimy.me/post/day_201601010000/</link>
-      <pubDate>Fri, 01 Jan 2016 00:00:00 UTC</pubDate>
-      
-      <guid>http://alimy.me/post/day_201601010000/</guid>
-      <description>&lt;p&gt;2016年，很好。
-&lt;img src=&#34;http://alimy.me/images/post/20160101121200.webp&#34; alt=&#34;请使用支持Webp的浏览器(最新版Chrome/FireFox)查看&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
