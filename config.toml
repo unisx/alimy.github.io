@@ -1,0 +1,15 @@
+baseurl = "http://alimy.me"
+title = "Alimy"
+author = "Alimy"
+copyright = "Copyright (c) 20015 - 2016, Alimy; all rights reserved."
+canonifyurls = true
+paginate = 3
+theme = "hugo-uno"
+
+[params]
+    name = "Alimy"
+    logo = "/images/logo.jpg"
+    description = "乱花渐欲迷人眼，浅草才能没马蹄。"
+    github = "alimy"
+    twitter = "alimy86"
+    disqus = "alimy"
