@@ -7,7 +7,7 @@ file_list := .files
 site_file_list := $(site_path)/.files
 master_git_dir := $(PWD)/master/.git
 master_work_tree := $(PWD)/master
-master_git_flag := --git-dir=$(master_git_dir) --work_tree="$(master_work_tree)
+master_git_flag := --git-dir=$(master_git_dir) --work_tree=$(master_work_tree)
 
 Clean_Site_Files = cat $(file_list) | xargs $(RM) && $(RM) $(file_list)
 Clean_Site = [ -s $(site_file_list) ] && $(Do_Clean_Site) || true
