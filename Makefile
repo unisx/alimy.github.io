@@ -26,12 +26,12 @@ define Commit_All
 endef
 
 define Commit_Branch_Hugo
-	$(Commit_All) || git push || $(Commit_All)
+	$(Commit_All) || true
 endef
 
 define Commit_Branch_Master
 	cd $(site_path)
-	$(Commit_All) || git push || $(Commit_All)
+	$(Commit_All) || true
 	cd $(content_path_relate_site)
 endef
 
