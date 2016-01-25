@@ -21,7 +21,6 @@ define Do_Clean_Site
 endef
 
 define Commit_Branch_Hugo
-	pwd
 	git add --all .
 	git commit -m "$(message)" || true
 endef
