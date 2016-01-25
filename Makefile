@@ -24,14 +24,14 @@ endef
 define Commit_Branch_Hugo
 	git commit -a -m "$(default_comment)" || git push
 	git add --all .
-	git commit -m "$(comment)"
+	git commit -m "$(comment)" || true
 endef
 
 define Commit_Branch_Master
 	cd $(site_path)
 	git commit -a -m "$(default_comment)" || git push
 	git add --all .
-	git commit -a -m "$(comment)"
+	git commit -m "$(comment)" || true
 	cd $(content_path_relate_site)
 endef
 
