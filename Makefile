@@ -1,10 +1,10 @@
 RM= rm -rf
 
-message ?= "update content"
-cache_path := "/tmp/hugo/github.com/alimy"
-site_path := "master"
-content_path_relate_site := "../"
-file_list :=".files"
+message ?= update content
+cache_path := /tmp/hugo/github.com/alimy
+site_path := master
+content_path_relate_site := ../
+file_list := .files
 site_file_list := $(site_path)/.files
 
 Clean_Site_Files = cat $(file_list) | xargs $(RM) && $(RM) $(file_list)
@@ -21,14 +21,15 @@ define Do_Clean_Site
 endef
 
 define Commit_Branch_Hugo
+	pwd
 	git add --all .
-	git commit -m "$(message)"
+	git commit -m "$(message)" || true
 endef
 
 define Commit_Branch_Master
 	cd $(site_path)
 	git add --all .
-	git commit -m "$(message)"
+	git commit -m "$(message)" || true
 	cd $(content_path_relate_site)
 endef
 
