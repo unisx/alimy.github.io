@@ -5,22 +5,29 @@ cache_path := /tmp/hugo/github.com/alimy
 site_path := master
 file_list := .files
 site_file_list := $(site_path)/.files
+master_git_dir := $(PWD)/master/.git
+master_work_tree := $(PWD)/master
+master_git_flag := --git-dir=$(master_git_dir) --work_tree="$(master_work_tree)
 
 Clean_Site_Files = cat $(file_list) | xargs $(RM) && $(RM) $(file_list)
 Clean_Site = [ -s $(site_file_list) ] && $(Do_Clean_Site) || true
 Install_Site = cp -r $(cache_path)/* $(site_path)
 Update_Site_File_List = ls $(cache_path) | xargs > $(site_file_list)
 Hugo_Generate_Site = hugo --destination $(cache_path)
-Do_Clean_Site = cd $(site_path); $(Clean_Site_Files)
-Commit_Branch_Master = cd $(site_path);$(Commit_All);cd ../
+Do_Clean_Site = cd $(site_path);$(Clean_Site_Files);cd ../
 Commit_Branch_Hugo = $(Commit_All)
 Push_Branch_Hugo = git push
-Push_Branch_Master = cd $(site_path);git push;cd ../
+Push_Branch_Master = git $(master_git_flag) push
 
-
-define Commit_All
+define Commit_Branch_Hugo
 	git add --all .
 	-git commit -m "$(comment)"
+endef
+
+define Commit_Branch_Master
+	cd $(site_path);git $(master_git_flag) add --all .
+	-git $(master_git_flag) commit -m "$(comment)"
+	cd ../
 endef
 
 help:
