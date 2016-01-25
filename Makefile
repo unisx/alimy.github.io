@@ -1,19 +1,66 @@
 RM= rm -rf
-Cache_Path= "/tmp/hugo/github.com/alimy"
-Site_Path= "master"
-File_List=".files"
-Site_File_List= $(Site_Path)/.files
-Clean_Site_Files= cat $(File_List) | xargs $(RM) && $(RM) $(File_List)
-Do_Clean_Site= cd $(Site_Path) && $(Clean_Site_Files) && cd ../
-Clean_Site= [ -s $(Site_File_List) ] && $(Do_Clean_Site) || true
-Install_Site= cp -r $(Cache_Path)/* $(Site_Path)
-Update_Site_File_List= ls $(Cache_Path) | xargs > $(Site_File_List)
 
-all: gen
+message ?= "update content"
+cache_path := "/tmp/hugo/github.com/alimy"
+site_path := "master"
+content_path_relate_site := "../"
+file_list :=".files"
+site_file_list := $(site_path)/.files
 
-gen: distclean
-	hugo --destination $(Cache_Path)
-	$(Install_Site) && $(Update_Site_File_List) 
+Clean_Site_Files = cat $(file_list) | xargs $(RM) && $(RM) $(file_list)
+Clean_Site = [ -s $(site_file_list) ] && $(Do_Clean_Site) || true
+Install_Site = cp -r $(cache_path)/* $(site_path)
+Update_Site_File_List = ls $(cache_path) | xargs > $(site_file_list)
+Push_Branch_Hugo = git push
+Hugo_Generate_Site = hugo --destination $(cache_path)
+
+define Do_Clean_Site
+	cd $(site_path)
+	$(Clean_Site_Files)
+	cd $(content_path_relate_site)
+endef
+
+define Commit_Branch_Hugo
+	git add --all .
+	git commit -m "$(message)"
+endef
+
+define Commit_Branch_Master
+	cd $(site_path)
+	git add --all .
+	git commit -m "$(message)"
+	cd $(content_path_relate_site)
+endef
+
+define Push_Branch_Master
+	cd $(site_path)
+	git push
+	cd $(content_path_relate_site)
+endef
+
+help:
+	@echo "  publish	- Publish site to remote"
+	@echo "  push		- Push original content and site to remote"
+	@echo "  commit	- Commit content and site to corresponding local repository"
+	@echo "  generate	- Generate site from content"
+	@echo "  serve		- Serve site in live time"
+	@echo "  test		- Test site in simulate deploy place"
+	@echo "  clean		- Clean site files that used to publish"
+	@echo "  distclean	- Clean site files and cache files"
+
+publish: commit
+	$(Push_Branch_Master)
+
+push: commit
+	$(Push_To_Remote)
+
+commit: generate
+	$(Commit_Branch_Hugo)
+	$(Commit_Branch_Master)
+
+generate: distclean
+	$(Hugo_Generate_Site)
+	$(Install_Site) && $(Update_Site_File_List)
 
 clean:
 	$(Clean_Site)
@@ -27,5 +74,5 @@ serve:
 test:
 	caddy -root master
 
-.PHONY: all gen serve test clean distclean
+.PHONY: help generate publish push commit serve test clean distclean
 
