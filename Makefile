@@ -1,7 +1,6 @@
 RM= rm -rf
 
-default_comment = update content
-comment ?= $(default_comment)
+comment ?= update content
 cache_path := /tmp/hugo/github.com/alimy
 site_path := master
 content_path_relate_site := ../
@@ -21,17 +20,18 @@ define Do_Clean_Site
 	cd $(content_path_relate_site)
 endef
 
-define Commit_Branch_Hugo
-	git commit -a -m "$(default_comment)" || git push
+define Commit_All 
 	git add --all .
-	git commit -m "$(comment)" || true
+	git commit -m "$(comment)"
+endef
+
+define Commit_Branch_Hugo
+	$(Commit_All) || git push || $(Commit_All)
 endef
 
 define Commit_Branch_Master
 	cd $(site_path)
-	git commit -a -m "$(default_comment)" || git push
-	git add --all .
-	git commit -m "$(comment)" || true
+	$(Commit_All) || git push || $(Commit_All)
 	cd $(content_path_relate_site)
 endef
 
