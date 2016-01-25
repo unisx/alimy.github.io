@@ -22,16 +22,16 @@ define Do_Clean_Site
 endef
 
 define Commit_Branch_Hugo
-	git commit -a -m "$(default_comment)"
+	git commit -a -m "$(default_comment)" || git push
 	git add --all .
-	git commit -m "$(comment)" || true
+	git commit -m "$(comment)"
 endef
 
 define Commit_Branch_Master
 	cd $(site_path)
-	git commit -a -m "$(default_comment)"
+	git commit -a -m "$(default_comment)" || git push
 	git add --all .
-	git commit -a -m "$(comment)" || true
+	git commit -a -m "$(comment)"
 	cd $(content_path_relate_site)
 endef
 
