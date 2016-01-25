@@ -12,10 +12,10 @@ Install_Site = cp -r $(cache_path)/* $(site_path)
 Update_Site_File_List = ls $(cache_path) | xargs > $(site_file_list)
 Hugo_Generate_Site = hugo --destination $(cache_path)
 Do_Clean_Site = cd $(site_path); $(Clean_Site_Files)
-Commit_Branch_Master = cd $(site_path);pwd;$(Commit_All);cd ../;pwd
+Commit_Branch_Master = cd $(site_path);$(Commit_All);cd ../
 Commit_Branch_Hugo = $(Commit_All)
 Push_Branch_Hugo = git push
-Push_Branch_Master = cd $(site_path);git push;cd ../;pwd
+Push_Branch_Master = cd $(site_path);git push;cd ../
 
 
 define Commit_All
