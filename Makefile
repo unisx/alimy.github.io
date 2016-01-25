@@ -5,6 +5,8 @@ cache_path := /tmp/hugo/github.com/alimy
 site_path := master
 file_list := .files
 site_file_list := $(site_path)/.files
+cwd_hugo = $(PWD)
+cwd_master = $(cwd_hugo)/$(site_path)
 
 Clean_Site_Files = cat $(file_list) | xargs $(RM) && $(RM) $(file_list)
 Clean_Site = [ -s $(site_file_list) ] && $(Do_Clean_Site) || true
@@ -12,6 +14,8 @@ Install_Site = cp -r $(cache_path)/* $(site_path)
 Update_Site_File_List = ls $(cache_path) | xargs > $(site_file_list)
 Push_Branch_Hugo = git push
 Hugo_Generate_Site = hugo --destination $(cache_path)
+Git_In_Hugo = git --work-tree="$(cwd_hugo)"
+Git_In_Master = git --work-tree="$(cwd_master)"
 
 define Do_Clean_Site
 	cd $(site_path)
@@ -19,25 +23,22 @@ define Do_Clean_Site
 	cd $(content_path_relate_site)
 endef
 
-define Commit_All
-	git --work-tree="$(PWD)" add --all .
-	git commit -m "$(comment)"
-endef
-
 define Commit_Branch_Hugo
-	$(Commit_All) || true
+	$(Git_In_Hugo) add --all .
+	$(Git_In_Hugo) commit -m "$(comment)" || true
 endef
 
 define Commit_Branch_Master
-	cd $(site_path)
-	$(Commit_All) || true
-	cd -
+	cd $(cwd_master)
+	$(Git_In_Master) add --all .
+	$(Git_In_Master) commit -m "$(comment)" || true
+	cd $(cwd_hugo)
 endef
 
 define Push_Branch_Master
-	cd $(site_path)
-	git push
-	cd -
+	cd $(cwd_master)
+	$(Git_In_Master) push
+	cd $(cwd_hugo)
 endef
 
 help:
