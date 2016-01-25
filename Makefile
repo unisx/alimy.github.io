@@ -1,6 +1,6 @@
 RM= rm -rf
 
-message ?= update content
+comment ?= update content
 cache_path := /tmp/hugo/github.com/alimy
 site_path := master
 content_path_relate_site := ../
@@ -22,13 +22,13 @@ endef
 
 define Commit_Branch_Hugo
 	git add --all .
-	git commit -m "$(message)" || true
+	git commit -m "$(comment)" || true
 endef
 
 define Commit_Branch_Master
 	cd $(site_path)
 	git add --all .
-	git commit -m "$(message)" || true
+	git commit -m "$(comment)" || true
 	cd $(content_path_relate_site)
 endef
 
