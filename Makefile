@@ -53,7 +53,8 @@ publish: commit
 	$(Push_Branch_Master)
 
 push: commit
-	$(Push_To_Remote)
+	$(Push_Branch_Hugo)
+	$(Push_Branch_Master)
 
 commit: generate
 	$(Commit_Branch_Hugo)
