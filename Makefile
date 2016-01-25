@@ -3,7 +3,6 @@ RM= rm -rf
 comment ?= update content
 cache_path := /tmp/hugo/github.com/alimy
 site_path := master
-content_path_relate_site := ../
 file_list := .files
 site_file_list := $(site_path)/.files
 
@@ -20,8 +19,8 @@ define Do_Clean_Site
 	cd $(content_path_relate_site)
 endef
 
-define Commit_All 
-	git --work-tree=. add --all .
+define Commit_All
+	git --work-tree="$(PWD)" add --all .
 	git commit -m "$(comment)"
 endef
 
@@ -32,13 +31,13 @@ endef
 define Commit_Branch_Master
 	cd $(site_path)
 	$(Commit_All) || true
-	cd $(content_path_relate_site)
+	cd -
 endef
 
 define Push_Branch_Master
 	cd $(site_path)
 	git push
-	cd $(content_path_relate_site)
+	cd -
 endef
 
 help:
