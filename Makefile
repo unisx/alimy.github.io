@@ -21,7 +21,7 @@ define Do_Clean_Site
 endef
 
 define Commit_All 
-	git add --all .
+	git --work-tree=. add --all .
 	git commit -m "$(comment)"
 endef
 
