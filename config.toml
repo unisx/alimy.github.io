@@ -4,7 +4,7 @@ author = "Alimy"
 copyright = "Copyright (c) 20015 - 2016, Alimy; all rights reserved."
 canonifyurls = true
 paginate = 3
-theme = "hugo-uno"
+theme = "uno"
 
 [params]
     name = "Alimy"
