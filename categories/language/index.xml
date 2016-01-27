@@ -217,7 +217,7 @@ Violets are blue.&lt;/p&gt;
 
 &lt;h2 id=&#34;由来:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;由来&lt;/h2&gt;
 
-&lt;p&gt;gogs 打开一个android app库的资源文件夹(&lt;a href=&#34;http://gogs.me/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi&#34;&gt;http://gogs.me/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi&lt;/a&gt;)
+&lt;p&gt;gogs 打开一个android app库的资源文件夹(/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi)
 返回 500&lt;/p&gt;
 
 &lt;h2 id=&#34;源头:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;源头&lt;/h2&gt;

@@ -2625,7 +2625,7 @@ rm -f bar.o
       <guid>http://alimy.me/post/dev_201601161712/</guid>
       <description>
 
-&lt;h3 id=&#34;sect-dogeos-smartos-illumos-这些都是什么:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;DogeOS, SmartOS, illumos，这些都是什么？&lt;/h3&gt;
+&lt;h3 id=&#34;sect-这些都是什么:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;这些都是什么？&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;都是操作系统&lt;/li&gt;
@@ -2969,7 +2969,7 @@ Violets are blue.&lt;/p&gt;
 
 &lt;h2 id=&#34;由来:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;由来&lt;/h2&gt;
 
-&lt;p&gt;gogs 打开一个android app库的资源文件夹(&lt;a href=&#34;http://gogs.me/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi&#34;&gt;http://gogs.me/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi&lt;/a&gt;)
+&lt;p&gt;gogs 打开一个android app库的资源文件夹(/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi)
 返回 500&lt;/p&gt;
 
 &lt;h2 id=&#34;源头:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;源头&lt;/h2&gt;
