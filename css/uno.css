@@ -2027,12 +2027,12 @@ pre {
 
 .content-wrapper {
   z-index: 800;
-  width: 60%;
-  max-width: 800px;
-  margin-left: 40%; }
+  width: 63%;
+  max-width: 1080px;
+  margin-left: 37%; }
 
 .content-wrapper__inner {
-  margin: 0 10%;
+  margin: 0 6%;
   padding: 50px 0; }
 
 .footer {
@@ -2354,8 +2354,8 @@ hr {
   background-size: cover; }
 
 .panel-cover--collapsed {
-  width: 40%;
-  max-width: 530px; }
+  width: 37%;
+  max-width: 460px; }
 
 .panel-cover--overlay {
   display: block;
@@ -2599,9 +2599,9 @@ nav {
   font-size: 1em;
   font-family: "Ubuntu", sans-serif; }
 
-@media all and (min-width: 1300px) {
+@media all and (min-width: 1245px) {
   .content-wrapper {
-    margin-left: 530px; } }
+    margin-left: 460px; } }
 @media all and (max-width: 1100px) {
   .panel-cover__logo {
     width: 70px; }
