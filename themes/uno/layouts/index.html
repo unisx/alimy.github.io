@@ -5,14 +5,14 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
-                        {{ $paginator := .Paginate (where .Data.Pages "Type" "post") }} 
+                        {{ $paginator := .Paginate (where .Data.Pages "Type" "post") }}
                         {{ range $paginator.Pages }}
                             {{ .Render "summary"}}
                         {{ end }}
                     </div>
                     </br>
                     <h4>
-                        <a href="{{ .Site.BaseURL }}/post/" title="文章列表">Archive {{ .Params.copyright }}</a>
+                        <a href="{{ .Site.BaseURL }}/post/" title="文章列表">Archive</a>
                     </h4>
                 </section>
             {{ partial "footer.html" . }}
