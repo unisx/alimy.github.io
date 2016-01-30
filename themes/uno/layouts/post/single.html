@@ -8,13 +8,14 @@
           <!--<span class="post-date">{{ .Date.Format "Mon, Jan 2, 2006" }}</span>-->
           {{ .Content }}
         </div>
-        <div style="padding-top:20px;padding-bottom:15px;">
+        <div id="navigator" style="padding-top:20px;padding-bottom:15px;">
           {{with .Next }}<a style="float:left;color:#2479cc;text-decoration:none;" href="{{ .Permalink }}" title="上一篇"><< {{ .Title }}</a>{{ end }}
           {{with .Prev }}<a style="float:right;color:#2479cc;text-decoration:none;" href="{{ .Permalink }}" title="下一篇">{{ .Title }} >></a>{{ end }}
         </div>
-        <h3>Comments</h3>
-        {{ partial "comments.html" . }}
-      </div>
+        <div id="comments">
+          <h3>Comments</h3>
+          {{ partial "comments.html" . }}
+        </div>
     </div>
   </body>
   {{ partial "script.html" . }}
