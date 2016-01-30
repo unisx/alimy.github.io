@@ -2651,7 +2651,7 @@ LVM以及一堆不同的文件系统完成&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
       <guid>http://alimy.me/post/dev_201601131558/</guid>
       <description>
 
-&lt;h3 id=&#34;bull-what-is-markdown:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;&amp;bull; What is Markdown?&lt;/h3&gt;
+&lt;h3 id=&#34;sect-what-is-markdown:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;&amp;sect; What is Markdown?&lt;/h3&gt;
 
 &lt;p&gt;Markdown is a way to style text on the web. You control the display of the
 document; formatting words as bold or italic, adding images, and creating lists
@@ -2659,7 +2659,7 @@ are just a few of the things we can do with Markdown. Mostly, Markdown is just
 regular text with a few non-alphabetic characters thrown in, like # or *.&lt;br /&gt;
 &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34; title=&#34;Daring FireBall: Home&#34;&gt;[Markdown Reference]&lt;/a&gt; &lt;a href=&#34;https://guides.github.com/features/mastering-markdown/&#34; title=&#34;GitHub&#39;s Mastering Markdown&#34;&gt;[Mastering Markdown]&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;bull-syntax-cheatsheet:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;&amp;bull; Syntax Cheatsheet:&lt;/h3&gt;
+&lt;h3 id=&#34;sect-syntax-cheatsheet:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;&amp;sect; Syntax Cheatsheet:&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Phrase Emphasis&lt;/p&gt;
