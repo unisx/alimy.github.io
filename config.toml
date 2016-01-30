@@ -1,9 +1,9 @@
 baseurl = "http://alimy.me"
 title = "Alimy"
 author = "Alimy"
-copyright = "Copyright (c) 20015 - 2016, Alimy; all rights reserved."
+copyright = "&copy;2016, Alimy; all rights reserved."
 canonifyurls = true
-paginate = 3
+paginate = 10
 theme = "uno"
 
 [params]

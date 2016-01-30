@@ -5,20 +5,19 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
-                        {{ range first 10 .Data.Pages }}
-                            {{ if eq .Type  "post" }}
-                                {{ .Render "summary"}}
-                            {{ end }}
+                        {{ $paginator := .Paginate (where .Data.Pages "Type" "post") }} 
+                        {{ range $paginator.Pages }}
+                            {{ .Render "summary"}}
                         {{ end }}
                     </div>
                     </br>
                     <h4>
-                        <a href="{{ .Site.BaseURL }}/post/" title="文章列表">Archive</a>
+                        <a href="{{ .Site.BaseURL }}/post/" title="文章列表">Archive {{ .Params.copyright }}</a>
                     </h4>
                 </section>
+            {{ partial "footer.html" . }}
             </div>
         </div>
-        {{ partial "footer.html" .}}
         {{ partial "script.html" .}}
     </body>
 </html>
