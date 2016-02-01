@@ -15,8 +15,61 @@
     <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
-    <script src="http://alimy.me/js/main.min.js">
-    </script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <style type="text/css">
+        .panel {
+          box-shadow:0px 0px 6px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 6px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px;
+          margin-top:32px;
+        }
+        .panel:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:16px 0px;
+        }
+        #post-navigator>a {
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+          clear:both;
+        }
+    </style>
 </head>
 
   <body>
@@ -281,11 +334,11 @@ Liquid::Template.register_tag('image', Jekyll::ImageTag)
 <p><a href="http://heyitsalex.net/">Hey, it&rsquo;s Alex</a> was migrated in less than a <em>father-with-kids day</em> from Jekyll to Hugo. You can see all the changes (and screw-ups) by looking at this <a href="https://github.com/alexandre-normand/alexandre-normand/compare/869d69435bd2665c3fbf5b5c78d4c22759d7613a...b7f6605b1265e83b4b81495423294208cc74d610">diff</a>.</p>
 
         </div>
-        <div id="navigator" style="padding-top:20px;padding-bottom:15px;">
+        <div id="post-navigator" style="">
           
-          <a style="float:right;color:#2479cc;text-decoration:none;" href="http://alimy.me/post/etc_201409281221/" title="下一篇">Creating a New Theme >></a>
+          <a id="post-navigator-next" href="http://alimy.me/post/etc_201409281221/" title="下一篇">Creating a New Theme >></a>
         </div>
-        <div id="comments">
+        <div id="post-comments">
           <h3>Comments</h3>
           
 

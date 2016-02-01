@@ -15,8 +15,61 @@
     <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
-    <script src="http://alimy.me/js/main.min.js">
-    </script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <style type="text/css">
+        .panel {
+          box-shadow:0px 0px 6px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 6px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px;
+          margin-top:32px;
+        }
+        .panel:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:16px 0px;
+        }
+        #post-navigator>a {
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+          clear:both;
+        }
+    </style>
 </head>
 
   <body>
@@ -2484,11 +2537,11 @@ rm -f bar.o
 <p>(注意：文章引用<a href="http://blog.csdn.net/iiisan/article/details/399431#" title="How to write make file"><strong><em>这里</em></strong></a>，我只是为了方便以后查找，重新编辑收录博客。Make 是一个功能强大的工具，即使有那么点瑕疵，也不妨碍她的实用价值，非常值得深入研究使用)</p>
 
         </div>
-        <div id="navigator" style="padding-top:20px;padding-bottom:15px;">
-          <a style="float:left;color:#2479cc;text-decoration:none;" href="http://alimy.me/post/dev_201601222145/" title="上一篇">&lt;&lt; History of IRC</a>
-          <a style="float:right;color:#2479cc;text-decoration:none;" href="http://alimy.me/post/art_201601141212/" title="下一篇">梦里水乡 >></a>
+        <div id="post-navigator" style="">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201601222145/" title="上一篇">&lt;&lt; History of IRC</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/art_201601141212/" title="下一篇">梦里水乡 >></a>
         </div>
-        <div id="comments">
+        <div id="post-comments">
           <h3>Comments</h3>
           
 

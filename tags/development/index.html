@@ -15,8 +15,61 @@
     <link href="http://alimy.me/tags/development/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
-    <script src="http://alimy.me/js/main.min.js">
-    </script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <style type="text/css">
+        .panel {
+          box-shadow:0px 0px 6px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 6px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px;
+          margin-top:32px;
+        }
+        .panel:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:16px 0px;
+        }
+        #post-navigator>a {
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+          clear:both;
+        }
+    </style>
 </head>
 
     <body>
@@ -110,76 +163,75 @@
 
         <div class="content-wrapper">
             <div class="content-wrapper__inner">
-        <h2>文章列表</h2>
-
+                <h2>文章列表</h2>
                 
-                <div style="box-shadow:0px 0px 8px rgba(68,68,68,.6);-moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);border-radius:4px;-moz-border-radius:4px;padding:16px;margin-top:32px;">
+                <div class="panel">
                 <div id="caption">
                 <h3>
                   2016年 01月
                   
-                  <span style="min-width:48px;text-align:center;float:right;margin-right:64px;background:rgba(68,68,68,.2);border-radius:4px;-moz-border-radius:4px;padding:8px;" title="共7篇文章">7 </span>
+                  <span id="list-indicator" title="共7篇文章">7 </span>
                 </h3>
                 </div>
                 <ul id="list">
                     
                     <li>
                         <a href="http://alimy.me/post/dev_201601241856/">Make:Makefile </a>&nbsp;
-                        <span style="color:#999;font-size:14px;font-style:italic;">(Sun, Jan 24, 2016)</span>
+                        <span id="list-date">(Sun, Jan 24, 2016)</span>
                     </li>
                     
                     <li>
                         <a href="http://alimy.me/post/dev_201601222145/">History of IRC </a>&nbsp;
-                        <span style="color:#999;font-size:14px;font-style:italic;">(Fri, Jan 22, 2016)</span>
+                        <span id="list-date">(Fri, Jan 22, 2016)</span>
                     </li>
                     
                     <li>
                         <a href="http://alimy.me/post/dev_201601161712/">DogeOS,SmartOS,illumos </a>&nbsp;
-                        <span style="color:#999;font-size:14px;font-style:italic;">(Sat, Jan 16, 2016)</span>
+                        <span id="list-date">(Sat, Jan 16, 2016)</span>
                     </li>
                     
                     <li>
                         <a href="http://alimy.me/post/dev_201601131558/">Markdown </a>&nbsp;
-                        <span style="color:#999;font-size:14px;font-style:italic;">(Wed, Jan 13, 2016)</span>
+                        <span id="list-date">(Wed, Jan 13, 2016)</span>
                     </li>
                     
                     <li>
                         <a href="http://alimy.me/post/dev_201601121531/">Too many open files 的解决方法 </a>&nbsp;
-                        <span style="color:#999;font-size:14px;font-style:italic;">(Tue, Jan 12, 2016)</span>
+                        <span id="list-date">(Tue, Jan 12, 2016)</span>
                     </li>
                     
                     <li>
                         <a href="http://alimy.me/post/dev_201601031221/">关于TOML </a>&nbsp;
-                        <span style="color:#999;font-size:14px;font-style:italic;">(Sun, Jan 03, 2016)</span>
+                        <span id="list-date">(Sun, Jan 03, 2016)</span>
                     </li>
                     
                     <li>
                         <a href="http://alimy.me/post/dev_201601021221/">TOML v0.4.0 </a>&nbsp;
-                        <span style="color:#999;font-size:14px;font-style:italic;">(Sat, Jan 02, 2016)</span>
+                        <span id="list-date">(Sat, Jan 02, 2016)</span>
                     </li>
                     
                 </ul>
                 </div>
                 
-                <div style="box-shadow:0px 0px 8px rgba(68,68,68,.6);-moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);border-radius:4px;-moz-border-radius:4px;padding:16px;margin-top:32px;">
+                <div class="panel">
                 <div id="caption">
                 <h3>
                   2014年 04月
                   
-                  <span style="min-width:48px;text-align:center;float:right;margin-right:64px;background:rgba(68,68,68,.2);border-radius:4px;-moz-border-radius:4px;padding:8px;" title="共1篇文章">1 </span>
+                  <span id="list-indicator" title="共1篇文章">1 </span>
                 </h3>
                 </div>
                 <ul id="list">
                     
                     <li>
                         <a href="http://alimy.me/post/etc_201404021616/">Getting Started with Hugo </a>&nbsp;
-                        <span style="color:#999;font-size:14px;font-style:italic;">(Wed, Apr 02, 2014)</span>
+                        <span id="list-date">(Wed, Apr 02, 2014)</span>
                     </li>
                     
                 </ul>
                 </div>
                 
-                <footer style="padding:2em 0 0;display:block;font-size:.8em;color:#b3b3b3;"> <p style="width:100%;text-align:center">&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. </p></footer>
+                <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. </p></footer>
 
             </div>
         </div>

@@ -15,8 +15,61 @@
     <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
-    <script src="http://alimy.me/js/main.min.js">
-    </script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <style type="text/css">
+        .panel {
+          box-shadow:0px 0px 6px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 6px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px;
+          margin-top:32px;
+        }
+        .panel:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:16px 0px;
+        }
+        #post-navigator>a {
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+          clear:both;
+        }
+    </style>
 </head>
 
   <body>
@@ -118,11 +171,11 @@
 </ul>
 
         </div>
-        <div id="navigator" style="padding-top:20px;padding-bottom:15px;">
-          <a style="float:left;color:#2479cc;text-decoration:none;" href="http://alimy.me/post/art_201601051212/" title="上一篇">&lt;&lt; 朝阳</a>
-          <a style="float:right;color:#2479cc;text-decoration:none;" href="http://alimy.me/post/art_201601071212/" title="下一篇">少女 >></a>
+        <div id="post-navigator" style="">
+          <a id="post-navigator-prev" href="http://alimy.me/post/art_201601051212/" title="上一篇">&lt;&lt; 朝阳</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/art_201601071212/" title="下一篇">少女 >></a>
         </div>
-        <div id="comments">
+        <div id="post-comments">
           <h3>Comments</h3>
           
 
