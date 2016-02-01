@@ -3,22 +3,21 @@
         {{ partial "sidebar.html" . }}
         <div class="content-wrapper">
             <div class="content-wrapper__inner">
-        <h2>文章列表</h2>
-
+                <h2>文章列表</h2>
                 {{ range .Data.Pages.GroupByDate "2006年 01月" }}
-                <div style="box-shadow:0px 0px 8px rgba(68,68,68,.6);-moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);border-radius:4px;-moz-border-radius:4px;padding:16px;margin-top:32px;">
+                <div class="panel">
                 <div id="caption">
                 <h3>
                   {{ .Key }}
                   {{ $pages := len .Pages }}
-                  <span style="min-width:48px;text-align:center;float:right;margin-right:64px;background:rgba(68,68,68,.2);border-radius:4px;-moz-border-radius:4px;padding:8px;" title="共{{ $pages }}篇文章">{{ len .Pages }} </span>
+                  <span id="list-indicator" title="共{{ $pages }}篇文章">{{ len .Pages }} </span>
                 </h3>
                 </div>
                 <ul id="list">
                     {{range .Pages }}
                     <li>
                         <a href="{{ .Permalink }}">{{ .Title }} {{ if .GetParam "draft"}}DRAFT{{end}}</a>&nbsp;
-                        <span style="color:#999;font-size:14px;font-style:italic;">({{ .Date.Format "Mon, Jan 02, 2006" }})</span>
+                        <span id="list-date">({{ .Date.Format "Mon, Jan 02, 2006" }})</span>
                     </li>
                     {{ end }}
                 </ul>
