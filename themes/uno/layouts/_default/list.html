@@ -5,7 +5,7 @@
             <div class="content-wrapper__inner">
                 <h2>文章列表</h2>
                 {{ range .Data.Pages.GroupByDate "2006年 01月" }}
-                <div class="panel">
+                <div class="panel-wrapper">
                 <div id="caption">
                 <h3>
                   {{ .Key }}

@@ -2305,7 +2305,7 @@ hr {
   display: block;
   width: 30%;
   margin: 2em 0;
-  border-top: 1px solid #DDDDDD; }
+  border-top: 1px dashed #DDDDDD; }
 .post .post-date {
   margin-bottom: 1em; }
 .post p {
