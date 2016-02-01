@@ -17,15 +17,19 @@
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <style type="text/css">
-        .panel {
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
           box-shadow:0px 0px 8px rgba(68,68,68,.6);
           -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
           border-radius:4px;
           -moz-border-radius:4px;
-          padding:16px;
+          padding:16px 24px;
           margin-top:32px;
+          background-color:#fff
         }
-        .panel:hover {
+        .panel-wrapper:hover {
           box-shadow:0px 0px 12px rgba(68,68,68,.6);
           -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
         }
@@ -56,9 +60,11 @@
           font-style:italic;
         }
         #post-navigator {
-          padding:16px 0px;
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
         }
         #post-navigator>a {
+          display: block;
           color:#2479cc;
           text-decoration:none;
         }
@@ -67,7 +73,6 @@
         }
         #post-navigator-next {
           float:right;
-          clear:both;
         }
     </style>
 </head>
@@ -161,7 +166,7 @@
 
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
-        <div class="post">
+        <div class="post panel-wrapper">
             <h2>Creating a New Theme</h2>
           
           
@@ -1259,7 +1264,7 @@ $ vi themes/zafta/layouts/_default/single.html
 <p>DRY is a good design goal and Hugo does a great job supporting it. Part of the art of a good template is knowing when to add a new template and when to update an existing one. While you&rsquo;re figuring that out, accept that you&rsquo;ll be doing some refactoring. Hugo makes that easy and fast, so it&rsquo;s okay to delay splitting up a template.</p>
 
         </div>
-        <div id="post-navigator" style="">
+        <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/etc_201403101221/" title="上一篇">&lt;&lt; Migrate to Hugo from Jekyll</a>
           <a id="post-navigator-next" href="http://alimy.me/post/etc_201404021616/" title="下一篇">Getting Started with Hugo >></a>
         </div>

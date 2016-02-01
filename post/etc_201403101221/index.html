@@ -17,15 +17,19 @@
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <style type="text/css">
-        .panel {
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
           box-shadow:0px 0px 8px rgba(68,68,68,.6);
           -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
           border-radius:4px;
           -moz-border-radius:4px;
-          padding:16px;
+          padding:16px 24px;
           margin-top:32px;
+          background-color:#fff
         }
-        .panel:hover {
+        .panel-wrapper:hover {
           box-shadow:0px 0px 12px rgba(68,68,68,.6);
           -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
         }
@@ -56,9 +60,11 @@
           font-style:italic;
         }
         #post-navigator {
-          padding:16px 0px;
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
         }
         #post-navigator>a {
+          display: block;
           color:#2479cc;
           text-decoration:none;
         }
@@ -67,7 +73,6 @@
         }
         #post-navigator-next {
           float:right;
-          clear:both;
         }
     </style>
 </head>
@@ -161,7 +166,7 @@
 
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
-        <div class="post">
+        <div class="post panel-wrapper">
             <h2>Migrate to Hugo from Jekyll</h2>
           
           
@@ -334,7 +339,7 @@ Liquid::Template.register_tag('image', Jekyll::ImageTag)
 <p><a href="http://heyitsalex.net/">Hey, it&rsquo;s Alex</a> was migrated in less than a <em>father-with-kids day</em> from Jekyll to Hugo. You can see all the changes (and screw-ups) by looking at this <a href="https://github.com/alexandre-normand/alexandre-normand/compare/869d69435bd2665c3fbf5b5c78d4c22759d7613a...b7f6605b1265e83b4b81495423294208cc74d610">diff</a>.</p>
 
         </div>
-        <div id="post-navigator" style="">
+        <div id="post-navigator">
           
           <a id="post-navigator-next" href="http://alimy.me/post/etc_201409281221/" title="下一篇">Creating a New Theme >></a>
         </div>

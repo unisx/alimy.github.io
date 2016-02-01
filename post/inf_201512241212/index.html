@@ -17,15 +17,19 @@
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <style type="text/css">
-        .panel {
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
           box-shadow:0px 0px 8px rgba(68,68,68,.6);
           -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
           border-radius:4px;
           -moz-border-radius:4px;
-          padding:16px;
+          padding:16px 24px;
           margin-top:32px;
+          background-color:#fff
         }
-        .panel:hover {
+        .panel-wrapper:hover {
           box-shadow:0px 0px 12px rgba(68,68,68,.6);
           -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
         }
@@ -56,9 +60,11 @@
           font-style:italic;
         }
         #post-navigator {
-          padding:16px 0px;
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
         }
         #post-navigator>a {
+          display: block;
           color:#2479cc;
           text-decoration:none;
         }
@@ -67,7 +73,6 @@
         }
         #post-navigator-next {
           float:right;
-          clear:both;
         }
     </style>
 </head>
@@ -161,7 +166,7 @@
 
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
-        <div class="post">
+        <div class="post panel-wrapper">
             <h2>About Hugo</h2>
           
           
@@ -195,7 +200,7 @@
 <p>Thanks for reading!</p>
 
         </div>
-        <div id="post-navigator" style="">
+        <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/etc_201404021616/" title="上一篇">&lt;&lt; Getting Started with Hugo</a>
           <a id="post-navigator-next" href="http://alimy.me/post/day_201512292359/" title="下一篇">Hello World:博客开张 >></a>
         </div>

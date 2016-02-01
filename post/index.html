@@ -17,15 +17,19 @@
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <style type="text/css">
-        .panel {
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
           box-shadow:0px 0px 8px rgba(68,68,68,.6);
           -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
           border-radius:4px;
           -moz-border-radius:4px;
-          padding:16px;
+          padding:16px 24px;
           margin-top:32px;
+          background-color:#fff
         }
-        .panel:hover {
+        .panel-wrapper:hover {
           box-shadow:0px 0px 12px rgba(68,68,68,.6);
           -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
         }
@@ -56,9 +60,11 @@
           font-style:italic;
         }
         #post-navigator {
-          padding:16px 0px;
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
         }
         #post-navigator>a {
+          display: block;
           color:#2479cc;
           text-decoration:none;
         }
@@ -67,7 +73,6 @@
         }
         #post-navigator-next {
           float:right;
-          clear:both;
         }
     </style>
 </head>
@@ -165,7 +170,7 @@
             <div class="content-wrapper__inner">
                 <h2>文章列表</h2>
                 
-                <div class="panel">
+                <div class="panel-wrapper">
                 <div id="caption">
                 <h3>
                   2016年 02月
@@ -183,7 +188,7 @@
                 </ul>
                 </div>
                 
-                <div class="panel">
+                <div class="panel-wrapper">
                 <div id="caption">
                 <h3>
                   2016年 01月
@@ -401,7 +406,7 @@
                 </ul>
                 </div>
                 
-                <div class="panel">
+                <div class="panel-wrapper">
                 <div id="caption">
                 <h3>
                   2015年 12月
@@ -434,7 +439,7 @@
                 </ul>
                 </div>
                 
-                <div class="panel">
+                <div class="panel-wrapper">
                 <div id="caption">
                 <h3>
                   2014年 09月
@@ -452,7 +457,7 @@
                 </ul>
                 </div>
                 
-                <div class="panel">
+                <div class="panel-wrapper">
                 <div id="caption">
                 <h3>
                   2014年 04月
@@ -470,7 +475,7 @@
                 </ul>
                 </div>
                 
-                <div class="panel">
+                <div class="panel-wrapper">
                 <div id="caption">
                 <h3>
                   2014年 03月
