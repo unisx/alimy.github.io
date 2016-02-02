@@ -381,7 +381,7 @@ Version 1.8 &lt;a href=&#34;https://github.com/Microsoft/TypeScript/blob/master/
 
 &lt;p&gt;To benefit from this inference, a programmer can use the TypeScript language service. For example, a code editor can incorporate the TypeScript language service and use the service to find the members of a string object as in the following screen shot.&lt;/p&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;&lt;img src=&#34;images/image1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;&lt;img src=&#34;http://alimy.me/images/post/20160202225901.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;In this example, the programmer benefits from type inference without providing type annotations. Some beneficial tools, however, do require the programmer to provide type annotations. In TypeScript, we can express a parameter requirement as in the following code fragment.&lt;/p&gt;
 
@@ -517,7 +517,7 @@ var nope: () =&amp;gt; number = sameType;  // Error: type mismatch
 
 &lt;p&gt;A typical client would not need to add any additional typing but could just use a community-supplied typing to discover (through statement completion with documentation tips) and verify (through static checking) correct use of the library, as in the following screen shot.&lt;/p&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;&lt;img src=&#34;images/image2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;&lt;img src=&#34;http://alimy.me/images/post/20160202225902.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Section &lt;a href=&#34;#3.3&#34;&gt;3.3&lt;/a&gt; provides additional information about object types.&lt;/p&gt;
 
@@ -721,7 +721,7 @@ function compute(op: Operator, a: number, b: number) {
 
 &lt;p&gt;JavaScript programming interfaces often include functions whose behavior is discriminated by a string constant passed to the function. The Document Object Model makes heavy use of this pattern. For example, the following screen shot shows that the &amp;lsquo;createElement&amp;rsquo; method of the &amp;lsquo;document&amp;rsquo; object has multiple signatures, some of which identify the types returned when specific strings are passed into the method.&lt;/p&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;&lt;img src=&#34;images/image3.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;&lt;img src=&#34;http://alimy.me/images/post/20160202225903.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The following code fragment uses this feature. Because the &amp;lsquo;span&amp;rsquo; variable is inferred to have the type &amp;lsquo;HTMLSpanElement&amp;rsquo;, the code can reference without static error the &amp;lsquo;isMultiline&amp;rsquo; property of &amp;lsquo;span&amp;rsquo;.&lt;/p&gt;
 
@@ -731,7 +731,7 @@ span.isMultiLine = false;  // OK: HTMLSpanElement has isMultiline property
 
 &lt;p&gt;In the following screen shot, a programming tool combines information from overloading on string parameters with contextual typing to infer that the type of the variable &amp;lsquo;e&amp;rsquo; is &amp;lsquo;MouseEvent&amp;rsquo; and that therefore &amp;lsquo;e&amp;rsquo; has a &amp;lsquo;clientX&amp;rsquo; property.&lt;/p&gt;
 
-&lt;p&gt;&amp;emsp;&amp;emsp;&lt;img src=&#34;images/image4.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;&lt;img src=&#34;http://alimy.me/images/post/20160202225904.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Section &lt;a href=&#34;#3.9.2.4&#34;&gt;3.9.2.4&lt;/a&gt; provides details on how to use string literals in function signatures.&lt;/p&gt;
 
