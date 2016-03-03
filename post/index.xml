@@ -17,7 +17,7 @@
       <guid>http://alimy.me/post/dev_201603032011/</guid>
       <description>
 
-&lt;p&gt;This page provides a tutorial that will prepare users for using XML serialization. Before this tutorial is attempted it is advisable to have a look at the Javadoc documentation for the framework. Although there are only several annotations and objects involved in the serialization process the framework itself has many powerful features which this tutorial attempts to describe.&lt;/p&gt;
+&lt;p&gt;This page provides a tutorial that will prepare users for using XML serialization. Before this tutorial is attempted it is advisable to have a look at the &lt;a href=&#34;http://simple.sourceforge.net/download/stream/doc/javadoc/&#34;&gt;Javadoc&lt;/a&gt; documentation for the framework. Although there are only several annotations and objects involved in the serialization process the framework itself has many powerful features which this tutorial attempts to describe.&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;#1&#34;&gt;Serializing a simple object&lt;/a&gt;&lt;/li&gt;
