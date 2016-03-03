@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Development &middot; Alimy </title>
+    <title> Alimy &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="http://alimy.me/tags/development/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
+    <link href="http://alimy.me/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
@@ -86,7 +86,7 @@
     <header class="
         
         
-            panel-cover panel-cover--collapsed
+                panel-cover
         
         " >
     <div class="panel-main">
@@ -168,118 +168,42 @@
 
         <div class="content-wrapper">
             <div class="content-wrapper__inner">
-                <h2>文章列表</h2>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2016年 03月
-                  
-                  <span id="list-indicator" title="共1篇文章">1 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="http://alimy.me/post/dev_201603032011/">SimpleXML  tutorial </a>&nbsp;
-                        <span id="list-date">(Thu, Mar 03, 2016)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2016年 02月
-                  
-                  <span id="list-indicator" title="共1篇文章">1 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="http://alimy.me/post/dev_201602021955/">TypeScript Language Specification </a>&nbsp;
-                        <span id="list-date">(Tue, Feb 02, 2016)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2016年 01月
-                  
-                  <span id="list-indicator" title="共7篇文章">7 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="http://alimy.me/post/dev_201601241856/">Make:Makefile </a>&nbsp;
-                        <span id="list-date">(Sun, Jan 24, 2016)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="http://alimy.me/post/dev_201601222145/">History of IRC </a>&nbsp;
-                        <span id="list-date">(Fri, Jan 22, 2016)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="http://alimy.me/post/dev_201601161712/">DogeOS,SmartOS,illumos </a>&nbsp;
-                        <span id="list-date">(Sat, Jan 16, 2016)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="http://alimy.me/post/dev_201601131558/">Markdown </a>&nbsp;
-                        <span id="list-date">(Wed, Jan 13, 2016)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="http://alimy.me/post/dev_201601121531/">Too many open files 的解决方法 </a>&nbsp;
-                        <span id="list-date">(Tue, Jan 12, 2016)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="http://alimy.me/post/dev_201601031221/">关于TOML </a>&nbsp;
-                        <span id="list-date">(Sun, Jan 03, 2016)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="http://alimy.me/post/dev_201601021221/">TOML v0.4.0 </a>&nbsp;
-                        <span id="list-date">(Sat, Jan 02, 2016)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2014年 04月
-                  
-                  <span id="list-indicator" title="共1篇文章">1 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="http://alimy.me/post/etc_201404021616/">Getting Started with Hugo </a>&nbsp;
-                        <span id="list-date">(Wed, Apr 02, 2014)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. </p></footer>
+                <section id="main">
+                    <div>
+                        
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/etc_201403101221/" title="阅读全文">Migrate to Hugo from Jekyll </a> </h2>
+
+</header>
+<div class="summary">
+    <h2 id="move-static-content-to-static:3c833d6678d931e88fcb352a04c06960">Move static content to <code>static</code></h2>
+
+<p>Jekyll has a rule that any directory not starting with <code>_</code> will be copied as-is to the <code>_site</code> output. Hugo keeps all static content under <code>static</code>. You should therefore move it all there.
+With Jekyll, something that looked like</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/etc_201403101221/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                    </div>
+                    </br>
+                    <h4>
+                        <a href="http://alimy.me/post/" title="文章列表">Archive</a>
+                    </h4>
+                </section>
+            <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. </p></footer>
 
             </div>
         </div>
-    </body>
-    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+    </body>
 </html>
