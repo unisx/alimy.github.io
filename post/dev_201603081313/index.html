@@ -1,0 +1,549 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> SimpleXML: Example &middot; Alimy </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">Alimy</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                            </br>  </ul>
+                    </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">Alimy</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>SimpleXML: Example</h2>
+          
+          
+
+<p>This page provides a series of examples illustrating how a class can be annotated. It acts as a quick and dirty overview of how the framework can be used and also acts as a reference page. All examples can be downloaded for convenience. For further information take a look at the <a href="http://alimy.me/post/dev_201603032011" title="SimpleXML Tutorial">Tutorial</a>.</p>
+
+<h3 id="sect-creating-nested-path-elements:6ed76957f65e40caff73dba00e2f11f2">&sect;Creating nested path elements</h3>
+
+<p>Here an example of how to use the <a href="http://simple.sourceforge.net/download/stream/doc/javadoc/org/simpleframework/xml/Path.html">Path</a> annotation to create nested elements and attributes using a single annotated class. Below is an example showing two elements nested within a XPath expression.</p>
+
+<pre><code>@Root
+public class Example {
+
+   @Path(&quot;a/b[1]&quot;)
+   @Element
+   private String x;
+
+   @Path(&quot;a/b[2]&quot;)
+   @Element
+   private String y;
+}
+</code></pre>
+
+<p>The below snippet shows an example of the resulting XML that can be generated by this class.</p>
+
+<pre><code>&lt;example&gt;
+  &lt;a&gt;
+    &lt;b&gt;
+      &lt;x&gt;foo&lt;/x&gt;
+    &lt;/b&gt;
+    &lt;b&gt;
+      &lt;y&gt;bar&lt;/y&gt;
+    &lt;/b&gt;
+  &lt;/a&gt;
+&lt;/example&gt;
+</code></pre>
+
+<p>This example can be downloaded from <a href="http://simple.sourceforge.net/download/stream/doc/examples/example1/example1.zip" title="example1">here</a>.</p>
+
+<h3 id="sect-dynamically-selecting-an-element-name:6ed76957f65e40caff73dba00e2f11f2">&sect;Dynamically selecting an element name</h3>
+
+<p>Here an example of how to use the ElementUnion annotation to specify a list of options to use for serialization. The union annotation pairs an element name with a type, this allows the element name to dictate selection of the type deserialized and also allows a known type to be serialized with a specific element name.</p>
+
+<pre><code>@Root
+public class Example {
+
+   @ElementUnion({
+      @Element(name=&quot;text&quot;, type=String.class),
+      @Element(name=&quot;int&quot;, type=Integer.class),
+      @Element(name=&quot;double&quot;, type=Double.class)
+   })
+   private Object value;
+}
+</code></pre>
+
+<p>The below snippet shows an example of the resulting XML, here because the object value was an integer the resulting XML element is called int.</p>
+
+<pre><code>&lt;example&gt;
+  &lt;int&gt;12&lt;/int&gt;
+&lt;/example&gt;
+</code></pre>
+
+<p>This example can be downloaded from <a href="http://simple.sourceforge.net/download/stream/doc/examples/example2/example2.zip" title="example2">here</a>.</p>
+
+<h3 id="sect-constructor-injection:6ed76957f65e40caff73dba00e2f11f2">&sect;Constructor injection</h3>
+
+<p>Constructor injection can be performed with any number of arguments using any of the XML annotations. In this example the Element annotation is used to identify two values to be injected in to a specific constructor.</p>
+
+<pre><code>@Root
+public class Point {
+
+   @Element
+   private final int x;
+
+   @Element
+   private final int y;
+
+   public Point(@Element(name=&quot;x&quot;) int x, @Element(name=&quot;y&quot;) int y) {
+      this.x = x;
+      this.y = y;
+   }
+}
+</code></pre>
+
+<p>The below snippet shows an example of the resulting XML, both the x and y values will be injected in to the annotated constructor.</p>
+
+<pre><code>&lt;point&gt;
+  &lt;x&gt;10&lt;/x&gt;
+  &lt;y&gt;4&lt;/y&gt;
+&lt;/point&gt;
+</code></pre>
+
+<p>This example can be downloaded from <a href="http://simple.sourceforge.net/download/stream/doc/examples/example3/example3.zip" title="example3">here</a>.</p>
+
+<h3 id="sect-constructor-injection-with-nested-path-elements:6ed76957f65e40caff73dba00e2f11f2">&sect;Constructor injection with nested path elements</h3>
+
+<p>In this example constructor injection is performed on two elements which also have Path annotations. As can be seen if there is no ambiguity there is no need to specify the path annotations on the constructor. This reduces the clutter that can occur with excessive annotations.</p>
+
+<pre><code>@Root
+public class Point {
+
+   @Path(&quot;a/b[1]&quot;)
+   @Element
+   private final int x;
+
+   @Path(&quot;a/b[1]&quot;)
+   @Element
+   private final int y;
+
+   public Point(@Element(name=&quot;x&quot;) int x, @Element(name=&quot;y&quot;) int y) {
+      this.x = x;
+      this.y = y;
+   }
+}
+</code></pre>
+
+<p>The below snippet shows an example of the resulting XML, both the x and y values will be injected in to the annotated constructor.</p>
+
+<pre><code>&lt;point&gt;
+  &lt;a&gt;
+    &lt;b&gt;
+      &lt;x&gt;2&lt;/x&gt;
+      &lt;y&gt;7&lt;/y&gt;
+    &lt;/b&gt;
+  &lt;/a&gt;
+&lt;/point&gt;
+</code></pre>
+
+<p>This example can be downloaded from <a href="http://simple.sourceforge.net/download/stream/doc/examples/example4/example4.zip" title="example4">here</a>.</p>
+
+<h3 id="sect-using-namespaces:6ed76957f65e40caff73dba00e2f11f2">&sect;Using namespaces</h3>
+
+<p>Below is an example of how to use namespaces with the Namespace annotation. Here two namespaces are declared without a prefix, this means they belong to the default namespace.</p>
+
+<pre><code>@Root
+public class Example {
+
+   @Namespace(reference=&quot;http://www.blah.com/ns/a&quot;)
+   @Element
+   private String a;
+
+   @Namespace(reference=&quot;http://www.blah.com/ns/b&quot;)
+   @Element
+   private String b;
+}
+</code></pre>
+
+<p>The below snippet shows an example of the resulting XML, as can be seen the namespaces are used to qualify the resulting elements.</p>
+
+<pre><code>&lt;example&gt;
+  &lt;a xmlns=&quot;http://www.blah.com/ns/a&quot;&gt;foo&lt;/a&gt;
+  &lt;b xmlns=&quot;http://www.blah.com/ns/b&quot;&gt;bar&lt;/b&gt;
+&lt;/example&gt;
+</code></pre>
+
+<p>This example can be downloaded from <a href="http://simple.sourceforge.net/download/stream/doc/examples/example5/example5.zip" title="example5">here</a>.</p>
+
+<h3 id="sect-declaring-a-namespace-prefix:6ed76957f65e40caff73dba00e2f11f2">&sect;Declaring a namespace prefix</h3>
+
+<p>When using the Namespace annotation a prefix can be specified. This prefix is added to the qualified XML elements to ensure they are within a specific namespace, rather than the default namespace.</p>
+
+<pre><code>@Root
+public class Example {
+
+   @Namespace(prefix=&quot;ns1&quot;, reference=&quot;http://www.blah.com/ns/a&quot;)
+   @Element
+   private String a;
+
+   @Namespace(prefix=&quot;ns2&quot;, reference=&quot;http://www.blah.com/ns/b&quot;)
+   @Element
+   private String b;
+}
+</code></pre>
+
+<p>The resulting XML shows that both elements contain the namespace prefix declared in the annotation.</p>
+
+<pre><code>&lt;example&gt;
+  &lt;ns1:a xmlns:ns1=&quot;http://www.blah.com/ns/a&quot;&gt;foo&lt;/ns1:a&gt;
+  &lt;ns2:b xmlns:ns2=&quot;http://www.blah.com/ns/b&quot;&gt;bar&lt;/ns2:b&gt;
+&lt;/example&gt;
+</code></pre>
+
+<p>This example can be downloaded from <a href="http://simple.sourceforge.net/download/stream/doc/examples/example6/example6.zip" title="example6">here</a>.</p>
+
+<h3 id="sect-namespace-prefix-inheritance:6ed76957f65e40caff73dba00e2f11f2">&sect;Namespace prefix inheritance</h3>
+
+<p>Here a class level namespace is declared using the Namespace annotation. The element declared with the same namespace reference does not need to declare a prefix as it will be inherited from the class level annotation.</p>
+
+<pre><code>@Root
+@Namespace(prefix=&quot;ns1&quot;, reference=&quot;http://www.blah.com/ns/a&quot;)
+public class Example {
+
+   @Namespace(reference=&quot;http://www.blah.com/ns/a&quot;)
+   @Path(&quot;a/b&quot;)
+   @Element
+   private String x;
+}
+</code></pre>
+
+<p>As can be seen in the resulting XML the namespace is declared only once, the child element inherits the original prefix reducing the verbosity of the XML.</p>
+
+<pre><code>&lt;example xmlns:ns1=&quot;http://www.blah.com/ns/a&quot;&gt;
+  &lt;a&gt;
+    &lt;b&gt;
+      &lt;ns1:x&gt;blah&lt;/ns1:x&gt;
+    &lt;/b&gt;
+  &lt;/a&gt;
+&lt;/example&gt;
+</code></pre>
+
+<p>This example can be downloaded from <a href="http://simple.sourceforge.net/download/stream/doc/examples/example7/example7.zip" title="example7">here</a>.</p>
+
+<h3 id="sect-default-serialization:6ed76957f65e40caff73dba00e2f11f2">&sect;Default serialization</h3>
+
+<p>This example shows how the Default annotation can be used. When this annotation is used fields will be serialized without the need for annotations.</p>
+
+<pre><code>@Default
+public class Example {
+
+   private List&lt;Double&gt; a;
+   private String b;
+   private String c;
+   private Date d;
+
+}
+</code></pre>
+
+<p>As can be seen in the resulting XML is generated for all fields within the class.</p>
+
+<pre><code>&lt;example&gt;
+  &lt;a&gt;
+    &lt;double&gt;1.2&lt;/double&gt;
+    &lt;double&gt;31.6&lt;/double&gt;
+    &lt;double&gt;52.99&lt;/double&gt;
+  &lt;/a&gt;
+  &lt;b&gt;foo&lt;/b&gt;
+  &lt;c&gt;bar&lt;/c&gt;
+  &lt;d&gt;2012-05-22&lt;/d&gt;
+&lt;/example&gt;
+</code></pre>
+
+<p>This example can be downloaded from <a href="http://simple.sourceforge.net/download/stream/doc/examples/example8/example8.zip" title="example8">here</a>.</p>
+
+<h3 id="sect-default-serialization-of-properties:6ed76957f65e40caff73dba00e2f11f2">&sect;Default serialization of properties</h3>
+
+<p>This example shows how the Default annotation can be configured to use bean methods instead of fields for serialization. When used in this manner all methods that follow the Java Bean naming conventions will be considered for serialization.</p>
+
+<pre><code>@Default(DefaultType.PROPERTY)
+public class Example {
+
+   private String name;
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+}
+</code></pre>
+
+<p>As can be seen in the resulting XML is generated for the Java Bean method.</p>
+
+<pre><code>&lt;example&gt;
+  &lt;name&gt;John Doe&lt;/name&gt;
+&lt;/example&gt;
+</code></pre>
+
+<p>This example can be downloaded from <a href="http://simple.sourceforge.net/download/stream/doc/examples/example9/example9.zip" title="example9">here</a>.</p>
+
+<h3 id="sect-collecting-various-types-in-a-single-list:6ed76957f65e40caff73dba00e2f11f2">&sect;Collecting various types in a single list</h3>
+
+<p>Here an example of how to use the ElementListUnion can be seen. This annotation allows a number of types to be declared to match a single list, all elements that match the declared names will be gathered in to the list.</p>
+
+<pre><code>@Root
+public class Example {
+
+   @ElementListUnion({
+      @ElementList(entry=&quot;int&quot;, type=Integer.class, inline=true),
+      @ElementList(entry=&quot;date&quot;, type=Date.class, inline=true),
+      @ElementList(entry=&quot;text&quot;, type=String.class, inline=true)
+   })
+   private List&lt;Object&gt; list;
+}
+</code></pre>
+
+<p>The below snippet shows an example of the resulting XML, each type is given a name according to its type.</p>
+
+<pre><code>&lt;example&gt;
+  &lt;int&gt;12&lt;/int&gt;
+  &lt;date&gt;2012-22-05&lt;/date&gt;
+  &lt;date&gt;1977-18-11&lt;/date&gt;
+  &lt;text&gt;blah&lt;/text&gt;
+  &lt;int&gt;1&lt;/int&gt;
+  &lt;int&gt;34525&lt;/int&gt;
+  &lt;date&gt;2001-01-05&lt;/date&gt;
+&lt;/example&gt;
+</code></pre>
+
+<p>This example can be downloaded from <a href="http://simple.sourceforge.net/download/stream/doc/examples/example10/example10.zip" title="example10">here</a>.</p>
+
+<h3 id="sect-dynamically-matching-a-constructor:6ed76957f65e40caff73dba00e2f11f2">&sect;Dynamically matching a constructor</h3>
+
+<p>Here an example of how to use the ElementUnion to dynamically select a constructor based on the value deserialized. Constructor matching will be done by examining the declared name and the instance type.</p>
+
+<pre><code>@Root
+public class Example {
+
+   @ElementUnion({
+      @Element(name=&quot;int&quot;, type=Integer.class),
+      @Element(name=&quot;date&quot;, type=Date.class),
+      @Element(name=&quot;text&quot;, type=String.class)
+   })
+   private Object value;
+
+   public Example(@Element(name=&quot;int&quot;) int value) {
+      this.value = value;
+   }
+
+   public Example(@Element(name=&quot;date&quot;) Date value) {
+      this.value = value;
+   }
+
+   public Example(@Element(name=&quot;text&quot;) String value) {
+      this.value = value;
+   }
+}
+</code></pre>
+
+<p>The below snippet shows an example of the resulting XML, here the constructor accepting a date will be invoked as that is what is deserialized from the file.</p>
+
+<pre><code>&lt;example&gt;
+  &lt;date&gt;2001-01-05&lt;/date&gt;
+&lt;/example&gt;
+</code></pre>
+
+<p>This example can be downloaded from <a href="http://simple.sourceforge.net/download/stream/doc/examples/example11/example11.zip" title="example11">here</a>.</p>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://simple.sourceforge.net/download/stream/doc/examples/examples.php" title="SimpleXML Examples"><em>here</em></a> )</p>
+
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/art_201603071419/" title="上一篇">&lt;&lt; 吻</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603081355/" title="下一篇">Xstream: Introduction >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</html>

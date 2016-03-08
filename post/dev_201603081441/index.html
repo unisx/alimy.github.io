@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> 吻 &middot; Alimy </title>
+    <title> XStream: Java to XML Using Annotation &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -167,18 +167,131 @@
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
         <div class="post panel-wrapper">
-            <h2>吻</h2>
+            <h2>XStream: Java to XML Using Annotation</h2>
           
-          <p><a href="http://alimy.me/images/post/20160307141301.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160307141300.webp" alt="图片加载中...使用支持Webp的浏览器可以加速查看" /></a></p>
+          <p>In the previous tutorials we saw an example of how to <a href="http://alimy.me/post/dev_201603081411">create a java object from XML</a>. That tutorial also explained the concept of aliases and implicit collection. In this tutorial we continue with that but use annotation on the java class. The advantage with annotation is that it is faster to code and develop. the disadvantage is that you bind the java class to XStream.</p>
+
+<p>In the example below we convert an object of type JazzArtist to XML. JazzArtist contains fields name, isAlive, a url and a list of albums. This example uses the following annotations</p>
 
 <ul>
-<li>Romance（<a href="http://alimy.me/images/post/20160307141301.webp" title="webp格式图片">查看大图</a>）</li>
+<li>@XStreamAlias - Used on the type, field or attribute. To understand &lsquo;aliases&rsquo; look at this tutorial</li>
+<li>@XStreamImplicit - Used on Collections or array. To understand &lsquo;Implicit Collections/Arrays&rsquo; look at the this tutorial.</li>
+<li>@XStreamAsAttribute - Used to mark a field as an attribute.</li>
+<li>@XStreamConverter - Use a specific converter for this field. We will look at Converters in detail in a later tutorial. In this example we use a Boolean converter for &lsquo;isAlive&rsquo; field, we want the XML to have values yes or no instead of true or false.</li>
 </ul>
+
+<p>Here is the complete example. In this example we want to create an XML from an object of type JazzArtist2.</p>
+
+<ul>
+<li>We use annotation to first use an alias of &lsquo;artist&rsquo; for JazzArtist2. Each Jazz Artist has a list of albums.</li>
+<li>In the resulting XML we dont want the albums to appear under the element &lsquo;albums&rsquo;, rather we want each album to be the child of the artist element. We therefore mark &lsquo;albums&rsquo; as an implicit collection using the @XStreamImplicit annotation.</li>
+<li>We don&rsquo;t want to include the &lsquo;noOfRecords&rsquo; in the resulting XML, we therefore use the @XStreamOmitField to omit that field.</li>
+<li>We want genre to be an attribute of the album instead of a child. we use @XStreamAsAttribute to mark genre as an attribute.</li>
+<li>In this example we also use an annotation for a Converter. There is a boolean field in the JazzArtist2 class called isAlive. We dont want the   XML to have values &lsquo;true&rsquo; or &lsquo;false&rsquo; but values &lsquo;yes&rsquo; or &lsquo;no&rsquo; since they are more human friendly. The @XStreamConverter can be used to specify a Converter and pass values to its constructor.</li>
+</ul>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import com.thoughtworks.xstream.converters.basic.BooleanConverter;
+
+public class CreateXMLFromMusicArtistObjectAnnotated {
+
+    public static void main(String[] args) throws MalformedURLException {
+        CreateXMLFromMusicArtistObjectAnnotated marshaller =
+                new CreateXMLFromMusicArtistObjectAnnotated();
+        marshaller.createXMlFromObject();
+    }
+
+    private void createXMlFromObject() throws MalformedURLException {
+        JazzArtist2 artist2 = new JazzArtist2(&quot;Benny Goodman&quot;,
+                false, new URL(&quot;http://www.bennygoodman.com/&quot;));
+        Album2 album3 = new Album2(&quot;In Stockholm&quot;, 5, 1959,&quot;swing&quot;);
+        Album2 album4 = new Album2(&quot;A Jazz Holiday&quot;, 3, 1928,&quot;swing&quot;);
+        artist2.addAlbum(album3);
+        artist2.addAlbum(album4);
+        XStream xStream2 = new XStream();
+        xStream2.processAnnotations(JazzArtist2.class);
+        System.out.println(xStream2.toXML(artist2));
+    }
+}
+
+@XStreamAlias(&quot;artist&quot;)
+class JazzArtist2 {
+    public String name;
+    @XStreamConverter(value = BooleanConverter.class,
+            booleans = { true }/*is case sensitive*/,
+            strings = { &quot;Yes&quot;, &quot;No&quot; })
+    public boolean isAlive;
+    public URL url;
+    @XStreamImplicit
+    public List&lt;Album2&gt; albums = new ArrayList&lt;Album2&gt;();
+
+    public JazzArtist2(String name, boolean isAlive, URL url) {
+        this.name = name;
+        this.isAlive = isAlive;
+        this.url = url;
+    }
+
+    public void addAlbum(Album2 album) {
+        albums.add(album);
+    }
+
+}
+
+@XStreamAlias(&quot;album&quot;)
+class Album2 {
+    public String title;
+    @XStreamOmitField
+    public int noOfRecords;
+    public int year;
+    @XStreamAsAttribute
+    public String genre;
+
+    public Album2(String title, int noOfRecords, int year,String genre) {
+        this.title = title;
+        this.noOfRecords = noOfRecords;
+        this.year = year;
+        this.genre = genre;
+    }
+}
+</code></pre>
+
+<p>The resulting XML</p>
+
+<pre><code>&lt;artist&gt;
+  &lt;name&gt;Benny Goodman&lt;/name&gt;
+  &lt;isalive&gt;No&lt;/isalive&gt;
+  &lt;url&gt;http://www.bennygoodman.com/&lt;/url&gt;
+  &lt;album genre=&quot;swing&quot;&gt;
+    &lt;title&gt;In Stockholm&lt;/title&gt;
+    &lt;year&gt;1959&lt;/year&gt;
+  &lt;/album&gt;
+  &lt;album genre=&quot;swing&quot;&gt;
+    &lt;title&gt;A Jazz Holiday&lt;/title&gt;
+    &lt;year&gt;1928&lt;/year&gt;
+  &lt;/album&gt;
+&lt;/artist&gt;  
+</code></pre>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-java-to-xml-annotated.jsp" title="Java to XML Using Annotation"><em>here</em></a> )</p>
 
         </div>
         <div id="post-navigator">
-          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603032011/" title="上一篇">&lt;&lt; SimpleXML: Tutorial</a>
-          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603081313/" title="下一篇">SimpleXML: Example >></a>
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603081433/" title="上一篇">&lt;&lt; XStream: Java to XML</a>
+          
         </div>
         <div id="post-comments">
           <h3>Comments</h3>

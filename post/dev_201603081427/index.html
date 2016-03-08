@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> 吻 &middot; Alimy </title>
+    <title> XStream: XML To Java &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -167,18 +167,175 @@
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
         <div class="post panel-wrapper">
-            <h2>吻</h2>
+            <h2>XStream: XML To Java</h2>
           
-          <p><a href="http://alimy.me/images/post/20160307141301.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160307141300.webp" alt="图片加载中...使用支持Webp的浏览器可以加速查看" /></a></p>
+          <p>In the earlier tutorial we looked at a way to <a href="http://alimy.me/post/dev_201603081411" title="Parsing an XML">convert Java to XML and back</a>. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.</p>
 
-<ul>
-<li>Romance（<a href="http://alimy.me/images/post/20160307141301.webp" title="webp格式图片">查看大图</a>）</li>
-</ul>
+<p>In this first example we have an XML that has a parent element called &lsquo;Music&rsquo;. It has a child element called type. We populate a Music object that has a &lsquo;type&rsquo; field which is an enum.</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+public class ConverterExample3 {
+    static String xml1 = &quot;&lt;Music&gt;&lt;type&gt;rock&lt;/type&gt;&lt;/Music&gt;&quot;;
+
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(Music.class);
+        Music musicObject = (Music) xStream.fromXML(xml1);
+        System.out.println(musicObject);
+        // prints Music [type=ROCK]
+    }
+
+}
+
+@XStreamAlias(&quot;Music&quot;)
+class Music {
+    public enum genre {
+        ROCK, JAZZ
+    };
+
+    genre type;
+
+    @Override
+    public String toString() {
+        return &quot;Music [type=&quot; + type + &quot;]&quot;;
+    }
+
+}     
+</code></pre>
+
+<p>In the next examples we convert the genre into a List of Strings</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
+public class ConverterExample4 {
+
+    static String xml = &quot;&lt;Music&gt;&lt;type&gt;rock&lt;/type&gt;&lt;type&gt;jazz&lt;/type&gt;&lt;/Music&gt;&quot;;
+
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(Music2.class);
+        Music2 musicObject = (Music2) xStream.fromXML(xml);
+
+        System.out.println(musicObject);
+    }
+
+}
+
+@XStreamAlias(&quot;Music&quot;)
+class Music2 {
+
+    @XStreamImplicit
+    List&lt;String&gt; type;
+
+    @Override
+    public String toString() {
+        return &quot;Music2 [type=&quot; + type + &quot;]&quot;;
+    }
+
+}
+</code></pre>
+
+<p>In this example The Music elements has a sequence of Artist elements each with an album name and a author name. We convert that to Music Object containing a map of Albums.</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
+public class ConverterExample6 {
+
+    static String xml = &quot;&lt;Music&gt;&lt;album&gt;&lt;name&gt;name1&lt;/name&gt;&lt;author&gt;author1&lt;/author&gt;&lt;/album&gt;&lt;/Music&gt;&quot;;
+
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(Music4.class);
+        xStream.alias(&quot;name&quot;, String.class);
+        xStream.alias(&quot;author&quot;, String.class);
+        xStream.alias(&quot;album&quot;, Entry.class);
+        Music4 musicObject = (Music4) xStream.fromXML(xml);
+
+        System.out.println(musicObject);
+    }
+
+}
+
+@XStreamAlias(&quot;Music&quot;)
+class Music4 {
+
+    @XStreamImplicit
+    Map&lt;String, String&gt; albums = new HashMap&lt;String, String&gt;();
+
+    @Override
+    public String toString() {
+        return &quot;Music4 [testMap=&quot; + albums + &quot;]&quot;;
+    }
+
+}
+</code></pre>
+
+<p>In the last example lets look at how to deserialize a Date Object. We use a DateConverter where we can specify a format.</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.converters.basic.DateConverter;
+
+public class ConverterExample7 {
+    static String xml = &quot;&lt;Musician&gt;&lt;birthdate&gt;04-20-1976 23:00:00&lt;/birthdate&gt;&lt;/Musician&gt;&quot;;
+
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(Musician.class);
+        xStream.registerConverter(new DateConverter(&quot;MM-dd-yyyy HH:mm:ss&quot;,
+                new String[] {}, TimeZone.getTimeZone(&quot;UTC&quot;)));
+        Musician musician = (Musician) xStream.fromXML(xml);
+        System.out.println(musician);
+    }
+
+}
+
+@XStreamAlias(&quot;Musician&quot;)
+class Musician {
+    private Date birthdate;
+
+    @Override
+    public String toString() {
+        SimpleDateFormat format = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        format.setTimeZone(TimeZone.getTimeZone(&quot;UTC&quot;));
+        return &quot;Musician [birthdate=&quot; + format.format(birthdate) + &quot;]&quot;;
+    }
+
+}
+</code></pre>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-xml-to-java.jsp" title="XStream XML to Java"><em>here</em></a> )</p>
 
         </div>
         <div id="post-navigator">
-          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603032011/" title="上一篇">&lt;&lt; SimpleXML: Tutorial</a>
-          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603081313/" title="下一篇">SimpleXML: Example >></a>
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603081411/" title="上一篇">&lt;&lt; XStream: Java to XML and Back</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603081433/" title="下一篇">XStream: Java to XML >></a>
         </div>
         <div id="post-comments">
           <h3>Comments</h3>
