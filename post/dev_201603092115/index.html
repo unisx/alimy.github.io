@@ -1,10 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Alimy &middot; Alimy </title>
+    <title> XStream: Json to Java &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="http://alimy.me/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
@@ -77,17 +77,15 @@
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -166,176 +164,114 @@
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311214/" title="阅读全文">如龙 极 第四期【Biu雷哥直播】 </a> </h2>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>XStream: Json to Java</h2>
+          
+          <p>XStream can also be used with JSON. XStream provides two drivers : a JsonHierarchicalStreamDriver and a JettisonMappedXmlDriver. The JsonHierarchicalStreamDriver can be used to write a JSON string but cannot deserialize a JSON. JettisonMappedXmlDriver can be used to deserialize a JSON but it introduces an additional dependency. In this example we deserialize a json string into a java object.</p>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NjY4NTcwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+<p>Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).</p>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311214/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<pre><code>package com.studytrails.xml.xstream;
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311213/" title="阅读全文">如龙 极 第三期【Biu雷哥直播】 </a> </h2>
+import java.util.ArrayList;
+import java.util.List;
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NDgwNDkwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311213/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+public class XStreamJsonExample {
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311212/" title="阅读全文">如龙 极 第二期【Biu雷哥直播】 </a> </h2>
+	private String json = &quot;{Music:{albums:[{name:name1,year:1980}]}}&quot;;
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1MzgyMjE4MA==" frameborder=0 allowfullscreen></iframe><br></p>
+	public static void main(String[] args) {
+		XStreamJsonExample example = new XStreamJsonExample();
+		example.serializeJsonUsingxStream();
+	}
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+	private void serializeJsonUsingxStream() {
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311211/" title="阅读全文">如龙 极 第一期【Biu雷哥直播】 </a> </h2>
+		XStream xStream = new XStream(new JettisonMappedXmlDriver());
+		xStream.processAnnotations(Music7.class);
+		Music7 music7 = (Music7) xStream.fromXML(json);
+		System.out.println(music7);
+		Music7 music = new Music7();
+		Album7 album1 = new Album7();
+		album1.name = &quot;name1&quot;;
+		album1.year = 1980;
+		music.albums.add(album1);
+		Album7 album2 = new Album7();
+		album2.name = &quot;name2&quot;;
+		album2.year = 1981;
+		music.albums.add(album2);
+		System.out.println(xStream.toXML(music));
+	}
+}
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1Mjg0OTUyMA==" frameborder=0 allowfullscreen></iframe><br></p>
+@XStreamAlias(&quot;Music&quot;)
+class Music7 {
+	@XStreamImplicit
+	List&lt;Album7&gt; albums = new ArrayList&lt;Album7&gt;();
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311211/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+	@Override
+	public String toString() {
+		return &quot;Music7 [albums=&quot; + albums + &quot;]&quot;;
+	}
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301724/" title="阅读全文">如龙0 第十四期【Biu雷哥直播】 </a> </h2>
+}
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1NDE3MzQ2MA==" frameborder=0 allowfullscreen></iframe><br></p>
+@XStreamAlias(&quot;Album&quot;)
+class Album7 {
+	String name;
+	int year;
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301724/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+	@Override
+	public String toString() {
+		return &quot;Album7 [name=&quot; + name + &quot;, year=&quot; + year + &quot;]&quot;;
+	}
+}
+</code></pre>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301723/" title="阅读全文">如龙0 第十三期【Biu雷哥直播】 </a> </h2>
+<hr />
 
-</header>
-<div class="summary">
-    <iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1MjcxMDU2OA==" frameborder=0 allowfullscreen></iframe>
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-json-example.jsp" title="XStream - Json to Java"><em>here</em></a> )</p>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301723/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301722/" title="阅读全文">如龙0 第十二期【Biu雷哥直播】 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1MTc3NDc4NA==" frameborder=0 allowfullscreen></iframe><br></p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301722/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301721/" title="阅读全文">如龙0 第十一期【Biu雷哥直播】 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0OTkwMzY2OA==" frameborder=0 allowfullscreen></iframe><br></p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301721/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301720/" title="阅读全文">如龙0 第十期【Biu雷哥直播】 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0OTA4NDA1Ng==" frameborder=0 allowfullscreen></iframe><br></p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301720/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301719/" title="阅读全文">如龙0 第九期【Biu雷哥直播】 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0ODE1MzcwMA==" frameborder=0 allowfullscreen></iframe><br></p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301719/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                    </div>
-                    </br>
-                    <h4>
-                        <a href="http://alimy.me/post/" title="文章列表">Archive</a>
-                    </h4>
-                </section>
-            <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. </p></footer>
-
-            </div>
         </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603092105/" title="上一篇">&lt;&lt; XStream: Collection Converters</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603092120/" title="下一篇">XStream: XML Transformation >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
 </html>

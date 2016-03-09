@@ -1,10 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Alimy &middot; Alimy </title>
+    <title> XStream: Referencing Objects &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="http://alimy.me/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
@@ -77,17 +77,15 @@
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -166,176 +164,182 @@
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311214/" title="阅读全文">如龙 极 第四期【Biu雷哥直播】 </a> </h2>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>XStream: Referencing Objects</h2>
+          
+          <p>XStream allows you to store references while converting a java object to XML. Consider a case where you have an Artist Object. The object contains albums that the artist has released, but you also want to store a reference to a &lsquo;similar artist&rsquo;. People listening to an artist might be interested in listening to a similar artist. When you convert this object to XML, XStream preserves the reference to the similar artist. It also manages circular references, so if there are no similar artist then the &lsquo;similar artist&rsquo; field could store a reference to the Owner Artist.</p>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NjY4NTcwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+<p>XStream has multiple ways to store references. you need to use the setMode(int mode) method to set the mode. XStream allows following modes:</p>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311214/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<ul>
+<li>NO_REFERENCES</li>
+<li>ID_REFERENCES</li>
+<li>XPATH_RELATIVE_REFERENCES</li>
+<li>XPATH_ABSOLUTE_REFERENCES</li>
+<li>SINGLE_NODE_XPATH_RELATIVE_REFERENCES</li>
+<li>SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES</li>
+</ul>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311213/" title="阅读全文">如龙 极 第三期【Biu雷哥直播】 </a> </h2>
+<p>In the example below we see how each of the above looks We first create the XStream object instance, the Artist Class and the Album class. We also add appropriate aliases to make the XML more readable.</p>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NDgwNDkwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+<pre><code>package com.studytrails.xml.xstream;
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311213/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+import com.thoughtworks.xstream.XStream;
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311212/" title="阅读全文">如龙 极 第二期【Biu雷哥直播】 </a> </h2>
+public class ReferencingObjectsExample {
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1MzgyMjE4MA==" frameborder=0 allowfullscreen></iframe><br></p>
+    public static void main(String[] args) {
+        Artist artist = new Artist();
+        AnotherAlbum album = new AnotherAlbum();
+        artist.setAlbum(album);
+        XStream xStream = new XStream();
+        xStream.alias(&quot;artist&quot;, Artist.class);
+        xStream.alias(&quot;anotherAlbum&quot;, AnotherAlbum.class);
+</code></pre>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<p>Here are the classes. An Artist contains an album. It also contains object of type &lsquo;Top10Album&rsquo; which is a child of the class &lsquo;Album&rsquo; and contains the top10 songs of the Artist. We also store a reference to another artist which is similar to this artist. The aim is to see how the reference to the various objects are stored in the XML. The reference to Top10Album is a reference to a derived class. The reference to Artist is a reference to the Object&rsquo;s own type.</p>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311211/" title="阅读全文">如龙 极 第一期【Biu雷哥直播】 </a> </h2>
+<pre><code>class Artist {
+    Top10Album album;
+    Album album2;
+    Artist similarArtist;
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1Mjg0OTUyMA==" frameborder=0 allowfullscreen></iframe><br></p>
+    public void setSimilarArtist(Artist similarArtist) {
+        this.similarArtist = similarArtist;
+    }
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311211/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+    public void setAlbum(Top10Album album) {
+        this.album = album;
+        album2 = (Top10Album) this.album;
+    }
+}
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301724/" title="阅读全文">如龙0 第十四期【Biu雷哥直播】 </a> </h2>
+class Album {
+}
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1NDE3MzQ2MA==" frameborder=0 allowfullscreen></iframe><br></p>
+class Top10Album extends Album {
+}
+</code></pre>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301724/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<p>case 1: ID_REFERENCES</p>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301723/" title="阅读全文">如龙0 第十三期【Biu雷哥直播】 </a> </h2>
+<pre><code>xStream.setMode(XStream.ID_REFERENCES);
+</code></pre>
 
-</header>
-<div class="summary">
-    <iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1MjcxMDU2OA==" frameborder=0 allowfullscreen></iframe>
+<p>The output XML</p>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301723/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<pre><code>&lt;artist id=&quot;1&quot;&gt;
+  &lt;album id=&quot;2&quot;&gt;
+    &lt;album2 class=&quot;anotherAlbum&quot; reference=&quot;2&quot;&gt;
+    &lt;/album2&gt;
+  &lt;/album&gt;
+&lt;/artist&gt;
+</code></pre>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301722/" title="阅读全文">如龙0 第十二期【Biu雷哥直播】 </a> </h2>
+<p>case 2: NO_REFERENCES</p>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1MTc3NDc4NA==" frameborder=0 allowfullscreen></iframe><br></p>
+<pre><code>xStream.setMode(XStream.NO_REFERENCES);
+</code></pre>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301722/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<p>The output XML</p>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301721/" title="阅读全文">如龙0 第十一期【Biu雷哥直播】 </a> </h2>
+<pre><code>&lt;artist&gt;
+  &lt;album&gt;
+  &lt;album2 class=&quot;anotherAlbum&quot;&gt;
+&lt;/album2&gt;&lt;/album&gt;&lt;/artist&gt;
+</code></pre>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0OTkwMzY2OA==" frameborder=0 allowfullscreen></iframe><br></p>
+<p>case 3: SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES</p>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301721/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<pre><code>xStream.setMode(XStream.SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES);
+</code></pre>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301720/" title="阅读全文">如龙0 第十期【Biu雷哥直播】 </a> </h2>
+<p>The output XML</p>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0OTA4NDA1Ng==" frameborder=0 allowfullscreen></iframe><br></p>
+<pre><code>&lt;artist&gt;
+  &lt;album&gt;
+  &lt;album2 class=&quot;anotherAlbum&quot; reference=&quot;/artist[1]/album[1]&quot;&gt;
+&lt;/album2&gt;&lt;/album&gt;&lt;/artist&gt;
+</code></pre>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301720/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<p>case 4: SINGLE_NODE_XPATH_RELATIVE_REFERENCES</p>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301719/" title="阅读全文">如龙0 第九期【Biu雷哥直播】 </a> </h2>
+<pre><code>xStream.setMode(XStream.SINGLE_NODE_XPATH_RELATIVE_REFERENCES);
+</code></pre>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0ODE1MzcwMA==" frameborder=0 allowfullscreen></iframe><br></p>
+<p>The output XML</p>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301719/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<pre><code>&lt;artist&gt;
+  &lt;album&gt;
+  &lt;album2 class=&quot;anotherAlbum&quot; reference=&quot;../album[1]&quot;&gt;
+&lt;/album2&gt;&lt;/album&gt;&lt;/artist&gt;
+</code></pre>
 
-                        
-                    </div>
-                    </br>
-                    <h4>
-                        <a href="http://alimy.me/post/" title="文章列表">Archive</a>
-                    </h4>
-                </section>
-            <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. </p></footer>
+<p>case 5: XPATH_ABSOLUTE_REFERENCES</p>
 
-            </div>
+<pre><code>xStream.setMode(XStream.XPATH_ABSOLUTE_REFERENCES);
+</code></pre>
+
+<p>The output XML</p>
+
+<pre><code>&lt;artist&gt;
+  &lt;album&gt;
+  &lt;album2 class=&quot;anotherAlbum&quot; reference=&quot;/artist/album&quot;&gt;
+&lt;/album2&gt;&lt;/album&gt;&lt;/artist&gt;
+</code></pre>
+
+<p>case 6: XPATH_RELATIVE_REFERENCES</p>
+
+<pre><code>xStream.setMode(XStream.XPATH_RELATIVE_REFERENCES);
+</code></pre>
+
+<p>The output XML</p>
+
+<pre><code>&lt;artist&gt;
+  &lt;album&gt;
+  &lt;album2 class=&quot;anotherAlbum&quot; reference=&quot;../album&quot;&gt;
+&lt;/album2&gt;&lt;/album&gt;&lt;/artist&gt;
+</code></pre>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-java-to-xml-referencing-Objects.jsp" title="Referencing Objects"><em>here</em></a> )</p>
+
         </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603092041/" title="上一篇">&lt;&lt; XStream: Handling Attributes in XML</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603092055/" title="下一篇">XStream: Custom Converter for BufferedImage >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
 </html>

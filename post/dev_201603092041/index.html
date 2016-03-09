@@ -1,0 +1,452 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> XStream: Handling Attributes in XML &middot; Alimy </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">Alimy</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                            </br>  </ul>
+                    </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">Alimy</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>XStream: Handling Attributes in XML</h2>
+          
+          <p>In the previous tutorial we saw <a href="http://alimy.me/post/dev_201603081411" title="Parsing An XML">how to convert Java to XML and back</a>. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:</p>
+
+<pre><code>&lt;element attr=&quot;  foo\t\n   bar    &quot;&gt;
+&lt;/element&gt;
+</code></pre>
+
+<p>will always be normalized and passed this assertion:</p>
+
+<pre><code>assertEquals(&quot;foo bar&quot;, element.getAttr());
+XStream has no influence about this behavior.
+</code></pre>
+
+<p>Case 1 : Element with attributes but no value - Using SingleValueConverter</p>
+
+<pre><code>&lt;!--?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?--&gt;
+&lt;root&gt;
+    &lt;child1 key1=&quot;value1&quot;&gt;&lt;/child1&gt;
+    &lt;child2&gt;This is child 2&lt;/child2&gt;
+&lt;/root&gt;
+</code></pre>
+
+<p>In this example we use a SingleValueConverter to convert the XML element containing an attribute. This method does not work if the element has a value</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.SingleValueConverter;
+
+public class ElementWithAttribute {
+    private String xml = &quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt;&quot; + &quot;&lt;Root&gt;&quot; + &quot;&lt;child1 key1=\&quot;value1\&quot;&gt;&lt;/child1&gt;&quot;
+            + &quot;&lt;child2&gt;This is child 2&lt;/child2&gt;&quot; + &quot;&lt;/Root&gt;&quot;;
+
+    public static void main(String[] args) {
+        ElementWithAttribute unmarshaller = new ElementWithAttribute();
+        unmarshaller.XMLToJavaObject();
+    }
+
+    public void XMLToJavaObject() {
+        XStream xStream = new XStream();
+        xStream.useAttributeFor(Child1.class, &quot;key1&quot;);
+        xStream.registerConverter(new Key1SingleValueConverter());
+        xStream.alias(&quot;Root&quot;, Root.class);
+        xStream.alias(&quot;child1&quot;, Child1.class);
+        Root root = (Root) xStream.fromXML(xml);
+        System.out.println(root);
+        // prints Root [child1=Child1 [key1=Key1 [value=value1]], child2=This is child 2]
+    }
+
+    public class Root {
+        public Child1 child1;
+
+        public String child2;
+
+        @Override
+        public String toString() {
+            return &quot;Root [child1=&quot; + child1 + &quot;, child2=&quot; + child2 + &quot;]&quot;;
+        }
+
+    }
+
+    public class Child1 {
+        public Key1 key1;
+
+        @Override
+        public String toString() {
+            return &quot;Child1 [key1=&quot; + key1 + &quot;]&quot;;
+        }
+
+    }
+
+    public class Key1 {
+        String value;
+
+        public Key1(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return &quot;Key1 [value=&quot; + value + &quot;]&quot;;
+        }
+
+    }
+
+    public class Key1SingleValueConverter implements SingleValueConverter {
+        @Override
+        public boolean canConvert(Class type) {
+            return (type.equals(Key1.class));
+        }
+
+        @Override
+        public Object fromString(String str) {
+            Key1 key = new Key1(str);
+            return key;
+        }
+
+        @Override
+        public String toString(Object obj) {
+            return ((Key1) obj).value;
+        }
+    }
+}
+</code></pre>
+
+<p>Case 2 : Element with attributes but no value - Using attribute alias</p>
+
+<pre><code>&lt;!--?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?--&gt;
+&lt;root&gt;
+    &lt;child1 key1=&quot;value1&quot;&gt;&lt;/child1&gt;
+    &lt;child2&gt;This is child 2&lt;/child2&gt;
+&lt;/root&gt;
+</code></pre>
+
+<p>The same result can be obtained by using an attribute alias.</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+
+public class ElementWithAttribute2 {
+
+    private String xml = &quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt;&quot; + &quot;&lt;Root&gt;&quot; + &quot;&lt;child1 key1=\&quot;value1\&quot;&gt;&lt;/child1&gt;&quot;
+            + &quot;&lt;child2&gt;This is child 2&lt;/child2&gt;&quot; + &quot;&lt;/Root&gt;&quot;;
+
+    public static void main(String[] args) {
+        ElementWithAttribute2 unmarshaller = new ElementWithAttribute2();
+        unmarshaller.XMLToJavaObject();
+    }
+
+    public void XMLToJavaObject() {
+        XStream xStream = new XStream();
+        xStream.alias(&quot;Root&quot;, Root.class);
+        xStream.alias(&quot;child1&quot;, Child1.class);
+        xStream.aliasAttribute(Child1.class, &quot;key1&quot;, &quot;key1&quot;);
+        Root root = (Root) xStream.fromXML(xml);
+        System.out.println(root);
+        //prints Root [child1=Child1 [key1=value1], child2=This is child 2]
+    }
+
+    public class Root {
+        public Child1 child1;
+
+        public String child2;
+
+        @Override
+        public String toString() {
+            return &quot;Root [child1=&quot; + child1 + &quot;, child2=&quot; + child2 + &quot;]&quot;;
+        }
+
+    }
+
+    public class Child1 {
+        public String key1;
+
+        @Override
+        public String toString() {
+            return &quot;Child1 [key1=&quot; + key1 + &quot;]&quot;;
+        }
+    }
+
+    public class Key1 {
+        String value;
+
+        public Key1(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return &quot;Key1 [value=&quot; + value + &quot;]&quot;;
+        }
+
+    }
+
+}
+</code></pre>
+
+<p>Case 3 : Element with attributes and value</p>
+
+<pre><code>&lt;!--?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?--&gt;
+ &lt;root&gt;
+       &lt;child1 key1=&quot;value1&quot;&gt;This is child 1&lt;/child1&gt;
+       &lt;child2&gt;This is child 2&lt;/child2&gt;
+ &lt;/root&gt;
+</code></pre>
+
+<p>If the element has an attribute as well as a value then we use a special Converter called ToAttributedValueConverter</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;
+
+public class ElementWithValueAndAttributes1 {
+
+
+    private String xml = &quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt;&quot; + &quot;&lt;Root&gt;&quot; + &quot;&lt;child1 key1=\&quot;value1\&quot;&gt;This is child 1&lt;/child1&gt;&quot;
+            + &quot;&lt;child2&gt;This is child 2&lt;/child2&gt;&quot; + &quot;&lt;/Root&gt;&quot;;
+
+    public static void main(String[] args) {
+        ElementWithValueAndAttributes1 converter = new ElementWithValueAndAttributes1();
+        converter.XmlToJavaObjects();
+    }
+
+    private void XmlToJavaObjects() {
+        XStream xStream = new XStream();
+        xStream.alias(&quot;Root&quot;, Root.class);
+        xStream.registerConverter(new ToAttributedValueConverter(Child1.class, xStream.getMapper(), xStream.getReflectionProvider(), xStream
+                .getConverterLookup(), &quot;value&quot;));
+        Root test = (Root) xStream.fromXML(xml);
+        System.out.println(test);
+        /*- prints Root [child1=Child1 [value=This is child 1, key1=value1],child2=This is child 2] */
+
+    }
+
+    public class Root {
+        public Child1 child1;
+
+        public String child2;
+
+        @Override
+        public String toString() {
+            return &quot;Root [child1=&quot; + child1 + &quot;, child2=&quot; + child2 + &quot;]&quot;;
+        }
+
+    }
+
+    public class Child1 {
+        public String value;
+        public String key1;
+
+        @Override
+        public String toString() {
+            return &quot;Child1 [value=&quot; + value + &quot;, key1=&quot; + key1 + &quot;]&quot;;
+        }
+
+    }
+
+}
+</code></pre>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-java-xml-attributes.jsp" title="Handling Attributes in XML"><em>here</em></a> )</p>
+
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603081441/" title="上一篇">&lt;&lt; XStream: Java to XML Using Annotation</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603092051/" title="下一篇">XStream: Referencing Objects >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</html>

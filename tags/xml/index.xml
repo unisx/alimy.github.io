@@ -1,0 +1,1893 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Xml on Alimy </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
+    <link>http://alimy.me/tags/xml/</link>
+    
+    
+    <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
+    <updated>Wed, 09 Mar 2016 21:20:00 CST</updated>
+    
+    <item>
+      <title>XStream: XML Transformation</title>
+      <link>http://alimy.me/post/dev_201603092120/</link>
+      <pubDate>Wed, 09 Mar 2016 21:20:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603092120/</guid>
+      <description>&lt;p&gt;XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.TraxSource;
+
+public class XStreamTransformationExample {
+	public static void main(String[] args) throws TransformerFactoryConfigurationError, TransformerException {
+		XStreamTransformationExample transformationExample = new XStreamTransformationExample();
+		transformationExample.runTransformation();
+	}
+
+	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
+		XStream xstream = new XStream();
+		xstream.alias(&amp;quot;rss&amp;quot;, Rss2.class);
+		xstream.alias(&amp;quot;item&amp;quot;, Item2.class);
+		Rss2 rss = new Rss2();
+		Channel2 channel = new Channel2();
+		rss.channel = channel;
+		channel.title = &amp;quot;Title&amp;quot;;
+		channel.link = &amp;quot;link&amp;quot;;
+		channel.image = new Image2();
+		channel.image.link = &amp;quot;image link&amp;quot;;
+		Item2 item1 = new Item2();
+		item1.link = &amp;quot;item link&amp;quot;;
+		item1.title = &amp;quot;Item Title&amp;quot;;
+		channel.items = new ArrayList&amp;lt;Item2&amp;gt;();
+		channel.items.add(item1);
+		System.out.println(xstream.toXML(rss));
+
+		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&amp;quot;bbc.xsl&amp;quot;));
+		TraxSource traxSource = new TraxSource(rss, xstream);
+		StreamResult result = new StreamResult(System.out);
+		transformer.transform(traxSource, result);
+
+		// prints the html on console
+
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The XML.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+
+			link
+
+				image link
+
+
+
+
+					item link
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The Rss2 and other classes&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Rss2 {
+	public Channel2 channel;
+
+	@Override
+	public String toString() {
+		return &amp;quot;Rss [channel=&amp;quot; + channel + &amp;quot;]&amp;quot;;
+	}
+
+}
+
+class Channel2 {
+	public String title;
+	public String link;
+	public String description;
+	public String language;
+	public String lastBuildDate;
+	public String copyright;
+	public Image2 image;
+	public String ttl;
+	public AtomLink a_link;
+	public List items;
+
+	public class AtomLink {
+		public String href;
+		public String rel;
+		public String type;
+
+		@Override
+		public String toString() {
+			return &amp;quot;AtomLink [href=&amp;quot; + href + &amp;quot;, rel=&amp;quot; + rel + &amp;quot;, type=&amp;quot; + type + &amp;quot;]&amp;quot;;
+		}
+
+	}
+
+	@Override
+	public String toString() {
+		return &amp;quot;Channel [title=&amp;quot; + title + &amp;quot;, link=&amp;quot; + link + &amp;quot;, description=&amp;quot; + description + &amp;quot;, language=&amp;quot; + language + &amp;quot;, lastBuildDate=&amp;quot;
+				+ lastBuildDate + &amp;quot;, copyright=&amp;quot; + copyright + &amp;quot;, image=&amp;quot; + image + &amp;quot;, ttl=&amp;quot; + ttl + &amp;quot;, a_link=&amp;quot; + a_link + &amp;quot;, items=&amp;quot; + items + &amp;quot;]&amp;quot;;
+	}
+
+}
+
+class Item2 {
+	public String title;
+	public String description;
+	public String link;
+	public String guid;
+	public String pubDate;
+	public MediaThumbnail[] media_thumbnails;
+
+	@Override
+	public String toString() {
+		return &amp;quot;Item [title=&amp;quot; + title + &amp;quot;, link=&amp;quot; + link + &amp;quot;, guid=&amp;quot; + guid + &amp;quot;, pubDate=&amp;quot; + pubDate + &amp;quot;, media_thumbnails=&amp;quot;
+				+ Arrays.toString(media_thumbnails) + &amp;quot;]&amp;quot;;
+	}
+
+	public class MediaThumbnail {
+		public int width;
+		public int height;
+		public String url;
+
+		@Override
+		public String toString() {
+			return &amp;quot;MediaThumbnail [width=&amp;quot; + width + &amp;quot;, height=&amp;quot; + height + &amp;quot;, url=&amp;quot; + url + &amp;quot;]&amp;quot;;
+		}
+
+	}
+
+}
+
+class Image2 {
+	public String url;
+	public String title;
+	public String link;
+	public String width;
+	public String height;
+
+	@Override
+	public String toString() {
+		return &amp;quot;Image [url=&amp;quot; + url + &amp;quot;, title=&amp;quot; + title + &amp;quot;, link=&amp;quot; + link + &amp;quot;, width=&amp;quot; + width + &amp;quot;, height=&amp;quot; + height + &amp;quot;]&amp;quot;;
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-xml-transformation.jsp&#34; title=&#34;XML Transformation&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XStream: Json to Java</title>
+      <link>http://alimy.me/post/dev_201603092115/</link>
+      <pubDate>Wed, 09 Mar 2016 21:15:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603092115/</guid>
+      <description>&lt;p&gt;XStream can also be used with JSON. XStream provides two drivers : a JsonHierarchicalStreamDriver and a JettisonMappedXmlDriver. The JsonHierarchicalStreamDriver can be used to write a JSON string but cannot deserialize a JSON. JettisonMappedXmlDriver can be used to deserialize a JSON but it introduces an additional dependency. In this example we deserialize a json string into a java object.&lt;/p&gt;
+
+&lt;p&gt;Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
+
+public class XStreamJsonExample {
+
+	private String json = &amp;quot;{Music:{albums:[{name:name1,year:1980}]}}&amp;quot;;
+
+	public static void main(String[] args) {
+		XStreamJsonExample example = new XStreamJsonExample();
+		example.serializeJsonUsingxStream();
+	}
+
+	private void serializeJsonUsingxStream() {
+
+		XStream xStream = new XStream(new JettisonMappedXmlDriver());
+		xStream.processAnnotations(Music7.class);
+		Music7 music7 = (Music7) xStream.fromXML(json);
+		System.out.println(music7);
+		Music7 music = new Music7();
+		Album7 album1 = new Album7();
+		album1.name = &amp;quot;name1&amp;quot;;
+		album1.year = 1980;
+		music.albums.add(album1);
+		Album7 album2 = new Album7();
+		album2.name = &amp;quot;name2&amp;quot;;
+		album2.year = 1981;
+		music.albums.add(album2);
+		System.out.println(xStream.toXML(music));
+	}
+}
+
+@XStreamAlias(&amp;quot;Music&amp;quot;)
+class Music7 {
+	@XStreamImplicit
+	List&amp;lt;Album7&amp;gt; albums = new ArrayList&amp;lt;Album7&amp;gt;();
+
+	@Override
+	public String toString() {
+		return &amp;quot;Music7 [albums=&amp;quot; + albums + &amp;quot;]&amp;quot;;
+	}
+
+}
+
+@XStreamAlias(&amp;quot;Album&amp;quot;)
+class Album7 {
+	String name;
+	int year;
+
+	@Override
+	public String toString() {
+		return &amp;quot;Album7 [name=&amp;quot; + name + &amp;quot;, year=&amp;quot; + year + &amp;quot;]&amp;quot;;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-json-example.jsp&#34; title=&#34;XStream - Json to Java&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XStream: Collection Converters</title>
+      <link>http://alimy.me/post/dev_201603092105/</link>
+      <pubDate>Wed, 09 Mar 2016 21:05:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603092105/</guid>
+      <description>&lt;p&gt;In the earlier tutorials we saw how to convert a &lt;a href=&#34;http://alimy.me/post/dev_201603081411&#34; title=&#34;parsing an xml&#34;&gt;Java object to XML and back&lt;/a&gt;, &lt;a href=&#34;http://alimy.me/post/dev_201603092055&#34; title=&#34;custom converter&#34;&gt;custom converter&lt;/a&gt; and &lt;a href=&#34;http://alimy.me/post/dev_201603092100&#34; title=&#34;basic converters&#34;&gt;basic converters&lt;/a&gt;. In this tutorial we look at how XStream converts array and collections from java to xml and vice versa. We will convert the following types :&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;String[]&lt;/li&gt;
+&lt;li&gt;char[]&lt;/li&gt;
+&lt;li&gt;List&lt;String&gt;&lt;/li&gt;
+&lt;li&gt;java.util.Properties&lt;/li&gt;
+&lt;li&gt;List&lt;String&gt;&lt;/li&gt;
+&lt;li&gt;Map&lt;String, String&gt;&lt;/li&gt;
+&lt;li&gt;TreeMap&lt;String, String&gt; treeMap&lt;/li&gt;
+&lt;li&gt;TreeSet&lt;String&gt; treeSet&lt;/li&gt;
+&lt;li&gt;enum&lt;/li&gt;
+&lt;li&gt;EnumMap&lt;testEnum, String&gt; testEnum is an enum&lt;/li&gt;
+&lt;li&gt;EnumSet&lt;testEnum&gt; testEnum is an enum&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Here&amp;rsquo;s the complete example&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import com.thoughtworks.xstream.XStream;
+
+public class ConverterExample2 {
+	public static void main(String[] args) {
+		ConverterExample2 example2 = new ConverterExample2();
+		example2.runExample();
+	}
+
+	public void runExample() {
+		XStream xStream = new XStream();
+		CollectionConverterExample classContainingCollection = new CollectionConverterExample();
+		classContainingCollection.initialize();
+		String xml = xStream.toXML(classContainingCollection);
+		System.out.println(xml);
+	}
+}
+
+class CollectionConverterExample {
+
+	String[] stringArray = new String[] { &amp;quot;StringA&amp;quot;, &amp;quot;StringB&amp;quot;, &amp;quot;StringC&amp;quot; };
+	char[] charArray = new char[] { &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39; };
+	List&amp;lt;String&amp;gt; listA = new ArrayList&amp;lt;String&amp;gt;();
+	Map&amp;lt;String, String&amp;gt; mapA = new HashMap&amp;lt;String, String&amp;gt;();
+	Properties properties = new Properties();
+	List&amp;lt;String&amp;gt; singletonList;
+	Map&amp;lt;String, String&amp;gt; singletonMap;
+
+	TreeMap&amp;lt;String, String&amp;gt; treeMap = new TreeMap&amp;lt;String, String&amp;gt;();
+	TreeSet&amp;lt;String&amp;gt; treeSet = new TreeSet&amp;lt;String&amp;gt;();
+	enum testEnum {testA, testB}
+	testEnum testeEnumValue = testEnum.testA;
+	EnumMap&amp;lt;testEnum, String&amp;gt; testEnumMap = new EnumMap&amp;lt;CollectionConverterExample.testEnum, String&amp;gt;(testEnum.class);
+	EnumSet&amp;lt;testEnum&amp;gt; testEnumSet = EnumSet.range(testEnum.testA, testEnum.testB);
+
+	public void initialize() {
+		listA.add(&amp;quot;testA&amp;quot;);
+		mapA.put(&amp;quot;keyA&amp;quot;, &amp;quot;ValueA&amp;quot;);
+		properties.put(&amp;quot;propertyA&amp;quot;, &amp;quot;valueA&amp;quot;);
+		treeMap.put(&amp;quot;treeA&amp;quot;, &amp;quot;valueA&amp;quot;);
+		treeMap.put(&amp;quot;treeB&amp;quot;, &amp;quot;valueB&amp;quot;);
+		treeSet.add(&amp;quot;treeB&amp;quot;);
+		treeSet.add(&amp;quot;treeA&amp;quot;);
+		singletonList = Collections.singletonList(&amp;quot;singletonListA&amp;quot;);
+		singletonMap = Collections.singletonMap(&amp;quot;key1&amp;quot;, &amp;quot;value1&amp;quot;);
+
+		testEnumMap.put(testEnum.testA, &amp;quot;testEnumMapValue1&amp;quot;);
+		testEnumMap.put(testEnum.testB, &amp;quot;testEnumMapValue2&amp;quot;);
+
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The resultant XML looks like this&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+		StringA
+		StringB
+		StringC
+
+	abcde
+
+		testA
+
+
+
+	  keyA
+	  ValueA
+
+
+
+
+
+
+		singletonListA
+
+
+
+	  key1
+	  value1
+
+
+
+
+	  treeA
+	  valueA
+
+
+	  treeB
+	  valueB
+
+
+
+		treeA
+		treeB
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-collection-converters.jsp&#34; title=&#34;Collection Converters&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XStream: Basic Built-in Converters</title>
+      <link>http://alimy.me/post/dev_201603092100/</link>
+      <pubDate>Wed, 09 Mar 2016 21:00:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603092100/</guid>
+      <description>&lt;p&gt;In the previous tutorials we saw an example of how to convert &lt;a href=&#34;http://alimy.me/post/dev_201603081411&#34; title=&#34;parsing an xml&#34;&gt;java object to XML and back&lt;/a&gt;. That tutorial also explained the concept of aliases and implicit collection.In the last tutorial we show how to write a custom converter. In this tutorial, lets see some of the basic built in converters of XStream and how the resultant XML from those converters look like. We will look at how the following types are converted. XStream has converters for each of these. These are just a sample of the converters that XStream has. These converters only exist for a better and faster handling of a type compared to the generic converters.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BigDecimal&lt;/li&gt;
+&lt;li&gt;BigInteger&lt;/li&gt;
+&lt;li&gt;boolean&lt;/li&gt;
+&lt;li&gt;byte&lt;/li&gt;
+&lt;li&gt;char&lt;/li&gt;
+&lt;li&gt;Date&lt;/li&gt;
+&lt;li&gt;Double&lt;/li&gt;
+&lt;li&gt;Float&lt;/li&gt;
+&lt;li&gt;int&lt;/li&gt;
+&lt;li&gt;Long&lt;/li&gt;
+&lt;li&gt;Object&lt;/li&gt;
+&lt;li&gt;StringBuffer&lt;/li&gt;
+&lt;li&gt;StringBuilder&lt;/li&gt;
+&lt;li&gt;URI&lt;/li&gt;
+&lt;li&gt;URL&lt;/li&gt;
+&lt;li&gt;UUID&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the next tutorial we look at examples of arrays and Collections.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.UUID;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.basic.BooleanConverter;
+import com.thoughtworks.xstream.converters.basic.DateConverter;
+
+public class ConverterExample1 {
+
+	public static void main(String[] args) throws MalformedURLException, URISyntaxException {
+		ConverterExample1 converter = new ConverterExample1();
+		converter.convert();
+	}
+
+	private void convert() throws MalformedURLException, URISyntaxException {
+
+		BasicConverterFields basicConverterExample = new BasicConverterFields();
+		basicConverterExample.initialize();
+
+		XStream xStream = new XStream();
+
+		xStream.registerLocalConverter(BasicConverterFields.class, &amp;quot;flag&amp;quot;, BooleanConverter.BINARY);
+
+		DateConverter dateConverter = new DateConverter(&amp;quot;yyyy-MM-dd HH:mm:ss&amp;quot;, new String[] {}, TimeZone.getTimeZone(&amp;quot;UTC&amp;quot;));
+		xStream.registerConverter(dateConverter);
+
+		String xml = xStream.toXML(basicConverterExample);
+
+		System.out.println(xml);
+
+		BasicConverterFields basicConverterFromXML = (BasicConverterFields) xStream.fromXML(xml);
+		System.out.println(basicConverterFromXML);
+
+	}
+
+	class BasicConverterFields {
+		BigDecimal bigDecimal = new BigDecimal(10000000000.0);
+		BigInteger bigInteger = new BigInteger(&amp;quot;1000000000&amp;quot;);
+		boolean flag = true;
+		byte byteA = &#39;a&#39;;
+		char charA = &#39;a&#39;;
+		Date date = new Date();
+		Double doubleA = new Double(1000000000000.0);
+		Float floatA = new Float(10000000000000f);
+		int intA = 100;
+		Long longA = new Long(100000);
+		Object nullA = null;
+		Short shortA = new Short((short) 1);
+		StringBuffer stringBufferA = new StringBuffer(&amp;quot;test&amp;quot;);
+		StringBuilder stringBuilderA = new StringBuilder().append(&amp;quot;test&amp;quot;);
+		URI UriA = null;
+		URL urlA = null;
+		UUID uuidA = UUID.fromString(&amp;quot;0000000a-000b-000c-000d-00000000000e&amp;quot;);
+
+		public void initialize() throws URISyntaxException, MalformedURLException {
+			UriA = new URI(&amp;quot;file://C/work/fileA&amp;quot;);
+			urlA = new URL(&amp;quot;http://www.google.com&amp;quot;);
+		}
+
+		@Override
+		public String toString() {
+			return &amp;quot;BasicConverterFields [bigDecimal=&amp;quot; + bigDecimal + &amp;quot;, bigInteger=&amp;quot; + bigInteger + &amp;quot;, flag=&amp;quot; + flag + &amp;quot;, byteA=&amp;quot; + byteA
+					+ &amp;quot;, charA=&amp;quot; + charA + &amp;quot;, date=&amp;quot; + date + &amp;quot;, doubleA=&amp;quot; + doubleA + &amp;quot;, floatA=&amp;quot; + floatA + &amp;quot;, intA=&amp;quot; + intA + &amp;quot;, longA=&amp;quot; + longA
+					+ &amp;quot;, nullA=&amp;quot; + nullA + &amp;quot;, shortA=&amp;quot; + shortA + &amp;quot;, stringBufferA=&amp;quot; + stringBufferA + &amp;quot;, stringBuilderA=&amp;quot; + stringBuilderA
+					+ &amp;quot;, UriA=&amp;quot; + UriA + &amp;quot;, urlA=&amp;quot; + urlA + &amp;quot;, uuidA=&amp;quot; + uuidA + &amp;quot;]&amp;quot;;
+		}
+
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The toXML method prints this&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;10000000000
+1000000000
+1
+97
+a
+2014-04-26 04:14:38
+1.0E12
+9.9999998E12
+100
+100000
+1
+test
+test
+file://C/work/fileA
+http://www.google.com
+0000000a-000b-000c-000d-00000000000e
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The fromXML method prints this&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;BasicConverterFields [bigDecimal=10000000000, bigInteger=1000000000, flag=true, byteA=97, charA=a,
+date=Sat Apr 26 09:44:38 IST 2014, doubleA=1.0E12, floatA=9.9999998E12, intA=100, longA=100000,
+nullA=null, shortA=1, stringBufferA=test, stringBuilderA=test, UriA=file://C/work/fileA,
+urlA=http://www.google.com, uuidA=0000000a-000b-000c-000d-00000000000e]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-basic-converters.jsp&#34; title=&#34;Basic Built-in Converters&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XStream: Custom Converter for BufferedImage</title>
+      <link>http://alimy.me/post/dev_201603092055/</link>
+      <pubDate>Wed, 09 Mar 2016 20:55:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603092055/</guid>
+      <description>&lt;p&gt;In the previous tutorials we saw an example of how to convert a &lt;a href=&#34;http://alimy.me/post/dev_201603081411&#34; title=&#34;parsing an xml&#34;&gt;java object to XML and back&lt;/a&gt;. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import javax.imageio.ImageIO;
+
+import org.apache.commons.io.output.ByteArrayOutputStream;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.core.util.Base64Encoder;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+
+public class CustomConverterExample {
+
+    public static void main(String[] args) throws IOException {
+        CustomConverterExample customConverterExample = new CustomConverterExample();
+        customConverterExample.showCustomConversionForBufferedImage();
+    }
+
+    private void showCustomConversionForBufferedImage() throws IOException {
+        Company company = new Company();
+        company.setName(&amp;quot;Study Trails&amp;quot;);
+        BufferedImage in = ImageIO.read(new File(&amp;quot;st1_200.jpg&amp;quot;));
+        BufferedImage newImage = new BufferedImage(in.getWidth(), in.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = newImage.createGraphics();
+        g.drawImage(in, 0, 0, null);
+        g.dispose();
+        company.setImage(newImage);
+        XStream xStream = new XStream();
+        xStream.registerConverter(new CustomBufferedImageConverter());
+        String xml = xStream.toXML(company);
+
+        Company company2 = (Company) xStream.fromXML(xml);
+        File outputfile = new File(&amp;quot;st2_200.jpg&amp;quot;);
+        ImageIO.write(company2.image, &amp;quot;jpg&amp;quot;, outputfile);
+
+    }
+
+}
+
+class Company {
+    String name;
+    BufferedImage image;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+}
+
+class CustomBufferedImageConverter implements Converter {
+    @Override
+    public boolean canConvert(Class type) {
+
+        return type.isAssignableFrom(BufferedImage.class);
+    }
+
+    @Override
+    public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
+        BufferedImage bufferedImage = (BufferedImage) source;
+        try {
+            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outStream);
+            ImageIO.write(bufferedImage, &amp;quot;jpg&amp;quot;, objectOutputStream);
+            outStream.flush();
+            Base64Encoder encorder = new Base64Encoder();
+            String imageString = encorder.encode(outStream.toByteArray());
+            outStream.close();
+            writer.setValue(imageString);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
+        BufferedImage image = null;
+        try {
+            Base64Encoder encoder = new Base64Encoder();
+            byte[] imageBytes = encoder.decode(reader.getValue());
+            ObjectInputStream inputStream = new ObjectInputStream(new ByteArrayInputStream(imageBytes));
+            image = ImageIO.read(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return image;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-custom-converter.jsp&#34; title=&#34;XStream custom converter&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XStream: Referencing Objects</title>
+      <link>http://alimy.me/post/dev_201603092051/</link>
+      <pubDate>Wed, 09 Mar 2016 20:51:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603092051/</guid>
+      <description>&lt;p&gt;XStream allows you to store references while converting a java object to XML. Consider a case where you have an Artist Object. The object contains albums that the artist has released, but you also want to store a reference to a &amp;lsquo;similar artist&amp;rsquo;. People listening to an artist might be interested in listening to a similar artist. When you convert this object to XML, XStream preserves the reference to the similar artist. It also manages circular references, so if there are no similar artist then the &amp;lsquo;similar artist&amp;rsquo; field could store a reference to the Owner Artist.&lt;/p&gt;
+
+&lt;p&gt;XStream has multiple ways to store references. you need to use the setMode(int mode) method to set the mode. XStream allows following modes:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;NO_REFERENCES&lt;/li&gt;
+&lt;li&gt;ID_REFERENCES&lt;/li&gt;
+&lt;li&gt;XPATH_RELATIVE_REFERENCES&lt;/li&gt;
+&lt;li&gt;XPATH_ABSOLUTE_REFERENCES&lt;/li&gt;
+&lt;li&gt;SINGLE_NODE_XPATH_RELATIVE_REFERENCES&lt;/li&gt;
+&lt;li&gt;SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the example below we see how each of the above looks We first create the XStream object instance, the Artist Class and the Album class. We also add appropriate aliases to make the XML more readable.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+
+public class ReferencingObjectsExample {
+
+    public static void main(String[] args) {
+        Artist artist = new Artist();
+        AnotherAlbum album = new AnotherAlbum();
+        artist.setAlbum(album);
+        XStream xStream = new XStream();
+        xStream.alias(&amp;quot;artist&amp;quot;, Artist.class);
+        xStream.alias(&amp;quot;anotherAlbum&amp;quot;, AnotherAlbum.class);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here are the classes. An Artist contains an album. It also contains object of type &amp;lsquo;Top10Album&amp;rsquo; which is a child of the class &amp;lsquo;Album&amp;rsquo; and contains the top10 songs of the Artist. We also store a reference to another artist which is similar to this artist. The aim is to see how the reference to the various objects are stored in the XML. The reference to Top10Album is a reference to a derived class. The reference to Artist is a reference to the Object&amp;rsquo;s own type.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Artist {
+    Top10Album album;
+    Album album2;
+    Artist similarArtist;
+
+    public void setSimilarArtist(Artist similarArtist) {
+        this.similarArtist = similarArtist;
+    }
+
+    public void setAlbum(Top10Album album) {
+        this.album = album;
+        album2 = (Top10Album) this.album;
+    }
+}
+
+class Album {
+}
+
+class Top10Album extends Album {
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;case 1: ID_REFERENCES&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xStream.setMode(XStream.ID_REFERENCES);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The output XML&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;artist id=&amp;quot;1&amp;quot;&amp;gt;
+  &amp;lt;album id=&amp;quot;2&amp;quot;&amp;gt;
+    &amp;lt;album2 class=&amp;quot;anotherAlbum&amp;quot; reference=&amp;quot;2&amp;quot;&amp;gt;
+    &amp;lt;/album2&amp;gt;
+  &amp;lt;/album&amp;gt;
+&amp;lt;/artist&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;case 2: NO_REFERENCES&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xStream.setMode(XStream.NO_REFERENCES);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The output XML&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;artist&amp;gt;
+  &amp;lt;album&amp;gt;
+  &amp;lt;album2 class=&amp;quot;anotherAlbum&amp;quot;&amp;gt;
+&amp;lt;/album2&amp;gt;&amp;lt;/album&amp;gt;&amp;lt;/artist&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;case 3: SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xStream.setMode(XStream.SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The output XML&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;artist&amp;gt;
+  &amp;lt;album&amp;gt;
+  &amp;lt;album2 class=&amp;quot;anotherAlbum&amp;quot; reference=&amp;quot;/artist[1]/album[1]&amp;quot;&amp;gt;
+&amp;lt;/album2&amp;gt;&amp;lt;/album&amp;gt;&amp;lt;/artist&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;case 4: SINGLE_NODE_XPATH_RELATIVE_REFERENCES&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xStream.setMode(XStream.SINGLE_NODE_XPATH_RELATIVE_REFERENCES);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The output XML&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;artist&amp;gt;
+  &amp;lt;album&amp;gt;
+  &amp;lt;album2 class=&amp;quot;anotherAlbum&amp;quot; reference=&amp;quot;../album[1]&amp;quot;&amp;gt;
+&amp;lt;/album2&amp;gt;&amp;lt;/album&amp;gt;&amp;lt;/artist&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;case 5: XPATH_ABSOLUTE_REFERENCES&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xStream.setMode(XStream.XPATH_ABSOLUTE_REFERENCES);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The output XML&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;artist&amp;gt;
+  &amp;lt;album&amp;gt;
+  &amp;lt;album2 class=&amp;quot;anotherAlbum&amp;quot; reference=&amp;quot;/artist/album&amp;quot;&amp;gt;
+&amp;lt;/album2&amp;gt;&amp;lt;/album&amp;gt;&amp;lt;/artist&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;case 6: XPATH_RELATIVE_REFERENCES&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xStream.setMode(XStream.XPATH_RELATIVE_REFERENCES);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The output XML&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;artist&amp;gt;
+  &amp;lt;album&amp;gt;
+  &amp;lt;album2 class=&amp;quot;anotherAlbum&amp;quot; reference=&amp;quot;../album&amp;quot;&amp;gt;
+&amp;lt;/album2&amp;gt;&amp;lt;/album&amp;gt;&amp;lt;/artist&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-java-to-xml-referencing-Objects.jsp&#34; title=&#34;Referencing Objects&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XStream: Handling Attributes in XML</title>
+      <link>http://alimy.me/post/dev_201603092041/</link>
+      <pubDate>Wed, 09 Mar 2016 20:41:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603092041/</guid>
+      <description>&lt;p&gt;In the previous tutorial we saw &lt;a href=&#34;http://alimy.me/post/dev_201603081411&#34; title=&#34;Parsing An XML&#34;&gt;how to convert Java to XML and back&lt;/a&gt;. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&amp;rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;element attr=&amp;quot;  foo\t\n   bar    &amp;quot;&amp;gt;
+&amp;lt;/element&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;will always be normalized and passed this assertion:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;assertEquals(&amp;quot;foo bar&amp;quot;, element.getAttr());
+XStream has no influence about this behavior.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Case 1 : Element with attributes but no value - Using SingleValueConverter&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!--?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?--&amp;gt;
+&amp;lt;root&amp;gt;
+    &amp;lt;child1 key1=&amp;quot;value1&amp;quot;&amp;gt;&amp;lt;/child1&amp;gt;
+    &amp;lt;child2&amp;gt;This is child 2&amp;lt;/child2&amp;gt;
+&amp;lt;/root&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In this example we use a SingleValueConverter to convert the XML element containing an attribute. This method does not work if the element has a value&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.SingleValueConverter;
+
+public class ElementWithAttribute {
+    private String xml = &amp;quot;&amp;lt;?xml version=\&amp;quot;1.0\&amp;quot; encoding=\&amp;quot;UTF-8\&amp;quot;?&amp;gt;&amp;quot; + &amp;quot;&amp;lt;Root&amp;gt;&amp;quot; + &amp;quot;&amp;lt;child1 key1=\&amp;quot;value1\&amp;quot;&amp;gt;&amp;lt;/child1&amp;gt;&amp;quot;
+            + &amp;quot;&amp;lt;child2&amp;gt;This is child 2&amp;lt;/child2&amp;gt;&amp;quot; + &amp;quot;&amp;lt;/Root&amp;gt;&amp;quot;;
+
+    public static void main(String[] args) {
+        ElementWithAttribute unmarshaller = new ElementWithAttribute();
+        unmarshaller.XMLToJavaObject();
+    }
+
+    public void XMLToJavaObject() {
+        XStream xStream = new XStream();
+        xStream.useAttributeFor(Child1.class, &amp;quot;key1&amp;quot;);
+        xStream.registerConverter(new Key1SingleValueConverter());
+        xStream.alias(&amp;quot;Root&amp;quot;, Root.class);
+        xStream.alias(&amp;quot;child1&amp;quot;, Child1.class);
+        Root root = (Root) xStream.fromXML(xml);
+        System.out.println(root);
+        // prints Root [child1=Child1 [key1=Key1 [value=value1]], child2=This is child 2]
+    }
+
+    public class Root {
+        public Child1 child1;
+
+        public String child2;
+
+        @Override
+        public String toString() {
+            return &amp;quot;Root [child1=&amp;quot; + child1 + &amp;quot;, child2=&amp;quot; + child2 + &amp;quot;]&amp;quot;;
+        }
+
+    }
+
+    public class Child1 {
+        public Key1 key1;
+
+        @Override
+        public String toString() {
+            return &amp;quot;Child1 [key1=&amp;quot; + key1 + &amp;quot;]&amp;quot;;
+        }
+
+    }
+
+    public class Key1 {
+        String value;
+
+        public Key1(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return &amp;quot;Key1 [value=&amp;quot; + value + &amp;quot;]&amp;quot;;
+        }
+
+    }
+
+    public class Key1SingleValueConverter implements SingleValueConverter {
+        @Override
+        public boolean canConvert(Class type) {
+            return (type.equals(Key1.class));
+        }
+
+        @Override
+        public Object fromString(String str) {
+            Key1 key = new Key1(str);
+            return key;
+        }
+
+        @Override
+        public String toString(Object obj) {
+            return ((Key1) obj).value;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Case 2 : Element with attributes but no value - Using attribute alias&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!--?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?--&amp;gt;
+&amp;lt;root&amp;gt;
+    &amp;lt;child1 key1=&amp;quot;value1&amp;quot;&amp;gt;&amp;lt;/child1&amp;gt;
+    &amp;lt;child2&amp;gt;This is child 2&amp;lt;/child2&amp;gt;
+&amp;lt;/root&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The same result can be obtained by using an attribute alias.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+
+public class ElementWithAttribute2 {
+
+    private String xml = &amp;quot;&amp;lt;?xml version=\&amp;quot;1.0\&amp;quot; encoding=\&amp;quot;UTF-8\&amp;quot;?&amp;gt;&amp;quot; + &amp;quot;&amp;lt;Root&amp;gt;&amp;quot; + &amp;quot;&amp;lt;child1 key1=\&amp;quot;value1\&amp;quot;&amp;gt;&amp;lt;/child1&amp;gt;&amp;quot;
+            + &amp;quot;&amp;lt;child2&amp;gt;This is child 2&amp;lt;/child2&amp;gt;&amp;quot; + &amp;quot;&amp;lt;/Root&amp;gt;&amp;quot;;
+
+    public static void main(String[] args) {
+        ElementWithAttribute2 unmarshaller = new ElementWithAttribute2();
+        unmarshaller.XMLToJavaObject();
+    }
+
+    public void XMLToJavaObject() {
+        XStream xStream = new XStream();
+        xStream.alias(&amp;quot;Root&amp;quot;, Root.class);
+        xStream.alias(&amp;quot;child1&amp;quot;, Child1.class);
+        xStream.aliasAttribute(Child1.class, &amp;quot;key1&amp;quot;, &amp;quot;key1&amp;quot;);
+        Root root = (Root) xStream.fromXML(xml);
+        System.out.println(root);
+        //prints Root [child1=Child1 [key1=value1], child2=This is child 2]
+    }
+
+    public class Root {
+        public Child1 child1;
+
+        public String child2;
+
+        @Override
+        public String toString() {
+            return &amp;quot;Root [child1=&amp;quot; + child1 + &amp;quot;, child2=&amp;quot; + child2 + &amp;quot;]&amp;quot;;
+        }
+
+    }
+
+    public class Child1 {
+        public String key1;
+
+        @Override
+        public String toString() {
+            return &amp;quot;Child1 [key1=&amp;quot; + key1 + &amp;quot;]&amp;quot;;
+        }
+    }
+
+    public class Key1 {
+        String value;
+
+        public Key1(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return &amp;quot;Key1 [value=&amp;quot; + value + &amp;quot;]&amp;quot;;
+        }
+
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Case 3 : Element with attributes and value&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!--?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?--&amp;gt;
+ &amp;lt;root&amp;gt;
+       &amp;lt;child1 key1=&amp;quot;value1&amp;quot;&amp;gt;This is child 1&amp;lt;/child1&amp;gt;
+       &amp;lt;child2&amp;gt;This is child 2&amp;lt;/child2&amp;gt;
+ &amp;lt;/root&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If the element has an attribute as well as a value then we use a special Converter called ToAttributedValueConverter&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;
+
+public class ElementWithValueAndAttributes1 {
+
+
+    private String xml = &amp;quot;&amp;lt;?xml version=\&amp;quot;1.0\&amp;quot; encoding=\&amp;quot;UTF-8\&amp;quot;?&amp;gt;&amp;quot; + &amp;quot;&amp;lt;Root&amp;gt;&amp;quot; + &amp;quot;&amp;lt;child1 key1=\&amp;quot;value1\&amp;quot;&amp;gt;This is child 1&amp;lt;/child1&amp;gt;&amp;quot;
+            + &amp;quot;&amp;lt;child2&amp;gt;This is child 2&amp;lt;/child2&amp;gt;&amp;quot; + &amp;quot;&amp;lt;/Root&amp;gt;&amp;quot;;
+
+    public static void main(String[] args) {
+        ElementWithValueAndAttributes1 converter = new ElementWithValueAndAttributes1();
+        converter.XmlToJavaObjects();
+    }
+
+    private void XmlToJavaObjects() {
+        XStream xStream = new XStream();
+        xStream.alias(&amp;quot;Root&amp;quot;, Root.class);
+        xStream.registerConverter(new ToAttributedValueConverter(Child1.class, xStream.getMapper(), xStream.getReflectionProvider(), xStream
+                .getConverterLookup(), &amp;quot;value&amp;quot;));
+        Root test = (Root) xStream.fromXML(xml);
+        System.out.println(test);
+        /*- prints Root [child1=Child1 [value=This is child 1, key1=value1],child2=This is child 2] */
+
+    }
+
+    public class Root {
+        public Child1 child1;
+
+        public String child2;
+
+        @Override
+        public String toString() {
+            return &amp;quot;Root [child1=&amp;quot; + child1 + &amp;quot;, child2=&amp;quot; + child2 + &amp;quot;]&amp;quot;;
+        }
+
+    }
+
+    public class Child1 {
+        public String value;
+        public String key1;
+
+        @Override
+        public String toString() {
+            return &amp;quot;Child1 [value=&amp;quot; + value + &amp;quot;, key1=&amp;quot; + key1 + &amp;quot;]&amp;quot;;
+        }
+
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-java-xml-attributes.jsp&#34; title=&#34;Handling Attributes in XML&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XStream: Java to XML Using Annotation</title>
+      <link>http://alimy.me/post/dev_201603081441/</link>
+      <pubDate>Tue, 08 Mar 2016 14:41:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603081441/</guid>
+      <description>&lt;p&gt;In the previous tutorials we saw an example of how to &lt;a href=&#34;http://alimy.me/post/dev_201603081411&#34;&gt;create a java object from XML&lt;/a&gt;. That tutorial also explained the concept of aliases and implicit collection. In this tutorial we continue with that but use annotation on the java class. The advantage with annotation is that it is faster to code and develop. the disadvantage is that you bind the java class to XStream.&lt;/p&gt;
+
+&lt;p&gt;In the example below we convert an object of type JazzArtist to XML. JazzArtist contains fields name, isAlive, a url and a list of albums. This example uses the following annotations&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;@XStreamAlias - Used on the type, field or attribute. To understand &amp;lsquo;aliases&amp;rsquo; look at this tutorial&lt;/li&gt;
+&lt;li&gt;@XStreamImplicit - Used on Collections or array. To understand &amp;lsquo;Implicit Collections/Arrays&amp;rsquo; look at the this tutorial.&lt;/li&gt;
+&lt;li&gt;@XStreamAsAttribute - Used to mark a field as an attribute.&lt;/li&gt;
+&lt;li&gt;@XStreamConverter - Use a specific converter for this field. We will look at Converters in detail in a later tutorial. In this example we use a Boolean converter for &amp;lsquo;isAlive&amp;rsquo; field, we want the XML to have values yes or no instead of true or false.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here is the complete example. In this example we want to create an XML from an object of type JazzArtist2.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;We use annotation to first use an alias of &amp;lsquo;artist&amp;rsquo; for JazzArtist2. Each Jazz Artist has a list of albums.&lt;/li&gt;
+&lt;li&gt;In the resulting XML we dont want the albums to appear under the element &amp;lsquo;albums&amp;rsquo;, rather we want each album to be the child of the artist element. We therefore mark &amp;lsquo;albums&amp;rsquo; as an implicit collection using the @XStreamImplicit annotation.&lt;/li&gt;
+&lt;li&gt;We don&amp;rsquo;t want to include the &amp;lsquo;noOfRecords&amp;rsquo; in the resulting XML, we therefore use the @XStreamOmitField to omit that field.&lt;/li&gt;
+&lt;li&gt;We want genre to be an attribute of the album instead of a child. we use @XStreamAsAttribute to mark genre as an attribute.&lt;/li&gt;
+&lt;li&gt;In this example we also use an annotation for a Converter. There is a boolean field in the JazzArtist2 class called isAlive. We dont want the   XML to have values &amp;lsquo;true&amp;rsquo; or &amp;lsquo;false&amp;rsquo; but values &amp;lsquo;yes&amp;rsquo; or &amp;lsquo;no&amp;rsquo; since they are more human friendly. The @XStreamConverter can be used to specify a Converter and pass values to its constructor.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import com.thoughtworks.xstream.converters.basic.BooleanConverter;
+
+public class CreateXMLFromMusicArtistObjectAnnotated {
+
+    public static void main(String[] args) throws MalformedURLException {
+        CreateXMLFromMusicArtistObjectAnnotated marshaller =
+                new CreateXMLFromMusicArtistObjectAnnotated();
+        marshaller.createXMlFromObject();
+    }
+
+    private void createXMlFromObject() throws MalformedURLException {
+        JazzArtist2 artist2 = new JazzArtist2(&amp;quot;Benny Goodman&amp;quot;,
+                false, new URL(&amp;quot;http://www.bennygoodman.com/&amp;quot;));
+        Album2 album3 = new Album2(&amp;quot;In Stockholm&amp;quot;, 5, 1959,&amp;quot;swing&amp;quot;);
+        Album2 album4 = new Album2(&amp;quot;A Jazz Holiday&amp;quot;, 3, 1928,&amp;quot;swing&amp;quot;);
+        artist2.addAlbum(album3);
+        artist2.addAlbum(album4);
+        XStream xStream2 = new XStream();
+        xStream2.processAnnotations(JazzArtist2.class);
+        System.out.println(xStream2.toXML(artist2));
+    }
+}
+
+@XStreamAlias(&amp;quot;artist&amp;quot;)
+class JazzArtist2 {
+    public String name;
+    @XStreamConverter(value = BooleanConverter.class,
+            booleans = { true }/*is case sensitive*/,
+            strings = { &amp;quot;Yes&amp;quot;, &amp;quot;No&amp;quot; })
+    public boolean isAlive;
+    public URL url;
+    @XStreamImplicit
+    public List&amp;lt;Album2&amp;gt; albums = new ArrayList&amp;lt;Album2&amp;gt;();
+
+    public JazzArtist2(String name, boolean isAlive, URL url) {
+        this.name = name;
+        this.isAlive = isAlive;
+        this.url = url;
+    }
+
+    public void addAlbum(Album2 album) {
+        albums.add(album);
+    }
+
+}
+
+@XStreamAlias(&amp;quot;album&amp;quot;)
+class Album2 {
+    public String title;
+    @XStreamOmitField
+    public int noOfRecords;
+    public int year;
+    @XStreamAsAttribute
+    public String genre;
+
+    public Album2(String title, int noOfRecords, int year,String genre) {
+        this.title = title;
+        this.noOfRecords = noOfRecords;
+        this.year = year;
+        this.genre = genre;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The resulting XML&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;artist&amp;gt;
+  &amp;lt;name&amp;gt;Benny Goodman&amp;lt;/name&amp;gt;
+  &amp;lt;isalive&amp;gt;No&amp;lt;/isalive&amp;gt;
+  &amp;lt;url&amp;gt;http://www.bennygoodman.com/&amp;lt;/url&amp;gt;
+  &amp;lt;album genre=&amp;quot;swing&amp;quot;&amp;gt;
+    &amp;lt;title&amp;gt;In Stockholm&amp;lt;/title&amp;gt;
+    &amp;lt;year&amp;gt;1959&amp;lt;/year&amp;gt;
+  &amp;lt;/album&amp;gt;
+  &amp;lt;album genre=&amp;quot;swing&amp;quot;&amp;gt;
+    &amp;lt;title&amp;gt;A Jazz Holiday&amp;lt;/title&amp;gt;
+    &amp;lt;year&amp;gt;1928&amp;lt;/year&amp;gt;
+  &amp;lt;/album&amp;gt;
+&amp;lt;/artist&amp;gt;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-java-to-xml-annotated.jsp&#34; title=&#34;Java to XML Using Annotation&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XStream: Java to XML</title>
+      <link>http://alimy.me/post/dev_201603081433/</link>
+      <pubDate>Tue, 08 Mar 2016 14:33:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603081433/</guid>
+      <description>&lt;p&gt;In the &lt;a href=&#34;http://alimy.me/post/dev_201603081411&#34;&gt;previous&lt;/a&gt; example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &amp;lsquo;JazzArtist&amp;rsquo;. This object has a list of &amp;lsquo;Album&amp;rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
+
+public class CreateXMLFromMusicArtistObject {
+
+    public static void main(String[] args) {
+        CreateXMLFromMusicArtistObject marshaller = new CreateXMLFromMusicArtistObject();
+        marshaller.createXMlFromObject();
+        marshaller.createXMLFromObjectUsingAlias();
+        marshaller.createXMLFromObjectUsingAliasAndImplicitCollection();
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The JazzArtist and Album classes&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class JazzArtist {
+    public String name;
+    public boolean isAlive;
+    public String url;
+    public List&amp;lt;Album&amp;gt; albums = new ArrayList&amp;lt;Album&amp;gt;();
+
+    public JazzArtist(String name, boolean isAlive, String url) {
+        this.name = name;
+        this.isAlive = isAlive;
+        this.url = url;
+    }
+
+    public void addAlbum(Album album) {
+        albums.add(album);
+    }
+
+}
+
+class Album {
+    public String title;
+    public int noOfrecords;
+    public int year;
+
+    public Album(String title, int noOfrecords, int year) {
+        this.title = title;
+        this.noOfrecords = noOfrecords;
+        this.year = year;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The first method - without alias and Implicit Collection&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void createXMlFromObject() {
+ JazzArtist artist = new JazzArtist(&amp;quot;Bix Beiderbecke&amp;quot;, false, null);
+ Album album1 = new Album(&amp;quot;Bix Beiderbecke with the Paul Whiteman Orchestra&amp;quot;, 5, 1928);
+ Album album2 = new Album(&amp;quot;Bix Beiderbecke and His Gang&amp;quot;, 6, 1927);
+ artist.addAlbum(album1);
+ artist.addAlbum(album2);
+ XStream xStream = new XStream();
+ System.out.println(xStream.toXML(artist));
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The output from the first method&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;com.studytrails.xml.xstream.jazzartist&amp;gt;
+  &amp;lt;name&amp;gt;Bix Beiderbecke&amp;lt;/name&amp;gt;
+  &amp;lt;isalive&amp;gt;false&amp;lt;/isalive&amp;gt;
+  &amp;lt;albums&amp;gt;
+    &amp;lt;com.studytrails.xml.xstream.album&amp;gt;
+      &amp;lt;title&amp;gt;Bix Beiderbecke with the Paul Whiteman Orchestra&amp;lt;/title&amp;gt;
+      &amp;lt;noofrecords&amp;gt;5&amp;lt;/noofrecords&amp;gt;
+      &amp;lt;year&amp;gt;1928&amp;lt;/year&amp;gt;
+    &amp;lt;/com.studytrails.xml.xstream.album&amp;gt;
+    &amp;lt;com.studytrails.xml.xstream.album&amp;gt;
+      &amp;lt;title&amp;gt;Bix Beiderbecke and His Gang&amp;lt;/title&amp;gt;
+      &amp;lt;noofrecords&amp;gt;6&amp;lt;/noofrecords&amp;gt;
+      &amp;lt;year&amp;gt;1927&amp;lt;/year&amp;gt;
+    &amp;lt;/com.studytrails.xml.xstream.album&amp;gt;
+  &amp;lt;/albums&amp;gt;
+&amp;lt;/com.studytrails.xml.xstream.jazzartist&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The second method - with aliases&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void createXMLFromObjectUsingAliasAndImplicitCollection() {
+ JazzArtist artist2 = new JazzArtist(&amp;quot;Benny Goodman&amp;quot;, false, null);
+ Album album3 = new Album(&amp;quot;In Stockholm&amp;quot;, 5, 1959);
+ Album album4 = new Album(&amp;quot;A Jazz Holiday&amp;quot;, 3, 1928);
+ artist2.addAlbum(album3);
+ artist2.addAlbum(album4);
+ XStream xStream2 = new XStream();
+ xStream2.alias(&amp;quot;artist&amp;quot;, JazzArtist.class);
+ xStream2.alias(&amp;quot;album&amp;quot;, Album.class);
+ xStream2.addImplicitCollection(JazzArtist.class, &amp;quot;albums&amp;quot;);
+ System.out.println(xStream2.toXML(artist2));
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output from the second method, the long class names are replaced by the alias.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;artist&amp;gt;
+  &amp;lt;name&amp;gt;Benny Goodman&amp;lt;/name&amp;gt;
+  &amp;lt;isalive&amp;gt;false&amp;lt;/isalive&amp;gt;
+  &amp;lt;albums&amp;gt;
+    &amp;lt;album&amp;gt;
+      &amp;lt;title&amp;gt;In Stockholm&amp;lt;/title&amp;gt;
+      &amp;lt;noofrecords&amp;gt;5&amp;lt;/noofrecords&amp;gt;
+      &amp;lt;year&amp;gt;1959&amp;lt;/year&amp;gt;
+    &amp;lt;/album&amp;gt;
+    &amp;lt;album&amp;gt;
+      &amp;lt;title&amp;gt;A Jazz Holiday&amp;lt;/title&amp;gt;
+      &amp;lt;noofrecords&amp;gt;3&amp;lt;/noofrecords&amp;gt;
+      &amp;lt;year&amp;gt;1928&amp;lt;/year&amp;gt;
+    &amp;lt;/album&amp;gt;
+  &amp;lt;/albums&amp;gt;
+&amp;lt;/artist&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The third method - with alias and implicit collection&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void createXMLFromObjectUsingAlias() {
+ JazzArtist artist2 = new JazzArtist(&amp;quot;Benny Goodman&amp;quot;, false, null);
+ Album album3 = new Album(&amp;quot;In Stockholm&amp;quot;, 5, 1959);
+ Album album4 = new Album(&amp;quot;A Jazz Holiday&amp;quot;, 3, 1928);
+ artist2.addAlbum(album3);
+ artist2.addAlbum(album4);
+ XStream xStream2 = new XStream();
+ xStream2.alias(&amp;quot;artist&amp;quot;, JazzArtist.class);
+ xStream2.alias(&amp;quot;album&amp;quot;, Album.class);
+ System.out.println(xStream2.toXML(artist2));
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;output from the third method, the &amp;lsquo;albums&amp;rsquo; element is not required and all the &amp;lsquo;album&amp;rsquo; elements are now directly children of the artist.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;artist&amp;gt;
+  &amp;lt;name&amp;gt;Benny Goodman&amp;lt;/name&amp;gt;
+  &amp;lt;isalive&amp;gt;false&amp;lt;/isalive&amp;gt;
+  &amp;lt;album&amp;gt;
+    &amp;lt;title&amp;gt;In Stockholm&amp;lt;/title&amp;gt;
+    &amp;lt;noofrecords&amp;gt;5&amp;lt;/noofrecords&amp;gt;
+    &amp;lt;year&amp;gt;1959&amp;lt;/year&amp;gt;
+  &amp;lt;/album&amp;gt;
+  &amp;lt;album&amp;gt;
+    &amp;lt;title&amp;gt;A Jazz Holiday&amp;lt;/title&amp;gt;
+    &amp;lt;noofrecords&amp;gt;3&amp;lt;/noofrecords&amp;gt;
+    &amp;lt;year&amp;gt;1928&amp;lt;/year&amp;gt;
+  &amp;lt;/album&amp;gt;
+&amp;lt;/artist&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-xml-to-java.jsp&#34; title=&#34;XStream XML to Java&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XStream: XML To Java</title>
+      <link>http://alimy.me/post/dev_201603081427/</link>
+      <pubDate>Tue, 08 Mar 2016 14:27:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603081427/</guid>
+      <description>&lt;p&gt;In the earlier tutorial we looked at a way to &lt;a href=&#34;http://alimy.me/post/dev_201603081411&#34; title=&#34;Parsing an XML&#34;&gt;convert Java to XML and back&lt;/a&gt;. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.&lt;/p&gt;
+
+&lt;p&gt;In this first example we have an XML that has a parent element called &amp;lsquo;Music&amp;rsquo;. It has a child element called type. We populate a Music object that has a &amp;lsquo;type&amp;rsquo; field which is an enum.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+public class ConverterExample3 {
+    static String xml1 = &amp;quot;&amp;lt;Music&amp;gt;&amp;lt;type&amp;gt;rock&amp;lt;/type&amp;gt;&amp;lt;/Music&amp;gt;&amp;quot;;
+
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(Music.class);
+        Music musicObject = (Music) xStream.fromXML(xml1);
+        System.out.println(musicObject);
+        // prints Music [type=ROCK]
+    }
+
+}
+
+@XStreamAlias(&amp;quot;Music&amp;quot;)
+class Music {
+    public enum genre {
+        ROCK, JAZZ
+    };
+
+    genre type;
+
+    @Override
+    public String toString() {
+        return &amp;quot;Music [type=&amp;quot; + type + &amp;quot;]&amp;quot;;
+    }
+
+}     
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the next examples we convert the genre into a List of Strings&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
+public class ConverterExample4 {
+
+    static String xml = &amp;quot;&amp;lt;Music&amp;gt;&amp;lt;type&amp;gt;rock&amp;lt;/type&amp;gt;&amp;lt;type&amp;gt;jazz&amp;lt;/type&amp;gt;&amp;lt;/Music&amp;gt;&amp;quot;;
+
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(Music2.class);
+        Music2 musicObject = (Music2) xStream.fromXML(xml);
+
+        System.out.println(musicObject);
+    }
+
+}
+
+@XStreamAlias(&amp;quot;Music&amp;quot;)
+class Music2 {
+
+    @XStreamImplicit
+    List&amp;lt;String&amp;gt; type;
+
+    @Override
+    public String toString() {
+        return &amp;quot;Music2 [type=&amp;quot; + type + &amp;quot;]&amp;quot;;
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In this example The Music elements has a sequence of Artist elements each with an album name and a author name. We convert that to Music Object containing a map of Albums.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
+public class ConverterExample6 {
+
+    static String xml = &amp;quot;&amp;lt;Music&amp;gt;&amp;lt;album&amp;gt;&amp;lt;name&amp;gt;name1&amp;lt;/name&amp;gt;&amp;lt;author&amp;gt;author1&amp;lt;/author&amp;gt;&amp;lt;/album&amp;gt;&amp;lt;/Music&amp;gt;&amp;quot;;
+
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(Music4.class);
+        xStream.alias(&amp;quot;name&amp;quot;, String.class);
+        xStream.alias(&amp;quot;author&amp;quot;, String.class);
+        xStream.alias(&amp;quot;album&amp;quot;, Entry.class);
+        Music4 musicObject = (Music4) xStream.fromXML(xml);
+
+        System.out.println(musicObject);
+    }
+
+}
+
+@XStreamAlias(&amp;quot;Music&amp;quot;)
+class Music4 {
+
+    @XStreamImplicit
+    Map&amp;lt;String, String&amp;gt; albums = new HashMap&amp;lt;String, String&amp;gt;();
+
+    @Override
+    public String toString() {
+        return &amp;quot;Music4 [testMap=&amp;quot; + albums + &amp;quot;]&amp;quot;;
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the last example lets look at how to deserialize a Date Object. We use a DateConverter where we can specify a format.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.converters.basic.DateConverter;
+
+public class ConverterExample7 {
+    static String xml = &amp;quot;&amp;lt;Musician&amp;gt;&amp;lt;birthdate&amp;gt;04-20-1976 23:00:00&amp;lt;/birthdate&amp;gt;&amp;lt;/Musician&amp;gt;&amp;quot;;
+
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(Musician.class);
+        xStream.registerConverter(new DateConverter(&amp;quot;MM-dd-yyyy HH:mm:ss&amp;quot;,
+                new String[] {}, TimeZone.getTimeZone(&amp;quot;UTC&amp;quot;)));
+        Musician musician = (Musician) xStream.fromXML(xml);
+        System.out.println(musician);
+    }
+
+}
+
+@XStreamAlias(&amp;quot;Musician&amp;quot;)
+class Musician {
+    private Date birthdate;
+
+    @Override
+    public String toString() {
+        SimpleDateFormat format = new SimpleDateFormat(&amp;quot;yyyy-MM-dd HH:mm:ss&amp;quot;);
+        format.setTimeZone(TimeZone.getTimeZone(&amp;quot;UTC&amp;quot;));
+        return &amp;quot;Musician [birthdate=&amp;quot; + format.format(birthdate) + &amp;quot;]&amp;quot;;
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-xml-to-java.jsp&#34; title=&#34;XStream XML to Java&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>XStream: Java to XML and Back</title>
+      <link>http://alimy.me/post/dev_201603081411/</link>
+      <pubDate>Tue, 08 Mar 2016 14:11:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603081411/</guid>
+      <description>
+
+&lt;h3 id=&#34;the-problem-statement:bc08890a77c807eef23ae3fbd92d9134&#34;&gt;The Problem Statement&lt;/h3&gt;
+
+&lt;p&gt;XStream can be used to convert a Java Object to XML and back. This tutorial aims to create a java representation of the BBC RSS. We will start with a Simple java class and gradually start adding complexity to it so that it can be converted to the BBC RSS. Note that if you are looking at a way to parse an XML, it would be a good idea to first build a java class that XStream can convert to the required XML. XStream can then use the same class to deserialize the XML. First, have a look at the &lt;a href=&#34;http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int&#34; title=&#34;BBC RSS&#34;&gt;BBC RSS&lt;/a&gt;. Your browser would have formatted it to html so look at the source to see the XML. The parent element is &amp;lsquo;rss&amp;rsquo;. It has a child element called &amp;lsquo;channel&amp;rsquo;. The &amp;lsquo;channel&amp;rsquo; has some properties (title, link, image etc) and a list of news &amp;lsquo;item&amp;rsquo;(s). Each &amp;lsquo;item&amp;rsquo; has properties set on it (title, description etc). The aim is to create a Java class that XStream can convert to the BBC RSS.&lt;/p&gt;
+
+&lt;h3 id=&#34;creating-an-xstream-instance:bc08890a77c807eef23ae3fbd92d9134&#34;&gt;Creating an XStream Instance&lt;/h3&gt;
+
+&lt;p&gt;The first step is to create an instance of com.thoughtworks.xstream.XStream. This class is a facade to the XStream API and provides all major functionalities. If this class does not solve your problem then you could directly call the API methods. After obtaining the instance of XStream use the fromXML method to convert the XML to a java object. Note that creating an XStream instance is an expensive operation. It is therefore advisable to create a proper instance once and then reuse it for multiple calls (even in parallel). The setup is not threadsafe but any subsequent marshalling/unmarshalling is threadsafe.&lt;/p&gt;
+
+&lt;h3 id=&#34;aliases:bc08890a77c807eef23ae3fbd92d9134&#34;&gt;Aliases&lt;/h3&gt;
+
+&lt;p&gt;XStream provides a very useful functionality called aliases. In our example we want to convert an instance of com.studytrails.xml.xstream.Rss to an rss element. We tell XStream that the element &amp;lsquo;rss&amp;rsquo; is an &amp;lsquo;alias&amp;rsquo; to &amp;lsquo;com.studytrails.xml.xstream.Rss&amp;rsquo; so that XStream knows how to convert them. If we dont provide the alias while converting the object to XML then XStream would give the element the fully qualified name of the class. Aliases work for Classes as well as fields. The example below demonstrates the use of aliases.&lt;/p&gt;
+
+&lt;h3 id=&#34;implicit-collection:bc08890a77c807eef23ae3fbd92d9134&#34;&gt;Implicit Collection&lt;/h3&gt;
+
+&lt;p&gt;The Channel element in BBC has a list of items. However, note that the XML stream does not have an &lt;items&gt; element containing a list of &lt;item&gt; elements. The XML stream just has a list of &lt;item&gt; elements directly under the &lt;Channel&gt; element. We want to map them to the &amp;lsquo;items&amp;rsquo; java.util.List of the Channel Object. To accomplish this we use a concept in XStream called Implicit Collection. we say that &amp;lsquo;items&amp;rsquo; is an implicit collection. What that means is that there is actually no &amp;lsquo;items&amp;rsquo; element in the XML, but put all XML elements with name &amp;lsquo;item&amp;rsquo; (since the java property items is of type List&lt;Item&gt;) into the &amp;lsquo;items&amp;rsquo; property of the java object. Look at the example to see how it works.&lt;/p&gt;
+
+&lt;h3 id=&#34;attributes:bc08890a77c807eef23ae3fbd92d9134&#34;&gt;Attributes&lt;/h3&gt;
+
+&lt;p&gt;Handling attributes is a little tricky. In this example we provide one way to handle attributes, however, we have a dedicated tutorial to explain how attributes can be handled using XStream.&lt;/p&gt;
+
+&lt;h3 id=&#34;namespaces:bc08890a77c807eef23ae3fbd92d9134&#34;&gt;Namespaces&lt;/h3&gt;
+
+&lt;p&gt;Elements within a namespace can be handled by XStream by using aliases. In this example there is a link within the namespace atom. we just use an alias to read that&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xstream.aliasField(&amp;quot;atom:link&amp;quot;, Channel.class, &amp;quot;a_link&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;example:bc08890a77c807eef23ae3fbd92d9134&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;Lets start building the java example. As a first step create a Java class for the root element i.e. RSS&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+
+public class BBCRSSExample {
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        Rss bbcRss = new Rss();
+        System.out.println(xStream.toXML(bbcRss));
+    }
+}
+
+class Rss {
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The output&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;com.studytrails.xml.xstream.Rss/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We dont want the fully qualified name of the class for Rss. Lets use alias to simplify the name. Add this line after creating the Rss instance&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xStream.alias(&amp;quot;rss&amp;quot;, Rss.class);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The output now becomes&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;rss/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The rss elmenent contains a Channel element. Lets create a Channel class. The channel element is a child of rss element. Create a field in the Rss class to hold an object of type Channel. Add these lines to the main method&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Channel channel = new Channel();
+bbcRss.channel = channel;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here&amp;rsquo;s how the Rss and Channel class looks now&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Rss {
+    public Channel channel;
+}
+class Channel {
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here&amp;rsquo;s how the XML looks now&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;rss&amp;gt;
+  &amp;lt;channel/&amp;gt;
+&amp;lt;/rss&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Before we start adding fields to the classes lets look at an important field. The channel element contains this :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;atom:link href=&amp;quot;http://feeds.bbci.co.uk/news/technology/rss.xml&amp;quot; rel=&amp;quot;self&amp;quot; type=&amp;quot;application/rss+xml&amp;quot;&amp;gt;
+&amp;lt;/atom:link&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;the link element belongs to a different namespace. There is a neat little trick to handle this.
+Create a class called AtomLink.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class AtomLink {
+    public String href;
+    public String rel;
+    public String type;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create an instance of AtomLink in the main class and assign it to a field in the Channel class&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;AtomLink atomLink = new AtomLink();
+atomLink.href = &amp;quot;http://feeds.bbci.co.uk/news/technology/rss.xml&amp;quot;;
+atomLink.rel = &amp;quot;self&amp;quot;;
+atomLink.type = &amp;quot;application/rss+xml&amp;quot;;
+channel.a_link = atomLink;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Use alias to give the element a namespace prefix&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xStream.aliasField(&amp;quot;atom:link&amp;quot;, Channel.class, &amp;quot;a_link&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and now we want href, rel and type to be attributes instead of child elements, this is how we do that&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xstream.aliasAttribute(AtomLink.class, &amp;quot;type&amp;quot;, &amp;quot;type&amp;quot;);
+xstream.aliasAttribute(AtomLink.class, &amp;quot;href&amp;quot;, &amp;quot;href&amp;quot;);
+xstream.aliasAttribute(AtomLink.class, &amp;quot;rel&amp;quot;, &amp;quot;rel&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Lets see how our XML looks now&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;rss&amp;gt;
+  &amp;lt;channel&amp;gt;
+    &amp;lt;atom:link href=&amp;quot;http://feeds.bbci.co.uk/news/technology/rss.xml&amp;quot; rel=&amp;quot;self&amp;quot; type=&amp;quot;application/rss+xml&amp;quot;&amp;gt;
+  &amp;lt;/atom:link&amp;gt;&amp;lt;/channel&amp;gt;
+&amp;lt;/rss&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hope you are enjoying the example. It is important that you understand what&amp;rsquo;s happened so far. Go back to the example if you have any doubt since we will start picking up pace now.
+The next important part is the item. The channel contains a list of items but the items are not included in a parent &amp;lsquo;items&amp;rsquo; element. XStream handles this using a concept called Implicit Collection. Lets see how it works, first lets create the Item class&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Item {
+    public String title;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;create a field in channel class to hold the list of items&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Channel {
+    public AtomLink a_link;
+    public List&amp;lt;Item&amp;gt; items;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the main class we create an alias for Item and then add an implicit Collection for items. We add two items to the list and see how the XML looks.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xStream.alias(&amp;quot;item&amp;quot;, Item.class);
+xStream.addImplicitCollection(Channel.class, &amp;quot;items&amp;quot;);
+channel.items = new ArrayList&amp;lt;Item&amp;gt;();
+Item item = new Item();
+item.title=&amp;quot;Item1&amp;quot;;
+Item item2 = new Item();
+item2.title=&amp;quot;Item2&amp;quot;;
+channel.items.add(item);
+channel.items.add(item2);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The resulting XML&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;rss&amp;gt;
+  &amp;lt;channel&amp;gt;
+    &amp;lt;atom:link href=&amp;quot;http://feeds.bbci.co.uk/news/technology/rss.xml&amp;quot; rel=&amp;quot;self&amp;quot; type=&amp;quot;application/rss+xml&amp;quot;&amp;gt;
+    &amp;lt;item&amp;gt;
+      &amp;lt;title&amp;gt;Item1&amp;lt;/title&amp;gt;
+    &amp;lt;/item&amp;gt;
+    &amp;lt;item&amp;gt;
+      &amp;lt;title&amp;gt;Item2&amp;lt;/title&amp;gt;
+    &amp;lt;/item&amp;gt;
+  &amp;lt;/atom:link&amp;gt;&amp;lt;/channel&amp;gt;
+&amp;lt;/rss&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next we add class for the Thumbnail which is part of the item element. An item can have multiple thumbnails. Lets use an array now instead of a Collection just to demonstrate how an ImplicitArray works.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Item {
+    public String title;
+    public MediaThumbnail[] media_thumbnails;
+}
+
+class MediaThumbnail {
+    public int width;
+    public int height;
+    public String url;
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The main method creates the array and adds thumbnails to it&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xStream.addImplicitArray(Item.class, &amp;quot;media_thumbnails&amp;quot;, &amp;quot;media:thumbnail&amp;quot;);
+xStream.aliasAttribute(MediaThumbnail.class, &amp;quot;width&amp;quot;,&amp;quot;width&amp;quot;);
+xStream.aliasAttribute(MediaThumbnail.class, &amp;quot;height&amp;quot;,&amp;quot;height&amp;quot;);
+xStream.aliasAttribute(MediaThumbnail.class, &amp;quot;url&amp;quot;,&amp;quot;url&amp;quot;);
+
+MediaThumbnail thumbnail = new MediaThumbnail();
+thumbnail.height=100;
+thumbnail.width=50;
+thumbnail.url=&amp;quot;thumbnail_link&amp;quot;;
+MediaThumbnail thumbnail2 = new MediaThumbnail();
+thumbnail2.height=100;
+thumbnail2.width=50;
+thumbnail2.url=&amp;quot;thumbnail_link2&amp;quot;;
+
+item.media_thumbnails = new MediaThumbnail[2];
+item.media_thumbnails[0] = thumbnail;
+item.media_thumbnails[1] = thumbnail2;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We have almost built up the whole class. We can further add the Image class that stores the image in a channel. After creating all classes we start adding the other fields to them. Once the Rss class is ready you can then use it to read the BBC RRS! Heres the complete class and the main method that does the reading.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import com.thoughtworks.xstream.XStream;
+
+public class XStreamDeserializerExample1 {
+
+    private String bbcUrl = &amp;quot;http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int&amp;quot;;
+
+    public static void main(String[] args) throws MalformedURLException {
+        XStreamDeserializerExample1 serializer = new XStreamDeserializerExample1();
+        serializer.basicSerialization();
+    }
+
+    private void basicSerialization() throws MalformedURLException {
+
+        XStream xstream = new XStream();
+        xstream.alias(&amp;quot;rss&amp;quot;, Rss.class);
+        xstream.aliasField(&amp;quot;atom:link&amp;quot;, Channel.class, &amp;quot;a_link&amp;quot;);
+        xstream.alias(&amp;quot;item&amp;quot;, Item.class);
+
+        xstream.aliasAttribute(AtomLink.class, &amp;quot;type&amp;quot;, &amp;quot;type&amp;quot;);
+        xstream.aliasAttribute(AtomLink.class, &amp;quot;href&amp;quot;, &amp;quot;href&amp;quot;);
+        xstream.aliasAttribute(AtomLink.class, &amp;quot;rel&amp;quot;, &amp;quot;rel&amp;quot;);
+
+        xstream.aliasAttribute(MediaThumbnail.class, &amp;quot;width&amp;quot;,&amp;quot;width&amp;quot;);
+        xstream.aliasAttribute(MediaThumbnail.class, &amp;quot;height&amp;quot;,&amp;quot;height&amp;quot;);
+        xstream.aliasAttribute(MediaThumbnail.class, &amp;quot;url&amp;quot;,&amp;quot;url&amp;quot;);
+
+        xstream.addImplicitCollection(Channel.class, &amp;quot;items&amp;quot;);
+        xstream.addImplicitArray(Item.class, &amp;quot;media_thumbnails&amp;quot;, &amp;quot;media:thumbnail&amp;quot;);
+        Rss bbcFeed = (Rss) xstream.fromXML(new URL(bbcUrl));
+        // bbcFeed now contains the Java representation of the BBC RSS
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The classes&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+
+import java.util.List;
+
+public class Rss {
+    public Channel channel;
+}
+
+class Channel {
+    public String title;
+    public String link;
+    public String description;
+    public String language;
+    public String lastBuildDate;
+    public String copyright;
+    public Image4 image;
+    public String ttl;
+    public AtomLink a_link;
+    public List&amp;lt;item&amp;gt; items;
+}
+
+class AtomLink {
+    public String href;
+    public String rel;
+    public String type;
+}
+
+class Item {
+    public String title;
+    public String description;
+    public String link;
+    public String guid;
+    public String pubDate;
+    public MediaThumbnail[] media_thumbnails;
+}
+
+class MediaThumbnail {
+    public int width;
+    public int height;
+    public String url;
+}
+
+class Image {
+    public String url;
+    public String title;
+    public String link;
+    public String width;
+    public String height;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-java-to-xml-and-back.jsp&#34; title=&#34;XStream Parsing an XML&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Xstream: Introduction</title>
+      <link>http://alimy.me/post/dev_201603081355/</link>
+      <pubDate>Tue, 08 Mar 2016 13:58:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603081355/</guid>
+      <description>&lt;p&gt;What is XStream&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.codehaus.org/&#34; title=&#34;codehaus&#34;&gt;XStream&lt;/a&gt; is a java library to convert Java Object into XML and back. You can take nearly every arbitrary deeply nested object turn it to XML and read it back without further configuration. You&amp;rsquo;re done if all you want to have is a persisted object in XML. XStream&amp;rsquo;s power lies in its extensive list of &amp;lsquo;Converters&amp;rsquo; that help convert a wide variety of Java Objects to XML and vice versa. A Converter is a class that specifies how a Java Object should be serialized to XML. XStream comes bundled with a lot of Converters and you can also customize your own.&lt;/p&gt;
+
+&lt;p&gt;XStream allows converting a class to XML without modifying the class. It can serialize private and final fields and also inner classes. It can serialize references to objects. XStream has also added security measures that allows you to selectively de-serialize and serialize based on type.&lt;/p&gt;
+
+&lt;p&gt;These tutorials provide an indepth look at all major XStream functionalities and presents examples as well as explanations that significantly reduce the learning curve that is generally experienced with any open source library.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603081411&#34; title=&#34;Parsing an XML&#34;&gt;Converting a Java Object to XML and back - Parsing an XML&lt;/a&gt;- In this tutorial we explain how to build a java object to read an XML. The objective is to create a java object and convert it to an XML which looks similar to the XML that we want to read. We then simply use this java object and XStream to parse our XML. This example introduces the basic XStream usage and also explains field and attribute &amp;lsquo;alias&amp;rsquo; and &amp;lsquo;ImplicitCollection&amp;rsquo;/&amp;lsquo;ImplicitArray&amp;rsquo;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603081427&#34; title=&#34;XML to Java&#34;&gt;XML to Java&lt;/a&gt; - We look at some more examples of XML to Java conversion. For example, we see how a piece of XML can be converted to either a List of String or a String array.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603081433&#34; title=&#34;Java to XML&#34;&gt;Java to XML&lt;/a&gt; - In this tutorial we learn how to serialize java to XML. The example demonstrates the use of aliases and implicit collection and also shows how the conversion looks if we dont use alias or implicit collectsion&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603081441&#34; title=&#34;Java to XML Usging Annotation&#34;&gt;Java to XML Using Annotation&lt;/a&gt; - This tutorial shows how to serialize Java to XML using annotations.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603092041&#34; title=&#34;Handling Attributes in XML&#34;&gt;Handling Attributes in XML&lt;/a&gt; - Handling attributes requires special methods since an element may contain an attribute with or without a value. In this tutorial we look at three ways of handling attributes - Element with attributes but no value, element with attributes but no value (using aliases), element with attribute and value (ToAttributedValueConverter)&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603092051&#34; title=&#34;Referencing Objects&#34;&gt;Referencing Objects&lt;/a&gt; - A java class may have fields that store reference to other objects. There may be cases where a circular reference is encountered. XStream has multiple ways to store references to other objects. In this tutorial we look at all modes of storing references using XStream.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603092055&#34; title=&#34;Custom Converter for BufferedImage&#34;&gt;Custom Converter for BufferedImage&lt;/a&gt; - The power of XStream lies in its ability to convert a java class to XML and vice versa. Its does so using classes called &amp;lsquo;converters&amp;rsquo;. These converters have methods for marshalling and unmarshalling java and XML. XStream provides a lot of basic converters (basic java classes), Collection Converters and extended converters (converts third party java classes). However, if there is a class for which no converters are available then XStream provides a way to implement a custom converter. In this example we learn how to develop a custom converter for a BufferedImage.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603092100&#34; title=&#34;Basic Built-in Converters&#34;&gt;Basic Built-in Converters&lt;/a&gt; - This example shows some of the basic converters in XStream.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603092105&#34; title=&#34;Collection Converters&#34;&gt;Collection Converters&lt;/a&gt; - This example shows the collection converters in XStream.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603092115&#34; title=&#34;Json to Java&#34;&gt;Json to Java&lt;/a&gt; - XStream also provides a way to convert a Json to java object. It has two drivers to do so. In this tutorial we learn how to convert json to java using XStream.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603092120&#34; title=&#34;XML Transformation&#34;&gt;XML Transformation&lt;/a&gt; - XStream provides a TraxSource that can be used as a source for XSLT transformation. The TraxSource uses the Java Object that is to be transformed and an XStream object.&lt;/p&gt;
+
+&lt;p&gt;We thank Jörg Schaible and Joe Walnes for their valuable feedback in making this tutorial better.&lt;/p&gt;
+
+&lt;p&gt;We hope this tutorials help you in your work and we would appreciate if you could leave us your feedback and help us reach other developers by sharing our site on facebook and google.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-introduction.jsp&#34; title=&#34;XStream Introduction&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

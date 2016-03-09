@@ -1,10 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Alimy &middot; Alimy </title>
+    <title> XStream: Custom Converter for BufferedImage &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="http://alimy.me/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
@@ -77,17 +77,15 @@
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -166,176 +164,158 @@
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311214/" title="阅读全文">如龙 极 第四期【Biu雷哥直播】 </a> </h2>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>XStream: Custom Converter for BufferedImage</h2>
+          
+          <p>In the previous tutorials we saw an example of how to convert a <a href="http://alimy.me/post/dev_201603081411" title="parsing an xml">java object to XML and back</a>. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here</p>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NjY4NTcwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+<pre><code>package com.studytrails.xml.xstream;
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311214/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311213/" title="阅读全文">如龙 极 第三期【Biu雷哥直播】 </a> </h2>
+import javax.imageio.ImageIO;
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NDgwNDkwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+import org.apache.commons.io.output.ByteArrayOutputStream;
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311213/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.core.util.Base64Encoder;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311212/" title="阅读全文">如龙 极 第二期【Biu雷哥直播】 </a> </h2>
+public class CustomConverterExample {
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1MzgyMjE4MA==" frameborder=0 allowfullscreen></iframe><br></p>
+    public static void main(String[] args) throws IOException {
+        CustomConverterExample customConverterExample = new CustomConverterExample();
+        customConverterExample.showCustomConversionForBufferedImage();
+    }
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+    private void showCustomConversionForBufferedImage() throws IOException {
+        Company company = new Company();
+        company.setName(&quot;Study Trails&quot;);
+        BufferedImage in = ImageIO.read(new File(&quot;st1_200.jpg&quot;));
+        BufferedImage newImage = new BufferedImage(in.getWidth(), in.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = newImage.createGraphics();
+        g.drawImage(in, 0, 0, null);
+        g.dispose();
+        company.setImage(newImage);
+        XStream xStream = new XStream();
+        xStream.registerConverter(new CustomBufferedImageConverter());
+        String xml = xStream.toXML(company);
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311211/" title="阅读全文">如龙 极 第一期【Biu雷哥直播】 </a> </h2>
+        Company company2 = (Company) xStream.fromXML(xml);
+        File outputfile = new File(&quot;st2_200.jpg&quot;);
+        ImageIO.write(company2.image, &quot;jpg&quot;, outputfile);
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1Mjg0OTUyMA==" frameborder=0 allowfullscreen></iframe><br></p>
+    }
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311211/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+}
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301724/" title="阅读全文">如龙0 第十四期【Biu雷哥直播】 </a> </h2>
+class Company {
+    String name;
+    BufferedImage image;
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1NDE3MzQ2MA==" frameborder=0 allowfullscreen></iframe><br></p>
+    public void setName(String name) {
+        this.name = name;
+    }
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301724/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+}
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301723/" title="阅读全文">如龙0 第十三期【Biu雷哥直播】 </a> </h2>
+class CustomBufferedImageConverter implements Converter {
+    @Override
+    public boolean canConvert(Class type) {
 
-</header>
-<div class="summary">
-    <iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1MjcxMDU2OA==" frameborder=0 allowfullscreen></iframe>
+        return type.isAssignableFrom(BufferedImage.class);
+    }
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301723/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+    @Override
+    public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
+        BufferedImage bufferedImage = (BufferedImage) source;
+        try {
+            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outStream);
+            ImageIO.write(bufferedImage, &quot;jpg&quot;, objectOutputStream);
+            outStream.flush();
+            Base64Encoder encorder = new Base64Encoder();
+            String imageString = encorder.encode(outStream.toByteArray());
+            outStream.close();
+            writer.setValue(imageString);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301722/" title="阅读全文">如龙0 第十二期【Biu雷哥直播】 </a> </h2>
+    }
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1MTc3NDc4NA==" frameborder=0 allowfullscreen></iframe><br></p>
+    @Override
+    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
+        BufferedImage image = null;
+        try {
+            Base64Encoder encoder = new Base64Encoder();
+            byte[] imageBytes = encoder.decode(reader.getValue());
+            ObjectInputStream inputStream = new ObjectInputStream(new ByteArrayInputStream(imageBytes));
+            image = ImageIO.read(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301722/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+        return image;
+    }
+}
+</code></pre>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301721/" title="阅读全文">如龙0 第十一期【Biu雷哥直播】 </a> </h2>
+<hr />
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0OTkwMzY2OA==" frameborder=0 allowfullscreen></iframe><br></p>
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-custom-converter.jsp" title="XStream custom converter"><em>here</em></a> )</p>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301721/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301720/" title="阅读全文">如龙0 第十期【Biu雷哥直播】 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0OTA4NDA1Ng==" frameborder=0 allowfullscreen></iframe><br></p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301720/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301719/" title="阅读全文">如龙0 第九期【Biu雷哥直播】 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0ODE1MzcwMA==" frameborder=0 allowfullscreen></iframe><br></p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301719/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                    </div>
-                    </br>
-                    <h4>
-                        <a href="http://alimy.me/post/" title="文章列表">Archive</a>
-                    </h4>
-                </section>
-            <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. </p></footer>
-
-            </div>
         </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603092051/" title="上一篇">&lt;&lt; XStream: Referencing Objects</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603092100/" title="下一篇">XStream: Basic Built-in Converters >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
 </html>

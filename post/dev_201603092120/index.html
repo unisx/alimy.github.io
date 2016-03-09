@@ -1,10 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Alimy &middot; Alimy </title>
+    <title> XStream: XML Transformation &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="http://alimy.me/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
@@ -77,17 +77,15 @@
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -166,176 +164,206 @@
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311214/" title="阅读全文">如龙 极 第四期【Biu雷哥直播】 </a> </h2>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>XStream: XML Transformation</h2>
+          
+          <p>XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example</p>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NjY4NTcwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+<pre><code>package com.studytrails.xml.xstream;
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311214/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+import java.util.ArrayList;
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311213/" title="阅读全文">如龙 极 第三期【Biu雷哥直播】 </a> </h2>
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NDgwNDkwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.TraxSource;
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311213/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+public class XStreamTransformationExample {
+	public static void main(String[] args) throws TransformerFactoryConfigurationError, TransformerException {
+		XStreamTransformationExample transformationExample = new XStreamTransformationExample();
+		transformationExample.runTransformation();
+	}
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311212/" title="阅读全文">如龙 极 第二期【Biu雷哥直播】 </a> </h2>
+	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
+		XStream xstream = new XStream();
+		xstream.alias(&quot;rss&quot;, Rss2.class);
+		xstream.alias(&quot;item&quot;, Item2.class);
+		Rss2 rss = new Rss2();
+		Channel2 channel = new Channel2();
+		rss.channel = channel;
+		channel.title = &quot;Title&quot;;
+		channel.link = &quot;link&quot;;
+		channel.image = new Image2();
+		channel.image.link = &quot;image link&quot;;
+		Item2 item1 = new Item2();
+		item1.link = &quot;item link&quot;;
+		item1.title = &quot;Item Title&quot;;
+		channel.items = new ArrayList&lt;Item2&gt;();
+		channel.items.add(item1);
+		System.out.println(xstream.toXML(rss));
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1MzgyMjE4MA==" frameborder=0 allowfullscreen></iframe><br></p>
+		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&quot;bbc.xsl&quot;));
+		TraxSource traxSource = new TraxSource(rss, xstream);
+		StreamResult result = new StreamResult(System.out);
+		transformer.transform(traxSource, result);
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+		// prints the html on console
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311211/" title="阅读全文">如龙 极 第一期【Biu雷哥直播】 </a> </h2>
+	}
+}
+</code></pre>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1Mjg0OTUyMA==" frameborder=0 allowfullscreen></iframe><br></p>
+<p>The XML.</p>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311211/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<pre><code>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301724/" title="阅读全文">如龙0 第十四期【Biu雷哥直播】 </a> </h2>
+			link
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1NDE3MzQ2MA==" frameborder=0 allowfullscreen></iframe><br></p>
+				image link
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301724/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301723/" title="阅读全文">如龙0 第十三期【Biu雷哥直播】 </a> </h2>
 
-</header>
-<div class="summary">
-    <iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1MjcxMDU2OA==" frameborder=0 allowfullscreen></iframe>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301723/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+					item link
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301722/" title="阅读全文">如龙0 第十二期【Biu雷哥直播】 </a> </h2>
+</code></pre>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1MTc3NDc4NA==" frameborder=0 allowfullscreen></iframe><br></p>
+<p>The Rss2 and other classes</p>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301722/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<pre><code>package com.studytrails.xml.xstream;
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301721/" title="阅读全文">如龙0 第十一期【Biu雷哥直播】 </a> </h2>
+import java.util.Arrays;
+import java.util.List;
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0OTkwMzY2OA==" frameborder=0 allowfullscreen></iframe><br></p>
+public class Rss2 {
+	public Channel2 channel;
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301721/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+	@Override
+	public String toString() {
+		return &quot;Rss [channel=&quot; + channel + &quot;]&quot;;
+	}
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301720/" title="阅读全文">如龙0 第十期【Biu雷哥直播】 </a> </h2>
+}
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0OTA4NDA1Ng==" frameborder=0 allowfullscreen></iframe><br></p>
+class Channel2 {
+	public String title;
+	public String link;
+	public String description;
+	public String language;
+	public String lastBuildDate;
+	public String copyright;
+	public Image2 image;
+	public String ttl;
+	public AtomLink a_link;
+	public List items;
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301720/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+	public class AtomLink {
+		public String href;
+		public String rel;
+		public String type;
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301719/" title="阅读全文">如龙0 第九期【Biu雷哥直播】 </a> </h2>
+		@Override
+		public String toString() {
+			return &quot;AtomLink [href=&quot; + href + &quot;, rel=&quot; + rel + &quot;, type=&quot; + type + &quot;]&quot;;
+		}
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0ODE1MzcwMA==" frameborder=0 allowfullscreen></iframe><br></p>
+	}
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301719/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+	@Override
+	public String toString() {
+		return &quot;Channel [title=&quot; + title + &quot;, link=&quot; + link + &quot;, description=&quot; + description + &quot;, language=&quot; + language + &quot;, lastBuildDate=&quot;
+				+ lastBuildDate + &quot;, copyright=&quot; + copyright + &quot;, image=&quot; + image + &quot;, ttl=&quot; + ttl + &quot;, a_link=&quot; + a_link + &quot;, items=&quot; + items + &quot;]&quot;;
+	}
 
-                        
-                    </div>
-                    </br>
-                    <h4>
-                        <a href="http://alimy.me/post/" title="文章列表">Archive</a>
-                    </h4>
-                </section>
-            <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. </p></footer>
+}
 
-            </div>
+class Item2 {
+	public String title;
+	public String description;
+	public String link;
+	public String guid;
+	public String pubDate;
+	public MediaThumbnail[] media_thumbnails;
+
+	@Override
+	public String toString() {
+		return &quot;Item [title=&quot; + title + &quot;, link=&quot; + link + &quot;, guid=&quot; + guid + &quot;, pubDate=&quot; + pubDate + &quot;, media_thumbnails=&quot;
+				+ Arrays.toString(media_thumbnails) + &quot;]&quot;;
+	}
+
+	public class MediaThumbnail {
+		public int width;
+		public int height;
+		public String url;
+
+		@Override
+		public String toString() {
+			return &quot;MediaThumbnail [width=&quot; + width + &quot;, height=&quot; + height + &quot;, url=&quot; + url + &quot;]&quot;;
+		}
+
+	}
+
+}
+
+class Image2 {
+	public String url;
+	public String title;
+	public String link;
+	public String width;
+	public String height;
+
+	@Override
+	public String toString() {
+		return &quot;Image [url=&quot; + url + &quot;, title=&quot; + title + &quot;, link=&quot; + link + &quot;, width=&quot; + width + &quot;, height=&quot; + height + &quot;]&quot;;
+	}
+
+}
+</code></pre>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-xml-transformation.jsp" title="XML Transformation"><em>here</em></a> )</p>
+
         </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603092115/" title="上一篇">&lt;&lt; XStream: Json to Java</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
 </html>

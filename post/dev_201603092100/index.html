@@ -1,10 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Alimy &middot; Alimy </title>
+    <title> XStream: Basic Built-in Converters &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="http://alimy.me/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
@@ -77,17 +77,15 @@
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -166,176 +164,180 @@
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311214/" title="阅读全文">如龙 极 第四期【Biu雷哥直播】 </a> </h2>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>XStream: Basic Built-in Converters</h2>
+          
+          <p>In the previous tutorials we saw an example of how to convert <a href="http://alimy.me/post/dev_201603081411" title="parsing an xml">java object to XML and back</a>. That tutorial also explained the concept of aliases and implicit collection.In the last tutorial we show how to write a custom converter. In this tutorial, lets see some of the basic built in converters of XStream and how the resultant XML from those converters look like. We will look at how the following types are converted. XStream has converters for each of these. These are just a sample of the converters that XStream has. These converters only exist for a better and faster handling of a type compared to the generic converters.</p>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NjY4NTcwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+<ul>
+<li>BigDecimal</li>
+<li>BigInteger</li>
+<li>boolean</li>
+<li>byte</li>
+<li>char</li>
+<li>Date</li>
+<li>Double</li>
+<li>Float</li>
+<li>int</li>
+<li>Long</li>
+<li>Object</li>
+<li>StringBuffer</li>
+<li>StringBuilder</li>
+<li>URI</li>
+<li>URL</li>
+<li>UUID</li>
+</ul>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311214/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<p>In the next tutorial we look at examples of arrays and Collections.</p>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311213/" title="阅读全文">如龙 极 第三期【Biu雷哥直播】 </a> </h2>
+<pre><code>package com.studytrails.xml.xstream;
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NDgwNDkwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.UUID;
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311213/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.basic.BooleanConverter;
+import com.thoughtworks.xstream.converters.basic.DateConverter;
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311212/" title="阅读全文">如龙 极 第二期【Biu雷哥直播】 </a> </h2>
+public class ConverterExample1 {
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1MzgyMjE4MA==" frameborder=0 allowfullscreen></iframe><br></p>
+	public static void main(String[] args) throws MalformedURLException, URISyntaxException {
+		ConverterExample1 converter = new ConverterExample1();
+		converter.convert();
+	}
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+	private void convert() throws MalformedURLException, URISyntaxException {
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311211/" title="阅读全文">如龙 极 第一期【Biu雷哥直播】 </a> </h2>
+		BasicConverterFields basicConverterExample = new BasicConverterFields();
+		basicConverterExample.initialize();
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1Mjg0OTUyMA==" frameborder=0 allowfullscreen></iframe><br></p>
+		XStream xStream = new XStream();
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311211/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+		xStream.registerLocalConverter(BasicConverterFields.class, &quot;flag&quot;, BooleanConverter.BINARY);
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301724/" title="阅读全文">如龙0 第十四期【Biu雷哥直播】 </a> </h2>
+		DateConverter dateConverter = new DateConverter(&quot;yyyy-MM-dd HH:mm:ss&quot;, new String[] {}, TimeZone.getTimeZone(&quot;UTC&quot;));
+		xStream.registerConverter(dateConverter);
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1NDE3MzQ2MA==" frameborder=0 allowfullscreen></iframe><br></p>
+		String xml = xStream.toXML(basicConverterExample);
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301724/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+		System.out.println(xml);
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301723/" title="阅读全文">如龙0 第十三期【Biu雷哥直播】 </a> </h2>
+		BasicConverterFields basicConverterFromXML = (BasicConverterFields) xStream.fromXML(xml);
+		System.out.println(basicConverterFromXML);
 
-</header>
-<div class="summary">
-    <iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1MjcxMDU2OA==" frameborder=0 allowfullscreen></iframe>
+	}
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301723/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+	class BasicConverterFields {
+		BigDecimal bigDecimal = new BigDecimal(10000000000.0);
+		BigInteger bigInteger = new BigInteger(&quot;1000000000&quot;);
+		boolean flag = true;
+		byte byteA = 'a';
+		char charA = 'a';
+		Date date = new Date();
+		Double doubleA = new Double(1000000000000.0);
+		Float floatA = new Float(10000000000000f);
+		int intA = 100;
+		Long longA = new Long(100000);
+		Object nullA = null;
+		Short shortA = new Short((short) 1);
+		StringBuffer stringBufferA = new StringBuffer(&quot;test&quot;);
+		StringBuilder stringBuilderA = new StringBuilder().append(&quot;test&quot;);
+		URI UriA = null;
+		URL urlA = null;
+		UUID uuidA = UUID.fromString(&quot;0000000a-000b-000c-000d-00000000000e&quot;);
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301722/" title="阅读全文">如龙0 第十二期【Biu雷哥直播】 </a> </h2>
+		public void initialize() throws URISyntaxException, MalformedURLException {
+			UriA = new URI(&quot;file://C/work/fileA&quot;);
+			urlA = new URL(&quot;http://www.google.com&quot;);
+		}
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI1MTc3NDc4NA==" frameborder=0 allowfullscreen></iframe><br></p>
+		@Override
+		public String toString() {
+			return &quot;BasicConverterFields [bigDecimal=&quot; + bigDecimal + &quot;, bigInteger=&quot; + bigInteger + &quot;, flag=&quot; + flag + &quot;, byteA=&quot; + byteA
+					+ &quot;, charA=&quot; + charA + &quot;, date=&quot; + date + &quot;, doubleA=&quot; + doubleA + &quot;, floatA=&quot; + floatA + &quot;, intA=&quot; + intA + &quot;, longA=&quot; + longA
+					+ &quot;, nullA=&quot; + nullA + &quot;, shortA=&quot; + shortA + &quot;, stringBufferA=&quot; + stringBufferA + &quot;, stringBuilderA=&quot; + stringBuilderA
+					+ &quot;, UriA=&quot; + UriA + &quot;, urlA=&quot; + urlA + &quot;, uuidA=&quot; + uuidA + &quot;]&quot;;
+		}
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301722/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+	}
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301721/" title="阅读全文">如龙0 第十一期【Biu雷哥直播】 </a> </h2>
+}
+</code></pre>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0OTkwMzY2OA==" frameborder=0 allowfullscreen></iframe><br></p>
+<p>The toXML method prints this</p>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301721/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<pre><code>10000000000
+1000000000
+1
+97
+a
+2014-04-26 04:14:38
+1.0E12
+9.9999998E12
+100
+100000
+1
+test
+test
+file://C/work/fileA
+http://www.google.com
+0000000a-000b-000c-000d-00000000000e
+</code></pre>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301720/" title="阅读全文">如龙0 第十期【Biu雷哥直播】 </a> </h2>
+<p>The fromXML method prints this</p>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0OTA4NDA1Ng==" frameborder=0 allowfullscreen></iframe><br></p>
+<pre><code>BasicConverterFields [bigDecimal=10000000000, bigInteger=1000000000, flag=true, byteA=97, charA=a,
+date=Sat Apr 26 09:44:38 IST 2014, doubleA=1.0E12, floatA=9.9999998E12, intA=100, longA=100000,
+nullA=null, shortA=1, stringBufferA=test, stringBuilderA=test, UriA=file://C/work/fileA,
+urlA=http://www.google.com, uuidA=0000000a-000b-000c-000d-00000000000e]
+</code></pre>
 
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301720/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<hr />
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601301719/" title="阅读全文">如龙0 第九期【Biu雷哥直播】 </a> </h2>
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-basic-converters.jsp" title="Basic Built-in Converters"><em>here</em></a> )</p>
 
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTI0ODE1MzcwMA==" frameborder=0 allowfullscreen></iframe><br></p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601301719/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                    </div>
-                    </br>
-                    <h4>
-                        <a href="http://alimy.me/post/" title="文章列表">Archive</a>
-                    </h4>
-                </section>
-            <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. </p></footer>
-
-            </div>
         </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603092055/" title="上一篇">&lt;&lt; XStream: Custom Converter for BufferedImage</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603092105/" title="下一篇">XStream: Collection Converters >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
 </html>
