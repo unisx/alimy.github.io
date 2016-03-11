@@ -1,0 +1,645 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> Jackson: Java to JSON and back &middot; Alimy </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">Alimy</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                            </br>  </ul>
+                    </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">Alimy</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Jackson: Java to JSON and back</h2>
+          
+          
+
+<h3 id="creating-json-from-java:627c82fc263a42c0c87ad3244752e285">Creating JSON from Java</h3>
+
+<p>Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.</p>
+
+<pre><code>class Album {
+    private String title;
+
+    public Album(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+}
+</code></pre>
+
+<p>we use the ObjectMapper to convert the Object to JSON. By Default Jackson would use BeanSerializer to serialize the POJO. Here&rsquo;s how our serializer Example looks so far. Note that the bean should have getters for private properties or the property should be public Here&rsquo;s how the JSON looks</p>
+
+<pre><code>{&quot;title&quot;:&quot;Kind Of Blue&quot;}
+</code></pre>
+
+<p>Lets add an array of links to the album (along with their getters and setters) These could be links to the press releases or album reviews.</p>
+
+<pre><code>private String[] links;
+</code></pre>
+
+<p>In the main method add this:</p>
+
+<pre><code>album.setLinks(new String[] { &quot;link1&quot;, &quot;link2&quot; });
+</code></pre>
+
+<p>This is how the JSON looks now. Note that the array is converted to a JSON array. (enclosed within &lsquo;[&rsquo; and &lsquo;]&rsquo;)</p>
+
+<pre><code>{&quot;title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;]}
+</code></pre>
+
+<p>Next we add a List of Songs to the Album.</p>
+
+<pre><code>List&lt;String&gt;&gt; Songs = new ArrayList&lt;String&gt;();
+</code></pre>
+
+<p>Add the list to the Albums Object</p>
+
+<pre><code>List&lt;String&gt; songs = new ArrayList&lt;String&gt;();
+songs.add(&quot;So What&quot;);
+songs.add(&quot;Flamenco Sketches&quot;);
+songs.add(&quot;Freddie Freeloader&quot;);
+album.setSongs(songs);
+</code></pre>
+
+<p>The resulting json looks like this. Note that the List is also converted to an array. You can learn more about List Serialization in this tutorial.</p>
+
+<pre><code>{&quot;title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;],
+&quot;songs&quot;:[&quot;So What&quot;,&quot;Flamenco Sketches&quot;,&quot;Freddie Freeloader&quot;]}
+</code></pre>
+
+<p>Next, lets add an artist to the Album. Artist is a class that contains the artist name and his birthdate represented by a Date instance. Note that Artist is an object and hence is enclosed in JSON by &lsquo;{&rsquo; and &lsquo;}&rsquo;. These brackers are JSON representation of objects and contains key value pairs. For brevity we declare the Artist properties as public.</p>
+
+<pre><code>class Artist {
+    public String name;
+    public Date birthDate;
+}
+</code></pre>
+
+<p>Lets add an Artist to the album</p>
+
+<pre><code>Artist artist = new Artist();
+artist.name = &quot;Miles Davis&quot;;
+SimpleDateFormat format = new SimpleDateFormat(&quot;dd-MM-yyyy&quot;);
+artist.birthDate = format.parse(&quot;26-05-1926&quot;);
+album.setArtist(artist);
+</code></pre>
+
+<p>The JSON</p>
+
+<pre><code>{&quot;title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;],
+&quot;songs&quot;:[&quot;So What&quot;,&quot;Flamenco Sketches&quot;,&quot;Freddie Freeloader&quot;],
+&quot;artist&quot;:{&quot;name&quot;:&quot;Miles Davis&quot;,&quot;birthDate&quot;:-1376027600000}}
+</code></pre>
+
+<p>To make JSON visually more readable we add this line. Note that this should not be done for production systems, but only during testing or development since this would increase the size of the json.</p>
+
+<pre><code>mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+</code></pre>
+
+<p>The JSON now looks well formatted</p>
+
+<pre><code>{
+  &quot;title&quot; : &quot;Kind Of Blue&quot;,
+  &quot;links&quot; : [ &quot;link1&quot; , &quot;link2&quot; ],
+  &quot;songs&quot; : [ &quot;So What&quot;, &quot;Flamenco Sketches&quot;, &quot;Freddie Freeloader&quot; ],
+  &quot;artist&quot; : {
+    &quot;name&quot; : &quot;Miles Davis&quot;,
+    &quot;birthDate&quot; : -1376027600000
+  }
+}
+</code></pre>
+
+<p>we now add a map of musicians and the instrument they play in the album.</p>
+
+<pre><code>private Map&lt;String,String&gt; musicians = new HashMap&lt;String, String&gt;();
+public Map&lt;String, String&gt; getMusicians() {
+        return Collections.unmodifiableMap(musicians);
+}
+public void addMusician(String key, String value){
+        musicians.put(key, value);
+}
+</code></pre>
+
+<p>and in the main class</p>
+
+<pre><code>album.addMusician(&quot;Miles Davis&quot;, &quot;Trumpet, Band leader&quot;);
+album.addMusician(&quot;Julian Adderley&quot;, &quot;Alto Saxophone&quot;);
+album.addMusician(&quot;Paul Chambers&quot;, &quot;double bass&quot;);
+</code></pre>
+
+<p>The json</p>
+
+<pre><code>{
+  &quot;title&quot; : &quot;Kind Of Blue&quot;,
+  &quot;links&quot; : [ &quot;link1&quot;, &quot;link2&quot; ],
+  &quot;songs&quot; : [ &quot;So What&quot;, &quot;Flamenco Sketches&quot;, &quot;Freddie Freeloader&quot; ],
+  &quot;artist&quot; : {
+    &quot;name&quot; : &quot;Miles Davis&quot;,
+    &quot;birthDate&quot; : -1376027600000
+  },
+  &quot;musicians&quot; : {
+    &quot;Julian Adderley&quot; : &quot;Alto Saxophone&quot;,
+    &quot;Paul Chambers&quot; : &quot;double bass&quot;,
+    &quot;Miles Davis&quot; : &quot;Trumpet, Band leader&quot;
+  }
+}
+</code></pre>
+
+<p>Lets add some more features to the conversion. we first tell the mapper to arrange the Map by keys using it natural order</p>
+
+<pre><code>mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+</code></pre>
+
+<p>The date has been formatted as the epoch time. Lets format it into a more human readable format</p>
+
+<pre><code>SimpleDateFormat outputFormat = new SimpleDateFormat(&quot;dd MMM yyyy&quot;);
+mapper.setDateFormat(outputFormat);
+</code></pre>
+
+<p>By default, jackson uses the name of the java field as the name of the json property. You can change that by using annotations as explained in this tutorial. However at times you may not have access to the java bean or you do not want to bind the java bean to a Jackson annotation. In this case jackson provides a way to change the default field name. Use the setPropertyNamingStrategy method on the mapper to set the naming strategy for the field. You need to override either the the nameForField method or the nameForGetterMethod depending on whether you have public field in the bean or a getter in the bean. In our example lets change the &lsquo;title&rsquo; of the album to &lsquo;Album-Title&rsquo; and the &lsquo;name&rsquo; of the artist to &lsquo;Artist-Name&rsquo;. Make this changes to the main method</p>
+
+<pre><code>mapper.setPropertyNamingStrategy(new PropertyNamingStrategy() {
+@Override
+public String nameForField(MapperConfig&lt;?&gt; config, AnnotatedField field, String defaultName) {
+   if (field.getFullName().equals(&quot;com.studytrails.json.jackson.Artist#name&quot;))
+        return &quot;Artist-Name&quot;;
+        return super.nameForField(config, field, defaultName);
+}
+
+@Override
+public String nameForGetterMethod(MapperConfig&lt;?&gt; config, AnnotatedMethod method, String defaultName) {
+  if (method.getAnnotated().getDeclaringClass().equals(Album.class) &amp;&amp; defaultName.equals(&quot;title&quot;))
+        return &quot;Album-Title&quot;;
+        return super.nameForGetterMethod(config, method, defaultName);
+  }
+});
+</code></pre>
+
+<p>The json now looks like this</p>
+
+<pre><code>{
+  &quot;Album-Title&quot; : &quot;Kind Of Blue&quot;,
+  &quot;links&quot; : [ &quot;link1&quot;, &quot;link2&quot; ],
+  &quot;songs&quot; : [ &quot;So What&quot;, &quot;Flamenco Sketches&quot;, &quot;Freddie Freeloader&quot; ],
+  &quot;artist&quot; : {
+    &quot;Artist-Name&quot; : &quot;Miles Davis&quot;,
+    &quot;birthDate&quot; : &quot;26 May 1926&quot;
+  },
+  &quot;musicians&quot; : {
+    &quot;Julian Adderley&quot; : &quot;Alto Saxophone&quot;,
+    &quot;Miles Davis&quot; : &quot;Trumpet, Band leader&quot;,
+    &quot;Paul Chambers&quot; : &quot;double bass&quot;
+  }
+}
+</code></pre>
+
+<p>Let us now see how Jackson handles null. we add three new properties to the Artist class and do not assign values to them. we add age(int), homeTown(String) and awardsWon (String[])</p>
+
+<pre><code>public int age;
+public String homeTown;
+public List&lt;String&gt; awardsWon = new ArrayList&lt;String&gt;();
+</code></pre>
+
+<p>Here&rsquo;s how they look after converting to json</p>
+
+<pre><code>&quot;age&quot; : 0,
+ &quot;homeTown&quot; : null,
+ &quot;awardsWon&quot; : [ ]
+</code></pre>
+
+<p>we use this configuration to ignore properties that are empty</p>
+
+<pre><code>mapper.setSerializationInclusion(Include.NON_EMPTY);
+</code></pre>
+
+<p>To explicitely ignore a field use filters are described in this tutorial. Here&rsquo;s the complete example</p>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
+import com.fasterxml.jackson.databind.introspect.AnnotatedField;
+import com.fasterxml.jackson.databind.introspect.AnnotatedMethod;
+
+public class SerializationExample {
+
+    public static void main(String[] args) throws IOException, ParseException {
+        ObjectMapper mapper = new ObjectMapper();
+        Album album = new Album(&quot;Kind Of Blue&quot;);
+        album.setLinks(new String[] { &quot;link1&quot;, &quot;link2&quot; });
+        List&lt;string&gt; songs = new ArrayList&lt;string&gt;();
+        songs.add(&quot;So What&quot;);
+        songs.add(&quot;Flamenco Sketches&quot;);
+        songs.add(&quot;Freddie Freeloader&quot;);
+        album.setSongs(songs);
+        Artist artist = new Artist();
+        artist.name = &quot;Miles Davis&quot;;
+        SimpleDateFormat format = new SimpleDateFormat(&quot;dd-MM-yyyy&quot;);
+        artist.birthDate = format.parse(&quot;26-05-1926&quot;);
+        album.setArtist(artist);
+        album.addMusician(&quot;Miles Davis&quot;, &quot;Trumpet, Band leader&quot;);
+        album.addMusician(&quot;Julian Adderley&quot;, &quot;Alto Saxophone&quot;);
+        album.addMusician(&quot;Paul Chambers&quot;, &quot;double bass&quot;);
+        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(&quot;dd MMM yyyy&quot;);
+        mapper.setDateFormat(outputFormat);
+        mapper.setPropertyNamingStrategy(new PropertyNamingStrategy() {
+            @Override
+            public String nameForField(MapperConfig&lt;!--?--&gt; config, AnnotatedField field, String defaultName) {
+                if (field.getFullName().equals(&quot;com.studytrails.json.jackson.Artist#name&quot;))
+                    return &quot;Artist-Name&quot;;
+                return super.nameForField(config, field, defaultName);
+            }
+
+            @Override
+            public String nameForGetterMethod(MapperConfig&lt;!--?--&gt; config, AnnotatedMethod method, String defaultName) {
+                if (method.getAnnotated().getDeclaringClass().equals(Album.class) &amp;&amp; defaultName.equals(&quot;title&quot;))
+                    return &quot;Album-Title&quot;;
+                return super.nameForGetterMethod(config, method, defaultName);
+            }
+        });
+        mapper.setSerializationInclusion(Include.NON_EMPTY);
+        mapper.writeValue(System.out, album);
+    }
+}
+
+class Album {
+    private String title;
+    private String[] links;
+    private List&lt;string&gt; songs = new ArrayList&lt;string&gt;();
+    private Artist artist;
+    private Map&lt;string ,=&quot;&quot; string=&quot;&quot;&gt; musicians = new HashMap&lt;string ,=&quot;&quot; string=&quot;&quot;&gt;();
+
+    public Album(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setLinks(String[] links) {
+        this.links = links;
+    }
+
+    public String[] getLinks() {
+        return links;
+    }
+
+    public void setSongs(List&lt;string&gt; songs) {
+        this.songs = songs;
+    }
+
+    public List&lt;string&gt; getSongs() {
+        return songs;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
+    }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public Map&lt;string ,=&quot;&quot; string=&quot;&quot;&gt; getMusicians() {
+        return Collections.unmodifiableMap(musicians);
+    }
+
+    public void addMusician(String key, String value) {
+        musicians.put(key, value);
+    }
+}
+
+class Artist {
+    public String name;
+    public Date birthDate;
+    public int age;
+    public String homeTown;
+    public List&lt;string&gt; awardsWon = new ArrayList&lt;string&gt;();
+}
+
+&lt;/string&gt;&lt;/string&gt;&lt;/string&gt;&lt;/string&gt;&lt;/string&gt;&lt;/string&gt;&lt;/string&gt;&lt;/string&gt;&lt;/string&gt;&lt;/string&gt;&lt;/string&gt;
+</code></pre>
+
+<p>This is the first part of the tutorial where we saw how to convert a java object to json. in the next part we see how to build a JSON using a tree approach.</p>
+
+<h3 id="creating-json-using-a-tree-model:627c82fc263a42c0c87ad3244752e285">Creating JSON Using a Tree Model</h3>
+
+<p>It is also possible to build a json using a simple tree model. This could be useful if you dont want to write classes for your JSON structure. We will use the same example as above i.e. an album that has an array songs, an artist and an array of musicians. To write a tree you need to first do this setup:</p>
+
+<ul>
+<li>Create a JsonNodeFactory to create the nodes</li>
+<li>Create a JsonGenerator from a JsonFactory and specify the output method. In this method we print to console.</li>
+<li>Create an ObjectMapper that will use the jsonGenerator and the root node to create the JSON.</li>
+</ul>
+
+<p>After setting it all up we create a single root node for album. Note that by default the object mapper does not name the root node.</p>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+
+public class SerializationExampleTreeModel {
+    public static void main(String[] args) throws IOException {
+        // Create the node factory that gives us nodes.
+        JsonNodeFactory factory = new JsonNodeFactory(false);
+
+        // create a json factory to write the treenode as json. for the example
+        // we just write to console
+        JsonFactory jsonFactory = new JsonFactory();
+        JsonGenerator generator = jsonFactory.createGenerator(System.out);
+        ObjectMapper mapper = new ObjectMapper();
+
+        // the root node - album
+        JsonNode album = factory.objectNode();
+        mapper.writeTree(generator, album);
+
+    }
+
+}
+</code></pre>
+
+<p>This prints</p>
+
+<pre><code>{}
+</code></pre>
+
+<p>A lot of lines of code to print two brackets! but lets see how it is to build our json now. We first add the first property of the album i.e. &lsquo;Album-Title&rsquo;.</p>
+
+<pre><code>album.put(&quot;Album-Title&quot;, &quot;Kind Of Blue&quot;);
+</code></pre>
+
+<p>This is how our JSON looks now</p>
+
+<pre><code>{&quot;Album-Title&quot;:&quot;Kind Of Blue&quot;}
+</code></pre>
+
+<p>We now add the links array</p>
+
+<pre><code>ArrayNode links = factory.arrayNode();
+links.add(&quot;link1&quot;).add(&quot;link2&quot;);
+album.put(&quot;links&quot;, links);
+</code></pre>
+
+<p>The JSON</p>
+
+<pre><code>{&quot;Album-Title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;]}
+</code></pre>
+
+<p>Next we add the artist object. Note that artist by itself is a JsonObject. we add that to the album.</p>
+
+<pre><code>ObjectNode artist = factory.objectNode();
+artist.put(&quot;Artist-Name&quot;, &quot;Miles Davis&quot;);
+artist.put(&quot;birthDate&quot;, &quot;26 May 1926&quot;);
+album.put(&quot;artist&quot;, artist);
+</code></pre>
+
+<p>The JSON</p>
+
+<pre><code>{&quot;Album-Title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;],
+&quot;artist&quot;:{&quot;Artist-Name&quot;:&quot;Miles Davis&quot;,&quot;birthDate&quot;:&quot;26 May 1926&quot;}}
+</code></pre>
+
+<p>We not add the musicians. The musicians are not in an array but there is an object of type musicians. We therefore create an object.</p>
+
+<pre><code>ObjectNode musicians = factory.objectNode();
+musicians.put(&quot;Julian Adderley&quot;, &quot;Alto Saxophone&quot;);
+musicians.put(&quot;Miles Davis&quot;, &quot;Trumpet, Band leader&quot;);
+album.put(&quot;musicians&quot;, musicians);
+</code></pre>
+
+<p>The JSON</p>
+
+<pre><code>{&quot;Album-Title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;],
+&quot;artist&quot;:{&quot;Artist-Name&quot;:&quot;Miles Davis&quot;,&quot;birthDate&quot;:&quot;26 May 1926&quot;},
+&quot;musicians&quot;:{&quot;Julian Adderley&quot;:&quot;Alto Saxophone&quot;,&quot;Miles Davis&quot;:&quot;Trumpet, Band leader&quot;}}
+</code></pre>
+
+<p>You can similarly add other elements. If you have multiple albums then you would probably generate an array in a for loop. It would typically be faster to generate JSON from a Java Object.</p>
+
+<h3 id="creating-json-stream:627c82fc263a42c0c87ad3244752e285">Creating JSON Stream</h3>
+
+<p>Look at <a href="http://www.studytrails.com/java/json/java-jackson-json-streaming.jsp" title="json and java - Streaming">this tutorial</a> to see an example of generating a JSON stream.</p>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/jackson-create-json.jsp" title="Java to JSON and back"><em>here</em></a> )</p>
+
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603112020/" title="上一篇">&lt;&lt; Jackson: Introduction</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603112030/" title="下一篇">Jackson: json and java - Streaming >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</html>

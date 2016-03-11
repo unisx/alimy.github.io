@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> XStream: XML Transformation &middot; Alimy </title>
+    <title> Jackson: Json Polymorphism &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -167,174 +167,220 @@
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
         <div class="post panel-wrapper">
-            <h2>XStream: XML Transformation</h2>
+            <h2>Jackson: Json Polymorphism</h2>
           
-          <p>XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example</p>
+          
 
-<pre><code>package com.studytrails.xml.xstream;
+<p>Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.</p>
 
+<h3 id="data-serialization-and-polymorphism-example:46b64fca9632a887d3524460bdf45d73">Data Serialization and Polymorphism Example</h3>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.TraxSource;
-
-public class XStreamTransformationExample {
-	public static void main(String[] args) throws TransformerFactoryConfigurationError, TransformerException {
-		XStreamTransformationExample transformationExample = new XStreamTransformationExample();
-		transformationExample.runTransformation();
-	}
-
-	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
-		XStream xstream = new XStream();
-		xstream.alias(&quot;rss&quot;, Rss2.class);
-		xstream.alias(&quot;item&quot;, Item2.class);
-		Rss2 rss = new Rss2();
-		Channel2 channel = new Channel2();
-		rss.channel = channel;
-		channel.title = &quot;Title&quot;;
-		channel.link = &quot;link&quot;;
-		channel.image = new Image2();
-		channel.image.link = &quot;image link&quot;;
-		Item2 item1 = new Item2();
-		item1.link = &quot;item link&quot;;
-		item1.title = &quot;Item Title&quot;;
-		channel.items = new ArrayList&lt;Item2&gt;();
-		channel.items.add(item1);
-		System.out.println(xstream.toXML(rss));
-
-		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&quot;bbc.xsl&quot;));
-		TraxSource traxSource = new TraxSource(rss, xstream);
-		StreamResult result = new StreamResult(System.out);
-		transformer.transform(traxSource, result);
-
-		// prints the html on console
-
-	}
-}
-</code></pre>
-
-<p>The XML.</p>
-
-<pre><code>
-
-			link
-
-				image link
-
-
-
-
-					item link
-
-</code></pre>
-
-<p>The Rss2 and other classes</p>
-
-<pre><code>package com.studytrails.xml.xstream;
-
-import java.util.Arrays;
 import java.util.List;
 
-public class Rss2 {
-	public Channel2 channel;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-	@Override
-	public String toString() {
-		return &quot;Rss [channel=&quot; + channel + &quot;]&quot;;
-	}
+public class SerializeExample1 {
+    private static String outputFile = &quot;zoo.json&quot;;
+
+    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
+        // let start creating the zoo
+        Zoo zoo = new Zoo(&quot;Samba Wild Park&quot;, &quot;Paz&quot;);
+        Lion lion = new Lion(&quot;Simba&quot;);
+        Elephant elephant = new Elephant(&quot;Manny&quot;);
+        List&lt;Animal&gt; animals = new ArrayList&lt;&gt;();
+        animals.add(lion);
+        animals.add(elephant);
+        zoo.setAnimals(animals);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter(new File(outputFile)), zoo);
+    }
+}
+</code></pre>
+
+<p>Before we look at the various classes, lets also see how to deserialize this</p>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class DeSerializeExample1 {
+
+    public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        Zoo zoo = mapper.readValue(FileUtils.readFileToByteArray(new File(&quot;zoo.json&quot;)), Zoo.class);
+        System.out.println(zoo);
+    }
+}
+</code></pre>
+
+<h4 id="zoo-class:46b64fca9632a887d3524460bdf45d73">Zoo class</h4>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = As.PROPERTY, property = &quot;@class&quot;)
+public class Zoo {
+
+    public String name;
+    public String city;
+    public List&lt;Animal&gt; animals;
+
+    @JsonCreator
+    public Zoo(@JsonProperty(&quot;name&quot;) String name, @JsonProperty(&quot;city&quot;) String city) {
+        this.name = name;
+        this.city = city;
+    }
+
+    public void setAnimals(List&lt;animal&gt; animals) {
+        this.animals = animals;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Zoo [name=&quot; + name + &quot;, city=&quot; + city + &quot;, animals=&quot; + animals + &quot;]&quot;;
+    }
 
 }
+</code></pre>
 
-class Channel2 {
-	public String title;
-	public String link;
-	public String description;
-	public String language;
-	public String lastBuildDate;
-	public String copyright;
-	public Image2 image;
-	public String ttl;
-	public AtomLink a_link;
-	public List items;
+<h4 id="animal-abstract-class:46b64fca9632a887d3524460bdf45d73">Animal Abstract class</h4>
 
-	public class AtomLink {
-		public String href;
-		public String rel;
-		public String type;
+<pre><code>package com.studytrails.json.jackson;
 
-		@Override
-		public String toString() {
-			return &quot;AtomLink [href=&quot; + href + &quot;, rel=&quot; + rel + &quot;, type=&quot; + type + &quot;]&quot;;
-		}
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
-	}
-
-	@Override
-	public String toString() {
-		return &quot;Channel [title=&quot; + title + &quot;, link=&quot; + link + &quot;, description=&quot; + description + &quot;, language=&quot; + language + &quot;, lastBuildDate=&quot;
-				+ lastBuildDate + &quot;, copyright=&quot; + copyright + &quot;, image=&quot; + image + &quot;, ttl=&quot; + ttl + &quot;, a_link=&quot; + a_link + &quot;, items=&quot; + items + &quot;]&quot;;
-	}
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = As.PROPERTY, property = &quot;@class&quot;)
+@JsonSubTypes({ @Type(value = Lion.class, name = &quot;lion&quot;), @Type(value = Elephant.class, name = &quot;elephant&quot;) })
+public abstract class Animal {
+    @JsonProperty(&quot;name&quot;)
+    String name;
+    @JsonProperty(&quot;sound&quot;)
+    String sound;
+    @JsonProperty(&quot;type&quot;)
+    String type;
+    @JsonProperty(&quot;endangered&quot;)
+    boolean endangered;
 
 }
+</code></pre>
 
-class Item2 {
-	public String title;
-	public String description;
-	public String link;
-	public String guid;
-	public String pubDate;
-	public MediaThumbnail[] media_thumbnails;
+<h4 id="lion-class:46b64fca9632a887d3524460bdf45d73">Lion class</h4>
 
-	@Override
-	public String toString() {
-		return &quot;Item [title=&quot; + title + &quot;, link=&quot; + link + &quot;, guid=&quot; + guid + &quot;, pubDate=&quot; + pubDate + &quot;, media_thumbnails=&quot;
-				+ Arrays.toString(media_thumbnails) + &quot;]&quot;;
-	}
+<pre><code>package com.studytrails.json.jackson;
 
-	public class MediaThumbnail {
-		public int width;
-		public int height;
-		public String url;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-		@Override
-		public String toString() {
-			return &quot;MediaThumbnail [width=&quot; + width + &quot;, height=&quot; + height + &quot;, url=&quot; + url + &quot;]&quot;;
-		}
+public class Lion extends Animal {
 
-	}
+    private String name;
+
+    @JsonCreator
+    public Lion(@JsonProperty(&quot;name&quot;) String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSound() {
+        return &quot;Roar&quot;;
+    }
+
+    public String getType() {
+        return &quot;carnivorous&quot;;
+    }
+
+    public boolean isEndangered() {
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Lion [name=&quot; + name + &quot;, getName()=&quot; + getName() + &quot;, getSound()=&quot; + getSound() + &quot;, getType()=&quot; + getType() + &quot;, isEndangered()=&quot;
+                + isEndangered() + &quot;]&quot;;
+    }
 
 }
+</code></pre>
 
-class Image2 {
-	public String url;
-	public String title;
-	public String link;
-	public String width;
-	public String height;
+<h4 id="elephant-class:46b64fca9632a887d3524460bdf45d73">Elephant class</h4>
 
-	@Override
-	public String toString() {
-		return &quot;Image [url=&quot; + url + &quot;, title=&quot; + title + &quot;, link=&quot; + link + &quot;, width=&quot; + width + &quot;, height=&quot; + height + &quot;]&quot;;
-	}
+<pre><code>package com.studytrails.json.jackson;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Elephant extends Animal {
+
+    @JsonProperty
+    private String name;
+
+    @JsonCreator
+    public Elephant(@JsonProperty(&quot;name&quot;) String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSound() {
+        return &quot;trumpet&quot;;
+    }
+
+    public String getType() {
+        return &quot;herbivorous&quot;;
+    }
+
+    public boolean isEndangered() {
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Elephant [name=&quot; + name + &quot;, getName()=&quot; + getName() + &quot;, getSound()=&quot; + getSound() + &quot;, getType()=&quot; + getType()
+                + &quot;, isEndangered()=&quot; + isEndangered() + &quot;]&quot;;
+    }
 
 }
 </code></pre>
 
 <hr />
 
-<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-xml-transformation.jsp" title="XML Transformation"><em>here</em></a> )</p>
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-jackson-Serialization-polymorphism.jsp" title="Json Polymorphism"><em>here</em></a> )</p>
 
         </div>
         <div id="post-navigator">
-          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603092115/" title="上一篇">&lt;&lt; XStream: Json to Java</a>
-          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603112020/" title="下一篇">Jackson: Introduction >></a>
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603112100/" title="上一篇">&lt;&lt; Jackson: jackson Mix- In Annotations</a>
+          
         </div>
         <div id="post-comments">
           <h3>Comments</h3>

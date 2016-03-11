@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Categories &middot; Alimy </title>
+    <title> Jackson: json and java - Streaming &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="http://alimy.me/categories/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
@@ -77,7 +77,7 @@
     </style>
 </head>
 
-<body>
+  <body>
     <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
@@ -85,9 +85,7 @@
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -167,61 +165,164 @@
 </noscript>
 
     <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <section id="main">
-              <div>
-                <h1 id="title">Categories</h1>
-                <style type="text/css">
-                        #double ul{
-                          width:760px;
-                          margin-bottom:20px;
-                          overflow:hidden;
-                        }
-                        #double li{
-                          line-height:1.5em;
-                          float:left;
-                          display:inline;
-                          width:50%;
-                        }
-                </style>
-                <ul id="double">
-                
-                
-                    <li>
-                        <a href="art">art</a> 11
-                    </li>
-                
-                    <li>
-                        <a href="cloud">cloud</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="development">development</a> 33
-                    </li>
-                
-                    <li>
-                        <a href="enjoy">enjoy</a> 21
-                    </li>
-                
-                    <li>
-                        <a href="golang">golang</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="language">language</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="other">other</a> 1
-                    </li>
-                
-               </ul>
-              </div>
-            </section>
-            </div>
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Jackson: json and java - Streaming</h2>
+          
+          
+
+<h3 id="streaming-parser-and-generator:6aa21e9855db39cd085c6c3608dd23fc">Streaming Parser and Generator</h3>
+
+<p>Jackson provides a low level API to parse json string. The API provides token for each json object. For example, the start of json &lsquo;{&rsquo; is the first object that the parser provides. The key value pair is another single object. The client code can use the tokens and get the json properties or build a java object out of it if required. This low level API is extremely powerful but needs a lot of coding. For most cases, Jackson&rsquo;s tree traversing and data binding capability should be explored instead. We provide two examples below. The first example demonstrates json parsing and the second demonstrated json generation.</p>
+
+<h3 id="json-parsing-example:6aa21e9855db39cd085c6c3608dd23fc">Json Parsing Example</h3>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+
+/**
+ * The aim of this class is to get the list of albums from free music archive
+ * (limit to 5)
+ *
+ */
+public class StreamParser1 {
+    public static void main(String[] args) throws MalformedURLException, IOException {
+        // Get a list of albums from free music archive. limit the results to 5
+        String url = &quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5&quot;;
+        // get an instance of the json parser from the json factory
+        JsonFactory factory = new JsonFactory();
+        JsonParser parser = factory.createParser(new URL(url));
+
+        // continue parsing the token till the end of input is reached
+        while (!parser.isClosed()) {
+            // get the token
+            JsonToken token = parser.nextToken();
+            // if its the last token then we are done
+            if (token == null)
+                break;
+            // we want to look for a field that says dataset
+
+            if (JsonToken.FIELD_NAME.equals(token) &amp;&amp; &quot;dataset&quot;.equals(parser.getCurrentName())) {
+                // we are entering the datasets now. The first token should be
+                // start of array
+                token = parser.nextToken();
+                if (!JsonToken.START_ARRAY.equals(token)) {
+                    // bail out
+                    break;
+                }
+                // each element of the array is an album so the next token
+                // should be {
+                token = parser.nextToken();
+                if (!JsonToken.START_OBJECT.equals(token)) {
+                    break;
+                }
+                // we are now looking for a field that says &quot;album_title&quot;. We
+                // continue looking till we find all such fields. This is
+                // probably not a best way to parse this json, but this will
+                // suffice for this example.
+                while (true) {
+                    token = parser.nextToken();
+                    if (token == null)
+                        break;
+                    if (JsonToken.FIELD_NAME.equals(token) &amp;&amp; &quot;album_title&quot;.equals(parser.getCurrentName())) {
+                        token = parser.nextToken();
+                        System.out.println(parser.getText());
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+}
+</code></pre>
+
+<h3 id="json-generation-example:6aa21e9855db39cd085c6c3608dd23fc">Json Generation Example</h3>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+
+/**
+ *
+ * In This example we look at generating a json using the jsongenerator. we will
+ * be creating a json similar to
+ * http://freemusicarchive.org/api/get/albums.json?
+ * api_key=60BLHNQCAOUFPIBZ&amp;limit=1, but use only a couple of fields
+ *
+ */
+public class StreamGenerator1 {
+    public static void main(String[] args) throws IOException {
+        JsonFactory factory = new JsonFactory();
+        JsonGenerator generator = factory.createGenerator(new FileWriter(new File(&quot;albums.json&quot;)));
+
+        // start writing with {
+        generator.writeStartObject();
+        generator.writeFieldName(&quot;title&quot;);
+        generator.writeString(&quot;Free Music Archive - Albums&quot;);
+        generator.writeFieldName(&quot;dataset&quot;);
+        // start an array
+        generator.writeStartArray();
+        generator.writeStartObject();
+        generator.writeStringField(&quot;album_title&quot;, &quot;A.B.A.Y.A.M&quot;);
+        generator.writeEndObject();
+        generator.writeEndArray();
+        generator.writeEndObject();
+
+        generator.close();
+    }
+}
+</code></pre>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-jackson-json-streaming.jsp" title="json and java - Streaming"><em>here</em></a> )</p>
+
         </div>
-    </body>
-    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603112025/" title="上一篇">&lt;&lt; Jackson: Java to JSON and back</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603112035/" title="下一篇">Jackson: build java tree model from json >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>

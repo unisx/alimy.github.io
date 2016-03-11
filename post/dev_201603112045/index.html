@@ -1,0 +1,385 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> Jackson: List serialization &middot; Alimy </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">Alimy</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                            </br>  </ul>
+                    </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">Alimy</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Jackson: List serialization</h2>
+          
+          
+
+<p>In this tutorial we will see how to convert a java List to JSON. Serializing list is a little tricky since by default the type info is not stored while serializing and deserializing lists. In this tutorial we look at two examples. In the first example we serialize an Object that has a java List as one of its properties. In the second example we try and serialize the List directly. In both examples we use special configuration to preserve type info.</p>
+
+<h3 id="example-1-serializing-object-containing-a-list:cbcae65ab0364befdb15ef6b14f2b41b">Example 1 : Serializing Object containing a list</h3>
+
+<p>The example converts a Zoo class to json. the zoo class contains the name of zoo, its city and a list of animals. The list is of type &lsquo;Animal&rsquo;, i.e. the list contains elements that are subclass of the Abstract class Animal. Lets see what happens when we try to serialize zoo. First we create the Zoo class. Notice how the constructor looks. When we try to get the Zoo Object back from the JSON, Jackson has to know that it should create the Zoo Object using the constructor that takes in the name and city properties.</p>
+
+<pre><code>class Zoo {
+    public String name;
+    public String city;
+
+
+    @JsonCreator
+    public Zoo(@JsonProperty(&quot;name&quot;) String name,@JsonProperty(&quot;city&quot;) String city) {
+        this.name = name;
+        this.city = city;
+    }
+
+    public List&lt;Animal&gt; animals = new ArrayList&lt;Animal&gt;();
+
+    public List&lt;Animal&gt; addAnimal(Animal animal) {
+        animals.add(animal);
+        return animals;
+    }
+
+}
+</code></pre>
+
+<p>The Animal is an abstract class. It is further extended to create the Elephant and the Lion class.</p>
+
+<pre><code>class Elephant extends Animal {
+
+    @JsonCreator
+    public Elephant(@JsonProperty(&quot;name&quot;) String name) {
+        super.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Elephant : &quot; + name;
+    }
+}
+
+class Lion extends Animal {
+    @JsonCreator
+    public Lion(@JsonProperty(&quot;name&quot;) String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Lion: &quot; + name;
+    }
+}
+</code></pre>
+
+<p>Lets now create a serializer for Zoo. Imagine that the London zoo needs to shift to a larger area. We will have to serialize the zoo from its current location and deserialize it at the target location. (a teleportation machine)</p>
+
+<p>We use the ObjectMapper class to do the serialization and print the json to console. You could also print it to a file</p>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class SerializeZoo {
+    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
+         Zoo zoo = new Zoo(&quot;London Zoo&quot;, &quot;London&quot;);
+         Lion lion = new Lion(&quot;Simba&quot;);
+         Elephant elephant = new Elephant(&quot;Manny&quot;);
+         zoo.addAnimal(elephant).add(lion);
+         ObjectMapper mapper = new ObjectMapper();
+         mapper.writeValue(System.out, zoo);
+    }
+}
+</code></pre>
+
+<p>Ok so lets see how our zoo looks like. Remember, we should be able to re create the zoo (along with all its animals) when we deserialize it</p>
+
+<pre><code>{&quot;name&quot;:&quot;London Zoo&quot;,&quot;city&quot;:&quot;London&quot;,&quot;animals&quot;:[{&quot;name&quot;:&quot;Manny&quot;},{&quot;name&quot;:&quot;Simba&quot;}]}
+</code></pre>
+
+<p>Clearly our teleporter is not ready. Manny and Simba are in there, but there is nothing in the json that says that Manny is an elephant and Simba is a lion. Lets see what happens when we try to deserialize the zoo</p>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class DeserializeZoo {
+
+    public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
+        String json = &quot;{\&quot;name\&quot;:\&quot;London Zoo\&quot;,\&quot;city\&quot;:\&quot;London\&quot;,&quot; + &quot;\&quot;animals\&quot;:[{\&quot;name\&quot;:\&quot;Manny\&quot;},{\&quot;name\&quot;:\&quot;Simba\&quot;}]}&quot;;
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.readValue(json, Zoo.class);
+    }
+}
+</code></pre>
+
+<p>We get an error! the error says &ldquo;Can not construct instance of com.studytrails.json.jackson.Animal, problem: abstract types either need to be mapped to concrete types, have custom deserializer, or be instantiated with additional type information&rdquo; . Ok, we were expecting this. Lets see how to resolve it. We need to be able to put the information about the type in the json. There are two things you need
+to do this</p>
+
+<ol>
+<li><p>Tell Jackson that we need to include the type info for Animal class.</p>
+
+<pre><code>@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = As.PROPERTY, property = &quot;@class&quot;)
+</code></pre></li>
+
+<li><p>Tell Jackson that Animal can have subclasses Elephant and Lion</p>
+
+<pre><code>@JsonSubTypes({ @Type(value = Lion.class, name = &quot;lion&quot;), @Type(value = Elephant.class, name = &quot;elephant&quot;) })
+</code></pre>
+
+<p>Lets see how our json looks now</p></li>
+</ol>
+
+<pre><code>{&quot;name&quot;:&quot;London Zoo&quot;,&quot;city&quot;:&quot;London&quot;,
+&quot;animals&quot;:[{&quot;@class&quot;:&quot;com.studytrails.json.jackson.Elephant&quot;,&quot;name&quot;:&quot;Manny&quot;},
+           {&quot;@class&quot;:&quot;com.studytrails.json.jackson.Lion&quot;,&quot;name&quot;:&quot;Simba&quot;}]}
+</code></pre>
+
+<p>This looks much better. Now, if you read the json back using the Zoo class then it works well and the Zoo class would have a list of animals.</p>
+
+<h3 id="example-2-serializing-a-list:cbcae65ab0364befdb15ef6b14f2b41b">Example 2 : Serializing a list</h3>
+
+<p>In the previous example we saw how to serialize a class that has a List. In this example lets see how to serialize a list directly. We will use the same Animal, Lion and Elephant classes. Lets see what happens when we try to serialize the list directly (note that we have added the typeinfo annotations to the Animal class)</p>
+
+<pre><code>public class SerializeAnimals {
+    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
+        List&lt;animal&gt; animals = new ArrayList&lt;animal&gt;();
+        Lion lion = new Lion(&quot;Samba&quot;);
+        Elephant elephant = new Elephant(&quot;Manny&quot;);
+        animals.add(lion);
+        animals.add(elephant);
+        ObjectMapper mapper = new ObjectMapper();
+
+        mapper.writeValue(System.out, animals);
+    }
+}  
+
+
+
+&lt;/animal&gt;&lt;/animal&gt;
+</code></pre>
+
+<p>This gives the following json</p>
+
+<pre><code>[{&quot;name&quot;:&quot;Samba&quot;},{&quot;name&quot;:&quot;Manny&quot;}]
+</code></pre>
+
+<p>No type info! To add type info while serializing Lists directly you need to configure the mapper in this way</p>
+
+<pre><code>mapper.writerWithType(new TypeReference&lt;List
+        &lt;Animal&gt;&gt;() {
+        }).writeValue(System.out, animals);
+</code></pre>
+
+<p>This now produces the correct json</p>
+
+<pre><code>[{&quot;@class&quot;:&quot;com.studytrails.json.jackson.Lion&quot;,&quot;name&quot;:&quot;Samba&quot;},
+{&quot;@class&quot;:&quot;com.studytrails.json.jackson.Elephant&quot;,&quot;name&quot;:&quot;Manny&quot;}]
+</code></pre>
+
+<p>So to recap, in this tutorial we saw how to i. serialize a Java object containing a List and ii. serialize a list (root object)</p>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-jackson-Serialization-list.jsp" title="jackson List serialization"><em>here</em></a> )</p>
+
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603112040/" title="上一篇">&lt;&lt; Jackson: Json Data Binding</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603112050/" title="下一篇">Jackson: Json annotations and dyna beans >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</html>
