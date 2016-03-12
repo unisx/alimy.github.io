@@ -7,7 +7,1320 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Fri, 11 Mar 2016 21:05:00 CST</updated>
+    <updated>Sat, 12 Mar 2016 20:40:00 CST</updated>
+    
+    <item>
+      <title>Gson: Exclusion Strategy</title>
+      <link>http://alimy.me/post/dev_201603122040/</link>
+      <pubDate>Sat, 12 Mar 2016 20:40:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603122040/</guid>
+      <description>
+
+&lt;p&gt;In this tutorial we look at how to selectively include fields from a java object to a json string. By default, Gson tries to map all fields in the java object to the corresponding property in json. However, in certain cases we may want to control that. There are a few ways to do this. It is also possible to excluse fields from third party packages where we have no access to the source code. The different ways to exclude fields are :&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;By defining a custom annotation and ignoring fields that are annotated with that.&lt;/li&gt;
+&lt;li&gt;By Defining a custom exclusion class by extending the ExclusionStrategy interface and implementing the public boolean shouldSkipField(FieldAttributes f); and public boolean shouldSkipClass(Class clazz); methods&lt;/li&gt;
+&lt;li&gt;By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;the-example-below-demonstrates-all-three:328ca424640a9366d8b50d13fb24324f&#34;&gt;The example below demonstrates all three&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.awt.Color;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+public class ExclusionExample {
+	public static void main(String[] args) {
+		// We create an instance of type CAT.
+		Cat cat = new Cat();
+		cat.setName(&amp;quot;Cat&amp;quot;);
+		cat.setAge(1);
+		cat.setColor(Color.BLACK);
+		cat.setCountry(&amp;quot;US&amp;quot;);
+		// we allow serializing null. therefore although the fields lazy is
+		// null, it will be serialized. We add a CustomExclusionStrategy that
+		// will exclude the Color class. We also allow only those fields that
+		// have been exposed using the @Expore annotation
+		Gson gson = new GsonBuilder().serializeNulls().setExclusionStrategies(new CustomExclusionStrategy(Color.class))
+				.excludeFieldsWithoutExposeAnnotation().create();
+		System.out.println(gson.toJson(cat));
+		// prints {&amp;quot;name&amp;quot;:&amp;quot;Cat&amp;quot;,&amp;quot;lazy&amp;quot;:null}
+
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;the-cat-class:328ca424640a9366d8b50d13fb24324f&#34;&gt;The Cat class&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.awt.Color;
+
+import com.google.gson.annotations.Expose;
+
+public class Cat {
+	@Expose
+	private String name;
+	private int age;
+	private Color color;
+	@Expose
+	@Country
+	private String country;
+	@Expose
+	private Boolean lazy = null;
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setLazy(Boolean lazy) {
+		this.lazy = lazy;
+	}
+
+	public Boolean getLazy() {
+		return lazy;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;the-exclusion-strategy:328ca424640a9366d8b50d13fb24324f&#34;&gt;The Exclusion Strategy&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+
+/**
+ * This class defines custom exclusion policy. We want to ignore all fields that
+ * have been annotated with the Country annotation. Note that we can also ignore
+ * fields based on name or type. This same policy can be applied to any class.
+ * In this example we apply to the CAT class, but it is not limited to the cat
+ * class.
+ *
+ */
+public class CustomExclusionStrategy implements ExclusionStrategy {
+
+	private Class classToExclude;
+
+	public CustomExclusionStrategy(Class classToExclude) {
+		this.classToExclude = classToExclude;
+	}
+
+	// This method is called for all fields. if the method returns false the
+	// field is excluded from serialization
+	@Override
+	public boolean shouldSkipField(FieldAttributes f) {
+		if (f.getAnnotation(Country.class) == null)
+			return false;
+
+		return true;
+	}
+
+	// This method is called for all classes. If the method returns false the
+	// class is excluded.
+	@Override
+	public boolean shouldSkipClass(Class&amp;lt;?&amp;gt; clazz) {
+		if (clazz.equals(classToExclude))
+			return true;
+		return false;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-exclusion-strategy.jsp&#34; title=&#34;Excluding certain fields from Java classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gson: Custom Serializer</title>
+      <link>http://alimy.me/post/dev_201603122035/</link>
+      <pubDate>Sat, 12 Mar 2016 20:35:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603122035/</guid>
+      <description>
+
+&lt;p&gt;Just as we saw in the &lt;a href=&#34;http://alimy.me/post/dev_201603122030&#34;&gt;previous&lt;/a&gt; tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&amp;rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.&lt;/p&gt;
+
+&lt;h3 id=&#34;custom-serializer:111b3d40cae40f94b365983d1c03789a&#34;&gt;Custom Serializer&lt;/h3&gt;
+
+&lt;p&gt;Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.lang.reflect.Type;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
+
+public class DogSerializer implements JsonSerializer {
+	@Override
+	public JsonElement serialize(Dog src, Type typeOfSrc, JsonSerializationContext context) {
+		// This method gets involved whenever the parser encounters the Dog
+		// object (for which this serializer is registered)
+		JsonObject object = new JsonObject();
+		String name = src.getName().replaceAll(&amp;quot; &amp;quot;, &amp;quot;_&amp;quot;);
+		object.addProperty(&amp;quot;name&amp;quot;, name);
+		// we create the json object for the dog and send it back to the
+		// Gson serializer
+		return object;
+	}
+
+	public static void main(String[] args) {
+		Animall&amp;lt;Dog&amp;gt; animal = new Animall&amp;lt;Dog&amp;gt;();
+		Dog dog = new Dog(&amp;quot;I am a dog&amp;quot;);
+		animal.setAnimal(dog);
+		// Create the GsonBuilder and register a serializer for the Dog class.
+		// Whenever the Dog class is encountered Gson calls the DogSerializer
+		// we set pretty printing own to format the json
+		Gson gson = new GsonBuilder().registerTypeAdapter(Dog.class, new DogSerializer()).setPrettyPrinting().create();
+		// Since Animal contains generic type create the type using TypeToken
+		// class.
+		Type animalType = new TypeToken&amp;lt;Animal&amp;lt;Dog&amp;gt;&amp;gt;() {
+		}.getType();
+		System.out.println(gson.toJson(animal, animalType));
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The Animal class&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+public class Animal {
+
+	public T animal;
+
+	public void setAnimal(T animal) {
+		this.animal = animal;
+	}
+
+	public T get() {
+		return animal;
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The Dog class&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+public class Dog {
+	private String name;
+
+	public Dog(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;custom-deserializer:111b3d40cae40f94b365983d1c03789a&#34;&gt;Custom DeSerializer&lt;/h4&gt;
+
+&lt;p&gt;Use a custome De serializer to create a Dog Object from the json. To create a deserializer implement the public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException; method.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.lang.reflect.Type;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
+
+public class DogDeserialiser implements JsonDeserializer&amp;lt;Dog&amp;gt; {
+	@Override
+	public Dog deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+		String name = json.getAsJsonObject().get(&amp;quot;name&amp;quot;).getAsString();
+		name = name.replace(&amp;quot; &amp;quot;, &amp;quot;_&amp;quot;);
+		Dog dog = new Dog(name);
+
+		return dog;
+	}
+
+	public static void main(String[] args) {
+		String json = &amp;quot;{\&amp;quot;animal\&amp;quot;:{\&amp;quot;name\&amp;quot;:\&amp;quot;I am a dog\&amp;quot;}}&amp;quot;;
+		Gson gson = new GsonBuilder().registerTypeAdapter(Dog.class, new DogDeserialiser()).create();
+		Type animalType = new TypeToken&amp;lt;Animal&amp;lt;Dog&amp;gt;&amp;gt;() {
+		}.getType();
+		Animal&amp;lt;Dog&amp;gt; animal = gson.fromJson(json, animalType);
+		System.out.println(animal.get().getName());
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-introduction.jsp&#34; title=&#34;Using Custom Serialization and Deserialization classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gson: Custom Type Adapter</title>
+      <link>http://alimy.me/post/dev_201603122030/</link>
+      <pubDate>Sat, 12 Mar 2016 20:30:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603122030/</guid>
+      <description>&lt;p&gt;In the earlier tutorials we have seen how gson can serialize and deserialize java classes with or without hierarchies. By default, it introspects the classes and comes with with a strategy for serializing and deserializing it. However, in some cases, you want to specify your own conversion strategy. That is, you want to control how the java object is converted to json string and the other way round. Gson provides a capability to specify a custom type adapter. You tell Gson that for a particular class, use the conversion strategy specified by your custom adapter. Lets look at how to write the type adapter :
+To write a custom adapter extend the com.google.gson.TypeAdapter abstract class. Implement the public abstract T read(JsonReader in) throws IOException; and public abstract void write(JsonWriter out, T value) throws IOException; methods. The adapter should also handle nulls. Create the Type adapter instance and then register it with the GsonBuilder. Create the Gson object from the GsonBuilder and then use that to serialize and deserialize. Lets look at an example&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+public class DatasetTypeAdapterExample8 {
+
+	public static void main(String[] args) throws MalformedURLException, IOException {
+		String url = &amp;quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=5&amp;quot;;
+		String json = IOUtils.toString(new URL(url));
+		// Create the custom type adapter and register it with the GsonBuilder
+		// class.
+		Gson gson = new GsonBuilder().registerTypeAdapter(Dataset.class, new DatasetTypeAdapter()).create();
+		// deserialize the json to Albums class. The Dataset objects are part of
+		// the Albums class. Whenever Gson encounters an object of type DataSet
+		// it calls the DatasetTypeAdapter to read and write json.
+		Albums albums = gson.fromJson(json, Albums.class);
+		System.out.println(albums.getDataset()[1].getAlbum_title());
+		// prints
+		// http://freemusicarchive.org/music/The_Yes_Sirs/Through_The_Cracks_Mix_Vol_1/
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The Adapter&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.io.IOException;
+
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
+
+/**
+ * The Dataset class contains the information about a particular Album.
+ * album_title and album_url are two distinct fields in the json. The Dataset
+ * object contains the field album_title. Normally Gson would map the
+ * album_title property in the json the the album_title field in the Dataset
+ * object. However, we dont want that. We want to use the album_url property
+ * from the json object to populate the album_title field in the Dataset object.
+ * we build a custom TypeAdapter to do that. This is just a trivial case, you
+ * could also combine album_url and album_title properties and set it to the
+ * album_title field of the Dataset Object.
+ *
+ */
+public class DatasetTypeAdapter extends TypeAdapter&amp;lt;Dataset&amp;gt; {
+	@Override
+	public Dataset read(JsonReader reader) throws IOException {
+		// the first token is the start object
+		JsonToken token = reader.peek();
+		Dataset dataset = new Dataset();
+		if (token.equals(JsonToken.BEGIN_OBJECT)) {
+			reader.beginObject();
+			while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+				if (reader.peek().equals(JsonToken.NAME)) {
+					if (reader.nextName().equals(&amp;quot;album_url&amp;quot;))
+						dataset.setAlbum_title(reader.nextString());
+					else
+						reader.skipValue();
+
+				}
+			}
+			reader.endObject();
+
+		}
+		return dataset;
+	}
+
+	@Override
+	public void write(JsonWriter out, Dataset value) throws IOException {
+
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The Albums class&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+
+public class Albums {
+
+	private String title;
+	private Dataset[] dataset;
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setDataset(Dataset[] dataset) {
+		this.dataset = dataset;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public Dataset[] getDataset() {
+		return dataset;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The Dataset class&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Dataset {
+	private String album_id;
+	private String album_title;
+	private Map&amp;lt;String , Object&amp;gt; otherProperties = new HashMap&amp;lt;String , Object&amp;gt;();
+
+	public String getAlbum_id() {
+		return album_id;
+	}
+
+	public void setAlbum_id(String album_id) {
+		this.album_id = album_id;
+	}
+
+	public String getAlbum_title() {
+		return album_title;
+	}
+
+	public void setAlbum_title(String album_title) {
+		this.album_title = album_title;
+	}
+
+	public Object get(String name) {
+		return otherProperties.get(name);
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-type-adapter.jsp&#34; title=&#34;Using Custom type adapters&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gson: Serializing Inner Classes</title>
+      <link>http://alimy.me/post/dev_201603122028/</link>
+      <pubDate>Sat, 12 Mar 2016 20:28:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603122028/</guid>
+      <description>
+
+&lt;h3 id=&#34;serializing-inner-classes:94d200a9b12cc728e29eb582b49f7787&#34;&gt;Serializing inner classes&lt;/h3&gt;
+
+&lt;p&gt;Gson can serialize inner classes and static nested classes. The detailed example below demonstrates the following things.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Serializing class containing static nested class&lt;/li&gt;
+&lt;li&gt;Serializing class containing non static nested class (Inner class)&lt;/li&gt;
+&lt;li&gt;De-serializing json to a class containing static and non static inner class&lt;/li&gt;
+&lt;li&gt;Serializing static nested class (without the enclosing type)&lt;/li&gt;
+&lt;li&gt;Serializing non static nested class (without the enclosing type)&lt;/li&gt;
+&lt;li&gt;De-serializing json to a static nested class (without the enclosing type)&lt;/li&gt;
+&lt;li&gt;De-serializing json to a non static nested class (without the enclosing type)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;the-example:94d200a9b12cc728e29eb582b49f7787&#34;&gt;The Example&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.lang.reflect.Modifier;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.studytrails.json.gson.AlbumsWithInnerClass.Dataset;
+import com.studytrails.json.gson.AlbumsWithInnerClass.Dataset2;
+
+public class SerializeInnerClassExample4 {
+    public static void main(String[] args) {
+        // create an Albums class with a static nested class and a non static
+        // nested class
+        AlbumsWithInnerClass albums = new AlbumsWithInnerClass();
+        albums.setName(&amp;quot;SerializeInnerClass&amp;quot;);
+        // create a dataset. we need the enclosing type since this is a non
+        // static nested class (inner class)
+        Dataset dataset = albums.new Dataset();
+        dataset.setAlbum_id(&amp;quot;1&amp;quot;);
+        dataset.setAlbum_name(&amp;quot;albums1&amp;quot;);
+        // assign the datasets to albums
+        albums.setDatasetsInner(new Dataset[] { dataset });
+
+        // static inner class can be created without the enclosing type
+        Dataset2 dataset2 = new Dataset2();
+        dataset2.setAlbum_id(&amp;quot;2&amp;quot;);
+        dataset2.setAlbum_name(&amp;quot;albums2&amp;quot;);
+        albums.setDatasetsStatic(new Dataset2[] { dataset2 });
+
+        // create the GsonBuilder
+        GsonBuilder builder = new GsonBuilder();
+        // we ignore Private fields
+        builder.excludeFieldsWithModifiers(Modifier.PRIVATE);
+        Gson gson = builder.create();
+
+        // serialize the albums object
+        String json = gson.toJson(albums);
+        System.out.println(json);
+        // prints
+        // {&amp;quot;name&amp;quot;:&amp;quot;SerializeInnerClass&amp;quot;,&amp;quot;datasetsInner&amp;quot;:[{&amp;quot;album_name&amp;quot;:&amp;quot;SerializeInnerClass_albums1&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;1&amp;quot;}],
+        // &amp;quot;datasetsStatic&amp;quot;:[{&amp;quot;album_name&amp;quot;:&amp;quot;albums2&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;2&amp;quot;}]}
+
+        // We read the json string now and recreate the AlbumsWithInnerClass class
+        Gson gson3 = new Gson();
+        AlbumsWithInnerClass parsedAlbums = gson3.fromJson(json, AlbumsWithInnerClass.class);
+        System.out.println(parsedAlbums.datasetsInner[0].album_name);
+        // prints SerializeInnerClass_albums1
+        System.out.println(parsedAlbums.datasetsStatic[0].album_name);
+        // prints albums2
+
+        // now lets try and serialize only the object of inner class
+        Gson gson2 = new Gson();
+        String json2 = gson2.toJson(dataset);
+        System.out.println(json2);
+        // prints {&amp;quot;album_name&amp;quot;:&amp;quot;SerializeInnerClass_albums1&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;1&amp;quot;}
+
+        // serialize nested static class
+        String json3 = gson2.toJson(dataset2);
+        System.out.println(json3);
+        // prints {&amp;quot;album_name&amp;quot;:&amp;quot;albums2&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;2&amp;quot;}
+
+        // let us now create the inner class from the json string
+        Gson gson4 = new Gson();
+        Dataset parsedDataset = gson4.fromJson(json2, Dataset.class);
+        System.out.println(parsedDataset.getClass());
+        // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset
+        System.out.println(parsedDataset.album_name);
+        // prints SerializeInnerClass_albums1
+
+        // create nested static class from the json string
+        Dataset2 parsedStaticNestedClass = gson4.fromJson(json3, Dataset2.class);
+        System.out.println(parsedStaticNestedClass.getClass());
+        // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset2
+        System.out.println(parsedStaticNestedClass.album_name);
+        // prints albums2
+
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;the-albumswithinnerclass:94d200a9b12cc728e29eb582b49f7787&#34;&gt;The AlbumsWithInnerClass&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+public class AlbumsWithInnerClass {
+    public String name;
+    private String year;
+    public Dataset[] datasetsInner;
+    public Dataset2[] datasetsStatic;
+
+    public void setDatasetsInner(Dataset[] datasetsInner) {
+        this.datasetsInner = datasetsInner;
+    }
+
+    public void setDatasetsStatic(Dataset2[] datasetsStatic) {
+        this.datasetsStatic = datasetsStatic;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    class Dataset {
+        public String album_name;
+        public String album_id;
+
+        public void setAlbum_id(String album_id) {
+            this.album_id = album_id;
+        }
+
+        public void setAlbum_name(String album_name) {
+            this.album_name = name + &amp;quot;_&amp;quot; + album_name;
+        }
+    }
+
+    static class Dataset2 {
+        public String album_name;
+        public String album_id;
+
+        public void setAlbum_id(String album_id) {
+            this.album_id = album_id;
+        }
+
+        public void setAlbum_name(String album_name) {
+            this.album_name = album_name;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-serialize-inner-classes.jsp&#34; title=&#34;Serializing Inner Classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gson: Serializing and deserializing Java Generic Classes</title>
+      <link>http://alimy.me/post/dev_201603122025/</link>
+      <pubDate>Sat, 12 Mar 2016 20:25:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603122025/</guid>
+      <description>
+
+&lt;h3 id=&#34;serializing-list:48eff8845146e9414ebbce90bbfb026f&#34;&gt;Serializing list&lt;/h3&gt;
+
+&lt;p&gt;As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.lang.reflect.Type;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+public class GenericTypesExample8 {
+	public static void main(String[] args) {
+		// create an animal class that is of type dog.
+		Animal animal = new Animal&amp;lt;Dog&amp;gt;();
+		// Create a Dog instance
+		Dog dog = new Dog(&amp;quot;I am a dog&amp;quot;);
+
+		animal.setAnimal(dog);
+		Gson gson = new Gson();
+		// Define a Type that is an Animal of type dog.
+		Type animalType = new TypeToken&amp;lt;Animal&amp;lt;Dog&amp;gt;&amp;gt;() {
+		}.getType();
+
+		// we first convert the animal object to a json and then read the json
+		// back. However we define the json to be of Animal type
+		Animal animal1 = gson.fromJson(gson.toJson(animal, animalType), Animal.class);
+		System.out.println(animal1.get().getClass()); // prints class
+
+    // com.google.gson.internal.LinkedTreeMap
+		// In contrast to above where we read the json back using the Animal
+		// type, here we read the json back as the custom animalType Type. This
+		// gives Gson an idea of what
+		// the generic type should be.
+		Animal animal2 = gson.fromJson(gson.toJson(animal), animalType);
+		System.out.println(animal2.get().getClass());
+		// prints class com.studytrails.json.gson.Dog
+
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;animal-class:48eff8845146e9414ebbce90bbfb026f&#34;&gt;Animal class&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+public class Animal {
+
+	public T animal;
+
+	public void setAnimal(T animal) {
+		this.animal = animal;
+	}
+
+	public T get() {
+		return animal;
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;dog-class:48eff8845146e9414ebbce90bbfb026f&#34;&gt;Dog Class&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+public class Dog {
+	private String name;
+
+	public Dog(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-introduction.jsp&#34; title=&#34;Serializing and deserializing Java Generic Classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gson: Serializing Collections</title>
+      <link>http://alimy.me/post/dev_201603122022/</link>
+      <pubDate>Sat, 12 Mar 2016 20:22:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603122022/</guid>
+      <description>
+
+&lt;h3 id=&#34;serializing-list:0245d903820e8dfe5f649eea2e56a9f6&#34;&gt;Serializing list&lt;/h3&gt;
+
+&lt;p&gt;Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+public class DeSerializeListExample5 {
+	public static void main(String[] args) {
+		String json = &amp;quot;[{album_id:1,album_title:&#39;album1&#39;},{album_id:2,album_title:&#39;album2&#39;}]&amp;quot;;
+
+		Gson gson = new Gson();
+		// create the type for the collection. In this case define that the collection is of type Dataset
+		Type datasetListType = new TypeToken&amp;lt;Collection&amp;lt;Dataset&amp;gt;&amp;gt;() {}.getType();
+		List&amp;lt;Dataset&amp;gt; datasets = gson.fromJson(json, datasetListType);
+		for (Dataset dataset : datasets) {
+			System.out.println(dataset.getAlbum_title());
+			System.out.println(dataset.getAlbum_id());
+		}
+		// Prints
+		//album1
+		//1
+		//album2
+		//2
+
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;the-dataset-class:0245d903820e8dfe5f649eea2e56a9f6&#34;&gt;The Dataset Class&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Dataset {
+	private String album_id;
+	private String album_title;
+	private Map&amp;lt;String , Object&amp;gt; otherProperties = new HashMap&amp;lt;String , Object&amp;gt;();
+
+	public String getAlbum_id() {
+		return album_id;
+	}
+
+	public void setAlbum_id(String album_id) {
+		this.album_id = album_id;
+	}
+
+	public String getAlbum_title() {
+		return album_title;
+	}
+
+	public void setAlbum_title(String album_title) {
+		this.album_title = album_title;
+	}
+
+	public Object get(String name) {
+		return otherProperties.get(name);
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-serializing-collections.jsp&#34; title=&#34;Serializing Collections&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gson: Convert json to a java object tree</title>
+      <link>http://alimy.me/post/dev_201603122020/</link>
+      <pubDate>Sat, 12 Mar 2016 20:20:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603122020/</guid>
+      <description>&lt;p&gt;In the &lt;a href=&#34;http://alimy.me/post/dev_201603122010&#34; title=&#34;Convert json to a java object&#34;&gt;Earlier&lt;/a&gt; tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&amp;rsquo;s the class&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+public class ParseTreeExample6 {
+	public static void main(String[] args) throws MalformedURLException, IOException {
+		String url = &amp;quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=5&amp;quot;;
+		String json = IOUtils.toString(new URL(url));
+		JsonParser parser = new JsonParser();
+		// The JsonElement is the root node. It can be an object, array, null or
+		// java primitive.
+		JsonElement element = parser.parse(json);
+		// use the isxxx methods to find out the type of jsonelement. In our
+		// example we know that the root object is the Albums object and
+		// contains an array of dataset objects
+		if (element.isJsonObject()) {
+			JsonObject albums = element.getAsJsonObject();
+			System.out.println(albums.get(&amp;quot;title&amp;quot;).getAsString());
+			JsonArray datasets = albums.getAsJsonArray(&amp;quot;dataset&amp;quot;);
+			for (int i = 0; i &amp;lt; datasets.size(); i++) {
+				JsonObject dataset = datasets.get(i).getAsJsonObject();
+				System.out.println(dataset.get(&amp;quot;album_title&amp;quot;).getAsString());
+			}
+		}
+
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-parse-json-to-java-tree.jsp&#34; title=&#34;Convert json to a java object tree&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gson: parsing json to java token by token</title>
+      <link>http://alimy.me/post/dev_201603122015/</link>
+      <pubDate>Sat, 12 Mar 2016 20:15:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603122015/</guid>
+      <description>&lt;p&gt;In the earlier tutorials we saw how to &lt;a href=&#34;http://alimy.me/post/dev_201603122010&#34; title=&#34;Convert json to a java object&#34;&gt;convert json to a java object&lt;/a&gt;. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&amp;rsquo;s a detailed example.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
+
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+
+public class ParseTokenExample7
+{
+	public static void main(String[] args) throws MalformedURLException, IOException
+	{
+		String url = &amp;quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=1&amp;quot;;
+		String json = IOUtils.toString(new URL(url));
+		// use the reader to read the json to a stream of tokens
+		JsonReader reader = new JsonReader(new StringReader(json));
+		// we call the handle object method to handle the full json object. This
+		// implies that the first token in JsonToken.BEGIN_OBJECT, which is
+		// always true.
+		handleObject(reader);
+	}
+
+	/**
+	 * Handle an Object. Consume the first token which is BEGIN_OBJECT. Within
+	 * the Object there could be array or non array tokens. We write handler
+	 * methods for both. Noe the peek() method. It is used to find out the type
+	 * of the next token without actually consuming it.
+	 *
+	 * @param reader
+	 * @throws IOException
+	 */
+	private static void handleObject(JsonReader reader) throws IOException
+	{
+		reader.beginObject();
+		while (reader.hasNext()) {
+			JsonToken token = reader.peek();
+			if (token.equals(JsonToken.BEGIN_ARRAY))
+				handleArray(reader);
+			else if (token.equals(JsonToken.END_OBJECT)) {
+				reader.endObject();
+				return;
+			} else
+				handleNonArrayToken(reader, token);
+		}
+
+	}
+
+	/**
+	 * Handle a json array. The first token would be JsonToken.BEGIN_ARRAY.
+	 * Arrays may contain objects or primitives.
+	 *
+	 * @param reader
+	 * @throws IOException
+	 */
+	public static void handleArray(JsonReader reader) throws IOException
+	{
+		reader.beginArray();
+		while (true) {
+			JsonToken token = reader.peek();
+			if (token.equals(JsonToken.END_ARRAY)) {
+				reader.endArray();
+				break;
+			} else if (token.equals(JsonToken.BEGIN_OBJECT)) {
+				handleObject(reader);
+			} else if (token.equals(JsonToken.END_OBJECT)) {
+				reader.endObject();
+			} else
+				handleNonArrayToken(reader, token);
+		}
+	}
+
+	/**
+	 * Handle non array non object tokens
+	 *
+	 * @param reader
+	 * @param token
+	 * @throws IOException
+	 */
+	public static void handleNonArrayToken(JsonReader reader, JsonToken token) throws IOException
+	{
+		if (token.equals(JsonToken.NAME))
+			System.out.println(reader.nextName());
+		else if (token.equals(JsonToken.STRING))
+			System.out.println(reader.nextString());
+		else if (token.equals(JsonToken.NUMBER))
+			System.out.println(reader.nextDouble());
+		else
+			reader.skipValue();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-parse-json-token-by-token.jsp&#34; title=&#34;parsing json to java token by token&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gson: Convert json to a java object</title>
+      <link>http://alimy.me/post/dev_201603122010/</link>
+      <pubDate>Sat, 12 Mar 2016 20:10:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603122010/</guid>
+      <description>&lt;p&gt;Google json provides methods to convert the json string to java objects. The Java object may be hierarchical. For this example we consider java objects of non generic type only. Gson uses the name to match the json property to the java field. There are two ways to convert json to java.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Using the com.google.gson.Gson class. Create a new instance of this class and use the method public &lt;T&gt; T fromJson(String json, Class&lt;T&gt; classOfT). classOfT is the java object to which the json is to be converted to.&lt;/li&gt;
+&lt;li&gt;The other way is to use the com.google.gson.GsonBuilder class. This class allows setting up certain features, such as - allowing null serialization or setting up custom serializing policies. Create a GsonBuilder, apply the features and then obtain the Gson class from the builder.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In this tutorial we look at the Gson class to de-serialize json from &lt;a href=&#34;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=5&#34; title=&#34;free music archive&#34;&gt;free music archive&lt;/a&gt;. The main class is the Albums class and it contains the list of Datasets. Each Dataset is one album. The way to approach the problem of deserialization is to build a java class such that the when Gson converts the Java class to JSON, the resultant JSON resembles the one we are trying to parse. Lets see this in action. If you look at the JSON, it starts with a root object that has properties such as title, message, errors, etc.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+title: &amp;quot;Free Music Archive - Albums&amp;quot;,
+message: &amp;quot;&amp;quot;,
+errors: [ ],
+total: &amp;quot;11259&amp;quot;,
+total_pages: 2252,
+page: 1,
+limit: &amp;quot;5&amp;quot;,
+dataset: [
+{
+......
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Lets ignore the dataset for now. Lets just build a java class to hold the root. We call that class Albums. We will make the fields public for brevity, but you might want to make them private and use setters.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Albums {
+	public String title;
+	public String message;
+	public String[] errors = new String[]{};
+	public String total;
+	public int total_pages;
+	public int page;
+	public String limit;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Lets convert this to JSON and see how it looks&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import com.google.gson.Gson;
+
+public class JavaToJsonAndBack {
+
+	public static void main(String[] args) {
+		Albums albums = new Albums();
+		albums.title = &amp;quot;Free Music Archive - Albums&amp;quot;;
+		albums.message = &amp;quot;&amp;quot;;
+		albums.total = &amp;quot;11259&amp;quot;;
+		albums.total_pages = 2252;
+		albums.page = 1;
+		albums.limit = &amp;quot;5&amp;quot;;
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		System.out.println(gson.toJson(albums));
+
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is how the resulting JSON looks like&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{&amp;quot;title&amp;quot;:&amp;quot;Free Music Archive - Albums&amp;quot;,&amp;quot;message&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;errors&amp;quot;:[],
+&amp;quot;total&amp;quot;:&amp;quot;11259&amp;quot;,&amp;quot;total_pages&amp;quot;:2252,&amp;quot;page&amp;quot;:1,&amp;quot;limit&amp;quot;:&amp;quot;5&amp;quot;}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is a good beginning. Notice how we initialized errors to an empty array. Otherwise Gson would think its null and either ignore it or print null if we allow null serialization. In this case, it looks like we are better off with using a List for errors. Lets change the errors variable to&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public List&amp;lt;String&amp;gt; errors = new ArrayList&amp;lt;String&amp;gt;();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We have used a GsonBuilder since that allows us to customize the conversion. we will see its benefit later in the example. The next step is to build a class for the dataset. Lets see how the dataset JSON looks&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dataset: [
+{
+album_id: &amp;quot;7596&amp;quot;,
+album_title: &amp;quot;!!! - Live @ KEXP 7/24/2010&amp;quot;,
+......
+album_images: [
+{
+image_id: &amp;quot;10574&amp;quot;,
+user_id: null,
+.....
+}
+],
+tags: [ ]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For this tutorial we will be considering only some fields from &amp;lsquo;dataset&amp;rsquo; and &amp;lsquo;album_images&amp;rsquo;. The other fields can be added similarly. The dataset contains an array of album and each album contains, besides other fields, an array of album_images. We build a java class for each JSON object. We have already built a java class for albums. Now lets built classes for dataset and album_image.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Dataset {
+	public String album_id;
+	public String album_title;
+}
+
+class AlbumImages {
+	public String image_id;
+	public String user_id;
+}
+Lets create a Dataset.
+Dataset dataset = new Dataset();
+dataset.album_id = &amp;quot;7596&amp;quot;;
+dataset.album_title = &amp;quot;Album 1&amp;quot;;
+System.out.println(gson.toJson(dataset));
+the json
+{&amp;quot;album_id&amp;quot;:&amp;quot;7596&amp;quot;,&amp;quot;album_title&amp;quot;:&amp;quot;Album 1&amp;quot;}
+The album image
+AlbumImages image = new AlbumImages();
+image.image_id = &amp;quot;1&amp;quot;;
+System.out.println(gson.toJson(image));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The album image json&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{&amp;quot;image_id&amp;quot;:&amp;quot;1&amp;quot;}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;See how gson has not printed user_id since its null. We need to be able to tell json to serialize null fields too. GsonBuilder helps us do that&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;builder.serializeNulls();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The album image json now looks like this&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{&amp;quot;image_id&amp;quot;:&amp;quot;1&amp;quot;,&amp;quot;user_id&amp;quot;:null}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Lets now wire up the dataset into the albums class and the AlbumImage into the dataset class. To the Albums class we add the List of Dataset&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;List&amp;lt;Dataset&amp;gt; dataset  = new ArrayList&amp;lt;Dataset&amp;gt;();
+To the Dataset class we add a List of images
+List&amp;lt;AlbumImages&amp;gt; images = new ArrayList&amp;lt;AlbumImages&amp;gt;();
+Lets change the main method to add dataset to the album and image to the dataset
+dataset.images.add(image);
+albums.dataset.add(dataset);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here&amp;rsquo;s how our JSON looks now&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{&amp;quot;title&amp;quot;:&amp;quot;Free Music Archive - Albums&amp;quot;,&amp;quot;message&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;errors&amp;quot;:[],&amp;quot;total&amp;quot;:&amp;quot;11259&amp;quot;,
+&amp;quot;total_pages&amp;quot;:2252,&amp;quot;page&amp;quot;:1,&amp;quot;limit&amp;quot;:&amp;quot;5&amp;quot;,
+&amp;quot;dataset&amp;quot;:[{&amp;quot;album_id&amp;quot;:&amp;quot;7596&amp;quot;,&amp;quot;album_title&amp;quot;:&amp;quot;Album 1&amp;quot;,
+&amp;quot;images&amp;quot;:[{&amp;quot;image_id&amp;quot;:&amp;quot;1&amp;quot;,&amp;quot;user_id&amp;quot;:null}]}]}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Lets turn on pretty printing so that our JSON looks better. However, we do that only during developement. If you are actually designing a server that provides JSON data, then make the JSON as compact as possible.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;builder.setPrettyPrinting().serializeNulls();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here&amp;rsquo;s our formatted JSON now&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;title&amp;quot;: &amp;quot;Free Music Archive - Albums&amp;quot;,
+  &amp;quot;message&amp;quot;: &amp;quot;&amp;quot;,
+  &amp;quot;errors&amp;quot;: [],
+  &amp;quot;total&amp;quot;: &amp;quot;11259&amp;quot;,
+  &amp;quot;total_pages&amp;quot;: 2252,
+  &amp;quot;page&amp;quot;: 1,
+  &amp;quot;limit&amp;quot;: &amp;quot;5&amp;quot;,
+  &amp;quot;dataset&amp;quot;: [
+    {
+      &amp;quot;album_id&amp;quot;: &amp;quot;7596&amp;quot;,
+      &amp;quot;album_title&amp;quot;: &amp;quot;Album 1&amp;quot;,
+      &amp;quot;images&amp;quot;: [
+        {
+          &amp;quot;image_id&amp;quot;: &amp;quot;1&amp;quot;,
+          &amp;quot;user_id&amp;quot;: null
+        }
+      ]
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This looks good, however we want to change the name of the &amp;lsquo;images&amp;rsquo; element in dataset to &amp;lsquo;album_images&amp;rsquo;. Lets assume we cant change the java name because it follows the java naming policy. We can use annotation on the field to specify the json name to use for a particular java property. Here&amp;rsquo;s how to do that&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@SerializedName(&amp;quot;album_images&amp;quot;)
+List&amp;lt;AlbumImages&amp;gt; images = new ArrayList&amp;lt;AlbumImages&amp;gt;();
+our JSON now contains the name &#39;album_images&#39;
+&amp;quot;dataset&amp;quot;: [
+    {
+      &amp;quot;album_id&amp;quot;: &amp;quot;7596&amp;quot;,
+      &amp;quot;album_title&amp;quot;: &amp;quot;Album 1&amp;quot;,
+      &amp;quot;album_images&amp;quot;: [
+        {
+          &amp;quot;image_id&amp;quot;: &amp;quot;1&amp;quot;,
+     .........
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you dont want to bind your java class to GSON then there is another way to do this. Lets add one more field to the AlbumImage class. We call it albumId. However, we want to name the field album_id in the JSON. To do that we need to specify a NamingStrategy in the GsonBuilder.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;builder.setFieldNamingStrategy(new FieldNamingStrategy() {
+
+			@Override
+			public String translateName(Field f) {
+				if (f.getName().equals(&amp;quot;albumId&amp;quot;))
+					return &amp;quot;album_id&amp;quot;;
+				else
+					return f.getName();
+			}
+		});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The translateName method is called for all fields and if the name matches albumId we convert the name to album_id and send it back otherwise we send the default. the album_images element now looks like this&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; &amp;quot;album_images&amp;quot;: [
+        {
+          &amp;quot;image_id&amp;quot;: &amp;quot;1&amp;quot;,
+          &amp;quot;user_id&amp;quot;: null,
+          &amp;quot;album_id&amp;quot;: &amp;quot;10&amp;quot;
+        }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;GsonBuilder provides a lot of other customization. You can disable HTML escaping, exclude fields with specific modifiers (e.g. exclude all protected fields), set custom type adapters, set exclusion policies etc. Look at the GsonBuilder JavaDoc for the complete list. You can now use the Albums class and parse the JSON using the fromJson method (you will have to add the other properties)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// url is the free music archive url.
+Albums albums = gson.fromJson(IOUtils.toString(new URL(url)), Albums.class);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Before we close the tutorial lets look at the complete class. we would appreciate if you could &amp;lsquo;Like us&amp;rsquo; on Facebook and &amp;lsquo;Follow us&amp;rsquo; on Google. The Albums class&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Albums {
+	public String title;
+	public String message;
+	public List errors = new ArrayList();
+	public String total;
+	public int total_pages;
+	public int page;
+	public String limit;
+	List dataset = new ArrayList();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The Dataset class&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Dataset {
+	public String album_id;
+	public String album_title;
+	@SerializedName(&amp;quot;album_images&amp;quot;)
+	List&amp;lt;&amp;lt;AlbumImages&amp;gt; images = new ArrayList&amp;lt;AlbumImages&amp;gt;();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The AlbumImage class&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class AlbumImages {
+	public String image_id;
+	public String user_id;
+	public String albumId;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The main method&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public static void main(String[] args) {
+		Albums albums = new Albums();
+		albums.title = &amp;quot;Free Music Archive - Albums&amp;quot;;
+		albums.message = &amp;quot;&amp;quot;;
+		albums.total = &amp;quot;11259&amp;quot;;
+		albums.total_pages = 2252;
+		albums.page = 1;
+		albums.limit = &amp;quot;5&amp;quot;;
+		GsonBuilder builder = new GsonBuilder();
+		builder.setPrettyPrinting().serializeNulls();
+		builder.setFieldNamingStrategy(new FieldNamingStrategy() {
+
+			@Override
+			public String translateName(Field f) {
+				if (f.getName().equals(&amp;quot;albumId&amp;quot;))
+					return &amp;quot;album_id&amp;quot;;
+				else
+					return f.getName();
+			}
+		});
+		Gson gson = builder.create();
+
+		Dataset dataset = new Dataset();
+		dataset.album_id = &amp;quot;7596&amp;quot;;
+		dataset.album_title = &amp;quot;Album 1&amp;quot;;
+
+		AlbumImages image = new AlbumImages();
+		image.image_id = &amp;quot;1&amp;quot;;
+		image.albumId = &amp;quot;10&amp;quot;;
+		dataset.images.add(image);
+		albums.dataset.add(dataset);
+
+		System.out.println(gson.toJson(albums));
+
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-parse-json-to-java.jsp&#34; title=&#34;Convert json to a java object&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gson: Introduction</title>
+      <link>http://alimy.me/post/dev_201603122005/</link>
+      <pubDate>Sat, 12 Mar 2016 20:05:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603122005/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/google/gson&#34; title=&#34;Gson@github&#34;&gt;google json&lt;/a&gt; - gson is an open source java api for parsing and building json. It has extensive support for java generics. It also provides support for converting third party classes to json. It can be used to serialize and deserialize complex objects with deep hierarchies that may contain generic classes. In these tutorials we demonstrate, with examples, the following functionalities of gson.&lt;/p&gt;
+
+&lt;p&gt;Gson 2.3: Look at &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-new-2.3.jsp&#34; title=&#34;gson tutorial&#34;&gt;this tutorial&lt;/a&gt; to see the
+latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new methods in JsonArray)&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603122010&#34; title=&#34;Java to JSON and Back - Data Binding&#34;&gt;Java to JSON and Back - Data Binding&lt;/a&gt; - In this example we look at how to bind a Json to a java object. Gson is quite powerful when it comes to binding a json to Java since it has a lot of built in serializers and deserializers. A serializer has code that helps in converting a Json string to corresponding java type. For example if you have an array in JSON (elements enclosed in &amp;lsquo;[&amp;rsquo; and &amp;lsquo;]&amp;rsquo;) and you want to convert that to a Java array then Gson would internally use an ArrayTypeAdapter to convert the Json Array to Java Array and back. If you are looking at Gson primarily to parse JSON then we would suggest that you start with a simple Java class, convert that to JSON and make sure it looks like the JSON that you want to parse. You can then gradually start adding complexities to the java class and at each step convert it to a JSON and ensure that the JSON is similar to the one that you are trying to parse. It is good to think of parsing a JSON as creating a java class that can give you the JSON that you want to parse. Also note that you have certain flexibility while creating the java object. You could represent a Json Array as a Java array or a Java List. The choice may be driven more by how you want to use the class. If you map a Json property to a java array Gson would use an Array adapter but if you map it to a List it would use the collection adapter and you, the user, does not have to worry about that. Gson also handles null gracefully&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603122015&#34; title=&#34;Java to JSON and Back - Streaming&#34;&gt;Java to JSON and Back - Streaming&lt;/a&gt; - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603122020&#34; title=&#34;Java to JSON and Back - Tree representation&#34;&gt;Java to JSON and Back - Tree representation&lt;/a&gt; - The first two examples look at how to convert JSON to Java using data binding and a Streaming API. This tutorial explains a third way to parse JSON, i.e. by building a Java tree representation of the JSON. The nodes of the tree may either be a JsonObject or a JsonArray. The JsonObject has methods to retrive the key-value pairs of the JSON. The JsonArray provides way to iterate over the elements of the array which are themselves either a JsonObject or a JsonArray.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603122022&#34; title=&#34;Serializing a list&#34;&gt;Serializing a list&lt;/a&gt; - Serializing Collections require special treatment since the Collections are of generic type and the type information is lost while converting to JSON due to java type erasure. Gson handles this by embedding the type in the serialized json. This tutorial explains how to do that.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603122025&#34; title=&#34;Serializing and deserializing Java Generic Classes&#34;&gt;Serializing and deserializing Java Generic Classes&lt;/a&gt; - In the first example we saw how to bind a java Object to JSON. However, the example there did not show how Gson can handle classes with generic type. In this example we see how a class with a generic type can be handled. the idea is to embed the type information in the json itself so that Gson can recreate the Java Object along with the correct generic type while deserializing the JSON.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603122028&#34; title=&#34;Serializing Inner Classes&#34;&gt;Serializing Inner Classes&lt;/a&gt; - GSON provides ways to serialize inner classes. The example in this tutorial explains the following:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Serializing class containing static nested class&lt;/li&gt;
+&lt;li&gt;Serializing class containing non static nested class (Inner class)&lt;/li&gt;
+&lt;li&gt;De-serializing json to a class containing static and non static inner class&lt;/li&gt;
+&lt;li&gt;Serializing static nested class (without the enclosing type)&lt;/li&gt;
+&lt;li&gt;Serializing non static nested class (without the enclosing type)&lt;/li&gt;
+&lt;li&gt;De-serializing json to a static nested class (without the enclosing type)&lt;/li&gt;
+&lt;li&gt;De-serializing json to a non static nested class (without the enclosing type)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603122030&#34; title=&#34;Using Custom type adapters&#34;&gt;Using Custom type adapters&lt;/a&gt; - GSON provides pre definied type adapters that are called when serializing or deserializing certain java types. For example an ArrayTypeAdapter is called when Gson encounters a Java Array that needs to be converted to JSON. In most cases the TypeAdapters provided by GSON would suffice, however in certain cases you may want to write your own adapters. There are two reasons for doing that i) You want to change the default behavious ii) GSON does not provide adapter for your class.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603122035&#34; title=&#34;Using Custom Serialization and Deserialization classes&#34;&gt;Using Custom Serialization and Deserialization classes&lt;/a&gt; - In the previous example we saw how JSON provides a way to write a custom adapter. In this example we see how to write a custom serializer or deserializer.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603122040&#34; title=&#34;Excluding certain fields from Java classes&#34;&gt;Excluding certain fields from Java classes&lt;/a&gt; - Your java class may be used by various other layers of the application. In some cases your java class may have properties that you want GSON to ignore from serialization. This example provides three ways to exclude properties from serialization and de serialization.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Custom annotations&lt;/li&gt;
+&lt;li&gt;Using custom Exclusion Strategies&lt;/li&gt;
+&lt;li&gt;Using @Expose annotation&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-introduction.jsp&#34; title=&#34;Java Google Json Introduction&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Jackson: Json Polymorphism</title>
@@ -739,1549 +2052,6 @@ to do this&lt;/p&gt;
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-jackson-Serialization-list.jsp&#34; title=&#34;jackson List serialization&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Jackson: Json Data Binding</title>
-      <link>http://alimy.me/post/dev_201603112040/</link>
-      <pubDate>Fri, 11 Mar 2016 20:40:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603112040/</guid>
-      <description>
-
-&lt;p&gt;A thing that most java developers love to deal with is &amp;hellip;. Java POJO. Wouldn&amp;rsquo;t you love a black box where you can see JSON string entering from one side and POJOs coming out from the other. That&amp;rsquo;s what Jackson data binding does. This can be best explained by an example. We use the json from free music archive. It has an API to get latest albums in the form of JSON. we would read that json string (Click on this link to see the json) into Albums object. The Albums object contains an array of Dataset.&lt;/p&gt;
-
-&lt;p&gt;Here&amp;rsquo;s how The JSON to Java conversion works&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;The first step is to create the Java class that would hold the JSON data. Look at the json. we create an Albums object to hold the entire json. The json contains an array of &amp;lsquo;dataset&amp;rsquo; elements. We create a Java Object of type DataSet and in the Albums object we create a dataset property that is an array of type DataSet.&lt;/li&gt;
-&lt;li&gt;Create an instance of the com.fasterxml.jackson.databind.ObjectMapper class. This is the class that maps a JSON to a Java Object.&lt;code&gt;ObjectMapper mapper = new ObjectMapper();&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;We use the &lt;em&gt;readValue&lt;/em&gt; method of the ObjectMapper to read. There are multiple versions of this method and we use the method that takes in a URL. However, there are method that read from a file, inputstream, String or a ByteArray.&lt;/li&gt;
-&lt;li&gt;The ObjectMapper caches serializers and deserializers so it would be a good idea to reuse an ObjectMapper instance for multiple conversions&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;If you have an InputStream then pass it to Jackson as such and do not wrap it in InputStreamReader for performance reasons.&lt;/p&gt;
-
-&lt;h3 id=&#34;data-binding-example:8bc1c18631645e9b29be4de3b97e5ac6&#34;&gt;Data Binding Example&lt;/h3&gt;
-
-&lt;h4 id=&#34;databinding:8bc1c18631645e9b29be4de3b97e5ac6&#34;&gt;Databinding&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-public class DataBinding1 {
-	public static void main(String[] args) throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		String url = &amp;quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=2&amp;quot;;
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		Albums albums = mapper.readValue(new URL(url), Albums.class);
-		Dataset[] datasets = albums.getDataset();
-		for (Dataset dataset : datasets) {
-			System.out.println(dataset.getAlbum_title());
-		}
-	}
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We have disabled the feature that causes the mapper to break if it encounters an unknown property. Therefore, if the json has 10 properties and you define only two in your bean, then the other 8 will be ignored.&lt;/p&gt;
-
-&lt;h4 id=&#34;the-albums-class:8bc1c18631645e9b29be4de3b97e5ac6&#34;&gt;The Albums class&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-
-public class Albums {
-
-	private String title;
-	private Dataset[] dataset;
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public void setDataset(Dataset[] dataset) {
-		this.dataset = dataset;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public Dataset[] getDataset() {
-		return dataset;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;dataset-class:8bc1c18631645e9b29be4de3b97e5ac6&#34;&gt;Dataset class&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class Dataset {
-	private String album_id;
-	private String album_title;
-	private Map&amp;lt;String , Object&amp;gt; otherProperties = new HashMap&amp;lt;String , Object&amp;gt;();
-
-	public String getAlbum_id() {
-		return album_id;
-	}
-
-	public void setAlbum_id(String album_id) {
-		this.album_id = album_id;
-	}
-
-	public String getAlbum_title() {
-		return album_title;
-	}
-
-	public void setAlbum_title(String album_title) {
-		this.album_title = album_title;
-	}
-
-	public Object get(String name) {
-		return otherProperties.get(name);
-	}
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-jackson-Data-Binding.jsp&#34; title=&#34;Jackson - Data Binding&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Jackson: build java tree model from json</title>
-      <link>http://alimy.me/post/dev_201603112035/</link>
-      <pubDate>Fri, 11 Mar 2016 20:35:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603112035/</guid>
-      <description>&lt;p&gt;Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Iterator;
-
-import org.apache.commons.io.IOUtils;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-public class TreeModelParser1 {
-	public static void main(String[] args) throws MalformedURLException, IOException {
-		// Get a list of albums from free music archive. limit the results to 5
-		String url = &amp;quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=2&amp;quot;;
-		// Get the contents of json as a string using commons IO IOUTils class.
-		String genreJson = IOUtils.toString(new URL(url));
-
-		// create an ObjectMapper instance.
-		ObjectMapper mapper = new ObjectMapper();
-		// use the ObjectMapper to read the json string and create a tree
-		JsonNode node = mapper.readTree(genreJson);
-
-		// lets see what type the node is
-		System.out.println(node.getNodeType()); // prints OBJECT
-		// is it a container
-		System.out.println(node.isContainerNode()); // prints true
-		// lets find out what fields it has
-		Iterator&amp;lt;String&amp;gt; fieldNames = node.fieldNames();
-		while (fieldNames.hasNext()) {
-			String fieldName = fieldNames.next();
-			System.out.println(fieldName);// prints title, message, errors,
-											// total,
-											// total_pages, page, limit, dataset
-		}
-
-		// we now know what elemets the container has. lets get the value for
-		// one of them
-		System.out.println(node.get(&amp;quot;title&amp;quot;).asText()); // prints
-														// &amp;quot;Free Music Archive&amp;quot;.
-
-		// Lets look at the dataset now.
-		JsonNode dataset = node.get(&amp;quot;dataset&amp;quot;);
-
-		// what is its type?
-		System.out.println(dataset.getNodeType()); // Prints ARRAY
-
-		// so the dataset is an array. Lets iterate through the array and see
-		// what each of the elements are
-		Iterator&amp;lt;JsonNode&amp;gt; datasetElements = dataset.iterator();
-		while (datasetElements.hasNext()) {
-			JsonNode datasetElement = datasetElements.next();
-			// what is its type
-			System.out.println(datasetElement.getNodeType());// Prints Object
-			// it is again a container . what are the elements ?
-			Iterator&amp;lt;String&amp;gt; datasetElementFields = datasetElement.fieldNames();
-			while (datasetElementFields.hasNext()) {
-				String datasetElementField = datasetElementFields.next();
-				System.out.println(datasetElementField); // prints album_id,
-															// album_title,
-															// album_handle,
-															// album_url,
-															// album_type,
-															// artist_name,
-															// artist_url,
-															// album_producer,
-															// album_engineer,
-															// album_information,
-															// album_date_released,
-															// album_comments,
-															// album_favorites,
-															// album_tracks,
-															// album_listens,
-															// album_date_created,
-															// album_image_file,
-															// album_images
-
-			}
-			// break from the loop, since we just want to see the structure
-			break;
-
-		}
-
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Lets look at another example that shows the use of the path method. The path method is similar to the get() method but if the node does not exist, it does not return null but returns an object of type MissingNode&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Iterator;
-
-import org.apache.commons.io.IOUtils;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-public class TreeModelParser2 {
-	public static void main(String[] args) throws MalformedURLException, IOException {
-		// Get a list of albums from free music archive. limit the results to 5
-		String url = &amp;quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=10&amp;quot;;
-		// Get the contents of json as a string using commons IO IOUTils class.
-		String genreJson = IOUtils.toString(new URL(url));
-
-		// create an ObjectMapper instance.
-		ObjectMapper mapper = new ObjectMapper();
-		// use the ObjectMapper to read the json string and create a tree
-		JsonNode node = mapper.readTree(genreJson);
-
-		// not the use of path. this does not cause the code to break if the
-		// code does not exist
-		Iterator&amp;lt;JsonNode&amp;gt; albums = node.path(&amp;quot;dataset&amp;quot;).iterator();
-		while (albums.hasNext()) {
-			System.out.println(albums.next().path(&amp;quot;album_title&amp;quot;));
-		}
-
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-jackson-json-tree-parsing.jsp&#34; title=&#34;build java tree model from json&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Jackson: json and java - Streaming</title>
-      <link>http://alimy.me/post/dev_201603112030/</link>
-      <pubDate>Fri, 11 Mar 2016 20:30:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603112030/</guid>
-      <description>
-
-&lt;h3 id=&#34;streaming-parser-and-generator:6aa21e9855db39cd085c6c3608dd23fc&#34;&gt;Streaming Parser and Generator&lt;/h3&gt;
-
-&lt;p&gt;Jackson provides a low level API to parse json string. The API provides token for each json object. For example, the start of json &amp;lsquo;{&amp;rsquo; is the first object that the parser provides. The key value pair is another single object. The client code can use the tokens and get the json properties or build a java object out of it if required. This low level API is extremely powerful but needs a lot of coding. For most cases, Jackson&amp;rsquo;s tree traversing and data binding capability should be explored instead. We provide two examples below. The first example demonstrates json parsing and the second demonstrated json generation.&lt;/p&gt;
-
-&lt;h3 id=&#34;json-parsing-example:6aa21e9855db39cd085c6c3608dd23fc&#34;&gt;Json Parsing Example&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-
-/**
- * The aim of this class is to get the list of albums from free music archive
- * (limit to 5)
- *
- */
-public class StreamParser1 {
-    public static void main(String[] args) throws MalformedURLException, IOException {
-        // Get a list of albums from free music archive. limit the results to 5
-        String url = &amp;quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=5&amp;quot;;
-        // get an instance of the json parser from the json factory
-        JsonFactory factory = new JsonFactory();
-        JsonParser parser = factory.createParser(new URL(url));
-
-        // continue parsing the token till the end of input is reached
-        while (!parser.isClosed()) {
-            // get the token
-            JsonToken token = parser.nextToken();
-            // if its the last token then we are done
-            if (token == null)
-                break;
-            // we want to look for a field that says dataset
-
-            if (JsonToken.FIELD_NAME.equals(token) &amp;amp;&amp;amp; &amp;quot;dataset&amp;quot;.equals(parser.getCurrentName())) {
-                // we are entering the datasets now. The first token should be
-                // start of array
-                token = parser.nextToken();
-                if (!JsonToken.START_ARRAY.equals(token)) {
-                    // bail out
-                    break;
-                }
-                // each element of the array is an album so the next token
-                // should be {
-                token = parser.nextToken();
-                if (!JsonToken.START_OBJECT.equals(token)) {
-                    break;
-                }
-                // we are now looking for a field that says &amp;quot;album_title&amp;quot;. We
-                // continue looking till we find all such fields. This is
-                // probably not a best way to parse this json, but this will
-                // suffice for this example.
-                while (true) {
-                    token = parser.nextToken();
-                    if (token == null)
-                        break;
-                    if (JsonToken.FIELD_NAME.equals(token) &amp;amp;&amp;amp; &amp;quot;album_title&amp;quot;.equals(parser.getCurrentName())) {
-                        token = parser.nextToken();
-                        System.out.println(parser.getText());
-                    }
-
-                }
-
-            }
-
-        }
-
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;json-generation-example:6aa21e9855db39cd085c6c3608dd23fc&#34;&gt;Json Generation Example&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-
-/**
- *
- * In This example we look at generating a json using the jsongenerator. we will
- * be creating a json similar to
- * http://freemusicarchive.org/api/get/albums.json?
- * api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=1, but use only a couple of fields
- *
- */
-public class StreamGenerator1 {
-    public static void main(String[] args) throws IOException {
-        JsonFactory factory = new JsonFactory();
-        JsonGenerator generator = factory.createGenerator(new FileWriter(new File(&amp;quot;albums.json&amp;quot;)));
-
-        // start writing with {
-        generator.writeStartObject();
-        generator.writeFieldName(&amp;quot;title&amp;quot;);
-        generator.writeString(&amp;quot;Free Music Archive - Albums&amp;quot;);
-        generator.writeFieldName(&amp;quot;dataset&amp;quot;);
-        // start an array
-        generator.writeStartArray();
-        generator.writeStartObject();
-        generator.writeStringField(&amp;quot;album_title&amp;quot;, &amp;quot;A.B.A.Y.A.M&amp;quot;);
-        generator.writeEndObject();
-        generator.writeEndArray();
-        generator.writeEndObject();
-
-        generator.close();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-jackson-json-streaming.jsp&#34; title=&#34;json and java - Streaming&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Jackson: Java to JSON and back</title>
-      <link>http://alimy.me/post/dev_201603112025/</link>
-      <pubDate>Fri, 11 Mar 2016 20:25:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603112025/</guid>
-      <description>
-
-&lt;h3 id=&#34;creating-json-from-java:627c82fc263a42c0c87ad3244752e285&#34;&gt;Creating JSON from Java&lt;/h3&gt;
-
-&lt;p&gt;Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Album {
-    private String title;
-
-    public Album(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;we use the ObjectMapper to convert the Object to JSON. By Default Jackson would use BeanSerializer to serialize the POJO. Here&amp;rsquo;s how our serializer Example looks so far. Note that the bean should have getters for private properties or the property should be public Here&amp;rsquo;s how the JSON looks&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;title&amp;quot;:&amp;quot;Kind Of Blue&amp;quot;}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Lets add an array of links to the album (along with their getters and setters) These could be links to the press releases or album reviews.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;private String[] links;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In the main method add this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;album.setLinks(new String[] { &amp;quot;link1&amp;quot;, &amp;quot;link2&amp;quot; });
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is how the JSON looks now. Note that the array is converted to a JSON array. (enclosed within &amp;lsquo;[&amp;rsquo; and &amp;lsquo;]&amp;rsquo;)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;title&amp;quot;:&amp;quot;Kind Of Blue&amp;quot;,&amp;quot;links&amp;quot;:[&amp;quot;link1&amp;quot;,&amp;quot;link2&amp;quot;]}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Next we add a List of Songs to the Album.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;List&amp;lt;String&amp;gt;&amp;gt; Songs = new ArrayList&amp;lt;String&amp;gt;();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Add the list to the Albums Object&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;List&amp;lt;String&amp;gt; songs = new ArrayList&amp;lt;String&amp;gt;();
-songs.add(&amp;quot;So What&amp;quot;);
-songs.add(&amp;quot;Flamenco Sketches&amp;quot;);
-songs.add(&amp;quot;Freddie Freeloader&amp;quot;);
-album.setSongs(songs);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The resulting json looks like this. Note that the List is also converted to an array. You can learn more about List Serialization in this tutorial.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;title&amp;quot;:&amp;quot;Kind Of Blue&amp;quot;,&amp;quot;links&amp;quot;:[&amp;quot;link1&amp;quot;,&amp;quot;link2&amp;quot;],
-&amp;quot;songs&amp;quot;:[&amp;quot;So What&amp;quot;,&amp;quot;Flamenco Sketches&amp;quot;,&amp;quot;Freddie Freeloader&amp;quot;]}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Next, lets add an artist to the Album. Artist is a class that contains the artist name and his birthdate represented by a Date instance. Note that Artist is an object and hence is enclosed in JSON by &amp;lsquo;{&amp;rsquo; and &amp;lsquo;}&amp;rsquo;. These brackers are JSON representation of objects and contains key value pairs. For brevity we declare the Artist properties as public.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Artist {
-    public String name;
-    public Date birthDate;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Lets add an Artist to the album&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Artist artist = new Artist();
-artist.name = &amp;quot;Miles Davis&amp;quot;;
-SimpleDateFormat format = new SimpleDateFormat(&amp;quot;dd-MM-yyyy&amp;quot;);
-artist.birthDate = format.parse(&amp;quot;26-05-1926&amp;quot;);
-album.setArtist(artist);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The JSON&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;title&amp;quot;:&amp;quot;Kind Of Blue&amp;quot;,&amp;quot;links&amp;quot;:[&amp;quot;link1&amp;quot;,&amp;quot;link2&amp;quot;],
-&amp;quot;songs&amp;quot;:[&amp;quot;So What&amp;quot;,&amp;quot;Flamenco Sketches&amp;quot;,&amp;quot;Freddie Freeloader&amp;quot;],
-&amp;quot;artist&amp;quot;:{&amp;quot;name&amp;quot;:&amp;quot;Miles Davis&amp;quot;,&amp;quot;birthDate&amp;quot;:-1376027600000}}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To make JSON visually more readable we add this line. Note that this should not be done for production systems, but only during testing or development since this would increase the size of the json.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The JSON now looks well formatted&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{
-  &amp;quot;title&amp;quot; : &amp;quot;Kind Of Blue&amp;quot;,
-  &amp;quot;links&amp;quot; : [ &amp;quot;link1&amp;quot; , &amp;quot;link2&amp;quot; ],
-  &amp;quot;songs&amp;quot; : [ &amp;quot;So What&amp;quot;, &amp;quot;Flamenco Sketches&amp;quot;, &amp;quot;Freddie Freeloader&amp;quot; ],
-  &amp;quot;artist&amp;quot; : {
-    &amp;quot;name&amp;quot; : &amp;quot;Miles Davis&amp;quot;,
-    &amp;quot;birthDate&amp;quot; : -1376027600000
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;we now add a map of musicians and the instrument they play in the album.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;private Map&amp;lt;String,String&amp;gt; musicians = new HashMap&amp;lt;String, String&amp;gt;();
-public Map&amp;lt;String, String&amp;gt; getMusicians() {
-        return Collections.unmodifiableMap(musicians);
-}
-public void addMusician(String key, String value){
-        musicians.put(key, value);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;and in the main class&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;album.addMusician(&amp;quot;Miles Davis&amp;quot;, &amp;quot;Trumpet, Band leader&amp;quot;);
-album.addMusician(&amp;quot;Julian Adderley&amp;quot;, &amp;quot;Alto Saxophone&amp;quot;);
-album.addMusician(&amp;quot;Paul Chambers&amp;quot;, &amp;quot;double bass&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The json&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{
-  &amp;quot;title&amp;quot; : &amp;quot;Kind Of Blue&amp;quot;,
-  &amp;quot;links&amp;quot; : [ &amp;quot;link1&amp;quot;, &amp;quot;link2&amp;quot; ],
-  &amp;quot;songs&amp;quot; : [ &amp;quot;So What&amp;quot;, &amp;quot;Flamenco Sketches&amp;quot;, &amp;quot;Freddie Freeloader&amp;quot; ],
-  &amp;quot;artist&amp;quot; : {
-    &amp;quot;name&amp;quot; : &amp;quot;Miles Davis&amp;quot;,
-    &amp;quot;birthDate&amp;quot; : -1376027600000
-  },
-  &amp;quot;musicians&amp;quot; : {
-    &amp;quot;Julian Adderley&amp;quot; : &amp;quot;Alto Saxophone&amp;quot;,
-    &amp;quot;Paul Chambers&amp;quot; : &amp;quot;double bass&amp;quot;,
-    &amp;quot;Miles Davis&amp;quot; : &amp;quot;Trumpet, Band leader&amp;quot;
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Lets add some more features to the conversion. we first tell the mapper to arrange the Map by keys using it natural order&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The date has been formatted as the epoch time. Lets format it into a more human readable format&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;SimpleDateFormat outputFormat = new SimpleDateFormat(&amp;quot;dd MMM yyyy&amp;quot;);
-mapper.setDateFormat(outputFormat);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;By default, jackson uses the name of the java field as the name of the json property. You can change that by using annotations as explained in this tutorial. However at times you may not have access to the java bean or you do not want to bind the java bean to a Jackson annotation. In this case jackson provides a way to change the default field name. Use the setPropertyNamingStrategy method on the mapper to set the naming strategy for the field. You need to override either the the nameForField method or the nameForGetterMethod depending on whether you have public field in the bean or a getter in the bean. In our example lets change the &amp;lsquo;title&amp;rsquo; of the album to &amp;lsquo;Album-Title&amp;rsquo; and the &amp;lsquo;name&amp;rsquo; of the artist to &amp;lsquo;Artist-Name&amp;rsquo;. Make this changes to the main method&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;mapper.setPropertyNamingStrategy(new PropertyNamingStrategy() {
-@Override
-public String nameForField(MapperConfig&amp;lt;?&amp;gt; config, AnnotatedField field, String defaultName) {
-   if (field.getFullName().equals(&amp;quot;com.studytrails.json.jackson.Artist#name&amp;quot;))
-        return &amp;quot;Artist-Name&amp;quot;;
-        return super.nameForField(config, field, defaultName);
-}
-
-@Override
-public String nameForGetterMethod(MapperConfig&amp;lt;?&amp;gt; config, AnnotatedMethod method, String defaultName) {
-  if (method.getAnnotated().getDeclaringClass().equals(Album.class) &amp;amp;&amp;amp; defaultName.equals(&amp;quot;title&amp;quot;))
-        return &amp;quot;Album-Title&amp;quot;;
-        return super.nameForGetterMethod(config, method, defaultName);
-  }
-});
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The json now looks like this&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{
-  &amp;quot;Album-Title&amp;quot; : &amp;quot;Kind Of Blue&amp;quot;,
-  &amp;quot;links&amp;quot; : [ &amp;quot;link1&amp;quot;, &amp;quot;link2&amp;quot; ],
-  &amp;quot;songs&amp;quot; : [ &amp;quot;So What&amp;quot;, &amp;quot;Flamenco Sketches&amp;quot;, &amp;quot;Freddie Freeloader&amp;quot; ],
-  &amp;quot;artist&amp;quot; : {
-    &amp;quot;Artist-Name&amp;quot; : &amp;quot;Miles Davis&amp;quot;,
-    &amp;quot;birthDate&amp;quot; : &amp;quot;26 May 1926&amp;quot;
-  },
-  &amp;quot;musicians&amp;quot; : {
-    &amp;quot;Julian Adderley&amp;quot; : &amp;quot;Alto Saxophone&amp;quot;,
-    &amp;quot;Miles Davis&amp;quot; : &amp;quot;Trumpet, Band leader&amp;quot;,
-    &amp;quot;Paul Chambers&amp;quot; : &amp;quot;double bass&amp;quot;
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Let us now see how Jackson handles null. we add three new properties to the Artist class and do not assign values to them. we add age(int), homeTown(String) and awardsWon (String[])&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public int age;
-public String homeTown;
-public List&amp;lt;String&amp;gt; awardsWon = new ArrayList&amp;lt;String&amp;gt;();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here&amp;rsquo;s how they look after converting to json&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;quot;age&amp;quot; : 0,
- &amp;quot;homeTown&amp;quot; : null,
- &amp;quot;awardsWon&amp;quot; : [ ]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;we use this configuration to ignore properties that are empty&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;mapper.setSerializationInclusion(Include.NON_EMPTY);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To explicitely ignore a field use filters are described in this tutorial. Here&amp;rsquo;s the complete example&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.cfg.MapperConfig;
-import com.fasterxml.jackson.databind.introspect.AnnotatedField;
-import com.fasterxml.jackson.databind.introspect.AnnotatedMethod;
-
-public class SerializationExample {
-
-    public static void main(String[] args) throws IOException, ParseException {
-        ObjectMapper mapper = new ObjectMapper();
-        Album album = new Album(&amp;quot;Kind Of Blue&amp;quot;);
-        album.setLinks(new String[] { &amp;quot;link1&amp;quot;, &amp;quot;link2&amp;quot; });
-        List&amp;lt;string&amp;gt; songs = new ArrayList&amp;lt;string&amp;gt;();
-        songs.add(&amp;quot;So What&amp;quot;);
-        songs.add(&amp;quot;Flamenco Sketches&amp;quot;);
-        songs.add(&amp;quot;Freddie Freeloader&amp;quot;);
-        album.setSongs(songs);
-        Artist artist = new Artist();
-        artist.name = &amp;quot;Miles Davis&amp;quot;;
-        SimpleDateFormat format = new SimpleDateFormat(&amp;quot;dd-MM-yyyy&amp;quot;);
-        artist.birthDate = format.parse(&amp;quot;26-05-1926&amp;quot;);
-        album.setArtist(artist);
-        album.addMusician(&amp;quot;Miles Davis&amp;quot;, &amp;quot;Trumpet, Band leader&amp;quot;);
-        album.addMusician(&amp;quot;Julian Adderley&amp;quot;, &amp;quot;Alto Saxophone&amp;quot;);
-        album.addMusician(&amp;quot;Paul Chambers&amp;quot;, &amp;quot;double bass&amp;quot;);
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
-        SimpleDateFormat outputFormat = new SimpleDateFormat(&amp;quot;dd MMM yyyy&amp;quot;);
-        mapper.setDateFormat(outputFormat);
-        mapper.setPropertyNamingStrategy(new PropertyNamingStrategy() {
-            @Override
-            public String nameForField(MapperConfig&amp;lt;!--?--&amp;gt; config, AnnotatedField field, String defaultName) {
-                if (field.getFullName().equals(&amp;quot;com.studytrails.json.jackson.Artist#name&amp;quot;))
-                    return &amp;quot;Artist-Name&amp;quot;;
-                return super.nameForField(config, field, defaultName);
-            }
-
-            @Override
-            public String nameForGetterMethod(MapperConfig&amp;lt;!--?--&amp;gt; config, AnnotatedMethod method, String defaultName) {
-                if (method.getAnnotated().getDeclaringClass().equals(Album.class) &amp;amp;&amp;amp; defaultName.equals(&amp;quot;title&amp;quot;))
-                    return &amp;quot;Album-Title&amp;quot;;
-                return super.nameForGetterMethod(config, method, defaultName);
-            }
-        });
-        mapper.setSerializationInclusion(Include.NON_EMPTY);
-        mapper.writeValue(System.out, album);
-    }
-}
-
-class Album {
-    private String title;
-    private String[] links;
-    private List&amp;lt;string&amp;gt; songs = new ArrayList&amp;lt;string&amp;gt;();
-    private Artist artist;
-    private Map&amp;lt;string ,=&amp;quot;&amp;quot; string=&amp;quot;&amp;quot;&amp;gt; musicians = new HashMap&amp;lt;string ,=&amp;quot;&amp;quot; string=&amp;quot;&amp;quot;&amp;gt;();
-
-    public Album(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setLinks(String[] links) {
-        this.links = links;
-    }
-
-    public String[] getLinks() {
-        return links;
-    }
-
-    public void setSongs(List&amp;lt;string&amp;gt; songs) {
-        this.songs = songs;
-    }
-
-    public List&amp;lt;string&amp;gt; getSongs() {
-        return songs;
-    }
-
-    public void setArtist(Artist artist) {
-        this.artist = artist;
-    }
-
-    public Artist getArtist() {
-        return artist;
-    }
-
-    public Map&amp;lt;string ,=&amp;quot;&amp;quot; string=&amp;quot;&amp;quot;&amp;gt; getMusicians() {
-        return Collections.unmodifiableMap(musicians);
-    }
-
-    public void addMusician(String key, String value) {
-        musicians.put(key, value);
-    }
-}
-
-class Artist {
-    public String name;
-    public Date birthDate;
-    public int age;
-    public String homeTown;
-    public List&amp;lt;string&amp;gt; awardsWon = new ArrayList&amp;lt;string&amp;gt;();
-}
-
-&amp;lt;/string&amp;gt;&amp;lt;/string&amp;gt;&amp;lt;/string&amp;gt;&amp;lt;/string&amp;gt;&amp;lt;/string&amp;gt;&amp;lt;/string&amp;gt;&amp;lt;/string&amp;gt;&amp;lt;/string&amp;gt;&amp;lt;/string&amp;gt;&amp;lt;/string&amp;gt;&amp;lt;/string&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is the first part of the tutorial where we saw how to convert a java object to json. in the next part we see how to build a JSON using a tree approach.&lt;/p&gt;
-
-&lt;h3 id=&#34;creating-json-using-a-tree-model:627c82fc263a42c0c87ad3244752e285&#34;&gt;Creating JSON Using a Tree Model&lt;/h3&gt;
-
-&lt;p&gt;It is also possible to build a json using a simple tree model. This could be useful if you dont want to write classes for your JSON structure. We will use the same example as above i.e. an album that has an array songs, an artist and an array of musicians. To write a tree you need to first do this setup:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Create a JsonNodeFactory to create the nodes&lt;/li&gt;
-&lt;li&gt;Create a JsonGenerator from a JsonFactory and specify the output method. In this method we print to console.&lt;/li&gt;
-&lt;li&gt;Create an ObjectMapper that will use the jsonGenerator and the root node to create the JSON.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;After setting it all up we create a single root node for album. Note that by default the object mapper does not name the root node.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-import java.io.IOException;
-
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-
-public class SerializationExampleTreeModel {
-    public static void main(String[] args) throws IOException {
-        // Create the node factory that gives us nodes.
-        JsonNodeFactory factory = new JsonNodeFactory(false);
-
-        // create a json factory to write the treenode as json. for the example
-        // we just write to console
-        JsonFactory jsonFactory = new JsonFactory();
-        JsonGenerator generator = jsonFactory.createGenerator(System.out);
-        ObjectMapper mapper = new ObjectMapper();
-
-        // the root node - album
-        JsonNode album = factory.objectNode();
-        mapper.writeTree(generator, album);
-
-    }
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This prints&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A lot of lines of code to print two brackets! but lets see how it is to build our json now. We first add the first property of the album i.e. &amp;lsquo;Album-Title&amp;rsquo;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;album.put(&amp;quot;Album-Title&amp;quot;, &amp;quot;Kind Of Blue&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is how our JSON looks now&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;Album-Title&amp;quot;:&amp;quot;Kind Of Blue&amp;quot;}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We now add the links array&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;ArrayNode links = factory.arrayNode();
-links.add(&amp;quot;link1&amp;quot;).add(&amp;quot;link2&amp;quot;);
-album.put(&amp;quot;links&amp;quot;, links);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The JSON&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;Album-Title&amp;quot;:&amp;quot;Kind Of Blue&amp;quot;,&amp;quot;links&amp;quot;:[&amp;quot;link1&amp;quot;,&amp;quot;link2&amp;quot;]}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Next we add the artist object. Note that artist by itself is a JsonObject. we add that to the album.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;ObjectNode artist = factory.objectNode();
-artist.put(&amp;quot;Artist-Name&amp;quot;, &amp;quot;Miles Davis&amp;quot;);
-artist.put(&amp;quot;birthDate&amp;quot;, &amp;quot;26 May 1926&amp;quot;);
-album.put(&amp;quot;artist&amp;quot;, artist);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The JSON&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;Album-Title&amp;quot;:&amp;quot;Kind Of Blue&amp;quot;,&amp;quot;links&amp;quot;:[&amp;quot;link1&amp;quot;,&amp;quot;link2&amp;quot;],
-&amp;quot;artist&amp;quot;:{&amp;quot;Artist-Name&amp;quot;:&amp;quot;Miles Davis&amp;quot;,&amp;quot;birthDate&amp;quot;:&amp;quot;26 May 1926&amp;quot;}}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We not add the musicians. The musicians are not in an array but there is an object of type musicians. We therefore create an object.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;ObjectNode musicians = factory.objectNode();
-musicians.put(&amp;quot;Julian Adderley&amp;quot;, &amp;quot;Alto Saxophone&amp;quot;);
-musicians.put(&amp;quot;Miles Davis&amp;quot;, &amp;quot;Trumpet, Band leader&amp;quot;);
-album.put(&amp;quot;musicians&amp;quot;, musicians);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The JSON&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;Album-Title&amp;quot;:&amp;quot;Kind Of Blue&amp;quot;,&amp;quot;links&amp;quot;:[&amp;quot;link1&amp;quot;,&amp;quot;link2&amp;quot;],
-&amp;quot;artist&amp;quot;:{&amp;quot;Artist-Name&amp;quot;:&amp;quot;Miles Davis&amp;quot;,&amp;quot;birthDate&amp;quot;:&amp;quot;26 May 1926&amp;quot;},
-&amp;quot;musicians&amp;quot;:{&amp;quot;Julian Adderley&amp;quot;:&amp;quot;Alto Saxophone&amp;quot;,&amp;quot;Miles Davis&amp;quot;:&amp;quot;Trumpet, Band leader&amp;quot;}}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can similarly add other elements. If you have multiple albums then you would probably generate an array in a for loop. It would typically be faster to generate JSON from a Java Object.&lt;/p&gt;
-
-&lt;h3 id=&#34;creating-json-stream:627c82fc263a42c0c87ad3244752e285&#34;&gt;Creating JSON Stream&lt;/h3&gt;
-
-&lt;p&gt;Look at &lt;a href=&#34;http://www.studytrails.com/java/json/java-jackson-json-streaming.jsp&#34; title=&#34;json and java - Streaming&#34;&gt;this tutorial&lt;/a&gt; to see an example of generating a JSON stream.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/jackson-create-json.jsp&#34; title=&#34;Java to JSON and back&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Jackson: Introduction</title>
-      <link>http://alimy.me/post/dev_201603112020/</link>
-      <pubDate>Fri, 11 Mar 2016 20:20:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603112020/</guid>
-      <description>
-
-&lt;h3 id=&#34;overview-of-the-jackson-api:10fec90ec27555a816eebd49d4333399&#34;&gt;Overview of The Jackson API&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://wiki.fasterxml.com/JacksonHome&#34; title=&#34;Jackson Api&#34;&gt;Jackson Api&lt;/a&gt; contains a lot of functionalities to read and build json using java. It has very powerful data binding capabilities and provides a framework to serialize custom java objects to json string and deserialize json string back to java objects. Json written with jackson can contain embedded class information that helps in creating the complete object tree during deserialization.&lt;/p&gt;
-
-&lt;h3 id=&#34;creating-json-from-java:10fec90ec27555a816eebd49d4333399&#34;&gt;Creating JSON from JAVA&lt;/h3&gt;
-
-&lt;p&gt;There are three ways to create JSON from JAVA:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;From a Java Object (The Same object can also be then used to read the JSON)&lt;/li&gt;
-&lt;li&gt;From a JsonNode Tree&lt;/li&gt;
-&lt;li&gt;Building a Json Stream&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In the &lt;a href=&#34;http://alimy.me/post/dev_201603112025&#34; title=&#34;Java to JSON and back&#34;&gt;first tutorial&lt;/a&gt; we look at all the three ways of creating JSON. Note that if you are new to Jackson this is probably the best place to begin even if you are looking at a way to parse JSON.&lt;/p&gt;
-
-&lt;h3 id=&#34;parsing-json:10fec90ec27555a816eebd49d4333399&#34;&gt;Parsing JSON&lt;/h3&gt;
-
-&lt;p&gt;The &lt;a href=&#34;http://alimy.me/post/dev_201603112025&#34; title=&#34;Java to JSON and back&#34;&gt;previous tutorial&lt;/a&gt; showed how to convert a java object to JSON. the same java object can then be used to bind the json to java. However, as the author of jackson points out, there are three ways to parse JSON using Jackson.&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603112030&#34; title=&#34;json and java - Streaming&#34;&gt;Streaming&lt;/a&gt; - use the JsonParser to parse the json stream. It provides the json elements as tokens. Use the JsonGenerator to generate the json from string, integer, boolean etc.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603112035&#34; title=&#34;build java tree model from json&#34;&gt;Tree Traversing&lt;/a&gt; - the compete json can be read into a JsonNode. The node can then be traversed to get the required property. A tree can also be created and then written as json string&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603112040&#34; title=&#34;Data Binding&#34;&gt;Data Binding&lt;/a&gt; - Binding the Json to custom java objects (POJO). Jackson offers a lot of flexibility around these. Annotation can be used to mark properties and constructors on the POJO.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Jackson provides certain features that make the API extremely useful and flexible. These features are&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603112045&#34; title=&#34;List Serialization&#34;&gt;List Serialization&lt;/a&gt; - Serialization list can be tricky if type info is to be preserved. Look at this example to see how to do that.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603112050&#34; title=&#34;Annotation and Dynamic beans&#34;&gt;Annotation and Dynamic beans&lt;/a&gt; - Serialize unknown properties of json into a Map in the Java Object.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603112055&#34; title=&#34;Annotation Filters&#34;&gt;Annotation Filters&lt;/a&gt; - While data binding, properties of the POJO can be ignored or filtered out. These filters can be set using annotation on the POJO or by using custom filters in the calling class.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603112100&#34; title=&#34;Mix-in&#34;&gt;Mix-in&lt;/a&gt; - Annotations on POJO can be used to map the POJO properties to Json properties and to also mark constructors for use during data binding. However, what if the POJO is from a third party, and cannot be annotated. Mix-in comes to the rescue. It provides a way to annotate third party classes.&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://alimy.me/post/dev_201603112105&#34; title=&#34;Polymorphic Behaviour&#34;&gt;Polymorphic Behaviour&lt;/a&gt; - If a Json is created using objects that are specific instances of an abstract class, then Jackson provides a way to create the exact subclass&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The subsequent tutorials provides examples for each of the above cases.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-jackson-introduction.jsp&#34; title=&#34;Jackson Introduction&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>XStream: XML Transformation</title>
-      <link>http://alimy.me/post/dev_201603092120/</link>
-      <pubDate>Wed, 09 Mar 2016 21:20:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603092120/</guid>
-      <description>&lt;p&gt;XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
-
-import java.util.ArrayList;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.TraxSource;
-
-public class XStreamTransformationExample {
-	public static void main(String[] args) throws TransformerFactoryConfigurationError, TransformerException {
-		XStreamTransformationExample transformationExample = new XStreamTransformationExample();
-		transformationExample.runTransformation();
-	}
-
-	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
-		XStream xstream = new XStream();
-		xstream.alias(&amp;quot;rss&amp;quot;, Rss2.class);
-		xstream.alias(&amp;quot;item&amp;quot;, Item2.class);
-		Rss2 rss = new Rss2();
-		Channel2 channel = new Channel2();
-		rss.channel = channel;
-		channel.title = &amp;quot;Title&amp;quot;;
-		channel.link = &amp;quot;link&amp;quot;;
-		channel.image = new Image2();
-		channel.image.link = &amp;quot;image link&amp;quot;;
-		Item2 item1 = new Item2();
-		item1.link = &amp;quot;item link&amp;quot;;
-		item1.title = &amp;quot;Item Title&amp;quot;;
-		channel.items = new ArrayList&amp;lt;Item2&amp;gt;();
-		channel.items.add(item1);
-		System.out.println(xstream.toXML(rss));
-
-		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&amp;quot;bbc.xsl&amp;quot;));
-		TraxSource traxSource = new TraxSource(rss, xstream);
-		StreamResult result = new StreamResult(System.out);
-		transformer.transform(traxSource, result);
-
-		// prints the html on console
-
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The XML.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;
-
-			link
-
-				image link
-
-
-
-
-					item link
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The Rss2 and other classes&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
-
-import java.util.Arrays;
-import java.util.List;
-
-public class Rss2 {
-	public Channel2 channel;
-
-	@Override
-	public String toString() {
-		return &amp;quot;Rss [channel=&amp;quot; + channel + &amp;quot;]&amp;quot;;
-	}
-
-}
-
-class Channel2 {
-	public String title;
-	public String link;
-	public String description;
-	public String language;
-	public String lastBuildDate;
-	public String copyright;
-	public Image2 image;
-	public String ttl;
-	public AtomLink a_link;
-	public List items;
-
-	public class AtomLink {
-		public String href;
-		public String rel;
-		public String type;
-
-		@Override
-		public String toString() {
-			return &amp;quot;AtomLink [href=&amp;quot; + href + &amp;quot;, rel=&amp;quot; + rel + &amp;quot;, type=&amp;quot; + type + &amp;quot;]&amp;quot;;
-		}
-
-	}
-
-	@Override
-	public String toString() {
-		return &amp;quot;Channel [title=&amp;quot; + title + &amp;quot;, link=&amp;quot; + link + &amp;quot;, description=&amp;quot; + description + &amp;quot;, language=&amp;quot; + language + &amp;quot;, lastBuildDate=&amp;quot;
-				+ lastBuildDate + &amp;quot;, copyright=&amp;quot; + copyright + &amp;quot;, image=&amp;quot; + image + &amp;quot;, ttl=&amp;quot; + ttl + &amp;quot;, a_link=&amp;quot; + a_link + &amp;quot;, items=&amp;quot; + items + &amp;quot;]&amp;quot;;
-	}
-
-}
-
-class Item2 {
-	public String title;
-	public String description;
-	public String link;
-	public String guid;
-	public String pubDate;
-	public MediaThumbnail[] media_thumbnails;
-
-	@Override
-	public String toString() {
-		return &amp;quot;Item [title=&amp;quot; + title + &amp;quot;, link=&amp;quot; + link + &amp;quot;, guid=&amp;quot; + guid + &amp;quot;, pubDate=&amp;quot; + pubDate + &amp;quot;, media_thumbnails=&amp;quot;
-				+ Arrays.toString(media_thumbnails) + &amp;quot;]&amp;quot;;
-	}
-
-	public class MediaThumbnail {
-		public int width;
-		public int height;
-		public String url;
-
-		@Override
-		public String toString() {
-			return &amp;quot;MediaThumbnail [width=&amp;quot; + width + &amp;quot;, height=&amp;quot; + height + &amp;quot;, url=&amp;quot; + url + &amp;quot;]&amp;quot;;
-		}
-
-	}
-
-}
-
-class Image2 {
-	public String url;
-	public String title;
-	public String link;
-	public String width;
-	public String height;
-
-	@Override
-	public String toString() {
-		return &amp;quot;Image [url=&amp;quot; + url + &amp;quot;, title=&amp;quot; + title + &amp;quot;, link=&amp;quot; + link + &amp;quot;, width=&amp;quot; + width + &amp;quot;, height=&amp;quot; + height + &amp;quot;]&amp;quot;;
-	}
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-xml-transformation.jsp&#34; title=&#34;XML Transformation&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>XStream: Json to Java</title>
-      <link>http://alimy.me/post/dev_201603092115/</link>
-      <pubDate>Wed, 09 Mar 2016 21:15:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603092115/</guid>
-      <description>&lt;p&gt;XStream can also be used with JSON. XStream provides two drivers : a JsonHierarchicalStreamDriver and a JettisonMappedXmlDriver. The JsonHierarchicalStreamDriver can be used to write a JSON string but cannot deserialize a JSON. JettisonMappedXmlDriver can be used to deserialize a JSON but it introduces an additional dependency. In this example we deserialize a json string into a java object.&lt;/p&gt;
-
-&lt;p&gt;Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
-import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
-
-public class XStreamJsonExample {
-
-	private String json = &amp;quot;{Music:{albums:[{name:name1,year:1980}]}}&amp;quot;;
-
-	public static void main(String[] args) {
-		XStreamJsonExample example = new XStreamJsonExample();
-		example.serializeJsonUsingxStream();
-	}
-
-	private void serializeJsonUsingxStream() {
-
-		XStream xStream = new XStream(new JettisonMappedXmlDriver());
-		xStream.processAnnotations(Music7.class);
-		Music7 music7 = (Music7) xStream.fromXML(json);
-		System.out.println(music7);
-		Music7 music = new Music7();
-		Album7 album1 = new Album7();
-		album1.name = &amp;quot;name1&amp;quot;;
-		album1.year = 1980;
-		music.albums.add(album1);
-		Album7 album2 = new Album7();
-		album2.name = &amp;quot;name2&amp;quot;;
-		album2.year = 1981;
-		music.albums.add(album2);
-		System.out.println(xStream.toXML(music));
-	}
-}
-
-@XStreamAlias(&amp;quot;Music&amp;quot;)
-class Music7 {
-	@XStreamImplicit
-	List&amp;lt;Album7&amp;gt; albums = new ArrayList&amp;lt;Album7&amp;gt;();
-
-	@Override
-	public String toString() {
-		return &amp;quot;Music7 [albums=&amp;quot; + albums + &amp;quot;]&amp;quot;;
-	}
-
-}
-
-@XStreamAlias(&amp;quot;Album&amp;quot;)
-class Album7 {
-	String name;
-	int year;
-
-	@Override
-	public String toString() {
-		return &amp;quot;Album7 [name=&amp;quot; + name + &amp;quot;, year=&amp;quot; + year + &amp;quot;]&amp;quot;;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-json-example.jsp&#34; title=&#34;XStream - Json to Java&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>XStream: Collection Converters</title>
-      <link>http://alimy.me/post/dev_201603092105/</link>
-      <pubDate>Wed, 09 Mar 2016 21:05:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603092105/</guid>
-      <description>&lt;p&gt;In the earlier tutorials we saw how to convert a &lt;a href=&#34;http://alimy.me/post/dev_201603081411&#34; title=&#34;parsing an xml&#34;&gt;Java object to XML and back&lt;/a&gt;, &lt;a href=&#34;http://alimy.me/post/dev_201603092055&#34; title=&#34;custom converter&#34;&gt;custom converter&lt;/a&gt; and &lt;a href=&#34;http://alimy.me/post/dev_201603092100&#34; title=&#34;basic converters&#34;&gt;basic converters&lt;/a&gt;. In this tutorial we look at how XStream converts array and collections from java to xml and vice versa. We will convert the following types :&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;String[]&lt;/li&gt;
-&lt;li&gt;char[]&lt;/li&gt;
-&lt;li&gt;List&lt;String&gt;&lt;/li&gt;
-&lt;li&gt;java.util.Properties&lt;/li&gt;
-&lt;li&gt;List&lt;String&gt;&lt;/li&gt;
-&lt;li&gt;Map&lt;String, String&gt;&lt;/li&gt;
-&lt;li&gt;TreeMap&lt;String, String&gt; treeMap&lt;/li&gt;
-&lt;li&gt;TreeSet&lt;String&gt; treeSet&lt;/li&gt;
-&lt;li&gt;enum&lt;/li&gt;
-&lt;li&gt;EnumMap&lt;testEnum, String&gt; testEnum is an enum&lt;/li&gt;
-&lt;li&gt;EnumSet&lt;testEnum&gt; testEnum is an enum&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Here&amp;rsquo;s the complete example&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import com.thoughtworks.xstream.XStream;
-
-public class ConverterExample2 {
-	public static void main(String[] args) {
-		ConverterExample2 example2 = new ConverterExample2();
-		example2.runExample();
-	}
-
-	public void runExample() {
-		XStream xStream = new XStream();
-		CollectionConverterExample classContainingCollection = new CollectionConverterExample();
-		classContainingCollection.initialize();
-		String xml = xStream.toXML(classContainingCollection);
-		System.out.println(xml);
-	}
-}
-
-class CollectionConverterExample {
-
-	String[] stringArray = new String[] { &amp;quot;StringA&amp;quot;, &amp;quot;StringB&amp;quot;, &amp;quot;StringC&amp;quot; };
-	char[] charArray = new char[] { &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39; };
-	List&amp;lt;String&amp;gt; listA = new ArrayList&amp;lt;String&amp;gt;();
-	Map&amp;lt;String, String&amp;gt; mapA = new HashMap&amp;lt;String, String&amp;gt;();
-	Properties properties = new Properties();
-	List&amp;lt;String&amp;gt; singletonList;
-	Map&amp;lt;String, String&amp;gt; singletonMap;
-
-	TreeMap&amp;lt;String, String&amp;gt; treeMap = new TreeMap&amp;lt;String, String&amp;gt;();
-	TreeSet&amp;lt;String&amp;gt; treeSet = new TreeSet&amp;lt;String&amp;gt;();
-	enum testEnum {testA, testB}
-	testEnum testeEnumValue = testEnum.testA;
-	EnumMap&amp;lt;testEnum, String&amp;gt; testEnumMap = new EnumMap&amp;lt;CollectionConverterExample.testEnum, String&amp;gt;(testEnum.class);
-	EnumSet&amp;lt;testEnum&amp;gt; testEnumSet = EnumSet.range(testEnum.testA, testEnum.testB);
-
-	public void initialize() {
-		listA.add(&amp;quot;testA&amp;quot;);
-		mapA.put(&amp;quot;keyA&amp;quot;, &amp;quot;ValueA&amp;quot;);
-		properties.put(&amp;quot;propertyA&amp;quot;, &amp;quot;valueA&amp;quot;);
-		treeMap.put(&amp;quot;treeA&amp;quot;, &amp;quot;valueA&amp;quot;);
-		treeMap.put(&amp;quot;treeB&amp;quot;, &amp;quot;valueB&amp;quot;);
-		treeSet.add(&amp;quot;treeB&amp;quot;);
-		treeSet.add(&amp;quot;treeA&amp;quot;);
-		singletonList = Collections.singletonList(&amp;quot;singletonListA&amp;quot;);
-		singletonMap = Collections.singletonMap(&amp;quot;key1&amp;quot;, &amp;quot;value1&amp;quot;);
-
-		testEnumMap.put(testEnum.testA, &amp;quot;testEnumMapValue1&amp;quot;);
-		testEnumMap.put(testEnum.testB, &amp;quot;testEnumMapValue2&amp;quot;);
-
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The resultant XML looks like this&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;
-		StringA
-		StringB
-		StringC
-
-	abcde
-
-		testA
-
-
-
-	  keyA
-	  ValueA
-
-
-
-
-
-
-		singletonListA
-
-
-
-	  key1
-	  value1
-
-
-
-
-	  treeA
-	  valueA
-
-
-	  treeB
-	  valueB
-
-
-
-		treeA
-		treeB
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-collection-converters.jsp&#34; title=&#34;Collection Converters&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>XStream: Basic Built-in Converters</title>
-      <link>http://alimy.me/post/dev_201603092100/</link>
-      <pubDate>Wed, 09 Mar 2016 21:00:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603092100/</guid>
-      <description>&lt;p&gt;In the previous tutorials we saw an example of how to convert &lt;a href=&#34;http://alimy.me/post/dev_201603081411&#34; title=&#34;parsing an xml&#34;&gt;java object to XML and back&lt;/a&gt;. That tutorial also explained the concept of aliases and implicit collection.In the last tutorial we show how to write a custom converter. In this tutorial, lets see some of the basic built in converters of XStream and how the resultant XML from those converters look like. We will look at how the following types are converted. XStream has converters for each of these. These are just a sample of the converters that XStream has. These converters only exist for a better and faster handling of a type compared to the generic converters.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;BigDecimal&lt;/li&gt;
-&lt;li&gt;BigInteger&lt;/li&gt;
-&lt;li&gt;boolean&lt;/li&gt;
-&lt;li&gt;byte&lt;/li&gt;
-&lt;li&gt;char&lt;/li&gt;
-&lt;li&gt;Date&lt;/li&gt;
-&lt;li&gt;Double&lt;/li&gt;
-&lt;li&gt;Float&lt;/li&gt;
-&lt;li&gt;int&lt;/li&gt;
-&lt;li&gt;Long&lt;/li&gt;
-&lt;li&gt;Object&lt;/li&gt;
-&lt;li&gt;StringBuffer&lt;/li&gt;
-&lt;li&gt;StringBuilder&lt;/li&gt;
-&lt;li&gt;URI&lt;/li&gt;
-&lt;li&gt;URL&lt;/li&gt;
-&lt;li&gt;UUID&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In the next tutorial we look at examples of arrays and Collections.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.UUID;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.basic.BooleanConverter;
-import com.thoughtworks.xstream.converters.basic.DateConverter;
-
-public class ConverterExample1 {
-
-	public static void main(String[] args) throws MalformedURLException, URISyntaxException {
-		ConverterExample1 converter = new ConverterExample1();
-		converter.convert();
-	}
-
-	private void convert() throws MalformedURLException, URISyntaxException {
-
-		BasicConverterFields basicConverterExample = new BasicConverterFields();
-		basicConverterExample.initialize();
-
-		XStream xStream = new XStream();
-
-		xStream.registerLocalConverter(BasicConverterFields.class, &amp;quot;flag&amp;quot;, BooleanConverter.BINARY);
-
-		DateConverter dateConverter = new DateConverter(&amp;quot;yyyy-MM-dd HH:mm:ss&amp;quot;, new String[] {}, TimeZone.getTimeZone(&amp;quot;UTC&amp;quot;));
-		xStream.registerConverter(dateConverter);
-
-		String xml = xStream.toXML(basicConverterExample);
-
-		System.out.println(xml);
-
-		BasicConverterFields basicConverterFromXML = (BasicConverterFields) xStream.fromXML(xml);
-		System.out.println(basicConverterFromXML);
-
-	}
-
-	class BasicConverterFields {
-		BigDecimal bigDecimal = new BigDecimal(10000000000.0);
-		BigInteger bigInteger = new BigInteger(&amp;quot;1000000000&amp;quot;);
-		boolean flag = true;
-		byte byteA = &#39;a&#39;;
-		char charA = &#39;a&#39;;
-		Date date = new Date();
-		Double doubleA = new Double(1000000000000.0);
-		Float floatA = new Float(10000000000000f);
-		int intA = 100;
-		Long longA = new Long(100000);
-		Object nullA = null;
-		Short shortA = new Short((short) 1);
-		StringBuffer stringBufferA = new StringBuffer(&amp;quot;test&amp;quot;);
-		StringBuilder stringBuilderA = new StringBuilder().append(&amp;quot;test&amp;quot;);
-		URI UriA = null;
-		URL urlA = null;
-		UUID uuidA = UUID.fromString(&amp;quot;0000000a-000b-000c-000d-00000000000e&amp;quot;);
-
-		public void initialize() throws URISyntaxException, MalformedURLException {
-			UriA = new URI(&amp;quot;file://C/work/fileA&amp;quot;);
-			urlA = new URL(&amp;quot;http://www.google.com&amp;quot;);
-		}
-
-		@Override
-		public String toString() {
-			return &amp;quot;BasicConverterFields [bigDecimal=&amp;quot; + bigDecimal + &amp;quot;, bigInteger=&amp;quot; + bigInteger + &amp;quot;, flag=&amp;quot; + flag + &amp;quot;, byteA=&amp;quot; + byteA
-					+ &amp;quot;, charA=&amp;quot; + charA + &amp;quot;, date=&amp;quot; + date + &amp;quot;, doubleA=&amp;quot; + doubleA + &amp;quot;, floatA=&amp;quot; + floatA + &amp;quot;, intA=&amp;quot; + intA + &amp;quot;, longA=&amp;quot; + longA
-					+ &amp;quot;, nullA=&amp;quot; + nullA + &amp;quot;, shortA=&amp;quot; + shortA + &amp;quot;, stringBufferA=&amp;quot; + stringBufferA + &amp;quot;, stringBuilderA=&amp;quot; + stringBuilderA
-					+ &amp;quot;, UriA=&amp;quot; + UriA + &amp;quot;, urlA=&amp;quot; + urlA + &amp;quot;, uuidA=&amp;quot; + uuidA + &amp;quot;]&amp;quot;;
-		}
-
-	}
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The toXML method prints this&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;10000000000
-1000000000
-1
-97
-a
-2014-04-26 04:14:38
-1.0E12
-9.9999998E12
-100
-100000
-1
-test
-test
-file://C/work/fileA
-http://www.google.com
-0000000a-000b-000c-000d-00000000000e
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The fromXML method prints this&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;BasicConverterFields [bigDecimal=10000000000, bigInteger=1000000000, flag=true, byteA=97, charA=a,
-date=Sat Apr 26 09:44:38 IST 2014, doubleA=1.0E12, floatA=9.9999998E12, intA=100, longA=100000,
-nullA=null, shortA=1, stringBufferA=test, stringBuilderA=test, UriA=file://C/work/fileA,
-urlA=http://www.google.com, uuidA=0000000a-000b-000c-000d-00000000000e]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-basic-converters.jsp&#34; title=&#34;Basic Built-in Converters&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>XStream: Custom Converter for BufferedImage</title>
-      <link>http://alimy.me/post/dev_201603092055/</link>
-      <pubDate>Wed, 09 Mar 2016 20:55:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603092055/</guid>
-      <description>&lt;p&gt;In the previous tutorials we saw an example of how to convert a &lt;a href=&#34;http://alimy.me/post/dev_201603081411&#34; title=&#34;parsing an xml&#34;&gt;java object to XML and back&lt;/a&gt;. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
-
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-import javax.imageio.ImageIO;
-
-import org.apache.commons.io.output.ByteArrayOutputStream;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.Converter;
-import com.thoughtworks.xstream.converters.MarshallingContext;
-import com.thoughtworks.xstream.converters.UnmarshallingContext;
-import com.thoughtworks.xstream.core.util.Base64Encoder;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
-
-public class CustomConverterExample {
-
-    public static void main(String[] args) throws IOException {
-        CustomConverterExample customConverterExample = new CustomConverterExample();
-        customConverterExample.showCustomConversionForBufferedImage();
-    }
-
-    private void showCustomConversionForBufferedImage() throws IOException {
-        Company company = new Company();
-        company.setName(&amp;quot;Study Trails&amp;quot;);
-        BufferedImage in = ImageIO.read(new File(&amp;quot;st1_200.jpg&amp;quot;));
-        BufferedImage newImage = new BufferedImage(in.getWidth(), in.getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = newImage.createGraphics();
-        g.drawImage(in, 0, 0, null);
-        g.dispose();
-        company.setImage(newImage);
-        XStream xStream = new XStream();
-        xStream.registerConverter(new CustomBufferedImageConverter());
-        String xml = xStream.toXML(company);
-
-        Company company2 = (Company) xStream.fromXML(xml);
-        File outputfile = new File(&amp;quot;st2_200.jpg&amp;quot;);
-        ImageIO.write(company2.image, &amp;quot;jpg&amp;quot;, outputfile);
-
-    }
-
-}
-
-class Company {
-    String name;
-    BufferedImage image;
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
-    }
-}
-
-class CustomBufferedImageConverter implements Converter {
-    @Override
-    public boolean canConvert(Class type) {
-
-        return type.isAssignableFrom(BufferedImage.class);
-    }
-
-    @Override
-    public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
-        BufferedImage bufferedImage = (BufferedImage) source;
-        try {
-            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outStream);
-            ImageIO.write(bufferedImage, &amp;quot;jpg&amp;quot;, objectOutputStream);
-            outStream.flush();
-            Base64Encoder encorder = new Base64Encoder();
-            String imageString = encorder.encode(outStream.toByteArray());
-            outStream.close();
-            writer.setValue(imageString);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-        BufferedImage image = null;
-        try {
-            Base64Encoder encoder = new Base64Encoder();
-            byte[] imageBytes = encoder.decode(reader.getValue());
-            ObjectInputStream inputStream = new ObjectInputStream(new ByteArrayInputStream(imageBytes));
-            image = ImageIO.read(inputStream);
-            inputStream.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return image;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/xml/xstream/xstream-custom-converter.jsp&#34; title=&#34;XStream custom converter&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
 </description>
     </item>
     

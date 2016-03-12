@@ -174,321 +174,305 @@
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="http://alimy.me/post/dev_201603112105/" title="阅读全文">Jackson: Json Polymorphism </a> </h2>
+<h2 ><a href="http://alimy.me/post/dev_201603122040/" title="阅读全文">Gson: Exclusion Strategy </a> </h2>
 
 </header>
 <div class="summary">
-    <p>Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.</p>
+    <p>In this tutorial we look at how to selectively include fields from a java object to a json string. By default, Gson tries to map all fields in the java object to the corresponding property in json. However, in certain cases we may want to control that. There are a few ways to do this. It is also possible to excluse fields from third party packages where we have no access to the source code. The different ways to exclude fields are :</p>
 
-<h3 id="data-serialization-and-polymorphism-example:46b64fca9632a887d3524460bdf45d73">Data Serialization and Polymorphism Example</h3>
+<ol>
+<li>By defining a custom annotation and ignoring fields that are annotated with that.</li>
+<li>By Defining a custom exclusion class by extending the ExclusionStrategy interface and implementing the public boolean shouldSkipField(FieldAttributes f); and public boolean shouldSkipClass(Class clazz); methods</li>
+<li>By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.</li>
+</ol>
 
-<pre><code>package com.studytrails.json.jackson;
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122040/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
 
-import java.io.File;
-import java.io.FileWriter;
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603122035/" title="阅读全文">Gson: Custom Serializer </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Just as we saw in the <a href="http://alimy.me/post/dev_201603122030">previous</a> tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.</p>
+
+<h3 id="custom-serializer:111b3d40cae40f94b365983d1c03789a">Custom Serializer</h3>
+
+<p>Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122035/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603122030/" title="阅读全文">Gson: Custom Type Adapter </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the earlier tutorials we have seen how gson can serialize and deserialize java classes with or without hierarchies. By default, it introspects the classes and comes with with a strategy for serializing and deserializing it. However, in some cases, you want to specify your own conversion strategy. That is, you want to control how the java object is converted to json string and the other way round. Gson provides a capability to specify a custom type adapter. You tell Gson that for a particular class, use the conversion strategy specified by your custom adapter. Lets look at how to write the type adapter :
+To write a custom adapter extend the com.google.gson.TypeAdapter abstract class. Implement the public abstract T read(JsonReader in) throws IOException; and public abstract void write(JsonWriter out, T value) throws IOException; methods. The adapter should also handle nulls. Create the Type adapter instance and then register it with the GsonBuilder. Create the Gson object from the GsonBuilder and then use that to serialize and deserialize. Lets look at an example</p>
+
+<pre><code>package com.studytrails.json.gson;
+
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+public class DatasetTypeAdapterExample8 {
+
+	public static void main(String[] args) throws MalformedURLException, IOException {
+		String url = &quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5&quot;;
+		String json = IOUtils.toString(new URL(url));
+		// Create the custom type adapter and register it with the GsonBuilder
+		// class.
+		Gson gson = new GsonBuilder().registerTypeAdapter(Dataset.class, new DatasetTypeAdapter()).create();
+		// deserialize the json to Albums class. The Dataset objects are part of
+		// the Albums class. Whenever Gson encounters an object of type DataSet
+		// it calls the DatasetTypeAdapter to read and write json.
+		Albums albums = gson.fromJson(json, Albums.class);
+		System.out.println(albums.getDataset()[1].getAlbum_title());
+		// prints
+		// http://freemusicarchive.org/music/The_Yes_Sirs/Through_The_Cracks_Mix_Vol_1/
+	}
+}
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122030/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603122028/" title="阅读全文">Gson: Serializing Inner Classes </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="serializing-inner-classes:94d200a9b12cc728e29eb582b49f7787">Serializing inner classes</h3>
+
+<p>Gson can serialize inner classes and static nested classes. The detailed example below demonstrates the following things.</p>
+
+<ol>
+<li>Serializing class containing static nested class</li>
+<li>Serializing class containing non static nested class (Inner class)</li>
+<li>De-serializing json to a class containing static and non static inner class</li>
+<li>Serializing static nested class (without the enclosing type)</li>
+<li>Serializing non static nested class (without the enclosing type)</li>
+<li>De-serializing json to a static nested class (without the enclosing type)</li>
+<li>De-serializing json to a non static nested class (without the enclosing type)</li>
+</ol>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122028/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603122025/" title="阅读全文">Gson: Serializing and deserializing Java Generic Classes </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="serializing-list:48eff8845146e9414ebbce90bbfb026f">Serializing list</h3>
+
+<p>As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.</p>
+
+<pre><code>package com.studytrails.json.gson;
+
+import java.lang.reflect.Type;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+public class GenericTypesExample8 {
+	public static void main(String[] args) {
+		// create an animal class that is of type dog.
+		Animal animal = new Animal&lt;Dog&gt;();
+		// Create a Dog instance
+		Dog dog = new Dog(&quot;I am a dog&quot;);
+
+		animal.setAnimal(dog);
+		Gson gson = new Gson();
+		// Define a Type that is an Animal of type dog.
+		Type animalType = new TypeToken&lt;Animal&lt;Dog&gt;&gt;() {
+		}.getType();
+
+		// we first convert the animal object to a json and then read the json
+		// back. However we define the json to be of Animal type
+		Animal animal1 = gson.fromJson(gson.toJson(animal, animalType), Animal.class);
+		System.out.println(animal1.get().getClass()); // prints class
+
+    // com.google.gson.internal.LinkedTreeMap
+		// In contrast to above where we read the json back using the Animal
+		// type, here we read the json back as the custom animalType Type. This
+		// gives Gson an idea of what
+		// the generic type should be.
+		Animal animal2 = gson.fromJson(gson.toJson(animal), animalType);
+		System.out.println(animal2.get().getClass());
+		// prints class com.studytrails.json.gson.Dog
+
+	}
+}
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122025/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603122022/" title="阅读全文">Gson: Serializing Collections </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="serializing-list:0245d903820e8dfe5f649eea2e56a9f6">Serializing list</h3>
+
+<p>Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.</p>
+
+<pre><code>package com.studytrails.json.gson;
+
+import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-public class SerializeExample1 {
-    private static String outputFile = &quot;zoo.json&quot;;
+public class DeSerializeListExample5 {
+	public static void main(String[] args) {
+		String json = &quot;[{album_id:1,album_title:'album1'},{album_id:2,album_title:'album2'}]&quot;;
 
-    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
-        // let start creating the zoo
-        Zoo zoo = new Zoo(&quot;Samba Wild Park&quot;, &quot;Paz&quot;);
-        Lion lion = new Lion(&quot;Simba&quot;);
-        Elephant elephant = new Elephant(&quot;Manny&quot;);
-        List&lt;Animal&gt; animals = new ArrayList&lt;&gt;();
-        animals.add(lion);
-        animals.add(elephant);
-        zoo.setAnimals(animals);
+		Gson gson = new Gson();
+		// create the type for the collection. In this case define that the collection is of type Dataset
+		Type datasetListType = new TypeToken&lt;Collection&lt;Dataset&gt;&gt;() {}.getType();
+		List&lt;Dataset&gt; datasets = gson.fromJson(json, datasetListType);
+		for (Dataset dataset : datasets) {
+			System.out.println(dataset.getAlbum_title());
+			System.out.println(dataset.getAlbum_id());
+		}
+		// Prints
+		//album1
+		//1
+		//album2
+		//2
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter(new File(outputFile)), zoo);
-    }
+	}
 }
 </code></pre>
 
 </div>
 <footer id="more">
-<a href='http://alimy.me/post/dev_201603112105/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='http://alimy.me/post/dev_201603122022/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="http://alimy.me/post/dev_201603112100/" title="阅读全文">Jackson: jackson Mix- In Annotations </a> </h2>
+<h2 ><a href="http://alimy.me/post/dev_201603122020/" title="阅读全文">Gson: Convert json to a java object tree </a> </h2>
 
 </header>
 <div class="summary">
-    <p>Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class</p>
-
-<h3 id="jackson-mix-in-example:7634bf28f621093315cf4d8b563f8a36">Jackson Mix-In Example</h3>
-
-<pre><code>package com.studytrails.json.jackson;
-
-import java.io.File;
-import java.io.IOException;
-
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-public class SerializeExample3 {
-    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.addMixInAnnotations(Bird.class, BirdMixIn.class);
-        Bird bird = new Bird(&quot;scarlet Ibis&quot;);
-        bird.setSound(&quot;eee&quot;);
-        bird.setHabitat(&quot;water&quot;);
-
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(&quot;bird.json&quot;), bird);
-    }
-
-}
-</code></pre>
+    <p>In the <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class</p>
 
 </div>
 <footer id="more">
-<a href='http://alimy.me/post/dev_201603112100/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='http://alimy.me/post/dev_201603122020/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="http://alimy.me/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
+<h2 ><a href="http://alimy.me/post/dev_201603122015/" title="阅读全文">Gson: parsing json to java token by token </a> </h2>
 
 </header>
 <div class="summary">
-    <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
-
-<ol>
-<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &lsquo;tags&rsquo; property from the albums dataset.</li>
-<li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
-<li>Using Custom filters</li>
-</ol>
-
-<p>The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.</p>
-
-<h3 id="data-binding-filters-example:36264cd232902e18141acc789ff21fa2">Data Binding Filters Example</h3>
-
-<h4 id="databinding:36264cd232902e18141acc789ff21fa2">Databinding</h4>
-
-<pre><code>package com.studytrails.json.jackson;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-// Do not use fields to autodetect. use the public getter methods to autodetect properties
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
-public class AlbumsFilter {
-
-    private String title;
-    private DatasetFilter[] datasetFilter;
-    public String total_pages;
-
-    protected String getTotal_pages() {
-        return total_pages;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    // this getter method is for the 'dataset' property
-    @JsonProperty(&quot;dataset&quot;)
-    public DatasetFilter[] getDatasetFilter() {
-        return datasetFilter;
-    }
-}
-</code></pre>
+    <p>In the earlier tutorials we saw how to <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.</p>
 
 </div>
 <footer id="more">
-<a href='http://alimy.me/post/dev_201603112055/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='http://alimy.me/post/dev_201603122015/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="http://alimy.me/post/dev_201603112050/" title="阅读全文">Jackson: Json annotations and dyna beans </a> </h2>
+<h2 ><a href="http://alimy.me/post/dev_201603122010/" title="阅读全文">Gson: Convert json to a java object </a> </h2>
 
 </header>
 <div class="summary">
-    <p>The json string at times have a lot of properties. It seems a waste creating a POJO with all those properties. Wouldnt it be great if there was a catch&rsquo;all that could read all properties in a map? Jackson provides annotations to do just that. In the example below we have set two properties in the bean and the other properties are read into a map. These example also introduces some common annotations using in Jackson. Lets look at them briefly:</p>
-
-<ol>
-<li>@JsonProperty-This annotation is used to mark a method as a getter or setter for a property. In other words, it associates a json field with a java property. If a name is specified (@JsonProperty(&ldquo;age&rdquo;)) then the java property that is annotated with this annotation is mapped to the &lsquo;age&rsquo; field of the json, If no name is specified the java property name is used.</li>
-<li>@JsonCreator-This annotation is used the define constructors that are used to create java objects from json string. It is used during data binding and specifies properties that will be used to create java objects during deserialization.</li>
-<li>@JsonAnyGetter and @JsonAnySetter - This annotations are used to mark methods that set or read fields that are not handled by any other java property. These act like catch-all and handle all fields that are not handled by any other java property. The fields are stored in a map as key value pairs.</li>
-</ol>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112050/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112045/" title="阅读全文">Jackson: List serialization </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In this tutorial we will see how to convert a java List to JSON. Serializing list is a little tricky since by default the type info is not stored while serializing and deserializing lists. In this tutorial we look at two examples. In the first example we serialize an Object that has a java List as one of its properties. In the second example we try and serialize the List directly. In both examples we use special configuration to preserve type info.</p>
-
-<h3 id="example-1-serializing-object-containing-a-list:cbcae65ab0364befdb15ef6b14f2b41b">Example 1 : Serializing Object containing a list</h3>
-
-<p>The example converts a Zoo class to json. the zoo class contains the name of zoo, its city and a list of animals. The list is of type &lsquo;Animal&rsquo;, i.e. the list contains elements that are subclass of the Abstract class Animal. Lets see what happens when we try to serialize zoo. First we create the Zoo class. Notice how the constructor looks. When we try to get the Zoo Object back from the JSON, Jackson has to know that it should create the Zoo Object using the constructor that takes in the name and city properties.</p>
-
-<pre><code>class Zoo {
-    public String name;
-    public String city;
-
-
-    @JsonCreator
-    public Zoo(@JsonProperty(&quot;name&quot;) String name,@JsonProperty(&quot;city&quot;) String city) {
-        this.name = name;
-        this.city = city;
-    }
-
-    public List&lt;Animal&gt; animals = new ArrayList&lt;Animal&gt;();
-
-    public List&lt;Animal&gt; addAnimal(Animal animal) {
-        animals.add(animal);
-        return animals;
-    }
-
-}
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112045/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112040/" title="阅读全文">Jackson: Json Data Binding </a> </h2>
-
-</header>
-<div class="summary">
-    <p>A thing that most java developers love to deal with is &hellip;. Java POJO. Wouldn&rsquo;t you love a black box where you can see JSON string entering from one side and POJOs coming out from the other. That&rsquo;s what Jackson data binding does. This can be best explained by an example. We use the json from free music archive. It has an API to get latest albums in the form of JSON. we would read that json string (Click on this link to see the json) into Albums object. The Albums object contains an array of Dataset.</p>
-
-<p>Here&rsquo;s how The JSON to Java conversion works</p>
-
-<ol>
-<li>The first step is to create the Java class that would hold the JSON data. Look at the json. we create an Albums object to hold the entire json. The json contains an array of &lsquo;dataset&rsquo; elements. We create a Java Object of type DataSet and in the Albums object we create a dataset property that is an array of type DataSet.</li>
-<li>Create an instance of the com.fasterxml.jackson.databind.ObjectMapper class. This is the class that maps a JSON to a Java Object.<code>ObjectMapper mapper = new ObjectMapper();</code></li>
-<li>We use the <em>readValue</em> method of the ObjectMapper to read. There are multiple versions of this method and we use the method that takes in a URL. However, there are method that read from a file, inputstream, String or a ByteArray.</li>
-<li>The ObjectMapper caches serializers and deserializers so it would be a good idea to reuse an ObjectMapper instance for multiple conversions</li>
-</ol>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112040/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112035/" title="阅读全文">Jackson: build java tree model from json </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112035/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112030/" title="阅读全文">Jackson: json and java - Streaming </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="streaming-parser-and-generator:6aa21e9855db39cd085c6c3608dd23fc">Streaming Parser and Generator</h3>
-
-<p>Jackson provides a low level API to parse json string. The API provides token for each json object. For example, the start of json &lsquo;{&rsquo; is the first object that the parser provides. The key value pair is another single object. The client code can use the tokens and get the json properties or build a java object out of it if required. This low level API is extremely powerful but needs a lot of coding. For most cases, Jackson&rsquo;s tree traversing and data binding capability should be explored instead. We provide two examples below. The first example demonstrates json parsing and the second demonstrated json generation.</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112030/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112025/" title="阅读全文">Jackson: Java to JSON and back </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="creating-json-from-java:627c82fc263a42c0c87ad3244752e285">Creating JSON from Java</h3>
-
-<p>Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.</p>
-
-<pre><code>class Album {
-    private String title;
-
-    public Album(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-}
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112025/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112020/" title="阅读全文">Jackson: Introduction </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="overview-of-the-jackson-api:10fec90ec27555a816eebd49d4333399">Overview of The Jackson API</h3>
-
-<p><a href="http://wiki.fasterxml.com/JacksonHome" title="Jackson Api">Jackson Api</a> contains a lot of functionalities to read and build json using java. It has very powerful data binding capabilities and provides a framework to serialize custom java objects to json string and deserialize json string back to java objects. Json written with jackson can contain embedded class information that helps in creating the complete object tree during deserialization.</p>
-
-<h3 id="creating-json-from-java:10fec90ec27555a816eebd49d4333399">Creating JSON from JAVA</h3>
-
-<p>There are three ways to create JSON from JAVA:</p>
+    <p>Google json provides methods to convert the json string to java objects. The Java object may be hierarchical. For this example we consider java objects of non generic type only. Gson uses the name to match the json property to the java field. There are two ways to convert json to java.</p>
 
 <ul>
-<li>From a Java Object (The Same object can also be then used to read the JSON)</li>
-<li>From a JsonNode Tree</li>
-<li>Building a Json Stream</li>
+<li>Using the com.google.gson.Gson class. Create a new instance of this class and use the method public <T> T fromJson(String json, Class<T> classOfT). classOfT is the java object to which the json is to be converted to.</li>
+<li>The other way is to use the com.google.gson.GsonBuilder class. This class allows setting up certain features, such as - allowing null serialization or setting up custom serializing policies. Create a GsonBuilder, apply the features and then obtain the Gson class from the builder.</li>
 </ul>
 
-<p>In the <a href="http://alimy.me/post/dev_201603112025" title="Java to JSON and back">first tutorial</a> we look at all the three ways of creating JSON. Note that if you are new to Jackson this is probably the best place to begin even if you are looking at a way to parse JSON.</p>
+<p>In this tutorial we look at the Gson class to de-serialize json from <a href="http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5" title="free music archive">free music archive</a>. The main class is the Albums class and it contains the list of Datasets. Each Dataset is one album. The way to approach the problem of deserialization is to build a java class such that the when Gson converts the Java class to JSON, the resultant JSON resembles the one we are trying to parse. Lets see this in action. If you look at the JSON, it starts with a root object that has properties such as title, message, errors, etc.</p>
+
+<pre><code>{
+title: &quot;Free Music Archive - Albums&quot;,
+message: &quot;&quot;,
+errors: [ ],
+total: &quot;11259&quot;,
+total_pages: 2252,
+page: 1,
+limit: &quot;5&quot;,
+dataset: [
+{
+......
+</code></pre>
 
 </div>
 <footer id="more">
-<a href='http://alimy.me/post/dev_201603112020/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='http://alimy.me/post/dev_201603122010/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603122005/" title="阅读全文">Gson: Introduction </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://github.com/google/gson" title="Gson@github">google json</a> - gson is an open source java api for parsing and building json. It has extensive support for java generics. It also provides support for converting third party classes to json. It can be used to serialize and deserialize complex objects with deep hierarchies that may contain generic classes. In these tutorials we demonstrate, with examples, the following functionalities of gson.</p>
+
+<p>Gson 2.3: Look at <a href="http://www.studytrails.com/java/json/java-google-json-new-2.3.jsp" title="gson tutorial">this tutorial</a> to see the
+latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new methods in JsonArray)</p>
+
+<ol>
+<li><p><a href="http://alimy.me/post/dev_201603122010" title="Java to JSON and Back - Data Binding">Java to JSON and Back - Data Binding</a> - In this example we look at how to bind a Json to a java object. Gson is quite powerful when it comes to binding a json to Java since it has a lot of built in serializers and deserializers. A serializer has code that helps in converting a Json string to corresponding java type. For example if you have an array in JSON (elements enclosed in &lsquo;[&rsquo; and &lsquo;]&rsquo;) and you want to convert that to a Java array then Gson would internally use an ArrayTypeAdapter to convert the Json Array to Java Array and back. If you are looking at Gson primarily to parse JSON then we would suggest that you start with a simple Java class, convert that to JSON and make sure it looks like the JSON that you want to parse. You can then gradually start adding complexities to the java class and at each step convert it to a JSON and ensure that the JSON is similar to the one that you are trying to parse. It is good to think of parsing a JSON as creating a java class that can give you the JSON that you want to parse. Also note that you have certain flexibility while creating the java object. You could represent a Json Array as a Java array or a Java List. The choice may be driven more by how you want to use the class. If you map a Json property to a java array Gson would use an Array adapter but if you map it to a List it would use the collection adapter and you, the user, does not have to worry about that. Gson also handles null gracefully</p></li>
+
+<li><p><a href="http://alimy.me/post/dev_201603122015" title="Java to JSON and Back - Streaming">Java to JSON and Back - Streaming</a> - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.</p></li>
+</ol>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122005/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

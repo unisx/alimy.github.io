@@ -1,0 +1,500 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> Gson: Convert json to a java object &middot; Alimy </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">Alimy</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                            </br>  </ul>
+                    </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">Alimy</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Gson: Convert json to a java object</h2>
+          
+          <p>Google json provides methods to convert the json string to java objects. The Java object may be hierarchical. For this example we consider java objects of non generic type only. Gson uses the name to match the json property to the java field. There are two ways to convert json to java.</p>
+
+<ul>
+<li>Using the com.google.gson.Gson class. Create a new instance of this class and use the method public <T> T fromJson(String json, Class<T> classOfT). classOfT is the java object to which the json is to be converted to.</li>
+<li>The other way is to use the com.google.gson.GsonBuilder class. This class allows setting up certain features, such as - allowing null serialization or setting up custom serializing policies. Create a GsonBuilder, apply the features and then obtain the Gson class from the builder.</li>
+</ul>
+
+<p>In this tutorial we look at the Gson class to de-serialize json from <a href="http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5" title="free music archive">free music archive</a>. The main class is the Albums class and it contains the list of Datasets. Each Dataset is one album. The way to approach the problem of deserialization is to build a java class such that the when Gson converts the Java class to JSON, the resultant JSON resembles the one we are trying to parse. Lets see this in action. If you look at the JSON, it starts with a root object that has properties such as title, message, errors, etc.</p>
+
+<pre><code>{
+title: &quot;Free Music Archive - Albums&quot;,
+message: &quot;&quot;,
+errors: [ ],
+total: &quot;11259&quot;,
+total_pages: 2252,
+page: 1,
+limit: &quot;5&quot;,
+dataset: [
+{
+......
+</code></pre>
+
+<p>Lets ignore the dataset for now. Lets just build a java class to hold the root. We call that class Albums. We will make the fields public for brevity, but you might want to make them private and use setters.</p>
+
+<pre><code>class Albums {
+	public String title;
+	public String message;
+	public String[] errors = new String[]{};
+	public String total;
+	public int total_pages;
+	public int page;
+	public String limit;
+}
+</code></pre>
+
+<p>Lets convert this to JSON and see how it looks</p>
+
+<pre><code>import com.google.gson.Gson;
+
+public class JavaToJsonAndBack {
+
+	public static void main(String[] args) {
+		Albums albums = new Albums();
+		albums.title = &quot;Free Music Archive - Albums&quot;;
+		albums.message = &quot;&quot;;
+		albums.total = &quot;11259&quot;;
+		albums.total_pages = 2252;
+		albums.page = 1;
+		albums.limit = &quot;5&quot;;
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		System.out.println(gson.toJson(albums));
+
+	}
+}
+</code></pre>
+
+<p>This is how the resulting JSON looks like</p>
+
+<pre><code>{&quot;title&quot;:&quot;Free Music Archive - Albums&quot;,&quot;message&quot;:&quot;&quot;,&quot;errors&quot;:[],
+&quot;total&quot;:&quot;11259&quot;,&quot;total_pages&quot;:2252,&quot;page&quot;:1,&quot;limit&quot;:&quot;5&quot;}
+</code></pre>
+
+<p>This is a good beginning. Notice how we initialized errors to an empty array. Otherwise Gson would think its null and either ignore it or print null if we allow null serialization. In this case, it looks like we are better off with using a List for errors. Lets change the errors variable to</p>
+
+<pre><code>public List&lt;String&gt; errors = new ArrayList&lt;String&gt;();
+</code></pre>
+
+<p>We have used a GsonBuilder since that allows us to customize the conversion. we will see its benefit later in the example. The next step is to build a class for the dataset. Lets see how the dataset JSON looks</p>
+
+<pre><code>dataset: [
+{
+album_id: &quot;7596&quot;,
+album_title: &quot;!!! - Live @ KEXP 7/24/2010&quot;,
+......
+album_images: [
+{
+image_id: &quot;10574&quot;,
+user_id: null,
+.....
+}
+],
+tags: [ ]
+</code></pre>
+
+<p>For this tutorial we will be considering only some fields from &lsquo;dataset&rsquo; and &lsquo;album_images&rsquo;. The other fields can be added similarly. The dataset contains an array of album and each album contains, besides other fields, an array of album_images. We build a java class for each JSON object. We have already built a java class for albums. Now lets built classes for dataset and album_image.</p>
+
+<pre><code>class Dataset {
+	public String album_id;
+	public String album_title;
+}
+
+class AlbumImages {
+	public String image_id;
+	public String user_id;
+}
+Lets create a Dataset.
+Dataset dataset = new Dataset();
+dataset.album_id = &quot;7596&quot;;
+dataset.album_title = &quot;Album 1&quot;;
+System.out.println(gson.toJson(dataset));
+the json
+{&quot;album_id&quot;:&quot;7596&quot;,&quot;album_title&quot;:&quot;Album 1&quot;}
+The album image
+AlbumImages image = new AlbumImages();
+image.image_id = &quot;1&quot;;
+System.out.println(gson.toJson(image));
+</code></pre>
+
+<p>The album image json</p>
+
+<pre><code>{&quot;image_id&quot;:&quot;1&quot;}
+</code></pre>
+
+<p>See how gson has not printed user_id since its null. We need to be able to tell json to serialize null fields too. GsonBuilder helps us do that</p>
+
+<pre><code>builder.serializeNulls();
+</code></pre>
+
+<p>The album image json now looks like this</p>
+
+<pre><code>{&quot;image_id&quot;:&quot;1&quot;,&quot;user_id&quot;:null}
+</code></pre>
+
+<p>Lets now wire up the dataset into the albums class and the AlbumImage into the dataset class. To the Albums class we add the List of Dataset</p>
+
+<pre><code>List&lt;Dataset&gt; dataset  = new ArrayList&lt;Dataset&gt;();
+To the Dataset class we add a List of images
+List&lt;AlbumImages&gt; images = new ArrayList&lt;AlbumImages&gt;();
+Lets change the main method to add dataset to the album and image to the dataset
+dataset.images.add(image);
+albums.dataset.add(dataset);
+</code></pre>
+
+<p>Here&rsquo;s how our JSON looks now</p>
+
+<pre><code>{&quot;title&quot;:&quot;Free Music Archive - Albums&quot;,&quot;message&quot;:&quot;&quot;,&quot;errors&quot;:[],&quot;total&quot;:&quot;11259&quot;,
+&quot;total_pages&quot;:2252,&quot;page&quot;:1,&quot;limit&quot;:&quot;5&quot;,
+&quot;dataset&quot;:[{&quot;album_id&quot;:&quot;7596&quot;,&quot;album_title&quot;:&quot;Album 1&quot;,
+&quot;images&quot;:[{&quot;image_id&quot;:&quot;1&quot;,&quot;user_id&quot;:null}]}]}
+</code></pre>
+
+<p>Lets turn on pretty printing so that our JSON looks better. However, we do that only during developement. If you are actually designing a server that provides JSON data, then make the JSON as compact as possible.</p>
+
+<pre><code>builder.setPrettyPrinting().serializeNulls();
+</code></pre>
+
+<p>Here&rsquo;s our formatted JSON now</p>
+
+<pre><code>{
+  &quot;title&quot;: &quot;Free Music Archive - Albums&quot;,
+  &quot;message&quot;: &quot;&quot;,
+  &quot;errors&quot;: [],
+  &quot;total&quot;: &quot;11259&quot;,
+  &quot;total_pages&quot;: 2252,
+  &quot;page&quot;: 1,
+  &quot;limit&quot;: &quot;5&quot;,
+  &quot;dataset&quot;: [
+    {
+      &quot;album_id&quot;: &quot;7596&quot;,
+      &quot;album_title&quot;: &quot;Album 1&quot;,
+      &quot;images&quot;: [
+        {
+          &quot;image_id&quot;: &quot;1&quot;,
+          &quot;user_id&quot;: null
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<p>This looks good, however we want to change the name of the &lsquo;images&rsquo; element in dataset to &lsquo;album_images&rsquo;. Lets assume we cant change the java name because it follows the java naming policy. We can use annotation on the field to specify the json name to use for a particular java property. Here&rsquo;s how to do that</p>
+
+<pre><code>@SerializedName(&quot;album_images&quot;)
+List&lt;AlbumImages&gt; images = new ArrayList&lt;AlbumImages&gt;();
+our JSON now contains the name 'album_images'
+&quot;dataset&quot;: [
+    {
+      &quot;album_id&quot;: &quot;7596&quot;,
+      &quot;album_title&quot;: &quot;Album 1&quot;,
+      &quot;album_images&quot;: [
+        {
+          &quot;image_id&quot;: &quot;1&quot;,
+     .........
+</code></pre>
+
+<p>If you dont want to bind your java class to GSON then there is another way to do this. Lets add one more field to the AlbumImage class. We call it albumId. However, we want to name the field album_id in the JSON. To do that we need to specify a NamingStrategy in the GsonBuilder.</p>
+
+<pre><code>builder.setFieldNamingStrategy(new FieldNamingStrategy() {
+
+			@Override
+			public String translateName(Field f) {
+				if (f.getName().equals(&quot;albumId&quot;))
+					return &quot;album_id&quot;;
+				else
+					return f.getName();
+			}
+		});
+</code></pre>
+
+<p>The translateName method is called for all fields and if the name matches albumId we convert the name to album_id and send it back otherwise we send the default. the album_images element now looks like this</p>
+
+<pre><code> &quot;album_images&quot;: [
+        {
+          &quot;image_id&quot;: &quot;1&quot;,
+          &quot;user_id&quot;: null,
+          &quot;album_id&quot;: &quot;10&quot;
+        }
+</code></pre>
+
+<p>GsonBuilder provides a lot of other customization. You can disable HTML escaping, exclude fields with specific modifiers (e.g. exclude all protected fields), set custom type adapters, set exclusion policies etc. Look at the GsonBuilder JavaDoc for the complete list. You can now use the Albums class and parse the JSON using the fromJson method (you will have to add the other properties)</p>
+
+<pre><code>// url is the free music archive url.
+Albums albums = gson.fromJson(IOUtils.toString(new URL(url)), Albums.class);
+</code></pre>
+
+<p>Before we close the tutorial lets look at the complete class. we would appreciate if you could &lsquo;Like us&rsquo; on Facebook and &lsquo;Follow us&rsquo; on Google. The Albums class</p>
+
+<pre><code>class Albums {
+	public String title;
+	public String message;
+	public List errors = new ArrayList();
+	public String total;
+	public int total_pages;
+	public int page;
+	public String limit;
+	List dataset = new ArrayList();
+}
+</code></pre>
+
+<p>The Dataset class</p>
+
+<pre><code>class Dataset {
+	public String album_id;
+	public String album_title;
+	@SerializedName(&quot;album_images&quot;)
+	List&lt;&lt;AlbumImages&gt; images = new ArrayList&lt;AlbumImages&gt;();
+}
+</code></pre>
+
+<p>The AlbumImage class</p>
+
+<pre><code>class AlbumImages {
+	public String image_id;
+	public String user_id;
+	public String albumId;
+}
+</code></pre>
+
+<p>The main method</p>
+
+<pre><code>public static void main(String[] args) {
+		Albums albums = new Albums();
+		albums.title = &quot;Free Music Archive - Albums&quot;;
+		albums.message = &quot;&quot;;
+		albums.total = &quot;11259&quot;;
+		albums.total_pages = 2252;
+		albums.page = 1;
+		albums.limit = &quot;5&quot;;
+		GsonBuilder builder = new GsonBuilder();
+		builder.setPrettyPrinting().serializeNulls();
+		builder.setFieldNamingStrategy(new FieldNamingStrategy() {
+
+			@Override
+			public String translateName(Field f) {
+				if (f.getName().equals(&quot;albumId&quot;))
+					return &quot;album_id&quot;;
+				else
+					return f.getName();
+			}
+		});
+		Gson gson = builder.create();
+
+		Dataset dataset = new Dataset();
+		dataset.album_id = &quot;7596&quot;;
+		dataset.album_title = &quot;Album 1&quot;;
+
+		AlbumImages image = new AlbumImages();
+		image.image_id = &quot;1&quot;;
+		image.albumId = &quot;10&quot;;
+		dataset.images.add(image);
+		albums.dataset.add(dataset);
+
+		System.out.println(gson.toJson(albums));
+
+	}
+</code></pre>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-google-json-parse-json-to-java.jsp" title="Convert json to a java object"><em>here</em></a> )</p>
+
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603122005/" title="上一篇">&lt;&lt; Gson: Introduction</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603122015/" title="下一篇">Gson: parsing json to java token by token >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</html>
