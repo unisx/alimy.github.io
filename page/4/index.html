@@ -174,6 +174,57 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603081427/" title="阅读全文">XStream: XML To Java </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the earlier tutorial we looked at a way to <a href="http://alimy.me/post/dev_201603081411" title="Parsing an XML">convert Java to XML and back</a>. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.</p>
+
+<p>In this first example we have an XML that has a parent element called &lsquo;Music&rsquo;. It has a child element called type. We populate a Music object that has a &lsquo;type&rsquo; field which is an enum.</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+public class ConverterExample3 {
+    static String xml1 = &quot;&lt;Music&gt;&lt;type&gt;rock&lt;/type&gt;&lt;/Music&gt;&quot;;
+
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(Music.class);
+        Music musicObject = (Music) xStream.fromXML(xml1);
+        System.out.println(musicObject);
+        // prints Music [type=ROCK]
+    }
+
+}
+
+@XStreamAlias(&quot;Music&quot;)
+class Music {
+    public enum genre {
+        ROCK, JAZZ
+    };
+
+    genre type;
+
+    @Override
+    public String toString() {
+        return &quot;Music [type=&quot; + type + &quot;]&quot;;
+    }
+
+}     
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603081427/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603081411/" title="阅读全文">XStream: Java to XML and Back </a> </h2>
 
 </header>
@@ -352,21 +403,6 @@ Version 1.8 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spe
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/joy_201601311216/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311215/" title="阅读全文">如龙 极 第五期【Biu雷哥直播】 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NzY1MTcwMA==" frameborder=0 allowfullscreen></iframe><br></p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311215/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
