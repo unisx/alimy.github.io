@@ -1,6 +1,6 @@
 baseurl = "http://alimy.me"
 title = "Alimy"
-author = "Alimy Angstrom"
+author = "Michael Li"
 copyright = "&copy;2016, Alimy; all rights reserved."
 canonifyurls = true
 paginate = 10
