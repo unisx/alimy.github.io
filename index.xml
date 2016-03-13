@@ -82,6 +82,9 @@ HOUR starts from 0&lt;/p&gt;&lt;/li&gt;
 }
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;p&gt;one|two|three
+ 1|2|3&lt;/p&gt;
+
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/date/java-date-and-calendar-classes.jsp&#34; title=&#34;Date And Calendar&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
