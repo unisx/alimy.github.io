@@ -174,6 +174,68 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603112035/" title="阅读全文">Jackson: build java tree model from json </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112035/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603112030/" title="阅读全文">Jackson: json and java - Streaming </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="streaming-parser-and-generator:6aa21e9855db39cd085c6c3608dd23fc">Streaming Parser and Generator</h3>
+
+<p>Jackson provides a low level API to parse json string. The API provides token for each json object. For example, the start of json &lsquo;{&rsquo; is the first object that the parser provides. The key value pair is another single object. The client code can use the tokens and get the json properties or build a java object out of it if required. This low level API is extremely powerful but needs a lot of coding. For most cases, Jackson&rsquo;s tree traversing and data binding capability should be explored instead. We provide two examples below. The first example demonstrates json parsing and the second demonstrated json generation.</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112030/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603112025/" title="阅读全文">Jackson: Java to JSON and back </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="creating-json-from-java:627c82fc263a42c0c87ad3244752e285">Creating JSON from Java</h3>
+
+<p>Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.</p>
+
+<pre><code>class Album {
+    private String title;
+
+    public Album(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+}
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112025/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603112020/" title="阅读全文">Jackson: Introduction </a> </h2>
 
 </header>
@@ -359,87 +421,6 @@ public class XStreamTransformationExample {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603092051/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092041/" title="阅读全文">XStream: Handling Attributes in XML </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the previous tutorial we saw <a href="http://alimy.me/post/dev_201603081411" title="Parsing An XML">how to convert Java to XML and back</a>. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:</p>
-
-<pre><code>&lt;element attr=&quot;  foo\t\n   bar    &quot;&gt;
-&lt;/element&gt;
-</code></pre>
-
-<p>will always be normalized and passed this assertion:</p>
-
-<pre><code>assertEquals(&quot;foo bar&quot;, element.getAttr());
-XStream has no influence about this behavior.
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092041/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603081441/" title="阅读全文">XStream: Java to XML Using Annotation </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the previous tutorials we saw an example of how to <a href="http://alimy.me/post/dev_201603081411">create a java object from XML</a>. That tutorial also explained the concept of aliases and implicit collection. In this tutorial we continue with that but use annotation on the java class. The advantage with annotation is that it is faster to code and develop. the disadvantage is that you bind the java class to XStream.</p>
-
-<p>In the example below we convert an object of type JazzArtist to XML. JazzArtist contains fields name, isAlive, a url and a list of albums. This example uses the following annotations</p>
-
-<ul>
-<li>@XStreamAlias - Used on the type, field or attribute. To understand &lsquo;aliases&rsquo; look at this tutorial</li>
-<li>@XStreamImplicit - Used on Collections or array. To understand &lsquo;Implicit Collections/Arrays&rsquo; look at the this tutorial.</li>
-<li>@XStreamAsAttribute - Used to mark a field as an attribute.</li>
-<li>@XStreamConverter - Use a specific converter for this field. We will look at Converters in detail in a later tutorial. In this example we use a Boolean converter for &lsquo;isAlive&rsquo; field, we want the XML to have values yes or no instead of true or false.</li>
-</ul>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603081441/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603081433/" title="阅读全文">XStream: Java to XML </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the <a href="http://alimy.me/post/dev_201603081411">previous</a> example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &lsquo;JazzArtist&rsquo;. This object has a list of &lsquo;Album&rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.</p>
-
-<pre><code>package com.studytrails.xml.xstream;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.thoughtworks.xstream.XStream;
-
-public class CreateXMLFromMusicArtistObject {
-
-    public static void main(String[] args) {
-        CreateXMLFromMusicArtistObject marshaller = new CreateXMLFromMusicArtistObject();
-        marshaller.createXMlFromObject();
-        marshaller.createXMLFromObjectUsingAlias();
-        marshaller.createXMLFromObjectUsingAliasAndImplicitCollection();
-    }
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603081433/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

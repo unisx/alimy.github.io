@@ -7,7 +7,285 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 12 Mar 2016 20:45:00 CST</updated>
+    <updated>Sun, 13 Mar 2016 20:25:00 CST</updated>
+    
+    <item>
+      <title>Java: org.json</title>
+      <link>http://alimy.me/post/dev_201603132025/</link>
+      <pubDate>Sun, 13 Mar 2016 20:25:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603132025/</guid>
+      <description>
+
+&lt;h3 id=&#34;overview-of-the-api-classes:ea451922ece9dc79afacfb7b6aeaf09c&#34;&gt;Overview of The API Classes&lt;/h3&gt;
+
+&lt;p&gt;org.json has classes to parse and write json string. It also converts between json and xml, HTTP header, Cookies, and CDF. The main classes are:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;org.json.JSONObject - This class stores unordered key value pairs. The value can be Boolean, JSONArray, Number, String or JSONObject.NULL. It has constructors to take in a json string and store it as key value pairs. It also has constructors that take in a Map, a bean or a String&lt;/li&gt;
+&lt;li&gt;org.json.JSONTokener - This class parses a JSON string and is also used internally by the JSONObject and JSONArray classes to parse JSON Strings&lt;/li&gt;
+&lt;li&gt;org.json.JSONArray - This class stores an ordered sequence of values. Externally it represents a JSON Array&lt;/li&gt;
+&lt;li&gt;org.json.JSONWriter - This class represents method to produce json text. It has an append(String) method to append a string to a json text, key(String) and value(String) method to add key and values to json string. It can also write an array.&lt;/li&gt;
+&lt;li&gt;org.json.CDL- This class has methods to convert comma delimited text to JSONArray and a JSONArray to a comma delimited text. The array contains rows of comma separed strings, with rows separated by newline. The first row contains names.&lt;/li&gt;
+&lt;li&gt;org.json.Cookie - This class has method to convert a web browser cookie to a JSONObject and back.&lt;/li&gt;
+&lt;li&gt;org.json.CookieList - This class has method to convert a list of cookies to JSONObject and back.
+Lets see some examples&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;parse-json:ea451922ece9dc79afacfb7b6aeaf09c&#34;&gt;Parse JSON&lt;/h3&gt;
+
+&lt;p&gt;This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytriails.json.orgjson;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
+import org.json.simple.JSONArray;
+
+public class ParseJson1 {
+	public static void main(String[] args) throws MalformedURLException, IOException {
+		String url = &amp;quot;http://freemusicarchive.org/api/get/genres.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=2&amp;quot;;
+		String genreJson = IOUtils.toString(new URL(url));
+		JSONObject json = new JSONObject(genreJson);
+		// get the title
+		System.out.println(json.get(&amp;quot;title&amp;quot;));
+		// get the data
+		JSONArray genreArray = (JSONArray) json.get(&amp;quot;dataset&amp;quot;);
+		// get the first genre
+		JSONObject firstGenre = (JSONObject) genreArray.get(0);
+		System.out.println(firstGenre.get(&amp;quot;genre_title&amp;quot;));
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;build-json-using-a-bean:ea451922ece9dc79afacfb7b6aeaf09c&#34;&gt;Build JSON using a bean&lt;/h3&gt;
+
+&lt;p&gt;Lets look at how to build the same JSON string as above but using a bean for the genre&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytriails.json.orgjson;
+
+import org.json.JSONObject;
+
+public class BuildJson1 {
+
+	public static void main(String[] args) {
+		JSONObject dataset = new JSONObject();
+		dataset.put(&amp;quot;genre_id&amp;quot;, 1);
+		dataset.put(&amp;quot;genre_parent_id&amp;quot;, JSONObject.NULL);
+		dataset.put(&amp;quot;genre_title&amp;quot;, &amp;quot;International&amp;quot;);
+		// use the accumulate function to add to an existing value. The value
+		// will now be converted to a list
+		dataset.accumulate(&amp;quot;genre_title&amp;quot;, &amp;quot;Pop&amp;quot;);
+		// append to the key
+		dataset.append(&amp;quot;genre_title&amp;quot;, &amp;quot;slow&amp;quot;);
+		dataset.put(&amp;quot;genre_handle&amp;quot;, &amp;quot;International&amp;quot;);
+		dataset.put(&amp;quot;genre_color&amp;quot;, &amp;quot;#CC3300&amp;quot;);
+
+		// get the json array for a string
+		System.out.println(dataset.getJSONArray(&amp;quot;genre_title&amp;quot;));
+		// prints [&amp;quot;International&amp;quot;,&amp;quot;Pop&amp;quot;,&amp;quot;slow&amp;quot;]
+
+		// increment a number by 1
+		dataset.increment(&amp;quot;genre_id&amp;quot;);
+
+		// quote a string allowing the json to be delivered within html
+		System.out.println(JSONObject.quote(dataset.toString()));
+		// prints
+		// &amp;quot;{\&amp;quot;genre_color\&amp;quot;:\&amp;quot;#CC3300\&amp;quot;,\&amp;quot;genre_title\&amp;quot;:[\&amp;quot;International\&amp;quot;,\&amp;quot;Pop\&amp;quot;,\&amp;quot;slow\&amp;quot;],
+		// \&amp;quot;genre_handle\&amp;quot;:\&amp;quot;International\&amp;quot;,\&amp;quot;genre_parent_id\&amp;quot;:null,\&amp;quot;genre_id\&amp;quot;:2}&amp;quot;
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;creating-a-csv-from-jsonarray:ea451922ece9dc79afacfb7b6aeaf09c&#34;&gt;Creating a CSV from JsonArray&lt;/h3&gt;
+
+&lt;p&gt;Lets look at an example of how to use the java.json.CDL class to convert a jsonarray to a csv&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.studytriails.json.orgjson;
+
+import java.io.IOException;
+import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
+import org.json.CDL;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class JsonToCsv {
+	public static void main(String[] args) {
+		String url = &amp;quot;http://freemusicarchive.org/api/get/genres.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=10&amp;quot;;
+		try {
+			String genreJson = IOUtils.toString(new URL(url));
+			JSONObject json = new JSONObject(genreJson);
+			System.out.println(CDL.toString(new JSONArray(json.get(&amp;quot;dataset&amp;quot;).toString())));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-org-json.jsp&#34; title=&#34;Java - org.json&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Java: Json Simple</title>
+      <link>http://alimy.me/post/dev_201603132015/</link>
+      <pubDate>Sun, 13 Mar 2016 20:15:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603132015/</guid>
+      <description>
+
+&lt;p&gt;Json Simple is, as the name suggest, a very simple API. The API itself is made up of around 13 classes. The main classes are :&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;JSONParser - This parses Json text. It takes in a java.io.Reader or a String Object. It is also possible to pass a ContentHandler or ContainerHandler to the parser.&lt;/li&gt;
+&lt;li&gt;JSONObject - This is a java representation of JSON string. It stores key value pairs. JsonObject extends HashMap. It has method to encode a map to a JSON text (writeJSONString(Map map, Writer out))&lt;/li&gt;
+&lt;li&gt;JSONArray - Represents a collection. It extends an ArrayList. It implements the JSONAware and JSONStreamAware interface&lt;/li&gt;
+&lt;li&gt;JSONValue - This class has methods to parse JSON string into Java objects. It uses the JSONParser to do so. It has methods to write JSON string from many java types (writeJSONString(Object value, Writer out)). It also has methods to escapte special characters using the escape(String s) method. This method escapes quotes, \, /, \r, \n, \b, \f, \t and other control characters (U+0000 through U+001F)&lt;/li&gt;
+&lt;li&gt;JSONAware - Beans that support output to JSON form should implement this interface.
+Lets see some examples&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;parse-json:74b021baee5c16170d831b65ab6f7843&#34;&gt;Parse JSON&lt;/h3&gt;
+
+&lt;p&gt;This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import java.io.IOException;
+import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.ParseException;
+
+public class ParseJson1 {
+
+    public static void main(String[] args) {
+        String url = &amp;quot;http://freemusicarchive.org/api/get/genres.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=2&amp;quot;;
+        /*
+         * {&amp;quot;title&amp;quot;:&amp;quot;Free Music Archive - Genres&amp;quot;,&amp;quot;message&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;errors&amp;quot;:[],&amp;quot;total&amp;quot; : &amp;quot;161&amp;quot;,&amp;quot;total_pages&amp;quot;:81,&amp;quot;page&amp;quot;:1,&amp;quot;limit&amp;quot;:&amp;quot;2&amp;quot;,
+         * &amp;quot;dataset&amp;quot;:
+         * [{&amp;quot;genre_id&amp;quot;: &amp;quot;1&amp;quot;,&amp;quot;genre_parent_id&amp;quot;:&amp;quot;38&amp;quot;,&amp;quot;genre_title&amp;quot;:&amp;quot;Avant-Garde&amp;quot; ,&amp;quot;genre_handle&amp;quot;: &amp;quot;Avant-Garde&amp;quot;,&amp;quot;genre_color&amp;quot;:&amp;quot;#006666&amp;quot;},
+         * {&amp;quot;genre_id&amp;quot;:&amp;quot;2&amp;quot;,&amp;quot;genre_parent_id&amp;quot; :null,&amp;quot;genre_title&amp;quot;:&amp;quot;International&amp;quot;,&amp;quot;genre_handle&amp;quot;:&amp;quot;International&amp;quot;,&amp;quot;genre_color&amp;quot;:&amp;quot;#CC3300&amp;quot;}]}
+         */
+        try {
+            String genreJson = IOUtils.toString(new URL(url));
+            JSONObject genreJsonObject = (JSONObject) JSONValue.parseWithException(genreJson);
+            // get the title
+            System.out.println(genreJsonObject.get(&amp;quot;title&amp;quot;));
+            // get the data
+            JSONArray genreArray = (JSONArray) genreJsonObject.get(&amp;quot;dataset&amp;quot;);
+            // get the first genre
+            JSONObject firstGenre = (JSONObject) genreArray.get(0);
+            System.out.println(firstGenre.get(&amp;quot;genre_title&amp;quot;));
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;build-json:74b021baee5c16170d831b65ab6f7843&#34;&gt;Build JSON&lt;/h3&gt;
+
+&lt;p&gt;We now build a json string for a genre&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONAware;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
+public class BuildJson2 {
+
+    public static void main(String[] args) {
+        BuildJson2 json2 = new BuildJson2();
+        GenreBean bean = json2.new GenreBean();
+        bean.setGenre_title(&amp;quot;International&amp;quot;);
+        bean.setGenre_color(&amp;quot;#CC3300&amp;quot;);
+        bean.setGenre_handle(&amp;quot;International&amp;quot;);
+        bean.setGenre_id(1);
+        System.out.println(JSONValue.toJSONString(bean));
+    }
+
+    class GenreBean implements JSONAware {
+
+        int genre_id;
+        int genre_parent_id;
+        String genre_handle;
+        String genre_title;
+        String genre_color;
+
+        @Override
+        public String toJSONString() {
+            Map&amp;lt;Object , Object&amp;gt; genreBeanJsonMap = new HashMap&amp;lt;Object , Object&amp;gt;();
+            genreBeanJsonMap.put(&amp;quot;genre_id&amp;quot;, getGenre_id());
+            genreBeanJsonMap.put(&amp;quot;genre_parent_id&amp;quot;, getGenre_parent_id());
+            genreBeanJsonMap.put(&amp;quot;genre_handle&amp;quot;, getGenre_handle());
+            genreBeanJsonMap.put(&amp;quot;genre_title&amp;quot;, getGenre_handle());
+            genreBeanJsonMap.put(&amp;quot;genre_color&amp;quot;, getGenre_color());
+            return JSONObject.toJSONString(genreBeanJsonMap);
+        }
+
+        public int getGenre_id() {
+            return genre_id;
+        }
+
+        public void setGenre_id(int genre_id) {
+            this.genre_id = genre_id;
+        }
+
+        public int getGenre_parent_id() {
+            return genre_parent_id;
+        }
+
+        public void setGenre_parent_id(int genre_parent_id) {
+            this.genre_parent_id = genre_parent_id;
+        }
+
+        public String getGenre_handle() {
+            return genre_handle;
+        }
+
+        public void setGenre_handle(String genre_handle) {
+            this.genre_handle = genre_handle;
+        }
+
+        public String getGenre_title() {
+            return genre_title;
+        }
+
+        public void setGenre_title(String genre_title) {
+            this.genre_title = genre_title;
+        }
+
+        public String getGenre_color() {
+            return genre_color;
+        }
+
+        public void setGenre_color(String genre_color) {
+            this.genre_color = genre_color;
+        }
+
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-json-simple.jsp&#34; title=&#34;Java - Json Simple&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Gson: User Guide</title>
@@ -2319,237 +2597,6 @@ public abstract class BirdMixIn {
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-jackson-mix-in-annotation.jsp&#34; title=&#34;jackson Mix- In Annotations&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Jackson: Json data binding filters</title>
-      <link>http://alimy.me/post/dev_201603112055/</link>
-      <pubDate>Fri, 11 Mar 2016 20:55:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603112055/</guid>
-      <description>
-
-&lt;p&gt;Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &amp;lsquo;tags&amp;rsquo; property from the albums dataset.&lt;/li&gt;
-&lt;li&gt;@JsonIgnore - This annotation can be set at property level to ignore certain properties.&lt;/li&gt;
-&lt;li&gt;Using Custom filters&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.&lt;/p&gt;
-
-&lt;h3 id=&#34;data-binding-filters-example:36264cd232902e18141acc789ff21fa2&#34;&gt;Data Binding Filters Example&lt;/h3&gt;
-
-&lt;h4 id=&#34;databinding:36264cd232902e18141acc789ff21fa2&#34;&gt;Databinding&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-// Do not use fields to autodetect. use the public getter methods to autodetect properties
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
-public class AlbumsFilter {
-
-    private String title;
-    private DatasetFilter[] datasetFilter;
-    public String total_pages;
-
-    protected String getTotal_pages() {
-        return total_pages;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    // this getter method is for the &#39;dataset&#39; property
-    @JsonProperty(&amp;quot;dataset&amp;quot;)
-    public DatasetFilter[] getDatasetFilter() {
-        return datasetFilter;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;datasetfilter-class:36264cd232902e18141acc789ff21fa2&#34;&gt;DatasetFilter class&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-// ignore the property with name &#39;tags&#39;.
-@JsonIgnoreProperties({ &amp;quot;tags&amp;quot; })
-public class DatasetFilter {
-    private String album_id;
-    private String album_title;
-    private Map&amp;lt;String , Object&amp;gt; otherProperties = new HashMap&amp;lt;String , Object&amp;gt;();
-    private String album_comments;
-
-    @JsonCreator
-    public DatasetFilter(@JsonProperty(&amp;quot;album_id&amp;quot;) String album_id, @JsonProperty(&amp;quot;album_title&amp;quot;) String album_title) {
-        this.album_id = album_id;
-        this.album_title = album_title;
-    }
-
-    // ignore the property specified by this getter.
-    @JsonIgnore
-    public String getAlbum_comments() {
-        return album_comments;
-    }
-
-    public String getAlbum_id() {
-        return album_id;
-    }
-
-    public void setAlbum_id(String album_id) {
-        this.album_id = album_id;
-    }
-
-    public String getAlbum_title() {
-        return album_title;
-    }
-
-    public void setAlbum_title(String album_title) {
-        this.album_title = album_title;
-    }
-
-    public Object get(String name) {
-        return otherProperties.get(name);
-    }
-
-    // this method is used to get all properties not specified earlier.
-    @JsonAnyGetter
-    public Map&amp;lt;String , Object&amp;gt; any() {
-        return otherProperties;
-    }
-
-    @JsonAnySetter
-    public void set(String name, Object value) {
-        otherProperties.put(name, value);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-jackson-data-binding-filters.jsp&#34; title=&#34;Json data binding filters&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Jackson: Json annotations and dyna beans</title>
-      <link>http://alimy.me/post/dev_201603112050/</link>
-      <pubDate>Fri, 11 Mar 2016 20:50:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603112050/</guid>
-      <description>
-
-&lt;p&gt;The json string at times have a lot of properties. It seems a waste creating a POJO with all those properties. Wouldnt it be great if there was a catch&amp;rsquo;all that could read all properties in a map? Jackson provides annotations to do just that. In the example below we have set two properties in the bean and the other properties are read into a map. These example also introduces some common annotations using in Jackson. Lets look at them briefly:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;@JsonProperty-This annotation is used to mark a method as a getter or setter for a property. In other words, it associates a json field with a java property. If a name is specified (@JsonProperty(&amp;ldquo;age&amp;rdquo;)) then the java property that is annotated with this annotation is mapped to the &amp;lsquo;age&amp;rsquo; field of the json, If no name is specified the java property name is used.&lt;/li&gt;
-&lt;li&gt;@JsonCreator-This annotation is used the define constructors that are used to create java objects from json string. It is used during data binding and specifies properties that will be used to create java objects during deserialization.&lt;/li&gt;
-&lt;li&gt;@JsonAnyGetter and @JsonAnySetter - This annotations are used to mark methods that set or read fields that are not handled by any other java property. These act like catch-all and handle all fields that are not handled by any other java property. The fields are stored in a map as key value pairs.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;data-binding-example:bbe5bd370d848e969f04326afa884de3&#34;&gt;Data Binding Example&lt;/h3&gt;
-
-&lt;h4 id=&#34;databinding:bbe5bd370d848e969f04326afa884de3&#34;&gt;Databinding&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-public class AlbumsDynamic {
-
-    private String title;
-    private DatasetDynamic[] dataset;
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDataset(DatasetDynamic[] dataset) {
-        this.dataset = dataset;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public DatasetDynamic[] getDataset() {
-        return dataset;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;dataset-class:bbe5bd370d848e969f04326afa884de3&#34;&gt;Dataset class&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class DatasetDynamic {
-    private String album_id;
-    private String album_title;
-    private Map&amp;lt;String , Object&amp;gt; otherProperties = new HashMap&amp;lt;String , Object&amp;gt;();
-
-    @JsonCreator
-    public DatasetDynamic(@JsonProperty(&amp;quot;album_id&amp;quot;) String album_id, @JsonProperty(&amp;quot;album_title&amp;quot;) String album_title) {
-        this.album_id = album_id;
-        this.album_title = album_title;
-    }
-
-    public String getAlbum_id() {
-        return album_id;
-    }
-
-    public void setAlbum_id(String album_id) {
-        this.album_id = album_id;
-    }
-
-    public String getAlbum_title() {
-        return album_title;
-    }
-
-    public void setAlbum_title(String album_title) {
-        this.album_title = album_title;
-    }
-
-    public Object get(String name) {
-        return otherProperties.get(name);
-    }
-
-    @JsonAnyGetter
-    public Map&amp;lt;String , Object&amp;gt; any() {
-        return otherProperties;
-    }
-
-    @JsonAnySetter
-    public void set(String name, Object value) {
-        otherProperties.put(name, value);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-jackson-Annotations-Dynamic-Beans.jsp&#34; title=&#34;Json annotations and dyna beans&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
 </description>
     </item>
     

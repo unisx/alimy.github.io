@@ -174,6 +174,71 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603122020/" title="阅读全文">Gson: Convert json to a java object tree </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122020/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603122015/" title="阅读全文">Gson: parsing json to java token by token </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the earlier tutorials we saw how to <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122015/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603122010/" title="阅读全文">Gson: Convert json to a java object </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Google json provides methods to convert the json string to java objects. The Java object may be hierarchical. For this example we consider java objects of non generic type only. Gson uses the name to match the json property to the java field. There are two ways to convert json to java.</p>
+
+<ul>
+<li>Using the com.google.gson.Gson class. Create a new instance of this class and use the method public <T> T fromJson(String json, Class<T> classOfT). classOfT is the java object to which the json is to be converted to.</li>
+<li>The other way is to use the com.google.gson.GsonBuilder class. This class allows setting up certain features, such as - allowing null serialization or setting up custom serializing policies. Create a GsonBuilder, apply the features and then obtain the Gson class from the builder.</li>
+</ul>
+
+<p>In this tutorial we look at the Gson class to de-serialize json from <a href="http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5" title="free music archive">free music archive</a>. The main class is the Albums class and it contains the list of Datasets. Each Dataset is one album. The way to approach the problem of deserialization is to build a java class such that the when Gson converts the Java class to JSON, the resultant JSON resembles the one we are trying to parse. Lets see this in action. If you look at the JSON, it starts with a root object that has properties such as title, message, errors, etc.</p>
+
+<pre><code>{
+title: &quot;Free Music Archive - Albums&quot;,
+message: &quot;&quot;,
+errors: [ ],
+total: &quot;11259&quot;,
+total_pages: 2252,
+page: 1,
+limit: &quot;5&quot;,
+dataset: [
+{
+......
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122010/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122005/" title="阅读全文">Gson: Introduction </a> </h2>
 
 </header>
@@ -422,68 +487,6 @@ public class AlbumsFilter {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112040/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112035/" title="阅读全文">Jackson: build java tree model from json </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112035/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112030/" title="阅读全文">Jackson: json and java - Streaming </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="streaming-parser-and-generator:6aa21e9855db39cd085c6c3608dd23fc">Streaming Parser and Generator</h3>
-
-<p>Jackson provides a low level API to parse json string. The API provides token for each json object. For example, the start of json &lsquo;{&rsquo; is the first object that the parser provides. The key value pair is another single object. The client code can use the tokens and get the json properties or build a java object out of it if required. This low level API is extremely powerful but needs a lot of coding. For most cases, Jackson&rsquo;s tree traversing and data binding capability should be explored instead. We provide two examples below. The first example demonstrates json parsing and the second demonstrated json generation.</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112030/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112025/" title="阅读全文">Jackson: Java to JSON and back </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="creating-json-from-java:627c82fc263a42c0c87ad3244752e285">Creating JSON from Java</h3>
-
-<p>Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.</p>
-
-<pre><code>class Album {
-    private String title;
-
-    public Album(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-}
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112025/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

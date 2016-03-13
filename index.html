@@ -174,6 +174,95 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603132030/" title="阅读全文">Java: Date And Calendar </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="overview-of-date-and-calendar-classes:903fa8484a7e080c7a9dddbda27c7bc4">Overview of Date and Calendar classes</h3>
+
+<p>In this tutorial we look at the classes in java that are helpful in manipulating dates. Manipulating dates in java can be challenging, especially if you are building applications that cater to multiple timezones. Parsing dates, printing a date in UTC, printing a date in a different timezone, comparing dates, adding time to date&hellip; we will be looking at all of these in this tutorial. We first begin with the introduction to the classes and then follow up with examples. You may want to directly jump to the examples, however, we strongly recommend that you understand the classes first, since that will make the examples very easy to understand.</p>
+
+<ul>
+<li><p>java.util.Date - This class is used to represent a specific time with a precision of millisecond. If you create a new Date object, it obtains the current system time using System.currentTimeMillis(). This is the number of milliseconds since epoch time (midnight, January 1, 1970 UTC). Here&rsquo;s the tricky part, date stores time as number of seconds since epoch, it is a UTC time. However, when you print the date, you get the string representation of the date in the local timezone. Also note that the Date class is not designed to manipulate hour, month, year etc or retrieve them. Use this class only to create data or compare two dates. For all other uses, see the Calendar or GregorianCalendar class.</p></li>
+
+<li><p>java.util.Calendar - Calendar class allows manipulating data using its various fields such as minute, hour, day etc. As in the java.util.Date object, time is represented as number of milliseconds since epoch time. To get an instance of the Calendar use the Calendar.getInstance() method which returns a locale sensitive Calendar instance. Various set and get methods can be used to set and get time values. The current time is represented in two ways - 1. as number of milliseconds since epoch and 2. as local fields such as YEAR, MONTH, DAY, HOUR, MINUTE etc. The conversion between the two types is achieved by using the timezone offset (getOffset()) and the daylight savings fields.<br />
+the MONTH fields starts from 0 (JANUARY).<br />
+The DAY_OF_MONTH starts from 1<br />
+the DAY_OF_WEEK starts from SUNDAY with a value of 1.<br />
+HOUR starts from 0</p></li>
+
+<li><p>java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples</p></li>
+</ul>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603132030/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603132025/" title="阅读全文">Java: org.json </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="overview-of-the-api-classes:ea451922ece9dc79afacfb7b6aeaf09c">Overview of The API Classes</h3>
+
+<p>org.json has classes to parse and write json string. It also converts between json and xml, HTTP header, Cookies, and CDF. The main classes are:</p>
+
+<ol>
+<li>org.json.JSONObject - This class stores unordered key value pairs. The value can be Boolean, JSONArray, Number, String or JSONObject.NULL. It has constructors to take in a json string and store it as key value pairs. It also has constructors that take in a Map, a bean or a String</li>
+<li>org.json.JSONTokener - This class parses a JSON string and is also used internally by the JSONObject and JSONArray classes to parse JSON Strings</li>
+<li>org.json.JSONArray - This class stores an ordered sequence of values. Externally it represents a JSON Array</li>
+<li>org.json.JSONWriter - This class represents method to produce json text. It has an append(String) method to append a string to a json text, key(String) and value(String) method to add key and values to json string. It can also write an array.</li>
+<li>org.json.CDL- This class has methods to convert comma delimited text to JSONArray and a JSONArray to a comma delimited text. The array contains rows of comma separed strings, with rows separated by newline. The first row contains names.</li>
+<li>org.json.Cookie - This class has method to convert a web browser cookie to a JSONObject and back.</li>
+<li>org.json.CookieList - This class has method to convert a list of cookies to JSONObject and back.
+Lets see some examples</li>
+</ol>
+
+<h3 id="parse-json:ea451922ece9dc79afacfb7b6aeaf09c">Parse JSON</h3>
+
+<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603132025/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603132015/" title="阅读全文">Java: Json Simple </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Json Simple is, as the name suggest, a very simple API. The API itself is made up of around 13 classes. The main classes are :</p>
+
+<ul>
+<li>JSONParser - This parses Json text. It takes in a java.io.Reader or a String Object. It is also possible to pass a ContentHandler or ContainerHandler to the parser.</li>
+<li>JSONObject - This is a java representation of JSON string. It stores key value pairs. JsonObject extends HashMap. It has method to encode a map to a JSON text (writeJSONString(Map map, Writer out))</li>
+<li>JSONArray - Represents a collection. It extends an ArrayList. It implements the JSONAware and JSONStreamAware interface</li>
+<li>JSONValue - This class has methods to parse JSON string into Java objects. It uses the JSONParser to do so. It has methods to write JSON string from many java types (writeJSONString(Object value, Writer out)). It also has methods to escapte special characters using the escape(String s) method. This method escapes quotes, \, /, \r, \n, \b, \f, \t and other control characters (U+0000 through U+001F)</li>
+<li>JSONAware - Beans that support output to JSON form should implement this interface.
+Lets see some examples</li>
+</ul>
+
+<h3 id="parse-json:74b021baee5c16170d831b65ab6f7843">Parse JSON</h3>
+
+<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603132015/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122045/" title="阅读全文">Gson: User Guide </a> </h2>
 
 </header>
@@ -436,71 +525,6 @@ public class DeSerializeListExample5 {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122022/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122020/" title="阅读全文">Gson: Convert json to a java object tree </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122020/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122015/" title="阅读全文">Gson: parsing json to java token by token </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorials we saw how to <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122015/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122010/" title="阅读全文">Gson: Convert json to a java object </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Google json provides methods to convert the json string to java objects. The Java object may be hierarchical. For this example we consider java objects of non generic type only. Gson uses the name to match the json property to the java field. There are two ways to convert json to java.</p>
-
-<ul>
-<li>Using the com.google.gson.Gson class. Create a new instance of this class and use the method public <T> T fromJson(String json, Class<T> classOfT). classOfT is the java object to which the json is to be converted to.</li>
-<li>The other way is to use the com.google.gson.GsonBuilder class. This class allows setting up certain features, such as - allowing null serialization or setting up custom serializing policies. Create a GsonBuilder, apply the features and then obtain the Gson class from the builder.</li>
-</ul>
-
-<p>In this tutorial we look at the Gson class to de-serialize json from <a href="http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5" title="free music archive">free music archive</a>. The main class is the Albums class and it contains the list of Datasets. Each Dataset is one album. The way to approach the problem of deserialization is to build a java class such that the when Gson converts the Java class to JSON, the resultant JSON resembles the one we are trying to parse. Lets see this in action. If you look at the JSON, it starts with a root object that has properties such as title, message, errors, etc.</p>
-
-<pre><code>{
-title: &quot;Free Music Archive - Albums&quot;,
-message: &quot;&quot;,
-errors: [ ],
-total: &quot;11259&quot;,
-total_pages: 2252,
-page: 1,
-limit: &quot;5&quot;,
-dataset: [
-{
-......
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122010/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

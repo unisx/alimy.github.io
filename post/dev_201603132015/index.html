@@ -1,0 +1,350 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> Java: Json Simple &middot; Alimy </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">Alimy</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                            </br>  </ul>
+                    </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">Alimy</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Java: Json Simple</h2>
+          
+          
+
+<p>Json Simple is, as the name suggest, a very simple API. The API itself is made up of around 13 classes. The main classes are :</p>
+
+<ul>
+<li>JSONParser - This parses Json text. It takes in a java.io.Reader or a String Object. It is also possible to pass a ContentHandler or ContainerHandler to the parser.</li>
+<li>JSONObject - This is a java representation of JSON string. It stores key value pairs. JsonObject extends HashMap. It has method to encode a map to a JSON text (writeJSONString(Map map, Writer out))</li>
+<li>JSONArray - Represents a collection. It extends an ArrayList. It implements the JSONAware and JSONStreamAware interface</li>
+<li>JSONValue - This class has methods to parse JSON string into Java objects. It uses the JSONParser to do so. It has methods to write JSON string from many java types (writeJSONString(Object value, Writer out)). It also has methods to escapte special characters using the escape(String s) method. This method escapes quotes, \, /, \r, \n, \b, \f, \t and other control characters (U+0000 through U+001F)</li>
+<li>JSONAware - Beans that support output to JSON form should implement this interface.
+Lets see some examples</li>
+</ul>
+
+<h3 id="parse-json:74b021baee5c16170d831b65ab6f7843">Parse JSON</h3>
+
+<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org</p>
+
+<pre><code>import java.io.IOException;
+import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.ParseException;
+
+public class ParseJson1 {
+
+    public static void main(String[] args) {
+        String url = &quot;http://freemusicarchive.org/api/get/genres.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=2&quot;;
+        /*
+         * {&quot;title&quot;:&quot;Free Music Archive - Genres&quot;,&quot;message&quot;:&quot;&quot;,&quot;errors&quot;:[],&quot;total&quot; : &quot;161&quot;,&quot;total_pages&quot;:81,&quot;page&quot;:1,&quot;limit&quot;:&quot;2&quot;,
+         * &quot;dataset&quot;:
+         * [{&quot;genre_id&quot;: &quot;1&quot;,&quot;genre_parent_id&quot;:&quot;38&quot;,&quot;genre_title&quot;:&quot;Avant-Garde&quot; ,&quot;genre_handle&quot;: &quot;Avant-Garde&quot;,&quot;genre_color&quot;:&quot;#006666&quot;},
+         * {&quot;genre_id&quot;:&quot;2&quot;,&quot;genre_parent_id&quot; :null,&quot;genre_title&quot;:&quot;International&quot;,&quot;genre_handle&quot;:&quot;International&quot;,&quot;genre_color&quot;:&quot;#CC3300&quot;}]}
+         */
+        try {
+            String genreJson = IOUtils.toString(new URL(url));
+            JSONObject genreJsonObject = (JSONObject) JSONValue.parseWithException(genreJson);
+            // get the title
+            System.out.println(genreJsonObject.get(&quot;title&quot;));
+            // get the data
+            JSONArray genreArray = (JSONArray) genreJsonObject.get(&quot;dataset&quot;);
+            // get the first genre
+            JSONObject firstGenre = (JSONObject) genreArray.get(0);
+            System.out.println(firstGenre.get(&quot;genre_title&quot;));
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+
+<h3 id="build-json:74b021baee5c16170d831b65ab6f7843">Build JSON</h3>
+
+<p>We now build a json string for a genre</p>
+
+<pre><code>import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONAware;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
+public class BuildJson2 {
+
+    public static void main(String[] args) {
+        BuildJson2 json2 = new BuildJson2();
+        GenreBean bean = json2.new GenreBean();
+        bean.setGenre_title(&quot;International&quot;);
+        bean.setGenre_color(&quot;#CC3300&quot;);
+        bean.setGenre_handle(&quot;International&quot;);
+        bean.setGenre_id(1);
+        System.out.println(JSONValue.toJSONString(bean));
+    }
+
+    class GenreBean implements JSONAware {
+
+        int genre_id;
+        int genre_parent_id;
+        String genre_handle;
+        String genre_title;
+        String genre_color;
+
+        @Override
+        public String toJSONString() {
+            Map&lt;Object , Object&gt; genreBeanJsonMap = new HashMap&lt;Object , Object&gt;();
+            genreBeanJsonMap.put(&quot;genre_id&quot;, getGenre_id());
+            genreBeanJsonMap.put(&quot;genre_parent_id&quot;, getGenre_parent_id());
+            genreBeanJsonMap.put(&quot;genre_handle&quot;, getGenre_handle());
+            genreBeanJsonMap.put(&quot;genre_title&quot;, getGenre_handle());
+            genreBeanJsonMap.put(&quot;genre_color&quot;, getGenre_color());
+            return JSONObject.toJSONString(genreBeanJsonMap);
+        }
+
+        public int getGenre_id() {
+            return genre_id;
+        }
+
+        public void setGenre_id(int genre_id) {
+            this.genre_id = genre_id;
+        }
+
+        public int getGenre_parent_id() {
+            return genre_parent_id;
+        }
+
+        public void setGenre_parent_id(int genre_parent_id) {
+            this.genre_parent_id = genre_parent_id;
+        }
+
+        public String getGenre_handle() {
+            return genre_handle;
+        }
+
+        public void setGenre_handle(String genre_handle) {
+            this.genre_handle = genre_handle;
+        }
+
+        public String getGenre_title() {
+            return genre_title;
+        }
+
+        public void setGenre_title(String genre_title) {
+            this.genre_title = genre_title;
+        }
+
+        public String getGenre_color() {
+            return genre_color;
+        }
+
+        public void setGenre_color(String genre_color) {
+            this.genre_color = genre_color;
+        }
+
+    }
+}
+</code></pre>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-json-simple.jsp" title="Java - Json Simple"><em>here</em></a> )</p>
+
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603122045/" title="上一篇">&lt;&lt; Gson: User Guide</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603132025/" title="下一篇">Java: org.json >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</html>
