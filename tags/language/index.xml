@@ -7,7 +7,228 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Wed, 13 Jan 2016 00:00:00 UTC</updated>
+    <updated>Sun, 13 Mar 2016 20:45:00 CST</updated>
+    
+    <item>
+      <title>Intro to TOML</title>
+      <link>http://alimy.me/post/dev_201603132045/</link>
+      <pubDate>Sun, 13 Mar 2016 20:45:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603132045/</guid>
+      <description>
+
+&lt;h3 id=&#34;overview-of-date-and-calendar-classes:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Overview of Date and Calendar classes&lt;/h3&gt;
+
+&lt;p&gt;TOML stands for Tom’s Own Minimal Language. It is a configuration language vaguely similar to YAML or property lists, but far, far better. But before we get into it in detail, let’s look back at what came before.&lt;/p&gt;
+
+&lt;h3 id=&#34;long-ago-in-a-galaxy-far-far-away:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Long Ago, In A Galaxy Far, Far Away&lt;/h3&gt;
+
+&lt;p&gt;Since the beginning of computing, people have needed a way to configure their software. On Linux, this generally is done in text files. For simple configurations, good old foo = bar works pretty well. One setting per line, name on the left, value on the right, separated by an equals. Great. But when your configuration gets more complicated, this quickly breaks down. What if you need a value that is more than one line? How do you indicate a value should be parsed as a number instead of a string? How do you namespace related configuration values so you don’t need ridiculously long names to prevent collisions?&lt;/p&gt;
+
+&lt;h3 id=&#34;the-dark-ages:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;The Dark Ages&lt;/h3&gt;
+
+&lt;p&gt;In the 90’s, we used XML. And it sucked. XML is verbose, it’s hard for humans to read and write, and it still doesn’t solve a lot of the problems above (like how to specify the type of a value). In addition, the XML spec is huge, processing is very complicated, and all the extra features invite abuse and overcomplication.&lt;/p&gt;
+
+&lt;h3 id=&#34;enlightenment:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Enlightenment&lt;/h3&gt;
+
+&lt;p&gt;In the mid 2000’s, JSON came to popularity as a data exchange format, and it was so much better than XML. It had real types, it was easy for programs to process, and you didn’t have to write a spec on what values should get processed in what way (well, mostly). It was sigificantly less verbose than XML. But it is a format intended for computers to read and write, not humans. It is a pain to write by hand, and even pretty-printed, it can be hard to read and the compact data format turns into a nested mess of curly braces. Also, JSON is not without its problems… for example, there’s no date type, there’s no support for comments, and all numbers are floats.&lt;/p&gt;
+
+&lt;h3 id=&#34;a-false-start:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;A False Start&lt;/h3&gt;
+
+&lt;p&gt;YAML came to popularity some time after JSON as a more human-readable format, and its key: value syntax and pretty indentation is definitely a lot easier on the eyes than JSON’s nested curly-braces. However, YAML trades ease of reading for difficulty in writing. Indentation as delimiters is fraught with error… figuring out how to get multiple lines of data into any random value is an exercise in googling and trial &amp;amp; error.&lt;/p&gt;
+
+&lt;p&gt;The YAML spec is also ridiculously long. 100% compatible parsers are very difficult to write. Writing YAML by hand is a ridden with landmines of corner cases where your choice of names or values happens to hit a reserved word or special marker. It does support comments, though.&lt;/p&gt;
+
+&lt;h3 id=&#34;the-savior:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;The Savior&lt;/h3&gt;
+
+&lt;p&gt;On February 23, 2013, Tom Preston-Werner (former CEO of GitHub) made his first commit to &lt;a href=&#34;https://github.com/toml-lang/toml&#34;&gt;https://github.com/toml-lang/toml&lt;/a&gt;. TOML stands for Tom’s Obvious, Minimal Language. It is a language designed for configuring software. Finally.&lt;/p&gt;
+
+&lt;p&gt;TOML takes inspiration from all of the above (well, except XML) and even gets some of its syntax from Microsoft’s INI files. It is easy to write by hand and easy to read. The spec is short and understandable by mere humans, and it’s fairly easy for computers to parse. It supports comments, has first class dates, and supports both integers and floats. It is generally insensitive to whitespace, without requiring a ton of delimiters.&lt;/p&gt;
+
+&lt;p&gt;Let’s dive in.&lt;/p&gt;
+
+&lt;h3 id=&#34;the-basics:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;The Basics&lt;/h3&gt;
+
+&lt;p&gt;The basic form is key = value&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Comments start with hash
+foo = &amp;quot;strings are in quotes and are always UTF8 with escape codes: \n \u00E9&amp;quot;
+
+bar = &amp;quot;&amp;quot;&amp;quot;multi-line strings
+use three quotes&amp;quot;&amp;quot;&amp;quot;
+
+baz = &#39;literal\strings\use\single\quotes&#39;
+
+bat = &#39;&#39;&#39;multiline\literals\use
+three\quotes&#39;&#39;&#39;
+
+int = 5 # integers are just numbers
+float = 5.0 # floats have a decimal point with numbers on both sides
+
+date = 2006-05-27T07:32:00Z # dates are ISO 8601 full zulu form
+
+bool = true # good old true and false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;One cool point: If the first line of a multiline string (either literal or not) is a line return, it will be trimmed. So you can make your big blocks of text start on the line after the name of the value and not need to worry about the extraneous newline at the beginning of your text:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;preabmle = &amp;quot;&amp;quot;&amp;quot;
+We the people of the United States, in order to form a more perfect union,
+establish justice, insure domestic tranquility, provide for the common defense,
+promote the general welfare, and secure the blessings of liberty to ourselves
+and our posterity, do ordain and establish this Constitution for the United
+States of America.&amp;quot;&amp;quot;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;lists:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Lists&lt;/h3&gt;
+
+&lt;p&gt;Lists (arrays) are signified with brackets and delimited with commas. Only primitives are allowed in this form, though you may have nested lists. The format is forgiving, ignoring whitespace and newlines, and yes, the last comma is optional (thank you!):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;foo = [ &amp;quot;bar&amp;quot;, &amp;quot;baz&amp;quot;
+        &amp;quot;bat&amp;quot;
+]
+
+nums = [ 1, 2, ]
+
+nested = [[ &amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;], [1, 2]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I love that the format is forgiving of whitespace and that last comma. I like that the arrays are all of a single type, but allowing mixed types of sub-arrays bugs the heck out of me.&lt;/p&gt;
+
+&lt;h3 id=&#34;now-we-get-crazy:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Now we get crazy&lt;/h3&gt;
+
+&lt;p&gt;What’s left? In JSON there are objects, in YAML there are associative arrays… in common parlance they are maps or dictionaries or hash tables. Named collections of key/value pairs.&lt;/p&gt;
+
+&lt;p&gt;In TOML they are called tables and look like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# some config above
+[table_name]
+foo = 1
+bar = 2
+Foo and bar are keys in the table called table_name. Tables have to be at the end of the config file. Why? because there’s no end delimiter. All keys under a table declaration are associated with that table, until a new table is declared or the end of the file. So declaring two tables looks like this:
+
+# some config above
+[table1]
+foo = 1
+bar = 2
+
+[table2]
+	foo = 1
+	baz = 2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The declaration of table2 defines where table1 ends. Note that you can indent the values if you want, or not. TOML doesn’t care.&lt;/p&gt;
+
+&lt;p&gt;If you want nested tables, you can do that, too. It looks like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[table1]
+	foo = &amp;quot;bar&amp;quot;
+
+[table1.nested_table]
+	baz = &amp;quot;bat&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;nested_table&lt;/code&gt; is defined as a value in &lt;code&gt;table1&lt;/code&gt; because its name starts with &lt;code&gt;table1..&lt;/code&gt; Again, the table goes until the next table definition, so &lt;code&gt;baz=&amp;quot;bat&amp;quot;&lt;/code&gt; is a value in &lt;code&gt;table1.nested_table&lt;/code&gt;. You can indent the nested table to make it more obvious, but again, all whitespace is optional:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[table1]
+	foo = &amp;quot;bar&amp;quot;
+
+	[table1.nested_table]
+		baz = &amp;quot;bat&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is equivalent to the JSON:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+	&amp;quot;table1&amp;quot; : {
+		&amp;quot;foo&amp;quot; : &amp;quot;bar&amp;quot;,
+		&amp;quot;nested_table&amp;quot; : {
+			&amp;quot;baz&amp;quot; : &amp;quot;bat&amp;quot;
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Having to retype the parent table name for each sub-table is kind of annoying, but I do like that it is very explicit. It also means that ordering and indenting and delimiters don’t matter. You don’t have to declare parent tables if they’re empty, so you can do something like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[foo.bar.baz]
+bat = &amp;quot;hi&amp;quot;
+Which is the equivalent to this JSON:
+
+{
+	&amp;quot;foo&amp;quot; : {
+		&amp;quot;bar&amp;quot; : {
+			&amp;quot;baz&amp;quot; : {
+				&amp;quot;bat&amp;quot; : &amp;quot;hi&amp;quot;
+			}
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;last-but-not-least:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Last but not least&lt;/h3&gt;
+
+&lt;p&gt;The last thing is arrays of tables, which are declared with double brackets thusly:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[[comments]]
+author = &amp;quot;Nate&amp;quot;
+text = &amp;quot;Great Article!&amp;quot;
+
+[[comments]]
+author = &amp;quot;Anonymous&amp;quot;
+text = &amp;quot;Love it!&amp;quot;
+This is equivalent to the JSON:
+
+{
+	&amp;quot;comments&amp;quot; : [
+		{
+			&amp;quot;author&amp;quot; : &amp;quot;Nate&amp;quot;,
+			&amp;quot;text&amp;quot; : Great Article!&amp;quot;
+		},
+		{
+			&amp;quot;author&amp;quot; : &amp;quot;Anonymous&amp;quot;,
+			&amp;quot;text&amp;quot; : Love It!&amp;quot;
+		}
+	]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Arrays of tables inside another table get combined in the way you’d expect, like [[table1.array]].&lt;/p&gt;
+
+&lt;p&gt;TOML is very permissive here. Because all tables have very explicitly defined parentage, the order they’re defined in doesn’t matter. You can have tables (and entries in an array of tables) in whatever order you want. This is totally acceptable:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[[comments]]
+author = &amp;quot;Anonymous&amp;quot;
+text = &amp;quot;Love it!&amp;quot;
+
+[foo.bar.baz]
+bat = &amp;quot;hi&amp;quot;
+
+[foo.bar]
+howdy = &amp;quot;neighbor&amp;quot;
+
+[[comments]]
+author = &amp;quot;Anonymous&amp;quot;
+text = &amp;quot;Love it!&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Of course, it generally makes sense to actually order things in a more organized fashion, but it’s nice that you can’t shoot yourself in the foot if you reorder things “incorrectly”.&lt;/p&gt;
+
+&lt;h3 id=&#34;conclusion:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;That’s TOML. It’s pretty awesome.&lt;/p&gt;
+
+&lt;p&gt;There’s a &lt;a href=&#34;https://github.com/toml-lang/toml#implementations&#34; title=&#34;list of parsers&#34;&gt;list of parsers&lt;/a&gt; on the TOML page on github for pretty much whatever language you want. I recommend &lt;a href=&#34;https://github.com/BurntSushi/toml &#39;BurntSushi&#34;&gt;BurntSushi’s for Go&lt;/a&gt;, since it works just like the built-in parsers.&lt;/p&gt;
+
+&lt;p&gt;It is now my default configuration language for all the applications I write.&lt;/p&gt;
+
+&lt;p&gt;The next time you write an application that needs some configuration, take a look at TOML. I think your users will thank you.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://npf.io/2014/08/intro-to-toml/&#34; title=&#34;Intro to TOML&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Markdown</title>
