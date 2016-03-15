@@ -184,6 +184,21 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603092055/" title="阅读全文">XStream: Custom Converter for BufferedImage </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the previous tutorials we saw an example of how to convert a <a href="http://alimy.me/post/dev_201603081411" title="parsing an xml">java object to XML and back</a>. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092055/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603092051/" title="阅读全文">XStream: Referencing Objects </a> </h2>
 
 </header>
@@ -423,21 +438,6 @@ public class Example {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/art_201603071419/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603032011/" title="阅读全文">SimpleXML: Tutorial </a> </h2>
-
-</header>
-<div class="summary">
-    <p>This page provides a tutorial that will prepare users for using XML serialization. Before this tutorial is attempted it is advisable to have a look at the <a href="http://simple.sourceforge.net/download/stream/doc/javadoc/">Javadoc</a> documentation for the framework. Although there are only several annotations and objects involved in the serialization process the framework itself has many powerful features which this tutorial attempts to describe.</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603032011/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
