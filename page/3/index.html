@@ -84,6 +84,62 @@
         #post-navigator-next {
           float:right;
         }
+        .pages {
+            text-align: center;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .pages>ul {
+            font-weight: lighter;
+        }
+        .pages>.pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0px;
+            border-radius: 4px;
+        }
+        .pages .pagination>li {
+            display:inline;
+        }
+       
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.428571429;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.pagination>li:first-child>a, .pagination>li:first-child>span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus {
+    color: #999;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
     </style>
 </head>
 
@@ -96,7 +152,7 @@
     <header class="
         
         
-                panel-cover
+                panel-cover panel-cover--collapsed
         
         " >
     <div class="panel-main">
@@ -112,7 +168,7 @@
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
-                            <li class="navigation__item"><a href="http://alimy.me#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                            <li class="navigation__item"><a href="http://alimy.me" title="博客首页" class="blog-button">Blog</a> </li>
                             </br>  </ul>
                     </nav> <nav class="cover-navigation navigation--social">
     <ul class="navigation"> 
@@ -155,7 +211,7 @@
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
                             <ul class="navigation">
-                                <li class="navigation__item"><a href="http://alimy.me/#blog" title="博客首页" class="blog-button">Blog</a> </li>
+                                <li class="navigation__item"><a href="http://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
                                 </br>  </ul>
                         </nav> <nav class="cover-navigation navigation--social">
     <ul class="navigation"> 
@@ -181,6 +237,84 @@
                 <section id="main">
                     <div>
                         
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
+
+<ol>
+<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &lsquo;tags&rsquo; property from the albums dataset.</li>
+<li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
+<li>Using Custom filters</li>
+</ol>
+
+<p>The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.</p>
+
+<h3 id="data-binding-filters-example:36264cd232902e18141acc789ff21fa2">Data Binding Filters Example</h3>
+
+<h4 id="databinding:36264cd232902e18141acc789ff21fa2">Databinding</h4>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+// Do not use fields to autodetect. use the public getter methods to autodetect properties
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
+public class AlbumsFilter {
+
+    private String title;
+    private DatasetFilter[] datasetFilter;
+    public String total_pages;
+
+    protected String getTotal_pages() {
+        return total_pages;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    // this getter method is for the 'dataset' property
+    @JsonProperty(&quot;dataset&quot;)
+    public DatasetFilter[] getDatasetFilter() {
+        return datasetFilter;
+    }
+}
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112055/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603112050/" title="阅读全文">Jackson: Json annotations and dyna beans </a> </h2>
+
+</header>
+<div class="summary">
+    <p>The json string at times have a lot of properties. It seems a waste creating a POJO with all those properties. Wouldnt it be great if there was a catch&rsquo;all that could read all properties in a map? Jackson provides annotations to do just that. In the example below we have set two properties in the bean and the other properties are read into a map. These example also introduces some common annotations using in Jackson. Lets look at them briefly:</p>
+
+<ol>
+<li>@JsonProperty-This annotation is used to mark a method as a getter or setter for a property. In other words, it associates a json field with a java property. If a name is specified (@JsonProperty(&ldquo;age&rdquo;)) then the java property that is annotated with this annotation is mapped to the &lsquo;age&rsquo; field of the json, If no name is specified the java property name is used.</li>
+<li>@JsonCreator-This annotation is used the define constructors that are used to create java objects from json string. It is used during data binding and specifies properties that will be used to create java objects during deserialization.</li>
+<li>@JsonAnyGetter and @JsonAnySetter - This annotations are used to mark methods that set or read fields that are not handled by any other java property. These act like catch-all and handle all fields that are not handled by any other java property. The fields are stored in a map as key value pairs.</li>
+</ol>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112050/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
                         
                             <article class="post panel-wrapper">
 <header>
@@ -401,69 +535,72 @@ public class XStreamTransformationExample {
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092115/" title="阅读全文">XStream: Json to Java </a> </h2>
-
-</header>
-<div class="summary">
-    XStream can also be used with JSON. XStream provides two drivers : a JsonHierarchicalStreamDriver and a JettisonMappedXmlDriver. The JsonHierarchicalStreamDriver can be used to write a JSON string but cannot deserialize a JSON. JettisonMappedXmlDriver can be used to deserialize a JSON but it introduces an additional dependency. In this example we deserialize a json string into a java object. Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML.
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092115/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092105/" title="阅读全文">XStream: Collection Converters </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorials we saw how to convert a <a href="http://alimy.me/post/dev_201603081411" title="parsing an xml">Java object to XML and back</a>, <a href="http://alimy.me/post/dev_201603092055" title="custom converter">custom converter</a> and <a href="http://alimy.me/post/dev_201603092100" title="basic converters">basic converters</a>. In this tutorial we look at how XStream converts array and collections from java to xml and vice versa. We will convert the following types :</p>
-
-<ol>
-<li>String[]</li>
-<li>char[]</li>
-<li>List<String></li>
-<li>java.util.Properties</li>
-<li>List<String></li>
-<li>Map<String, String></li>
-<li>TreeMap<String, String> treeMap</li>
-<li>TreeSet<String> treeSet</li>
-<li>enum</li>
-<li>EnumMap<testEnum, String> testEnum is an enum</li>
-<li>EnumSet<testEnum> testEnum is an enum</li>
-</ol>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092105/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092100/" title="阅读全文">XStream: Basic Built-in Converters </a> </h2>
-
-</header>
-<div class="summary">
-    In the previous tutorials we saw an example of how to convert java object to XML and back. That tutorial also explained the concept of aliases and implicit collection.In the last tutorial we show how to write a custom converter. In this tutorial, lets see some of the basic built in converters of XStream and how the resultant XML from those converters look like. We will look at how the following types are converted.
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092100/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     <h4>
                         <a href="http://alimy.me/post/" title="文章列表">Archive</a>
                     </h4>
                 </section>
+                <div class="pages">
+  
+    
+    <ul class="pagination">
+        
+        <li>
+            <a href="http://alimy.me/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+        </li>
+        
+        <li
+        >
+        <a href="http://alimy.me/page/2/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+        </li>
+        
+        <li
+        ><a href="http://alimy.me/">1</a></li>
+        
+        <li
+        ><a href="http://alimy.me/page/2/">2</a></li>
+        
+        <li
+        class="active"><a href="http://alimy.me/page/3/">3</a></li>
+        
+        <li
+        ><a href="http://alimy.me/page/4/">4</a></li>
+        
+        <li
+        ><a href="http://alimy.me/page/5/">5</a></li>
+        
+        <li
+        ><a href="http://alimy.me/page/6/">6</a></li>
+        
+        <li
+        ><a href="http://alimy.me/page/7/">7</a></li>
+        
+        <li
+        ><a href="http://alimy.me/page/8/">8</a></li>
+        
+        <li
+        ><a href="http://alimy.me/page/9/">9</a></li>
+        
+        <li
+        ><a href="http://alimy.me/page/10/">10</a></li>
+        
+        <li
+        ><a href="http://alimy.me/page/11/">11</a></li>
+        
+        <li
+        >
+        <a href="http://alimy.me/page/4/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+        </li>
+        
+        <li>
+            <a href="http://alimy.me/page/11/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        </li>
+        
+    </ul>
+    
+</div>
+
             <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. </p></footer>
 
             </div>
