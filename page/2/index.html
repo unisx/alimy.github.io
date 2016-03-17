@@ -240,33 +240,6 @@
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="http://alimy.me/post/dev_201603122028/" title="阅读全文">Gson: Serializing Inner Classes </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-inner-classes:94d200a9b12cc728e29eb582b49f7787">Serializing inner classes</h3>
-
-<p>Gson can serialize inner classes and static nested classes. The detailed example below demonstrates the following things.</p>
-
-<ol>
-<li>Serializing class containing static nested class</li>
-<li>Serializing class containing non static nested class (Inner class)</li>
-<li>De-serializing json to a class containing static and non static inner class</li>
-<li>Serializing static nested class (without the enclosing type)</li>
-<li>Serializing non static nested class (without the enclosing type)</li>
-<li>De-serializing json to a static nested class (without the enclosing type)</li>
-<li>De-serializing json to a non static nested class (without the enclosing type)</li>
-</ol>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122028/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122025/" title="阅读全文">Gson: Serializing and deserializing Java Generic Classes </a> </h2>
 
 </header>
@@ -545,6 +518,84 @@ public class SerializeExample3 {
 </article>
 
                         
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
+
+<ol>
+<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &lsquo;tags&rsquo; property from the albums dataset.</li>
+<li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
+<li>Using Custom filters</li>
+</ol>
+
+<p>The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.</p>
+
+<h3 id="data-binding-filters-example:36264cd232902e18141acc789ff21fa2">Data Binding Filters Example</h3>
+
+<h4 id="databinding:36264cd232902e18141acc789ff21fa2">Databinding</h4>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+// Do not use fields to autodetect. use the public getter methods to autodetect properties
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
+public class AlbumsFilter {
+
+    private String title;
+    private DatasetFilter[] datasetFilter;
+    public String total_pages;
+
+    protected String getTotal_pages() {
+        return total_pages;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    // this getter method is for the 'dataset' property
+    @JsonProperty(&quot;dataset&quot;)
+    public DatasetFilter[] getDatasetFilter() {
+        return datasetFilter;
+    }
+}
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112055/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603112050/" title="阅读全文">Jackson: Json annotations and dyna beans </a> </h2>
+
+</header>
+<div class="summary">
+    <p>The json string at times have a lot of properties. It seems a waste creating a POJO with all those properties. Wouldnt it be great if there was a catch&rsquo;all that could read all properties in a map? Jackson provides annotations to do just that. In the example below we have set two properties in the bean and the other properties are read into a map. These example also introduces some common annotations using in Jackson. Lets look at them briefly:</p>
+
+<ol>
+<li>@JsonProperty-This annotation is used to mark a method as a getter or setter for a property. In other words, it associates a json field with a java property. If a name is specified (@JsonProperty(&ldquo;age&rdquo;)) then the java property that is annotated with this annotation is mapped to the &lsquo;age&rsquo; field of the json, If no name is specified the java property name is used.</li>
+<li>@JsonCreator-This annotation is used the define constructors that are used to create java objects from json string. It is used during data binding and specifies properties that will be used to create java objects during deserialization.</li>
+<li>@JsonAnyGetter and @JsonAnySetter - This annotations are used to mark methods that set or read fields that are not handled by any other java property. These act like catch-all and handle all fields that are not handled by any other java property. The fields are stored in a map as key value pairs.</li>
+</ol>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112050/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
                     </div>
                     </br>
                     <h4>
@@ -596,15 +647,12 @@ public class SerializeExample3 {
         ><a href="http://alimy.me/page/10/">10</a></li>
         
         <li
-        ><a href="http://alimy.me/page/11/">11</a></li>
-        
-        <li
         >
         <a href="http://alimy.me/page/3/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
         </li>
         
         <li>
-            <a href="http://alimy.me/page/11/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+            <a href="http://alimy.me/page/10/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
         </li>
         
     </ul>
