@@ -3,7 +3,7 @@ title = "Alimy"
 author = "Michael Li"
 copyright = "&copy;2016, Alimy; all rights reserved."
 canonifyurls = true
-paginate = 9
+paginate = 10
 theme = "uno"
 
 [params]
