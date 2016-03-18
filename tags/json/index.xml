@@ -300,7 +300,8 @@ public class BuildJson2 {
 &lt;li&gt;&lt;a href=&#34;#TOC-Goals-for-Gson&#34;&gt;Goals for Gson&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Gson-Performance-and-Scalability&#34;&gt;Gson Performance and Scalability&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Gson-Users&#34;&gt;Gson Users&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Using-Gson&#34;&gt;Using Gson&lt;/a&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Using-Gson&#34;&gt;Using Gson&lt;/a&gt;&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Gson-With-Maven&#34;&gt;Using Gson with Maven&lt;/a&gt;&lt;/li&gt;
@@ -316,22 +317,37 @@ public class BuildJson2 {
 &lt;li&gt;&lt;a href=&#34;#TOC-Built-in-Serializers-and-Deserializers&#34;&gt;Built-in Serializers and Deserializers&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Custom-Serialization-and-Deserialization&#34;&gt;Custom Serialization and Deserialization&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Writing-a-Serializer&#34;&gt;Writing a Serializer&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Writing-a-Deserializer&#34;&gt;Writing a Deserializer&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Writing-an-Instance-Creator&#34;&gt;Writing an Instance Creator&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-InstanceCreator-for-a-Parameterized-Type&#34;&gt;InstanceCreator for a Parameterized Type&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Compact-Vs.-Pretty-Printing-for-JSON-Output-Format&#34;&gt;Compact Vs. Pretty Printing for JSON Output Format&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Null-Object-Support&#34;&gt;Null Object Support&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Versioning-Support&#34;&gt;Versioning Support&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Excluding-Fields-From-Serialization-and-Deserialization&#34;&gt;Excluding Fields From Serialization and Deserialization&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Java-Modifier-Exclusion&#34;&gt;Java Modifier Exclusion&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Gson-s-Expose&#34;&gt;Gson&amp;rsquo;s &lt;code&gt;@Expose&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-User-Defined-Exclusion-Strategies&#34;&gt;User Defined Exclusion Strategies&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-JSON-Field-Naming-Support&#34;&gt;JSON Field Naming Support&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Sharing-State-Across-Custom-Serializers-and-Deserializers&#34;&gt;Sharing State Across Custom Serializers and Deserializers&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Streaming&#34;&gt;Streaming&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Writing-a-Deserializer&#34;&gt;Writing a Deserializer&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Writing-an-Instance-Creator&#34;&gt;Writing an Instance Creator&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-InstanceCreator-for-a-Parameterized-Type&#34;&gt;InstanceCreator for a Parameterized Type&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Compact-Vs.-Pretty-Printing-for-JSON-Output-Format&#34;&gt;Compact Vs. Pretty Printing for JSON Output Format&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Null-Object-Support&#34;&gt;Null Object Support&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Versioning-Support&#34;&gt;Versioning Support&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Excluding-Fields-From-Serialization-and-Deserialization&#34;&gt;Excluding Fields From Serialization and Deserialization&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Java-Modifier-Exclusion&#34;&gt;Java Modifier Exclusion&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Gson-s-Expose&#34;&gt;Gson&amp;rsquo;s &lt;code&gt;@Expose&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-User-Defined-Exclusion-Strategies&#34;&gt;User Defined Exclusion Strategies&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-JSON-Field-Naming-Support&#34;&gt;JSON Field Naming Support&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Sharing-State-Across-Custom-Serializers-and-Deserializers&#34;&gt;Sharing State Across Custom Serializers and Deserializers&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Streaming&#34;&gt;Streaming&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Issues-in-Designing-Gson&#34;&gt;Issues in Designing Gson&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#TOC-Future-Enhancements-to-Gson&#34;&gt;Future Enhancements to Gson&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Issues-in-Designing-Gson&#34;&gt;Issues in Designing Gson&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Future-Enhancements-to-Gson&#34;&gt;Future Enhancements to Gson&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h2 id=&#34;a-name-toc-overview-a-overview:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Overview&#34;&gt;&lt;/a&gt;Overview&lt;/h2&gt;

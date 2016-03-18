@@ -1,0 +1,3551 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> 50 Shades of Go &middot; Alimy </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75081327-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+        .pages {
+            text-align: center;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .pages>ul {
+            font-weight: lighter;
+        }
+        .pages>.pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0px;
+            border-radius: 4px;
+        }
+        .pages .pagination>li {
+            display:inline;
+        }
+       
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.428571429;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.pagination>li:first-child>a, .pagination>li:first-child>span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus {
+    color: #999;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">Alimy</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me" title="博客首页" class="blog-button">Blog</a> </li>
+                            </br>  </ul>
+                    </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">Alimy</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>50 Shades of Go</h2>
+          
+          
+
+<p>Go is a simple and fun language, but, like any other language, it has a few gotchas&hellip; Many of those gotchas are not entirely Go&rsquo;s fault. Some of these mistakes are natural traps if you are coming from another language. Others are due to faulty assumptions and missing details.</p>
+
+<p>A lot of these gotchas may seem obvious if you took the time to learn the language reading the official spec, wiki, mailing list discussions, many great posts and presentations by Rob Pike, and the source code. Not everybody starts the same way though and that&rsquo;s OK. If you are new to Go the information here will save you hours debugging your code.</p>
+
+<p>This post covers Go 1.5 and below.</p>
+
+<h3 id="total-beginner:d69ae22d9ee4babfbb2c7eb1d79dc668">Total Beginner:</h3>
+
+<ol>
+<li><a href="#1">Opening Brace Can&rsquo;t Be Placed on a Separate Line</a></li>
+<li><a href="#2">Unused Variables</a></li>
+<li><a href="#3">Unused Imports</a></li>
+<li><a href="#4">Short Variable Declarations Can Be Used Only Inside Functions</a></li>
+<li><a href="#5">Redeclaring Variables Using Short Variable Declarations</a></li>
+<li><a href="#6">Can&rsquo;t Use Short Variable Declarations to Set Field Values</a></li>
+<li><a href="#7">Accidental Variable Shadowing</a></li>
+<li><a href="#8">Can&rsquo;t Use &ldquo;nil&rdquo; to Initialize a Variable Without an Explicit Type</a></li>
+
+<li><p><a href="#9">Using &ldquo;nil&rdquo; Slices and Maps</a></p></li>
+
+<li><p><a href="#10">Map Capacity</a></p></li>
+
+<li><p><a href="#11">Strings Can&rsquo;t Be &ldquo;nil&rdquo;</a></p></li>
+
+<li><p><a href="#12">Array Function Arguments</a></p></li>
+
+<li><p><a href="#13">Unexpected Values in Slice and Array &ldquo;range&rdquo; Clauses</a></p></li>
+
+<li><p><a href="#14">Slices and Arrays Are One-Dimensional</a></p></li>
+
+<li><p><a href="#15">Accessing Non-Existing Map Keys</a></p></li>
+
+<li><p><a href="#16">Strings Are Immutable</a></p></li>
+
+<li><p><a href="#17">Conversions Between Strings and Byte Slices</a></p></li>
+
+<li><p><a href="#18">Strings and Index Operator</a></p></li>
+
+<li><p><a href="#19">Strings Are Not Always UTF8 Text</a></p></li>
+
+<li><p><a href="#20">String Length</a></p></li>
+
+<li><p><a href="#21">Missing Comma In Multi-Line Slice/Array/Map Literals</a></p></li>
+
+<li><p><a href="#22">log.Fatal and log.Panic Do More Than Log</a></p></li>
+
+<li><p><a href="#23">Built-in Data Structure Operations Are Not Synchronized</a></p></li>
+
+<li><p><a href="#24">Iteration Values For Strings in &ldquo;range&rdquo; Clauses</a></p></li>
+
+<li><p><a href="#25">Iterating Through a Map Using a &ldquo;for range&rdquo; Clause</a></p></li>
+
+<li><p><a href="#26">Fallthrough Behavior in &ldquo;switch&rdquo; Statements</a></p></li>
+
+<li><p><a href="#27">Increments and Decrements</a></p></li>
+
+<li><p><a href="#28">Bitwise NOT Operator</a></p></li>
+
+<li><p><a href="#29">Operator Precedence Differences</a></p></li>
+
+<li><p><a href="#30">Unexported Structure Fields Are Not Encoded</a></p></li>
+
+<li><p><a href="#31">App Exits With Active Goroutines</a></p></li>
+
+<li><p><a href="#32">Sending to an Unbuffered Channel Returns As Soon As the Target Receiver Is Ready</a></p></li>
+
+<li><p><a href="#33">Sending to an Closed Channel Causes a Panic</a></p></li>
+
+<li><p><a href="#34">Using &ldquo;nil&rdquo; Channels</a></p></li>
+
+<li><p><a href="#35">Methods with Value Receivers Can&rsquo;t Change the Original Value</a></p></li>
+</ol>
+
+<h3 id="intermediate-beginner:d69ae22d9ee4babfbb2c7eb1d79dc668">Intermediate Beginner:</h3>
+
+<ol>
+<li><a href="#36">Closing HTTP Response Body</a></li>
+<li><a href="#37">Closing HTTP Connections</a></li>
+<li><a href="#38">Unmarshalling JSON Numbers into Interface Values</a></li>
+<li><a href="#39">Comparing Structs, Arrays, Slices, and Maps</a></li>
+<li><a href="#40">Recovering From a Panic</a></li>
+<li><a href="#41">Updating and Referencing Item Values in Slice, Array, and Map &ldquo;for range&rdquo; Clauses</a></li>
+<li><a href="#42">&ldquo;Hidden&rdquo; Data in Slices</a></li>
+<li><a href="#43">Slice Data Corruption</a></li>
+<li><a href="#44">&ldquo;Stale&rdquo; Slices</a></li>
+<li><a href="#45">Type Declarations and Methods</a></li>
+<li><a href="#46">Breaking Out of &ldquo;for switch&rdquo; and &ldquo;for select&rdquo; Code Blocks</a></li>
+<li><a href="#47">Iteration Variables and Closures in &ldquo;for&rdquo; Statements</a></li>
+<li><a href="#48">Deferred Function Call Argument Evaluation</a></li>
+<li><a href="#49">Deferred Function Call Execution</a></li>
+<li><a href="#50">Failed Type Assertions</a></li>
+<li><a href="#51">Blocked Goroutines and Resource Leaks</a></li>
+</ol>
+
+<h3 id="advanced-beginner:d69ae22d9ee4babfbb2c7eb1d79dc668">Advanced Beginner:</h3>
+
+<ol>
+<li><a href="#52">Using Pointer Receiver Methods On Value Instances</a></li>
+<li><a href="#53">Updating Map Value Fields</a></li>
+<li><a href="#54">&ldquo;nil&rdquo; Interfaces and &ldquo;nil&rdquo; Interfaces Values</a></li>
+<li><a href="#55">Stack and Heap Variables</a></li>
+<li><a href="#56">GOMAXPROCS, Concurrency, and Parallelism</a></li>
+<li><a href="#57">Read and Write Operation Reordering</a></li>
+<li><a href="#58">Preemptive Scheduling</a></li>
+</ol>
+
+<h3 id="a-name-1-a-opening-brace-can-t-be-placed-on-a-separate-line:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="1"></a>Opening Brace Can&rsquo;t Be Placed on a Separate Line</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>In most other languages that use braces you get to choose where you place them. Go is different. You can thank automatic semicolon injection (without lookahead) for this behavior. Yes, Go does have semicolons :-)</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main()  
+{ //error, can't have the opening brace on a separate line
+    fmt.Println(&quot;hello there!&quot;)
+}
+</code></pre>
+
+<p><em>Compile Error:</em></p>
+
+<pre><code>/tmp/sandbox826898458/main.go:6: syntax error: unexpected semicolon or newline before {
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    fmt.Println(&quot;works!&quot;)
+}
+</code></pre>
+
+<h3 id="a-name-2-a-unused-variables:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="2"></a>Unused Variables</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>If you have an unused variable your code will fail to compile. There&rsquo;s an exception though. You must use variables you declare inside functions, but it&rsquo;s OK if you have unused global variables. It&rsquo;s also OK to have unused function arguments.</p>
+
+<p>If you assign a new value to the unused variable your code will still fail to compile. You need to use the variable value somehow to make the compiler happy.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+var gvar int //not an error
+
+func main() {  
+    var one int   //error, unused variable
+    two := 2      //error, unused variable
+    var three int //error, even though it's assigned 3 on the next line
+    three = 3
+
+    func(unused string) {
+        fmt.Println(&quot;Unused arg. No compile error&quot;)
+    }(&quot;what?&quot;)
+}
+</code></pre>
+
+<p><em>Compile Errors:</em></p>
+
+<pre><code>/tmp/sandbox473116179/main.go:6: one declared and not used /tmp/sandbox473116179/main.go:7: two declared and not used /tmp/sandbox473116179/main.go:8: three declared and not used
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    var one int
+    _ = one
+
+    two := 2
+    fmt.Println(two)
+
+    var three int
+    three = 3
+    one = three
+
+    var four int
+    four = four
+}
+</code></pre>
+
+<p>Another option is to comment out or remove the unused variables :-)</p>
+
+<h3 id="a-name-3-a-unused-imports:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="3"></a>Unused Imports</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>Your code will fail to compile if you import a package without using any of its exported functions, interfaces, structures, or variables.</p>
+
+<p>If you really need the imported package you can use the blank identifier, _ , as its package name to avoid this compilation failure. The blank identifier is used to import packages for their side effects.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;log&quot;
+    &quot;time&quot;
+)
+
+func main() {  
+}
+</code></pre>
+
+<p><em>Compile Errors:</em></p>
+
+<pre><code>/tmp/sandbox627475386/main.go:4: imported and not used: &quot;fmt&quot; /tmp/sandbox627475386/main.go:5: imported and not used: &quot;log&quot; /tmp/sandbox627475386/main.go:6: imported and not used: &quot;time&quot;
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import (  
+    _ &quot;fmt&quot;
+    &quot;log&quot;
+    &quot;time&quot;
+)
+
+var _ = log.Println
+
+func main() {  
+    _ = time.Now
+}
+</code></pre>
+
+<p>Another option is to remove or comment out the unused imports :-) The goimports tool can help you with that.</p>
+
+<h3 id="a-name-4-a-short-variable-declarations-can-be-used-only-inside-functions:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="4"></a>Short Variable Declarations Can Be Used Only Inside Functions</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+myvar := 1 //error
+
+func main() {  
+}
+</code></pre>
+
+<p><em>Compile Error:</em></p>
+
+<pre><code>/tmp/sandbox265716165/main.go:3: non-declaration statement outside function body
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+var myvar = 1
+
+func main() {  
+}
+</code></pre>
+
+<h3 id="a-name-5-a-redeclaring-variables-using-short-variable-declarations:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="5"></a>Redeclaring Variables Using Short Variable Declarations</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>You can&rsquo;t redeclare a variable in a standalone statement, but it is allowed in multi-variable declarations where at least one new variable is also declared.</p>
+
+<p>The redeclared variable has to be in the same block or you&rsquo;ll end up with a shadowed variable.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+func main() {  
+    one := 0
+    one := 1 //error
+}
+</code></pre>
+
+<p><em>Compile Error:</em></p>
+
+<pre><code>/tmp/sandbox706333626/main.go:5: no new variables on left side of :=
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+func main() {  
+    one := 0
+    one, two := 1,2
+
+    one,two = two,one
+}
+</code></pre>
+
+<h3 id="a-name-6-a-can-t-use-short-variable-declarations-to-set-field-values:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="6"></a>Can&rsquo;t Use Short Variable Declarations to Set Field Values</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+import (  
+  &quot;fmt&quot;
+)
+
+type info struct {  
+  result int
+}
+
+func work() (int,error) {  
+    return 13,nil  
+  }
+
+func main() {  
+  var data info
+
+  data.result, err := work() //error
+  fmt.Printf(&quot;info: %+v\n&quot;,data)
+}
+</code></pre>
+
+<p><em>Compile Error:</em></p>
+
+<pre><code>prog.go:18: non-name data.result on left side of :=
+</code></pre>
+
+<p>Even though there&rsquo;s a ticket to address this gotcha it&rsquo;s unlikely to change because Rob Pike likes it &ldquo;as is&rdquo; :-)</p>
+
+<p>Use temporary variables or predeclare all your variables and use the standard assignment operator.</p>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import (  
+  &quot;fmt&quot;
+)
+
+type info struct {  
+  result int
+}
+
+func work() (int,error) {  
+    return 13,nil  
+  }
+
+func main() {  
+  var data info
+
+  var err error
+  data.result, err = work() //ok
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  fmt.Printf(&quot;info: %+v\n&quot;,data) //prints: info: {result:13}
+}
+</code></pre>
+
+<h3 id="a-name-7-a-accidental-variable-shadowing:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="7"></a>Accidental Variable Shadowing</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>The short variable declaration syntax is so convenient (especially for those coming from a dynamic language) that it&rsquo;s easy to treat it like a regular assignment operation. If you make this mistake in a new code block there will be no compiler error, but your app will not do what you expect.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    x := 1
+    fmt.Println(x)     //prints 1
+    {
+        fmt.Println(x) //prints 1
+        x := 2
+        fmt.Println(x) //prints 2
+    }
+    fmt.Println(x)     //prints 1 (bad if you need 2)
+}
+</code></pre>
+
+<p>This is a very common trap even for experienced Go developers. It&rsquo;s easy to make and it could be hard to spot.</p>
+
+<p>You can use the vet command to find some of these problems. By default, vet will not perform any shadowed variable checks. Make sure to use the -shadow flag: go tool vet -shadow your_file.go</p>
+
+<p>Note that the vet command will not report all shadowed variables. Use go-nyet for more aggressive shadowed variable detection.</p>
+
+<h3 id="a-name-8-a-can-t-use-nil-to-initialize-a-variable-without-an-explicit-type:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="8"></a>Can&rsquo;t Use &ldquo;nil&rdquo; to Initialize a Variable Without an Explicit Type</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>The &ldquo;nil&rdquo; identifier can be used as the &ldquo;zero value&rdquo; for interfaces, functions, pointers, maps, slices, and channels. If you don&rsquo;t specify the variable type the compiler will fail to compile your code because it can&rsquo;t guess the type.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+func main() {  
+    var x = nil //error
+
+    _ = x
+}
+</code></pre>
+
+<p><em>Compile Error:</em></p>
+
+<pre><code>/tmp/sandbox188239583/main.go:4: use of untyped nil
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+func main() {  
+    var x interface{} = nil
+
+    _ = x
+}
+</code></pre>
+
+<h3 id="a-name-9-a-using-nil-slices-and-maps:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="9"></a>Using &ldquo;nil&rdquo; Slices and Maps</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>It&rsquo;s OK to add items to a &ldquo;nil&rdquo; slice, but doing the same with a map will produce a runtime panic.</p>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+func main() {  
+    var s []int
+    s = append(s,1)
+}
+</code></pre>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+func main() {  
+    var m map[string]int
+    m[&quot;one&quot;] = 1 //error
+
+}
+</code></pre>
+
+<h3 id="a-name-10-a-map-capacity:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="10"></a>Map Capacity</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>You can specify the map capacity when it&rsquo;s created, but you can&rsquo;t use the cap() function on maps.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+func main() {  
+    m := make(map[string]int,99)
+    cap(m) //error
+}
+</code></pre>
+
+<p><em>Compile Error:</em></p>
+
+<pre><code>/tmp/sandbox326543983/main.go:5: invalid argument m (type map[string]int) for cap
+</code></pre>
+
+<h3 id="a-name-11-a-strings-can-t-be-nil:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="11"></a>Strings Can&rsquo;t Be &ldquo;nil&rdquo;</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>This is a gotcha for developers who are used to assigning &ldquo;nil&rdquo; identifiers to string variables.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+func main() {  
+    var x string = nil //error
+
+    if x == nil { //error
+        x = &quot;default&quot;
+    }
+}
+</code></pre>
+
+<p><em>Compile Errors:</em></p>
+
+<pre><code>/tmp/sandbox630560459/main.go:4: cannot use nil as type string in assignment /tmp/sandbox630560459/main.go:6: invalid operation: x == nil (mismatched types string and nil)
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+func main() {  
+    var x string //defaults to &quot;&quot; (zero value)
+
+    if x == &quot;&quot; {
+        x = &quot;default&quot;
+    }
+}
+</code></pre>
+
+<h3 id="a-name-12-a-array-function-arguments:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="12"></a>Array Function Arguments</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>If you are a C or C++ developer arrays for you are pointers. When you pass arrays to functions the functions reference the same memory location, so they can update the original data. Arrays in Go are values, so when you pass arrays to functions the functions get a copy of the original array data. This can be a problem if you are trying to update the array data.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    x := [3]int{1,2,3}
+
+    func(arr [3]int) {
+        arr[0] = 7
+        fmt.Println(arr) //prints [7 2 3]
+    }(x)
+
+    fmt.Println(x) //prints [1 2 3] (not ok if you need [7 2 3])
+}
+</code></pre>
+
+<p>If you need to update the original array data use array pointer types.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    x := [3]int{1,2,3}
+
+    func(arr *[3]int) {
+        (*arr)[0] = 7
+        fmt.Println(arr) //prints &amp;[7 2 3]
+    }(&amp;x)
+
+    fmt.Println(x) //prints [7 2 3]
+}
+</code></pre>
+
+<p>Another option is to use slices. Even though your function gets a copy of the slice variable it still references the original data.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    x := []int{1,2,3}
+
+    func(arr []int) {
+        arr[0] = 7
+        fmt.Println(arr) //prints [7 2 3]
+    }(x)
+
+    fmt.Println(x) //prints [7 2 3]
+}
+</code></pre>
+
+<h3 id="a-name-13-a-unexpected-values-in-slice-and-array-range-clauses:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="13"></a>Unexpected Values in Slice and Array &ldquo;range&rdquo; Clauses</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>This can happen if you are used to the &ldquo;for-in&rdquo; or &ldquo;foreach&rdquo; statements in other languages. The &ldquo;range&rdquo; clause in Go is different. It generates two values: the first value is the item index while the second value is the item data.</p>
+
+<p><em>Bad:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    x := []string{&quot;a&quot;,&quot;b&quot;,&quot;c&quot;}
+
+    for v := range x {
+        fmt.Println(v) //prints 0, 1, 2
+    }
+}
+</code></pre>
+
+<p><em>Good:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    x := []string{&quot;a&quot;,&quot;b&quot;,&quot;c&quot;}
+
+    for _, v := range x {
+        fmt.Println(v) //prints a, b, c
+    }
+}
+</code></pre>
+
+<h3 id="a-name-14-a-slices-and-arrays-are-one-dimensional:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="14"></a>Slices and Arrays Are One-Dimensional</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>It may seem like Go supports multi-dimensional arrays and slices, but it doesn&rsquo;t. Creating arrays of arrays or slices of slices is possible though. For numerical computation apps that rely on dynamic multi-dimensional arrays it&rsquo;s far from ideal in terms of performance and complexity.</p>
+
+<p>You can build dynamic multi-dimensional arrays using raw one-dimensional arrays, slices of &ldquo;independent&rdquo; slices, and slices of &ldquo;shared data&rdquo; slices.</p>
+
+<p>If you are using raw one-dimensional arrays you are responsible for indexing, bounds checking, and memory reallocations when the arrays need to grow.</p>
+
+<p>Creating a dynamic multi-dimensional array using slices of &ldquo;independent&rdquo; slices is a two step process. First, you have to create the outer slice. Then, you have to allocate each inner slice. The inner slices are independent of each other. You can grow and shrink them without affecting other inner slices.</p>
+
+<pre><code>package main
+
+func main() {  
+    x := 2
+    y := 4
+
+    table := make([][]int,x)
+    for i:= range table {
+        table[i] = make([]int,y)
+    }
+}
+</code></pre>
+
+<p>Creating a dynamic multi-dimensional array using slices of &ldquo;shared data&rdquo; slices is a three step process. First, you have to create the data &ldquo;container&rdquo; slice that will hold raw data. Then, you create the outer slice. Finally, you initialize each inner slice by reslicing the raw data slice.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    h, w := 2, 4
+
+    raw := make([]int,h*w)
+    for i := range raw {
+        raw[i] = i
+    }
+    fmt.Println(raw,&amp;raw[4])
+    //prints: [0 1 2 3 4 5 6 7] &lt;ptr_addr_x&gt;
+
+    table := make([][]int,h)
+    for i:= range table {
+        table[i] = raw[i*w:i*w + w]
+    }
+
+    fmt.Println(table,&amp;table[1][0])
+    //prints: [[0 1 2 3] [4 5 6 7]] &lt;ptr_addr_x&gt;
+}
+</code></pre>
+
+<p>There&rsquo;s a spec/proposal for multi-dimensional arrays and slices, but it looks like it&rsquo;s a low priority feature at this point in time.</p>
+
+<h3 id="a-name-15-a-accessing-non-existing-map-keys:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="15"></a>Accessing Non-Existing Map Keys</h3>
+
+<ul>
+<li>level: beginner
+This is a gotcha for developers who expect to get &ldquo;nil&rdquo; identifiers (like it&rsquo;s done in other languages). The returned value will be &ldquo;nil&rdquo; if the &ldquo;zero value&rdquo; for the corresponding data type is &ldquo;nil&rdquo;, but it&rsquo;ll be different for other data types. Checking for the appropriate &ldquo;zero value&rdquo; can be used to determine if the map record exists, but it&rsquo;s not always reliable (e.g., what do you do if you have a map of booleans where the &ldquo;zero value&rdquo; is false). The most reliable way to know if a given map record exists is to check the second value returned by the map access operation.</li>
+</ul>
+
+<p><em>Bad:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    x := map[string]string{&quot;one&quot;:&quot;a&quot;,&quot;two&quot;:&quot;&quot;,&quot;three&quot;:&quot;c&quot;}
+
+    if v := x[&quot;two&quot;]; v == &quot;&quot; { //incorrect
+        fmt.Println(&quot;no entry&quot;)
+    }
+}
+</code></pre>
+
+<p><em>Good:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    x := map[string]string{&quot;one&quot;:&quot;a&quot;,&quot;two&quot;:&quot;&quot;,&quot;three&quot;:&quot;c&quot;}
+
+    if _,ok := x[&quot;two&quot;]; !ok {
+        fmt.Println(&quot;no entry&quot;)
+    }
+}
+</code></pre>
+
+<h3 id="a-name-16-a-strings-are-immutable:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="16"></a>Strings Are Immutable</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>Trying to update an individual character in a string variable using the index operator will result in a failure. Strings are read-only byte slices (with a few extra properties). If you do need to update a string then use a byte slice instead converting it to a string type when necessary.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    x := &quot;text&quot;
+    x[0] = 'T'
+
+    fmt.Println(x)
+}
+</code></pre>
+
+<p><em>Compile Error:</em></p>
+
+<pre><code>/tmp/sandbox305565531/main.go:7: cannot assign to x[0]
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    x := &quot;text&quot;
+    xbytes := []byte(x)
+    xbytes[0] = 'T'
+
+    fmt.Println(string(xbytes)) //prints Text
+}
+</code></pre>
+
+<p>Note that this isn&rsquo;t really the right way to update characters in a text string because a given character could be stored in multiple bytes. If you do need to make updates to a text string convert it to a rune sclice first. Even with rune slices a single character might span multiple runes, which can happen if you have characters with grave accent, for example. This complicated and ambiguous nature of &ldquo;characters&rdquo; is the reason why Go strings are represented as byte sequences.</p>
+
+<h3 id="a-name-17-a-conversions-between-strings-and-byte-slices:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="17"></a>Conversions Between Strings and Byte Slices</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>When you convert a string to a byte slice (and vice versa) you get a complete copy of the orginal data. It&rsquo;s not like a cast operation in other languages and it&rsquo;s not like reslicing where the new slice variable points to the same underlying array used by the original byte slice.</p>
+
+<p>Go does have a couple of optimizations for []byte to string and string to []byte conversions to avoid extra allocations (with more optimizations on the todo list).</p>
+
+<p>The first optimization avoids extra allocations when []byte keys are used to lookup entries in map[string] collections: m[string(key)].</p>
+
+<p>The second optimization avoids extra allocations in for range clauses where strings are converted to []byte: for i,v := range []byte(str) {&hellip;}.</p>
+
+<h3 id="a-name-18-a-strings-and-index-operator:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="18"></a>Strings and Index Operator</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>The index operator on a string returns a byte value, not a character (like it&rsquo;s done in other languages).</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    x := &quot;text&quot;
+    fmt.Println(x[0]) //print 116
+    fmt.Printf(&quot;%T&quot;,x[0]) //prints uint8
+}
+</code></pre>
+
+<p>If you need to access specific string &ldquo;characters&rdquo; (unicode code points/runes) use the for range clause. The official &ldquo;unicode/utf8&rdquo; package and the experimental utf8string package (golang.org/x/exp/utf8string) are also useful. The utf8string package includes a convenient At() method. Converting the string to a slice of runes is an option too.</p>
+
+<h3 id="a-name-19-a-strings-are-not-always-utf8-text:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="19"></a>Strings Are Not Always UTF8 Text</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>String values are not required to be UTF8 text. They can contain arbitrary bytes. The only time strings are UTF8 is when string literals are used. Even then they can include other data using escape sequences.</p>
+
+<p>To know if you have a UTF8 text string use the ValidString() function from the &ldquo;unicode/utf8&rdquo; package.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;unicode/utf8&quot;
+)
+
+func main() {  
+    data1 := &quot;ABC&quot;
+    fmt.Println(utf8.ValidString(data1)) //prints: true
+
+    data2 := &quot;A\xfeC&quot;
+    fmt.Println(utf8.ValidString(data2)) //prints: false
+}
+</code></pre>
+
+<h3 id="a-name-20-a-string-length:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="20"></a>String Length</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>Let&rsquo;s say you are a python developer and you have the following piece of code:</p>
+
+<pre><code>data = u'♥'  
+print(len(data)) #prints: 1  
+</code></pre>
+
+<p>When you convert it to a similar Go code snippet you might be surprised.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    data := &quot;♥&quot;
+    fmt.Println(len(data)) //prints: 3
+}
+</code></pre>
+
+<p>The built-in len() function returns the number of bytes instead of the number of characters like it&rsquo;s done for unicode strings in Python.</p>
+
+<p>To get the same results in Go use the RuneCountInString() function from the &ldquo;unicode/utf8&rdquo; package.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;unicode/utf8&quot;
+)
+
+func main() {  
+    data := &quot;♥&quot;
+    fmt.Println(utf8.RuneCountInString(data)) //prints: 1
+</code></pre>
+
+<p>Technically the RuneCountInString() function doesn&rsquo;t return the number of characters because a single character may span multiple runes.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;unicode/utf8&quot;
+)
+
+func main() {  
+    data := &quot;é&quot;
+    fmt.Println(len(data))                    //prints: 3
+    fmt.Println(utf8.RuneCountInString(data)) //prints: 2
+}
+</code></pre>
+
+<h3 id="a-name-21-a-missing-comma-in-multi-line-slice-array-and-map-literals:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="21"></a>Missing Comma In Multi-Line Slice, Array, and Map Literals</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+func main() {  
+    x := []int{
+    1,
+    2 //error
+    }
+    _ = x
+}
+</code></pre>
+
+<p><em>Compile Errors:</em></p>
+
+<pre><code>/tmp/sandbox367520156/main.go:6: syntax error: need trailing comma before newline in composite literal /tmp/sandbox367520156/main.go:8: non-declaration statement outside function body /tmp/sandbox367520156/main.go:9: syntax error: unexpected }
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+func main() {  
+    x := []int{
+    1,
+    2,
+    }
+    x = x
+
+    y := []int{3,4,} //no error
+    y = y
+}
+</code></pre>
+
+<p>You won&rsquo;t get a compiler error if you leave the trailing comma when you collapse the declaration to be on a single line.</p>
+
+<h3 id="a-name-22-a-log-fatal-and-log-panic-do-more-than-log:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="22"></a>log.Fatal and log.Panic Do More Than Log</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>Logging libraries often provide different log levels. Unlike those logging libraries, the log package in Go does more than log if you call its Fatal<em>() and Panic</em>() functions. When your app calls those functions Go will also terminate your app :-)</p>
+
+<pre><code>package main
+
+import &quot;log&quot;
+
+func main() {  
+    log.Fatalln(&quot;Fatal Level: log entry&quot;) //app exits here
+    log.Println(&quot;Normal Level: log entry&quot;)
+}
+</code></pre>
+
+<h3 id="a-name-23-a-built-in-data-structure-operations-are-not-synchronized:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="23"></a>Built-in Data Structure Operations Are Not Synchronized</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>Even though Go has a number of features to support concurrency natively, concurrency safe data collections are not one them :-) It&rsquo;s your responsibility to ensure the data collection updates are atomic. Goroutines and channels are the recommended way to implement those atomic operations, but you can also leverage the &ldquo;sync&rdquo; package if it makes sense for your application.</p>
+
+<h3 id="a-name-24-a-iteration-values-for-strings-in-range-clauses:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="24"></a>Iteration Values For Strings in &ldquo;range&rdquo; Clauses</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>The index value (the first value returned by the &ldquo;range&rdquo; operation) is the index of the first byte for the current &ldquo;character&rdquo; (unicode code point/rune) returned in the second value. It&rsquo;s not the index for the current &ldquo;character&rdquo; like it&rsquo;s done in other languages. Note that an actual character might be represented by multiple runes. Make sure to check out the &ldquo;norm&rdquo; package (golang.org/x/text/unicode/norm) if you need to work with characters.</p>
+
+<p>The for range clauses with string variables will try to interpret the data as UTF8 text. For any byte sequences it doesn&rsquo;t understand it will return 0xfffd runes (aka unicode replacement characters) instead of the actual data. If you have arbitrary (non-UTF8 text) data stored in your string variables, make sure to convert them to byte slices to get all stored data as is.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    data := &quot;A\xfe\x02\xff\x04&quot;
+    for _,v := range data {
+        fmt.Printf(&quot;%#x &quot;,v)
+    }
+    //prints: 0x41 0xfffd 0x2 0xfffd 0x4 (not ok)
+
+    fmt.Println()
+    for _,v := range []byte(data) {
+        fmt.Printf(&quot;%#x &quot;,v)
+    }
+    //prints: 0x41 0xfe 0x2 0xff 0x4 (good)
+}
+</code></pre>
+
+<h3 id="a-name-25-a-iterating-through-a-map-using-a-for-range-clause:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="25"></a>Iterating Through a Map Using a &ldquo;for range&rdquo; Clause</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>This is a gotcha if you expect the items to be in a certain order (e.g., ordered by the key value). Each map iteration will produce different results. The Go runtime tries to go an extra mile randomizing the iteration order, but it doesn&rsquo;t always succeed so you may get several identical map iterations. Don&rsquo;t be surprised to see 5 identical iterations in a row.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    m := map[string]int{&quot;one&quot;:1,&quot;two&quot;:2,&quot;three&quot;:3,&quot;four&quot;:4}
+    for k,v := range m {
+        fmt.Println(k,v)
+    }
+}
+</code></pre>
+
+<p>And if you use the Go Playground (<a href="https://play.golang.org/">https://play.golang.org/</a>) you&rsquo;ll always get the same results because it doesn&rsquo;t recompile the code unless you make a change.</p>
+
+<h3 id="a-name-26-a-fallthrough-behavior-in-switch-statements:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="26"></a>Fallthrough Behavior in &ldquo;switch&rdquo; Statements</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>The &ldquo;case&rdquo; blocks in &ldquo;switch&rdquo; statements break by default. This is different from other languages where the default behavior is to fall through to the next &ldquo;case&rdquo; block.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    isSpace := func(ch byte) bool {
+        switch(ch) {
+        case ' ': //error
+        case '\t':
+            return true
+        }
+        return false
+    }
+
+    fmt.Println(isSpace('\t')) //prints true (ok)
+    fmt.Println(isSpace(' '))  //prints false (not ok)
+}
+</code></pre>
+
+<p>You can force the &ldquo;case&rdquo; blocks to fall through by using the &ldquo;fallthrough&rdquo; statement at the end of each &ldquo;case&rdquo; block. You can also rewrite your switch statement to use expression lists in the &ldquo;case&rdquo; blocks.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    isSpace := func(ch byte) bool {
+        switch(ch) {
+        case ' ', '\t':
+            return true
+        }
+        return false
+    }
+
+    fmt.Println(isSpace('\t')) //prints true (ok)
+    fmt.Println(isSpace(' '))  //prints true (ok)
+}
+</code></pre>
+
+<h3 id="a-name-27-a-increments-and-decrements:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="27"></a>Increments and Decrements</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>Many languages have increment and decrement operators. Unlike other languages, Go doesn&rsquo;t support the prefix version of the operations. You also can&rsquo;t use these two operators in expressions.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    data := []int{1,2,3}
+    i := 0
+    ++i //error
+    fmt.Println(data[i++]) //error
+}
+</code></pre>
+
+<p><em>Compile Errors:</em></p>
+
+<pre><code>/tmp/sandbox101231828/main.go:8: syntax error: unexpected ++ /tmp/sandbox101231828/main.go:9: syntax error: unexpected ++, expecting :
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    data := []int{1,2,3}
+    i := 0
+    i++
+    fmt.Println(data[i])
+}
+</code></pre>
+
+<h3 id="a-name-28-a-bitwise-not-operator:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="28"></a>Bitwise NOT Operator</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>Many languages use ~ as the unary NOT operator (aka bitwise complement), but Go reuses the XOR operator (^) for that.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    fmt.Println(~2) //error
+}
+Compile Error:
+
+/tmp/sandbox965529189/main.go:6: the bitwise complement operator is ^
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    var d uint8 = 2
+    fmt.Printf(&quot;%08b\n&quot;,^d)
+}
+</code></pre>
+
+<p>Go still uses ^ as the XOR operator, which may be confusing for some people.</p>
+
+<p>If you want you can represent a unary NOT operation (e.g, NOT 0x02) with a binary XOR operation (e.g., 0x02 XOR 0xff). This could explain why ^ is reused to represent unary NOT operations.</p>
+
+<p>Go also has a special &lsquo;AND NOT&rsquo; bitwise operator (&amp;^), which adds to the NOT operator confusion. It looks like a special feature/hack to support A AND (NOT B) without requiring parentheses.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    var a uint8 = 0x82
+    var b uint8 = 0x02
+    fmt.Printf(&quot;%08b [A]\n&quot;,a)
+    fmt.Printf(&quot;%08b [B]\n&quot;,b)
+
+    fmt.Printf(&quot;%08b (NOT B)\n&quot;,^b)
+    fmt.Printf(&quot;%08b ^ %08b = %08b [B XOR 0xff]\n&quot;,b,0xff,b ^ 0xff)
+
+    fmt.Printf(&quot;%08b ^ %08b = %08b [A XOR B]\n&quot;,a,b,a ^ b)
+    fmt.Printf(&quot;%08b &amp; %08b = %08b [A AND B]\n&quot;,a,b,a &amp; b)
+    fmt.Printf(&quot;%08b &amp;^%08b = %08b [A 'AND NOT' B]\n&quot;,a,b,a &amp;^ b)
+    fmt.Printf(&quot;%08b&amp;(^%08b)= %08b [A AND (NOT B)]\n&quot;,a,b,a &amp; (^b))
+}
+</code></pre>
+
+<h3 id="a-name-29-a-operator-precedence-differences:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="29"></a>Operator Precedence Differences</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>Aside from the &ldquo;bit clear&rdquo; operators (&amp;^) Go has a set of standard operators shared by many other languages. The operator precedence is not always the same though.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    fmt.Printf(&quot;0x2 &amp; 0x2 + 0x4 -&gt; %#x\n&quot;,0x2 &amp; 0x2 + 0x4)
+    //prints: 0x2 &amp; 0x2 + 0x4 -&gt; 0x6
+    //Go:    (0x2 &amp; 0x2) + 0x4
+    //C++:    0x2 &amp; (0x2 + 0x4) -&gt; 0x2
+
+    fmt.Printf(&quot;0x2 + 0x2 &lt;&lt; 0x1 -&gt; %#x\n&quot;,0x2 + 0x2 &lt;&lt; 0x1)
+    //prints: 0x2 + 0x2 &lt;&lt; 0x1 -&gt; 0x6
+    //Go:     0x2 + (0x2 &lt;&lt; 0x1)
+    //C++:   (0x2 + 0x2) &lt;&lt; 0x1 -&gt; 0x8
+
+    fmt.Printf(&quot;0xf | 0x2 ^ 0x2 -&gt; %#x\n&quot;,0xf | 0x2 ^ 0x2)
+    //prints: 0xf | 0x2 ^ 0x2 -&gt; 0xd
+    //Go:    (0xf | 0x2) ^ 0x2
+    //C++:    0xf | (0x2 ^ 0x2) -&gt; 0xf
+}
+</code></pre>
+
+<h3 id="a-name-30-a-unexported-structure-fields-are-not-encoded:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="30"></a>Unexported Structure Fields Are Not Encoded</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>The struct fields starting with lowercase letters will not be (json, xml, gob, etc.) encoded, so when you decode the structure you&rsquo;ll end up with zero values in those unexported fields.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;encoding/json&quot;
+)
+
+type MyData struct {  
+    One int
+    two string
+}
+
+func main() {  
+    in := MyData{1,&quot;two&quot;}
+    fmt.Printf(&quot;%#v\n&quot;,in) //prints main.MyData{One:1, two:&quot;two&quot;}
+
+    encoded,_ := json.Marshal(in)
+    fmt.Println(string(encoded)) //prints {&quot;One&quot;:1}
+
+    var out MyData
+    json.Unmarshal(encoded,&amp;out)
+
+    fmt.Printf(&quot;%#v\n&quot;,out) //prints main.MyData{One:1, two:&quot;&quot;}
+}
+</code></pre>
+
+<h3 id="a-name-31-a-app-exits-with-active-goroutines:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="31"></a>App Exits With Active Goroutines</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>The app will not wait for all your goroutines to complete. This is a common mistake for beginners in general. Everybody starts somewhere, so there&rsquo;s no shame in making rookie mistakes :-)</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {  
+    workerCount := 2
+
+    for i := 0; i &lt; workerCount; i++ {
+        go doit(i)
+    }
+    time.Sleep(1 * time.Second)
+    fmt.Println(&quot;all done!&quot;)
+}
+
+func doit(workerId int) {  
+    fmt.Printf(&quot;[%v] is running\n&quot;,workerId)
+    time.Sleep(3 * time.Second)
+    fmt.Printf(&quot;[%v] is done\n&quot;,workerId)
+}
+</code></pre>
+
+<p>You&rsquo;ll see:</p>
+
+<pre><code>[0] is running
+[1] is running
+all done!
+</code></pre>
+
+<p>One of the most common solutions is to use a &ldquo;WaitGroup&rdquo; variable. It will allow the main goroutine to wait until all worker goroutines are done. If your app has long running workers with message processing loops you&rsquo;ll also need a way to signal those goroutines that it&rsquo;s time to exit. You can send a &ldquo;kill&rdquo; message to each worker. Another option is to close a channel all workers are receiving from. It&rsquo;s a simple way to signal all goroutines at once.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;sync&quot;
+)
+
+func main() {  
+    var wg sync.WaitGroup
+    done := make(chan struct{})
+    workerCount := 2
+
+    for i := 0; i &lt; workerCount; i++ {
+        wg.Add(1)
+        go doit(i,done,wg)
+    }
+
+    close(done)
+    wg.Wait()
+    fmt.Println(&quot;all done!&quot;)
+}
+
+func doit(workerId int,done &lt;-chan struct{},wg sync.WaitGroup) {  
+    fmt.Printf(&quot;[%v] is running\n&quot;,workerId)
+    defer wg.Done()
+    &lt;- done
+    fmt.Printf(&quot;[%v] is done\n&quot;,workerId)
+}
+</code></pre>
+
+<p>If you run this app you&rsquo;ll see:</p>
+
+<pre><code>[0] is running
+[0] is done
+[1] is running
+[1] is done
+</code></pre>
+
+<p>Looks like the workers are done before the main goroutine exists. Great! However, you&rsquo;ll also see this:</p>
+
+<pre><code>fatal error: all goroutines are asleep - deadlock!
+</code></pre>
+
+<p>That&rsquo;s not so great :-) What&rsquo;s going on? Why is there a deadlock? The workers exited and they executed wg.Done(). The app should work.</p>
+
+<p>The deadlock happens because each worker gets a copy of the original &ldquo;WaitGroup&rdquo; variable. When workers execute wg.Done() it has no effect on the &ldquo;WaitGroup&rdquo; variable in the main goroutine.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;sync&quot;
+)
+
+func main() {  
+    var wg sync.WaitGroup
+    done := make(chan struct{})
+    wq := make(chan interface{})
+    workerCount := 2
+
+    for i := 0; i &lt; workerCount; i++ {
+        wg.Add(1)
+        go doit(i,wq,done,&amp;wg)
+    }
+
+    for i := 0; i &lt; workerCount; i++ {
+        wq &lt;- i
+    }
+
+    close(done)
+    wg.Wait()
+    fmt.Println(&quot;all done!&quot;)
+}
+
+func doit(workerId int, wq &lt;-chan interface{},done &lt;-chan struct{},wg * sync.WaitGroup) {  
+    fmt.Printf(&quot;[%v] is running\n&quot;,workerId)
+    defer wg.Done()
+    for {
+        select {
+        case m := &lt;- wq:
+            fmt.Printf(&quot;[%v] m =&gt; %v\n&quot;,workerId,m)
+        case &lt;- done:
+            fmt.Printf(&quot;[%v] is done\n&quot;,workerId)
+            return
+        }
+    }
+}
+</code></pre>
+
+<p>Now it works as expected :-)</p>
+
+<h3 id="a-name-32-a-sending-to-an-unbuffered-channel-returns-as-soon-as-the-target-receiver-is-ready:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="32"></a>Sending to an Unbuffered Channel Returns As Soon As the Target Receiver Is Ready</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>The sender will not be blocked until your message is processed by the receiver. Depending on the machine where you are running the code, the receiver goroutine may or may not have enough time to process the message before the sender continues its execution.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    ch := make(chan string)
+
+    go func() {
+        for m := range ch {
+            fmt.Println(&quot;processed:&quot;,m)
+        }
+    }()
+
+    ch &lt;- &quot;cmd.1&quot;
+    ch &lt;- &quot;cmd.2&quot; //won't be processed
+}
+</code></pre>
+
+<h3 id="a-name-33-a-sending-to-an-closed-channel-causes-a-panic:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="33"></a>Sending to an Closed Channel Causes a Panic</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>Receiving from a closed channel is safe. The ok return value in a receive statement will be set to false indicating that no data was received. If you are receiving from a buffered channel you&rsquo;ll get the buffered data first and once it&rsquo;s empty the ok return value will be false.</p>
+
+<p>Sending data to a closed channel causes a panic. It is a documented behavior, but it&rsquo;s not very intuitive for new Go developers who might expect the send behavior to be similar to the receive behavior.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {  
+    ch := make(chan int)
+    for i := 0; i &lt; 3; i++ {
+        go func(idx int) {
+            ch &lt;- (idx + 1) * 2
+        }(i)
+    }
+
+    //get the first result
+    fmt.Println(&lt;-ch)
+    close(ch) //not ok (you still have other senders)
+    //do other work
+    time.Sleep(2 * time.Second)
+}
+</code></pre>
+
+<p>Depending on your application the fix will be different. It might be a minor code change or it might require a change in your application design. Either way, you&rsquo;ll need to make sure your application doesn&rsquo;t try to send data to a closed channel.</p>
+
+<p>The buggy example can be fixed by using a special cancellation channel to signal the remaining workers that their results are no longer neeeded.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {  
+    ch := make(chan int)
+    done := make(chan struct{})
+    for i := 0; i &lt; 3; i++ {
+        go func(idx int) {
+            select {
+            case ch &lt;- (idx + 1) * 2: fmt.Println(idx,&quot;sent result&quot;)
+            case &lt;- done: fmt.Println(idx,&quot;exiting&quot;)
+            }
+        }(i)
+    }
+
+    //get first result
+    fmt.Println(&quot;result:&quot;,&lt;-ch)
+    close(done)
+    //do other work
+    time.Sleep(3 * time.Second)
+}
+</code></pre>
+
+<h3 id="a-name-34-a-using-nil-channels:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="34"></a>Using &ldquo;nil&rdquo; Channels</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>Send and receive operations on a nil channel block forver. It&rsquo;s a well documented behavior, but it can be a surprise for new Go developers.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {  
+    var ch chan int
+    for i := 0; i &lt; 3; i++ {
+        go func(idx int) {
+            ch &lt;- (idx + 1) * 2
+        }(i)
+    }
+
+    //get first result
+    fmt.Println(&quot;result:&quot;,&lt;-ch)
+    //do other work
+    time.Sleep(2 * time.Second)
+}
+</code></pre>
+
+<p>If you run the code you&rsquo;ll see a runtime error like this: fatal error: all goroutines are asleep - deadlock!</p>
+
+<p>This behavior can be used as a way to dynamically enable and disable case blocks in a select statement.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;  
+import &quot;time&quot;
+
+func main() {  
+    inch := make(chan int)
+    outch := make(chan int)
+
+    go func() {
+        var in &lt;- chan int = inch
+        var out chan &lt;- int
+        var val int
+        for {
+            select {
+            case out &lt;- val:
+                out = nil
+                in = inch
+            case val = &lt;- in:
+                out = outch
+                in = nil
+            }
+        }
+    }()
+
+    go func() {
+        for r := range outch {
+            fmt.Println(&quot;result:&quot;,r)
+        }
+    }()
+
+    time.Sleep(0)
+    inch &lt;- 1
+    inch &lt;- 2
+    time.Sleep(3 * time.Second)
+}
+</code></pre>
+
+<h3 id="a-name-35-a-methods-with-value-receivers-can-t-change-the-original-value:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="35"></a>Methods with Value Receivers Can&rsquo;t Change the Original Value</h3>
+
+<ul>
+<li>level: beginner</li>
+</ul>
+
+<p>Method receivers are like regular function arguments. If it&rsquo;s declared to be a value then your function/method gets a copy of your receiver argument. This means making changes to the receiver will not affect the original value unless your receiver is a map or slice variable and you are updating the items in the collection or the fields you are updating in the receiver are pointers.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+type data struct {  
+    num int
+    key *string
+    items map[string]bool
+}
+
+func (this *data) pmethod() {  
+    this.num = 7
+}
+
+func (this data) vmethod() {  
+    this.num = 8
+    *this.key = &quot;v.key&quot;
+    this.items[&quot;vmethod&quot;] = true
+}
+
+func main() {  
+    key := &quot;key.1&quot;
+    d := data{1,&amp;key,make(map[string]bool)}
+
+    fmt.Printf(&quot;num=%v key=%v items=%v\n&quot;,d.num,*d.key,d.items)
+    //prints num=1 key=key.1 items=map[]
+
+    d.pmethod()
+    fmt.Printf(&quot;num=%v key=%v items=%v\n&quot;,d.num,*d.key,d.items)
+    //prints num=7 key=key.1 items=map[]
+
+    d.vmethod()
+    fmt.Printf(&quot;num=%v key=%v items=%v\n&quot;,d.num,*d.key,d.items)
+    //prints num=7 key=v.key items=map[vmethod:true]
+}
+</code></pre>
+
+<h3 id="a-name-36-a-closing-http-response-body:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="36"></a>Closing HTTP Response Body</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>When you make requests using the standard http library you get a http response variable. If you don&rsquo;t read the response body you still need to close it. Note that you must do it for empty responses too. It&rsquo;s very easy to forget especially for new Go developers.</p>
+
+<p>Some new Go developers do try to close the response body, but they do it in the wrong place.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;io/ioutil&quot;
+)
+
+func main() {  
+    resp, err := http.Get(&quot;https://api.ipify.org?format=json&quot;)
+    defer resp.Body.Close()//not ok
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    fmt.Println(string(body))
+}
+</code></pre>
+
+<p>This code works for successful requests, but if the http request fails the resp variable might be nil, which will cause a runtime panic.</p>
+
+<p>The most common why to close the response body is by using a defer call after the http response error check.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;io/ioutil&quot;
+)
+
+func main() {  
+    resp, err := http.Get(&quot;https://api.ipify.org?format=json&quot;)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    defer resp.Body.Close()//ok, most of the time :-)
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    fmt.Println(string(body))
+}
+</code></pre>
+
+<p>Most of the time when your http request fails the resp variable will be nil and the err variable will be non-nil. However, when you get a redirection failure both variables will be non-nil. This means you can still end up with a leak.</p>
+
+<p>You can fix this leak by adding a call to close non-nil response bodies in the http response error handling block. Another option is to use one defer call to close response bodies for all failed and successful requests.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;io/ioutil&quot;
+)
+
+func main() {  
+    resp, err := http.Get(&quot;https://api.ipify.org?format=json&quot;)
+    if resp != nil {
+        defer resp.Body.Close()
+    }
+
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    fmt.Println(string(body))
+}
+</code></pre>
+
+<p>The orignal implementation for resp.Body.Close() also reads and discards the remaining response body data. This ensured that the http connection could be reused for another request if the keepalive http connection behavior is enabled. The latest http client behavior is different. Now it&rsquo;s your responsibility to read and discard the remaining response data. If you don&rsquo;t do it the http connection might be closed instead of being reused. This little gotcha is supposed to be documented in Go 1.5.</p>
+
+<p>If reusing the http connection is important for your application you might need to add something like this at the end of your response processing logic:</p>
+
+<pre><code>_, err = io.Copy(ioutil.Discard, resp.Body)  
+</code></pre>
+
+<p>It will be necessary if you don&rsquo;t read the entire response body right away, which might happen if you are processing json API responses with code like this:</p>
+
+<pre><code>json.NewDecoder(resp.Body).Decode(&amp;data)  
+</code></pre>
+
+<h3 id="a-name-37-a-closing-http-connections:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="37"></a>Closing HTTP Connections</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>Some HTTP servers keep network connections open for a while (based on the HTTP 1.1 spec and the server &ldquo;keep-alive&rdquo; configurations). By default, the standard http library will close the network connections only when the target HTTP server asks for it. This means your app may run out of sockets/file descriptors under certain conditions.</p>
+
+<p>You can ask the http library to close the connection after your request is done by setting the Close field in the request variable to true.</p>
+
+<p>Another option is to add a Connection request header and set it to close. The target HTTP server should respond with a Connection: close header too. When the http library sees this response header it will also close the connection.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;io/ioutil&quot;
+)
+
+func main() {  
+    req, err := http.NewRequest(&quot;GET&quot;,&quot;http://golang.org&quot;,nil)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    req.Close = true
+    //or do this:
+    //req.Header.Add(&quot;Connection&quot;, &quot;close&quot;)
+
+    resp, err := http.DefaultClient.Do(req)
+    if resp != nil {
+        defer resp.Body.Close()
+    }
+
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    fmt.Println(len(string(body)))
+}
+</code></pre>
+
+<p>You can also disable http connection reuse globally. You&rsquo;ll need to create a custom http transport configuration for it.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;io/ioutil&quot;
+)
+
+func main() {  
+    tr := &amp;http.Transport{DisableKeepAlives: true}
+    client := &amp;http.Client{Transport: tr}
+
+    resp, err := client.Get(&quot;http://golang.org&quot;)
+    if resp != nil {
+        defer resp.Body.Close()
+    }
+
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    fmt.Println(resp.StatusCode)
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    fmt.Println(len(string(body)))
+}
+</code></pre>
+
+<p>If you send a lot of requests to the same HTTP server it&rsquo;s ok to keep the network connection open. However, if your app sends one or two requests to many different HTTP servers in a short period of time it&rsquo;s a good idea to close the network connections right after your app receives the responses. Increasing the open file limit might be a good idea too. The correct solution depends on your application though.</p>
+
+<h3 id="a-name-38-a-unmarshalling-json-numbers-into-interface-values:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="38"></a>Unmarshalling JSON Numbers into Interface Values</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>By default, Go treats numeric values in JSON as float64 numbers when you decode/unmarshal JSON data into an interface. This means the following code will fail with a panic:</p>
+
+<pre><code>package main
+
+import (  
+  &quot;encoding/json&quot;
+  &quot;fmt&quot;
+)
+
+func main() {  
+  var data = []byte(`{&quot;status&quot;: 200}`)
+
+  var result map[string]interface{}
+  if err := json.Unmarshal(data, &amp;result); err != nil {
+    fmt.Println(&quot;error:&quot;, err)
+    return
+  }
+
+  var status = result[&quot;status&quot;].(int) //error
+  fmt.Println(&quot;status value:&quot;,status)
+}
+</code></pre>
+
+<p>Runtime Panic:</p>
+
+<pre><code>panic: interface conversion: interface is float64, not int
+</code></pre>
+
+<p>If the JSON value you are trying to decode is an integer you have serveral options.</p>
+
+<p>Option one: use the float value as-is :-)</p>
+
+<p>Option two: convert the float value to the integer type you need.</p>
+
+<pre><code>package main
+
+import (  
+  &quot;encoding/json&quot;
+  &quot;fmt&quot;
+)
+
+func main() {  
+  var data = []byte(`{&quot;status&quot;: 200}`)
+
+  var result map[string]interface{}
+  if err := json.Unmarshal(data, &amp;result); err != nil {
+    fmt.Println(&quot;error:&quot;, err)
+    return
+  }
+
+  var status = uint64(result[&quot;status&quot;].(float64)) //ok
+  fmt.Println(&quot;status value:&quot;,status)
+}
+</code></pre>
+
+<p>Option three: use a Decoder type to unmarshal JSON and tell it to represent JSON numbers using the Number interface type.</p>
+
+<pre><code>package main
+
+import (  
+  &quot;encoding/json&quot;
+  &quot;bytes&quot;
+  &quot;fmt&quot;
+)
+
+func main() {  
+  var data = []byte(`{&quot;status&quot;: 200}`)
+
+  var result map[string]interface{}
+  var decoder = json.NewDecoder(bytes.NewReader(data))
+  decoder.UseNumber()
+
+  if err := decoder.Decode(&amp;result); err != nil {
+    fmt.Println(&quot;error:&quot;, err)
+    return
+  }
+
+  var status,_ = result[&quot;status&quot;].(json.Number).Int64() //ok
+  fmt.Println(&quot;status value:&quot;,status)
+}
+</code></pre>
+
+<p>You can use the string representation of your Number value to unmarshal it to a different numeric type:</p>
+
+<pre><code>package main
+
+import (  
+  &quot;encoding/json&quot;
+  &quot;bytes&quot;
+  &quot;fmt&quot;
+)
+
+func main() {  
+  var data = []byte(`{&quot;status&quot;: 200}`)
+
+  var result map[string]interface{}
+  var decoder = json.NewDecoder(bytes.NewReader(data))
+  decoder.UseNumber()
+
+  if err := decoder.Decode(&amp;result); err != nil {
+    fmt.Println(&quot;error:&quot;, err)
+    return
+  }
+
+  var status uint64
+  if err := json.Unmarshal([]byte(result[&quot;status&quot;].(json.Number).String()), &amp;status); err != nil {
+    fmt.Println(&quot;error:&quot;, err)
+    return
+  }
+
+  fmt.Println(&quot;status value:&quot;,status)
+}
+</code></pre>
+
+<p>Option four: use a struct type that maps your numeric value to the numeric type you need.</p>
+
+<pre><code>package main
+
+import (  
+  &quot;encoding/json&quot;
+  &quot;bytes&quot;
+  &quot;fmt&quot;
+)
+
+func main() {  
+  var data = []byte(`{&quot;status&quot;: 200}`)
+
+  var result struct {
+    Status uint64 `json:&quot;status&quot;`
+  }
+
+  if err := json.NewDecoder(bytes.NewReader(data)).Decode(&amp;result); err != nil {
+    fmt.Println(&quot;error:&quot;, err)
+    return
+  }
+
+  fmt.Printf(&quot;result =&gt; %+v&quot;,result)
+  //prints: result =&gt; {Status:200}
+}
+</code></pre>
+
+<p>Option five: use a struct that maps your numeric value to the json.RawMessage type if you need to defer the value decoding.</p>
+
+<p>This option is useful if you have to perform conditional JSON field decoding where the field type or structure might change.</p>
+
+<pre><code>package main
+
+import (  
+  &quot;encoding/json&quot;
+  &quot;bytes&quot;
+  &quot;fmt&quot;
+)
+
+func main() {  
+  records := [][]byte{
+    []byte(`{&quot;status&quot;: 200, &quot;tag&quot;:&quot;one&quot;}`),
+    []byte(`{&quot;status&quot;:&quot;ok&quot;, &quot;tag&quot;:&quot;two&quot;}`),
+  }
+
+  for idx, record := range records {
+    var result struct {
+      StatusCode uint64
+      StatusName string
+      Status json.RawMessage `json:&quot;status&quot;`
+      Tag string             `json:&quot;tag&quot;`
+    }
+
+    if err := json.NewDecoder(bytes.NewReader(record)).Decode(&amp;result); err != nil {
+      fmt.Println(&quot;error:&quot;, err)
+      return
+    }
+
+    var sstatus string
+    if err := json.Unmarshal(result.Status, &amp;sstatus); err == nil {
+      result.StatusName = sstatus
+    }
+
+    var nstatus uint64
+    if err := json.Unmarshal(result.Status, &amp;nstatus); err == nil {
+      result.StatusCode = nstatus
+    }
+
+    fmt.Printf(&quot;[%v] result =&gt; %+v\n&quot;,idx,result)
+  }
+}
+</code></pre>
+
+<h3 id="a-name-39-a-comparing-structs-arrays-slices-and-maps:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="39"></a>Comparing Structs, Arrays, Slices, and Maps</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>You can use the equality operator, ==, to compare struct variables if each structure field can be compared with the equality operator.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+type data struct {  
+    num int
+    fp float32
+    complex complex64
+    str string
+    char rune
+    yes bool
+    events &lt;-chan string
+    handler interface{}
+    ref *byte
+    raw [10]byte
+}
+
+func main() {  
+    v1 := data{}
+    v2 := data{}
+    fmt.Println(&quot;v1 == v2:&quot;,v1 == v2) //prints: v1 == v2: true
+}
+</code></pre>
+
+<p>If any of the struct fields are not comparable then using the equality operator will result in compile time errors. Note that arrays are comparable only if their data items are comparable.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+type data struct {  
+    num int                //ok
+    checks [10]func() bool //not comparable
+    doit func() bool       //not comparable
+    m map[string] string   //not comparable
+    bytes []byte           //not comparable
+}
+
+func main() {  
+    v1 := data{}
+    v2 := data{}
+    fmt.Println(&quot;v1 == v2:&quot;,v1 == v2)
+}
+</code></pre>
+
+<p>Go does provide a number of helper functions to compare variables that can&rsquo;t be compared using the comparison operators.</p>
+
+<p>The most generic solution is to use the DeepEqual() function in the reflect package.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;reflect&quot;
+)
+
+type data struct {  
+    num int                //ok
+    checks [10]func() bool //not comparable
+    doit func() bool       //not comparable
+    m map[string] string   //not comparable
+    bytes []byte           //not comparable
+}
+
+func main() {  
+    v1 := data{}
+    v2 := data{}
+    fmt.Println(&quot;v1 == v2:&quot;,reflect.DeepEqual(v1,v2)) //prints: v1 == v2: true
+
+    m1 := map[string]string{&quot;one&quot;: &quot;a&quot;,&quot;two&quot;: &quot;b&quot;}
+    m2 := map[string]string{&quot;two&quot;: &quot;b&quot;, &quot;one&quot;: &quot;a&quot;}
+    fmt.Println(&quot;m1 == m2:&quot;,reflect.DeepEqual(m1, m2)) //prints: m1 == m2: true
+
+    s1 := []int{1, 2, 3}
+    s2 := []int{1, 2, 3}
+    fmt.Println(&quot;s1 == s2:&quot;,reflect.DeepEqual(s1, s2)) //prints: s1 == s2: true
+}
+</code></pre>
+
+<p>Aside from being slow (which may or may not be a deal breaker for your application), DeepEqual() also has its own gotchas.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;reflect&quot;
+)
+
+func main() {  
+    var b1 []byte = nil
+    b2 := []byte{}
+    fmt.Println(&quot;b1 == b2:&quot;,reflect.DeepEqual(b1, b2)) //prints: b1 == b2: false
+}
+</code></pre>
+
+<p>DeepEqual() doesn&rsquo;t consider an empty slice to be equal to a &ldquo;nil&rdquo; slice. This behavior is different from the behavior you get using the bytes.Equal() function. bytes.Equal() considers &ldquo;nil&rdquo; and empty slices to be equal.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;bytes&quot;
+)
+
+func main() {  
+    var b1 []byte = nil
+    b2 := []byte{}
+    fmt.Println(&quot;b1 == b2:&quot;,bytes.Equal(b1, b2)) //prints: b1 == b2: true
+}
+</code></pre>
+
+<p>DeepEqual() isn&rsquo;t always perfect comparing slices.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;reflect&quot;
+    &quot;encoding/json&quot;
+)
+
+func main() {  
+    var str string = &quot;one&quot;
+    var in interface{} = &quot;one&quot;
+    fmt.Println(&quot;str == in:&quot;,str == in,reflect.DeepEqual(str, in))
+    //prints: str == in: true true
+
+    v1 := []string{&quot;one&quot;,&quot;two&quot;}
+    v2 := []interface{}{&quot;one&quot;,&quot;two&quot;}
+    fmt.Println(&quot;v1 == v2:&quot;,reflect.DeepEqual(v1, v2))
+    //prints: v1 == v2: false (not ok)
+
+    data := map[string]interface{}{
+        &quot;code&quot;: 200,
+        &quot;value&quot;: []string{&quot;one&quot;,&quot;two&quot;},
+    }
+    encoded, _ := json.Marshal(data)
+    var decoded map[string]interface{}
+    json.Unmarshal(encoded, &amp;decoded)
+    fmt.Println(&quot;data == decoded:&quot;,reflect.DeepEqual(data, decoded))
+    //prints: data == decoded: false (not ok)
+}
+</code></pre>
+
+<p>If your byte slices (or strings) contain text data you might be tempted to use ToUpper() or ToLower() from the &ldquo;bytes&rdquo; and &ldquo;strings&rdquo; packages when you need to compare values in a case insensitive manner (before using ==,bytes.Equal(), or bytes.Compare()). It will work for English text, but it will not work for text in many other languages. strings.EqualFold() and bytes.EqualFold() should be used instead.</p>
+
+<p>If your byte slices contain secrets (e.g., cryptographic hashes, tokens, etc.) that need to be validated against user-provided data, don&rsquo;t use reflect.DeepEqual(), bytes.Equal(), or bytes.Compare() because those functions will make your application vulnerable to timing attacks. To avoid leaking the timing information use the functions from the &lsquo;crypto/subtle&rsquo; package (e.g., subtle.ConstantTimeCompare()).</p>
+
+<h3 id="a-name-40-a-recovering-from-a-panic:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="40"></a>Recovering From a Panic</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>The recover() function can be used to catch/intercept a panic. Calling recover() will do the trick only when it&rsquo;s done in a deferred function.</p>
+
+<p><em>Incorrect:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    recover() //doesn't do anything
+    panic(&quot;not good&quot;)
+    recover() //won't be executed :)
+    fmt.Println(&quot;ok&quot;)
+}
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    defer func() {
+        fmt.Println(&quot;recovered:&quot;,recover())
+    }()
+
+    panic(&quot;not good&quot;)
+}
+</code></pre>
+
+<p>The call to recover() works only if it&rsquo;s called directly in your deferred function.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func doRecover() {  
+    fmt.Println(&quot;recovered =&gt;&quot;,recover()) //prints: recovered =&gt; &lt;nil&gt;
+}
+
+func main() {  
+    defer func() {
+        doRecover() //panic is not recovered
+    }()
+
+    panic(&quot;not good&quot;)
+}
+</code></pre>
+
+<h3 id="a-name-41-a-updating-and-referencing-item-values-in-slice-array-and-map-range-clauses:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="41"></a>Updating and Referencing Item Values in Slice, Array, and Map &ldquo;range&rdquo; Clauses</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>The data values generated in the &ldquo;range&rdquo; clause are copies of the actual collection elements. They are not references to the original items. This means that updating the values will not change the original data. It also means that taking the address of the values will not give you pointers to the original data.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    data := []int{1,2,3}
+    for _,v := range data {
+        v *= 10 //original item is not changed
+    }
+
+    fmt.Println(&quot;data:&quot;,data) //prints data: [1 2 3]
+}
+</code></pre>
+
+<p>If you need to update the original collection record value use the index operator to access the data.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    data := []int{1,2,3}
+    for i,_ := range data {
+        data[i] *= 10
+    }
+
+    fmt.Println(&quot;data:&quot;,data) //prints data: [10 20 30]
+}
+</code></pre>
+
+<p>If your collection holds pointer values then the rules are slightly different. You still need to use the index operator if you want the original record to point to another value, but you can update the data stored at the target location using the second value in the &ldquo;for range&rdquo; clause.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    data := []*struct{num int} {{1},{2},{3}}
+
+    for _,v := range data {
+        v.num *= 10
+    }
+
+    fmt.Println(data[0],data[1],data[2]) //prints &amp;{10} &amp;{20} &amp;{30}
+}
+</code></pre>
+
+<h3 id="a-name-42-a-hidden-data-in-slices:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="42"></a>&ldquo;Hidden&rdquo; Data in Slices</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>When you reslice a slice, the new slice will reference the array of the original slice. If you forget about this behavior it can lead to unexpected memory usage if your application allocates large temporary slices creating new slices from them to refer to small sections of the original data.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func get() []byte {  
+    raw := make([]byte,10000)
+    fmt.Println(len(raw),cap(raw),&amp;raw[0]) //prints: 10000 10000 &lt;byte_addr_x&gt;
+    return raw[:3]
+}
+
+func main() {  
+    data := get()
+    fmt.Println(len(data),cap(data),&amp;data[0]) //prints: 3 10000 &lt;byte_addr_x&gt;
+}
+</code></pre>
+
+<p>To avoid this trap make sure to copy the data you need from the temporary slice (instead of reslicing it).</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func get() []byte {  
+    raw := make([]byte,10000)
+    fmt.Println(len(raw),cap(raw),&amp;raw[0]) //prints: 10000 10000 &lt;byte_addr_x&gt;
+    res := make([]byte,3)
+    copy(res,raw[:3])
+    return res
+}
+
+func main() {  
+    data := get()
+    fmt.Println(len(data),cap(data),&amp;data[0]) //prints: 3 3 &lt;byte_addr_y&gt;
+}
+</code></pre>
+
+<h3 id="a-name-43-a-slice-data-corruption:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="43"></a>Slice Data &ldquo;Corruption&rdquo;</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>Let&rsquo;s say you need to rewrite a path (stored in a slice). You reslice the path to reference each directory modifying the first folder name and then you combine the names to create a new path.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;bytes&quot;
+)
+
+func main() {  
+    path := []byte(&quot;AAAA/BBBBBBBBB&quot;)
+    sepIndex := bytes.IndexByte(path,'/')
+    dir1 := path[:sepIndex]
+    dir2 := path[sepIndex+1:]
+    fmt.Println(&quot;dir1 =&gt;&quot;,string(dir1)) //prints: dir1 =&gt; AAAA
+    fmt.Println(&quot;dir2 =&gt;&quot;,string(dir2)) //prints: dir2 =&gt; BBBBBBBBB
+
+    dir1 = append(dir1,&quot;suffix&quot;...)
+    path = bytes.Join([][]byte{dir1,dir2},[]byte{'/'})
+
+    fmt.Println(&quot;dir1 =&gt;&quot;,string(dir1)) //prints: dir1 =&gt; AAAAsuffix
+    fmt.Println(&quot;dir2 =&gt;&quot;,string(dir2)) //prints: dir2 =&gt; uffixBBBB (not ok)
+
+    fmt.Println(&quot;new path =&gt;&quot;,string(path))
+}
+</code></pre>
+
+<p>It didn&rsquo;t work as you expected. Instead of &ldquo;AAAAsuffix/BBBBBBBBB&rdquo; you ended up with &ldquo;AAAAsuffix/uffixBBBB&rdquo;. It happened because both directory slices referenced the same underlying array data from the original path slice. This means that the original path is also modified. Depending on your application this might be a problem too.</p>
+
+<p>This problem can fixed by allocating new slices and copying the data you need. Another option is to use the full slice expression.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;bytes&quot;
+)
+
+func main() {  
+    path := []byte(&quot;AAAA/BBBBBBBBB&quot;)
+    sepIndex := bytes.IndexByte(path,'/')
+    dir1 := path[:sepIndex:sepIndex] //full slice expression
+    dir2 := path[sepIndex+1:]
+    fmt.Println(&quot;dir1 =&gt;&quot;,string(dir1)) //prints: dir1 =&gt; AAAA
+    fmt.Println(&quot;dir2 =&gt;&quot;,string(dir2)) //prints: dir2 =&gt; BBBBBBBBB
+
+    dir1 = append(dir1,&quot;suffix&quot;...)
+    path = bytes.Join([][]byte{dir1,dir2},[]byte{'/'})
+
+    fmt.Println(&quot;dir1 =&gt;&quot;,string(dir1)) //prints: dir1 =&gt; AAAAsuffix
+    fmt.Println(&quot;dir2 =&gt;&quot;,string(dir2)) //prints: dir2 =&gt; BBBBBBBBB (ok now)
+
+    fmt.Println(&quot;new path =&gt;&quot;,string(path))
+}
+</code></pre>
+
+<p>The extra parameter in the full slice expression controls the capacity for the new slice. Now appending to that slice will trigger a new buffer allocation instead of overwriting the data in the second slice.</p>
+
+<h3 id="a-name-44-a-stale-slices:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="44"></a>&ldquo;Stale&rdquo; Slices</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>Multiple slices can reference the same data. This can happen when you create a new slice from an existing slice, for example. If your application relies on this behavior to function properly then you&rsquo;ll need to worry about &ldquo;stale&rdquo; slices.</p>
+
+<p>At some point adding data to one of the slices will result in a new array allocation when the original array can&rsquo;t hold any more new data. Now other slices will point to the old array (with old data).</p>
+
+<pre><code>import &quot;fmt&quot;
+
+func main() {  
+    s1 := []int{1,2,3}
+    fmt.Println(len(s1),cap(s1),s1) //prints 3 3 [1 2 3]
+
+    s2 := s1[1:]
+    fmt.Println(len(s2),cap(s2),s2) //prints 2 2 [2 3]
+
+    for i := range s2 { s2[i] += 20 }
+
+    //still referencing the same array
+    fmt.Println(s1) //prints [1 22 23]
+    fmt.Println(s2) //prints [22 23]
+
+    s2 = append(s2,4)
+
+    for i := range s2 { s2[i] += 10 }
+
+    //s1 is now &quot;stale&quot;
+    fmt.Println(s1) //prints [1 22 23]
+    fmt.Println(s2) //prints [32 33 14]
+}
+</code></pre>
+
+<h3 id="a-name-45-type-declarations-and-methods:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="45">&lt;/&gt;Type Declarations and Methods</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>When you create a type declaration by defining a new type from an existing (non-interface) type, you don&rsquo;t inherit the methods defined for that existing type.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+import &quot;sync&quot;
+
+type myMutex sync.Mutex
+
+func main() {  
+    var mtx myMutex
+    mtx.Lock() //error
+    mtx.Unlock() //error  
+}
+</code></pre>
+
+<p><em>Compile Errors:</em></p>
+
+<pre><code>/tmp/sandbox106401185/main.go:9: mtx.Lock undefined (type myMutex has no field or method Lock) /tmp/sandbox106401185/main.go:10: mtx.Unlock undefined (type myMutex has no field or method Unlock)
+</code></pre>
+
+<p>If you do need the methods from the original type you can define a new struct type embedding the original type as an anonymous field.</p>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import &quot;sync&quot;
+
+type myLocker struct {  
+    sync.Mutex
+}
+
+func main() {  
+    var lock myLocker
+    lock.Lock() //ok
+    lock.Unlock() //ok
+}
+</code></pre>
+
+<p>Interface type declarations also retain their method sets.</p>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import &quot;sync&quot;
+
+type myLocker sync.Locker
+
+func main() {  
+    var lock myLocker = new(sync.Mutex)
+    lock.Lock() //ok
+    lock.Unlock() //ok
+}
+</code></pre>
+
+<h3 id="a-name-46-a-breaking-out-of-for-switch-and-for-select-code-blocks:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="46"></a>Breaking Out of &ldquo;for switch&rdquo; and &ldquo;for select&rdquo; Code Blocks</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>A &ldquo;break&rdquo; statement without a label only gets you out of the inner switch/select block. If using a &ldquo;return&rdquo; statement is not an option then defining a label for the outer loop is the next best thing.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    loop:
+        for {
+            switch {
+            case true:
+                fmt.Println(&quot;breaking out...&quot;)
+                break loop
+            }
+        }
+
+    fmt.Println(&quot;out!&quot;)
+}
+</code></pre>
+
+<p>A &ldquo;goto&rdquo; statement will do the trick too&hellip;</p>
+
+<h3 id="a-name-47-a-iteration-variables-and-closures-in-for-statements:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="47"></a>Iteration Variables and Closures in &ldquo;for&rdquo; Statements</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>This is the most common gotcha in Go. The iteration variables in for statements are reused in each iteration. This means that each closure (aka function literal) created in your for loop will reference the same variable (and they&rsquo;ll get that variable&rsquo;s value at the time those goroutines start executing).</p>
+
+<p><em>Incorrect:</em></p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {  
+    data := []string{&quot;one&quot;,&quot;two&quot;,&quot;three&quot;}
+
+    for _,v := range data {
+        go func() {
+            fmt.Println(v)
+        }()
+    }
+
+    time.Sleep(3 * time.Second)
+    //goroutines print: three, three, three
+}
+</code></pre>
+
+<p>The easiest solution (that doesn&rsquo;t require any changes to the goroutine) is to save the current iteration variable value in a local variable inside the for loop block.</p>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {  
+    data := []string{&quot;one&quot;,&quot;two&quot;,&quot;three&quot;}
+
+    for _,v := range data {
+        vcopy := v //
+        go func() {
+            fmt.Println(vcopy)
+        }()
+    }
+
+    time.Sleep(3 * time.Second)
+    //goroutines print: one, two, three
+}
+</code></pre>
+
+<p>Another solution is to pass the current iteration variable as a parameter to the anonymous goroutine.</p>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {  
+    data := []string{&quot;one&quot;,&quot;two&quot;,&quot;three&quot;}
+
+    for _,v := range data {
+        go func(in string) {
+            fmt.Println(in)
+        }(v)
+    }
+
+    time.Sleep(3 * time.Second)
+    //goroutines print: one, two, three
+}
+</code></pre>
+
+<p>Here&rsquo;s a slightly more complicated version of the trap.</p>
+
+<p><em>Incorrect:</em></p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+type field struct {  
+    name string
+}
+
+func (p *field) print() {  
+    fmt.Println(p.name)
+}
+
+func main() {  
+    data := []field{{&quot;one&quot;},{&quot;two&quot;},{&quot;three&quot;}}
+
+    for _,v := range data {
+        go v.print()
+    }
+
+    time.Sleep(3 * time.Second)
+    //goroutines print: three, three, three
+}
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+type field struct {  
+    name string
+}
+
+func (p *field) print() {  
+    fmt.Println(p.name)
+}
+
+func main() {  
+    data := []field{{&quot;one&quot;},{&quot;two&quot;},{&quot;three&quot;}}
+
+    for _,v := range data {
+        v := v
+        go v.print()
+    }
+
+    time.Sleep(3 * time.Second)
+    //goroutines print: one, two, three
+}
+</code></pre>
+
+<p>What do you think you&rsquo;ll see when you run this code (and why)?</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+type field struct {  
+    name string
+}
+
+func (p *field) print() {  
+    fmt.Println(p.name)
+}
+
+func main() {  
+    data := []*field{{&quot;one&quot;},{&quot;two&quot;},{&quot;three&quot;}}
+
+    for _,v := range data {
+        go v.print()
+    }
+
+    time.Sleep(3 * time.Second)
+}
+</code></pre>
+
+<h3 id="a-name-48-a-deferred-function-call-argument-evaluation:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="48"></a>Deferred Function Call Argument Evaluation</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>Arguments for a deferred function call are evaluated when the defer statement is evaluated (not when the function is actually executing).</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    var i int = 1
+
+    defer fmt.Println(&quot;result =&gt;&quot;,func() int { return i * 2 }())
+    i++
+    //prints: result =&gt; 2 (not ok if you expected 4)
+}
+</code></pre>
+
+<h3 id="a-name-49-a-deferred-function-call-execution:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="49"></a>Deferred Function Call Execution</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>The deferred calls are executed at the end of the containing function and not at the end of the containing code block. It&rsquo;s an easy mistake to make for new Go developers confusing the deferred code execution rules with the variable scoping rules. It can become a problem if you have a long running function with a for loop that tries to defer resource cleanup calls in each iteration.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;os&quot;
+    &quot;path/filepath&quot;
+)
+
+func main() {  
+    if len(os.Args) != 2 {
+        os.Exit(-1)
+    }
+
+    start, err := os.Stat(os.Args[1])
+    if err != nil || !start.IsDir(){
+        os.Exit(-1)
+    }
+
+    var targets []string
+    filepath.Walk(os.Args[1], func(fpath string, fi os.FileInfo, err error) error {
+        if err != nil {
+            return err
+        }
+
+        if !fi.Mode().IsRegular() {
+            return nil
+        }
+
+        targets = append(targets,fpath)
+        return nil
+    })
+
+    for _,target := range targets {
+        f, err := os.Open(target)
+        if err != nil {
+            fmt.Println(&quot;bad target:&quot;,target,&quot;error:&quot;,err) //prints error: too many open files
+            break
+        }
+        defer f.Close() //will not be closed at the end of this code block
+        //do something with the file...
+    }
+}
+</code></pre>
+
+<p>One way to solve the problem is by wrapping the code block in a function.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;os&quot;
+    &quot;path/filepath&quot;
+)
+
+func main() {  
+    if len(os.Args) != 2 {
+        os.Exit(-1)
+    }
+
+    start, err := os.Stat(os.Args[1])
+    if err != nil || !start.IsDir(){
+        os.Exit(-1)
+    }
+
+    var targets []string
+    filepath.Walk(os.Args[1], func(fpath string, fi os.FileInfo, err error) error {
+        if err != nil {
+            return err
+        }
+
+        if !fi.Mode().IsRegular() {
+            return nil
+        }
+
+        targets = append(targets,fpath)
+        return nil
+    })
+
+    for _,target := range targets {
+        func() {
+            f, err := os.Open(target)
+            if err != nil {
+                fmt.Println(&quot;bad target:&quot;,target,&quot;error:&quot;,err)
+                return
+            }
+            defer f.Close() //ok
+            //do something with the file...
+        }()
+    }
+}
+</code></pre>
+
+<p>Another option is to get rid of the defer statement :-)</p>
+
+<h3 id="a-name-50-a-failed-type-assertions:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="50"></a>Failed Type Assertions</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>Failed type assertions return the &ldquo;zero value&rdquo; for the target type used in the assertion statement. This can lead to unexpected behavior when it&rsquo;s mixed with variable shadowing.</p>
+
+<p><em>Incorrect:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    var data interface{} = &quot;great&quot;
+
+    if data, ok := data.(int); ok {
+        fmt.Println(&quot;[is an int] value =&gt;&quot;,data)
+    } else {
+        fmt.Println(&quot;[not an int] value =&gt;&quot;,data)
+        //prints: [not an int] value =&gt; 0 (not &quot;great&quot;)
+    }
+}
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    var data interface{} = &quot;great&quot;
+
+    if res, ok := data.(int); ok {
+        fmt.Println(&quot;[is an int] value =&gt;&quot;,res)
+    } else {
+        fmt.Println(&quot;[not an int] value =&gt;&quot;,data)
+        //prints: [not an int] value =&gt; great (as expected)
+    }
+}
+</code></pre>
+
+<h3 id="a-name-51-a-blocked-goroutines-and-resource-leaks:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="51"></a>Blocked Goroutines and Resource Leaks</h3>
+
+<ul>
+<li>level: intermediate</li>
+</ul>
+
+<p>Rob Pike talked about a number of fundamental concurrency patterns in his &ldquo;Go Concurrency Patterns&rdquo; presentation at Google I/O in 2012. Fetching the first result from a number of targets is one of them.</p>
+
+<pre><code>func First(query string, replicas ...Search) Result {  
+    c := make(chan Result)
+    searchReplica := func(i int) { c &lt;- replicas[i](query) }
+    for i := range replicas {
+        go searchReplica(i)
+    }
+    return &lt;-c
+}
+</code></pre>
+
+<p>The function starts a goroutines for each search replica. Each goroutine sends its search result to the result channel. The first value from the result channel is returned.</p>
+
+<p>What about the results from the other goroutines? What about the goroutines themselves?</p>
+
+<p>The result channel in the First() function is unbuffered. This means that only the first goroutine returns. All other goroutines are stuck trying to send their results. This means if you have more than one replica each call will leak resources.</p>
+
+<p>To avoid the leaks you need to make sure all goroutines exit. One potential solution is to use a buffered result channel big enough to hold all results.</p>
+
+<pre><code>func First(query string, replicas ...Search) Result {  
+    c := make(chan Result,len(replicas))
+    searchReplica := func(i int) { c &lt;- replicas[i](query) }
+    for i := range replicas {
+        go searchReplica(i)
+    }
+    return &lt;-c
+}
+</code></pre>
+
+<p>Another potential solution is to use a select statement with a default case and a buffered result channel that can hold one value. The default case ensures that the goroutines don&rsquo;t get stuck even when the result channel can&rsquo;t receive messages.</p>
+
+<pre><code>func First(query string, replicas ...Search) Result {  
+    c := make(chan Result,1)
+    searchReplica := func(i int) {
+        select {
+        case c &lt;- replicas[i](query):
+        default:
+        }
+    }
+    for i := range replicas {
+        go searchReplica(i)
+    }
+    return &lt;-c
+}
+</code></pre>
+
+<p>You can also use a special cancellation channel to interrupt the workers.</p>
+
+<pre><code>func First(query string, replicas ...Search) Result {  
+    c := make(chan Result)
+    done := make(chan struct{})
+    defer close(done)
+    searchReplica := func(i int) {
+        select {
+        case c &lt;- replicas[i](query):
+        case &lt;- done:
+        }
+    }
+    for i := range replicas {
+        go searchReplica(i)
+    }
+
+    return &lt;-c
+}
+</code></pre>
+
+<p>Why did the presentation contain these bugs? Rob Pike simply didn&rsquo;t want to comlicate the slides. It makes sense, but it can be a problem for new Go developers who would use the code as is without thinking that it might have problems.</p>
+
+<h3 id="a-name-52-a-using-pointer-receiver-methods-on-value-instances:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="52"></a>Using Pointer Receiver Methods On Value Instances</h3>
+
+<ul>
+<li>level: advanced</li>
+</ul>
+
+<p>It&rsquo;s OK to call a pointer receiver method on a value as long as the value is addressable. In other words, you don&rsquo;t need to have a value receiver version of the method in some cases.</p>
+
+<p>Not every variable is addressable though. Map elements are not addressable. Variables referenced through interfaces are also not addressable.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+type data struct {  
+    name string
+}
+
+func (p *data) print() {  
+    fmt.Println(&quot;name:&quot;,p.name)
+}
+
+type printer interface {  
+    print()
+}
+
+func main() {  
+    d1 := data{&quot;one&quot;}
+    d1.print() //ok
+
+    var in printer = data{&quot;two&quot;} //error
+    in.print()
+
+    m := map[string]data {&quot;x&quot;:data{&quot;three&quot;}}
+    m[&quot;x&quot;].print() //error
+}
+</code></pre>
+
+<p><em>Compile Errors:</em></p>
+
+<pre><code>/tmp/sandbox017696142/main.go:21: cannot use data literal (type data) as type printer in assignment: data does not implement printer (print method has pointer receiver)
+/tmp/sandbox017696142/main.go:25: cannot call pointer method on m[&quot;x&quot;] /tmp/sandbox017696142/main.go:25: cannot take the address of m[&quot;x&quot;]
+</code></pre>
+
+<h3 id="a-name-53-a-updating-map-value-fields:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="53"></a>Updating Map Value Fields</h3>
+
+<ul>
+<li>level: advanced</li>
+</ul>
+
+<p>If you have a map of struct values you can&rsquo;t update individual struct fields.</p>
+
+<p><em>Fails:</em></p>
+
+<pre><code>package main
+
+type data struct {  
+    name string
+}
+
+func main() {  
+    m := map[string]data {&quot;x&quot;:{&quot;one&quot;}}
+    m[&quot;x&quot;].name = &quot;two&quot; //error
+}
+</code></pre>
+
+<p><em>Compile Error:</em></p>
+
+<pre><code>/tmp/sandbox380452744/main.go:9: cannot assign to m[&quot;x&quot;].name
+</code></pre>
+
+<p>It doesn&rsquo;t work because map elements are not addressable.</p>
+
+<p>What can be extra confusing for new Go devs is the fact that slice elements are addressable.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+type data struct {  
+    name string
+}
+
+func main() {  
+    s := []data {{&quot;one&quot;}}
+    s[0].name = &quot;two&quot; //ok
+    fmt.Println(s)    //prints: [{two}]
+}
+</code></pre>
+
+<p>Note that a while ago it was possible to update map element fields in one of the Go compilers (gccgo), but that behavior was quickly fixed :-) It was also considered as a potential feature for Go 1.3. It wasn&rsquo;t important enough to support at that point in time, so it&rsquo;s still on the todo list.</p>
+
+<p>The first work around is to use a temporary variable.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+type data struct {  
+    name string
+}
+
+func main() {  
+    m := map[string]data {&quot;x&quot;:{&quot;one&quot;}}
+    r := m[&quot;x&quot;]
+    r.name = &quot;two&quot;
+    m[&quot;x&quot;] = r
+    fmt.Printf(&quot;%v&quot;,m) //prints: map[x:{two}]
+}
+</code></pre>
+
+<p>Another workaround is to use a map of pointers.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+type data struct {  
+    name string
+}
+
+func main() {  
+    m := map[string]*data {&quot;x&quot;:{&quot;one&quot;}}
+    m[&quot;x&quot;].name = &quot;two&quot; //ok
+    fmt.Println(m[&quot;x&quot;]) //prints: &amp;{two}
+}
+</code></pre>
+
+<p>By the way, what happens when you run this code?</p>
+
+<pre><code>package main
+
+type data struct {  
+    name string
+}
+
+func main() {  
+    m := map[string]*data {&quot;x&quot;:{&quot;one&quot;}}
+    m[&quot;z&quot;].name = &quot;what?&quot; //???
+}
+</code></pre>
+
+<h3 id="a-name-54-a-nil-interfaces-and-nil-interfaces-values:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="54"></a>&ldquo;nil&rdquo; Interfaces and &ldquo;nil&rdquo; Interfaces Values</h3>
+
+<ul>
+<li>level: advanced</li>
+</ul>
+
+<p>This is the second most common gotcha in Go because interfaces are not pointers even though they may look like pointers. Interface variables will be &ldquo;nil&rdquo; only when their type and value fields are &ldquo;nil&rdquo;.</p>
+
+<p>The interface type and value fields are populated based on the type and value of the variable used to create the corresponding interface variable. This can lead to unexpected behavior when you are trying to check if an interface variable equals to &ldquo;nil&rdquo;.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    var data *byte
+    var in interface{}
+
+    fmt.Println(data,data == nil) //prints: &lt;nil&gt; true
+    fmt.Println(in,in == nil)     //prints: &lt;nil&gt; true
+
+    in = data
+    fmt.Println(in,in == nil)     //prints: &lt;nil&gt; false
+    //'data' is 'nil', but 'in' is not 'nil'
+}
+</code></pre>
+
+<p>Watch out for this trap when you have a function that returns interfaces.</p>
+
+<p><em>Incorrect:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    doit := func(arg int) interface{} {
+        var result *struct{} = nil
+
+        if(arg &gt; 0) {
+            result = &amp;struct{}{}
+        }
+
+        return result
+    }
+
+    if res := doit(-1); res != nil {
+        fmt.Println(&quot;good result:&quot;,res) //prints: good result: &lt;nil&gt;
+        //'res' is not 'nil', but its value is 'nil'
+    }
+}
+</code></pre>
+
+<p><em>Works:</em></p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    doit := func(arg int) interface{} {
+        var result *struct{} = nil
+
+        if(arg &gt; 0) {
+            result = &amp;struct{}{}
+        } else {
+            return nil //return an explicit 'nil'
+        }
+
+        return result
+    }
+
+    if res := doit(-1); res != nil {
+        fmt.Println(&quot;good result:&quot;,res)
+    } else {
+        fmt.Println(&quot;bad result (res is nil)&quot;) //here as expected
+    }
+}
+</code></pre>
+
+<h3 id="a-name-55-a-stack-and-heap-variables:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="55"></a>Stack and Heap Variables</h3>
+
+<ul>
+<li>level: advanced</li>
+</ul>
+
+<p>You don&rsquo;t always know if your variable is allocated on the stack or heap. In C++ creating variables using the new operator always means that you have a heap variable. In Go the compiler decides where the variable will be allocated even if the new() or make() functions are used. The compiler picks the location to store the variable based on its size and the result of &ldquo;escape analysis&rdquo;. This also means that it&rsquo;s ok to return references to local variables, which is not ok in other languages like C or C++.</p>
+
+<p>If you need to know where your variables are allocated pass the &ldquo;-m&rdquo; gc flag to &ldquo;go build&rdquo; or &ldquo;go run&rdquo; (e.g., go run -gcflags -m app.go).</p>
+
+<h3 id="a-name-56-a-gomaxprocs-concurrency-and-parallelism:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="56"></a>GOMAXPROCS, Concurrency, and Parallelism</h3>
+
+<ul>
+<li>level: advanced</li>
+</ul>
+
+<p>Go 1.4 and below uses only one execution context / OS thread. This means that only one goroutine can execute at any given time. Starting with 1.5 Go sets the number of execution contexts to the number of logical CPU cores returned by runtime.NumCPU(). That number may or may not match the total number of logical CPU cores on your system depending on the CPU affinity settings of your process. You can adjust this number by changing the GOMAXPROCS environment variable or by calling the runtime.GOMAXPROCS() function.</p>
+
+<p>There&rsquo;s a common misconception that GOMAXPROCS represents the number of CPUs Go will use to run goroutines. The runtime.GOMAXPROCS() function documentation adds more to the confusion. The GOMAXPROCS variable description (<a href="https://golang.org/pkg/runtime/">https://golang.org/pkg/runtime/</a>) does a better job talking about OS threads.</p>
+
+<p>You can set GOMAXPROCS to more than the number of your CPUs. The max value for GOMAXPROCS is 256.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;runtime&quot;
+)
+
+func main() {  
+    fmt.Println(runtime.GOMAXPROCS(-1)) //prints: X (1 on play.golang.org)
+    fmt.Println(runtime.NumCPU())       //prints: X (1 on play.golang.org)
+    runtime.GOMAXPROCS(20)
+    fmt.Println(runtime.GOMAXPROCS(-1)) //prints: 20
+    runtime.GOMAXPROCS(300)
+    fmt.Println(runtime.GOMAXPROCS(-1)) //prints: 256
+}
+</code></pre>
+
+<h3 id="a-name-57-a-read-and-write-operation-reordering:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="57"></a>Read and Write Operation Reordering</h3>
+
+<ul>
+<li>level: advanced</li>
+</ul>
+
+<p>Go may reorder some operations, but it ensures that the overall behavior in the goroutine where it happens doesn&rsquo;t change. However, it doesn&rsquo;t guarantee the order of execution across multiple goroutines.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;runtime&quot;
+    &quot;time&quot;
+)
+
+var _ = runtime.GOMAXPROCS(3)
+
+var a, b int
+
+func u1() {  
+    a = 1
+    b = 2
+}
+
+func u2() {  
+    a = 3
+    b = 4
+}
+
+func p() {  
+    println(a)
+    println(b)
+}
+
+func main() {  
+    go u1()
+    go u2()
+    go p()
+    time.Sleep(1 * time.Second)
+}
+</code></pre>
+
+<p>If you run this code a few times you might see these a and b variable combinations:</p>
+
+<pre><code>1
+2
+
+3
+4
+
+0
+2
+
+0
+0
+
+1
+4
+</code></pre>
+
+<p>The most interesting combination for a and b is &ldquo;02&rdquo;. It shows that b was updated before a.</p>
+
+<p>If you need to preserve the order of read and write operations across multiple goroutines you&rsquo;ll need to use channels or the appropriate constructs from the &ldquo;sync&rdquo; package.</p>
+
+<h3 id="a-name-58-a-preemptive-scheduling:d69ae22d9ee4babfbb2c7eb1d79dc668"><a name="58"></a>Preemptive Scheduling</h3>
+
+<ul>
+<li>level: advanced</li>
+</ul>
+
+<p>It&rsquo;s possible to have a rogue goroutine that prevents other goroutines from running. It can happen if you have a for loop that doesn&rsquo;t allow the scheduler to run.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    done := false
+
+    go func(){
+        done = true
+    }()
+
+    for !done {
+    }
+    fmt.Println(&quot;done!&quot;)
+}
+</code></pre>
+
+<p>The for loop doesn&rsquo;t have to be empty. It&rsquo;ll be a problem as long as it contains code that doesn&rsquo;t trigger the scheduler execution.</p>
+
+<p>The scheduler will run after GC, &ldquo;go&rdquo; statements, blocking channel operations, blocking system calls, and lock operations. It may also run when a non-inlined function is called.</p>
+
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {  
+    done := false
+
+    go func(){
+        done = true
+    }()
+
+    for !done {
+        fmt.Println(&quot;not done!&quot;) //not inlined
+    }
+    fmt.Println(&quot;done!&quot;)
+}
+</code></pre>
+
+<p>To find out if the function you call in the for loop is inlined pass the &ldquo;-m&rdquo; gc flag to &ldquo;go build&rdquo; or &ldquo;go run&rdquo; (e.g., go build -gcflags -m).</p>
+
+<p>Another option is to invoke the scheduler explicitly. You can do it with the Gosched() function from the &ldquo;runtime&rdquo; package.</p>
+
+<pre><code>package main
+
+import (  
+    &quot;fmt&quot;
+    &quot;runtime&quot;
+)
+
+func main() {  
+    done := false
+
+    go func(){
+        done = true
+    }()
+
+    for !done {
+        runtime.Gosched()
+    }
+    fmt.Println(&quot;done!&quot;)
+}
+</code></pre>
+
+<p>If you made it here and you have comments or ideas feel free to add a note to this Reddit discussion.</p>
+
+<p>Thank you for your feedback and suggestions!</p>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/" title="50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs"><em>here</em></a> )</p>
+
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/etc_201603152115/" title="上一篇">&lt;&lt; 诚意十足的招聘页面</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</html>
