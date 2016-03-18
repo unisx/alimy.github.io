@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Tags &middot; Alimy </title>
+    <title> 就这样认识了Gogs &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="http://alimy.me/tags/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
@@ -143,7 +143,7 @@
     </style>
 </head>
 
-<body>
+  <body>
     <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
@@ -151,9 +151,7 @@
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -233,93 +231,65 @@
 </noscript>
 
     <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <section id="main">
-              <div>
-                <h1 id="title">Tags</h1>
-                <style type="text/css">
-                        #double ul{
-                          width:760px;
-                          margin-bottom:20px;
-                          overflow:hidden;
-                        }
-                        #double li{
-                          line-height:1.5em;
-                          float:left;
-                          display:inline;
-                          width:50%;
-                        }
-                </style>
-                <ul id="double">
-                
-                
-                    <li>
-                        <a href="art">art</a> 11
-                    </li>
-                
-                    <li>
-                        <a href="cloud">cloud</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="development">development</a> 49
-                    </li>
-                
-                    <li>
-                        <a href="enjoy">enjoy</a> 21
-                    </li>
-                
-                    <li>
-                        <a href="game">game</a> 21
-                    </li>
-                
-                    <li>
-                        <a href="go">go</a> 2
-                    </li>
-                
-                    <li>
-                        <a href="golang">golang</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="gopher">gopher</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="hugo">hugo</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="infomation">infomation</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="java">java</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="json">json</a> 23
-                    </li>
-                
-                    <li>
-                        <a href="language">language</a> 6
-                    </li>
-                
-                    <li>
-                        <a href="other">other</a> 2
-                    </li>
-                
-                    <li>
-                        <a href="xml">xml</a> 12
-                    </li>
-                
-               </ul>
-              </div>
-            </section>
-            </div>
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>就这样认识了Gogs</h2>
+          
+          <p>大概是2015年12月21日，我想知道一些关于SGL(Skia Graphics Engine)的信息，就糊里糊涂的跳到
+一个网站<a href="https://libskia.so/">https://libskia.so/</a>, 然后顺便浏览了一下，做的还是很有吸引力的个人网站。其中有一
+篇Blog： <a href="https://libskia.so/b/discovering-gogs.html">Discovering Gogs</a></p>
+
+<p>作者写道:<br />
+I just discovered Gogs, a light Git web fronted written in Go.
+After reading a bit on its website, I decided to try a bit, just
+for fun. It was really easy to install it with NginX as reverse
+proxy, everything is Gogs&rsquo; documentation, and it was ready in
+less than 10 minutes. Wonderful!</p>
+
+<p>It&rsquo;s still in beta, but already very functionnal, providing most
+of the classic features such as issues, milestones, ssh keys, README.md
+parser, etc&hellip;</p>
+
+<p>Finally, I just dropped my old Gitweb1, and I welcome you to my new Gogs! :)</p>
+
+<p>我也跟着他的节奏部署了Gogs,用的是sqlite3作为数据库，安装非常简单，用户体验和Github
+非常相似但简便的多。之前部署过Gitlab社区版，部署的时候各种的不爽，在我的机子上运行速度还不匝地，
+无奈还是放弃用Gitlab，只使用cgit来web浏览git库。现在好了，有了gogs，部署简便，运行速度也很快，
+UX也是棒棒的，我想说，这就是我一直想要的。</p>
+
+<p>附上Gogs的信息： <a href="https://gogs.io" title="官方网站">【官网】</a> <a href="https://try.gogs.io" title="官方演示">【演示】</a>  <a href="https://github.com/gogits/gogs" title="官方源码">【源码】</a></p>
+
         </div>
-    </body>
-    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603182045/" title="上一篇">&lt;&lt; 50 Shades of Go</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>

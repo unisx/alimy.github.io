@@ -7,7 +7,39 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Fri, 18 Mar 2016 20:45:00 CST</updated>
+    <updated>Fri, 18 Mar 2016 21:05:00 CST</updated>
+    
+    <item>
+      <title>就这样认识了Gogs</title>
+      <link>http://alimy.me/post/inf_201603182105/</link>
+      <pubDate>Fri, 18 Mar 2016 21:05:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/inf_201603182105/</guid>
+      <description>&lt;p&gt;大概是2015年12月21日，我想知道一些关于SGL(Skia Graphics Engine)的信息，就糊里糊涂的跳到
+一个网站&lt;a href=&#34;https://libskia.so/&#34;&gt;https://libskia.so/&lt;/a&gt;, 然后顺便浏览了一下，做的还是很有吸引力的个人网站。其中有一
+篇Blog： &lt;a href=&#34;https://libskia.so/b/discovering-gogs.html&#34;&gt;Discovering Gogs&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;作者写道:&lt;br /&gt;
+I just discovered Gogs, a light Git web fronted written in Go.
+After reading a bit on its website, I decided to try a bit, just
+for fun. It was really easy to install it with NginX as reverse
+proxy, everything is Gogs&amp;rsquo; documentation, and it was ready in
+less than 10 minutes. Wonderful!&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s still in beta, but already very functionnal, providing most
+of the classic features such as issues, milestones, ssh keys, README.md
+parser, etc&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Finally, I just dropped my old Gitweb1, and I welcome you to my new Gogs! :)&lt;/p&gt;
+
+&lt;p&gt;我也跟着他的节奏部署了Gogs,用的是sqlite3作为数据库，安装非常简单，用户体验和Github
+非常相似但简便的多。之前部署过Gitlab社区版，部署的时候各种的不爽，在我的机子上运行速度还不匝地，
+无奈还是放弃用Gitlab，只使用cgit来web浏览git库。现在好了，有了gogs，部署简便，运行速度也很快，
+UX也是棒棒的，我想说，这就是我一直想要的。&lt;/p&gt;
+
+&lt;p&gt;附上Gogs的信息： &lt;a href=&#34;https://gogs.io&#34; title=&#34;官方网站&#34;&gt;【官网】&lt;/a&gt; &lt;a href=&#34;https://try.gogs.io&#34; title=&#34;官方演示&#34;&gt;【演示】&lt;/a&gt;  &lt;a href=&#34;https://github.com/gogits/gogs&#34; title=&#34;官方源码&#34;&gt;【源码】&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>50 Shades of Go</title>
@@ -5448,116 +5480,6 @@ public class ParseTreeExample6 {
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-parse-json-to-java-tree.jsp&#34; title=&#34;Convert json to a java object tree&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Gson: parsing json to java token by token</title>
-      <link>http://alimy.me/post/dev_201603122015/</link>
-      <pubDate>Sat, 12 Mar 2016 20:15:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603122015/</guid>
-      <description>&lt;p&gt;In the earlier tutorials we saw how to &lt;a href=&#34;http://alimy.me/post/dev_201603122010&#34; title=&#34;Convert json to a java object&#34;&gt;convert json to a java object&lt;/a&gt;. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&amp;rsquo;s a detailed example.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.apache.commons.io.IOUtils;
-
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-
-public class ParseTokenExample7
-{
-	public static void main(String[] args) throws MalformedURLException, IOException
-	{
-		String url = &amp;quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=1&amp;quot;;
-		String json = IOUtils.toString(new URL(url));
-		// use the reader to read the json to a stream of tokens
-		JsonReader reader = new JsonReader(new StringReader(json));
-		// we call the handle object method to handle the full json object. This
-		// implies that the first token in JsonToken.BEGIN_OBJECT, which is
-		// always true.
-		handleObject(reader);
-	}
-
-	/**
-	 * Handle an Object. Consume the first token which is BEGIN_OBJECT. Within
-	 * the Object there could be array or non array tokens. We write handler
-	 * methods for both. Noe the peek() method. It is used to find out the type
-	 * of the next token without actually consuming it.
-	 *
-	 * @param reader
-	 * @throws IOException
-	 */
-	private static void handleObject(JsonReader reader) throws IOException
-	{
-		reader.beginObject();
-		while (reader.hasNext()) {
-			JsonToken token = reader.peek();
-			if (token.equals(JsonToken.BEGIN_ARRAY))
-				handleArray(reader);
-			else if (token.equals(JsonToken.END_OBJECT)) {
-				reader.endObject();
-				return;
-			} else
-				handleNonArrayToken(reader, token);
-		}
-
-	}
-
-	/**
-	 * Handle a json array. The first token would be JsonToken.BEGIN_ARRAY.
-	 * Arrays may contain objects or primitives.
-	 *
-	 * @param reader
-	 * @throws IOException
-	 */
-	public static void handleArray(JsonReader reader) throws IOException
-	{
-		reader.beginArray();
-		while (true) {
-			JsonToken token = reader.peek();
-			if (token.equals(JsonToken.END_ARRAY)) {
-				reader.endArray();
-				break;
-			} else if (token.equals(JsonToken.BEGIN_OBJECT)) {
-				handleObject(reader);
-			} else if (token.equals(JsonToken.END_OBJECT)) {
-				reader.endObject();
-			} else
-				handleNonArrayToken(reader, token);
-		}
-	}
-
-	/**
-	 * Handle non array non object tokens
-	 *
-	 * @param reader
-	 * @param token
-	 * @throws IOException
-	 */
-	public static void handleNonArrayToken(JsonReader reader, JsonToken token) throws IOException
-	{
-		if (token.equals(JsonToken.NAME))
-			System.out.println(reader.nextName());
-		else if (token.equals(JsonToken.STRING))
-			System.out.println(reader.nextString());
-		else if (token.equals(JsonToken.NUMBER))
-			System.out.println(reader.nextDouble());
-		else
-			reader.skipValue();
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-parse-json-token-by-token.jsp&#34; title=&#34;parsing json to java token by token&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
 </description>
     </item>
     

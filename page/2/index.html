@@ -240,6 +240,52 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603122030/" title="阅读全文">Gson: Custom Type Adapter </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the earlier tutorials we have seen how gson can serialize and deserialize java classes with or without hierarchies. By default, it introspects the classes and comes with with a strategy for serializing and deserializing it. However, in some cases, you want to specify your own conversion strategy. That is, you want to control how the java object is converted to json string and the other way round. Gson provides a capability to specify a custom type adapter. You tell Gson that for a particular class, use the conversion strategy specified by your custom adapter. Lets look at how to write the type adapter :
+To write a custom adapter extend the com.google.gson.TypeAdapter abstract class. Implement the public abstract T read(JsonReader in) throws IOException; and public abstract void write(JsonWriter out, T value) throws IOException; methods. The adapter should also handle nulls. Create the Type adapter instance and then register it with the GsonBuilder. Create the Gson object from the GsonBuilder and then use that to serialize and deserialize. Lets look at an example</p>
+
+<pre><code>package com.studytrails.json.gson;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+public class DatasetTypeAdapterExample8 {
+
+	public static void main(String[] args) throws MalformedURLException, IOException {
+		String url = &quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5&quot;;
+		String json = IOUtils.toString(new URL(url));
+		// Create the custom type adapter and register it with the GsonBuilder
+		// class.
+		Gson gson = new GsonBuilder().registerTypeAdapter(Dataset.class, new DatasetTypeAdapter()).create();
+		// deserialize the json to Albums class. The Dataset objects are part of
+		// the Albums class. Whenever Gson encounters an object of type DataSet
+		// it calls the DatasetTypeAdapter to read and write json.
+		Albums albums = gson.fromJson(json, Albums.class);
+		System.out.println(albums.getDataset()[1].getAlbum_title());
+		// prints
+		// http://freemusicarchive.org/music/The_Yes_Sirs/Through_The_Cracks_Mix_Vol_1/
+	}
+}
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122030/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122028/" title="阅读全文">Gson: Serializing Inner Classes </a> </h2>
 
 </header>
@@ -541,63 +587,6 @@ public class SerializeExample3 {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112100/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
-
-<ol>
-<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &lsquo;tags&rsquo; property from the albums dataset.</li>
-<li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
-<li>Using Custom filters</li>
-</ol>
-
-<p>The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.</p>
-
-<h3 id="data-binding-filters-example:36264cd232902e18141acc789ff21fa2">Data Binding Filters Example</h3>
-
-<h4 id="databinding:36264cd232902e18141acc789ff21fa2">Databinding</h4>
-
-<pre><code>package com.studytrails.json.jackson;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-// Do not use fields to autodetect. use the public getter methods to autodetect properties
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
-public class AlbumsFilter {
-
-    private String title;
-    private DatasetFilter[] datasetFilter;
-    public String total_pages;
-
-    protected String getTotal_pages() {
-        return total_pages;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    // this getter method is for the 'dataset' property
-    @JsonProperty(&quot;dataset&quot;)
-    public DatasetFilter[] getDatasetFilter() {
-        return datasetFilter;
-    }
-}
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112055/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

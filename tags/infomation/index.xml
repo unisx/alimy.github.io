@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Infomation on Alimy </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
+    <link>http://alimy.me/tags/infomation/</link>
+    
+    
+    <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
+    <updated>Fri, 18 Mar 2016 21:05:00 CST</updated>
+    
+    <item>
+      <title>就这样认识了Gogs</title>
+      <link>http://alimy.me/post/inf_201603182105/</link>
+      <pubDate>Fri, 18 Mar 2016 21:05:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/inf_201603182105/</guid>
+      <description>&lt;p&gt;大概是2015年12月21日，我想知道一些关于SGL(Skia Graphics Engine)的信息，就糊里糊涂的跳到
+一个网站&lt;a href=&#34;https://libskia.so/&#34;&gt;https://libskia.so/&lt;/a&gt;, 然后顺便浏览了一下，做的还是很有吸引力的个人网站。其中有一
+篇Blog： &lt;a href=&#34;https://libskia.so/b/discovering-gogs.html&#34;&gt;Discovering Gogs&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;作者写道:&lt;br /&gt;
+I just discovered Gogs, a light Git web fronted written in Go.
+After reading a bit on its website, I decided to try a bit, just
+for fun. It was really easy to install it with NginX as reverse
+proxy, everything is Gogs&amp;rsquo; documentation, and it was ready in
+less than 10 minutes. Wonderful!&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s still in beta, but already very functionnal, providing most
+of the classic features such as issues, milestones, ssh keys, README.md
+parser, etc&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Finally, I just dropped my old Gitweb1, and I welcome you to my new Gogs! :)&lt;/p&gt;
+
+&lt;p&gt;我也跟着他的节奏部署了Gogs,用的是sqlite3作为数据库，安装非常简单，用户体验和Github
+非常相似但简便的多。之前部署过Gitlab社区版，部署的时候各种的不爽，在我的机子上运行速度还不匝地，
+无奈还是放弃用Gitlab，只使用cgit来web浏览git库。现在好了，有了gogs，部署简便，运行速度也很快，
+UX也是棒棒的，我想说，这就是我一直想要的。&lt;/p&gt;
+
+&lt;p&gt;附上Gogs的信息： &lt;a href=&#34;https://gogs.io&#34; title=&#34;官方网站&#34;&gt;【官网】&lt;/a&gt; &lt;a href=&#34;https://try.gogs.io&#34; title=&#34;官方演示&#34;&gt;【演示】&lt;/a&gt;  &lt;a href=&#34;https://github.com/gogits/gogs&#34; title=&#34;官方源码&#34;&gt;【源码】&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

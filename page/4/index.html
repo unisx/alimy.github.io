@@ -240,6 +240,35 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603092105/" title="阅读全文">XStream: Collection Converters </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the earlier tutorials we saw how to convert a <a href="http://alimy.me/post/dev_201603081411" title="parsing an xml">Java object to XML and back</a>, <a href="http://alimy.me/post/dev_201603092055" title="custom converter">custom converter</a> and <a href="http://alimy.me/post/dev_201603092100" title="basic converters">basic converters</a>. In this tutorial we look at how XStream converts array and collections from java to xml and vice versa. We will convert the following types :</p>
+
+<ol>
+<li>String[]</li>
+<li>char[]</li>
+<li>List<String></li>
+<li>java.util.Properties</li>
+<li>List<String></li>
+<li>Map<String, String></li>
+<li>TreeMap<String, String> treeMap</li>
+<li>TreeSet<String> treeSet</li>
+<li>enum</li>
+<li>EnumMap<testEnum, String> testEnum is an enum</li>
+<li>EnumSet<testEnum> testEnum is an enum</li>
+</ol>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092105/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603092100/" title="阅读全文">XStream: Basic Built-in Converters </a> </h2>
 
 </header>
@@ -461,38 +490,6 @@ class Music {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603081355/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603081313/" title="阅读全文">SimpleXML: Example </a> </h2>
-
-</header>
-<div class="summary">
-    <p>This page provides a series of examples illustrating how a class can be annotated. It acts as a quick and dirty overview of how the framework can be used and also acts as a reference page. All examples can be downloaded for convenience. For further information take a look at the <a href="http://alimy.me/post/dev_201603032011" title="SimpleXML Tutorial">Tutorial</a>.</p>
-
-<h3 id="sect-creating-nested-path-elements:6ed76957f65e40caff73dba00e2f11f2">&sect;Creating nested path elements</h3>
-
-<p>Here an example of how to use the <a href="http://simple.sourceforge.net/download/stream/doc/javadoc/org/simpleframework/xml/Path.html">Path</a> annotation to create nested elements and attributes using a single annotated class. Below is an example showing two elements nested within a XPath expression.</p>
-
-<pre><code>@Root
-public class Example {
-
-   @Path(&quot;a/b[1]&quot;)
-   @Element
-   private String x;
-
-   @Path(&quot;a/b[2]&quot;)
-   @Element
-   private String y;
-}
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603081313/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
