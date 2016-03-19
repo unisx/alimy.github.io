@@ -240,6 +240,23 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603092115/" title="阅读全文">XStream: Json to Java </a> </h2>
+
+</header>
+<div class="summary">
+    <p>XStream can also be used with JSON. XStream provides two drivers : a JsonHierarchicalStreamDriver and a JettisonMappedXmlDriver. The JsonHierarchicalStreamDriver can be used to write a JSON string but cannot deserialize a JSON. JettisonMappedXmlDriver can be used to deserialize a JSON but it introduces an additional dependency. In this example we deserialize a json string into a java object.</p>
+
+<p>Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092115/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603092105/" title="阅读全文">XStream: Collection Converters </a> </h2>
 
 </header>
@@ -471,25 +488,6 @@ class Music {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603081411/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603081355/" title="阅读全文">Xstream: Introduction </a> </h2>
-
-</header>
-<div class="summary">
-    <p>What is XStream</p>
-
-<p><a href="http://www.codehaus.org/" title="codehaus">XStream</a> is a java library to convert Java Object into XML and back. You can take nearly every arbitrary deeply nested object turn it to XML and read it back without further configuration. You&rsquo;re done if all you want to have is a persisted object in XML. XStream&rsquo;s power lies in its extensive list of &lsquo;Converters&rsquo; that help convert a wide variety of Java Objects to XML and vice versa. A Converter is a class that specifies how a Java Object should be serialized to XML. XStream comes bundled with a lot of Converters and you can also customize your own.</p>
-
-<p>XStream allows converting a class to XML without modifying the class. It can serialize private and final fields and also inner classes. It can serialize references to objects. XStream has also added security measures that allows you to selectively de-serialize and serialize based on type.</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603081355/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
