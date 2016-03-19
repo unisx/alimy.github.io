@@ -240,6 +240,36 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603112025/" title="阅读全文">Jackson: Java to JSON and back </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="creating-json-from-java:627c82fc263a42c0c87ad3244752e285">Creating JSON from Java</h3>
+
+<p>Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.</p>
+
+<pre><code>class Album {
+    private String title;
+
+    public Album(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+}
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112025/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603112020/" title="阅读全文">Jackson: Introduction </a> </h2>
 
 </header>
@@ -477,38 +507,6 @@ XStream has no influence about this behavior.
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603081441/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603081433/" title="阅读全文">XStream: Java to XML </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the <a href="http://alimy.me/post/dev_201603081411">previous</a> example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &lsquo;JazzArtist&rsquo;. This object has a list of &lsquo;Album&rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.</p>
-
-<pre><code>package com.studytrails.xml.xstream;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.thoughtworks.xstream.XStream;
-
-public class CreateXMLFromMusicArtistObject {
-
-    public static void main(String[] args) {
-        CreateXMLFromMusicArtistObject marshaller = new CreateXMLFromMusicArtistObject();
-        marshaller.createXMlFromObject();
-        marshaller.createXMLFromObjectUsingAlias();
-        marshaller.createXMLFromObjectUsingAliasAndImplicitCollection();
-    }
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603081433/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

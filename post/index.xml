@@ -7,7 +7,127 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 19 Mar 2016 22:45:00 CST</updated>
+    <updated>Sat, 19 Mar 2016 22:55:00 CST</updated>
+    
+    <item>
+      <title>Intro to BoltDB: Painless Performant Persistence</title>
+      <link>http://alimy.me/post/dev_201603192255/</link>
+      <pubDate>Sat, 19 Mar 2016 22:55:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603192255/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/boltdb/bolt&#34; title=&#34;BoltDB&#34;&gt;BoltDB&lt;/a&gt; is a pure Go persistence solution that saves data to a memory mapped file. I call it a persistence solution and not a database, because the word database has a lot of baggage associated with it that doesn’t apply to bolt. And that lack of baggage is what makes bolt so awesome.&lt;/p&gt;
+
+&lt;p&gt;Bolt is just a Go package. There’s nothing you need to install on the system, no configuration to figure out before you can start coding, nothing. You just go get github.com/boltdb/bolt and then import “github.com/boltdb/bolt”.&lt;/p&gt;
+
+&lt;p&gt;All you need to fully use bolt as storage is a file name. This is fantastic from both a developer’s point of view, and a user’s point of view. I don’t know about you, but I’ve spent months of work time over my career configuring and setting up databases and debugging configuration problems, users and permissions and all the other crap you get from more traditional databases like Postgres and Mongo. There’s none of that with bolt. No users, no setup, just a file name. This is also a boon for users of your application, because they don’t have to futz with all that crap either.&lt;/p&gt;
+
+&lt;p&gt;Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.&lt;/p&gt;
+
+&lt;p&gt;Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.&lt;/p&gt;
+
+&lt;p&gt;… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+    “fmt”
+    “log”
+
+    “github.com/boltdb/bolt”
+)
+
+var world = []byte(“world”)
+
+func main() {
+    db, err := bolt.Open(“/home/nate/foo/bolt.db”, 0644, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+
+    key := []byte(“hello”)
+    value := []byte(“Hello World!”)
+
+    // store some data
+    err = db.Update(func(tx *bolt.Tx) error {
+        bucket, err := tx.CreateBucketIfNotExists(world)
+        if err != nil {
+            return err
+        }
+
+        err = bucket.Put(key, value)
+        if err != nil {
+            return err
+        }
+        return nil
+    })
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // retrieve the data
+    err = db.View(func(tx *bolt.Tx) error {
+        bucket := tx.Bucket(world)
+        if bucket == nil {
+            return fmt.Errorf(“Bucket %q not found!”, world)
+        }
+
+        val := bucket.Get(key)
+        fmt.Println(string(val))
+
+        return nil
+    })
+
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+
+// output:
+// Hello World!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I know what you’re thinking - that seems kinda long. But keep in mind, I fully handled all errors in at least a semi-proper way, and we’re doing all this:&lt;/p&gt;
+
+&lt;p&gt;1.) creating a database&lt;br /&gt;
+2.) creating some structure (the “world” bucket)&lt;br /&gt;
+3.) storing data to the structure&lt;br /&gt;
+4.) retrieving data from the structure.&lt;/p&gt;
+
+&lt;p&gt;I think that’s not too bad in 54 lines of code.&lt;/p&gt;
+
+&lt;p&gt;So let’s look at what that example is really doing. First we call bolt.Open to get the database. This will create the file if necessary, or open it if it exists.&lt;/p&gt;
+
+&lt;p&gt;All reads from or writes to the bolt database must be done within a transaction. You can have as many Readers in read-only transactions at the same time as you want, but only one Writer in a writable transaction at a time (readers maintain a consistent view of the DB while writers are writing).&lt;/p&gt;
+
+&lt;p&gt;To begin, we call db.Update, which takes a function to which it’ll pass a bolt.Tx - bolt’s transaction object. We then create a Bucket (since all data in bolt lives in buckets), and add our key/value pair to it. After the write transaction finishes, we start a read- only transaction with DB.View, and get the values back out.&lt;/p&gt;
+
+&lt;p&gt;What’s great about bolt’s transaction mechanism is that it’s super simple - the scope of the function is the scope of the transaction. If the function passed to Update returns nil, all updates from the transaction are atomically stored to the database. If the function passed to Update returns an error, the transaction is rolled back. This makes bolt’s transactions completely intuitive from a Go developer’s point of view. You just exit early out of your function by returning an error as usual, and bolt Does The Right Thing. No need to worry about manually rolling back updates or anything, just return an error.&lt;/p&gt;
+
+&lt;p&gt;The only other basic thing you may need is to iterate over key/value pairs in a Bucket, in which case, you just call bucket.Cursor(), which returns a Cursor value, which has functions like Next(), Prev() etc that return a key/value pair and work like you’d expect.&lt;/p&gt;
+
+&lt;p&gt;There’s a lot more to the bolt API, but most of the rest of it is more about database statistics and some stuff for more advanced usage scenarios… but the above is all you really need to know to start storing data in a bolt database.&lt;/p&gt;
+
+&lt;p&gt;For a more complex application, just storing strings in the database may not be sufficient, but that’s ok, Go has your back there, too. You can easily use encoding/json or encoding/gob to serialize structs into the database, keyed by a unique name or id. This is what makes it easy for bolt to go from a key/value store to a document store - just have one bucket per document type. Again, the benefit of bolt is low barrier of entry. You don’t have to figure out a whole database schema or install anything to be able to just start dumping data to disk in a performant and manageable way.&lt;/p&gt;
+
+&lt;p&gt;The main drawback of bolt is that there are no queries. You can’t say “give me all foo objects with a name that starts with bar”. You could make your own index in the database and keep it up to date manually. This could be as easy as a slice of IDs serialized into an “indices” bucket for a particular query. Obviously, this is where you start getting into the realm of developing your own relational database, but if you don’t go overboard, it can be nice that all this code is just that - code. It’s not queries in some external DSL, it’s just code like you’d write for an in-memory data store.&lt;/p&gt;
+
+&lt;p&gt;Bolt is not for every application. You must understand your application’s needs and if bolt’s key/value style will be sufficient to fulfill those needs. If it is, I think you’ll be very happy to use such a simple data store with so little mental overhead.&lt;/p&gt;
+
+&lt;p&gt;[edited to clarify reader/writer relationship] Bonus Gob vs. Json benchmark for storing structs in Bolt:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;BenchmarkGobEncode  1000000       2191 ns/op
+BenchmarkJsonEncode   500000       4738 ns/op
+BenchmarkGobDecode  1000000       2019 ns/op
+BenchmarkJsonDecode   200000      12993 ns/op
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/&#34; title=&#34;Intro to BoltDB&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Android: Volley&#43;OkHttp with https</title>
@@ -7489,170 +7609,6 @@ public class Dataset {
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-type-adapter.jsp&#34; title=&#34;Using Custom type adapters&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Gson: Serializing Inner Classes</title>
-      <link>http://alimy.me/post/dev_201603122028/</link>
-      <pubDate>Sat, 12 Mar 2016 20:28:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603122028/</guid>
-      <description>
-
-&lt;h3 id=&#34;serializing-inner-classes:94d200a9b12cc728e29eb582b49f7787&#34;&gt;Serializing inner classes&lt;/h3&gt;
-
-&lt;p&gt;Gson can serialize inner classes and static nested classes. The detailed example below demonstrates the following things.&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Serializing class containing static nested class&lt;/li&gt;
-&lt;li&gt;Serializing class containing non static nested class (Inner class)&lt;/li&gt;
-&lt;li&gt;De-serializing json to a class containing static and non static inner class&lt;/li&gt;
-&lt;li&gt;Serializing static nested class (without the enclosing type)&lt;/li&gt;
-&lt;li&gt;Serializing non static nested class (without the enclosing type)&lt;/li&gt;
-&lt;li&gt;De-serializing json to a static nested class (without the enclosing type)&lt;/li&gt;
-&lt;li&gt;De-serializing json to a non static nested class (without the enclosing type)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&#34;the-example:94d200a9b12cc728e29eb582b49f7787&#34;&gt;The Example&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-import java.lang.reflect.Modifier;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.studytrails.json.gson.AlbumsWithInnerClass.Dataset;
-import com.studytrails.json.gson.AlbumsWithInnerClass.Dataset2;
-
-public class SerializeInnerClassExample4 {
-    public static void main(String[] args) {
-        // create an Albums class with a static nested class and a non static
-        // nested class
-        AlbumsWithInnerClass albums = new AlbumsWithInnerClass();
-        albums.setName(&amp;quot;SerializeInnerClass&amp;quot;);
-        // create a dataset. we need the enclosing type since this is a non
-        // static nested class (inner class)
-        Dataset dataset = albums.new Dataset();
-        dataset.setAlbum_id(&amp;quot;1&amp;quot;);
-        dataset.setAlbum_name(&amp;quot;albums1&amp;quot;);
-        // assign the datasets to albums
-        albums.setDatasetsInner(new Dataset[] { dataset });
-
-        // static inner class can be created without the enclosing type
-        Dataset2 dataset2 = new Dataset2();
-        dataset2.setAlbum_id(&amp;quot;2&amp;quot;);
-        dataset2.setAlbum_name(&amp;quot;albums2&amp;quot;);
-        albums.setDatasetsStatic(new Dataset2[] { dataset2 });
-
-        // create the GsonBuilder
-        GsonBuilder builder = new GsonBuilder();
-        // we ignore Private fields
-        builder.excludeFieldsWithModifiers(Modifier.PRIVATE);
-        Gson gson = builder.create();
-
-        // serialize the albums object
-        String json = gson.toJson(albums);
-        System.out.println(json);
-        // prints
-        // {&amp;quot;name&amp;quot;:&amp;quot;SerializeInnerClass&amp;quot;,&amp;quot;datasetsInner&amp;quot;:[{&amp;quot;album_name&amp;quot;:&amp;quot;SerializeInnerClass_albums1&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;1&amp;quot;}],
-        // &amp;quot;datasetsStatic&amp;quot;:[{&amp;quot;album_name&amp;quot;:&amp;quot;albums2&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;2&amp;quot;}]}
-
-        // We read the json string now and recreate the AlbumsWithInnerClass class
-        Gson gson3 = new Gson();
-        AlbumsWithInnerClass parsedAlbums = gson3.fromJson(json, AlbumsWithInnerClass.class);
-        System.out.println(parsedAlbums.datasetsInner[0].album_name);
-        // prints SerializeInnerClass_albums1
-        System.out.println(parsedAlbums.datasetsStatic[0].album_name);
-        // prints albums2
-
-        // now lets try and serialize only the object of inner class
-        Gson gson2 = new Gson();
-        String json2 = gson2.toJson(dataset);
-        System.out.println(json2);
-        // prints {&amp;quot;album_name&amp;quot;:&amp;quot;SerializeInnerClass_albums1&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;1&amp;quot;}
-
-        // serialize nested static class
-        String json3 = gson2.toJson(dataset2);
-        System.out.println(json3);
-        // prints {&amp;quot;album_name&amp;quot;:&amp;quot;albums2&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;2&amp;quot;}
-
-        // let us now create the inner class from the json string
-        Gson gson4 = new Gson();
-        Dataset parsedDataset = gson4.fromJson(json2, Dataset.class);
-        System.out.println(parsedDataset.getClass());
-        // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset
-        System.out.println(parsedDataset.album_name);
-        // prints SerializeInnerClass_albums1
-
-        // create nested static class from the json string
-        Dataset2 parsedStaticNestedClass = gson4.fromJson(json3, Dataset2.class);
-        System.out.println(parsedStaticNestedClass.getClass());
-        // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset2
-        System.out.println(parsedStaticNestedClass.album_name);
-        // prints albums2
-
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;the-albumswithinnerclass:94d200a9b12cc728e29eb582b49f7787&#34;&gt;The AlbumsWithInnerClass&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-public class AlbumsWithInnerClass {
-    public String name;
-    private String year;
-    public Dataset[] datasetsInner;
-    public Dataset2[] datasetsStatic;
-
-    public void setDatasetsInner(Dataset[] datasetsInner) {
-        this.datasetsInner = datasetsInner;
-    }
-
-    public void setDatasetsStatic(Dataset2[] datasetsStatic) {
-        this.datasetsStatic = datasetsStatic;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    class Dataset {
-        public String album_name;
-        public String album_id;
-
-        public void setAlbum_id(String album_id) {
-            this.album_id = album_id;
-        }
-
-        public void setAlbum_name(String album_name) {
-            this.album_name = name + &amp;quot;_&amp;quot; + album_name;
-        }
-    }
-
-    static class Dataset2 {
-        public String album_name;
-        public String album_id;
-
-        public void setAlbum_id(String album_id) {
-            this.album_id = album_id;
-        }
-
-        public void setAlbum_name(String album_name) {
-            this.album_name = album_name;
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-serialize-inner-classes.jsp&#34; title=&#34;Serializing Inner Classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
 </description>
     </item>
     

@@ -7,7 +7,127 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 19 Mar 2016 22:45:00 CST</updated>
+    <updated>Sat, 19 Mar 2016 22:55:00 CST</updated>
+    
+    <item>
+      <title>Intro to BoltDB: Painless Performant Persistence</title>
+      <link>http://alimy.me/post/dev_201603192255/</link>
+      <pubDate>Sat, 19 Mar 2016 22:55:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603192255/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/boltdb/bolt&#34; title=&#34;BoltDB&#34;&gt;BoltDB&lt;/a&gt; is a pure Go persistence solution that saves data to a memory mapped file. I call it a persistence solution and not a database, because the word database has a lot of baggage associated with it that doesn’t apply to bolt. And that lack of baggage is what makes bolt so awesome.&lt;/p&gt;
+
+&lt;p&gt;Bolt is just a Go package. There’s nothing you need to install on the system, no configuration to figure out before you can start coding, nothing. You just go get github.com/boltdb/bolt and then import “github.com/boltdb/bolt”.&lt;/p&gt;
+
+&lt;p&gt;All you need to fully use bolt as storage is a file name. This is fantastic from both a developer’s point of view, and a user’s point of view. I don’t know about you, but I’ve spent months of work time over my career configuring and setting up databases and debugging configuration problems, users and permissions and all the other crap you get from more traditional databases like Postgres and Mongo. There’s none of that with bolt. No users, no setup, just a file name. This is also a boon for users of your application, because they don’t have to futz with all that crap either.&lt;/p&gt;
+
+&lt;p&gt;Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.&lt;/p&gt;
+
+&lt;p&gt;Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.&lt;/p&gt;
+
+&lt;p&gt;… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+    “fmt”
+    “log”
+
+    “github.com/boltdb/bolt”
+)
+
+var world = []byte(“world”)
+
+func main() {
+    db, err := bolt.Open(“/home/nate/foo/bolt.db”, 0644, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+
+    key := []byte(“hello”)
+    value := []byte(“Hello World!”)
+
+    // store some data
+    err = db.Update(func(tx *bolt.Tx) error {
+        bucket, err := tx.CreateBucketIfNotExists(world)
+        if err != nil {
+            return err
+        }
+
+        err = bucket.Put(key, value)
+        if err != nil {
+            return err
+        }
+        return nil
+    })
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // retrieve the data
+    err = db.View(func(tx *bolt.Tx) error {
+        bucket := tx.Bucket(world)
+        if bucket == nil {
+            return fmt.Errorf(“Bucket %q not found!”, world)
+        }
+
+        val := bucket.Get(key)
+        fmt.Println(string(val))
+
+        return nil
+    })
+
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+
+// output:
+// Hello World!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I know what you’re thinking - that seems kinda long. But keep in mind, I fully handled all errors in at least a semi-proper way, and we’re doing all this:&lt;/p&gt;
+
+&lt;p&gt;1.) creating a database&lt;br /&gt;
+2.) creating some structure (the “world” bucket)&lt;br /&gt;
+3.) storing data to the structure&lt;br /&gt;
+4.) retrieving data from the structure.&lt;/p&gt;
+
+&lt;p&gt;I think that’s not too bad in 54 lines of code.&lt;/p&gt;
+
+&lt;p&gt;So let’s look at what that example is really doing. First we call bolt.Open to get the database. This will create the file if necessary, or open it if it exists.&lt;/p&gt;
+
+&lt;p&gt;All reads from or writes to the bolt database must be done within a transaction. You can have as many Readers in read-only transactions at the same time as you want, but only one Writer in a writable transaction at a time (readers maintain a consistent view of the DB while writers are writing).&lt;/p&gt;
+
+&lt;p&gt;To begin, we call db.Update, which takes a function to which it’ll pass a bolt.Tx - bolt’s transaction object. We then create a Bucket (since all data in bolt lives in buckets), and add our key/value pair to it. After the write transaction finishes, we start a read- only transaction with DB.View, and get the values back out.&lt;/p&gt;
+
+&lt;p&gt;What’s great about bolt’s transaction mechanism is that it’s super simple - the scope of the function is the scope of the transaction. If the function passed to Update returns nil, all updates from the transaction are atomically stored to the database. If the function passed to Update returns an error, the transaction is rolled back. This makes bolt’s transactions completely intuitive from a Go developer’s point of view. You just exit early out of your function by returning an error as usual, and bolt Does The Right Thing. No need to worry about manually rolling back updates or anything, just return an error.&lt;/p&gt;
+
+&lt;p&gt;The only other basic thing you may need is to iterate over key/value pairs in a Bucket, in which case, you just call bucket.Cursor(), which returns a Cursor value, which has functions like Next(), Prev() etc that return a key/value pair and work like you’d expect.&lt;/p&gt;
+
+&lt;p&gt;There’s a lot more to the bolt API, but most of the rest of it is more about database statistics and some stuff for more advanced usage scenarios… but the above is all you really need to know to start storing data in a bolt database.&lt;/p&gt;
+
+&lt;p&gt;For a more complex application, just storing strings in the database may not be sufficient, but that’s ok, Go has your back there, too. You can easily use encoding/json or encoding/gob to serialize structs into the database, keyed by a unique name or id. This is what makes it easy for bolt to go from a key/value store to a document store - just have one bucket per document type. Again, the benefit of bolt is low barrier of entry. You don’t have to figure out a whole database schema or install anything to be able to just start dumping data to disk in a performant and manageable way.&lt;/p&gt;
+
+&lt;p&gt;The main drawback of bolt is that there are no queries. You can’t say “give me all foo objects with a name that starts with bar”. You could make your own index in the database and keep it up to date manually. This could be as easy as a slice of IDs serialized into an “indices” bucket for a particular query. Obviously, this is where you start getting into the realm of developing your own relational database, but if you don’t go overboard, it can be nice that all this code is just that - code. It’s not queries in some external DSL, it’s just code like you’d write for an in-memory data store.&lt;/p&gt;
+
+&lt;p&gt;Bolt is not for every application. You must understand your application’s needs and if bolt’s key/value style will be sufficient to fulfill those needs. If it is, I think you’ll be very happy to use such a simple data store with so little mental overhead.&lt;/p&gt;
+
+&lt;p&gt;[edited to clarify reader/writer relationship] Bonus Gob vs. Json benchmark for storing structs in Bolt:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;BenchmarkGobEncode  1000000       2191 ns/op
+BenchmarkJsonEncode   500000       4738 ns/op
+BenchmarkGobDecode  1000000       2019 ns/op
+BenchmarkJsonDecode   200000      12993 ns/op
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/&#34; title=&#34;Intro to BoltDB&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Android: Volley&#43;OkHttp with https</title>
@@ -5571,116 +5691,6 @@ public class ParseTreeExample6 {
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-parse-json-to-java-tree.jsp&#34; title=&#34;Convert json to a java object tree&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Gson: parsing json to java token by token</title>
-      <link>http://alimy.me/post/dev_201603122015/</link>
-      <pubDate>Sat, 12 Mar 2016 20:15:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603122015/</guid>
-      <description>&lt;p&gt;In the earlier tutorials we saw how to &lt;a href=&#34;http://alimy.me/post/dev_201603122010&#34; title=&#34;Convert json to a java object&#34;&gt;convert json to a java object&lt;/a&gt;. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&amp;rsquo;s a detailed example.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.apache.commons.io.IOUtils;
-
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-
-public class ParseTokenExample7
-{
-	public static void main(String[] args) throws MalformedURLException, IOException
-	{
-		String url = &amp;quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=1&amp;quot;;
-		String json = IOUtils.toString(new URL(url));
-		// use the reader to read the json to a stream of tokens
-		JsonReader reader = new JsonReader(new StringReader(json));
-		// we call the handle object method to handle the full json object. This
-		// implies that the first token in JsonToken.BEGIN_OBJECT, which is
-		// always true.
-		handleObject(reader);
-	}
-
-	/**
-	 * Handle an Object. Consume the first token which is BEGIN_OBJECT. Within
-	 * the Object there could be array or non array tokens. We write handler
-	 * methods for both. Noe the peek() method. It is used to find out the type
-	 * of the next token without actually consuming it.
-	 *
-	 * @param reader
-	 * @throws IOException
-	 */
-	private static void handleObject(JsonReader reader) throws IOException
-	{
-		reader.beginObject();
-		while (reader.hasNext()) {
-			JsonToken token = reader.peek();
-			if (token.equals(JsonToken.BEGIN_ARRAY))
-				handleArray(reader);
-			else if (token.equals(JsonToken.END_OBJECT)) {
-				reader.endObject();
-				return;
-			} else
-				handleNonArrayToken(reader, token);
-		}
-
-	}
-
-	/**
-	 * Handle a json array. The first token would be JsonToken.BEGIN_ARRAY.
-	 * Arrays may contain objects or primitives.
-	 *
-	 * @param reader
-	 * @throws IOException
-	 */
-	public static void handleArray(JsonReader reader) throws IOException
-	{
-		reader.beginArray();
-		while (true) {
-			JsonToken token = reader.peek();
-			if (token.equals(JsonToken.END_ARRAY)) {
-				reader.endArray();
-				break;
-			} else if (token.equals(JsonToken.BEGIN_OBJECT)) {
-				handleObject(reader);
-			} else if (token.equals(JsonToken.END_OBJECT)) {
-				reader.endObject();
-			} else
-				handleNonArrayToken(reader, token);
-		}
-	}
-
-	/**
-	 * Handle non array non object tokens
-	 *
-	 * @param reader
-	 * @param token
-	 * @throws IOException
-	 */
-	public static void handleNonArrayToken(JsonReader reader, JsonToken token) throws IOException
-	{
-		if (token.equals(JsonToken.NAME))
-			System.out.println(reader.nextName());
-		else if (token.equals(JsonToken.STRING))
-			System.out.println(reader.nextString());
-		else if (token.equals(JsonToken.NUMBER))
-			System.out.println(reader.nextDouble());
-		else
-			reader.skipValue();
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-parse-json-token-by-token.jsp&#34; title=&#34;parsing json to java token by token&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
 </description>
     </item>
     
