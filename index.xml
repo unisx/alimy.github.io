@@ -2459,6 +2459,8 @@ parser, etc&amp;hellip;&lt;/p&gt;
 
 &lt;p&gt;Finally, I just dropped my old Gitweb1, and I welcome you to my new Gogs! :)&lt;/p&gt;
 
+&lt;hr /&gt;
+
 &lt;p&gt;我也跟着他的节奏部署了Gogs,用的是sqlite3作为数据库，安装非常简单，用户体验和Github
 非常相似但简便的多。之前部署过Gitlab社区版，部署的时候各种的不爽，在我的机子上运行速度还不匝地，
 无奈还是放弃用Gitlab，只使用cgit来web浏览git库。现在好了，有了gogs，部署简便，运行速度也很快，
