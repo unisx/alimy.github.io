@@ -213,60 +213,33 @@ requestQueue.start();
 &lt;li&gt;&lt;a href=&#34;#6&#34;&gt;Can&amp;rsquo;t Use Short Variable Declarations to Set Field Values&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#7&#34;&gt;Accidental Variable Shadowing&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#8&#34;&gt;Can&amp;rsquo;t Use &amp;ldquo;nil&amp;rdquo; to Initialize a Variable Without an Explicit Type&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#9&#34;&gt;Using &amp;ldquo;nil&amp;rdquo; Slices and Maps&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#10&#34;&gt;Map Capacity&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#11&#34;&gt;Strings Can&amp;rsquo;t Be &amp;ldquo;nil&amp;rdquo;&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#12&#34;&gt;Array Function Arguments&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#13&#34;&gt;Unexpected Values in Slice and Array &amp;ldquo;range&amp;rdquo; Clauses&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#14&#34;&gt;Slices and Arrays Are One-Dimensional&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#15&#34;&gt;Accessing Non-Existing Map Keys&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#16&#34;&gt;Strings Are Immutable&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#17&#34;&gt;Conversions Between Strings and Byte Slices&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#18&#34;&gt;Strings and Index Operator&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#19&#34;&gt;Strings Are Not Always UTF8 Text&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#20&#34;&gt;String Length&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#21&#34;&gt;Missing Comma In Multi-Line Slice/Array/Map Literals&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#22&#34;&gt;log.Fatal and log.Panic Do More Than Log&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#23&#34;&gt;Built-in Data Structure Operations Are Not Synchronized&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#24&#34;&gt;Iteration Values For Strings in &amp;ldquo;range&amp;rdquo; Clauses&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#25&#34;&gt;Iterating Through a Map Using a &amp;ldquo;for range&amp;rdquo; Clause&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#26&#34;&gt;Fallthrough Behavior in &amp;ldquo;switch&amp;rdquo; Statements&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#27&#34;&gt;Increments and Decrements&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#28&#34;&gt;Bitwise NOT Operator&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#29&#34;&gt;Operator Precedence Differences&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#30&#34;&gt;Unexported Structure Fields Are Not Encoded&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#31&#34;&gt;App Exits With Active Goroutines&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#32&#34;&gt;Sending to an Unbuffered Channel Returns As Soon As the Target Receiver Is Ready&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#33&#34;&gt;Sending to an Closed Channel Causes a Panic&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#34&#34;&gt;Using &amp;ldquo;nil&amp;rdquo; Channels&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#35&#34;&gt;Methods with Value Receivers Can&amp;rsquo;t Change the Original Value&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#9&#34;&gt;Using &amp;ldquo;nil&amp;rdquo; Slices and Maps&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#10&#34;&gt;Map Capacity&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#11&#34;&gt;Strings Can&amp;rsquo;t Be &amp;ldquo;nil&amp;rdquo;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#12&#34;&gt;Array Function Arguments&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#13&#34;&gt;Unexpected Values in Slice and Array &amp;ldquo;range&amp;rdquo; Clauses&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#14&#34;&gt;Slices and Arrays Are One-Dimensional&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#15&#34;&gt;Accessing Non-Existing Map Keys&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#16&#34;&gt;Strings Are Immutable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#17&#34;&gt;Conversions Between Strings and Byte Slices&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#18&#34;&gt;Strings and Index Operator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#19&#34;&gt;Strings Are Not Always UTF8 Text&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#20&#34;&gt;String Length&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#21&#34;&gt;Missing Comma In Multi-Line Slice/Array/Map Literals&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#22&#34;&gt;log.Fatal and log.Panic Do More Than Log&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#23&#34;&gt;Built-in Data Structure Operations Are Not Synchronized&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#24&#34;&gt;Iteration Values For Strings in &amp;ldquo;range&amp;rdquo; Clauses&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#25&#34;&gt;Iterating Through a Map Using a &amp;ldquo;for range&amp;rdquo; Clause&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#26&#34;&gt;Fallthrough Behavior in &amp;ldquo;switch&amp;rdquo; Statements&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#27&#34;&gt;Increments and Decrements&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#28&#34;&gt;Bitwise NOT Operator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#29&#34;&gt;Operator Precedence Differences&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#30&#34;&gt;Unexported Structure Fields Are Not Encoded&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#31&#34;&gt;App Exits With Active Goroutines&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#32&#34;&gt;Sending to an Unbuffered Channel Returns As Soon As the Target Receiver Is Ready&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#33&#34;&gt;Sending to an Closed Channel Causes a Panic&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#34&#34;&gt;Using &amp;ldquo;nil&amp;rdquo; Channels&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#35&#34;&gt;Methods with Value Receivers Can&amp;rsquo;t Change the Original Value&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h3 id=&#34;intermediate-beginner:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;Intermediate Beginner:&lt;/h3&gt;
