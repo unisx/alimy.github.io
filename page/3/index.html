@@ -240,6 +240,54 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603112105/" title="阅读全文">Jackson: Json Polymorphism </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.</p>
+
+<h3 id="data-serialization-and-polymorphism-example:46b64fca9632a887d3524460bdf45d73">Data Serialization and Polymorphism Example</h3>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class SerializeExample1 {
+    private static String outputFile = &quot;zoo.json&quot;;
+
+    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
+        // let start creating the zoo
+        Zoo zoo = new Zoo(&quot;Samba Wild Park&quot;, &quot;Paz&quot;);
+        Lion lion = new Lion(&quot;Simba&quot;);
+        Elephant elephant = new Elephant(&quot;Manny&quot;);
+        List&lt;Animal&gt; animals = new ArrayList&lt;&gt;();
+        animals.add(lion);
+        animals.add(elephant);
+        zoo.setAnimals(animals);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter(new File(outputFile)), zoo);
+    }
+}
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112105/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603112100/" title="阅读全文">Jackson: jackson Mix- In Annotations </a> </h2>
 
 </header>
@@ -507,70 +555,6 @@ public class AlbumsFilter {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112020/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092120/" title="阅读全文">XStream: XML Transformation </a> </h2>
-
-</header>
-<div class="summary">
-    <p>XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example</p>
-
-<pre><code>package com.studytrails.xml.xstream;
-
-import java.util.ArrayList;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.TraxSource;
-
-public class XStreamTransformationExample {
-	public static void main(String[] args) throws TransformerFactoryConfigurationError, TransformerException {
-		XStreamTransformationExample transformationExample = new XStreamTransformationExample();
-		transformationExample.runTransformation();
-	}
-
-	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
-		XStream xstream = new XStream();
-		xstream.alias(&quot;rss&quot;, Rss2.class);
-		xstream.alias(&quot;item&quot;, Item2.class);
-		Rss2 rss = new Rss2();
-		Channel2 channel = new Channel2();
-		rss.channel = channel;
-		channel.title = &quot;Title&quot;;
-		channel.link = &quot;link&quot;;
-		channel.image = new Image2();
-		channel.image.link = &quot;image link&quot;;
-		Item2 item1 = new Item2();
-		item1.link = &quot;item link&quot;;
-		item1.title = &quot;Item Title&quot;;
-		channel.items = new ArrayList&lt;Item2&gt;();
-		channel.items.add(item1);
-		System.out.println(xstream.toXML(rss));
-
-		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&quot;bbc.xsl&quot;));
-		TraxSource traxSource = new TraxSource(rss, xstream);
-		StreamResult result = new StreamResult(System.out);
-		transformer.transform(traxSource, result);
-
-		// prints the html on console
-
-	}
-}
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092120/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

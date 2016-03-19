@@ -240,6 +240,70 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603092120/" title="阅读全文">XStream: XML Transformation </a> </h2>
+
+</header>
+<div class="summary">
+    <p>XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.TraxSource;
+
+public class XStreamTransformationExample {
+	public static void main(String[] args) throws TransformerFactoryConfigurationError, TransformerException {
+		XStreamTransformationExample transformationExample = new XStreamTransformationExample();
+		transformationExample.runTransformation();
+	}
+
+	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
+		XStream xstream = new XStream();
+		xstream.alias(&quot;rss&quot;, Rss2.class);
+		xstream.alias(&quot;item&quot;, Item2.class);
+		Rss2 rss = new Rss2();
+		Channel2 channel = new Channel2();
+		rss.channel = channel;
+		channel.title = &quot;Title&quot;;
+		channel.link = &quot;link&quot;;
+		channel.image = new Image2();
+		channel.image.link = &quot;image link&quot;;
+		Item2 item1 = new Item2();
+		item1.link = &quot;item link&quot;;
+		item1.title = &quot;Item Title&quot;;
+		channel.items = new ArrayList&lt;Item2&gt;();
+		channel.items.add(item1);
+		System.out.println(xstream.toXML(rss));
+
+		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&quot;bbc.xsl&quot;));
+		TraxSource traxSource = new TraxSource(rss, xstream);
+		StreamResult result = new StreamResult(System.out);
+		transformer.transform(traxSource, result);
+
+		// prints the html on console
+
+	}
+}
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092120/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603092115/" title="阅读全文">XStream: Json to Java </a> </h2>
 
 </header>
@@ -467,27 +531,6 @@ class Music {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603081427/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603081411/" title="阅读全文">XStream: Java to XML and Back </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="the-problem-statement:bc08890a77c807eef23ae3fbd92d9134">The Problem Statement</h3>
-
-<p>XStream can be used to convert a Java Object to XML and back. This tutorial aims to create a java representation of the BBC RSS. We will start with a Simple java class and gradually start adding complexity to it so that it can be converted to the BBC RSS. Note that if you are looking at a way to parse an XML, it would be a good idea to first build a java class that XStream can convert to the required XML. XStream can then use the same class to deserialize the XML. First, have a look at the <a href="http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int" title="BBC RSS">BBC RSS</a>. Your browser would have formatted it to html so look at the source to see the XML. The parent element is &lsquo;rss&rsquo;. It has a child element called &lsquo;channel&rsquo;. The &lsquo;channel&rsquo; has some properties (title, link, image etc) and a list of news &lsquo;item&rsquo;(s). Each &lsquo;item&rsquo; has properties set on it (title, description etc). The aim is to create a Java class that XStream can convert to the BBC RSS.</p>
-
-<h3 id="creating-an-xstream-instance:bc08890a77c807eef23ae3fbd92d9134">Creating an XStream Instance</h3>
-
-<p>The first step is to create an instance of com.thoughtworks.xstream.XStream. This class is a facade to the XStream API and provides all major functionalities. If this class does not solve your problem then you could directly call the API methods. After obtaining the instance of XStream use the fromXML method to convert the XML to a java object. Note that creating an XStream instance is an expensive operation. It is therefore advisable to create a proper instance once and then reuse it for multiple calls (even in parallel). The setup is not threadsafe but any subsequent marshalling/unmarshalling is threadsafe.</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603081411/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

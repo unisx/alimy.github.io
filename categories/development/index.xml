@@ -7,7 +7,186 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Fri, 18 Mar 2016 20:45:00 CST</updated>
+    <updated>Sat, 19 Mar 2016 22:45:00 CST</updated>
+    
+    <item>
+      <title>Android: Volley&#43;OkHttp with https</title>
+      <link>http://alimy.me/post/dev_201603192245/</link>
+      <pubDate>Sat, 19 Mar 2016 22:45:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603192245/</guid>
+      <description>
+
+&lt;h3 id=&#34;android-network-simple:03999fb0359803477bc987da56a0bc05&#34;&gt;Android Network Simple&lt;/h3&gt;
+
+&lt;p&gt;This article shows how to use volley with OkHttp and security your api with https.
+本文可以在&lt;a href=&#34;http://www.jianshu.com/p/e58161cbc3a4&#34; title=&#34;Android 网络--我是怎么做的: Volley+OkHttp+Https&#34;&gt;简书&lt;/a&gt;浏览。&lt;/p&gt;
+
+&lt;h3 id=&#34;使用-okhttp-作为传输层的实现:03999fb0359803477bc987da56a0bc05&#34;&gt;使用 OkHttp 作为传输层的实现.&lt;/h3&gt;
+
+&lt;p&gt;Volley 默认根据 Android 系统版本使用不同的 Http 传输协议实现. 3.0 以上使用HttpUrlConnection, 2.3 以下使用 ApacheHttpStack, 参考&lt;a href=&#34;http://android-developers.blogspot.com/2011/09/androids-http-clients.html&#34;&gt;Android Http Client&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;OkHttp 相较于其它的实现有以下的优点:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;支持&lt;a href=&#34;http://zh.wikipedia.org/wiki/SPDY&#34;&gt;SPDY&lt;/a&gt;，允许连接同一主机的所有请求分享一个socket。&lt;/li&gt;
+&lt;li&gt;如果SPDY不可用，会使用连接池减少请求延迟。&lt;/li&gt;
+&lt;li&gt;使用GZIP压缩下载内容，且压缩操作对用户是透明的。&lt;/li&gt;
+&lt;li&gt;利用响应缓存来避免重复的网络请求。&lt;/li&gt;
+&lt;li&gt;当网络出现问题的时候，OKHttp会依然有效，它将从常见的连接问题当中恢复。&lt;/li&gt;
+&lt;li&gt;如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;因此使用 OkHttp 作为替代是好的选择.&lt;/p&gt;
+
+&lt;p&gt;首先用 OkHttp 实现一个新的 &lt;code&gt;HurlStack&lt;/code&gt; 用于构建 Volley 的 requestQueue.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class OkHttpStack extends HurlStack {
+
+    private OkHttpClient okHttpClient;
+
+    /**
+     * Create a OkHttpStack with default OkHttpClient.
+     */
+    public OkHttpStack() {
+        this(new OkHttpClient());
+    }
+
+    /**
+     * Create a OkHttpStack with a custom OkHttpClient
+     * @param okHttpClient Custom OkHttpClient, NonNull
+     */
+    public OkHttpStack(OkHttpClient okHttpClient) {
+        this.okHttpClient = okHttpClient;
+    }
+
+    @Override
+    protected HttpURLConnection createConnection(URL url) throws IOException {
+        OkUrlFactory okUrlFactory = new OkUrlFactory(okHttpClient);
+        return okUrlFactory.open(url);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后使用 OkHttpStack 创建新的 Volley requestQueue.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;requestQueue = Volley.newRequestQueue(getContext(), new OkHttpStack());
+requestQueue.start();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样就行了.&lt;/p&gt;
+
+&lt;h3 id=&#34;使用-https:03999fb0359803477bc987da56a0bc05&#34;&gt;使用 Https&lt;/h3&gt;
+
+&lt;p&gt;作为一个有节操的开发者应该使用 Https 来保护用户的数据, Android 开发者网站上文章&lt;a href=&#34;https://developer.android.com/training/articles/security-ssl.html&#34;&gt;Security with HTTPS and SSL&lt;/a&gt;做了详尽的阐述.&lt;/p&gt;
+
+&lt;p&gt;OkHttp 自身是支持 Https 的. 参考文档 &lt;a href=&#34;https://github.com/square/okhttp/wiki/HTTPS&#34;&gt;OkHttp Https&lt;/a&gt;, 直接使用上面的 &lt;code&gt;OkHttpStack&lt;/code&gt; 就可以了, 但是如果遇到服务器开发哥哥使用了自签名的证书(不要问我为什么要用自签名的), 就无法正常访问了.&lt;/p&gt;
+
+&lt;p&gt;网上有很多文章给出的方案是提供一个什么事情都不做的&lt;code&gt;TrustManager&lt;/code&gt; 跳过 &lt;code&gt;SSL&lt;/code&gt; 的验证, 这样做很容受到攻击, Https 也就形同虚设了.&lt;/p&gt;
+
+&lt;p&gt;我采用的方案是将自签名的证书打包入 APK 加入信任.&lt;/p&gt;
+
+&lt;p&gt;好处:
+* 应用难以逆向, 应用不再依赖系统的 trust store, 使得 Charles 抓包等工具失效. 要分析应用 API 必须反编译 APK.
+* 不用额外购买证书, 省钱&amp;hellip;.
+缺点:
+* 证书部署灵活性降低, 一旦变更证书必须升级程序.&lt;/p&gt;
+
+&lt;h3 id=&#34;实现步骤:03999fb0359803477bc987da56a0bc05&#34;&gt;实现步骤&lt;/h3&gt;
+
+&lt;p&gt;以最著名的自签名网站12306为例说明&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;导出证书&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;echo | openssl s_client -connect kyfw.12306.cn:443 2&amp;gt;&amp;amp;1 |  sed -ne &#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39; &amp;gt; kyfw.12306.cn.pem
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;将证书转为 bks 格式
+下载最新的bcprov-jdk, 执行下面的命令. storepass 是导出密钥文件的密码.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;keytool -importcert -v \
+    -trustcacerts \
+    -alias 0 \
+    -file &amp;lt;(openssl x509 -in kyfw.12306.cn.pem) \
+    -keystore kyfw.bks -storetype BKS \
+    -providerclass     org.bouncycastle.jce.provider.BouncyCastleProvider \
+    -providerpath ./bcprov-jdk16-1.46.jar \
+    -storepass asdfqaz
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;将导出的 kyfw.bks 文件放入 res/raw 文件夹下.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;创建  &lt;code&gt;SelfSignSslOkHttpStack&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; // A HttpStack implement witch can verify specified self-signed certification.
+public class SelfSignSslOkHttpStack extends HurlStack {
+
+
+  private OkHttpClient okHttpClient;
+
+
+  private Map&amp;lt;String, SSLSocketFactory&amp;gt; socketFactoryMap;
+
+
+   // Create a OkHttpStack with default OkHttpClient.
+  public SelfSignSslOkHttpStack(Map&amp;lt;String, SSLSocketFactory&amp;gt; factoryMap) {
+    this(new OkHttpClient(), factoryMap);
+  }
+
+
+  // Create a OkHttpStack with a custom OkHttpClient
+  // @param okHttpClient Custom OkHttpClient, NonNull
+  public SelfSignSslOkHttpStack(OkHttpClient okHttpClient, Map&amp;lt;String, SSLSocketFactory&amp;gt; factoryMap) {
+    this.okHttpClient = okHttpClient;
+    this.socketFactoryMap = factoryMap;
+  }
+
+
+  @Override
+  protected HttpURLConnection createConnection(URL url) throws IOException {
+    if (&amp;quot;https&amp;quot;.equals(url.getProtocol()) &amp;amp;&amp;amp; socketFactoryMap.containsKey(url.getHost())) {
+        HttpsURLConnection connection = (HttpsURLConnection) new OkUrlFactory(okHttpClient).open(url);
+        connection.setSSLSocketFactory(socketFactoryMap.get(url.getHost()));
+        return connection;
+    } else {
+        return  new OkUrlFactory(okHttpClient).open(url);
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;然后用 &lt;code&gt;SelfSignSslOkHttpStack&lt;/code&gt; 创建 Volley 的 RequestQueue.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;String[] hosts = {&amp;quot;kyfw.12306.cn&amp;quot;};
+int[] certRes = {R.raw.kyfw};
+String[] certPass = {&amp;quot;asdfqaz&amp;quot;};
+socketFactoryMap = new Hashtable&amp;lt;&amp;gt;(hosts.length);
+
+
+for (int i = 0; i &amp;lt; certRes.length; i++) {
+    int res = certRes[i];
+    String password = certPass[i];
+    SSLSocketFactory sslSocketFactory = createSSLSocketFactory(context, res, password);
+    socketFactoryMap.put(hosts[i], sslSocketFactory);
+}
+
+
+HurlStack stack = new SelfSignSslOkHttpStack(socketFactoryMap);
+
+
+requestQueue = Volley.newRequestQueue(context, stack);
+requestQueue.start();
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;done&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://github.com/dodocat/AndroidNetworkdemo&#34; title=&#34;android network demo&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>50 Shades of Go</title>
@@ -5529,307 +5708,6 @@ public class ParseTokenExample7
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-parse-json-token-by-token.jsp&#34; title=&#34;parsing json to java token by token&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Gson: Convert json to a java object</title>
-      <link>http://alimy.me/post/dev_201603122010/</link>
-      <pubDate>Sat, 12 Mar 2016 20:10:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603122010/</guid>
-      <description>&lt;p&gt;Google json provides methods to convert the json string to java objects. The Java object may be hierarchical. For this example we consider java objects of non generic type only. Gson uses the name to match the json property to the java field. There are two ways to convert json to java.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Using the com.google.gson.Gson class. Create a new instance of this class and use the method public &lt;T&gt; T fromJson(String json, Class&lt;T&gt; classOfT). classOfT is the java object to which the json is to be converted to.&lt;/li&gt;
-&lt;li&gt;The other way is to use the com.google.gson.GsonBuilder class. This class allows setting up certain features, such as - allowing null serialization or setting up custom serializing policies. Create a GsonBuilder, apply the features and then obtain the Gson class from the builder.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In this tutorial we look at the Gson class to de-serialize json from &lt;a href=&#34;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=5&#34; title=&#34;free music archive&#34;&gt;free music archive&lt;/a&gt;. The main class is the Albums class and it contains the list of Datasets. Each Dataset is one album. The way to approach the problem of deserialization is to build a java class such that the when Gson converts the Java class to JSON, the resultant JSON resembles the one we are trying to parse. Lets see this in action. If you look at the JSON, it starts with a root object that has properties such as title, message, errors, etc.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{
-title: &amp;quot;Free Music Archive - Albums&amp;quot;,
-message: &amp;quot;&amp;quot;,
-errors: [ ],
-total: &amp;quot;11259&amp;quot;,
-total_pages: 2252,
-page: 1,
-limit: &amp;quot;5&amp;quot;,
-dataset: [
-{
-......
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Lets ignore the dataset for now. Lets just build a java class to hold the root. We call that class Albums. We will make the fields public for brevity, but you might want to make them private and use setters.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Albums {
-	public String title;
-	public String message;
-	public String[] errors = new String[]{};
-	public String total;
-	public int total_pages;
-	public int page;
-	public String limit;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Lets convert this to JSON and see how it looks&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;import com.google.gson.Gson;
-
-public class JavaToJsonAndBack {
-
-	public static void main(String[] args) {
-		Albums albums = new Albums();
-		albums.title = &amp;quot;Free Music Archive - Albums&amp;quot;;
-		albums.message = &amp;quot;&amp;quot;;
-		albums.total = &amp;quot;11259&amp;quot;;
-		albums.total_pages = 2252;
-		albums.page = 1;
-		albums.limit = &amp;quot;5&amp;quot;;
-		GsonBuilder builder = new GsonBuilder();
-		Gson gson = builder.create();
-		System.out.println(gson.toJson(albums));
-
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is how the resulting JSON looks like&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;title&amp;quot;:&amp;quot;Free Music Archive - Albums&amp;quot;,&amp;quot;message&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;errors&amp;quot;:[],
-&amp;quot;total&amp;quot;:&amp;quot;11259&amp;quot;,&amp;quot;total_pages&amp;quot;:2252,&amp;quot;page&amp;quot;:1,&amp;quot;limit&amp;quot;:&amp;quot;5&amp;quot;}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is a good beginning. Notice how we initialized errors to an empty array. Otherwise Gson would think its null and either ignore it or print null if we allow null serialization. In this case, it looks like we are better off with using a List for errors. Lets change the errors variable to&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public List&amp;lt;String&amp;gt; errors = new ArrayList&amp;lt;String&amp;gt;();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We have used a GsonBuilder since that allows us to customize the conversion. we will see its benefit later in the example. The next step is to build a class for the dataset. Lets see how the dataset JSON looks&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;dataset: [
-{
-album_id: &amp;quot;7596&amp;quot;,
-album_title: &amp;quot;!!! - Live @ KEXP 7/24/2010&amp;quot;,
-......
-album_images: [
-{
-image_id: &amp;quot;10574&amp;quot;,
-user_id: null,
-.....
-}
-],
-tags: [ ]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;For this tutorial we will be considering only some fields from &amp;lsquo;dataset&amp;rsquo; and &amp;lsquo;album_images&amp;rsquo;. The other fields can be added similarly. The dataset contains an array of album and each album contains, besides other fields, an array of album_images. We build a java class for each JSON object. We have already built a java class for albums. Now lets built classes for dataset and album_image.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Dataset {
-	public String album_id;
-	public String album_title;
-}
-
-class AlbumImages {
-	public String image_id;
-	public String user_id;
-}
-Lets create a Dataset.
-Dataset dataset = new Dataset();
-dataset.album_id = &amp;quot;7596&amp;quot;;
-dataset.album_title = &amp;quot;Album 1&amp;quot;;
-System.out.println(gson.toJson(dataset));
-the json
-{&amp;quot;album_id&amp;quot;:&amp;quot;7596&amp;quot;,&amp;quot;album_title&amp;quot;:&amp;quot;Album 1&amp;quot;}
-The album image
-AlbumImages image = new AlbumImages();
-image.image_id = &amp;quot;1&amp;quot;;
-System.out.println(gson.toJson(image));
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The album image json&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;image_id&amp;quot;:&amp;quot;1&amp;quot;}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;See how gson has not printed user_id since its null. We need to be able to tell json to serialize null fields too. GsonBuilder helps us do that&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;builder.serializeNulls();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The album image json now looks like this&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;image_id&amp;quot;:&amp;quot;1&amp;quot;,&amp;quot;user_id&amp;quot;:null}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Lets now wire up the dataset into the albums class and the AlbumImage into the dataset class. To the Albums class we add the List of Dataset&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;List&amp;lt;Dataset&amp;gt; dataset  = new ArrayList&amp;lt;Dataset&amp;gt;();
-To the Dataset class we add a List of images
-List&amp;lt;AlbumImages&amp;gt; images = new ArrayList&amp;lt;AlbumImages&amp;gt;();
-Lets change the main method to add dataset to the album and image to the dataset
-dataset.images.add(image);
-albums.dataset.add(dataset);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here&amp;rsquo;s how our JSON looks now&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{&amp;quot;title&amp;quot;:&amp;quot;Free Music Archive - Albums&amp;quot;,&amp;quot;message&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;errors&amp;quot;:[],&amp;quot;total&amp;quot;:&amp;quot;11259&amp;quot;,
-&amp;quot;total_pages&amp;quot;:2252,&amp;quot;page&amp;quot;:1,&amp;quot;limit&amp;quot;:&amp;quot;5&amp;quot;,
-&amp;quot;dataset&amp;quot;:[{&amp;quot;album_id&amp;quot;:&amp;quot;7596&amp;quot;,&amp;quot;album_title&amp;quot;:&amp;quot;Album 1&amp;quot;,
-&amp;quot;images&amp;quot;:[{&amp;quot;image_id&amp;quot;:&amp;quot;1&amp;quot;,&amp;quot;user_id&amp;quot;:null}]}]}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Lets turn on pretty printing so that our JSON looks better. However, we do that only during developement. If you are actually designing a server that provides JSON data, then make the JSON as compact as possible.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;builder.setPrettyPrinting().serializeNulls();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here&amp;rsquo;s our formatted JSON now&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{
-  &amp;quot;title&amp;quot;: &amp;quot;Free Music Archive - Albums&amp;quot;,
-  &amp;quot;message&amp;quot;: &amp;quot;&amp;quot;,
-  &amp;quot;errors&amp;quot;: [],
-  &amp;quot;total&amp;quot;: &amp;quot;11259&amp;quot;,
-  &amp;quot;total_pages&amp;quot;: 2252,
-  &amp;quot;page&amp;quot;: 1,
-  &amp;quot;limit&amp;quot;: &amp;quot;5&amp;quot;,
-  &amp;quot;dataset&amp;quot;: [
-    {
-      &amp;quot;album_id&amp;quot;: &amp;quot;7596&amp;quot;,
-      &amp;quot;album_title&amp;quot;: &amp;quot;Album 1&amp;quot;,
-      &amp;quot;images&amp;quot;: [
-        {
-          &amp;quot;image_id&amp;quot;: &amp;quot;1&amp;quot;,
-          &amp;quot;user_id&amp;quot;: null
-        }
-      ]
-    }
-  ]
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This looks good, however we want to change the name of the &amp;lsquo;images&amp;rsquo; element in dataset to &amp;lsquo;album_images&amp;rsquo;. Lets assume we cant change the java name because it follows the java naming policy. We can use annotation on the field to specify the json name to use for a particular java property. Here&amp;rsquo;s how to do that&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@SerializedName(&amp;quot;album_images&amp;quot;)
-List&amp;lt;AlbumImages&amp;gt; images = new ArrayList&amp;lt;AlbumImages&amp;gt;();
-our JSON now contains the name &#39;album_images&#39;
-&amp;quot;dataset&amp;quot;: [
-    {
-      &amp;quot;album_id&amp;quot;: &amp;quot;7596&amp;quot;,
-      &amp;quot;album_title&amp;quot;: &amp;quot;Album 1&amp;quot;,
-      &amp;quot;album_images&amp;quot;: [
-        {
-          &amp;quot;image_id&amp;quot;: &amp;quot;1&amp;quot;,
-     .........
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If you dont want to bind your java class to GSON then there is another way to do this. Lets add one more field to the AlbumImage class. We call it albumId. However, we want to name the field album_id in the JSON. To do that we need to specify a NamingStrategy in the GsonBuilder.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;builder.setFieldNamingStrategy(new FieldNamingStrategy() {
-
-			@Override
-			public String translateName(Field f) {
-				if (f.getName().equals(&amp;quot;albumId&amp;quot;))
-					return &amp;quot;album_id&amp;quot;;
-				else
-					return f.getName();
-			}
-		});
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The translateName method is called for all fields and if the name matches albumId we convert the name to album_id and send it back otherwise we send the default. the album_images element now looks like this&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; &amp;quot;album_images&amp;quot;: [
-        {
-          &amp;quot;image_id&amp;quot;: &amp;quot;1&amp;quot;,
-          &amp;quot;user_id&amp;quot;: null,
-          &amp;quot;album_id&amp;quot;: &amp;quot;10&amp;quot;
-        }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;GsonBuilder provides a lot of other customization. You can disable HTML escaping, exclude fields with specific modifiers (e.g. exclude all protected fields), set custom type adapters, set exclusion policies etc. Look at the GsonBuilder JavaDoc for the complete list. You can now use the Albums class and parse the JSON using the fromJson method (you will have to add the other properties)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// url is the free music archive url.
-Albums albums = gson.fromJson(IOUtils.toString(new URL(url)), Albums.class);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Before we close the tutorial lets look at the complete class. we would appreciate if you could &amp;lsquo;Like us&amp;rsquo; on Facebook and &amp;lsquo;Follow us&amp;rsquo; on Google. The Albums class&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Albums {
-	public String title;
-	public String message;
-	public List errors = new ArrayList();
-	public String total;
-	public int total_pages;
-	public int page;
-	public String limit;
-	List dataset = new ArrayList();
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The Dataset class&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Dataset {
-	public String album_id;
-	public String album_title;
-	@SerializedName(&amp;quot;album_images&amp;quot;)
-	List&amp;lt;&amp;lt;AlbumImages&amp;gt; images = new ArrayList&amp;lt;AlbumImages&amp;gt;();
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The AlbumImage class&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class AlbumImages {
-	public String image_id;
-	public String user_id;
-	public String albumId;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The main method&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public static void main(String[] args) {
-		Albums albums = new Albums();
-		albums.title = &amp;quot;Free Music Archive - Albums&amp;quot;;
-		albums.message = &amp;quot;&amp;quot;;
-		albums.total = &amp;quot;11259&amp;quot;;
-		albums.total_pages = 2252;
-		albums.page = 1;
-		albums.limit = &amp;quot;5&amp;quot;;
-		GsonBuilder builder = new GsonBuilder();
-		builder.setPrettyPrinting().serializeNulls();
-		builder.setFieldNamingStrategy(new FieldNamingStrategy() {
-
-			@Override
-			public String translateName(Field f) {
-				if (f.getName().equals(&amp;quot;albumId&amp;quot;))
-					return &amp;quot;album_id&amp;quot;;
-				else
-					return f.getName();
-			}
-		});
-		Gson gson = builder.create();
-
-		Dataset dataset = new Dataset();
-		dataset.album_id = &amp;quot;7596&amp;quot;;
-		dataset.album_title = &amp;quot;Album 1&amp;quot;;
-
-		AlbumImages image = new AlbumImages();
-		image.image_id = &amp;quot;1&amp;quot;;
-		image.albumId = &amp;quot;10&amp;quot;;
-		dataset.images.add(image);
-		albums.dataset.add(dataset);
-
-		System.out.println(gson.toJson(albums));
-
-	}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-parse-json-to-java.jsp&#34; title=&#34;Convert json to a java object&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
 </description>
     </item>
     
