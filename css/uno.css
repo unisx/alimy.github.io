@@ -2355,7 +2355,7 @@ hr {
 
 .panel-cover--collapsed {
   width: 37%;
-  max-width: 460px; }
+  max-width: 480px; }
 
 .panel-cover--overlay {
   display: block;
@@ -2601,7 +2601,7 @@ nav {
 
 @media all and (min-width: 1245px) {
   .content-wrapper {
-    margin-left: 460px; } }
+    margin-left: 480px; } }
 @media all and (max-width: 1100px) {
   .panel-cover__logo {
     width: 70px; }
@@ -2697,7 +2697,7 @@ nav {
         width: 25.8%; }
 
   .content-wrapper {
-    width: 80%;
+    width: 96%;
     max-width: none;
     margin: 0 auto; }
 
