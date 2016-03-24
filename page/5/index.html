@@ -240,6 +240,31 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603092041/" title="阅读全文">XStream: Handling Attributes in XML </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the previous tutorial we saw <a href="http://alimy.me/post/dev_201603081411" title="Parsing An XML">how to convert Java to XML and back</a>. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:</p>
+
+<pre><code>&lt;element attr=&quot;  foo\t\n   bar    &quot;&gt;
+&lt;/element&gt;
+</code></pre>
+
+<p>will always be normalized and passed this assertion:</p>
+
+<pre><code>assertEquals(&quot;foo bar&quot;, element.getAttr());
+XStream has no influence about this behavior.
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092041/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603081441/" title="阅读全文">XStream: Java to XML Using Annotation </a> </h2>
 
 </header>
@@ -465,36 +490,6 @@ Version 1.8 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spe
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201602021955/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/etc_201404021221/" title="阅读全文">客家习俗 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://www.baidu.com/s?ie=utf-8&amp;f=8&amp;rsv_bp=1&amp;tn=baidu&amp;wd=%E5%AE%A2%E5%AE%B6%E4%BA%BA&amp;oq=%E5%AE%A2%E5%AE%B6%E4%BA%BA&amp;rsv_pq=e920500800005141&amp;rsv_t=e610oAaNKPlSpi7L3iFEog5KaXPzJwzEq5qS3j8RegQpcQvdRL2A20h6b7w&amp;rsv_enter=0&amp;rsv_sug7=000" title="百度：客家人">客家人</a> 的习俗大致上包括全国性的传统岁序节俗，地方性崇拜、礼节等。</p>
-
-<h4 id="主要节日:ec87cabe957ab49ad878f14a8d0e406f">主要节日</h4>
-
-<ul>
-<li><strong>春节</strong>：有拜年，游乐活动等，是最隆重的节日。</li>
-<li><strong>立春</strong>：即交春。</li>
-<li><strong>元宵节</strong>：正月十五是中国民间传统的元宵节。元宵节吃元宵，玩灯，赏灯，猜灯谜。</li>
-<li><strong>二月二</strong>：开正节。</li>
-<li><strong>清明</strong>：客家扫墓习俗多从春分开始，清明达到高潮。</li>
-<li><strong>端午</strong>：客家普遍称为五月节。节日主要内容是吃粽子，雄黄酒，龙舟赛。</li>
-<li><strong>七月节</strong>：也即鬼节。</li>
-<li><strong>中秋</strong>：民间通称八月节。吃月饼，赏月等风俗大体各地相同。</li>
-<li><strong>重阳节</strong>：客家人叫“九月节”。</li>
-<li><strong>冬至</strong>：客家人有“冬大过年”之说。</li>
-</ul>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/etc_201404021221/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

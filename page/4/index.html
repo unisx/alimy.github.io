@@ -240,6 +240,21 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603112035/" title="阅读全文">Jackson: build java tree model from json </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112035/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603112030/" title="阅读全文">Jackson: json and java - Streaming </a> </h2>
 
 </header>
@@ -475,31 +490,6 @@ public class XStreamTransformationExample {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603092051/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092041/" title="阅读全文">XStream: Handling Attributes in XML </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the previous tutorial we saw <a href="http://alimy.me/post/dev_201603081411" title="Parsing An XML">how to convert Java to XML and back</a>. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:</p>
-
-<pre><code>&lt;element attr=&quot;  foo\t\n   bar    &quot;&gt;
-&lt;/element&gt;
-</code></pre>
-
-<p>will always be normalized and passed this assertion:</p>
-
-<pre><code>assertEquals(&quot;foo bar&quot;, element.getAttr());
-XStream has no influence about this behavior.
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092041/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

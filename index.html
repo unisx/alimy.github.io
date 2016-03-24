@@ -240,6 +240,42 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603242255/" title="阅读全文">Makefile:简介 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Make 可以简化编译过程，如果有一个近百个源文件的项目，如果有个文件更改后工程需要重新编译，那么一直用gcc -c a.c这些个命令敲来敲去会屎人的。运行make时候，他会寻找指定目录下（默认是 .）的 Makefile 文件并且分析依赖关系进行必要的编译。</p>
+
+<h3 id="makefile文件的基本格式很简单:020297256cb0e92ce87a72a6b65d7dcd">Makefile文件的基本格式很简单：</h3>
+
+<pre><code>目标文件： 依赖文件1 依赖文件2 依赖文件3 。。。。
+[tab]编译命令
+</code></pre>
+
+<p>他的意思是目标文件是依赖于冒号后面几个文件的，如果这些依赖文件有更新的，那么其目标文件也需要更新。</p>
+
+<p>Makefile 中可能有很多以上条目，他们共同组成了一个有向无回路图（DAG图），这样可以传递依赖。make 命令会把 Makefile 文件的第一个目标文件作为默认目标，当执行 make 命令时，make 会考察这个目标文件的依赖关系，进行编译。也可以指定，比如这个 Makefile：</p>
+
+<pre><code>main: a.o b.o
+[tab]gcc -o main a.o b.o
+a.o : a.c c.h
+[tab]gcc -c a.c -o a.o
+b.o: b.c c.h
+[tab]gcc -c b.c -o b.o
+// [tab]的意思是这里用tab字符代替，不能有其他的什么字符
+</code></pre>
+
+<p>在命令行里执行make，分析关系并生成main，如果是make a.o那么他只会编译到 a.o 。</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603242255/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/arc_201603192259/" title="阅读全文">聊斋：白狐 </a> </h2>
 
 </header>
@@ -498,35 +534,6 @@ UX也是棒棒的，我想说，这就是我一直想要的。</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603132045/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603132030/" title="阅读全文">Java: Date And Calendar </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="overview-of-date-and-calendar-classes:903fa8484a7e080c7a9dddbda27c7bc4">Overview of Date and Calendar classes</h3>
-
-<p>In this tutorial we look at the classes in java that are helpful in manipulating dates. Manipulating dates in java can be challenging, especially if you are building applications that cater to multiple timezones. Parsing dates, printing a date in UTC, printing a date in a different timezone, comparing dates, adding time to date&hellip; we will be looking at all of these in this tutorial. We first begin with the introduction to the classes and then follow up with examples. You may want to directly jump to the examples, however, we strongly recommend that you understand the classes first, since that will make the examples very easy to understand.</p>
-
-<ul>
-<li><p>java.util.Date - This class is used to represent a specific time with a precision of millisecond. If you create a new Date object, it obtains the current system time using System.currentTimeMillis(). This is the number of milliseconds since epoch time (midnight, January 1, 1970 UTC). Here&rsquo;s the tricky part, date stores time as number of seconds since epoch, it is a UTC time. However, when you print the date, you get the string representation of the date in the local timezone. Also note that the Date class is not designed to manipulate hour, month, year etc or retrieve them. Use this class only to create data or compare two dates. For all other uses, see the Calendar or GregorianCalendar class.</p></li>
-
-<li><p>java.util.Calendar - Calendar class allows manipulating data using its various fields such as minute, hour, day etc. As in the java.util.Date object, time is represented as number of milliseconds since epoch time. To get an instance of the Calendar use the Calendar.getInstance() method which returns a locale sensitive Calendar instance. Various set and get methods can be used to set and get time values. The current time is represented in two ways - 1. as number of milliseconds since epoch and 2. as local fields such as YEAR, MONTH, DAY, HOUR, MINUTE etc. The conversion between the two types is achieved by using the timezone offset (getOffset()) and the daylight savings fields.<br />
-the MONTH fields starts from 0 (JANUARY).<br />
-The DAY_OF_MONTH starts from 1<br />
-the DAY_OF_WEEK starts from SUNDAY with a value of 1.<br />
-HOUR starts from 0</p></li>
-
-<li><p>java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples</p></li>
-</ul>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603132030/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
