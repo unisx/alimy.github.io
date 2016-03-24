@@ -240,109 +240,6 @@
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="http://alimy.me/post/dev_201603122025/" title="阅读全文">Gson: Serializing and deserializing Java Generic Classes </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-list:48eff8845146e9414ebbce90bbfb026f">Serializing list</h3>
-
-<p>As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.</p>
-
-<pre><code>package com.studytrails.json.gson;
-
-import java.lang.reflect.Type;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-public class GenericTypesExample8 {
-	public static void main(String[] args) {
-		// create an animal class that is of type dog.
-		Animal animal = new Animal&lt;Dog&gt;();
-		// Create a Dog instance
-		Dog dog = new Dog(&quot;I am a dog&quot;);
-
-		animal.setAnimal(dog);
-		Gson gson = new Gson();
-		// Define a Type that is an Animal of type dog.
-		Type animalType = new TypeToken&lt;Animal&lt;Dog&gt;&gt;() {
-		}.getType();
-
-		// we first convert the animal object to a json and then read the json
-		// back. However we define the json to be of Animal type
-		Animal animal1 = gson.fromJson(gson.toJson(animal, animalType), Animal.class);
-		System.out.println(animal1.get().getClass()); // prints class
-
-    // com.google.gson.internal.LinkedTreeMap
-		// In contrast to above where we read the json back using the Animal
-		// type, here we read the json back as the custom animalType Type. This
-		// gives Gson an idea of what
-		// the generic type should be.
-		Animal animal2 = gson.fromJson(gson.toJson(animal), animalType);
-		System.out.println(animal2.get().getClass());
-		// prints class com.studytrails.json.gson.Dog
-
-	}
-}
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122025/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122022/" title="阅读全文">Gson: Serializing Collections </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-list:0245d903820e8dfe5f649eea2e56a9f6">Serializing list</h3>
-
-<p>Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.</p>
-
-<pre><code>package com.studytrails.json.gson;
-
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-public class DeSerializeListExample5 {
-	public static void main(String[] args) {
-		String json = &quot;[{album_id:1,album_title:'album1'},{album_id:2,album_title:'album2'}]&quot;;
-
-		Gson gson = new Gson();
-		// create the type for the collection. In this case define that the collection is of type Dataset
-		Type datasetListType = new TypeToken&lt;Collection&lt;Dataset&gt;&gt;() {}.getType();
-		List&lt;Dataset&gt; datasets = gson.fromJson(json, datasetListType);
-		for (Dataset dataset : datasets) {
-			System.out.println(dataset.getAlbum_title());
-			System.out.println(dataset.getAlbum_id());
-		}
-		// Prints
-		//album1
-		//1
-		//album2
-		//2
-
-	}
-}
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122022/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122020/" title="阅读全文">Gson: Convert json to a java object tree </a> </h2>
 
 </header>
@@ -636,6 +533,62 @@ public class AlbumsFilter {
 </article>
 
                         
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603112040/" title="阅读全文">Jackson: Json Data Binding </a> </h2>
+
+</header>
+<div class="summary">
+    <p>A thing that most java developers love to deal with is &hellip;. Java POJO. Wouldn&rsquo;t you love a black box where you can see JSON string entering from one side and POJOs coming out from the other. That&rsquo;s what Jackson data binding does. This can be best explained by an example. We use the json from free music archive. It has an API to get latest albums in the form of JSON. we would read that json string (Click on this link to see the json) into Albums object. The Albums object contains an array of Dataset.</p>
+
+<p>Here&rsquo;s how The JSON to Java conversion works</p>
+
+<ol>
+<li>The first step is to create the Java class that would hold the JSON data. Look at the json. we create an Albums object to hold the entire json. The json contains an array of &lsquo;dataset&rsquo; elements. We create a Java Object of type DataSet and in the Albums object we create a dataset property that is an array of type DataSet.</li>
+<li>Create an instance of the com.fasterxml.jackson.databind.ObjectMapper class. This is the class that maps a JSON to a Java Object.<code>ObjectMapper mapper = new ObjectMapper();</code></li>
+<li>We use the <em>readValue</em> method of the ObjectMapper to read. There are multiple versions of this method and we use the method that takes in a URL. However, there are method that read from a file, inputstream, String or a ByteArray.</li>
+<li>The ObjectMapper caches serializers and deserializers so it would be a good idea to reuse an ObjectMapper instance for multiple conversions</li>
+</ol>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112040/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603112035/" title="阅读全文">Jackson: build java tree model from json </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112035/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603112030/" title="阅读全文">Jackson: json and java - Streaming </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="streaming-parser-and-generator:6aa21e9855db39cd085c6c3608dd23fc">Streaming Parser and Generator</h3>
+
+<p>Jackson provides a low level API to parse json string. The API provides token for each json object. For example, the start of json &lsquo;{&rsquo; is the first object that the parser provides. The key value pair is another single object. The client code can use the tokens and get the json properties or build a java object out of it if required. This low level API is extremely powerful but needs a lot of coding. For most cases, Jackson&rsquo;s tree traversing and data binding capability should be explored instead. We provide two examples below. The first example demonstrates json parsing and the second demonstrated json generation.</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112030/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
                     </div>
                     </br>
                     <h4>
@@ -684,15 +637,12 @@ public class AlbumsFilter {
         ><a href="http://alimy.me/page/9/">9</a></li>
         
         <li
-        ><a href="http://alimy.me/page/10/">10</a></li>
-        
-        <li
         >
         <a href="http://alimy.me/page/4/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
         </li>
         
         <li>
-            <a href="http://alimy.me/page/10/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+            <a href="http://alimy.me/page/9/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
         </li>
         
     </ul>

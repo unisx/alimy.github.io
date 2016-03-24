@@ -240,138 +240,6 @@
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="http://alimy.me/post/dev_201603092041/" title="阅读全文">XStream: Handling Attributes in XML </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the previous tutorial we saw <a href="http://alimy.me/post/dev_201603081411" title="Parsing An XML">how to convert Java to XML and back</a>. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:</p>
-
-<pre><code>&lt;element attr=&quot;  foo\t\n   bar    &quot;&gt;
-&lt;/element&gt;
-</code></pre>
-
-<p>will always be normalized and passed this assertion:</p>
-
-<pre><code>assertEquals(&quot;foo bar&quot;, element.getAttr());
-XStream has no influence about this behavior.
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092041/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603081441/" title="阅读全文">XStream: Java to XML Using Annotation </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the previous tutorials we saw an example of how to <a href="http://alimy.me/post/dev_201603081411">create a java object from XML</a>. That tutorial also explained the concept of aliases and implicit collection. In this tutorial we continue with that but use annotation on the java class. The advantage with annotation is that it is faster to code and develop. the disadvantage is that you bind the java class to XStream.</p>
-
-<p>In the example below we convert an object of type JazzArtist to XML. JazzArtist contains fields name, isAlive, a url and a list of albums. This example uses the following annotations</p>
-
-<ul>
-<li>@XStreamAlias - Used on the type, field or attribute. To understand &lsquo;aliases&rsquo; look at this tutorial</li>
-<li>@XStreamImplicit - Used on Collections or array. To understand &lsquo;Implicit Collections/Arrays&rsquo; look at the this tutorial.</li>
-<li>@XStreamAsAttribute - Used to mark a field as an attribute.</li>
-<li>@XStreamConverter - Use a specific converter for this field. We will look at Converters in detail in a later tutorial. In this example we use a Boolean converter for &lsquo;isAlive&rsquo; field, we want the XML to have values yes or no instead of true or false.</li>
-</ul>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603081441/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603081433/" title="阅读全文">XStream: Java to XML </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the <a href="http://alimy.me/post/dev_201603081411">previous</a> example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &lsquo;JazzArtist&rsquo;. This object has a list of &lsquo;Album&rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.</p>
-
-<pre><code>package com.studytrails.xml.xstream;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.thoughtworks.xstream.XStream;
-
-public class CreateXMLFromMusicArtistObject {
-
-    public static void main(String[] args) {
-        CreateXMLFromMusicArtistObject marshaller = new CreateXMLFromMusicArtistObject();
-        marshaller.createXMlFromObject();
-        marshaller.createXMLFromObjectUsingAlias();
-        marshaller.createXMLFromObjectUsingAliasAndImplicitCollection();
-    }
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603081433/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603081427/" title="阅读全文">XStream: XML To Java </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorial we looked at a way to <a href="http://alimy.me/post/dev_201603081411" title="Parsing an XML">convert Java to XML and back</a>. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.</p>
-
-<p>In this first example we have an XML that has a parent element called &lsquo;Music&rsquo;. It has a child element called type. We populate a Music object that has a &lsquo;type&rsquo; field which is an enum.</p>
-
-<pre><code>package com.studytrails.xml.xstream;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
-public class ConverterExample3 {
-    static String xml1 = &quot;&lt;Music&gt;&lt;type&gt;rock&lt;/type&gt;&lt;/Music&gt;&quot;;
-
-    public static void main(String[] args) {
-        XStream xStream = new XStream();
-        xStream.processAnnotations(Music.class);
-        Music musicObject = (Music) xStream.fromXML(xml1);
-        System.out.println(musicObject);
-        // prints Music [type=ROCK]
-    }
-
-}
-
-@XStreamAlias(&quot;Music&quot;)
-class Music {
-    public enum genre {
-        ROCK, JAZZ
-    };
-
-    genre type;
-
-    @Override
-    public String toString() {
-        return &quot;Music [type=&quot; + type + &quot;]&quot;;
-    }
-
-}     
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603081427/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
 <h2 ><a href="http://alimy.me/post/dev_201603081411/" title="阅读全文">XStream: Java to XML and Back </a> </h2>
 
 </header>
@@ -524,6 +392,81 @@ Version 1.8 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spe
 </article>
 
                         
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/joy_201601311217/" title="阅读全文">如龙 极 第七期【Biu雷哥直播】 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ2MDU2Njg2NA==" frameborder=0 allowfullscreen></iframe><br></p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/joy_201601311217/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/joy_201601311216/" title="阅读全文">如龙 极 第六期【Biu雷哥直播】 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1OTgwMDg2OA==" frameborder=0 allowfullscreen></iframe><br></p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/joy_201601311216/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/joy_201601311215/" title="阅读全文">如龙 极 第五期【Biu雷哥直播】 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NzY1MTcwMA==" frameborder=0 allowfullscreen></iframe><br></p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/joy_201601311215/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/joy_201601311214/" title="阅读全文">如龙 极 第四期【Biu雷哥直播】 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NjY4NTcwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/joy_201601311214/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/joy_201601311213/" title="阅读全文">如龙 极 第三期【Biu雷哥直播】 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1NDgwNDkwOA==" frameborder=0 allowfullscreen></iframe><br></p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/joy_201601311213/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
                     </div>
                     </br>
                     <h4>
@@ -572,15 +515,12 @@ Version 1.8 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spe
         ><a href="http://alimy.me/page/9/">9</a></li>
         
         <li
-        ><a href="http://alimy.me/page/10/">10</a></li>
-        
-        <li
         >
         <a href="http://alimy.me/page/6/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
         </li>
         
         <li>
-            <a href="http://alimy.me/page/10/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+            <a href="http://alimy.me/page/9/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
         </li>
         
     </ul>
