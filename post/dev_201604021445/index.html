@@ -1,0 +1,1178 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> Go - EBNF &middot; Alimy </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75081327-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+        .pages {
+            text-align: center;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .pages>ul {
+            font-weight: lighter;
+        }
+        .pages>.pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0px;
+            border-radius: 4px;
+        }
+        .pages .pagination>li {
+            display:inline;
+        }
+       
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.428571429;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.pagination>li:first-child>a, .pagination>li:first-child>span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus {
+    color: #999;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">Alimy</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me" title="博客首页" class="blog-button">Blog</a> </li>
+                            </br>  </ul>
+                    </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="Alimy logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">Alimy</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/alimy86" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Go - EBNF</h2>
+          
+          
+
+<h3 id="notation:363df3e80a0a36e21d4481f199b5995a">Notation</h3>
+
+<p>The syntax is specified using Extended Backus-Naur Form (EBNF):</p>
+
+<pre><code>Production  = production_name &quot;=&quot; [ Expression ] &quot;.&quot; .
+Expression  = Alternative { &quot;|&quot; Alternative } .
+Alternative = Term { Term } .
+Term        = production_name | token [ &quot;…&quot; token ] | Group | Option | Repetition .
+Group       = &quot;(&quot; Expression &quot;)&quot; .
+Option      = &quot;[&quot; Expression &quot;]&quot; .
+Repetition  = &quot;{&quot; Expression &quot;}&quot; .
+</code></pre>
+
+<p>Productions are expressions constructed from terms and the following operators, in increasing precedence:</p>
+
+<pre><code>|   alternation
+()  grouping
+[]  option (0 or 1 times)
+{}  repetition (0 to n times)
+</code></pre>
+
+<p>Lower-case production names are used to identify lexical tokens. Non-terminals are in CamelCase. Lexical tokens are enclosed in double quotes &ldquo;&rdquo; or back quotes ``.</p>
+
+<p>The form a … b represents the set of characters from a through b as alternatives. The horizontal ellipsis … is also used elsewhere in the spec to informally denote various enumerations or code snippets that are not further specified. The character … (as opposed to the three characters &hellip;) is not a token of the Go language.</p>
+
+<h3 id="go-ebnf:363df3e80a0a36e21d4481f199b5995a">Go EBNF</h3>
+
+<ul>
+<li><p>Characters</p>
+
+<pre><code>newline        = /* the Unicode code point U+000A */ .
+unicode_char   = /* an arbitrary Unicode code point except newline */ .
+unicode_letter = /* a Unicode code point classified as &quot;Letter&quot; */ .
+unicode_digit  = /* a Unicode code point classified as &quot;Number, decimal digit&quot; */ .
+</code></pre></li>
+
+<li><p>Letters and digits</p>
+
+<pre><code>letter        = unicode_letter | &quot;_&quot; .
+decimal_digit = &quot;0&quot; … &quot;9&quot; .
+octal_digit   = &quot;0&quot; … &quot;7&quot; .
+hex_digit     = &quot;0&quot; … &quot;9&quot; | &quot;A&quot; … &quot;F&quot; | &quot;a&quot; … &quot;f&quot; .
+</code></pre></li>
+
+<li><p>Identifiers</p>
+
+<pre><code>identifier = letter { letter | unicode_digit } .
+</code></pre></li>
+
+<li><p>Keywords</p>
+
+<pre><code>break        default      func         interface    select
+case         defer        go           map          struct
+chan         else         goto         package      switch
+const        fallthrough  if           range        type
+continue     for          import       return       var
+</code></pre></li>
+
+<li><p>Operators and Delimiters</p>
+
+<pre><code>&amp;     +=    &amp;=     &amp;&amp;    ==    !=    (    )    +
+|     -=    |=     ||    &lt;     &lt;=    [    ]    -
+^     *=    ^=     &lt;-    &gt;     &gt;=    {    }    *
+/    &lt;&lt;    /=    &lt;&lt;=    ++    =     :=    ,    ;
+%    &gt;&gt;    %=    &gt;&gt;=    --    !     ...   .    :
+     &amp;^          &amp;^=
+</code></pre></li>
+
+<li><p>Integer literals</p>
+
+<pre><code>int_lit     = decimal_lit | octal_lit | hex_lit .
+decimal_lit = ( &quot;1&quot; … &quot;9&quot; ) { decimal_digit } .
+octal_lit   = &quot;0&quot; { octal_digit } .
+hex_lit     = &quot;0&quot; ( &quot;x&quot; | &quot;X&quot; ) hex_digit { hex_digit } .
+</code></pre></li>
+
+<li><p>Floating-point literals</p>
+
+<pre><code>float_lit = decimals &quot;.&quot; [ decimals ] [ exponent ] |
+            decimals exponent |
+            &quot;.&quot; decimals [ exponent ] .
+decimals  = decimal_digit { decimal_digit } .
+exponent  = ( &quot;e&quot; | &quot;E&quot; ) [ &quot;+&quot; | &quot;-&quot; ] decimals .
+</code></pre></li>
+
+<li><p>Imaginary literals</p>
+
+<pre><code>imaginary_lit = (decimals | float_lit) &quot;i&quot; .
+</code></pre></li>
+
+<li><p>Rune literals</p>
+
+<pre><code>\a   U+0007 alert or bell
+\b   U+0008 backspace
+\f   U+000C form feed
+\n   U+000A line feed or newline
+\r   U+000D carriage return
+\t   U+0009 horizontal tab
+\v   U+000b vertical tab
+\\   U+005c backslash
+\'   U+0027 single quote  (valid escape only within rune literals)
+\&quot;   U+0022 double quote  (valid escape only within string literals)
+</code></pre>
+
+<pre><code>rune_lit         = &quot;'&quot; ( unicode_value | byte_value ) &quot;'&quot; .
+unicode_value    = unicode_char | little_u_value | big_u_value | escaped_char .
+byte_value       = octal_byte_value | hex_byte_value .
+octal_byte_value = `\` octal_digit octal_digit octal_digit .
+hex_byte_value   = `\` &quot;x&quot; hex_digit hex_digit .
+little_u_value   = `\` &quot;u&quot; hex_digit hex_digit hex_digit hex_digit .
+big_u_value      = `\` &quot;U&quot; hex_digit hex_digit hex_digit hex_digit
+                           hex_digit hex_digit hex_digit hex_digit .
+escaped_char     = `\` ( &quot;a&quot; | &quot;b&quot; | &quot;f&quot; | &quot;n&quot; | &quot;r&quot; | &quot;t&quot; | &quot;v&quot; | `\` | &quot;'&quot; | `&quot;` ) .
+</code></pre></li>
+
+<li><p>String literals</p>
+
+<pre><code>string_lit             = raw_string_lit | interpreted_string_lit .
+raw_string_lit         = &quot;`&quot; { unicode_char | newline } &quot;`&quot; .
+interpreted_string_lit = `&quot;` { unicode_value | byte_value } `&quot;` .
+</code></pre></li>
+
+<li><p>Types</p>
+
+<pre><code>Type      = TypeName | TypeLit | &quot;(&quot; Type &quot;)&quot; .
+TypeName  = identifier | QualifiedIdent .
+TypeLit   = ArrayType | StructType | PointerType | FunctionType | InterfaceType |
+            SliceType | MapType | ChannelType .
+</code></pre></li>
+
+<li><p>Numeric types</p>
+
+<pre><code>uint8       the set of all unsigned  8-bit integers (0 to 255)
+uint16      the set of all unsigned 16-bit integers (0 to 65535)
+uint32      the set of all unsigned 32-bit integers (0 to 4294967295)
+uint64      the set of all unsigned 64-bit integers (0 to 18446744073709551615)
+
+
+int8        the set of all signed  8-bit integers (-128 to 127)
+int16       the set of all signed 16-bit integers (-32768 to 32767)
+int32       the set of all signed 32-bit integers (-2147483648 to 2147483647)
+int64       the set of all signed 64-bit integers (-9223372036854775808 to 9223372036854775807)
+
+
+float32     the set of all IEEE-754 32-bit floating-point numbers
+float64     the set of all IEEE-754 64-bit floating-point numbers
+
+
+complex64   the set of all complex numbers with float32 real and imaginary parts
+complex128  the set of all complex numbers with float64 real and imaginary parts
+
+
+byte        alias for uint8
+rune        alias for int32
+
+
+uint     either 32 or 64 bits
+int      same size as uint
+uintptr  an unsigned integer large enough to store the uninterpreted bits of a pointer value
+</code></pre></li>
+
+<li><p>Array types</p>
+
+<pre><code>ArrayType   = &quot;[&quot; ArrayLength &quot;]&quot; ElementType .
+ArrayLength = Expression .
+ElementType = Type .
+</code></pre></li>
+
+<li><p>Slice types</p>
+
+<pre><code>SliceType = &quot;[&quot; &quot;]&quot; ElementType .
+</code></pre>
+
+<pre><code>make([]T, length, capacity)
+make([]int, 50, 100)
+new([100]int)[0:50]
+</code></pre></li>
+
+<li><p>Struct types</p>
+
+<pre><code>StructType     = &quot;struct&quot; &quot;{&quot; { FieldDecl &quot;;&quot; } &quot;}&quot; .
+FieldDecl      = (IdentifierList Type | AnonymousField) [ Tag ] .
+AnonymousField = [ &quot;*&quot; ] TypeName .
+Tag            = string_lit .
+</code></pre></li>
+
+<li><p>Pointer types</p>
+
+<pre><code>PointerType = &quot;*&quot; BaseType .
+BaseType    = Type .
+</code></pre></li>
+
+<li><p>Function types</p>
+
+<pre><code>FunctionType   = &quot;func&quot; Signature .
+Signature      = Parameters [ Result ] .
+Result         = Parameters | Type .
+Parameters     = &quot;(&quot; [ ParameterList [ &quot;,&quot; ] ] &quot;)&quot; .
+ParameterList  = ParameterDecl { &quot;,&quot; ParameterDecl } .
+ParameterDecl  = [ IdentifierList ] [ &quot;...&quot; ] Type .
+</code></pre></li>
+
+<li><p>Interface types</p>
+
+<pre><code>InterfaceType      = &quot;interface&quot; &quot;{&quot; { MethodSpec &quot;;&quot; } &quot;}&quot; .
+MethodSpec         = MethodName Signature | InterfaceTypeName .
+MethodName         = identifier .
+InterfaceTypeName  = TypeName .
+</code></pre></li>
+
+<li><p>Map types</p>
+
+<pre><code>MapType     = &quot;map&quot; &quot;[&quot; KeyType &quot;]&quot; ElementType .
+KeyType     = Type .
+</code></pre></li>
+
+<li><p>Channel types</p>
+
+<pre><code>ChannelType = ( &quot;chan&quot; | &quot;chan&quot; &quot;&lt;-&quot; | &quot;&lt;-&quot; &quot;chan&quot; ) ElementType .
+</code></pre>
+
+<pre><code>chan T          // can be used to send and receive values of type T
+chan&lt;- float64  // can only be used to send float64s
+&lt;-chan int      // can only be used to receive ints
+
+
+chan&lt;- chan int    // same as chan&lt;- (chan int)
+chan&lt;- &lt;-chan int  // same as chan&lt;- (&lt;-chan int)
+&lt;-chan &lt;-chan int  // same as &lt;-chan (&lt;-chan int)
+chan (&lt;-chan int)
+
+
+make(chan int, 100)
+</code></pre></li>
+
+<li><p>Type identity</p>
+
+<p>Two types are either identical or different.</p>
+
+<p>Two named types are identical if their type names originate in the same TypeSpec. A named and an unnamed type are always different. Two unnamed types are identical if the corresponding type literals are identical, that is, if they have the same literal structure and corresponding components have identical types. In detail:</p>
+
+<ol>
+<li>Two <strong>array</strong> types are identical if they have identical element types and the same array length.</li>
+<li>Two <strong>slice</strong> types are identical if they have identical element types.</li>
+<li>Two <strong>struct</strong> types are identical if they have the same sequence of fields, and if corresponding fields have the same names, and identical types, and identical tags. Two anonymous fields are considered to have the same name. Lower-case field names from different packages are always different.</li>
+<li>Two <strong>pointer</strong> types are identical if they have identical base types.</li>
+<li>Two <strong>function</strong> types are identical if they have the same <em>number of parameters and result values, corresponding parameter and result types</em> are identical, and either both functions are variadic or neither is. Parameter and result names are not required to match.</li>
+<li>Two <strong>interface</strong> types are identical if they have the same set of methods with the same names and identical function types. Lower-case method names from different packages are always different. The order of the methods is irrelevant.</li>
+<li>Two <strong>map</strong> types are identical if they have identical key and value types.</li>
+<li>Two <strong>channel</strong> types are identical if they have identical value types and the same direction.</li>
+</ol></li>
+
+<li><p>Assignability</p>
+
+<p>A value x is assignable to a variable of type T (&ldquo;x is assignable to T&rdquo;) in any of these cases:</p>
+
+<ol>
+<li>x&rsquo;s type is identical to T.</li>
+<li>x&rsquo;s type V and T have identical underlying types and at least one of V or T is not a named type.</li>
+<li>T is an interface type and x implements T.</li>
+<li>x is a bidirectional channel value, T is a channel type, x&rsquo;s type V and T have identical element types, and at least one of V or T is not a named type.</li>
+<li>x is the predeclared identifier nil and T is a pointer, function, slice, map, channel, or interface type.</li>
+<li>x is an untyped constant representable by a value of type T.</li>
+</ol></li>
+
+<li><p>Blocks</p>
+
+<pre><code>Block = &quot;{&quot; StatementList &quot;}&quot; .
+StatementList = { Statement &quot;;&quot; } .
+</code></pre></li>
+
+<li><p>Declarations and scope</p>
+
+<pre><code>Declaration   = ConstDecl | TypeDecl | VarDecl .
+TopLevelDecl  = Declaration | FunctionDecl | MethodDecl .
+</code></pre></li>
+
+<li><p>Predeclared identifiers</p>
+
+<pre><code>Types:
+    bool byte complex64 complex128 error float32 float64
+    int int8 int16 int32 int64 rune string
+    uint uint8 uint16 uint32 uint64 uintptr
+
+
+Constants:
+    true false iota
+
+
+Zero value:
+    nil
+
+
+Functions:
+    append cap close complex copy delete imag len
+    make new panic print println real recover
+</code></pre></li>
+
+<li><p>Exported identifiers</p>
+
+<p>An identifier may be exported to permit access to it from another package. An identifier is exported if both:</p>
+
+<ol>
+<li>the first character of the identifier&rsquo;s name is a Unicode upper case letter (Unicode class &ldquo;Lu&rdquo;); and</li>
+<li>the identifier is declared in the package block or it is a field name or method name.
+All other identifiers are not exported.</li>
+</ol></li>
+
+<li><p>Uniqueness of identifiers</p>
+
+<p>Given a set of identifiers, an identifier is called unique if it is different from every other in the set. Two identifiers are different if they are spelled differently, or if they appear in different packages and are not exported. Otherwise, they are the same.</p></li>
+
+<li><p>Constant declarations</p>
+
+<pre><code>ConstDecl      = &quot;const&quot; ( ConstSpec | &quot;(&quot; { ConstSpec &quot;;&quot; } &quot;)&quot; ) .
+ConstSpec      = IdentifierList [ [ Type ] &quot;=&quot; ExpressionList ] .
+
+
+IdentifierList = identifier { &quot;,&quot; identifier } .
+ExpressionList = Expression { &quot;,&quot; Expression } .
+</code></pre></li>
+
+<li><p>Iota
+Within a constant declaration, the predeclared identifier iota represents successive untyped integer constants. It is reset to 0 whenever the reserved word const appears in the source and increments after each ConstSpec. It can be used to construct a set of related constants:</p>
+
+<pre><code>const ( // iota is reset to 0
+    c0 = iota  // c0 == 0
+    c1 = iota  // c1 == 1
+    c2 = iota  // c2 == 2
+)
+
+
+const ( // iota is reset to 0
+    a = 1 &lt;&lt; iota  // a == 1
+    b = 1 &lt;&lt; iota  // b == 2
+    c = 3          // c == 3  (iota is not used but still incremented)
+    d = 1 &lt;&lt; iota  // d == 8
+)
+
+
+const ( // iota is reset to 0
+    u         = iota * 42  // u == 0     (untyped integer constant)
+    v float64 = iota * 42  // v == 42.0  (float64 constant)
+    w         = iota * 42  // w == 84    (untyped integer constant)
+)
+
+
+const x = iota  // x == 0  (iota has been reset)
+const y = iota  // y == 0  (iota has been reset)
+
+
+const (
+    bit0, mask0 = 1 &lt;&lt; iota, 1&lt;&lt;iota - 1  // bit0 == 1, mask0 == 0
+    bit1, mask1                           // bit1 == 2, mask1 == 1
+    _, _                                  // skips iota == 2
+    bit3, mask3                           // bit3 == 8, mask3 == 7
+)
+</code></pre></li>
+
+<li><p>Type declarations</p>
+
+<pre><code>TypeDecl     = &quot;type&quot; ( TypeSpec | &quot;(&quot; { TypeSpec &quot;;&quot; } &quot;)&quot; ) .
+TypeSpec     = identifier Type .
+</code></pre>
+
+<pre><code>type IntArray [16]int
+
+
+type (
+    Point struct{ x, y float64 }
+    Polar Point
+)
+
+
+type TreeNode struct {
+    left, right *TreeNode
+    value *Comparable
+}
+
+
+type Block interface {
+    BlockSize() int
+    Encrypt(src, dst []byte)
+    Decrypt(src, dst []byte)
+}
+</code></pre>
+
+<p>The declared type does not inherit any methods bound to the existing type, but the method set of an interface type or of elements of a composite type remains unchanged:</p>
+
+<pre><code>// A Mutex is a data type with two methods, Lock and Unlock.
+type Mutex struct         { /* Mutex fields */ }
+func (m *Mutex) Lock()    { /* Lock implementation */ }
+func (m *Mutex) Unlock()  { /* Unlock implementation */ }
+
+
+// NewMutex has the same composition as Mutex but its method set is empty.
+type NewMutex Mutex
+
+
+// The method set of the base type of PtrMutex remains unchanged,
+// but the method set of PtrMutex is empty.
+type PtrMutex *Mutex
+
+
+// The method set of *PrintableMutex contains the methods
+// Lock and Unlock bound to its anonymous field Mutex.
+type PrintableMutex struct {
+    Mutex
+}
+
+
+// MyBlock is an interface type that has the same method set as Block.
+type MyBlock Block
+</code></pre>
+
+<p>A type declaration may be used to define a different boolean, numeric, or string type and attach methods to it:</p>
+
+<pre><code>type TimeZone int
+
+
+const (
+    EST TimeZone = -(5 + iota)
+    CST
+    MST
+    PST
+)
+
+
+func (tz TimeZone) String() string {
+    return fmt.Sprintf(&quot;GMT%+dh&quot;, tz)
+}
+</code></pre></li>
+
+<li><p>Variable declarations</p>
+
+<pre><code>VarDecl     = &quot;var&quot; ( VarSpec | &quot;(&quot; { VarSpec &quot;;&quot; } &quot;)&quot; ) .
+VarSpec     = IdentifierList ( Type [ &quot;=&quot; ExpressionList ] | &quot;=&quot; ExpressionList ) .
+</code></pre></li>
+
+<li><p>Short variable declarations</p>
+
+<pre><code>ShortVarDecl = IdentifierList &quot;:=&quot; ExpressionList .
+</code></pre>
+
+<p>It is shorthand for a regular variable declaration with initializer expressions but no types:</p>
+
+<pre><code>&quot;var&quot; IdentifierList = ExpressionList .
+</code></pre>
+
+<pre><code>i, j := 0, 10
+f := func() int { return 7 }
+ch := make(chan int)
+r, w := os.Pipe(fd)  // os.Pipe() returns two values
+_, y, _ := coord(p)  // coord() returns three values; only interested in y coordinate
+</code></pre>
+
+<p>Unlike regular variable declarations, a short variable declaration may redeclare variables provided they were originally declared earlier in the same block (or the parameter lists if the block is the function body) with the same type, and at least one of the non-blank variables is new. As a consequence, redeclaration can only appear in a multi-variable short declaration. Redeclaration does not introduce a new variable; it just assigns a new value to the original.</p>
+
+<pre><code>field1, offset := nextField(str, 0)
+field2, offset := nextField(str, offset)  // redeclares offset
+a, a := 1, 2       // illegal: double declaration of a or no new variable if a was declared elsewhere
+</code></pre>
+
+<p>Short variable declarations may appear only inside functions. In some contexts such as the initializers for &ldquo;if&rdquo;, &ldquo;for&rdquo;, or &ldquo;switch&rdquo; statements, they can be used to declare local temporary variables.</p></li>
+
+<li><p>Function declarations</p>
+
+<pre><code>FunctionDecl = &quot;func&quot; FunctionName ( Function | Signature ) .
+FunctionName = identifier .
+Function     = Signature FunctionBody .
+FunctionBody = Block .
+</code></pre></li>
+
+<li><p>Method declarations</p>
+
+<pre><code>MethodDecl   = &quot;func&quot; Receiver MethodName ( Function | Signature ) .
+Receiver     = Parameters .
+</code></pre></li>
+
+<li><p>Operands</p>
+
+<pre><code>Operand     = Literal | OperandName | MethodExpr | &quot;(&quot; Expression &quot;)&quot; .
+Literal     = BasicLit | CompositeLit | FunctionLit .
+BasicLit    = int_lit | float_lit | imaginary_lit | rune_lit | string_lit .
+OperandName = identifier | QualifiedIdent.
+</code></pre></li>
+
+<li><p>Qualified identifiers</p>
+
+<pre><code>QualifiedIdent = PackageName &quot;.&quot; identifier .
+</code></pre></li>
+
+<li><p>Composite literals</p>
+
+<pre><code>CompositeLit  = LiteralType LiteralValue .
+LiteralType   = StructType | ArrayType | &quot;[&quot; &quot;...&quot; &quot;]&quot; ElementType |
+                SliceType | MapType | TypeName .
+LiteralValue  = &quot;{&quot; [ ElementList [ &quot;,&quot; ] ] &quot;}&quot; .
+ElementList   = KeyedElement { &quot;,&quot; KeyedElement } .
+KeyedElement  = [ Key &quot;:&quot; ] Element .
+Key           = FieldName | Expression | LiteralValue .
+FieldName     = identifier .
+Element       = Expression | LiteralValue .
+</code></pre></li>
+
+<li><p>Function literals</p>
+
+<pre><code>FunctionLit = &quot;func&quot; Function .
+</code></pre></li>
+
+<li><p>Primary expressions</p>
+
+<pre><code>PrimaryExpr =
+    Operand |
+    Conversion |
+    PrimaryExpr Selector |
+    PrimaryExpr Index |
+    PrimaryExpr Slice |
+    PrimaryExpr TypeAssertion |
+    PrimaryExpr Arguments .
+
+
+Selector       = &quot;.&quot; identifier .
+Index          = &quot;[&quot; Expression &quot;]&quot; .
+Slice          = &quot;[&quot; ( [ Expression ] &quot;:&quot; [ Expression ] ) |
+                  ( [ Expression ] &quot;:&quot; Expression &quot;:&quot; Expression )
+                 &quot;]&quot; .
+TypeAssertion  = &quot;.&quot; &quot;(&quot; Type &quot;)&quot; .
+Arguments      = &quot;(&quot; [ ( ExpressionList | Type [ &quot;,&quot; ExpressionList ] ) [ &quot;...&quot; ] [ &quot;,&quot; ] ] &quot;)&quot; .
+</code></pre></li>
+
+<li><p>Selectors</p>
+
+<p>For a primary expression x that is not a package name, the selector expression</p>
+
+<pre><code>x.f
+</code></pre>
+
+<p>denotes the field or method f of the value x (or sometimes *x; see below). The identifier f is called the (field or method) selector; it must not be the blank identifier. The type of the selector expression is the type of f. If x is a package name, see the section on qualified identifiers.</p>
+
+<p>A selector f may denote a field or method f of a type T, or it may refer to a field or method f of a nested anonymous field of T. The number of anonymous fields traversed to reach f is called its depth in T. The depth of a field or method f declared in T is zero. The depth of a field or method f declared in an anonymous field A in T is the depth of f in A plus one.</p>
+
+<p>The following rules apply to selectors:</p>
+
+<ol>
+<li>For a value x of type T or *T where T is not a pointer or interface type, x.f denotes the field or method at the shallowest depth in T where there is such an f. If there is not exactly one f with shallowest depth, the selector expression is illegal.</li>
+<li>For a value x of type I where I is an interface type, x.f denotes the actual method with name f of the dynamic value of x. If there is no method with name f in the method set of I, the selector expression is illegal.</li>
+<li>As an exception, if the type of x is a named pointer type and (*x).f is a valid selector expression denoting a field (but not a method), x.f is shorthand for (*x).f.</li>
+<li>In all other cases, x.f is illegal.</li>
+<li>If x is of pointer type and has the value nil and x.f denotes a struct field, assigning to or evaluating x.f causes a run-time panic.</li>
+<li>If x is of interface type and has the value nil, calling or evaluating the method x.f causes a run-time panic.</li>
+</ol></li>
+
+<li><p>Method expressions</p>
+
+<pre><code>MethodExpr    = ReceiverType &quot;.&quot; MethodName .
+ReceiverType  = TypeName | &quot;(&quot; &quot;*&quot; TypeName &quot;)&quot; | &quot;(&quot; ReceiverType &quot;)&quot; .
+</code></pre></li>
+
+<li><p>Index expressions</p>
+
+<pre><code>a[x]
+</code></pre></li>
+
+<li><p>Slice expressions</p>
+
+<pre><code>a[low : high]
+
+
+a[low : high : max]
+</code></pre></li>
+
+<li><p>Type assertions</p>
+
+<pre><code>x.(T)
+</code></pre></li>
+
+<li><p>Calls</p>
+
+<pre><code>f(a1, a2, … an)
+</code></pre></li>
+
+<li><p>Passing arguments to &hellip; parameters</p>
+
+<p>Given the function and calls</p>
+
+<pre><code>func Greeting(prefix string, who ...string)
+Greeting(&quot;nobody&quot;)
+Greeting(&quot;hello:&quot;, &quot;Joe&quot;, &quot;Anna&quot;, &quot;Eileen&quot;)
+</code></pre>
+
+<p>Given the slice s and call</p>
+
+<pre><code>s := []string{&quot;James&quot;, &quot;Jasmine&quot;}
+Greeting(&quot;goodbye:&quot;, s...)
+</code></pre></li>
+
+<li><p>Operators</p>
+
+<pre><code>Expression = UnaryExpr | Expression binary_op Expression .
+UnaryExpr  = PrimaryExpr | unary_op UnaryExpr .
+
+
+binary_op  = &quot;||&quot; | &quot;&amp;&amp;&quot; | rel_op | add_op | mul_op .
+rel_op     = &quot;==&quot; | &quot;!=&quot; | &quot;&lt;&quot; | &quot;&lt;=&quot; | &quot;&gt;&quot; | &quot;&gt;=&quot; .
+add_op     = &quot;+&quot; | &quot;-&quot; | &quot;|&quot; | &quot;^&quot; .
+mul_op     = &quot;*&quot; | &quot;/&quot; | &quot;%&quot; | &quot;&lt;&lt;&quot; | &quot;&gt;&gt;&quot; | &quot;&amp;&quot; | &quot;&amp;^&quot; .
+
+
+unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &quot;*&quot; | &quot;&amp;&quot; | &quot;&lt;-&quot; .
+</code></pre></li>
+
+<li><p>Operator precedence</p>
+
+<pre><code>Precedence    Operator
+5             *  /  %  &lt;&lt;  &gt;&gt;  &amp;  &amp;^
+4             +  -  |  ^
+3             ==  !=  &lt;  &lt;=  &gt;  &gt;=
+2             &amp;&amp;
+1             ||
+</code></pre></li>
+
+<li><p>Arithmetic operators</p>
+
+<p>```</p>
+
+<ul>
+<li>sum                    integers, floats, complex values, strings</li>
+<li>difference             integers, floats, complex values</li>
+<li>product                integers, floats, complex values
+/    quotient               integers, floats, complex values
+%    remainder              integers</li>
+</ul>
+
+<p>&amp;    bitwise AND            integers
+|    bitwise OR             integers
+^    bitwise XOR            integers
+&amp;^   bit clear (AND NOT)    integers</p>
+
+<p>&lt;&lt;   left shift             integer &lt;&lt; unsigned integer
+&gt;&gt;   right shift            integer &gt;&gt; unsigned integer
+```</p></li>
+
+<li><p>Comparison operators</p>
+
+<pre><code>==    equal
+!=    not equal
+&lt;     less
+&lt;=    less or equal
+&gt;     greater
+&gt;=    greater or equal
+</code></pre></li>
+
+<li><p>Logical operators</p>
+
+<pre><code>&amp;&amp;    conditional AND    p &amp;&amp; q  is  &quot;if p then q else false&quot;
+||    conditional OR     p || q  is  &quot;if p then true else q&quot;
+!     NOT                !p      is  &quot;not p&quot;
+</code></pre></li>
+
+<li><p>Address operators</p>
+
+<pre><code>&amp;x
+&amp;a[f(2)]
+&amp;Point{2, 3}
+*p
+*pf(x)
+
+
+var x *int = nil
+*x   // causes a run-time panic
+&amp;*x  // causes a run-time panic
+</code></pre></li>
+
+<li><p>Receive operator</p>
+
+<pre><code>v1 := &lt;-ch
+v2 = &lt;-ch
+f(&lt;-ch)
+&lt;-strobe  // wait until clock pulse and discard received value
+
+
+x, ok = &lt;-ch
+x, ok := &lt;-ch
+var x, ok = &lt;-ch
+</code></pre></li>
+
+<li><p>Conversions</p>
+
+<pre><code>Conversion = Type &quot;(&quot; Expression [ &quot;,&quot; ] &quot;)&quot; .
+</code></pre></li>
+
+<li><p>Statements</p>
+
+<pre><code>Statement =
+    Declaration | LabeledStmt | SimpleStmt |
+    GoStmt | ReturnStmt | BreakStmt | ContinueStmt | GotoStmt |
+    FallthroughStmt | Block | IfStmt | SwitchStmt | SelectStmt | ForStmt |
+    DeferStmt .
+
+
+SimpleStmt = EmptyStmt | ExpressionStmt | SendStmt | IncDecStmt | Assignment | ShortVarDecl .
+</code></pre></li>
+
+<li><p>Empty statements</p>
+
+<pre><code>EmptyStmt = .
+</code></pre></li>
+
+<li><p>Labeled statements</p>
+
+<pre><code>LabeledStmt = Label &quot;:&quot; Statement .
+Label       = identifier .
+</code></pre></li>
+
+<li><p>Expression statements</p>
+
+<pre><code>ExpressionStmt = Expression .
+</code></pre>
+
+<p>The following built-in functions are not permitted in statement context:</p>
+
+<pre><code>append cap complex imag len make new real
+unsafe.Alignof unsafe.Offsetof unsafe.Sizeof
+</code></pre></li>
+
+<li><p>Send statements</p>
+
+<pre><code>SendStmt = Channel &quot;&lt;-&quot; Expression .
+Channel  = Expression .
+</code></pre></li>
+
+<li><p>IncDec statements</p>
+
+<pre><code>IncDecStmt = Expression ( &quot;++&quot; | &quot;--&quot; ) .
+</code></pre></li>
+
+<li><p>Assignments</p>
+
+<pre><code>Assignment = ExpressionList assign_op ExpressionList .
+
+
+assign_op = [ add_op | mul_op ] &quot;=&quot; .
+
+
+</code></pre></li>
+
+<li><p>If statements</p>
+
+<pre><code>IfStmt = &quot;if&quot; [ SimpleStmt &quot;;&quot; ] Expression Block [ &quot;else&quot; ( IfStmt | Block ) ] .
+</code></pre></li>
+
+<li><p>Switch statements</p>
+
+<pre><code>SwitchStmt = ExprSwitchStmt | TypeSwitchStmt .
+</code></pre></li>
+
+<li><p>Expression switches</p>
+
+<pre><code>ExprSwitchStmt = &quot;switch&quot; [ SimpleStmt &quot;;&quot; ] [ Expression ] &quot;{&quot; { ExprCaseClause } &quot;}&quot; .
+ExprCaseClause = ExprSwitchCase &quot;:&quot; StatementList .
+ExprSwitchCase = &quot;case&quot; ExpressionList | &quot;default&quot; .
+</code></pre></li>
+
+<li><p>Type switches</p>
+
+<pre><code>switch x.(type) {
+// cases
+}
+</code></pre>
+
+<pre><code>TypeSwitchStmt  = &quot;switch&quot; [ SimpleStmt &quot;;&quot; ] TypeSwitchGuard &quot;{&quot; { TypeCaseClause } &quot;}&quot; .
+TypeSwitchGuard = [ identifier &quot;:=&quot; ] PrimaryExpr &quot;.&quot; &quot;(&quot; &quot;type&quot; &quot;)&quot; .
+TypeCaseClause  = TypeSwitchCase &quot;:&quot; StatementList .
+TypeSwitchCase  = &quot;case&quot; TypeList | &quot;default&quot; .
+TypeList        = Type { &quot;,&quot; Type } .
+</code></pre></li>
+
+<li><p>For statements</p>
+
+<pre><code>ForStmt = &quot;for&quot; [ Condition | ForClause | RangeClause ] Block .
+Condition = Expression .
+</code></pre>
+
+<pre><code>ForClause = [ InitStmt ] &quot;;&quot; [ Condition ] &quot;;&quot; [ PostStmt ] .
+InitStmt = SimpleStmt .
+PostStmt = SimpleStmt .
+</code></pre>
+
+<pre><code>RangeClause = [ ExpressionList &quot;=&quot; | IdentifierList &quot;:=&quot; ] &quot;range&quot; Expression .
+</code></pre>
+
+<pre><code>Range expression                          1st value          2nd value
+
+
+array or slice  a  [n]E, *[n]E, or []E    index    i  int    a[i]       E
+string          s  string type            index    i  int    see below  rune
+map             m  map[K]V                key      k  K      m[k]       V
+channel         c  chan E, &lt;-chan E       element  e  E
+</code></pre></li>
+
+<li><p>Go statements</p>
+
+<pre><code>GoStmt = &quot;go&quot; Expression .
+</code></pre></li>
+
+<li><p>Select statements</p>
+
+<pre><code>SelectStmt = &quot;select&quot; &quot;{&quot; { CommClause } &quot;}&quot; .
+CommClause = CommCase &quot;:&quot; StatementList .
+CommCase   = &quot;case&quot; ( SendStmt | RecvStmt ) | &quot;default&quot; .
+RecvStmt   = [ ExpressionList &quot;=&quot; | IdentifierList &quot;:=&quot; ] RecvExpr .
+RecvExpr   = Expression .
+</code></pre></li>
+
+<li><p>Return statements</p>
+
+<pre><code>ReturnStmt = &quot;return&quot; [ ExpressionList ] .
+</code></pre></li>
+
+<li><p>Break statements</p>
+
+<pre><code>BreakStmt = &quot;break&quot; [ Label ] .
+</code></pre></li>
+
+<li><p>Continue statements</p>
+
+<pre><code>ContinueStmt = &quot;continue&quot; [ Label ] .
+</code></pre></li>
+
+<li><p>Goto statements</p>
+
+<pre><code>GotoStmt = &quot;goto&quot; Label .
+</code></pre></li>
+
+<li><p>Fallthrough statements</p>
+
+<pre><code>FallthroughStmt = &quot;fallthrough&quot; .
+</code></pre></li>
+
+<li><p>Defer statements</p>
+
+<pre><code>DeferStmt = &quot;defer&quot; Expression .
+</code></pre></li>
+
+<li><p>Source file organization</p>
+
+<pre><code>SourceFile       = PackageClause &quot;;&quot; { ImportDecl &quot;;&quot; } { TopLevelDecl &quot;;&quot; } .
+</code></pre></li>
+
+<li><p>Package clause</p>
+
+<pre><code>PackageClause  = &quot;package&quot; PackageName .
+PackageName    = identifier .
+</code></pre></li>
+
+<li><p>Import declarations</p>
+
+<pre><code>ImportDecl       = &quot;import&quot; ( ImportSpec | &quot;(&quot; { ImportSpec &quot;;&quot; } &quot;)&quot; ) .
+ImportSpec       = [ &quot;.&quot; | PackageName ] ImportPath .
+ImportPath       = string_lit .
+</code></pre>
+
+<pre><code>Import declaration          Local name of Sin
+
+
+import   &quot;lib/math&quot;         math.Sin
+import m &quot;lib/math&quot;         m.Sin
+import . &quot;lib/math&quot;         Sin
+
+
+import _ &quot;lib/math&quot;
+</code></pre></li>
+
+<li><p>Size and alignment guarantees</p>
+
+<p>For the numeric types, the following sizes are guaranteed:</p>
+
+<pre><code>type                                 size in bytes
+
+
+byte, uint8, int8                     1
+uint16, int16                         2
+uint32, int32, float32                4
+uint64, int64, float64, complex64     8
+complex128                           16
+</code></pre>
+
+<p>The following minimal alignment properties are guaranteed:</p>
+
+<ul>
+<li>For a variable x of any type: unsafe.Alignof(x) is at least 1.</li>
+<li>For a variable x of struct type: unsafe.Alignof(x) is the largest of all the values unsafe.Alignof(x.f) for each field f of x, but at least 1.</li>
+<li>For a variable x of array type: unsafe.Alignof(x) is the same as unsafe.Alignof(x[0]), but at least 1.</li>
+</ul>
+
+<p>A struct or array type has size zero if it contains no fields (or elements, respectively) that have a size greater than zero. Two distinct zero-size variables may have the same address in memory.</p></li>
+</ul>
+
+<hr />
+
+<p>(Note: The Go Programming Language Specification is <a href="https://golang.org/ref/spec" title="The Go Programming Language Specification"><em>here</em></a> )</p>
+
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603242255/" title="上一篇">&lt;&lt; Makefile:简介</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+  </body>
+  <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</html>

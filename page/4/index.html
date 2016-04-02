@@ -240,6 +240,23 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603112030/" title="阅读全文">Jackson: json and java - Streaming </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="streaming-parser-and-generator:6aa21e9855db39cd085c6c3608dd23fc">Streaming Parser and Generator</h3>
+
+<p>Jackson provides a low level API to parse json string. The API provides token for each json object. For example, the start of json &lsquo;{&rsquo; is the first object that the parser provides. The key value pair is another single object. The client code can use the tokens and get the json properties or build a java object out of it if required. This low level API is extremely powerful but needs a lot of coding. For most cases, Jackson&rsquo;s tree traversing and data binding capability should be explored instead. We provide two examples below. The first example demonstrates json parsing and the second demonstrated json generation.</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112030/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603112025/" title="阅读全文">Jackson: Java to JSON and back </a> </h2>
 
 </header>
@@ -539,57 +556,6 @@ public class CreateXMLFromMusicArtistObject {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603081433/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603081427/" title="阅读全文">XStream: XML To Java </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorial we looked at a way to <a href="http://alimy.me/post/dev_201603081411" title="Parsing an XML">convert Java to XML and back</a>. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.</p>
-
-<p>In this first example we have an XML that has a parent element called &lsquo;Music&rsquo;. It has a child element called type. We populate a Music object that has a &lsquo;type&rsquo; field which is an enum.</p>
-
-<pre><code>package com.studytrails.xml.xstream;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
-public class ConverterExample3 {
-    static String xml1 = &quot;&lt;Music&gt;&lt;type&gt;rock&lt;/type&gt;&lt;/Music&gt;&quot;;
-
-    public static void main(String[] args) {
-        XStream xStream = new XStream();
-        xStream.processAnnotations(Music.class);
-        Music musicObject = (Music) xStream.fromXML(xml1);
-        System.out.println(musicObject);
-        // prints Music [type=ROCK]
-    }
-
-}
-
-@XStreamAlias(&quot;Music&quot;)
-class Music {
-    public enum genre {
-        ROCK, JAZZ
-    };
-
-    genre type;
-
-    @Override
-    public String toString() {
-        return &quot;Music [type=&quot; + type + &quot;]&quot;;
-    }
-
-}     
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603081427/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

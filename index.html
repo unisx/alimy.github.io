@@ -240,6 +240,42 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201604021445/" title="阅读全文">Go - EBNF </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="notation:363df3e80a0a36e21d4481f199b5995a">Notation</h3>
+
+<p>The syntax is specified using Extended Backus-Naur Form (EBNF):</p>
+
+<pre><code>Production  = production_name &quot;=&quot; [ Expression ] &quot;.&quot; .
+Expression  = Alternative { &quot;|&quot; Alternative } .
+Alternative = Term { Term } .
+Term        = production_name | token [ &quot;…&quot; token ] | Group | Option | Repetition .
+Group       = &quot;(&quot; Expression &quot;)&quot; .
+Option      = &quot;[&quot; Expression &quot;]&quot; .
+Repetition  = &quot;{&quot; Expression &quot;}&quot; .
+</code></pre>
+
+<p>Productions are expressions constructed from terms and the following operators, in increasing precedence:</p>
+
+<pre><code>|   alternation
+()  grouping
+[]  option (0 or 1 times)
+{}  repetition (0 to n times)
+</code></pre>
+
+<p>Lower-case production names are used to identify lexical tokens. Non-terminals are in CamelCase. Lexical tokens are enclosed in double quotes &ldquo;&rdquo; or back quotes ``.</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201604021445/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603242255/" title="阅读全文">Makefile:简介 </a> </h2>
 
 </header>
@@ -570,40 +606,6 @@ UX也是棒棒的，我想说，这就是我一直想要的。</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/inf_201603182105/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603182045/" title="阅读全文">50 Shades of Go </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Go is a simple and fun language, but, like any other language, it has a few gotchas&hellip; Many of those gotchas are not entirely Go&rsquo;s fault. Some of these mistakes are natural traps if you are coming from another language. Others are due to faulty assumptions and missing details.</p>
-
-<p>A lot of these gotchas may seem obvious if you took the time to learn the language reading the official spec, wiki, mailing list discussions, many great posts and presentations by Rob Pike, and the source code. Not everybody starts the same way though and that&rsquo;s OK. If you are new to Go the information here will save you hours debugging your code.</p>
-
-<p>This post covers Go 1.5 and below.</p>
-
-<h3 id="total-beginner:d69ae22d9ee4babfbb2c7eb1d79dc668">Total Beginner:</h3>
-
-<ol>
-<li><a href="#1">Opening Brace Can&rsquo;t Be Placed on a Separate Line</a></li>
-<li><a href="#2">Unused Variables</a></li>
-<li><a href="#3">Unused Imports</a></li>
-<li><a href="#4">Short Variable Declarations Can Be Used Only Inside Functions</a></li>
-<li><a href="#5">Redeclaring Variables Using Short Variable Declarations</a></li>
-<li><a href="#6">Can&rsquo;t Use Short Variable Declarations to Set Field Values</a></li>
-<li><a href="#7">Accidental Variable Shadowing</a></li>
-<li><a href="#8">Can&rsquo;t Use &ldquo;nil&rdquo; to Initialize a Variable Without an Explicit Type</a></li>
-<li><a href="#9">Using &ldquo;nil&rdquo; Slices and Maps</a></li>
-<li><a href="#10">Map Capacity</a></li>
-</ol>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603182045/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
