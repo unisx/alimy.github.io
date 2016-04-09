@@ -240,6 +240,61 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603122025/" title="阅读全文">Gson: Serializing and deserializing Java Generic Classes </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="serializing-list:48eff8845146e9414ebbce90bbfb026f">Serializing list</h3>
+
+<p>As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.</p>
+
+<pre><code>package com.studytrails.json.gson;
+
+import java.lang.reflect.Type;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+public class GenericTypesExample8 {
+	public static void main(String[] args) {
+		// create an animal class that is of type dog.
+		Animal animal = new Animal&lt;Dog&gt;();
+		// Create a Dog instance
+		Dog dog = new Dog(&quot;I am a dog&quot;);
+
+		animal.setAnimal(dog);
+		Gson gson = new Gson();
+		// Define a Type that is an Animal of type dog.
+		Type animalType = new TypeToken&lt;Animal&lt;Dog&gt;&gt;() {
+		}.getType();
+
+		// we first convert the animal object to a json and then read the json
+		// back. However we define the json to be of Animal type
+		Animal animal1 = gson.fromJson(gson.toJson(animal, animalType), Animal.class);
+		System.out.println(animal1.get().getClass()); // prints class
+
+    // com.google.gson.internal.LinkedTreeMap
+		// In contrast to above where we read the json back using the Animal
+		// type, here we read the json back as the custom animalType Type. This
+		// gives Gson an idea of what
+		// the generic type should be.
+		Animal animal2 = gson.fromJson(gson.toJson(animal), animalType);
+		System.out.println(animal2.get().getClass());
+		// prints class com.studytrails.json.gson.Dog
+
+	}
+}
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122025/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122022/" title="阅读全文">Gson: Serializing Collections </a> </h2>
 
 </header>
@@ -601,21 +656,6 @@ public class AlbumsFilter {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112040/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112035/" title="阅读全文">Jackson: build java tree model from json </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112035/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

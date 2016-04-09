@@ -240,6 +240,43 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/inf_201603182105/" title="阅读全文">就这样认识了Gogs </a> </h2>
+
+</header>
+<div class="summary">
+    <p>大概是2015年12月21日，我想知道一些关于SGL(Skia Graphics Engine)的信息，就糊里糊涂的跳到
+一个网站<a href="https://libskia.so/">https://libskia.so/</a>, 然后顺便浏览了一下，做的还是很有吸引力的个人网站。其中有一
+篇Blog： <a href="https://libskia.so/b/discovering-gogs.html">Discovering Gogs</a></p>
+
+<p>博主写道:<br />
+I just discovered Gogs, a light Git web fronted written in Go.
+After reading a bit on its website, I decided to try a bit, just
+for fun. It was really easy to install it with NginX as reverse
+proxy, everything is Gogs&rsquo; documentation, and it was ready in
+less than 10 minutes. Wonderful!</p>
+
+<p>It&rsquo;s still in beta, but already very functionnal, providing most
+of the classic features such as issues, milestones, ssh keys, README.md
+parser, etc&hellip;</p>
+
+<p>Finally, I just dropped my old Gitweb1, and I welcome you to my new Gogs! :)</p>
+
+<hr />
+
+<p>我也跟着他的节奏部署了Gogs,用的是sqlite3作为数据库，安装非常简单，用户体验和Github
+非常相似但简便的多。之前部署过Gitlab社区版，部署的时候各种的不爽，在我的机子上运行速度还不匝地，
+无奈还是放弃用Gitlab，只使用cgit来web浏览git库。现在好了，有了gogs，部署简便，运行速度也很快，
+UX也是棒棒的，我想说，这就是我一直想要的。</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/inf_201603182105/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603182045/" title="阅读全文">50 Shades of Go </a> </h2>
 
 </header>
@@ -548,61 +585,6 @@ public class DatasetTypeAdapterExample8 {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122028/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122025/" title="阅读全文">Gson: Serializing and deserializing Java Generic Classes </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-list:48eff8845146e9414ebbce90bbfb026f">Serializing list</h3>
-
-<p>As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.</p>
-
-<pre><code>package com.studytrails.json.gson;
-
-import java.lang.reflect.Type;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-public class GenericTypesExample8 {
-	public static void main(String[] args) {
-		// create an animal class that is of type dog.
-		Animal animal = new Animal&lt;Dog&gt;();
-		// Create a Dog instance
-		Dog dog = new Dog(&quot;I am a dog&quot;);
-
-		animal.setAnimal(dog);
-		Gson gson = new Gson();
-		// Define a Type that is an Animal of type dog.
-		Type animalType = new TypeToken&lt;Animal&lt;Dog&gt;&gt;() {
-		}.getType();
-
-		// we first convert the animal object to a json and then read the json
-		// back. However we define the json to be of Animal type
-		Animal animal1 = gson.fromJson(gson.toJson(animal, animalType), Animal.class);
-		System.out.println(animal1.get().getClass()); // prints class
-
-    // com.google.gson.internal.LinkedTreeMap
-		// In contrast to above where we read the json back using the Animal
-		// type, here we read the json back as the custom animalType Type. This
-		// gives Gson an idea of what
-		// the generic type should be.
-		Animal animal2 = gson.fromJson(gson.toJson(animal), animalType);
-		System.out.println(animal2.get().getClass());
-		// prints class com.studytrails.json.gson.Dog
-
-	}
-}
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122025/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
