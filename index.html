@@ -240,6 +240,41 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201604101827/" title="阅读全文">Go - See what packages my app imports </a> </h2>
+
+</header>
+<div class="summary">
+    <p>It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.</p>
+
+<p>Go to your app and run the following.</p>
+
+<pre><code>$ go list -f '{{join .Deps &quot;\n&quot;}}' |  xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
+</code></pre>
+
+<p>Here is an example with the clirescue refactoring example:</p>
+
+<pre><code>$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
+$ go list -f '{{join .Deps &quot;\n&quot;}}' | xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
+github.com/GoBootcamp/clirescue/cmdutil
+github.com/GoBootcamp/clirescue/trackerapi
+github.com/GoBootcamp/clirescue/user
+github.com/codegangsta/cli
+</code></pre>
+
+<p>If you want the list to also contain standard packages, edit the template and use:</p>
+
+<pre><code>$ go list -f '{{join .Deps &quot;\n&quot;}}' |  xargs go list -f '{{.ImportPath}}'
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201604101827/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/art_201604091521/" title="阅读全文">爱 </a> </h2>
 
 </header>
@@ -557,33 +592,6 @@ b.o: b.c c.h
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/arc_201603192212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/etc_201603192115/" title="阅读全文">杂谈:指纹歌里的人生百态 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>“一螺穷，二螺富，三螺四螺开当铺……”童年时代，您可曾唱过指纹歌？童谣未必预示了命运，但却包含了人生百态。</p>
-
-<p>指纹，是在每个人出生第六个月就形成，并跟随人一生一世的身体纹线，每个人的指纹都是独一无二的，世界上绝不会有指纹完全相同的两个人。所以，我国在一千多年前的唐代，就实行了指纹画押。古代的借据就是借户用中指和食指在借据上并列印上指纹叫作“花押”。直到现代，立据签约还仍然使用这种当事人在契约上按手印的方法作为凭信。刑事侦探还把鉴别手纹作为破案的重要手段。</p>
-
-<p>两种最基本的指纹：纹如水流中的漩涡形，或中间的纹成封口的环状，叫涡纹，又叫螺纹；指纹呈流线形脱开，不封口，叫流纹，又叫箕纹。</p>
-
-<p>螺是指螺旋状的环形纹，箕是指簸箕状的开口纹。张爱玲在《谈看书》中提到：十只手指上，螺越多越好，聚得住钱；男人簸箕也好，会赚钱，能够把钱铲回家；女人则是螺好，会积钱，手上没螺，拿东西不牢。</p>
-
-<h3 id="指纹歌的地图-盛行于东南沿海:1484b06f629e4ed2ba4137848d0eaf86">指纹歌的地图：盛行于东南沿海</h3>
-
-<p>在一些童谣集中载录了大量的指纹歌，如商务印书馆《各省童谣集》第一集（1923年）就收录了三首，分别采自安徽休宁、浙江杭县、浙江新昌；上海世界书局《绘图童谣大观》（1924年）也收录了三首，分别采自江苏的吴县、无锡和江都。</p>
-
-<p>《各省童谣集》的编者说：“看螺纹定一生贫富贵贱，各省都有这种事，但所说各不相同，可见这事不足深信。”这话听起来，好像如果各地所说一致，就可以深信似的。这首曾经被打入“封建迷信”另册的趣味童谣，正因为异文众多，不足为信，才会给我们的童年生活带来许多相互打趣的快乐。</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/etc_201603192115/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

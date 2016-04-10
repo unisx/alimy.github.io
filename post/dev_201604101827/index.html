@@ -1,10 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Golang &middot; Alimy </title>
+    <title> Go - See what packages my app imports &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="http://alimy.me/tags/golang/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
+    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
@@ -143,17 +143,15 @@
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -232,59 +230,68 @@
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <h2>文章列表</h2>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2016年 04月
-                  
-                  <span id="list-indicator" title="共2篇文章">2 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="http://alimy.me/post/dev_201604101827/">Go - See what packages my app imports </a>&nbsp;
-                        <span id="list-date">(Sun, Apr 10, 2016)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="http://alimy.me/post/dev_201604021445/">Go - EBNF </a>&nbsp;
-                        <span id="list-date">(Sat, Apr 02, 2016)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2014年 04月
-                  
-                  <span id="list-indicator" title="共1篇文章">1 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="http://alimy.me/post/etc_201404021616/">Getting Started with Hugo </a>&nbsp;
-                        <span id="list-date">(Wed, Apr 02, 2014)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Go - See what packages my app imports</h2>
+          
+          <p>It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.</p>
 
-            </div>
+<p>Go to your app and run the following.</p>
+
+<pre><code>$ go list -f '{{join .Deps &quot;\n&quot;}}' |  xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
+</code></pre>
+
+<p>Here is an example with the clirescue refactoring example:</p>
+
+<pre><code>$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
+$ go list -f '{{join .Deps &quot;\n&quot;}}' | xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
+github.com/GoBootcamp/clirescue/cmdutil
+github.com/GoBootcamp/clirescue/trackerapi
+github.com/GoBootcamp/clirescue/user
+github.com/codegangsta/cli
+</code></pre>
+
+<p>If you want the list to also contain standard packages, edit the template and use:</p>
+
+<pre><code>$ go list -f '{{join .Deps &quot;\n&quot;}}' |  xargs go list -f '{{.ImportPath}}'
+</code></pre>
+
         </div>
-    </body>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/art_201604091521/" title="上一篇">&lt;&lt; 爱</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+  </body>
 </html>

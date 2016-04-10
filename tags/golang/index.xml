@@ -7,7 +7,37 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 02 Apr 2016 14:45:00 CST</updated>
+    <updated>Sun, 10 Apr 2016 18:27:00 CST</updated>
+    
+    <item>
+      <title>Go - See what packages my app imports</title>
+      <link>http://alimy.me/post/dev_201604101827/</link>
+      <pubDate>Sun, 10 Apr 2016 18:27:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201604101827/</guid>
+      <description>&lt;p&gt;It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.&lt;/p&gt;
+
+&lt;p&gt;Go to your app and run the following.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here is an example with the clirescue refactoring example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
+$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; | xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
+github.com/GoBootcamp/clirescue/cmdutil
+github.com/GoBootcamp/clirescue/trackerapi
+github.com/GoBootcamp/clirescue/user
+github.com/codegangsta/cli
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you want the list to also contain standard packages, edit the template and use:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{.ImportPath}}&#39;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Go - EBNF</title>

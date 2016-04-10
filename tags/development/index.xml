@@ -7,7 +7,37 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 02 Apr 2016 14:45:00 CST</updated>
+    <updated>Sun, 10 Apr 2016 18:27:00 CST</updated>
+    
+    <item>
+      <title>Go - See what packages my app imports</title>
+      <link>http://alimy.me/post/dev_201604101827/</link>
+      <pubDate>Sun, 10 Apr 2016 18:27:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201604101827/</guid>
+      <description>&lt;p&gt;It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.&lt;/p&gt;
+
+&lt;p&gt;Go to your app and run the following.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here is an example with the clirescue refactoring example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
+$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; | xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
+github.com/GoBootcamp/clirescue/cmdutil
+github.com/GoBootcamp/clirescue/trackerapi
+github.com/GoBootcamp/clirescue/user
+github.com/codegangsta/cli
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you want the list to also contain standard packages, edit the template and use:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{.ImportPath}}&#39;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Go - EBNF</title>
@@ -6531,99 +6561,6 @@ public class AlbumsWithInnerClass {
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-serialize-inner-classes.jsp&#34; title=&#34;Serializing Inner Classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Gson: Serializing and deserializing Java Generic Classes</title>
-      <link>http://alimy.me/post/dev_201603122025/</link>
-      <pubDate>Sat, 12 Mar 2016 20:25:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603122025/</guid>
-      <description>
-
-&lt;h3 id=&#34;serializing-list:48eff8845146e9414ebbce90bbfb026f&#34;&gt;Serializing list&lt;/h3&gt;
-
-&lt;p&gt;As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-import java.lang.reflect.Type;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-public class GenericTypesExample8 {
-	public static void main(String[] args) {
-		// create an animal class that is of type dog.
-		Animal animal = new Animal&amp;lt;Dog&amp;gt;();
-		// Create a Dog instance
-		Dog dog = new Dog(&amp;quot;I am a dog&amp;quot;);
-
-		animal.setAnimal(dog);
-		Gson gson = new Gson();
-		// Define a Type that is an Animal of type dog.
-		Type animalType = new TypeToken&amp;lt;Animal&amp;lt;Dog&amp;gt;&amp;gt;() {
-		}.getType();
-
-		// we first convert the animal object to a json and then read the json
-		// back. However we define the json to be of Animal type
-		Animal animal1 = gson.fromJson(gson.toJson(animal, animalType), Animal.class);
-		System.out.println(animal1.get().getClass()); // prints class
-
-    // com.google.gson.internal.LinkedTreeMap
-		// In contrast to above where we read the json back using the Animal
-		// type, here we read the json back as the custom animalType Type. This
-		// gives Gson an idea of what
-		// the generic type should be.
-		Animal animal2 = gson.fromJson(gson.toJson(animal), animalType);
-		System.out.println(animal2.get().getClass());
-		// prints class com.studytrails.json.gson.Dog
-
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;animal-class:48eff8845146e9414ebbce90bbfb026f&#34;&gt;Animal class&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-public class Animal {
-
-	public T animal;
-
-	public void setAnimal(T animal) {
-		this.animal = animal;
-	}
-
-	public T get() {
-		return animal;
-	}
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;dog-class:48eff8845146e9414ebbce90bbfb026f&#34;&gt;Dog Class&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-public class Dog {
-	private String name;
-
-	public Dog(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-introduction.jsp&#34; title=&#34;Serializing and deserializing Java Generic Classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
 </description>
     </item>
     
