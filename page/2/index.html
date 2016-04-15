@@ -240,6 +240,72 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603192245/" title="阅读全文">Android: Volley&#43;OkHttp with https </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="android-network-simple:03999fb0359803477bc987da56a0bc05">Android Network Simple</h3>
+
+<p>This article shows how to use volley with OkHttp and security your api with https.
+本文可以在<a href="http://www.jianshu.com/p/e58161cbc3a4" title="Android 网络--我是怎么做的: Volley+OkHttp+Https">简书</a>浏览。</p>
+
+<h3 id="使用-okhttp-作为传输层的实现:03999fb0359803477bc987da56a0bc05">使用 OkHttp 作为传输层的实现.</h3>
+
+<p>Volley 默认根据 Android 系统版本使用不同的 Http 传输协议实现. 3.0 以上使用HttpUrlConnection, 2.3 以下使用 ApacheHttpStack, 参考[Android Http Client].</p>
+
+<p>OkHttp 相较于其它的实现有以下的优点:</p>
+
+<ul>
+<li>支持<a href="http://zh.wikipedia.org/wiki/SPDY">SPDY</a>，允许连接同一主机的所有请求分享一个socket。</li>
+<li>如果SPDY不可用，会使用连接池减少请求延迟。</li>
+<li>使用GZIP压缩下载内容，且压缩操作对用户是透明的。</li>
+<li>利用响应缓存来避免重复的网络请求。</li>
+<li>当网络出现问题的时候，OKHttp会依然有效，它将从常见的连接问题当中恢复。</li>
+<li>如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。</li>
+</ul>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603192245/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/arc_201603192212/" title="阅读全文">庆余年: 又一叶 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>当年的废话</p>
+
+<p>至于是如何和小眉认识的，已经有些记不清楚了，只记得那天太阳当空照，花儿对我笑，小鸟说操操操，喔，不对，那天好象国际上又出了件什么事儿，于是我们几个兄弟以此为由撮了一顿，中午我喝了太多的酒，头有些昏，腿有些沉，舌自然也有些笨了，一个人到街上的书铺借了本小说便直奔大南门外的烂草地，准备刮刮江风，冒充一下孤独；抽抽小烟，模仿一下绝望。</p>
+
+<p>只是有太久没有出门了，所以没想到七月的太阳竟然会这么毒。</p>
+
+<p>当然，这是一个常识，但现在我的问题就是缺乏常识。于是在石凳上坐了五分钟后，我便决定脱下满身汗臭的格子短袖，做个脱衣的俗人，脱俗之人。</p>
+
+<p>当我的手指伸向短袖的第三个扣子时，不期有一道很清凉，很清凉的声音从我的正前方响了起来：</p>
+
+<p>“天气还真是热呀！”</p>
+
+<p>甜甜的、酸酸的、有营养……我自顾自地笑了笑，第一个反应是，这绝对是一个雌性动物才能拥有的声音，而且一定是个小雌。</p>
+
+<p>我的第二个反应是，赶忙把第二个扣子给扣了起来。</p>
+
+<p>我的第三个反应是，脑袋嗡地一声……世界果然大不同，居然有女子主动找我搭讪。</p>
+
+<p>我把头深深地埋在怀里，用了半分钟的时间，猜度了种种可能，唯一把美女相约的可能排除掉后，勇敢地抬起头来，面对这个脸上可能涂了八层防晒霜的恐龙。</p>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/arc_201603192212/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/etc_201603192115/" title="阅读全文">杂谈:指纹歌里的人生百态 </a> </h2>
 
 </header>
@@ -520,71 +586,6 @@ Lets see some examples</li>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122040/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122035/" title="阅读全文">Gson: Custom Serializer </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Just as we saw in the <a href="http://alimy.me/post/dev_201603122030">previous</a> tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.</p>
-
-<h3 id="custom-serializer:111b3d40cae40f94b365983d1c03789a">Custom Serializer</h3>
-
-<p>Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.</p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122035/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122030/" title="阅读全文">Gson: Custom Type Adapter </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorials we have seen how gson can serialize and deserialize java classes with or without hierarchies. By default, it introspects the classes and comes with with a strategy for serializing and deserializing it. However, in some cases, you want to specify your own conversion strategy. That is, you want to control how the java object is converted to json string and the other way round. Gson provides a capability to specify a custom type adapter. You tell Gson that for a particular class, use the conversion strategy specified by your custom adapter. Lets look at how to write the type adapter :
-To write a custom adapter extend the com.google.gson.TypeAdapter abstract class. Implement the public abstract T read(JsonReader in) throws IOException; and public abstract void write(JsonWriter out, T value) throws IOException; methods. The adapter should also handle nulls. Create the Type adapter instance and then register it with the GsonBuilder. Create the Gson object from the GsonBuilder and then use that to serialize and deserialize. Lets look at an example</p>
-
-<pre><code>package com.studytrails.json.gson;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.apache.commons.io.IOUtils;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-public class DatasetTypeAdapterExample8 {
-
-	public static void main(String[] args) throws MalformedURLException, IOException {
-		String url = &quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5&quot;;
-		String json = IOUtils.toString(new URL(url));
-		// Create the custom type adapter and register it with the GsonBuilder
-		// class.
-		Gson gson = new GsonBuilder().registerTypeAdapter(Dataset.class, new DatasetTypeAdapter()).create();
-		// deserialize the json to Albums class. The Dataset objects are part of
-		// the Albums class. Whenever Gson encounters an object of type DataSet
-		// it calls the DatasetTypeAdapter to read and write json.
-		Albums albums = gson.fromJson(json, Albums.class);
-		System.out.println(albums.getDataset()[1].getAlbum_title());
-		// prints
-		// http://freemusicarchive.org/music/The_Yes_Sirs/Through_The_Cracks_Mix_Vol_1/
-	}
-}
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122030/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

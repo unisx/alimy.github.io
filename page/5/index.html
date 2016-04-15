@@ -240,6 +240,57 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603092051/" title="阅读全文">XStream: Referencing Objects </a> </h2>
+
+</header>
+<div class="summary">
+    <p>XStream allows you to store references while converting a java object to XML. Consider a case where you have an Artist Object. The object contains albums that the artist has released, but you also want to store a reference to a &lsquo;similar artist&rsquo;. People listening to an artist might be interested in listening to a similar artist. When you convert this object to XML, XStream preserves the reference to the similar artist. It also manages circular references, so if there are no similar artist then the &lsquo;similar artist&rsquo; field could store a reference to the Owner Artist.</p>
+
+<p>XStream has multiple ways to store references. you need to use the setMode(int mode) method to set the mode. XStream allows following modes:</p>
+
+<ul>
+<li>NO_REFERENCES</li>
+<li>ID_REFERENCES</li>
+<li>XPATH_RELATIVE_REFERENCES</li>
+<li>XPATH_ABSOLUTE_REFERENCES</li>
+<li>SINGLE_NODE_XPATH_RELATIVE_REFERENCES</li>
+<li>SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES</li>
+</ul>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092051/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603092041/" title="阅读全文">XStream: Handling Attributes in XML </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the previous tutorial we saw <a href="http://alimy.me/post/dev_201603081411" title="Parsing An XML">how to convert Java to XML and back</a>. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:</p>
+
+<pre><code>&lt;element attr=&quot;  foo\t\n   bar    &quot;&gt;
+&lt;/element&gt;
+</code></pre>
+
+<p>will always be normalized and passed this assertion:</p>
+
+<pre><code>assertEquals(&quot;foo bar&quot;, element.getAttr());
+XStream has no influence about this behavior.
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092041/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603081441/" title="阅读全文">XStream: Java to XML Using Annotation </a> </h2>
 
 </header>
@@ -495,36 +546,6 @@ Version 1.8 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spe
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/etc_201404021221/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311217/" title="阅读全文">如龙 极 第七期【Biu雷哥直播】 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ2MDU2Njg2NA==" frameborder=0 allowfullscreen></iframe><br></p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311217/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/joy_201601311216/" title="阅读全文">如龙 极 第六期【Biu雷哥直播】 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><iframe height=680px width=100% src="http://player.youku.com/embed/XMTQ1OTgwMDg2OA==" frameborder=0 allowfullscreen></iframe><br></p>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/joy_201601311216/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

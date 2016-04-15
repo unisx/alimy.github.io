@@ -240,6 +240,67 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603112050/" title="阅读全文">Jackson: Json annotations and dyna beans </a> </h2>
+
+</header>
+<div class="summary">
+    <p>The json string at times have a lot of properties. It seems a waste creating a POJO with all those properties. Wouldnt it be great if there was a catch&rsquo;all that could read all properties in a map? Jackson provides annotations to do just that. In the example below we have set two properties in the bean and the other properties are read into a map. These example also introduces some common annotations using in Jackson. Lets look at them briefly:</p>
+
+<ol>
+<li>@JsonProperty-This annotation is used to mark a method as a getter or setter for a property. In other words, it associates a json field with a java property. If a name is specified (@JsonProperty(&ldquo;age&rdquo;)) then the java property that is annotated with this annotation is mapped to the &lsquo;age&rsquo; field of the json, If no name is specified the java property name is used.</li>
+<li>@JsonCreator-This annotation is used the define constructors that are used to create java objects from json string. It is used during data binding and specifies properties that will be used to create java objects during deserialization.</li>
+<li>@JsonAnyGetter and @JsonAnySetter - This annotations are used to mark methods that set or read fields that are not handled by any other java property. These act like catch-all and handle all fields that are not handled by any other java property. The fields are stored in a map as key value pairs.</li>
+</ol>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112050/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603112045/" title="阅读全文">Jackson: List serialization </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In this tutorial we will see how to convert a java List to JSON. Serializing list is a little tricky since by default the type info is not stored while serializing and deserializing lists. In this tutorial we look at two examples. In the first example we serialize an Object that has a java List as one of its properties. In the second example we try and serialize the List directly. In both examples we use special configuration to preserve type info.</p>
+
+<h3 id="example-1-serializing-object-containing-a-list:cbcae65ab0364befdb15ef6b14f2b41b">Example 1 : Serializing Object containing a list</h3>
+
+<p>The example converts a Zoo class to json. the zoo class contains the name of zoo, its city and a list of animals. The list is of type &lsquo;Animal&rsquo;, i.e. the list contains elements that are subclass of the Abstract class Animal. Lets see what happens when we try to serialize zoo. First we create the Zoo class. Notice how the constructor looks. When we try to get the Zoo Object back from the JSON, Jackson has to know that it should create the Zoo Object using the constructor that takes in the name and city properties.</p>
+
+<pre><code>class Zoo {
+    public String name;
+    public String city;
+
+
+    @JsonCreator
+    public Zoo(@JsonProperty(&quot;name&quot;) String name,@JsonProperty(&quot;city&quot;) String city) {
+        this.name = name;
+        this.city = city;
+    }
+
+    public List&lt;Animal&gt; animals = new ArrayList&lt;Animal&gt;();
+
+    public List&lt;Animal&gt; addAnimal(Animal animal) {
+        animals.add(animal);
+        return animals;
+    }
+
+}
+</code></pre>
+
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112045/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603112040/" title="阅读全文">Jackson: Json Data Binding </a> </h2>
 
 </header>
@@ -488,57 +549,6 @@ public class XStreamTransformationExample {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603092055/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092051/" title="阅读全文">XStream: Referencing Objects </a> </h2>
-
-</header>
-<div class="summary">
-    <p>XStream allows you to store references while converting a java object to XML. Consider a case where you have an Artist Object. The object contains albums that the artist has released, but you also want to store a reference to a &lsquo;similar artist&rsquo;. People listening to an artist might be interested in listening to a similar artist. When you convert this object to XML, XStream preserves the reference to the similar artist. It also manages circular references, so if there are no similar artist then the &lsquo;similar artist&rsquo; field could store a reference to the Owner Artist.</p>
-
-<p>XStream has multiple ways to store references. you need to use the setMode(int mode) method to set the mode. XStream allows following modes:</p>
-
-<ul>
-<li>NO_REFERENCES</li>
-<li>ID_REFERENCES</li>
-<li>XPATH_RELATIVE_REFERENCES</li>
-<li>XPATH_ABSOLUTE_REFERENCES</li>
-<li>SINGLE_NODE_XPATH_RELATIVE_REFERENCES</li>
-<li>SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES</li>
-</ul>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092051/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092041/" title="阅读全文">XStream: Handling Attributes in XML </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the previous tutorial we saw <a href="http://alimy.me/post/dev_201603081411" title="Parsing An XML">how to convert Java to XML and back</a>. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:</p>
-
-<pre><code>&lt;element attr=&quot;  foo\t\n   bar    &quot;&gt;
-&lt;/element&gt;
-</code></pre>
-
-<p>will always be normalized and passed this assertion:</p>
-
-<pre><code>assertEquals(&quot;foo bar&quot;, element.getAttr());
-XStream has no influence about this behavior.
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092041/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
