@@ -440,13 +440,13 @@
   </url>
   
   <url>
-    <loc>http://alimy.me/categories/art/</loc>
+    <loc>http://alimy.me/tags/art/</loc>
     <lastmod>2016-04-09T15:21:01+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://alimy.me/tags/art/</loc>
+    <loc>http://alimy.me/categories/art/</loc>
     <lastmod>2016-04-09T15:21:01+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -458,13 +458,13 @@
   </url>
   
   <url>
-    <loc>http://alimy.me/categories/cloud/</loc>
+    <loc>http://alimy.me/tags/cloud/</loc>
     <lastmod>2016-01-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://alimy.me/tags/cloud/</loc>
+    <loc>http://alimy.me/categories/cloud/</loc>
     <lastmod>2016-01-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -476,25 +476,25 @@
   </url>
   
   <url>
-    <loc>http://alimy.me/categories/development/</loc>
-    <lastmod>2016-04-10T18:27:00+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>http://alimy.me/tags/development/</loc>
     <lastmod>2016-04-10T18:27:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://alimy.me/categories/game/</loc>
-    <lastmod>2016-03-24T21:35:00+08:00</lastmod>
+    <loc>http://alimy.me/categories/development/</loc>
+    <lastmod>2016-04-10T18:27:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://alimy.me/tags/game/</loc>
+    <lastmod>2016-03-24T21:35:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/categories/game/</loc>
     <lastmod>2016-03-24T21:35:00+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -506,14 +506,14 @@
   </url>
   
   <url>
-    <loc>http://alimy.me/categories/golang/</loc>
-    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
+    <loc>http://alimy.me/tags/golang/</loc>
+    <lastmod>2016-04-10T18:27:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://alimy.me/tags/golang/</loc>
-    <lastmod>2016-04-10T18:27:00+08:00</lastmod>
+    <loc>http://alimy.me/categories/golang/</loc>
+    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -548,25 +548,25 @@
   </url>
   
   <url>
-    <loc>http://alimy.me/categories/language/</loc>
-    <lastmod>2016-01-13T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>http://alimy.me/tags/language/</loc>
     <lastmod>2016-03-18T20:45:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://alimy.me/categories/other/</loc>
-    <lastmod>2016-04-15T10:10:00+08:00</lastmod>
+    <loc>http://alimy.me/categories/language/</loc>
+    <lastmod>2016-01-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://alimy.me/tags/other/</loc>
+    <lastmod>2016-04-15T10:10:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/categories/other/</loc>
     <lastmod>2016-04-15T10:10:00+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -584,14 +584,14 @@
   </url>
   
   <url>
-    <loc>http://alimy.me/categories/transport/</loc>
-    <lastmod>2016-03-24T22:55:00+08:00</lastmod>
+    <loc>http://alimy.me/tags/transport/</loc>
+    <lastmod>2016-03-24T21:35:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://alimy.me/tags/transport/</loc>
-    <lastmod>2016-03-24T21:35:00+08:00</lastmod>
+    <loc>http://alimy.me/categories/transport/</loc>
+    <lastmod>2016-03-24T22:55:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
