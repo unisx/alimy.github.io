@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,46 +233,42 @@
         <div class="post panel-wrapper">
             <h2>SimpleXML: Tutorial</h2>
           
-          
+          <p>This page provides a tutorial that will prepare users for using XML serialization. Before this tutorial is attempted it is advisable to have a look at the <a href="http://simple.sourceforge.net/download/stream/doc/javadoc/">Javadoc</a> documentation for the framework. Although there are only several annotations and objects involved in the serialization process the framework itself has many powerful features which this tutorial attempts to describe.
 
-<p>This page provides a tutorial that will prepare users for using XML serialization. Before this tutorial is attempted it is advisable to have a look at the <a href="http://simple.sourceforge.net/download/stream/doc/javadoc/">Javadoc</a> documentation for the framework. Although there are only several annotations and objects involved in the serialization process the framework itself has many powerful features which this tutorial attempts to describe.</p>
+1. <a href="#1">Serializing a simple object</a>
+2. <a href="#2">Deserializing a simple object</a>
+3. <a href="#3">Nested object serialization</a>
+4. <a href="#4">Optional elements and attributes</a>
+5. <a href="#5">Reading a list of elements</a>
+6. <a href="#6">Overriding an annotated type</a>
+7. <a href="#7">Dealing with an inline list of elements</a>
+8. <a href="#8">Constructor injection</a>
+9. <a href="#9">Reading an array of elements</a>
+10. <a href="#10">Adding text and attributes to elements</a>
+11. <a href="#11">Dealing with map objects</a>
+12. <a href="#12">Scattering inline element entries</a>
+13. <a href="#13">Loose object mapping</a>
+14. <a href="#14">Java Bean serialization</a>
+15. <a href="#15">Default object serialization</a>
+16. <a href="#16">Example using template filters</a>
+17. <a href="#17">Receiving persister callbacks</a>
+18. <a href="#18">Maintaining state between persister callbacks</a>
+19. <a href="#19">Serializing with CDATA blocks</a>
+20. <a href="#20">Using XML namespaces</a>
+21. <a href="#21">Resolving object reference cycles</a>
+22. <a href="#22">Reusing XML elements</a>
+23. <a href="#23">Using utility collections</a>
+24. <a href="#24">Object substitution</a>
+25. <a href="#25">Serializing Java language types</a>
+26. <a href="#26">Styling serialized XML</a>
+27. <a href="#27">Version tolerant serialization</a>
+28. <a href="#28">Serializing static final fields</a>
+29. <a href="#29">Overriding serialization with converters</a>
+30. <a href="#30">Intercepting the serialization process</a>
+31. <a href="#31">Mapping with XPath expressions</a>
+32. <a href="#32">Dynamic serialization with unions</a></p>
 
-<ol>
-<li><a href="#1">Serializing a simple object</a></li>
-<li><a href="#2">Deserializing a simple object</a></li>
-<li><a href="#3">Nested object serialization</a></li>
-<li><a href="#4">Optional elements and attributes</a></li>
-<li><a href="#5">Reading a list of elements</a></li>
-<li><a href="#6">Overriding an annotated type</a></li>
-<li><a href="#7">Dealing with an inline list of elements</a></li>
-<li><a href="#8">Constructor injection</a></li>
-<li><a href="#9">Reading an array of elements</a></li>
-<li><a href="#10">Adding text and attributes to elements</a></li>
-<li><a href="#11">Dealing with map objects</a></li>
-<li><a href="#12">Scattering inline element entries</a></li>
-<li><a href="#13">Loose object mapping</a></li>
-<li><a href="#14">Java Bean serialization</a></li>
-<li><a href="#15">Default object serialization</a></li>
-<li><a href="#16">Example using template filters</a></li>
-<li><a href="#17">Receiving persister callbacks</a></li>
-<li><a href="#18">Maintaining state between persister callbacks</a></li>
-<li><a href="#19">Serializing with CDATA blocks</a></li>
-<li><a href="#20">Using XML namespaces</a></li>
-<li><a href="#21">Resolving object reference cycles</a></li>
-<li><a href="#22">Reusing XML elements</a></li>
-<li><a href="#23">Using utility collections</a></li>
-<li><a href="#24">Object substitution</a></li>
-<li><a href="#25">Serializing Java language types</a></li>
-<li><a href="#26">Styling serialized XML</a></li>
-<li><a href="#27">Version tolerant serialization</a></li>
-<li><a href="#28">Serializing static final fields</a></li>
-<li><a href="#29">Overriding serialization with converters</a></li>
-<li><a href="#30">Intercepting the serialization process</a></li>
-<li><a href="#31">Mapping with XPath expressions</a></li>
-<li><a href="#32">Dynamic serialization with unions</a></li>
-</ol>
-
-<h3 id="a-name-1-sect-serializing-a-simple-object:3e5d75d4214fa22bb75ff866d8c58f37"><a name="1"/> &sect;Serializing a simple object</h3>
+<h3 id="a-name-1-sect-serializing-a-simple-object"><a name="1"/> &sect;Serializing a simple object</h3>
 
 <p>In order to serialize an object to XML a series of annotations must be placed within that object. These annotations tell the persister how the object should be serialized. For example take the class shown below. Here there are three different annotations, one used to describe the name of the root element, one that describes an XML message element, and a final annotation for an id attribute.</p>
 
@@ -360,7 +354,7 @@ public class Example {
 &lt;/root&gt;
 </code></pre>
 
-<h3 id="a-name-2-sect-deserializing-a-simple-object:3e5d75d4214fa22bb75ff866d8c58f37"><a name="2" /> &sect;Deserializing a simple object</h3>
+<h3 id="a-name-2-sect-deserializing-a-simple-object"><a name="2" /> &sect;Deserializing a simple object</h3>
 
 <p>Taking the above example object the XML deserialization process is described in the code snippet shown below. As can be seen the deserialization process is just as simple. The persister is given the class representing the serialized object and the source of the XML document. To deserialize the object the read method is used, which produces an instance of the annotated object. Also, note that there is no need to cast the return value from the read method as the method is generic.</p>
 
@@ -370,7 +364,7 @@ File source = new File(&quot;example.xml&quot;);
 Example example = serializer.read(Example.class, source);
 </code></pre>
 
-<h3 id="a-name-3-sect-nested-object-serialization:3e5d75d4214fa22bb75ff866d8c58f37"><a name="3" /> &sect;Nested object serialization</h3>
+<h3 id="a-name-3-sect-nested-object-serialization"><a name="3" /> &sect;Nested object serialization</h3>
 
 <p>As well as simple object serialization, nested object serialization is possible. This is where a serializable object can contain any number of serializable objects, to any depth. Take the example shown in the code snippet below. This shows several objects that are linked together to form a single serializable entity. Here the root configuration object contains a server object, which in turn contains a security information object.</p>
 
@@ -448,7 +442,7 @@ public class Security {
 
 <p>How the mapping is done can be seen by examining the XML document elements and attributes and comparing these to the annotations within the schema classes. The mapping is quite simple and can be picked up and understood in several minutes.</p>
 
-<h3 id="a-name-4-sect-optional-elements-and-attributes:3e5d75d4214fa22bb75ff866d8c58f37"><a name="4" />&sect;Optional elements and attributes</h3>
+<h3 id="a-name-4-sect-optional-elements-and-attributes"><a name="4" />&sect;Optional elements and attributes</h3>
 
 <p>At times it may be required to have an optional XML element or attribute as the source XML may not contain the attribute or element. Also, it may be that an object field is null and so cannot be serialized. In such scenarios the element or attribute can be set as not required. The following code example demonstrates an optional element and attribute.</p>
 
@@ -503,7 +497,7 @@ assert example.getName() == null;
 assert example.getId() == 10;
 </code></pre>
 
-<h3 id="a-name-5-sect-reading-a-list-of-elements:3e5d75d4214fa22bb75ff866d8c58f37"><a name="5" />&sect;Reading a list of elements</h3>
+<h3 id="a-name-5-sect-reading-a-list-of-elements"><a name="5" />&sect;Reading a list of elements</h3>
 
 <p>In XML configuration and in Java objects there is often a one to many relationship from a parent to a child object. In order to support this common relationship an ElementList annotation has been provided. This allows an annotated schema class to be used as an entry to a Java collection object. Take the example shown below.</p>
 
@@ -582,7 +576,7 @@ public class ExampleList {
 
 <p>In the above example the special list takes three generic parameters, however only one is used as the generic parameter for the collection. As can be seen an explicit declaration of which type to use is required. This can be done with the type attribute of the ElementList annotation.</p>
 
-<h3 id="a-name-6-sect-overriding-an-annotated-type:3e5d75d4214fa22bb75ff866d8c58f37"><a name="6" />&sect;Overriding an annotated type</h3>
+<h3 id="a-name-6-sect-overriding-an-annotated-type"><a name="6" />&sect;Overriding an annotated type</h3>
 
 <p>In order to accommodate dynamic types within the deserialization process a class attribute can be added to an XML element, which will ensure that that element can be instantiated as the declared type. This ensures that field and method types can reference abstract classes and interfaces, it also allows multiple types to be added into an annotated collection.</p>
 
@@ -650,7 +644,7 @@ Example example = serializer.read(Example.class, example)
 double value = example.execute();
 </code></pre>
 
-<h3 id="a-name-7-sect-dealing-with-an-inline-list-of-elements:3e5d75d4214fa22bb75ff866d8c58f37"><a name="7" />&sect;Dealing with an inline list of elements</h3>
+<h3 id="a-name-7-sect-dealing-with-an-inline-list-of-elements"><a name="7" />&sect;Dealing with an inline list of elements</h3>
 
 <p>When dealing with third party XML or with XML that contains a grouping of related elements a common format involves the elements to exist in a sequence with no wrapping parent element. In order to accomodate such structures the element list annotation can be configured to ignore the parent element for the list. For example take the following XML document.</p>
 
@@ -745,7 +739,7 @@ public class FixedEntry extends InvalidEntry {
 
 <p>All of the above entry elements within the inline list contain the same XML element name. Also each type is specified as a subclass implementation of the root Entry object.</p>
 
-<h3 id="a-name-8-sect-constructor-injection:3e5d75d4214fa22bb75ff866d8c58f37"><a name="8" />&sect;Constructor injection</h3>
+<h3 id="a-name-8-sect-constructor-injection"><a name="8" />&sect;Constructor injection</h3>
 
 <p>All but the simplest of programs will have some form of immutable objects. These are objects that do not have setters and so will acquire data by using constructor injection. In this manner the object sets its internal state from the data provided to the constructor. This can also be achieved with serialization, if you would like to serialize and deserialize objects but do not want to provide setter methods this can be done, as illustrated in the example below.</p>
 
@@ -801,7 +795,7 @@ public class Order {
 &lt;/orderManager&gt;
 </code></pre>
 
-<h3 id="a-name-9-sect-reading-an-array-of-elements:3e5d75d4214fa22bb75ff866d8c58f37"><a name="9" />&sect;Reading an array of elements</h3>
+<h3 id="a-name-9-sect-reading-an-array-of-elements"><a name="9" />&sect;Reading an array of elements</h3>
 
 <p>As well as being able to deserialize elements in to a collection arrays can also be serialized and deserialized. However, unlike the @ElementList annotation the ElementArray annotation can also deserialize primitive values such as int arrays, char arrays, and so on. Below is an example object with an array of integer values and a parallel array of string values.</p>
 
@@ -913,7 +907,7 @@ public class NameList {
 &lt;/nameList&gt;
 </code></pre>
 
-<h3 id="a-name-10-sect-adding-text-and-attributes-to-elements:3e5d75d4214fa22bb75ff866d8c58f37"><a name="10" />&sect;Adding text and attributes to elements</h3>
+<h3 id="a-name-10-sect-adding-text-and-attributes-to-elements"><a name="10" />&sect;Adding text and attributes to elements</h3>
 
 <p>As can be seen from the previous example annotating a primitive such as a String with the Element annotation will result in text been added to a names XML element. However it is also possible to add text to an element that contains attributes. An example of such a class schema is shown below.</p>
 
@@ -952,7 +946,7 @@ public class Entry {
 
 <p>The rules that govern the use of the Text annotation are that there can only be one per schema class. Also, this annotation cannot be used with the Element annotation. Only the Attribute annotation can be used with it as this annotation does not add any content within the owning element.</p>
 
-<h3 id="a-name-11-sect-dealing-with-map-objects:3e5d75d4214fa22bb75ff866d8c58f37"><a name="11" />&sect;Dealing with map objects</h3>
+<h3 id="a-name-11-sect-dealing-with-map-objects"><a name="11" />&sect;Dealing with map objects</h3>
 
 <p>Although it is possible to deal with most repetitive XML elements within documents using element lists it is often more convenient to use a Map object. In order to deal with maps the ElementMap annotation can be used. The element map annotation can be used with both primitive and composite objects. For example take the following XML document.</p>
 
@@ -985,7 +979,7 @@ public class PropertyMap {
 }
 </code></pre>
 
-<h3 id="a-name-12-sect-scattering-inline-element-entries:3e5d75d4214fa22bb75ff866d8c58f37"><a name="12" />&sect;Scattering inline element entries</h3>
+<h3 id="a-name-12-sect-scattering-inline-element-entries"><a name="12" />&sect;Scattering inline element entries</h3>
 
 <p>Elements that are scattered throughout an XML document can be collected by inline lists and inline maps. Simply provide an entry name for the XML element name the list or map is to collect and they will be extracted and placed in to the collection object. For example take the following XML element. It contains include and exclude XML elements which are in no specific order. Even though they are not in any order the deserialization process is able to gather the XML elements as thet are encountered.</p>
 
@@ -1073,7 +1067,7 @@ public class FileSet {
 }
 </code></pre>
 
-<h3 id="a-name-13-sect-loose-object-mapping:3e5d75d4214fa22bb75ff866d8c58f37"><a name="13" />&sect;Loose object mapping</h3>
+<h3 id="a-name-13-sect-loose-object-mapping"><a name="13" />&sect;Loose object mapping</h3>
 
 <p>An important feature for any XML tool is the ability to sift through the source XML to find particular XML attributes an elements of interest. It would not be very convinient if you had to write an object that accurately mapped every attribute an element in an XML document if all you are interested in is perhaps an element and several attributes. Take the following XML document.</p>
 
@@ -1162,7 +1156,7 @@ assert contact.getHomePhone().equals(&quot;987654321&quot;);
 
 <p>Here the boolean passed to the overridden read method tells the serializer to perform a loose mapping. There is no need to specify anything in the annotations, the serializer will simply map every object loosely. This can be a much more convenient way to perform loose mapping, as you only need to annotate your objects with the elements or attributes you are interested in, all other elements and attributes will be ignored during deserialization. Such a solution is best suited to external XML documents where your annotated objects do not define the schema.</p>
 
-<h3 id="a-name-14-sect-java-bean-serialization:3e5d75d4214fa22bb75ff866d8c58f37"><a name="14" />&sect;Java Bean serialization</h3>
+<h3 id="a-name-14-sect-java-bean-serialization"><a name="14" />&sect;Java Bean serialization</h3>
 
 <p>Although field based serialization offers a simple and efficient means for serializing and deserializing an object it can often be benificial to use Java Bean getters and setters to read and write values. In particular annotating Java Bean setter and getter methods will allow for a cleaner means to override the serialization behaviour than using fields. It also allows for processing and validation to be performed as the object is being deserialized. Below is an example of how to annotate an objects methods for use in the serialization process, this example mixes annotated fields with annotated methods.</p>
 
@@ -1222,7 +1216,7 @@ public class Entry {
 &lt;/message&gt;
 </code></pre>
 
-<h3 id="a-name-15-sect-default-object-serialization:3e5d75d4214fa22bb75ff866d8c58f37"><a name="15" />&sect;Default object serialization</h3>
+<h3 id="a-name-15-sect-default-object-serialization"><a name="15" />&sect;Default object serialization</h3>
 
 <p>If an object grows large it often becomes tedious to annotate each field or method that needs to be serialized. In such scenarios the Default annotation can be used. This will apply default annotations to either the fields or methods of an object that is to be serialized. To specify whether it is the fields or methods that will have default annotations, the DefaultType enumeration can be used. Take the code snippet below, this shows two objects with default annotations, one that will apply defaults to the object fields, and one that will apply defaults to the Java Bean methods of the object.</p>
 
@@ -1279,7 +1273,7 @@ private class Customer {
 
 <p>From the above XML it is obvious, that defaults apply to only those fields or methods requested. If a field or method already has an annotation, that is the annotation that is used. If a field or method is to be omitted from serialization then it can be marked as transient. Applying defaults to an object, can often lead to a cleaner object structure, and makes it much easier to make objects serializable.</p>
 
-<h3 id="a-name-16-sect-example-using-template-filters:3e5d75d4214fa22bb75ff866d8c58f37"><a name="16" />&sect;Example using template filters</h3>
+<h3 id="a-name-16-sect-example-using-template-filters"><a name="16" />&sect;Example using template filters</h3>
 
 <p>Another very powerful feature with this XML serialization framework is the ability to use templating when deserializing an XML document. This allows values within elements and attributes to use template variables that can be replaced using a Filter object. The simplest filter object is the map filter, which allows the user to place a Java map within the filter object exposing the key value pairs to the templating system. The template system can now use the filter to find replacement values for template variables within the XML document. To clarify take the following example.</p>
 
@@ -1341,7 +1335,7 @@ assert layout.getUser().equals(&quot;john.doe&quot;);
 &lt;/layout&gt;
 </code></pre>
 
-<h3 id="a-name-17-sect-receiving-persister-callbacks:3e5d75d4214fa22bb75ff866d8c58f37"><a name="17" />&sect;Receiving persister callbacks</h3>
+<h3 id="a-name-17-sect-receiving-persister-callbacks"><a name="17" />&sect;Receiving persister callbacks</h3>
 
 <p>Of critical importance to the serialization and deserialization process is that the objects have some control or participation in the process. It is no good to have the persister deserialize the object tree from an XML document only to see that the data is not valid or that further data structures need to be created in many of the deserialized objects. To allow objects to participate in the deserialization process two annotations can be used, these are the Validate and Commit annotations.</p>
 
@@ -1479,7 +1473,7 @@ public class MailMessage {
 
 <p>For the above XML message the contents can be serialized and deserialized safely using persister callbacks. The object can prepare itself before serialization by encoding the contents of the message to the encoding format specified. Once it has been encoded and serialized any resources created for serialization can be released.</p>
 
-<h3 id="a-name-18-sect-maintaining-state-between-persister-callbacks:3e5d75d4214fa22bb75ff866d8c58f37"><a name="18" />&sect;Maintaining state between persister callbacks</h3>
+<h3 id="a-name-18-sect-maintaining-state-between-persister-callbacks"><a name="18" />&sect;Maintaining state between persister callbacks</h3>
 
 <p>When serializing and deserializing objects there is often a need to share information between callbacks without affecting the object implementation. In order to achieve this the persister can provide a session map to the methods annotated for persister callbacks. Below is an example of a serializable object that can receive a persister session object.</p>
 
@@ -1580,7 +1574,7 @@ Although this may not seem like a very powerful feature, it offers great capabil
 
 <p>The above XML document illustrates how the variable objects values are accessible to the elements declared in the address element. The street, city, and state needed to be defined only once to be shared throughout the document</p>
 
-<h3 id="a-name-19-sect-serializing-with-cdata-blocks:3e5d75d4214fa22bb75ff866d8c58f37"><a name="19" />&sect;Serializing with CDATA blocks</h3>
+<h3 id="a-name-19-sect-serializing-with-cdata-blocks"><a name="19" />&sect;Serializing with CDATA blocks</h3>
 
 <p>At times it is nessecary to serialize large text and element data values. Such values may also contain formatting that you wish to preserve. In such situations it is often best to wrap the values within XML CDATA blocks. The CDATA block can contain XML characters and formatting information which will not be modified by other XML parsers. For example take the following XML source.</p>
 
@@ -1628,7 +1622,7 @@ public class Query {
 
 <p>Here the Element annotation has the data attribute set to true. This tells the serialization process that any value stored within the data field must be written to the resulting XML document within a CDATA block. The data attribute can be used with the Text, ElementArray, and ElementList annotations also.</p>
 
-<h3 id="a-name-20-sect-using-xml-namespaces:3e5d75d4214fa22bb75ff866d8c58f37"><a name="20" />&sect;Using XML namespaces</h3>
+<h3 id="a-name-20-sect-using-xml-namespaces"><a name="20" />&sect;Using XML namespaces</h3>
 
 <p>Namespaces are used to qualify an element or an attribute in an XML document. In order to use namespaces the Namespace annotation can be used. This allows the declaration of the namespace prefix and reference, often called the namespace URI. Namespace annotations can be used on fields, methods, and even classes. For example take the XML snippet below.</p>
 
@@ -1719,7 +1713,7 @@ public class Book {
 
 <p>As can be seen above, there is no need to redeclare the prefix attribute once it has already been declared. This allows the annotation declarations to be less verbose and ensures a consistent use of a prefix for a given namespace reference. Also, once a namespace has been declared and is in scope then it will not be declared a second time in the resulting XML, this ensures the resulting XML document does not contain redundant namespace declarations.</p>
 
-<h3 id="a-name-21-sect-resolving-object-reference-cycles:3e5d75d4214fa22bb75ff866d8c58f37"><a name="21" />&sect;Resolving object reference cycles</h3>
+<h3 id="a-name-21-sect-resolving-object-reference-cycles"><a name="21" />&sect;Resolving object reference cycles</h3>
 
 <p>When there are cycles in your object graph this can lead to recursive serialization. However it is possible to resolve these references using a stock strategy. The CycleStrategy maintains the object graph during serialization and deserialization such that cyclical references can be traced and resolved. For example take the following object relationships.</p>
 
@@ -1819,7 +1813,7 @@ Parent parent = serializer.read(Parent.class, source);
 
 <p>The strategy is created by specifying the identity attribute as id and the refering attribute as ref. For convinience these attributes have reasonable defaults and the no argument constructor can be used to create the strategy. Although the example shown here is very simple the cycle strategy is capable of serializing and deserializing large and complex relationships.</p>
 
-<h3 id="a-name-22-sect-reusing-xml-elements:3e5d75d4214fa22bb75ff866d8c58f37"><a name="22" />&sect;Reusing XML elements</h3>
+<h3 id="a-name-22-sect-reusing-xml-elements"><a name="22" />&sect;Reusing XML elements</h3>
 
 <p>As can be seen from using the CycleStrategy in the previous section object references can easily be maintained regardless of complexity. Another benifit of using the cycle strategy is that you can conviniently reuse elements when creating configuration. For example take the following example of a task framework.</p>
 
@@ -1904,7 +1898,7 @@ public class MoveTask extends Task {
 &lt;/job&gt;
 </code></pre>
 
-<h3 id="a-name-23-sect-using-utility-collections:3e5d75d4214fa22bb75ff866d8c58f37"><a name="23" />&sect;Using utility collections</h3>
+<h3 id="a-name-23-sect-using-utility-collections"><a name="23" />&sect;Using utility collections</h3>
 
 <p>For convinience there are several convinience collections which can be used. These collections only need to be annotated with the ElementList annotation to be used. The first stock collection resembles a map in that it will accept values that have a known key or name object, it is the Dictionary collection. This collection requires objects of type Entry to be inserted on deserialization as this object contains a known key value. To illustrate how to use this collection take the following example.</p>
 
@@ -1992,7 +1986,7 @@ private static class ContentResolver implements Iterable {
 
 <p>Although the resolver collection can only deal with wild card characters such as * and ? it is much faster than resolutions performed using Java regular expressions. Typically it is several orders of magnitude faster that regular expressions, particularly when it is used to match reoccuring values, such as URI paths.</p>
 
-<h3 id="a-name-24-sect-object-substitution:3e5d75d4214fa22bb75ff866d8c58f37"><a name="24" />&sect;Object substitution</h3>
+<h3 id="a-name-24-sect-object-substitution"><a name="24" />&sect;Object substitution</h3>
 
 <p>Often there is a need to substitute an object into the XML stream either during serialization or deserialization. For example it may be more convinient to use several XML documents to represent a configuration that can be deserialized in to a single object graph transparently. For example take the following XML.</p>
 
@@ -2061,7 +2055,7 @@ public class ExternalDefinition implements Definition {
 
 <p>Using this form of substitution objects can be replaced in such a way that deserialized objects can be used as factories for other object instances. This is similar to the Java serialization concept of readResolve and writeReplace methods.</p>
 
-<h3 id="a-name-25-sect-serializing-java-language-types:3e5d75d4214fa22bb75ff866d8c58f37"><a name="25" />&sect;Serializing Java language types</h3>
+<h3 id="a-name-25-sect-serializing-java-language-types"><a name="25" />&sect;Serializing Java language types</h3>
 
 <p>A common requirement of any serialization framework is to be able to serialize and deserialize existing types without modification. In particular types from the Java class libraries, like dates, locales, and files. For many of the Java class library types there is a corrosponding Transform implementation, which enables the serialization and deserialization of that type. For example the java.util.Date type has a transform that accepts a date instance and transforms that into a string, which can be embedded in to the generated XML document during serialization. For deserialization the same transform is used, however this time it converts the string value back in to a date instance. The code snippet below demonstrates how a such transformations make it possible to use such a type when implementing your class XML schema.</p>
 
@@ -2183,7 +2177,7 @@ public class Graph {
 &lt;/graph&gt;
 </code></pre>
 
-<h3 id="a-name-26-sect-styling-serialized-xml:3e5d75d4214fa22bb75ff866d8c58f37"><a name="26" />&sect;Styling serialized XML</h3>
+<h3 id="a-name-26-sect-styling-serialized-xml"><a name="26" />&sect;Styling serialized XML</h3>
 
 <p>In order to serialize objects in a consistent format a Style implementation can be used to format the elements and attributes written to the XML document. Styling of XML allows both serialization and deserialization to be performed. So once serialized in a styled XML format you can deserialize the same document back in to an object.</p>
 
@@ -2266,7 +2260,7 @@ Serializer serializer = new Persister(format);
 serializer.write(personDetail, file);
 </code></pre>
 
-<h3 id="a-name-27-sect-version-tolerant-serialization:3e5d75d4214fa22bb75ff866d8c58f37"><a name="27" />&sect;Version tolerant serialization</h3>
+<h3 id="a-name-27-sect-version-tolerant-serialization"><a name="27" />&sect;Version tolerant serialization</h3>
 
 <p>In order to serialize objects in a version tolerant format a Version annotation can be introduced to the class. This will allow a later, modified class to be read from XML generated by the original class. For example take the following code snippet showing an annotated class.</p>
 
@@ -2346,7 +2340,7 @@ public class Person {
 &lt;/p:person&gt;
 </code></pre>
 
-<h3 id="a-name-28-sect-serializing-static-final-fields:3e5d75d4214fa22bb75ff866d8c58f37"><a name="28" />&sect;Serializing static final fields</h3>
+<h3 id="a-name-28-sect-serializing-static-final-fields"><a name="28" />&sect;Serializing static final fields</h3>
 
 <p>Often there is a need to add elements and attributes to an XML document that do not change. In such an event it is often attractive to declare these fields as static final fields. When annotating static final fields they form part of the XML schema and contribute to the validation of the document but do not get set when deserializing the XML in to a object instance. So should a required static final field not exist in the source XML then an exception is thrown when deserializing, much like what would happen if the field was mutable. For example take the code snippet below, which shows an immutable static final field used with mutable fields.</p>
 
@@ -2377,7 +2371,7 @@ public class Citation {
 &lt;/citation&gt;
 </code></pre>
 
-<h3 id="a-name-29-sect-overriding-serialization-with-converters:3e5d75d4214fa22bb75ff866d8c58f37"><a name="29" />&sect;Overriding serialization with converters</h3>
+<h3 id="a-name-29-sect-overriding-serialization-with-converters"><a name="29" />&sect;Overriding serialization with converters</h3>
 
 <p>Often times there is a need to serialize an object that can not be annotated. Such objects may exist in third party dependencies or packages. To serialize these objects a Converter object can be implemented. A converter can be used to intercept the normal serialization process. Interception of the normal serialization process can be done in several different ways, for example take the code snippet below.</p>
 
@@ -2446,7 +2440,7 @@ ComplexConverter converter = new ComplexConverter(serializer);
 registry.bind(ComplexObject.class, converter);
 </code></pre>
 
-<h3 id="a-name-30-sect-intercepting-the-serialization-process:3e5d75d4214fa22bb75ff866d8c58f37"><a name="30" />&sect;Intercepting the serialization process</h3>
+<h3 id="a-name-30-sect-intercepting-the-serialization-process"><a name="30" />&sect;Intercepting the serialization process</h3>
 
 <p>Interception of the serialization process can be useful in several scenarios, for example if attributes are to be added or removed from an XML element then that element can be intercepted and modified during the serialization process. One useful application of interception is to change attribute names or values. For example, the &ldquo;class&rdquo; annotations added by the TreeStrategy could be intercepted and changed to a language neutral format that does not contain the Java class name. Below is an example of how to use a Visitor to add debug comments to an obect which is to be serialized.</p>
 
@@ -2489,7 +2483,7 @@ public class CommentVisitor implements Visitor {
 
 <p>To add a visitor to serialization the VisitorStrategy must be used. This strategy takes a visitor implementation and if required a strategy to delegate to. As usual, this strategy implementation can then be used to construct a persister, which can then serialize and deserialize objects.</p>
 
-<h3 id="a-name-31-sect-mapping-with-xpath-expressions:3e5d75d4214fa22bb75ff866d8c58f37"><a name="31" />&sect;Mapping with XPath expressions</h3>
+<h3 id="a-name-31-sect-mapping-with-xpath-expressions"><a name="31" />&sect;Mapping with XPath expressions</h3>
 
 <p>At times it is useful to have your object model map to complex XML documents, without having to write an annotated class to map to the required elements and attributes. For such scenarios the Path annotation can be used. This requires the user to specify an XPath expression for a field or method. For example take annotated fields below.</p>
 
@@ -2600,7 +2594,7 @@ public class Person {
 
 <p>In the above XML snippet we have serialized a single object in to multiple elements and ensured the order of the elements is as we required. Ordering can be applied to elements and attributes with Path annotations as easily as it can to those without, and both can be mixed within the same annotation. Using this type of ordering it is possible to generate very predictible results. One thing to note when using such annotations, is that only a subset of the XPath expression syntax is supported. For example, element and attribute references can not be taken from the root of the document, only references within the current context are allowed.</p>
 
-<h3 id="a-name-32-sect-dynamic-serialization-with-unions:3e5d75d4214fa22bb75ff866d8c58f37"><a name="32" />&sect;Dynamic serialization with unions</h3>
+<h3 id="a-name-32-sect-dynamic-serialization-with-unions"><a name="32" />&sect;Dynamic serialization with unions</h3>
 
 <p>In order to perform dynamic serialization where element names bind to specific types the ElementUnion annotation can be used. This allows different XML schema classes to be associated with a single annotated field or method. Serialization of the associated instance determines the XML element name using the instance type. On deserialization the XML element name is then used to determine the schema class to use. For example, take the following set of annotated classes.</p>
 
@@ -2791,7 +2785,6 @@ public class Task {
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://simple.sourceforge.net/download/stream/doc/tutorial/tutorial.php" title="SimpleXML Tutorial"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201602021955/" title="上一篇">&lt;&lt; TypeScript Language Specification</a>
@@ -2820,7 +2813,7 @@ public class Task {
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

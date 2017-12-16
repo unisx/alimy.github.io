@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,9 +233,7 @@
         <div class="post panel-wrapper">
             <h2>Java: Date And Calendar</h2>
           
-          
-
-<h3 id="overview-of-date-and-calendar-classes:903fa8484a7e080c7a9dddbda27c7bc4">Overview of Date and Calendar classes</h3>
+          <h3 id="overview-of-date-and-calendar-classes">Overview of Date and Calendar classes</h3>
 
 <p>In this tutorial we look at the classes in java that are helpful in manipulating dates. Manipulating dates in java can be challenging, especially if you are building applications that cater to multiple timezones. Parsing dates, printing a date in UTC, printing a date in a different timezone, comparing dates, adding time to date&hellip; we will be looking at all of these in this tutorial. We first begin with the introduction to the classes and then follow up with examples. You may want to directly jump to the examples, however, we strongly recommend that you understand the classes first, since that will make the examples very easy to understand.</p>
 
@@ -250,62 +246,62 @@ The DAY_OF_MONTH starts from 1<br />
 the DAY_OF_WEEK starts from SUNDAY with a value of 1.<br />
 HOUR starts from 0</p></li>
 
-<li><p>java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples</p></li>
-</ul>
+<li><p>java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples
+</p>
 
-<h4 id="create-a-date-object-and-print-it:903fa8484a7e080c7a9dddbda27c7bc4">Create a Date object and print it</h4>
+<h4 id="create-a-date-object-and-print-it">Create a Date object and print it</h4>
 
-<pre><code>    public void createDateAndPrintIt() {
-    // create and prints the current date. It prints the data in the local
-    // timezone
-    System.out.println(new java.util.Date());
-    // prints Sun Jul 28 20:09:36 IST 2013
-    // get the number of milli seconds since epock
-    System.out.println(new java.util.Date().getTime());
-    // prints 1375022617792
+<pre><code>public void createDateAndPrintIt() {
+// create and prints the current date. It prints the data in the local
+// timezone
+System.out.println(new java.util.Date());
+// prints Sun Jul 28 20:09:36 IST 2013
+// get the number of milli seconds since epock
+System.out.println(new java.util.Date().getTime());
+// prints 1375022617792
 }
 </code></pre>
 
-<h4 id="get-an-instance-of-calendar-object-and-print-it:903fa8484a7e080c7a9dddbda27c7bc4">get an instance of Calendar object and print it</h4>
+<h4 id="get-an-instance-of-calendar-object-and-print-it">get an instance of Calendar object and print it</h4>
 
 <pre><code>public void createCalendarAndPrintIt() {
-    Calendar cal = Calendar.getInstance();
-    System.out.println(cal);
-    // java.util.GregorianCalendar[time=1375025205859,areFieldsSet=true,areAllFieldsSet=true,lenient=true,
-    // zone=sun.util.calendar.ZoneInfo[id=&quot;Asia/Calcutta&quot;,offset=19800000,dstSavings=0,useDaylight=false,transitions=6,lastRule=null],
-    // firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2013,MONTH=6,WEEK_OF_YEAR=31,WEEK_OF_MONTH=5,DAY_OF_MONTH=28,
-    // DAY_OF_YEAR=209,DAY_OF_WEEK=1,DAY_OF_WEEK_IN_MONTH=4,AM_PM=1,HOUR=8,HOUR_OF_DAY=20,MINUTE=56,SECOND=45,MILLISECOND=859,ZONE_OFFSET=19800000,DST_OFFSET=0]
-    System.out.println(cal.getTime());
-    // prints Sun Jul 28 20:56:45 IST 2013
+Calendar cal = Calendar.getInstance();
+System.out.println(cal);
+// java.util.GregorianCalendar[time=1375025205859,areFieldsSet=true,areAllFieldsSet=true,lenient=true,
+// zone=sun.util.calendar.ZoneInfo[id=&quot;Asia/Calcutta&quot;,offset=19800000,dstSavings=0,useDaylight=false,transitions=6,lastRule=null],
+// firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2013,MONTH=6,WEEK_OF_YEAR=31,WEEK_OF_MONTH=5,DAY_OF_MONTH=28,
+// DAY_OF_YEAR=209,DAY_OF_WEEK=1,DAY_OF_WEEK_IN_MONTH=4,AM_PM=1,HOUR=8,HOUR_OF_DAY=20,MINUTE=56,SECOND=45,MILLISECOND=859,ZONE_OFFSET=19800000,DST_OFFSET=0]
+System.out.println(cal.getTime());
+// prints Sun Jul 28 20:56:45 IST 2013
 }
 </code></pre>
 
-<h4 id="manipulate-calendar:903fa8484a7e080c7a9dddbda27c7bc4">Manipulate Calendar</h4>
+<h4 id="manipulate-calendar">Manipulate Calendar</h4>
 
 <pre><code>public void manipulateCalendar() {
-    Calendar cal = Calendar.getInstance();
-    System.out.println(cal.getTime());// Sun Jul 28 21:53:55 IST 2013
-    // add a day
-    cal.add(Calendar.DAY_OF_MONTH, 1);
-    System.out.println(cal.getTime());// Mon Jul 29 21:53:55 IST 2013
-    cal.add(Calendar.DAY_OF_WEEK, 1);
-    System.out.println(cal.getTime());// Tue Jul 30 21:53:55 IST 2013
-    cal.add(Calendar.HOUR, 1);
-    System.out.println(cal.getTime());// Tue Jul 30 22:53:55 IST 2013
-    cal.add(Calendar.HOUR_OF_DAY, 1);
-    System.out.println(cal.getTime());// Tue Jul 30 23:53:55 IST 2013
-    cal.add(Calendar.MINUTE, 100);
-    System.out.println(cal.getTime());// Wed Jul 31 01:33:55 IST 2013
-    // demonstrate leniency
-    cal.add(Calendar.DAY_OF_MONTH, 32);
-    System.out.println(cal.getTime());// Sun Sep 01 01:33:55 IST 2013
+Calendar cal = Calendar.getInstance();
+System.out.println(cal.getTime());// Sun Jul 28 21:53:55 IST 2013
+// add a day
+cal.add(Calendar.DAY_OF_MONTH, 1);
+System.out.println(cal.getTime());// Mon Jul 29 21:53:55 IST 2013
+cal.add(Calendar.DAY_OF_WEEK, 1);
+System.out.println(cal.getTime());// Tue Jul 30 21:53:55 IST 2013
+cal.add(Calendar.HOUR, 1);
+System.out.println(cal.getTime());// Tue Jul 30 22:53:55 IST 2013
+cal.add(Calendar.HOUR_OF_DAY, 1);
+System.out.println(cal.getTime());// Tue Jul 30 23:53:55 IST 2013
+cal.add(Calendar.MINUTE, 100);
+System.out.println(cal.getTime());// Wed Jul 31 01:33:55 IST 2013
+// demonstrate leniency
+cal.add(Calendar.DAY_OF_MONTH, 32);
+System.out.println(cal.getTime());// Sun Sep 01 01:33:55 IST 2013
 }
-</code></pre>
+</code></pre></li>
+</ul>
 
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/date/java-date-and-calendar-classes.jsp" title="Date And Calendar"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603132025/" title="上一篇">&lt;&lt; Java: org.json</a>
@@ -334,7 +330,7 @@ HOUR starts from 0</p></li>
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

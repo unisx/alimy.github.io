@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,9 +233,7 @@
         <div class="post panel-wrapper">
             <h2>Gson: Serializing Inner Classes</h2>
           
-          
-
-<h3 id="serializing-inner-classes:94d200a9b12cc728e29eb582b49f7787">Serializing inner classes</h3>
+          <h3 id="serializing-inner-classes">Serializing inner classes</h3>
 
 <p>Gson can serialize inner classes and static nested classes. The detailed example below demonstrates the following things.</p>
 
@@ -248,149 +244,155 @@
 <li>Serializing static nested class (without the enclosing type)</li>
 <li>Serializing non static nested class (without the enclosing type)</li>
 <li>De-serializing json to a static nested class (without the enclosing type)</li>
-<li>De-serializing json to a non static nested class (without the enclosing type)</li>
+
+<li><p>De-serializing json to a non static nested class (without the enclosing type)
+</p>
+
+<h4 id="the-example">The Example</h4>
+
+<p>```
+package com.studytrails.json.gson;</p></li>
 </ol>
 
-<h4 id="the-example:94d200a9b12cc728e29eb582b49f7787">The Example</h4>
+<p>import java.lang.reflect.Modifier;</p>
 
-<pre><code>package com.studytrails.json.gson;
-
-import java.lang.reflect.Modifier;
-
-import com.google.gson.Gson;
+<p>import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.studytrails.json.gson.AlbumsWithInnerClass.Dataset;
-import com.studytrails.json.gson.AlbumsWithInnerClass.Dataset2;
+import com.studytrails.json.gson.AlbumsWithInnerClass.Dataset2;</p>
 
-public class SerializeInnerClassExample4 {
+<p>public class SerializeInnerClassExample4 {
     public static void main(String[] args) {
         // create an Albums class with a static nested class and a non static
         // nested class
         AlbumsWithInnerClass albums = new AlbumsWithInnerClass();
-        albums.setName(&quot;SerializeInnerClass&quot;);
+        albums.setName(&ldquo;SerializeInnerClass&rdquo;);
         // create a dataset. we need the enclosing type since this is a non
         // static nested class (inner class)
         Dataset dataset = albums.new Dataset();
-        dataset.setAlbum_id(&quot;1&quot;);
-        dataset.setAlbum_name(&quot;albums1&quot;);
+        dataset.setAlbum_id(&ldquo;1&rdquo;);
+        dataset.setAlbum_name(&ldquo;albums1&rdquo;);
         // assign the datasets to albums
-        albums.setDatasetsInner(new Dataset[] { dataset });
+        albums.setDatasetsInner(new Dataset[] { dataset });</p>
 
-        // static inner class can be created without the enclosing type
-        Dataset2 dataset2 = new Dataset2();
-        dataset2.setAlbum_id(&quot;2&quot;);
-        dataset2.setAlbum_name(&quot;albums2&quot;);
-        albums.setDatasetsStatic(new Dataset2[] { dataset2 });
+<pre><code>    // static inner class can be created without the enclosing type
+    Dataset2 dataset2 = new Dataset2();
+    dataset2.setAlbum_id(&quot;2&quot;);
+    dataset2.setAlbum_name(&quot;albums2&quot;);
+    albums.setDatasetsStatic(new Dataset2[] { dataset2 });
 
-        // create the GsonBuilder
-        GsonBuilder builder = new GsonBuilder();
-        // we ignore Private fields
-        builder.excludeFieldsWithModifiers(Modifier.PRIVATE);
-        Gson gson = builder.create();
+    // create the GsonBuilder
+    GsonBuilder builder = new GsonBuilder();
+    // we ignore Private fields
+    builder.excludeFieldsWithModifiers(Modifier.PRIVATE);
+    Gson gson = builder.create();
 
-        // serialize the albums object
-        String json = gson.toJson(albums);
-        System.out.println(json);
-        // prints
-        // {&quot;name&quot;:&quot;SerializeInnerClass&quot;,&quot;datasetsInner&quot;:[{&quot;album_name&quot;:&quot;SerializeInnerClass_albums1&quot;,&quot;album_id&quot;:&quot;1&quot;}],
-        // &quot;datasetsStatic&quot;:[{&quot;album_name&quot;:&quot;albums2&quot;,&quot;album_id&quot;:&quot;2&quot;}]}
+    // serialize the albums object
+    String json = gson.toJson(albums);
+    System.out.println(json);
+    // prints
+    // {&quot;name&quot;:&quot;SerializeInnerClass&quot;,&quot;datasetsInner&quot;:[{&quot;album_name&quot;:&quot;SerializeInnerClass_albums1&quot;,&quot;album_id&quot;:&quot;1&quot;}],
+    // &quot;datasetsStatic&quot;:[{&quot;album_name&quot;:&quot;albums2&quot;,&quot;album_id&quot;:&quot;2&quot;}]}
 
-        // We read the json string now and recreate the AlbumsWithInnerClass class
-        Gson gson3 = new Gson();
-        AlbumsWithInnerClass parsedAlbums = gson3.fromJson(json, AlbumsWithInnerClass.class);
-        System.out.println(parsedAlbums.datasetsInner[0].album_name);
-        // prints SerializeInnerClass_albums1
-        System.out.println(parsedAlbums.datasetsStatic[0].album_name);
-        // prints albums2
+    // We read the json string now and recreate the AlbumsWithInnerClass class
+    Gson gson3 = new Gson();
+    AlbumsWithInnerClass parsedAlbums = gson3.fromJson(json, AlbumsWithInnerClass.class);
+    System.out.println(parsedAlbums.datasetsInner[0].album_name);
+    // prints SerializeInnerClass_albums1
+    System.out.println(parsedAlbums.datasetsStatic[0].album_name);
+    // prints albums2
 
-        // now lets try and serialize only the object of inner class
-        Gson gson2 = new Gson();
-        String json2 = gson2.toJson(dataset);
-        System.out.println(json2);
-        // prints {&quot;album_name&quot;:&quot;SerializeInnerClass_albums1&quot;,&quot;album_id&quot;:&quot;1&quot;}
+    // now lets try and serialize only the object of inner class
+    Gson gson2 = new Gson();
+    String json2 = gson2.toJson(dataset);
+    System.out.println(json2);
+    // prints {&quot;album_name&quot;:&quot;SerializeInnerClass_albums1&quot;,&quot;album_id&quot;:&quot;1&quot;}
 
-        // serialize nested static class
-        String json3 = gson2.toJson(dataset2);
-        System.out.println(json3);
-        // prints {&quot;album_name&quot;:&quot;albums2&quot;,&quot;album_id&quot;:&quot;2&quot;}
+    // serialize nested static class
+    String json3 = gson2.toJson(dataset2);
+    System.out.println(json3);
+    // prints {&quot;album_name&quot;:&quot;albums2&quot;,&quot;album_id&quot;:&quot;2&quot;}
 
-        // let us now create the inner class from the json string
-        Gson gson4 = new Gson();
-        Dataset parsedDataset = gson4.fromJson(json2, Dataset.class);
-        System.out.println(parsedDataset.getClass());
-        // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset
-        System.out.println(parsedDataset.album_name);
-        // prints SerializeInnerClass_albums1
+    // let us now create the inner class from the json string
+    Gson gson4 = new Gson();
+    Dataset parsedDataset = gson4.fromJson(json2, Dataset.class);
+    System.out.println(parsedDataset.getClass());
+    // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset
+    System.out.println(parsedDataset.album_name);
+    // prints SerializeInnerClass_albums1
 
-        // create nested static class from the json string
-        Dataset2 parsedStaticNestedClass = gson4.fromJson(json3, Dataset2.class);
-        System.out.println(parsedStaticNestedClass.getClass());
-        // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset2
-        System.out.println(parsedStaticNestedClass.album_name);
-        // prints albums2
+    // create nested static class from the json string
+    Dataset2 parsedStaticNestedClass = gson4.fromJson(json3, Dataset2.class);
+    System.out.println(parsedStaticNestedClass.getClass());
+    // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset2
+    System.out.println(parsedStaticNestedClass.album_name);
+    // prints albums2
 
-    }
 }
 </code></pre>
 
-<h4 id="the-albumswithinnerclass:94d200a9b12cc728e29eb582b49f7787">The AlbumsWithInnerClass</h4>
+<p>}</p>
 
-<pre><code>package com.studytrails.json.gson;
+<pre><code>#### The AlbumsWithInnerClass
+</code></pre>
 
-public class AlbumsWithInnerClass {
+<p>package com.studytrails.json.gson;</p>
+
+<p>public class AlbumsWithInnerClass {
     public String name;
     private String year;
     public Dataset[] datasetsInner;
-    public Dataset2[] datasetsStatic;
+    public Dataset2[] datasetsStatic;</p>
 
-    public void setDatasetsInner(Dataset[] datasetsInner) {
-        this.datasetsInner = datasetsInner;
+<pre><code>public void setDatasetsInner(Dataset[] datasetsInner) {
+    this.datasetsInner = datasetsInner;
+}
+
+public void setDatasetsStatic(Dataset2[] datasetsStatic) {
+    this.datasetsStatic = datasetsStatic;
+}
+
+public void setName(String name) {
+    this.name = name;
+}
+
+public void setYear(String year) {
+    this.year = year;
+}
+
+class Dataset {
+    public String album_name;
+    public String album_id;
+
+    public void setAlbum_id(String album_id) {
+        this.album_id = album_id;
     }
 
-    public void setDatasetsStatic(Dataset2[] datasetsStatic) {
-        this.datasetsStatic = datasetsStatic;
+    public void setAlbum_name(String album_name) {
+        this.album_name = name + &quot;_&quot; + album_name;
+    }
+}
+
+static class Dataset2 {
+    public String album_name;
+    public String album_id;
+
+    public void setAlbum_id(String album_id) {
+        this.album_id = album_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    class Dataset {
-        public String album_name;
-        public String album_id;
-
-        public void setAlbum_id(String album_id) {
-            this.album_id = album_id;
-        }
-
-        public void setAlbum_name(String album_name) {
-            this.album_name = name + &quot;_&quot; + album_name;
-        }
-    }
-
-    static class Dataset2 {
-        public String album_name;
-        public String album_id;
-
-        public void setAlbum_id(String album_id) {
-            this.album_id = album_id;
-        }
-
-        public void setAlbum_name(String album_name) {
-            this.album_name = album_name;
-        }
+    public void setAlbum_name(String album_name) {
+        this.album_name = album_name;
     }
 }
 </code></pre>
+
+<p>}
+```</p>
 
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-google-json-serialize-inner-classes.jsp" title="Serializing Inner Classes"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603122025/" title="上一篇">&lt;&lt; Gson: Serializing and deserializing Java Generic Classes</a>
@@ -419,7 +421,7 @@ public class AlbumsWithInnerClass {
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

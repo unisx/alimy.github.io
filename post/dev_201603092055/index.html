@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,7 +233,8 @@
         <div class="post panel-wrapper">
             <h2>XStream: Custom Converter for BufferedImage</h2>
           
-          <p>In the previous tutorials we saw an example of how to convert a <a href="http://alimy.me/post/dev_201603081411" title="parsing an xml">java object to XML and back</a>. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here</p>
+          <p>In the previous tutorials we saw an example of how to convert a <a href="http://alimy.me/post/dev_201603081411" title="parsing an xml">java object to XML and back</a>. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here
+</p>
 
 <pre><code>package com.studytrails.xml.xstream;
 
@@ -348,7 +347,6 @@ class CustomBufferedImageConverter implements Converter {
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-custom-converter.jsp" title="XStream custom converter"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603092051/" title="上一篇">&lt;&lt; XStream: Referencing Objects</a>
@@ -377,7 +375,7 @@ class CustomBufferedImageConverter implements Converter {
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

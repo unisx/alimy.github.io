@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -248,14 +246,14 @@
 <li>TreeSet<String> treeSet</li>
 <li>enum</li>
 <li>EnumMap<testEnum, String> testEnum is an enum</li>
-<li>EnumSet<testEnum> testEnum is an enum</li>
+<li>EnumSet<testEnum> testEnum is an enum
+
+Here&rsquo;s the complete example
+```
+package com.studytrails.xml.xstream;</li>
 </ol>
 
-<p>Here&rsquo;s the complete example</p>
-
-<pre><code>package com.studytrails.xml.xstream;
-
-import java.util.ArrayList;
+<p>import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -264,108 +262,93 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.TreeSet;</p>
 
-import com.thoughtworks.xstream.XStream;
+<p>import com.thoughtworks.xstream.XStream;</p>
 
-public class ConverterExample2 {
+<p>public class ConverterExample2 {
 	public static void main(String[] args) {
 		ConverterExample2 example2 = new ConverterExample2();
 		example2.runExample();
-	}
+	}</p>
 
-	public void runExample() {
+<p>	public void runExample() {
 		XStream xStream = new XStream();
 		CollectionConverterExample classContainingCollection = new CollectionConverterExample();
 		classContainingCollection.initialize();
 		String xml = xStream.toXML(classContainingCollection);
 		System.out.println(xml);
 	}
-}
+}</p>
 
-class CollectionConverterExample {
+<p>class CollectionConverterExample {</p>
 
-	String[] stringArray = new String[] { &quot;StringA&quot;, &quot;StringB&quot;, &quot;StringC&quot; };
-	char[] charArray = new char[] { 'a', 'b', 'c', 'd', 'e' };
-	List&lt;String&gt; listA = new ArrayList&lt;String&gt;();
-	Map&lt;String, String&gt; mapA = new HashMap&lt;String, String&gt;();
+<p>	String[] stringArray = new String[] { &ldquo;StringA&rdquo;, &ldquo;StringB&rdquo;, &ldquo;StringC&rdquo; };
+	char[] charArray = new char[] { &lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;, &rsquo;d&rsquo;, &lsquo;e&rsquo; };
+	List<String> listA = new ArrayList<String>();
+	Map<String, String> mapA = new HashMap<String, String>();
 	Properties properties = new Properties();
-	List&lt;String&gt; singletonList;
-	Map&lt;String, String&gt; singletonMap;
+	List<String> singletonList;
+	Map<String, String> singletonMap;</p>
 
-	TreeMap&lt;String, String&gt; treeMap = new TreeMap&lt;String, String&gt;();
-	TreeSet&lt;String&gt; treeSet = new TreeSet&lt;String&gt;();
+<p>	TreeMap<String, String> treeMap = new TreeMap<String, String>();
+	TreeSet<String> treeSet = new TreeSet<String>();
 	enum testEnum {testA, testB}
 	testEnum testeEnumValue = testEnum.testA;
-	EnumMap&lt;testEnum, String&gt; testEnumMap = new EnumMap&lt;CollectionConverterExample.testEnum, String&gt;(testEnum.class);
-	EnumSet&lt;testEnum&gt; testEnumSet = EnumSet.range(testEnum.testA, testEnum.testB);
+	EnumMap<testEnum, String> testEnumMap = new EnumMap<CollectionConverterExample.testEnum, String>(testEnum.class);
+	EnumSet<testEnum> testEnumSet = EnumSet.range(testEnum.testA, testEnum.testB);</p>
 
-	public void initialize() {
-		listA.add(&quot;testA&quot;);
-		mapA.put(&quot;keyA&quot;, &quot;ValueA&quot;);
-		properties.put(&quot;propertyA&quot;, &quot;valueA&quot;);
-		treeMap.put(&quot;treeA&quot;, &quot;valueA&quot;);
-		treeMap.put(&quot;treeB&quot;, &quot;valueB&quot;);
-		treeSet.add(&quot;treeB&quot;);
-		treeSet.add(&quot;treeA&quot;);
-		singletonList = Collections.singletonList(&quot;singletonListA&quot;);
-		singletonMap = Collections.singletonMap(&quot;key1&quot;, &quot;value1&quot;);
+<p>	public void initialize() {
+		listA.add(&ldquo;testA&rdquo;);
+		mapA.put(&ldquo;keyA&rdquo;, &ldquo;ValueA&rdquo;);
+		properties.put(&ldquo;propertyA&rdquo;, &ldquo;valueA&rdquo;);
+		treeMap.put(&ldquo;treeA&rdquo;, &ldquo;valueA&rdquo;);
+		treeMap.put(&ldquo;treeB&rdquo;, &ldquo;valueB&rdquo;);
+		treeSet.add(&ldquo;treeB&rdquo;);
+		treeSet.add(&ldquo;treeA&rdquo;);
+		singletonList = Collections.singletonList(&ldquo;singletonListA&rdquo;);
+		singletonMap = Collections.singletonMap(&ldquo;key1&rdquo;, &ldquo;value1&rdquo;);</p>
 
-		testEnumMap.put(testEnum.testA, &quot;testEnumMapValue1&quot;);
-		testEnumMap.put(testEnum.testB, &quot;testEnumMapValue2&quot;);
+<p>		testEnumMap.put(testEnum.testA, &ldquo;testEnumMapValue1&rdquo;);
+		testEnumMap.put(testEnum.testB, &ldquo;testEnumMapValue2&rdquo;);</p>
 
-	}
-}
-</code></pre>
-
-<p>The resultant XML looks like this</p>
+<p>	}
+}</p>
 
 <pre><code>
-		StringA
-		StringB
-		StringC
+The resultant XML looks like this
 
-	abcde
-
-		testA
-
-
-
-	  keyA
-	  ValueA
-
-
-
-
-
-
-		singletonListA
-
-
-
-	  key1
-	  value1
-
-
-
-
-	  treeA
-	  valueA
-
-
-	  treeB
-	  valueB
-
-
-
-		treeA
-		treeB
 </code></pre>
+
+<p>		StringA
+		StringB
+		StringC</p>
+
+<p>	abcde</p>
+
+<p>		testA</p>
+
+<p>	  keyA
+	  ValueA</p>
+
+<p>		singletonListA</p>
+
+<p>	  key1
+	  value1</p>
+
+<p>	  treeA
+	  valueA</p>
+
+<p>	  treeB
+	  valueB</p>
+
+<p>		treeA
+		treeB
+```</p>
 
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-collection-converters.jsp" title="Collection Converters"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603092100/" title="上一篇">&lt;&lt; XStream: Basic Built-in Converters</a>
@@ -394,7 +377,7 @@ class CollectionConverterExample {
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

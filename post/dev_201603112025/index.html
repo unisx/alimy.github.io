@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,9 +233,7 @@
         <div class="post panel-wrapper">
             <h2>Jackson: Java to JSON and back</h2>
           
-          
-
-<h3 id="creating-json-from-java:627c82fc263a42c0c87ad3244752e285">Creating JSON from Java</h3>
+          <h3 id="creating-json-from-java">Creating JSON from Java</h3>
 
 <p>Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.</p>
 
@@ -254,7 +250,8 @@
 }
 </code></pre>
 
-<p>we use the ObjectMapper to convert the Object to JSON. By Default Jackson would use BeanSerializer to serialize the POJO. Here&rsquo;s how our serializer Example looks so far. Note that the bean should have getters for private properties or the property should be public Here&rsquo;s how the JSON looks</p>
+<p>
+we use the ObjectMapper to convert the Object to JSON. By Default Jackson would use BeanSerializer to serialize the POJO. Here&rsquo;s how our serializer Example looks so far. Note that the bean should have getters for private properties or the property should be public Here&rsquo;s how the JSON looks</p>
 
 <pre><code>{&quot;title&quot;:&quot;Kind Of Blue&quot;}
 </code></pre>
@@ -565,7 +562,7 @@ class Artist {
 
 <p>This is the first part of the tutorial where we saw how to convert a java object to json. in the next part we see how to build a JSON using a tree approach.</p>
 
-<h3 id="creating-json-using-a-tree-model:627c82fc263a42c0c87ad3244752e285">Creating JSON Using a Tree Model</h3>
+<h3 id="creating-json-using-a-tree-model">Creating JSON Using a Tree Model</h3>
 
 <p>It is also possible to build a json using a simple tree model. This could be useful if you dont want to write classes for your JSON structure. We will use the same example as above i.e. an album that has an array songs, an artist and an array of musicians. To write a tree you need to first do this setup:</p>
 
@@ -665,14 +662,13 @@ album.put(&quot;musicians&quot;, musicians);
 
 <p>You can similarly add other elements. If you have multiple albums then you would probably generate an array in a for loop. It would typically be faster to generate JSON from a Java Object.</p>
 
-<h3 id="creating-json-stream:627c82fc263a42c0c87ad3244752e285">Creating JSON Stream</h3>
+<h3 id="creating-json-stream">Creating JSON Stream</h3>
 
 <p>Look at <a href="http://www.studytrails.com/java/json/java-jackson-json-streaming.jsp" title="json and java - Streaming">this tutorial</a> to see an example of generating a JSON stream.</p>
 
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/jackson-create-json.jsp" title="Java to JSON and back"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603112020/" title="上一篇">&lt;&lt; Jackson: Introduction</a>
@@ -701,7 +697,7 @@ album.put(&quot;musicians&quot;, musicians);
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

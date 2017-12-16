@@ -15,11 +15,9 @@
       <pubDate>Thu, 24 Mar 2016 22:55:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603242255/</guid>
-      <description>
+      <description>&lt;p&gt;Make 可以简化编译过程，如果有一个近百个源文件的项目，如果有个文件更改后工程需要重新编译，那么一直用gcc -c a.c这些个命令敲来敲去会屎人的。运行make时候，他会寻找指定目录下（默认是 .）的 Makefile 文件并且分析依赖关系进行必要的编译。&lt;/p&gt;
 
-&lt;p&gt;Make 可以简化编译过程，如果有一个近百个源文件的项目，如果有个文件更改后工程需要重新编译，那么一直用gcc -c a.c这些个命令敲来敲去会屎人的。运行make时候，他会寻找指定目录下（默认是 .）的 Makefile 文件并且分析依赖关系进行必要的编译。&lt;/p&gt;
-
-&lt;h3 id=&#34;makefile文件的基本格式很简单:020297256cb0e92ce87a72a6b65d7dcd&#34;&gt;Makefile文件的基本格式很简单：&lt;/h3&gt;
+&lt;h3 id=&#34;makefile文件的基本格式很简单&#34;&gt;Makefile文件的基本格式很简单：&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;目标文件： 依赖文件1 依赖文件2 依赖文件3 。。。。
 [tab]编译命令
@@ -38,9 +36,9 @@ b.o: b.c c.h
 // [tab]的意思是这里用tab字符代替，不能有其他的什么字符
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;在命令行里执行make，分析关系并生成main，如果是make a.o那么他只会编译到 a.o 。&lt;/p&gt;
+&lt;p&gt;在命令行里执行make，分析关系并生成main，如果是make a.o那么他只会编译到 a.o 。
 
-&lt;p&gt;当然我们还可以设定伪目标，比如：&lt;/p&gt;
+当然我们还可以设定伪目标，比如：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;clean：
 [tab]rm a.o b.o
@@ -63,7 +61,7 @@ b.o: b.c c.h
 
 &lt;p&gt;最后是替换引用定义，他会替换后缀，有个例子很好 &lt;code&gt;foo := a.o b.o c.o ,bar := $(foo:.o=.c)&lt;/code&gt;,我们可以知道bar的值就是&lt;code&gt;a.c b.c c.c&lt;/code&gt;。&lt;/p&gt;
 
-&lt;h3 id=&#34;变量还有分类:020297256cb0e92ce87a72a6b65d7dcd&#34;&gt;变量还有分类：&lt;/h3&gt;
+&lt;h3 id=&#34;变量还有分类&#34;&gt;变量还有分类：&lt;/h3&gt;
 
 &lt;p&gt;1.预定义变量，当使用隐式规则的时候他会派上用场，常用的有以下几个：&lt;/p&gt;
 
@@ -95,7 +93,7 @@ $%:当目标为库文件时,表示库文件名
 
 &lt;p&gt;由于把握不了隐式规则的底线和能力，我还是觉得隐式规则应用的不要太多太复杂影响阅读为好。。&lt;/p&gt;
 
-&lt;h3 id=&#34;make的工作过程大概是以下几步:020297256cb0e92ce87a72a6b65d7dcd&#34;&gt;make的工作过程大概是以下几步&lt;/h3&gt;
+&lt;h3 id=&#34;make的工作过程大概是以下几步&#34;&gt;make的工作过程大概是以下几步&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;读取Makefile，根据make的选项查找Makefile
@@ -105,7 +103,7 @@ $%:当目标为库文件时,表示库文件名
 &lt;li&gt;执行。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;编译的基本流程:020297256cb0e92ce87a72a6b65d7dcd&#34;&gt;编译的基本流程&lt;/h3&gt;
+&lt;h3 id=&#34;编译的基本流程&#34;&gt;编译的基本流程&lt;/h3&gt;
 
 &lt;p&gt;基本过程是以下四步：&lt;/p&gt;
 
@@ -137,7 +135,7 @@ $%:当目标为库文件时,表示库文件名
 
 &lt;p&gt;另外 &lt;code&gt;gcc -v&lt;/code&gt;可以输出编译过程的配置和版本信息。&lt;/p&gt;
 
-&lt;h3 id=&#34;gcc-警告提示:020297256cb0e92ce87a72a6b65d7dcd&#34;&gt;gcc 警告提示&lt;/h3&gt;
+&lt;h3 id=&#34;gcc-警告提示&#34;&gt;gcc 警告提示&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;-fsyntax-only   检查程序中的语法错误，不产生输出信息
 -w 禁止所有警告信息
@@ -147,7 +145,7 @@ $%:当目标为库文件时,表示库文件名
 -pedantic-errors 允许ansi c标准列出的全部信息
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;其他常用选项:020297256cb0e92ce87a72a6b65d7dcd&#34;&gt;其他常用选项&lt;/h3&gt;
+&lt;h3 id=&#34;其他常用选项&#34;&gt;其他常用选项&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;-g 加入调试信息，gdb调试的时候要用。&lt;/li&gt;
@@ -161,8 +159,7 @@ $%:当目标为库文件时,表示库文件名
 
 &lt;hr /&gt;
 
-&lt;p&gt;(注意: 原文的链接在 &lt;a href=&#34;http://wdxtub.com/2016/03/20/make-gcc-guide/&#34; title=&#34;GCC Makefile&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(注意: 原文的链接在 &lt;a href=&#34;http://wdxtub.com/2016/03/20/make-gcc-guide/&#34; title=&#34;GCC Makefile&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -179,9 +176,9 @@ $%:当目标为库文件时,表示库文件名
 
 &lt;p&gt;Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.&lt;/p&gt;
 
-&lt;p&gt;Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.&lt;/p&gt;
+&lt;p&gt;Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.
 
-&lt;p&gt;… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:&lt;/p&gt;
+… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;package main
 
@@ -281,8 +278,7 @@ BenchmarkJsonDecode   200000      12993 ns/op
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/&#34; title=&#34;Intro to BoltDB&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/&#34; title=&#34;Intro to BoltDB&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -291,14 +287,12 @@ BenchmarkJsonDecode   200000      12993 ns/op
       <pubDate>Sat, 19 Mar 2016 22:45:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603192245/</guid>
-      <description>
-
-&lt;h3 id=&#34;android-network-simple:03999fb0359803477bc987da56a0bc05&#34;&gt;Android Network Simple&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;android-network-simple&#34;&gt;Android Network Simple&lt;/h3&gt;
 
 &lt;p&gt;This article shows how to use volley with OkHttp and security your api with https.
 本文可以在&lt;a href=&#34;http://www.jianshu.com/p/e58161cbc3a4&#34; title=&#34;Android 网络--我是怎么做的: Volley+OkHttp+Https&#34;&gt;简书&lt;/a&gt;浏览。&lt;/p&gt;
 
-&lt;h3 id=&#34;使用-okhttp-作为传输层的实现:03999fb0359803477bc987da56a0bc05&#34;&gt;使用 OkHttp 作为传输层的实现.&lt;/h3&gt;
+&lt;h3 id=&#34;使用-okhttp-作为传输层的实现&#34;&gt;使用 OkHttp 作为传输层的实现.&lt;/h3&gt;
 
 &lt;p&gt;Volley 默认根据 Android 系统版本使用不同的 Http 传输协议实现. 3.0 以上使用HttpUrlConnection, 2.3 以下使用 ApacheHttpStack, 参考&lt;a href=&#34;http://android-developers.blogspot.com/2011/09/androids-http-clients.html&#34;&gt;Android Http Client&lt;/a&gt;.&lt;/p&gt;
 
@@ -310,10 +304,10 @@ BenchmarkJsonDecode   200000      12993 ns/op
 &lt;li&gt;使用GZIP压缩下载内容，且压缩操作对用户是透明的。&lt;/li&gt;
 &lt;li&gt;利用响应缓存来避免重复的网络请求。&lt;/li&gt;
 &lt;li&gt;当网络出现问题的时候，OKHttp会依然有效，它将从常见的连接问题当中恢复。&lt;/li&gt;
-&lt;li&gt;如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。
 
-&lt;p&gt;因此使用 OkHttp 作为替代是好的选择.&lt;/p&gt;
+因此使用 OkHttp 作为替代是好的选择.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;首先用 OkHttp 实现一个新的 &lt;code&gt;HurlStack&lt;/code&gt; 用于构建 Volley 的 requestQueue.&lt;/p&gt;
 
@@ -352,7 +346,7 @@ requestQueue.start();
 
 &lt;p&gt;这样就行了.&lt;/p&gt;
 
-&lt;h3 id=&#34;使用-https:03999fb0359803477bc987da56a0bc05&#34;&gt;使用 Https&lt;/h3&gt;
+&lt;h3 id=&#34;使用-https&#34;&gt;使用 Https&lt;/h3&gt;
 
 &lt;p&gt;作为一个有节操的开发者应该使用 Https 来保护用户的数据, Android 开发者网站上文章&lt;a href=&#34;https://developer.android.com/training/articles/security-ssl.html&#34;&gt;Security with HTTPS and SSL&lt;/a&gt;做了详尽的阐述.&lt;/p&gt;
 
@@ -368,7 +362,7 @@ requestQueue.start();
 缺点:
 * 证书部署灵活性降低, 一旦变更证书必须升级程序.&lt;/p&gt;
 
-&lt;h3 id=&#34;实现步骤:03999fb0359803477bc987da56a0bc05&#34;&gt;实现步骤&lt;/h3&gt;
+&lt;h3 id=&#34;实现步骤&#34;&gt;实现步骤&lt;/h3&gt;
 
 &lt;p&gt;以最著名的自签名网站12306为例说明&lt;/p&gt;
 
@@ -398,9 +392,7 @@ requestQueue.start();
 &lt;pre&gt;&lt;code&gt; // A HttpStack implement witch can verify specified self-signed certification.
 public class SelfSignSslOkHttpStack extends HurlStack {
 
-
   private OkHttpClient okHttpClient;
-
 
   private Map&amp;lt;String, SSLSocketFactory&amp;gt; socketFactoryMap;
 
@@ -417,7 +409,6 @@ public class SelfSignSslOkHttpStack extends HurlStack {
     this.okHttpClient = okHttpClient;
     this.socketFactoryMap = factoryMap;
   }
-
 
   @Override
   protected HttpURLConnection createConnection(URL url) throws IOException {
@@ -439,7 +430,6 @@ int[] certRes = {R.raw.kyfw};
 String[] certPass = {&amp;quot;asdfqaz&amp;quot;};
 socketFactoryMap = new Hashtable&amp;lt;&amp;gt;(hosts.length);
 
-
 for (int i = 0; i &amp;lt; certRes.length; i++) {
     int res = certRes[i];
     String password = certPass[i];
@@ -447,9 +437,7 @@ for (int i = 0; i &amp;lt; certRes.length; i++) {
     socketFactoryMap.put(hosts[i], sslSocketFactory);
 }
 
-
 HurlStack stack = new SelfSignSslOkHttpStack(socketFactoryMap);
-
 
 requestQueue = Volley.newRequestQueue(context, stack);
 requestQueue.start();
@@ -460,8 +448,7 @@ requestQueue.start();
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://github.com/dodocat/AndroidNetworkdemo&#34; title=&#34;android network demo&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://github.com/dodocat/AndroidNetworkdemo&#34; title=&#34;android network demo&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -470,15 +457,13 @@ requestQueue.start();
       <pubDate>Fri, 18 Mar 2016 20:45:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603182045/</guid>
-      <description>
-
-&lt;p&gt;Go is a simple and fun language, but, like any other language, it has a few gotchas&amp;hellip; Many of those gotchas are not entirely Go&amp;rsquo;s fault. Some of these mistakes are natural traps if you are coming from another language. Others are due to faulty assumptions and missing details.&lt;/p&gt;
+      <description>&lt;p&gt;Go is a simple and fun language, but, like any other language, it has a few gotchas&amp;hellip; Many of those gotchas are not entirely Go&amp;rsquo;s fault. Some of these mistakes are natural traps if you are coming from another language. Others are due to faulty assumptions and missing details.&lt;/p&gt;
 
 &lt;p&gt;A lot of these gotchas may seem obvious if you took the time to learn the language reading the official spec, wiki, mailing list discussions, many great posts and presentations by Rob Pike, and the source code. Not everybody starts the same way though and that&amp;rsquo;s OK. If you are new to Go the information here will save you hours debugging your code.&lt;/p&gt;
 
 &lt;p&gt;This post covers Go 1.5 and below.&lt;/p&gt;
 
-&lt;h3 id=&#34;total-beginner:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;Total Beginner:&lt;/h3&gt;
+&lt;h3 id=&#34;total-beginner&#34;&gt;Total Beginner:&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;#1&#34;&gt;Opening Brace Can&amp;rsquo;t Be Placed on a Separate Line&lt;/a&gt;&lt;/li&gt;
@@ -518,7 +503,7 @@ requestQueue.start();
 &lt;li&gt;&lt;a href=&#34;#35&#34;&gt;Methods with Value Receivers Can&amp;rsquo;t Change the Original Value&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;intermediate-beginner:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;Intermediate Beginner:&lt;/h3&gt;
+&lt;h3 id=&#34;intermediate-beginner&#34;&gt;Intermediate Beginner:&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;#36&#34;&gt;Closing HTTP Response Body&lt;/a&gt;&lt;/li&gt;
@@ -539,7 +524,7 @@ requestQueue.start();
 &lt;li&gt;&lt;a href=&#34;#51&#34;&gt;Blocked Goroutines and Resource Leaks&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;advanced-beginner:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;Advanced Beginner:&lt;/h3&gt;
+&lt;h3 id=&#34;advanced-beginner&#34;&gt;Advanced Beginner:&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;#52&#34;&gt;Using Pointer Receiver Methods On Value Instances&lt;/a&gt;&lt;/li&gt;
@@ -551,7 +536,7 @@ requestQueue.start();
 &lt;li&gt;&lt;a href=&#34;#58&#34;&gt;Preemptive Scheduling&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;a-name-1-a-opening-brace-can-t-be-placed-on-a-separate-line:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;1&#34;&gt;&lt;/a&gt;Opening Brace Can&amp;rsquo;t Be Placed on a Separate Line&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-1-a-opening-brace-can-t-be-placed-on-a-separate-line&#34;&gt;&lt;a name=&#34;1&#34;&gt;&lt;/a&gt;Opening Brace Can&amp;rsquo;t Be Placed on a Separate Line&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -587,7 +572,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-2-a-unused-variables:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;2&#34;&gt;&lt;/a&gt;Unused Variables&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-2-a-unused-variables&#34;&gt;&lt;a name=&#34;2&#34;&gt;&lt;/a&gt;Unused Variables&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -644,7 +629,7 @@ func main() {
 
 &lt;p&gt;Another option is to comment out or remove the unused variables :-)&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-3-a-unused-imports:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;3&#34;&gt;&lt;/a&gt;Unused Imports&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-3-a-unused-imports&#34;&gt;&lt;a name=&#34;3&#34;&gt;&lt;/a&gt;Unused Imports&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -692,7 +677,7 @@ func main() {
 
 &lt;p&gt;Another option is to remove or comment out the unused imports :-) The goimports tool can help you with that.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-4-a-short-variable-declarations-can-be-used-only-inside-functions:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;4&#34;&gt;&lt;/a&gt;Short Variable Declarations Can Be Used Only Inside Functions&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-4-a-short-variable-declarations-can-be-used-only-inside-functions&#34;&gt;&lt;a name=&#34;4&#34;&gt;&lt;/a&gt;Short Variable Declarations Can Be Used Only Inside Functions&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -723,7 +708,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-5-a-redeclaring-variables-using-short-variable-declarations:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;5&#34;&gt;&lt;/a&gt;Redeclaring Variables Using Short Variable Declarations&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-5-a-redeclaring-variables-using-short-variable-declarations&#34;&gt;&lt;a name=&#34;5&#34;&gt;&lt;/a&gt;Redeclaring Variables Using Short Variable Declarations&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -760,7 +745,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-6-a-can-t-use-short-variable-declarations-to-set-field-values:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;6&#34;&gt;&lt;/a&gt;Can&amp;rsquo;t Use Short Variable Declarations to Set Field Values&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-6-a-can-t-use-short-variable-declarations-to-set-field-values&#34;&gt;&lt;a name=&#34;6&#34;&gt;&lt;/a&gt;Can&amp;rsquo;t Use Short Variable Declarations to Set Field Values&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -829,7 +814,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-7-a-accidental-variable-shadowing:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;7&#34;&gt;&lt;/a&gt;Accidental Variable Shadowing&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-7-a-accidental-variable-shadowing&#34;&gt;&lt;a name=&#34;7&#34;&gt;&lt;/a&gt;Accidental Variable Shadowing&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -859,7 +844,7 @@ func main() {
 
 &lt;p&gt;Note that the vet command will not report all shadowed variables. Use go-nyet for more aggressive shadowed variable detection.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-8-a-can-t-use-nil-to-initialize-a-variable-without-an-explicit-type:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;8&#34;&gt;&lt;/a&gt;Can&amp;rsquo;t Use &amp;ldquo;nil&amp;rdquo; to Initialize a Variable Without an Explicit Type&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-8-a-can-t-use-nil-to-initialize-a-variable-without-an-explicit-type&#34;&gt;&lt;a name=&#34;8&#34;&gt;&lt;/a&gt;Can&amp;rsquo;t Use &amp;ldquo;nil&amp;rdquo; to Initialize a Variable Without an Explicit Type&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -894,7 +879,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-9-a-using-nil-slices-and-maps:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;9&#34;&gt;&lt;/a&gt;Using &amp;ldquo;nil&amp;rdquo; Slices and Maps&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-9-a-using-nil-slices-and-maps&#34;&gt;&lt;a name=&#34;9&#34;&gt;&lt;/a&gt;Using &amp;ldquo;nil&amp;rdquo; Slices and Maps&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -923,7 +908,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-10-a-map-capacity:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;10&#34;&gt;&lt;/a&gt;Map Capacity&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-10-a-map-capacity&#34;&gt;&lt;a name=&#34;10&#34;&gt;&lt;/a&gt;Map Capacity&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -946,7 +931,7 @@ func main() {
 &lt;pre&gt;&lt;code&gt;/tmp/sandbox326543983/main.go:5: invalid argument m (type map[string]int) for cap
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-11-a-strings-can-t-be-nil:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;11&#34;&gt;&lt;/a&gt;Strings Can&amp;rsquo;t Be &amp;ldquo;nil&amp;rdquo;&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-11-a-strings-can-t-be-nil&#34;&gt;&lt;a name=&#34;11&#34;&gt;&lt;/a&gt;Strings Can&amp;rsquo;t Be &amp;ldquo;nil&amp;rdquo;&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -985,7 +970,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-12-a-array-function-arguments:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;12&#34;&gt;&lt;/a&gt;Array Function Arguments&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-12-a-array-function-arguments&#34;&gt;&lt;a name=&#34;12&#34;&gt;&lt;/a&gt;Array Function Arguments&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1045,7 +1030,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-13-a-unexpected-values-in-slice-and-array-range-clauses:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;13&#34;&gt;&lt;/a&gt;Unexpected Values in Slice and Array &amp;ldquo;range&amp;rdquo; Clauses&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-13-a-unexpected-values-in-slice-and-array-range-clauses&#34;&gt;&lt;a name=&#34;13&#34;&gt;&lt;/a&gt;Unexpected Values in Slice and Array &amp;ldquo;range&amp;rdquo; Clauses&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1083,7 +1068,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-14-a-slices-and-arrays-are-one-dimensional:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;14&#34;&gt;&lt;/a&gt;Slices and Arrays Are One-Dimensional&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-14-a-slices-and-arrays-are-one-dimensional&#34;&gt;&lt;a name=&#34;14&#34;&gt;&lt;/a&gt;Slices and Arrays Are One-Dimensional&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1138,7 +1123,7 @@ func main() {
 
 &lt;p&gt;There&amp;rsquo;s a spec/proposal for multi-dimensional arrays and slices, but it looks like it&amp;rsquo;s a low priority feature at this point in time.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-15-a-accessing-non-existing-map-keys:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;15&#34;&gt;&lt;/a&gt;Accessing Non-Existing Map Keys&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-15-a-accessing-non-existing-map-keys&#34;&gt;&lt;a name=&#34;15&#34;&gt;&lt;/a&gt;Accessing Non-Existing Map Keys&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner
@@ -1175,7 +1160,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-16-a-strings-are-immutable:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;16&#34;&gt;&lt;/a&gt;Strings Are Immutable&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-16-a-strings-are-immutable&#34;&gt;&lt;a name=&#34;16&#34;&gt;&lt;/a&gt;Strings Are Immutable&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1219,7 +1204,7 @@ func main() {
 
 &lt;p&gt;Note that this isn&amp;rsquo;t really the right way to update characters in a text string because a given character could be stored in multiple bytes. If you do need to make updates to a text string convert it to a rune sclice first. Even with rune slices a single character might span multiple runes, which can happen if you have characters with grave accent, for example. This complicated and ambiguous nature of &amp;ldquo;characters&amp;rdquo; is the reason why Go strings are represented as byte sequences.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-17-a-conversions-between-strings-and-byte-slices:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;17&#34;&gt;&lt;/a&gt;Conversions Between Strings and Byte Slices&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-17-a-conversions-between-strings-and-byte-slices&#34;&gt;&lt;a name=&#34;17&#34;&gt;&lt;/a&gt;Conversions Between Strings and Byte Slices&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1233,7 +1218,7 @@ func main() {
 
 &lt;p&gt;The second optimization avoids extra allocations in for range clauses where strings are converted to []byte: for i,v := range []byte(str) {&amp;hellip;}.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-18-a-strings-and-index-operator:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;18&#34;&gt;&lt;/a&gt;Strings and Index Operator&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-18-a-strings-and-index-operator&#34;&gt;&lt;a name=&#34;18&#34;&gt;&lt;/a&gt;Strings and Index Operator&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1254,7 +1239,7 @@ func main() {
 
 &lt;p&gt;If you need to access specific string &amp;ldquo;characters&amp;rdquo; (unicode code points/runes) use the for range clause. The official &amp;ldquo;unicode/utf8&amp;rdquo; package and the experimental utf8string package (golang.org/x/exp/utf8string) are also useful. The utf8string package includes a convenient At() method. Converting the string to a slice of runes is an option too.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-19-a-strings-are-not-always-utf8-text:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;19&#34;&gt;&lt;/a&gt;Strings Are Not Always UTF8 Text&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-19-a-strings-are-not-always-utf8-text&#34;&gt;&lt;a name=&#34;19&#34;&gt;&lt;/a&gt;Strings Are Not Always UTF8 Text&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1280,7 +1265,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-20-a-string-length:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;20&#34;&gt;&lt;/a&gt;String Length&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-20-a-string-length&#34;&gt;&lt;a name=&#34;20&#34;&gt;&lt;/a&gt;String Length&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1336,7 +1321,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-21-a-missing-comma-in-multi-line-slice-array-and-map-literals:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;21&#34;&gt;&lt;/a&gt;Missing Comma In Multi-Line Slice, Array, and Map Literals&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-21-a-missing-comma-in-multi-line-slice-array-and-map-literals&#34;&gt;&lt;a name=&#34;21&#34;&gt;&lt;/a&gt;Missing Comma In Multi-Line Slice, Array, and Map Literals&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1378,7 +1363,7 @@ func main() {
 
 &lt;p&gt;You won&amp;rsquo;t get a compiler error if you leave the trailing comma when you collapse the declaration to be on a single line.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-22-a-log-fatal-and-log-panic-do-more-than-log:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;22&#34;&gt;&lt;/a&gt;log.Fatal and log.Panic Do More Than Log&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-22-a-log-fatal-and-log-panic-do-more-than-log&#34;&gt;&lt;a name=&#34;22&#34;&gt;&lt;/a&gt;log.Fatal and log.Panic Do More Than Log&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1396,7 +1381,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-23-a-built-in-data-structure-operations-are-not-synchronized:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;23&#34;&gt;&lt;/a&gt;Built-in Data Structure Operations Are Not Synchronized&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-23-a-built-in-data-structure-operations-are-not-synchronized&#34;&gt;&lt;a name=&#34;23&#34;&gt;&lt;/a&gt;Built-in Data Structure Operations Are Not Synchronized&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1404,7 +1389,7 @@ func main() {
 
 &lt;p&gt;Even though Go has a number of features to support concurrency natively, concurrency safe data collections are not one them :-) It&amp;rsquo;s your responsibility to ensure the data collection updates are atomic. Goroutines and channels are the recommended way to implement those atomic operations, but you can also leverage the &amp;ldquo;sync&amp;rdquo; package if it makes sense for your application.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-24-a-iteration-values-for-strings-in-range-clauses:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;24&#34;&gt;&lt;/a&gt;Iteration Values For Strings in &amp;ldquo;range&amp;rdquo; Clauses&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-24-a-iteration-values-for-strings-in-range-clauses&#34;&gt;&lt;a name=&#34;24&#34;&gt;&lt;/a&gt;Iteration Values For Strings in &amp;ldquo;range&amp;rdquo; Clauses&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1433,7 +1418,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-25-a-iterating-through-a-map-using-a-for-range-clause:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;25&#34;&gt;&lt;/a&gt;Iterating Through a Map Using a &amp;ldquo;for range&amp;rdquo; Clause&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-25-a-iterating-through-a-map-using-a-for-range-clause&#34;&gt;&lt;a name=&#34;25&#34;&gt;&lt;/a&gt;Iterating Through a Map Using a &amp;ldquo;for range&amp;rdquo; Clause&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1455,7 +1440,7 @@ func main() {
 
 &lt;p&gt;And if you use the Go Playground (&lt;a href=&#34;https://play.golang.org/&#34;&gt;https://play.golang.org/&lt;/a&gt;) you&amp;rsquo;ll always get the same results because it doesn&amp;rsquo;t recompile the code unless you make a change.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-26-a-fallthrough-behavior-in-switch-statements:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;26&#34;&gt;&lt;/a&gt;Fallthrough Behavior in &amp;ldquo;switch&amp;rdquo; Statements&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-26-a-fallthrough-behavior-in-switch-statements&#34;&gt;&lt;a name=&#34;26&#34;&gt;&lt;/a&gt;Fallthrough Behavior in &amp;ldquo;switch&amp;rdquo; Statements&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1502,7 +1487,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-27-a-increments-and-decrements:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;27&#34;&gt;&lt;/a&gt;Increments and Decrements&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-27-a-increments-and-decrements&#34;&gt;&lt;a name=&#34;27&#34;&gt;&lt;/a&gt;Increments and Decrements&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1543,7 +1528,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-28-a-bitwise-not-operator:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;28&#34;&gt;&lt;/a&gt;Bitwise NOT Operator&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-28-a-bitwise-not-operator&#34;&gt;&lt;a name=&#34;28&#34;&gt;&lt;/a&gt;Bitwise NOT Operator&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1603,7 +1588,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-29-a-operator-precedence-differences:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;29&#34;&gt;&lt;/a&gt;Operator Precedence Differences&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-29-a-operator-precedence-differences&#34;&gt;&lt;a name=&#34;29&#34;&gt;&lt;/a&gt;Operator Precedence Differences&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1633,7 +1618,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-30-a-unexported-structure-fields-are-not-encoded:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;30&#34;&gt;&lt;/a&gt;Unexported Structure Fields Are Not Encoded&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-30-a-unexported-structure-fields-are-not-encoded&#34;&gt;&lt;a name=&#34;30&#34;&gt;&lt;/a&gt;Unexported Structure Fields Are Not Encoded&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1667,7 +1652,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-31-a-app-exits-with-active-goroutines:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;31&#34;&gt;&lt;/a&gt;App Exits With Active Goroutines&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-31-a-app-exits-with-active-goroutines&#34;&gt;&lt;a name=&#34;31&#34;&gt;&lt;/a&gt;App Exits With Active Goroutines&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1799,7 +1784,7 @@ func doit(workerId int, wq &amp;lt;-chan interface{},done &amp;lt;-chan struct{}
 
 &lt;p&gt;Now it works as expected :-)&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-32-a-sending-to-an-unbuffered-channel-returns-as-soon-as-the-target-receiver-is-ready:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;32&#34;&gt;&lt;/a&gt;Sending to an Unbuffered Channel Returns As Soon As the Target Receiver Is Ready&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-32-a-sending-to-an-unbuffered-channel-returns-as-soon-as-the-target-receiver-is-ready&#34;&gt;&lt;a name=&#34;32&#34;&gt;&lt;/a&gt;Sending to an Unbuffered Channel Returns As Soon As the Target Receiver Is Ready&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1825,7 +1810,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-33-a-sending-to-an-closed-channel-causes-a-panic:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;33&#34;&gt;&lt;/a&gt;Sending to an Closed Channel Causes a Panic&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-33-a-sending-to-an-closed-channel-causes-a-panic&#34;&gt;&lt;a name=&#34;33&#34;&gt;&lt;/a&gt;Sending to an Closed Channel Causes a Panic&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1889,7 +1874,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-34-a-using-nil-channels:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;34&#34;&gt;&lt;/a&gt;Using &amp;ldquo;nil&amp;rdquo; Channels&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-34-a-using-nil-channels&#34;&gt;&lt;a name=&#34;34&#34;&gt;&lt;/a&gt;Using &amp;ldquo;nil&amp;rdquo; Channels&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -1961,7 +1946,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-35-a-methods-with-value-receivers-can-t-change-the-original-value:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;35&#34;&gt;&lt;/a&gt;Methods with Value Receivers Can&amp;rsquo;t Change the Original Value&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-35-a-methods-with-value-receivers-can-t-change-the-original-value&#34;&gt;&lt;a name=&#34;35&#34;&gt;&lt;/a&gt;Methods with Value Receivers Can&amp;rsquo;t Change the Original Value&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: beginner&lt;/li&gt;
@@ -2006,7 +1991,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-36-a-closing-http-response-body:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;36&#34;&gt;&lt;/a&gt;Closing HTTP Response Body&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-36-a-closing-http-response-body&#34;&gt;&lt;a name=&#34;36&#34;&gt;&lt;/a&gt;Closing HTTP Response Body&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -2117,7 +2102,7 @@ func main() {
 &lt;pre&gt;&lt;code&gt;json.NewDecoder(resp.Body).Decode(&amp;amp;data)  
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-37-a-closing-http-connections:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;37&#34;&gt;&lt;/a&gt;Closing HTTP Connections&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-37-a-closing-http-connections&#34;&gt;&lt;a name=&#34;37&#34;&gt;&lt;/a&gt;Closing HTTP Connections&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -2206,7 +2191,7 @@ func main() {
 
 &lt;p&gt;If you send a lot of requests to the same HTTP server it&amp;rsquo;s ok to keep the network connection open. However, if your app sends one or two requests to many different HTTP servers in a short period of time it&amp;rsquo;s a good idea to close the network connections right after your app receives the responses. Increasing the open file limit might be a good idea too. The correct solution depends on your application though.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-38-a-unmarshalling-json-numbers-into-interface-values:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;38&#34;&gt;&lt;/a&gt;Unmarshalling JSON Numbers into Interface Values&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-38-a-unmarshalling-json-numbers-into-interface-values&#34;&gt;&lt;a name=&#34;38&#34;&gt;&lt;/a&gt;Unmarshalling JSON Numbers into Interface Values&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -2399,7 +2384,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-39-a-comparing-structs-arrays-slices-and-maps:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;39&#34;&gt;&lt;/a&gt;Comparing Structs, Arrays, Slices, and Maps&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-39-a-comparing-structs-arrays-slices-and-maps&#34;&gt;&lt;a name=&#34;39&#34;&gt;&lt;/a&gt;Comparing Structs, Arrays, Slices, and Maps&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -2555,7 +2540,7 @@ func main() {
 
 &lt;p&gt;If your byte slices contain secrets (e.g., cryptographic hashes, tokens, etc.) that need to be validated against user-provided data, don&amp;rsquo;t use reflect.DeepEqual(), bytes.Equal(), or bytes.Compare() because those functions will make your application vulnerable to timing attacks. To avoid leaking the timing information use the functions from the &amp;lsquo;crypto/subtle&amp;rsquo; package (e.g., subtle.ConstantTimeCompare()).&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-40-a-recovering-from-a-panic:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;40&#34;&gt;&lt;/a&gt;Recovering From a Panic&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-40-a-recovering-from-a-panic&#34;&gt;&lt;a name=&#34;40&#34;&gt;&lt;/a&gt;Recovering From a Panic&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -2613,7 +2598,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-41-a-updating-and-referencing-item-values-in-slice-array-and-map-range-clauses:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;41&#34;&gt;&lt;/a&gt;Updating and Referencing Item Values in Slice, Array, and Map &amp;ldquo;range&amp;rdquo; Clauses&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-41-a-updating-and-referencing-item-values-in-slice-array-and-map-range-clauses&#34;&gt;&lt;a name=&#34;41&#34;&gt;&lt;/a&gt;Updating and Referencing Item Values in Slice, Array, and Map &amp;ldquo;range&amp;rdquo; Clauses&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -2668,7 +2653,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-42-a-hidden-data-in-slices:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;42&#34;&gt;&lt;/a&gt;&amp;ldquo;Hidden&amp;rdquo; Data in Slices&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-42-a-hidden-data-in-slices&#34;&gt;&lt;a name=&#34;42&#34;&gt;&lt;/a&gt;&amp;ldquo;Hidden&amp;rdquo; Data in Slices&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -2712,7 +2697,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-43-a-slice-data-corruption:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;43&#34;&gt;&lt;/a&gt;Slice Data &amp;ldquo;Corruption&amp;rdquo;&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-43-a-slice-data-corruption&#34;&gt;&lt;a name=&#34;43&#34;&gt;&lt;/a&gt;Slice Data &amp;ldquo;Corruption&amp;rdquo;&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -2776,7 +2761,7 @@ func main() {
 
 &lt;p&gt;The extra parameter in the full slice expression controls the capacity for the new slice. Now appending to that slice will trigger a new buffer allocation instead of overwriting the data in the second slice.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-44-a-stale-slices:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;44&#34;&gt;&lt;/a&gt;&amp;ldquo;Stale&amp;rdquo; Slices&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-44-a-stale-slices&#34;&gt;&lt;a name=&#34;44&#34;&gt;&lt;/a&gt;&amp;ldquo;Stale&amp;rdquo; Slices&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -2811,7 +2796,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-45-type-declarations-and-methods:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;45&#34;&gt;&amp;lt;/&amp;gt;Type Declarations and Methods&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-45-type-declarations-and-methods&#34;&gt;&lt;a name=&#34;45&#34;&gt;&amp;lt;/&amp;gt;Type Declarations and Methods&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -2875,7 +2860,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-46-a-breaking-out-of-for-switch-and-for-select-code-blocks:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;46&#34;&gt;&lt;/a&gt;Breaking Out of &amp;ldquo;for switch&amp;rdquo; and &amp;ldquo;for select&amp;rdquo; Code Blocks&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-46-a-breaking-out-of-for-switch-and-for-select-code-blocks&#34;&gt;&lt;a name=&#34;46&#34;&gt;&lt;/a&gt;Breaking Out of &amp;ldquo;for switch&amp;rdquo; and &amp;ldquo;for select&amp;rdquo; Code Blocks&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -2903,7 +2888,7 @@ func main() {
 
 &lt;p&gt;A &amp;ldquo;goto&amp;rdquo; statement will do the trick too&amp;hellip;&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-47-a-iteration-variables-and-closures-in-for-statements:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;47&#34;&gt;&lt;/a&gt;Iteration Variables and Closures in &amp;ldquo;for&amp;rdquo; Statements&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-47-a-iteration-variables-and-closures-in-for-statements&#34;&gt;&lt;a name=&#34;47&#34;&gt;&lt;/a&gt;Iteration Variables and Closures in &amp;ldquo;for&amp;rdquo; Statements&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -3074,7 +3059,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-48-a-deferred-function-call-argument-evaluation:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;48&#34;&gt;&lt;/a&gt;Deferred Function Call Argument Evaluation&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-48-a-deferred-function-call-argument-evaluation&#34;&gt;&lt;a name=&#34;48&#34;&gt;&lt;/a&gt;Deferred Function Call Argument Evaluation&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -3095,7 +3080,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-49-a-deferred-function-call-execution:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;49&#34;&gt;&lt;/a&gt;Deferred Function Call Execution&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-49-a-deferred-function-call-execution&#34;&gt;&lt;a name=&#34;49&#34;&gt;&lt;/a&gt;Deferred Function Call Execution&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -3197,7 +3182,7 @@ func main() {
 
 &lt;p&gt;Another option is to get rid of the defer statement :-)&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-50-a-failed-type-assertions:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;50&#34;&gt;&lt;/a&gt;Failed Type Assertions&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-50-a-failed-type-assertions&#34;&gt;&lt;a name=&#34;50&#34;&gt;&lt;/a&gt;Failed Type Assertions&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -3241,7 +3226,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-51-a-blocked-goroutines-and-resource-leaks:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;51&#34;&gt;&lt;/a&gt;Blocked Goroutines and Resource Leaks&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-51-a-blocked-goroutines-and-resource-leaks&#34;&gt;&lt;a name=&#34;51&#34;&gt;&lt;/a&gt;Blocked Goroutines and Resource Leaks&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: intermediate&lt;/li&gt;
@@ -3316,7 +3301,7 @@ func main() {
 
 &lt;p&gt;Why did the presentation contain these bugs? Rob Pike simply didn&amp;rsquo;t want to comlicate the slides. It makes sense, but it can be a problem for new Go developers who would use the code as is without thinking that it might have problems.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-52-a-using-pointer-receiver-methods-on-value-instances:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;52&#34;&gt;&lt;/a&gt;Using Pointer Receiver Methods On Value Instances&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-52-a-using-pointer-receiver-methods-on-value-instances&#34;&gt;&lt;a name=&#34;52&#34;&gt;&lt;/a&gt;Using Pointer Receiver Methods On Value Instances&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: advanced&lt;/li&gt;
@@ -3360,7 +3345,7 @@ func main() {
 /tmp/sandbox017696142/main.go:25: cannot call pointer method on m[&amp;quot;x&amp;quot;] /tmp/sandbox017696142/main.go:25: cannot take the address of m[&amp;quot;x&amp;quot;]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-53-a-updating-map-value-fields:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;53&#34;&gt;&lt;/a&gt;Updating Map Value Fields&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-53-a-updating-map-value-fields&#34;&gt;&lt;a name=&#34;53&#34;&gt;&lt;/a&gt;Updating Map Value Fields&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: advanced&lt;/li&gt;
@@ -3458,7 +3443,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-54-a-nil-interfaces-and-nil-interfaces-values:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;54&#34;&gt;&lt;/a&gt;&amp;ldquo;nil&amp;rdquo; Interfaces and &amp;ldquo;nil&amp;rdquo; Interfaces Values&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-54-a-nil-interfaces-and-nil-interfaces-values&#34;&gt;&lt;a name=&#34;54&#34;&gt;&lt;/a&gt;&amp;ldquo;nil&amp;rdquo; Interfaces and &amp;ldquo;nil&amp;rdquo; Interfaces Values&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: advanced&lt;/li&gt;
@@ -3538,7 +3523,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-55-a-stack-and-heap-variables:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;55&#34;&gt;&lt;/a&gt;Stack and Heap Variables&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-55-a-stack-and-heap-variables&#34;&gt;&lt;a name=&#34;55&#34;&gt;&lt;/a&gt;Stack and Heap Variables&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: advanced&lt;/li&gt;
@@ -3548,7 +3533,7 @@ func main() {
 
 &lt;p&gt;If you need to know where your variables are allocated pass the &amp;ldquo;-m&amp;rdquo; gc flag to &amp;ldquo;go build&amp;rdquo; or &amp;ldquo;go run&amp;rdquo; (e.g., go run -gcflags -m app.go).&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-56-a-gomaxprocs-concurrency-and-parallelism:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;56&#34;&gt;&lt;/a&gt;GOMAXPROCS, Concurrency, and Parallelism&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-56-a-gomaxprocs-concurrency-and-parallelism&#34;&gt;&lt;a name=&#34;56&#34;&gt;&lt;/a&gt;GOMAXPROCS, Concurrency, and Parallelism&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: advanced&lt;/li&gt;
@@ -3577,7 +3562,7 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-57-a-read-and-write-operation-reordering:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;57&#34;&gt;&lt;/a&gt;Read and Write Operation Reordering&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-57-a-read-and-write-operation-reordering&#34;&gt;&lt;a name=&#34;57&#34;&gt;&lt;/a&gt;Read and Write Operation Reordering&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: advanced&lt;/li&gt;
@@ -3641,7 +3626,7 @@ func main() {
 
 &lt;p&gt;If you need to preserve the order of read and write operations across multiple goroutines you&amp;rsquo;ll need to use channels or the appropriate constructs from the &amp;ldquo;sync&amp;rdquo; package.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-58-a-preemptive-scheduling:d69ae22d9ee4babfbb2c7eb1d79dc668&#34;&gt;&lt;a name=&#34;58&#34;&gt;&lt;/a&gt;Preemptive Scheduling&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-58-a-preemptive-scheduling&#34;&gt;&lt;a name=&#34;58&#34;&gt;&lt;/a&gt;Preemptive Scheduling&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;level: advanced&lt;/li&gt;
@@ -3719,8 +3704,7 @@ func main() {
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/&#34; title=&#34;50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/&#34; title=&#34;50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -3729,31 +3713,30 @@ func main() {
       <pubDate>Sun, 13 Mar 2016 20:45:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603132045/</guid>
-      <description>
-
-&lt;h3 id=&#34;overview-of-date-and-calendar-classes:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Overview of Date and Calendar classes&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;overview-of-date-and-calendar-classes&#34;&gt;Overview of Date and Calendar classes&lt;/h3&gt;
 
 &lt;p&gt;TOML stands for Tom’s Own Minimal Language. It is a configuration language vaguely similar to YAML or property lists, but far, far better. But before we get into it in detail, let’s look back at what came before.&lt;/p&gt;
 
-&lt;h3 id=&#34;long-ago-in-a-galaxy-far-far-away:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Long Ago, In A Galaxy Far, Far Away&lt;/h3&gt;
+&lt;h3 id=&#34;long-ago-in-a-galaxy-far-far-away&#34;&gt;Long Ago, In A Galaxy Far, Far Away&lt;/h3&gt;
 
 &lt;p&gt;Since the beginning of computing, people have needed a way to configure their software. On Linux, this generally is done in text files. For simple configurations, good old foo = bar works pretty well. One setting per line, name on the left, value on the right, separated by an equals. Great. But when your configuration gets more complicated, this quickly breaks down. What if you need a value that is more than one line? How do you indicate a value should be parsed as a number instead of a string? How do you namespace related configuration values so you don’t need ridiculously long names to prevent collisions?&lt;/p&gt;
 
-&lt;h3 id=&#34;the-dark-ages:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;The Dark Ages&lt;/h3&gt;
+&lt;h3 id=&#34;the-dark-ages&#34;&gt;The Dark Ages&lt;/h3&gt;
 
-&lt;p&gt;In the 90’s, we used XML. And it sucked. XML is verbose, it’s hard for humans to read and write, and it still doesn’t solve a lot of the problems above (like how to specify the type of a value). In addition, the XML spec is huge, processing is very complicated, and all the extra features invite abuse and overcomplication.&lt;/p&gt;
+&lt;p&gt;In the 90’s, we used XML. And it sucked. XML is verbose, it’s hard for humans to read and write, and it still doesn’t solve a lot of the problems above (like how to specify the type of a value). In addition, the XML spec is huge, processing is very complicated, and all the extra features invite abuse and overcomplication.
+&lt;/p&gt;
 
-&lt;h3 id=&#34;enlightenment:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Enlightenment&lt;/h3&gt;
+&lt;h3 id=&#34;enlightenment&#34;&gt;Enlightenment&lt;/h3&gt;
 
 &lt;p&gt;In the mid 2000’s, JSON came to popularity as a data exchange format, and it was so much better than XML. It had real types, it was easy for programs to process, and you didn’t have to write a spec on what values should get processed in what way (well, mostly). It was sigificantly less verbose than XML. But it is a format intended for computers to read and write, not humans. It is a pain to write by hand, and even pretty-printed, it can be hard to read and the compact data format turns into a nested mess of curly braces. Also, JSON is not without its problems… for example, there’s no date type, there’s no support for comments, and all numbers are floats.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-false-start:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;A False Start&lt;/h3&gt;
+&lt;h3 id=&#34;a-false-start&#34;&gt;A False Start&lt;/h3&gt;
 
 &lt;p&gt;YAML came to popularity some time after JSON as a more human-readable format, and its key: value syntax and pretty indentation is definitely a lot easier on the eyes than JSON’s nested curly-braces. However, YAML trades ease of reading for difficulty in writing. Indentation as delimiters is fraught with error… figuring out how to get multiple lines of data into any random value is an exercise in googling and trial &amp;amp; error.&lt;/p&gt;
 
 &lt;p&gt;The YAML spec is also ridiculously long. 100% compatible parsers are very difficult to write. Writing YAML by hand is a ridden with landmines of corner cases where your choice of names or values happens to hit a reserved word or special marker. It does support comments, though.&lt;/p&gt;
 
-&lt;h3 id=&#34;the-savior:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;The Savior&lt;/h3&gt;
+&lt;h3 id=&#34;the-savior&#34;&gt;The Savior&lt;/h3&gt;
 
 &lt;p&gt;On February 23, 2013, Tom Preston-Werner (former CEO of GitHub) made his first commit to &lt;a href=&#34;https://github.com/toml-lang/toml&#34;&gt;https://github.com/toml-lang/toml&lt;/a&gt;. TOML stands for Tom’s Obvious, Minimal Language. It is a language designed for configuring software. Finally.&lt;/p&gt;
 
@@ -3761,7 +3744,7 @@ func main() {
 
 &lt;p&gt;Let’s dive in.&lt;/p&gt;
 
-&lt;h3 id=&#34;the-basics:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;The Basics&lt;/h3&gt;
+&lt;h3 id=&#34;the-basics&#34;&gt;The Basics&lt;/h3&gt;
 
 &lt;p&gt;The basic form is key = value&lt;/p&gt;
 
@@ -3794,7 +3777,7 @@ and our posterity, do ordain and establish this Constitution for the United
 States of America.&amp;quot;&amp;quot;&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;lists:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Lists&lt;/h3&gt;
+&lt;h3 id=&#34;lists&#34;&gt;Lists&lt;/h3&gt;
 
 &lt;p&gt;Lists (arrays) are signified with brackets and delimited with commas. Only primitives are allowed in this form, though you may have nested lists. The format is forgiving, ignoring whitespace and newlines, and yes, the last comma is optional (thank you!):&lt;/p&gt;
 
@@ -3809,7 +3792,7 @@ nested = [[ &amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;], [1, 2]]
 
 &lt;p&gt;I love that the format is forgiving of whitespace and that last comma. I like that the arrays are all of a single type, but allowing mixed types of sub-arrays bugs the heck out of me.&lt;/p&gt;
 
-&lt;h3 id=&#34;now-we-get-crazy:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Now we get crazy&lt;/h3&gt;
+&lt;h3 id=&#34;now-we-get-crazy&#34;&gt;Now we get crazy&lt;/h3&gt;
 
 &lt;p&gt;What’s left? In JSON there are objects, in YAML there are associative arrays… in common parlance they are maps or dictionaries or hash tables. Named collections of key/value pairs.&lt;/p&gt;
 
@@ -3880,7 +3863,7 @@ Which is the equivalent to this JSON:
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;last-but-not-least:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Last but not least&lt;/h3&gt;
+&lt;h3 id=&#34;last-but-not-least&#34;&gt;Last but not least&lt;/h3&gt;
 
 &lt;p&gt;The last thing is arrays of tables, which are declared with double brackets thusly:&lt;/p&gt;
 
@@ -3928,7 +3911,7 @@ text = &amp;quot;Love it!&amp;quot;
 
 &lt;p&gt;Of course, it generally makes sense to actually order things in a more organized fashion, but it’s nice that you can’t shoot yourself in the foot if you reorder things “incorrectly”.&lt;/p&gt;
 
-&lt;h3 id=&#34;conclusion:cd783df526b6f2bb60029e89f5bc5f57&#34;&gt;Conclusion&lt;/h3&gt;
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
 
 &lt;p&gt;That’s TOML. It’s pretty awesome.&lt;/p&gt;
 
@@ -3940,8 +3923,7 @@ text = &amp;quot;Love it!&amp;quot;
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://npf.io/2014/08/intro-to-toml/&#34; title=&#34;Intro to TOML&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://npf.io/2014/08/intro-to-toml/&#34; title=&#34;Intro to TOML&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -3950,9 +3932,7 @@ text = &amp;quot;Love it!&amp;quot;
       <pubDate>Sun, 13 Mar 2016 20:30:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603132030/</guid>
-      <description>
-
-&lt;h3 id=&#34;overview-of-date-and-calendar-classes:903fa8484a7e080c7a9dddbda27c7bc4&#34;&gt;Overview of Date and Calendar classes&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;overview-of-date-and-calendar-classes&#34;&gt;Overview of Date and Calendar classes&lt;/h3&gt;
 
 &lt;p&gt;In this tutorial we look at the classes in java that are helpful in manipulating dates. Manipulating dates in java can be challenging, especially if you are building applications that cater to multiple timezones. Parsing dates, printing a date in UTC, printing a date in a different timezone, comparing dates, adding time to date&amp;hellip; we will be looking at all of these in this tutorial. We first begin with the introduction to the classes and then follow up with examples. You may want to directly jump to the examples, however, we strongly recommend that you understand the classes first, since that will make the examples very easy to understand.&lt;/p&gt;
 
@@ -3965,62 +3945,62 @@ The DAY_OF_MONTH starts from 1&lt;br /&gt;
 the DAY_OF_WEEK starts from SUNDAY with a value of 1.&lt;br /&gt;
 HOUR starts from 0&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;&lt;p&gt;java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples
+&lt;/p&gt;
 
-&lt;h4 id=&#34;create-a-date-object-and-print-it:903fa8484a7e080c7a9dddbda27c7bc4&#34;&gt;Create a Date object and print it&lt;/h4&gt;
+&lt;h4 id=&#34;create-a-date-object-and-print-it&#34;&gt;Create a Date object and print it&lt;/h4&gt;
 
-&lt;pre&gt;&lt;code&gt;    public void createDateAndPrintIt() {
-    // create and prints the current date. It prints the data in the local
-    // timezone
-    System.out.println(new java.util.Date());
-    // prints Sun Jul 28 20:09:36 IST 2013
-    // get the number of milli seconds since epock
-    System.out.println(new java.util.Date().getTime());
-    // prints 1375022617792
+&lt;pre&gt;&lt;code&gt;public void createDateAndPrintIt() {
+// create and prints the current date. It prints the data in the local
+// timezone
+System.out.println(new java.util.Date());
+// prints Sun Jul 28 20:09:36 IST 2013
+// get the number of milli seconds since epock
+System.out.println(new java.util.Date().getTime());
+// prints 1375022617792
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;get-an-instance-of-calendar-object-and-print-it:903fa8484a7e080c7a9dddbda27c7bc4&#34;&gt;get an instance of Calendar object and print it&lt;/h4&gt;
+&lt;h4 id=&#34;get-an-instance-of-calendar-object-and-print-it&#34;&gt;get an instance of Calendar object and print it&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;public void createCalendarAndPrintIt() {
-    Calendar cal = Calendar.getInstance();
-    System.out.println(cal);
-    // java.util.GregorianCalendar[time=1375025205859,areFieldsSet=true,areAllFieldsSet=true,lenient=true,
-    // zone=sun.util.calendar.ZoneInfo[id=&amp;quot;Asia/Calcutta&amp;quot;,offset=19800000,dstSavings=0,useDaylight=false,transitions=6,lastRule=null],
-    // firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2013,MONTH=6,WEEK_OF_YEAR=31,WEEK_OF_MONTH=5,DAY_OF_MONTH=28,
-    // DAY_OF_YEAR=209,DAY_OF_WEEK=1,DAY_OF_WEEK_IN_MONTH=4,AM_PM=1,HOUR=8,HOUR_OF_DAY=20,MINUTE=56,SECOND=45,MILLISECOND=859,ZONE_OFFSET=19800000,DST_OFFSET=0]
-    System.out.println(cal.getTime());
-    // prints Sun Jul 28 20:56:45 IST 2013
+Calendar cal = Calendar.getInstance();
+System.out.println(cal);
+// java.util.GregorianCalendar[time=1375025205859,areFieldsSet=true,areAllFieldsSet=true,lenient=true,
+// zone=sun.util.calendar.ZoneInfo[id=&amp;quot;Asia/Calcutta&amp;quot;,offset=19800000,dstSavings=0,useDaylight=false,transitions=6,lastRule=null],
+// firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2013,MONTH=6,WEEK_OF_YEAR=31,WEEK_OF_MONTH=5,DAY_OF_MONTH=28,
+// DAY_OF_YEAR=209,DAY_OF_WEEK=1,DAY_OF_WEEK_IN_MONTH=4,AM_PM=1,HOUR=8,HOUR_OF_DAY=20,MINUTE=56,SECOND=45,MILLISECOND=859,ZONE_OFFSET=19800000,DST_OFFSET=0]
+System.out.println(cal.getTime());
+// prints Sun Jul 28 20:56:45 IST 2013
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;manipulate-calendar:903fa8484a7e080c7a9dddbda27c7bc4&#34;&gt;Manipulate Calendar&lt;/h4&gt;
+&lt;h4 id=&#34;manipulate-calendar&#34;&gt;Manipulate Calendar&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;public void manipulateCalendar() {
-    Calendar cal = Calendar.getInstance();
-    System.out.println(cal.getTime());// Sun Jul 28 21:53:55 IST 2013
-    // add a day
-    cal.add(Calendar.DAY_OF_MONTH, 1);
-    System.out.println(cal.getTime());// Mon Jul 29 21:53:55 IST 2013
-    cal.add(Calendar.DAY_OF_WEEK, 1);
-    System.out.println(cal.getTime());// Tue Jul 30 21:53:55 IST 2013
-    cal.add(Calendar.HOUR, 1);
-    System.out.println(cal.getTime());// Tue Jul 30 22:53:55 IST 2013
-    cal.add(Calendar.HOUR_OF_DAY, 1);
-    System.out.println(cal.getTime());// Tue Jul 30 23:53:55 IST 2013
-    cal.add(Calendar.MINUTE, 100);
-    System.out.println(cal.getTime());// Wed Jul 31 01:33:55 IST 2013
-    // demonstrate leniency
-    cal.add(Calendar.DAY_OF_MONTH, 32);
-    System.out.println(cal.getTime());// Sun Sep 01 01:33:55 IST 2013
+Calendar cal = Calendar.getInstance();
+System.out.println(cal.getTime());// Sun Jul 28 21:53:55 IST 2013
+// add a day
+cal.add(Calendar.DAY_OF_MONTH, 1);
+System.out.println(cal.getTime());// Mon Jul 29 21:53:55 IST 2013
+cal.add(Calendar.DAY_OF_WEEK, 1);
+System.out.println(cal.getTime());// Tue Jul 30 21:53:55 IST 2013
+cal.add(Calendar.HOUR, 1);
+System.out.println(cal.getTime());// Tue Jul 30 22:53:55 IST 2013
+cal.add(Calendar.HOUR_OF_DAY, 1);
+System.out.println(cal.getTime());// Tue Jul 30 23:53:55 IST 2013
+cal.add(Calendar.MINUTE, 100);
+System.out.println(cal.getTime());// Wed Jul 31 01:33:55 IST 2013
+// demonstrate leniency
+cal.add(Calendar.DAY_OF_MONTH, 32);
+System.out.println(cal.getTime());// Sun Sep 01 01:33:55 IST 2013
 }
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/date/java-date-and-calendar-classes.jsp&#34; title=&#34;Date And Calendar&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/date/java-date-and-calendar-classes.jsp&#34; title=&#34;Date And Calendar&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -4029,9 +4009,7 @@ HOUR starts from 0&lt;/p&gt;&lt;/li&gt;
       <pubDate>Sun, 13 Mar 2016 20:25:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603132025/</guid>
-      <description>
-
-&lt;h3 id=&#34;overview-of-the-api-classes:ea451922ece9dc79afacfb7b6aeaf09c&#34;&gt;Overview of The API Classes&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;overview-of-the-api-classes&#34;&gt;Overview of The API Classes&lt;/h3&gt;
 
 &lt;p&gt;org.json has classes to parse and write json string. It also converts between json and xml, HTTP header, Cookies, and CDF. The main classes are:&lt;/p&gt;
 
@@ -4046,9 +4024,10 @@ HOUR starts from 0&lt;/p&gt;&lt;/li&gt;
 Lets see some examples&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;parse-json:ea451922ece9dc79afacfb7b6aeaf09c&#34;&gt;Parse JSON&lt;/h3&gt;
+&lt;h3 id=&#34;parse-json&#34;&gt;Parse JSON&lt;/h3&gt;
 
-&lt;p&gt;This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org&lt;/p&gt;
+&lt;p&gt;This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org
+&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;package com.studytriails.json.orgjson;
 
@@ -4076,7 +4055,7 @@ public class ParseJson1 {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;build-json-using-a-bean:ea451922ece9dc79afacfb7b6aeaf09c&#34;&gt;Build JSON using a bean&lt;/h3&gt;
+&lt;h3 id=&#34;build-json-using-a-bean&#34;&gt;Build JSON using a bean&lt;/h3&gt;
 
 &lt;p&gt;Lets look at how to build the same JSON string as above but using a bean for the genre&lt;/p&gt;
 
@@ -4116,7 +4095,7 @@ public class BuildJson1 {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;creating-a-csv-from-jsonarray:ea451922ece9dc79afacfb7b6aeaf09c&#34;&gt;Creating a CSV from JsonArray&lt;/h3&gt;
+&lt;h3 id=&#34;creating-a-csv-from-jsonarray&#34;&gt;Creating a CSV from JsonArray&lt;/h3&gt;
 
 &lt;p&gt;Lets look at an example of how to use the java.json.CDL class to convert a jsonarray to a csv&lt;/p&gt;
 
@@ -4146,8 +4125,7 @@ public class JsonToCsv {
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-org-json.jsp&#34; title=&#34;Java - org.json&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-org-json.jsp&#34; title=&#34;Java - org.json&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -4156,9 +4134,7 @@ public class JsonToCsv {
       <pubDate>Sun, 13 Mar 2016 20:15:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603132015/</guid>
-      <description>
-
-&lt;p&gt;Json Simple is, as the name suggest, a very simple API. The API itself is made up of around 13 classes. The main classes are :&lt;/p&gt;
+      <description>&lt;p&gt;Json Simple is, as the name suggest, a very simple API. The API itself is made up of around 13 classes. The main classes are :&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;JSONParser - This parses Json text. It takes in a java.io.Reader or a String Object. It is also possible to pass a ContentHandler or ContainerHandler to the parser.&lt;/li&gt;
@@ -4169,9 +4145,10 @@ public class JsonToCsv {
 Lets see some examples&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;parse-json:74b021baee5c16170d831b65ab6f7843&#34;&gt;Parse JSON&lt;/h3&gt;
+&lt;h3 id=&#34;parse-json&#34;&gt;Parse JSON&lt;/h3&gt;
 
-&lt;p&gt;This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org&lt;/p&gt;
+&lt;p&gt;This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org
+&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;import java.io.IOException;
 import java.net.URL;
@@ -4209,7 +4186,7 @@ public class ParseJson1 {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;build-json:74b021baee5c16170d831b65ab6f7843&#34;&gt;Build JSON&lt;/h3&gt;
+&lt;h3 id=&#34;build-json&#34;&gt;Build JSON&lt;/h3&gt;
 
 &lt;p&gt;We now build a json string for a genre&lt;/p&gt;
 
@@ -4297,8 +4274,7 @@ public class BuildJson2 {
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-json-simple.jsp&#34; title=&#34;Java - Json Simple&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-json-simple.jsp&#34; title=&#34;Java - Json Simple&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -4307,15 +4283,12 @@ public class BuildJson2 {
       <pubDate>Sat, 12 Mar 2016 20:45:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603122045/</guid>
-      <description>
-
-&lt;ol&gt;
+      <description>&lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Overview&#34;&gt;Overview&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Goals-for-Gson&#34;&gt;Goals for Gson&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Gson-Performance-and-Scalability&#34;&gt;Gson Performance and Scalability&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Gson-Users&#34;&gt;Gson Users&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Using-Gson&#34;&gt;Using Gson&lt;/a&gt;&lt;/p&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Using-Gson&#34;&gt;Using Gson&lt;/a&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Gson-With-Maven&#34;&gt;Using Gson with Maven&lt;/a&gt;&lt;/li&gt;
@@ -4331,46 +4304,32 @@ public class BuildJson2 {
 &lt;li&gt;&lt;a href=&#34;#TOC-Built-in-Serializers-and-Deserializers&#34;&gt;Built-in Serializers and Deserializers&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Custom-Serialization-and-Deserialization&#34;&gt;Custom Serialization and Deserialization&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#TOC-Writing-a-Serializer&#34;&gt;Writing a Serializer&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Writing-a-Deserializer&#34;&gt;Writing a Deserializer&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Writing-an-Instance-Creator&#34;&gt;Writing an Instance Creator&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-InstanceCreator-for-a-Parameterized-Type&#34;&gt;InstanceCreator for a Parameterized Type&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Compact-Vs.-Pretty-Printing-for-JSON-Output-Format&#34;&gt;Compact Vs. Pretty Printing for JSON Output Format&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Null-Object-Support&#34;&gt;Null Object Support&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Versioning-Support&#34;&gt;Versioning Support&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Excluding-Fields-From-Serialization-and-Deserialization&#34;&gt;Excluding Fields From Serialization and Deserialization&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Java-Modifier-Exclusion&#34;&gt;Java Modifier Exclusion&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Gson-s-Expose&#34;&gt;Gson&amp;rsquo;s &lt;code&gt;@Expose&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-User-Defined-Exclusion-Strategies&#34;&gt;User Defined Exclusion Strategies&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-JSON-Field-Naming-Support&#34;&gt;JSON Field Naming Support&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Sharing-State-Across-Custom-Serializers-and-Deserializers&#34;&gt;Sharing State Across Custom Serializers and Deserializers&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Streaming&#34;&gt;Streaming&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Writing-a-Deserializer&#34;&gt;Writing a Deserializer&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Writing-an-Instance-Creator&#34;&gt;Writing an Instance Creator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-InstanceCreator-for-a-Parameterized-Type&#34;&gt;InstanceCreator for a Parameterized Type&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Compact-Vs.-Pretty-Printing-for-JSON-Output-Format&#34;&gt;Compact Vs. Pretty Printing for JSON Output Format&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Null-Object-Support&#34;&gt;Null Object Support&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Versioning-Support&#34;&gt;Versioning Support&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Excluding-Fields-From-Serialization-and-Deserialization&#34;&gt;Excluding Fields From Serialization and Deserialization&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Java-Modifier-Exclusion&#34;&gt;Java Modifier Exclusion&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Gson-s-Expose&#34;&gt;Gson&amp;rsquo;s &lt;code&gt;@Expose&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-User-Defined-Exclusion-Strategies&#34;&gt;User Defined Exclusion Strategies&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-JSON-Field-Naming-Support&#34;&gt;JSON Field Naming Support&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Sharing-State-Across-Custom-Serializers-and-Deserializers&#34;&gt;Sharing State Across Custom Serializers and Deserializers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Streaming&#34;&gt;Streaming&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Issues-in-Designing-Gson&#34;&gt;Issues in Designing Gson&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#TOC-Future-Enhancements-to-Gson&#34;&gt;Future Enhancements to Gson&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Issues-in-Designing-Gson&#34;&gt;Issues in Designing Gson&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#TOC-Future-Enhancements-to-Gson&#34;&gt;Future Enhancements to Gson&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&#34;a-name-toc-overview-a-overview:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Overview&#34;&gt;&lt;/a&gt;Overview&lt;/h2&gt;
+&lt;h2 id=&#34;a-name-toc-overview-a-overview&#34;&gt;&lt;a name=&#34;TOC-Overview&#34;&gt;&lt;/a&gt;Overview&lt;/h2&gt;
 
 &lt;p&gt;Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object.&lt;/p&gt;
 
 &lt;p&gt;Gson can work with arbitrary Java objects including pre-existing objects that you do not have source code of.&lt;/p&gt;
 
-&lt;h2 id=&#34;a-name-toc-goals-for-gson-a-goals-for-gson:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Goals-for-Gson&#34;&gt;&lt;/a&gt;Goals for Gson&lt;/h2&gt;
+&lt;h2 id=&#34;a-name-toc-goals-for-gson-a-goals-for-gson&#34;&gt;&lt;a name=&#34;TOC-Goals-for-Gson&#34;&gt;&lt;/a&gt;Goals for Gson&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Provide easy to use mechanisms like &lt;code&gt;toString()&lt;/code&gt; and constructor (factory method) to convert Java to JSON and vice-versa&lt;/li&gt;
@@ -4380,7 +4339,7 @@ public class BuildJson2 {
 &lt;li&gt;Generate compact and readability JSON output&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;a-name-toc-gson-performance-and-scalability-a-gson-performance-and-scalability:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Gson-Performance-and-Scalability&#34;&gt;&lt;/a&gt;Gson Performance and Scalability&lt;/h2&gt;
+&lt;h2 id=&#34;a-name-toc-gson-performance-and-scalability-a-gson-performance-and-scalability&#34;&gt;&lt;a name=&#34;TOC-Gson-Performance-and-Scalability&#34;&gt;&lt;/a&gt;Gson Performance and Scalability&lt;/h2&gt;
 
 &lt;p&gt;Here are some metrics that we obtained on a desktop (dual opteron, 8GB RAM, 64-bit Ubuntu) running lots of other things along-with the tests. You can rerun these tests by using the class &lt;a href=&#34;gson/src/test/java/com/google/gson/metrics/PerformanceTest.java&#34;&gt;&lt;code&gt;PerformanceTest&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 
@@ -4397,17 +4356,17 @@ public class BuildJson2 {
 
 &lt;p&gt;Note: Delete the &lt;code&gt;disabled_&lt;/code&gt; prefix to run these tests. We use this prefix to prevent running these tests every time we run JUnit tests.&lt;/p&gt;
 
-&lt;h2 id=&#34;a-name-toc-gson-users-a-gson-users:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Gson-Users&#34;&gt;&lt;/a&gt;Gson Users&lt;/h2&gt;
+&lt;h2 id=&#34;a-name-toc-gson-users-a-gson-users&#34;&gt;&lt;a name=&#34;TOC-Gson-Users&#34;&gt;&lt;/a&gt;Gson Users&lt;/h2&gt;
 
 &lt;p&gt;Gson was originally created for use inside Google where it is currently used in a number of projects. It is now used by a number of public projects and companies. See details &lt;a href=&#34;https://sites.google.com/site/gson/gson-users&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h2 id=&#34;a-name-toc-using-gson-a-using-gson:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Using-Gson&#34;&gt;&lt;/a&gt;Using Gson&lt;/h2&gt;
+&lt;h2 id=&#34;a-name-toc-using-gson-a-using-gson&#34;&gt;&lt;a name=&#34;TOC-Using-Gson&#34;&gt;&lt;/a&gt;Using Gson&lt;/h2&gt;
 
 &lt;p&gt;The primary class to use is &lt;a href=&#34;gson/src/main/java/com/google/gson/Gson.java&#34;&gt;&lt;code&gt;Gson&lt;/code&gt;&lt;/a&gt; which you can just create by calling &lt;code&gt;new Gson()&lt;/code&gt;. There is also a class &lt;a href=&#34;gson/src/main/java/com/google/gson/GsonBuilder.java&#34;&gt;&lt;code&gt;GsonBuilder&lt;/code&gt;&lt;/a&gt; available that can be used to create a Gson instance with various settings like version control and so on.&lt;/p&gt;
 
 &lt;p&gt;The Gson instance does not maintain any state while invoking Json operations. So, you are free to reuse the same object for multiple Json serialization and deserialization operations.&lt;/p&gt;
 
-&lt;h2 id=&#34;a-name-toc-gson-with-maven-a-using-gson-with-maven:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Gson-With-Maven&#34;&gt;&lt;/a&gt;Using Gson with Maven&lt;/h2&gt;
+&lt;h2 id=&#34;a-name-toc-gson-with-maven-a-using-gson-with-maven&#34;&gt;&lt;a name=&#34;TOC-Gson-With-Maven&#34;&gt;&lt;/a&gt;Using Gson with Maven&lt;/h2&gt;
 
 &lt;p&gt;To use Gson with Maven2/3, you can use the Gson version available in Maven Central by adding the following dependency:&lt;/p&gt;
 
@@ -4424,7 +4383,7 @@ public class BuildJson2 {
 
 &lt;p&gt;That is it, now your maven project is Gson enabled.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-toc-primitives-examples-a-primitives-examples:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Primitives-Examples&#34;&gt;&lt;/a&gt;Primitives Examples&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-primitives-examples-a-primitives-examples&#34;&gt;&lt;a name=&#34;TOC-Primitives-Examples&#34;&gt;&lt;/a&gt;Primitives Examples&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;// Serialization
 Gson gson = new Gson();
@@ -4443,7 +4402,7 @@ String str = gson.fromJson(&amp;quot;\&amp;quot;abc\&amp;quot;&amp;quot;, String
 String anotherStr = gson.fromJson(&amp;quot;[\&amp;quot;abc\&amp;quot;]&amp;quot;, String.class);
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-toc-object-examples-a-object-examples:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Object-Examples&#34;&gt;&lt;/a&gt;Object Examples&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-object-examples-a-object-examples&#34;&gt;&lt;a name=&#34;TOC-Object-Examples&#34;&gt;&lt;/a&gt;Object Examples&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;class BagOfPrimitives {
   private int value1 = 1;
@@ -4469,7 +4428,7 @@ BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);
 // ==&amp;gt; obj2 is just like obj
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;a-name-toc-finer-points-with-objects-a-finer-points-with-objects:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Finer-Points-with-Objects&#34;&gt;&lt;/a&gt;&lt;strong&gt;Finer Points with Objects&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;a-name-toc-finer-points-with-objects-a-finer-points-with-objects&#34;&gt;&lt;a name=&#34;TOC-Finer-Points-with-Objects&#34;&gt;&lt;/a&gt;&lt;strong&gt;Finer Points with Objects&lt;/strong&gt;&lt;/h4&gt;
 
 &lt;ul&gt;
 &lt;li&gt;It is perfectly fine (and recommended) to use private fields&lt;/li&gt;
@@ -4482,7 +4441,7 @@ BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);
 &lt;li&gt;Fields corresponding to the outer classes in inner classes, anonymous classes, and local classes are ignored and not included in serialization or deserialization&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;a-name-toc-nested-classes-including-inner-classes-a-nested-classes-including-inner-classes:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Nested-Classes-including-Inner-Classes-&#34;&gt;&lt;/a&gt;Nested Classes (including Inner Classes)&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-nested-classes-including-inner-classes-a-nested-classes-including-inner-classes&#34;&gt;&lt;a name=&#34;TOC-Nested-Classes-including-Inner-Classes-&#34;&gt;&lt;/a&gt;Nested Classes (including Inner Classes)&lt;/h3&gt;
 
 &lt;p&gt;Gson can serialize static nested classes quite easily.&lt;/p&gt;
 
@@ -4519,7 +4478,7 @@ BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);
 
 &lt;p&gt;The above is possible, but not recommended.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-toc-array-examples-a-array-examples:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Array-Examples&#34;&gt;&lt;/a&gt;Array Examples&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-array-examples-a-array-examples&#34;&gt;&lt;a name=&#34;TOC-Array-Examples&#34;&gt;&lt;/a&gt;Array Examples&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Gson gson = new Gson();
 int[] ints = {1, 2, 3, 4, 5};
@@ -4536,7 +4495,7 @@ int[] ints2 = gson.fromJson(&amp;quot;[1,2,3,4,5]&amp;quot;, int[].class);
 
 &lt;p&gt;We also support multi-dimensional arrays, with arbitrarily complex element types.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-toc-collections-examples-a-collections-examples:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Collections-Examples&#34;&gt;&lt;/a&gt;Collections Examples&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-collections-examples-a-collections-examples&#34;&gt;&lt;a name=&#34;TOC-Collections-Examples&#34;&gt;&lt;/a&gt;Collections Examples&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Gson gson = new Gson();
 Collection&amp;lt;Integer&amp;gt; ints = Lists.immutableList(1,2,3,4,5);
@@ -4553,12 +4512,12 @@ Collection&amp;lt;Integer&amp;gt; ints2 = gson.fromJson(json, collectionType);
 &lt;p&gt;Fairly hideous: note how we define the type of collection.
 Unfortunately, there is no way to get around this in Java.&lt;/p&gt;
 
-&lt;h4 id=&#34;a-name-toc-collections-limitations-a-collections-limitations:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Collections-Limitations&#34;&gt;&lt;/a&gt;Collections Limitations&lt;/h4&gt;
+&lt;h4 id=&#34;a-name-toc-collections-limitations-a-collections-limitations&#34;&gt;&lt;a name=&#34;TOC-Collections-Limitations&#34;&gt;&lt;/a&gt;Collections Limitations&lt;/h4&gt;
 
 &lt;p&gt;Gson can serialize collection of arbitrary objects but can not deserialize from it, because there is no way for the user to indicate the type of the resulting object. Instead, while deserializing, the Collection must be of a specific, generic type.
 This makes sense, and is rarely a problem when following good Java coding practices.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-toc-serializing-and-deserializing-generic-types-a-serializing-and-deserializing-generic-types:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Serializing-and-Deserializing-Generic-Types&#34;&gt;&lt;/a&gt;Serializing and Deserializing Generic Types&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-serializing-and-deserializing-generic-types-a-serializing-and-deserializing-generic-types&#34;&gt;&lt;a name=&#34;TOC-Serializing-and-Deserializing-Generic-Types&#34;&gt;&lt;/a&gt;Serializing and Deserializing Generic Types&lt;/h3&gt;
 
 &lt;p&gt;When you call &lt;code&gt;toJson(obj)&lt;/code&gt;, Gson calls &lt;code&gt;obj.getClass()&lt;/code&gt; to get information on the fields to serialize. Similarly, you can typically pass &lt;code&gt;MyClass.class&lt;/code&gt; object in the &lt;code&gt;fromJson(json, MyClass.class)&lt;/code&gt; method. This works fine if the object is a non-generic type. However, if the object is of a generic type, then the Generic type information is lost because of Java Type Erasure. Here is an example illustrating the point:&lt;/p&gt;
 
@@ -4584,7 +4543,7 @@ gson.fromJson(json, fooType);
 
 &lt;p&gt;The idiom used to get &lt;code&gt;fooType&lt;/code&gt; actually defines an anonymous local inner class containing a method &lt;code&gt;getType()&lt;/code&gt; that returns the fully parameterized type.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-toc-serializing-and-deserializing-collection-with-objects-of-arbitrary-types-a-serializing-and-deserializing-collection-with-objects-of-arbitrary-types:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Serializing-and-Deserializing-Collection-with-Objects-of-Arbitrary-Types&#34;&gt;&lt;/a&gt;Serializing and Deserializing Collection with Objects of Arbitrary Types&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-serializing-and-deserializing-collection-with-objects-of-arbitrary-types-a-serializing-and-deserializing-collection-with-objects-of-arbitrary-types&#34;&gt;&lt;a name=&#34;TOC-Serializing-and-Deserializing-Collection-with-Objects-of-Arbitrary-Types&#34;&gt;&lt;/a&gt;Serializing and Deserializing Collection with Objects of Arbitrary Types&lt;/h3&gt;
 
 &lt;p&gt;Sometimes you are dealing with JSON array that contains mixed types. For example:
 &lt;code&gt;[&#39;hello&#39;,5,{name:&#39;GREETINGS&#39;,source:&#39;guest&#39;}]&lt;/code&gt;&lt;/p&gt;
@@ -4623,7 +4582,7 @@ collection.add(new Event(&amp;quot;GREETINGS&amp;quot;, &amp;quot;guest&amp;quot
 
 &lt;p&gt;This approach is practical only if the array appears as a top-level element or if you can change the field type holding the collection to be of type &lt;code&gt;Collection&amp;lt;MyCollectionMemberType&amp;gt;&lt;/code&gt;.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-toc-built-in-serializers-and-deserializers-a-built-in-serializers-and-deserializers:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Built-in-Serializers-and-Deserializers&#34;&gt;&lt;/a&gt;Built-in Serializers and Deserializers&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-built-in-serializers-and-deserializers-a-built-in-serializers-and-deserializers&#34;&gt;&lt;a name=&#34;TOC-Built-in-Serializers-and-Deserializers&#34;&gt;&lt;/a&gt;Built-in Serializers and Deserializers&lt;/h3&gt;
 
 &lt;p&gt;Gson has built-in serializers and deserializers for commonly used classes whose default representation may be inappropriate.
 Here is a list of such classes:&lt;/p&gt;
@@ -4635,7 +4594,7 @@ Here is a list of such classes:&lt;/p&gt;
 
 &lt;p&gt;You can also find source code for some commonly used classes such as JodaTime at &lt;a href=&#34;https://sites.google.com/site/gson/gson-type-adapters-for-common-classes-1&#34;&gt;this page&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-toc-custom-serialization-and-deserialization-a-custom-serialization-and-deserialization:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Custom-Serialization-and-Deserialization&#34;&gt;&lt;/a&gt;Custom Serialization and Deserialization&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-custom-serialization-and-deserialization-a-custom-serialization-and-deserialization&#34;&gt;&lt;a name=&#34;TOC-Custom-Serialization-and-Deserialization&#34;&gt;&lt;/a&gt;Custom Serialization and Deserialization&lt;/h3&gt;
 
 &lt;p&gt;Sometimes default representation is not what you want. This is often the case when dealing with library classes (DateTime, etc).
 Gson allows you to register your own custom serializers and deserializers. This is done by defining two parts:&lt;/p&gt;
@@ -4657,7 +4616,7 @@ gson.registerTypeAdapter(MyType.class, new MyInstanceCreator());
 
 &lt;p&gt;&lt;code&gt;registerTypeAdapter&lt;/code&gt; call checks if the type adapter implements more than one of these interfaces and register it for all of them.&lt;/p&gt;
 
-&lt;h4 id=&#34;a-name-toc-writing-a-serializer-a-writing-a-serializer:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Writing-a-Serializer&#34;&gt;&lt;/a&gt;Writing a Serializer&lt;/h4&gt;
+&lt;h4 id=&#34;a-name-toc-writing-a-serializer-a-writing-a-serializer&#34;&gt;&lt;a name=&#34;TOC-Writing-a-Serializer&#34;&gt;&lt;/a&gt;Writing a Serializer&lt;/h4&gt;
 
 &lt;p&gt;Here is an example of how to write a custom serializer for JodaTime &lt;code&gt;DateTime&lt;/code&gt; class.&lt;/p&gt;
 
@@ -4670,7 +4629,7 @@ gson.registerTypeAdapter(MyType.class, new MyInstanceCreator());
 
 &lt;p&gt;Gson calls &lt;code&gt;serialize()&lt;/code&gt; when it runs into a &lt;code&gt;DateTime&lt;/code&gt; object during serialization.&lt;/p&gt;
 
-&lt;h4 id=&#34;a-name-toc-writing-a-deserializer-a-writing-a-deserializer:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Writing-a-Deserializer&#34;&gt;&lt;/a&gt;Writing a Deserializer&lt;/h4&gt;
+&lt;h4 id=&#34;a-name-toc-writing-a-deserializer-a-writing-a-deserializer&#34;&gt;&lt;a name=&#34;TOC-Writing-a-Deserializer&#34;&gt;&lt;/a&gt;Writing a Deserializer&lt;/h4&gt;
 
 &lt;p&gt;Here is an example of how to write a custom deserializer for JodaTime DateTime class.&lt;/p&gt;
 
@@ -4705,7 +4664,7 @@ gson.registerTypeAdapter(MyType.class, new MyInstanceCreator());
 &lt;p&gt;Gson supports registering a single handler for this. You can also register a specific handler for a specific generic type (say &lt;code&gt;Id&amp;lt;RequiresSpecialHandling&amp;gt;&lt;/code&gt; needed special handling).
 The &lt;code&gt;Type&lt;/code&gt; parameter for the &lt;code&gt;toJson()&lt;/code&gt; and &lt;code&gt;fromJson()&lt;/code&gt; contains the generic type information to help you write a single handler for all generic types corresponding to the same raw type.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-toc-writing-an-instance-creator-a-writing-an-instance-creator:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Writing-an-Instance-Creator&#34;&gt;&lt;/a&gt;Writing an Instance Creator&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-writing-an-instance-creator-a-writing-an-instance-creator&#34;&gt;&lt;a name=&#34;TOC-Writing-an-Instance-Creator&#34;&gt;&lt;/a&gt;Writing an Instance Creator&lt;/h3&gt;
 
 &lt;p&gt;While deserializing an Object, Gson needs to create a default instance of the class.
 Well-behaved classes that are meant for serialization and deserialization should have a no-argument constructor.&lt;/p&gt;
@@ -4732,7 +4691,7 @@ Well-behaved classes that are meant for serialization and deserialization should
 &lt;li&gt;For example, if the &lt;code&gt;Id&lt;/code&gt; class stores the class for which the Id is being created&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;a-name-toc-instancecreator-for-a-parameterized-type-a-instancecreator-for-a-parameterized-type:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-InstanceCreator-for-a-Parameterized-Type&#34;&gt;&lt;/a&gt;InstanceCreator for a Parameterized Type&lt;/h4&gt;
+&lt;h4 id=&#34;a-name-toc-instancecreator-for-a-parameterized-type-a-instancecreator-for-a-parameterized-type&#34;&gt;&lt;a name=&#34;TOC-InstanceCreator-for-a-Parameterized-Type&#34;&gt;&lt;/a&gt;InstanceCreator for a Parameterized Type&lt;/h4&gt;
 
 &lt;p&gt;Sometimes that the type that you are trying to instantiate is a parameterized type. Generally, this is not a problem since the actual instance is of raw type. Here is an example:&lt;/p&gt;
 
@@ -4770,7 +4729,7 @@ class IdInstanceCreator implements InstanceCreator&amp;lt;Id&amp;lt;?&amp;gt;&am
 
 &lt;p&gt;In the above example, an instance of the Id class can not be created without actually passing in the actual type for the parameterized type. We solve this problem by using the passed method parameter, &lt;code&gt;type&lt;/code&gt;. The &lt;code&gt;type&lt;/code&gt; object in this case is the Java parameterized type representation of &lt;code&gt;Id&amp;lt;Foo&amp;gt;&lt;/code&gt; where the actual instance should be bound to &lt;code&gt;Id&amp;lt;Foo&amp;gt;&lt;/code&gt;. Since &lt;code&gt;Id&lt;/code&gt; class has just one parameterized type parameter, &lt;code&gt;T&lt;/code&gt;, we use the zeroth element of the type array returned by &lt;code&gt;getActualTypeArgument()&lt;/code&gt; which will hold &lt;code&gt;Foo.class&lt;/code&gt; in this case.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-toc-compact-vs-pretty-printing-for-json-output-format-a-compact-vs-pretty-printing-for-json-output-format:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Compact-Vs.-Pretty-Printing-for-JSON-Output-Format&#34;&gt;&lt;/a&gt;Compact Vs. Pretty Printing for JSON Output Format&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-compact-vs-pretty-printing-for-json-output-format-a-compact-vs-pretty-printing-for-json-output-format&#34;&gt;&lt;a name=&#34;TOC-Compact-Vs.-Pretty-Printing-for-JSON-Output-Format&#34;&gt;&lt;/a&gt;Compact Vs. Pretty Printing for JSON Output Format&lt;/h3&gt;
 
 &lt;p&gt;The default JSON output that is provide by Gson is a compact JSON format. This means that there will not be any whitespace in the output JSON structure. Therefore, there will be no whitespace between field names and its value, object fields, and objects within arrays in the JSON output. As well, &amp;ldquo;null&amp;rdquo; fields will be ignored in the output (NOTE: null values will still be included in collections/arrays of objects). See the &lt;a href=&#34;#TOC-Null-Object-Support&#34;&gt;Null Object Support&lt;/a&gt; section for information on configure Gson to output all null values.&lt;/p&gt;
 
@@ -4782,7 +4741,7 @@ class IdInstanceCreator implements InstanceCreator&amp;lt;Id&amp;lt;?&amp;gt;&am
 String jsonOutput = gson.toJson(someObject);
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-toc-null-object-support-a-null-object-support:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Null-Object-Support&#34;&gt;&lt;/a&gt;Null Object Support&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-null-object-support-a-null-object-support&#34;&gt;&lt;a name=&#34;TOC-Null-Object-Support&#34;&gt;&lt;/a&gt;Null Object Support&lt;/h3&gt;
 
 &lt;p&gt;The default behaviour that is implemented in Gson is that &lt;code&gt;null&lt;/code&gt; object fields are ignored. This allows for a more compact output format; however, the client must define a default value for these fields as the JSON format is converted back into its Java.&lt;/p&gt;
 
@@ -4824,7 +4783,7 @@ System.out.println(json);
 null
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-toc-versioning-support-a-versioning-support:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Versioning-Support&#34;&gt;&lt;/a&gt;Versioning Support&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-versioning-support-a-versioning-support&#34;&gt;&lt;a name=&#34;TOC-Versioning-Support&#34;&gt;&lt;/a&gt;Versioning Support&lt;/h3&gt;
 
 &lt;p&gt;Multiple versions of the same object can be maintained by using &lt;a href=&#34;gson/src/main/java/com/google/gson/annotations/Since.java&#34;&gt;@Since&lt;/a&gt; annotation. This annotation can be used on Classes, Fields and, in a future release, Methods. In order to leverage this feature, you must configure your &lt;code&gt;Gson&lt;/code&gt; instance to ignore any field/object that is greater than some version number. If no version is set on the &lt;code&gt;Gson&lt;/code&gt; instance then it will serialize and deserialize all fields and classes regardless of the version.&lt;/p&gt;
 
@@ -4858,11 +4817,11 @@ System.out.println(jsonOutput);
 {&amp;quot;newerField&amp;quot;:&amp;quot;newer&amp;quot;,&amp;quot;newField&amp;quot;:&amp;quot;new&amp;quot;,&amp;quot;field&amp;quot;:&amp;quot;old&amp;quot;}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-toc-excluding-fields-from-serialization-and-deserialization-a-excluding-fields-from-serialization-and-deserialization:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Excluding-Fields-From-Serialization-and-Deserialization&#34;&gt;&lt;/a&gt;Excluding Fields From Serialization and Deserialization&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-excluding-fields-from-serialization-and-deserialization-a-excluding-fields-from-serialization-and-deserialization&#34;&gt;&lt;a name=&#34;TOC-Excluding-Fields-From-Serialization-and-Deserialization&#34;&gt;&lt;/a&gt;Excluding Fields From Serialization and Deserialization&lt;/h3&gt;
 
 &lt;p&gt;Gson supports numerous mechanisms for excluding top-level classes, fields and field types. Below are pluggable mechanism that allow field and class exclusion. If none of the below mechanism satisfy your needs then you can always use &lt;a href=&#34;#TOC-Custom-Serialization-and-Deserializ&#34;&gt;custom serializers and deserializers&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h4 id=&#34;a-name-toc-java-modifier-exclusion-a-java-modifier-exclusion:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Java-Modifier-Exclusion&#34;&gt;&lt;/a&gt;Java Modifier Exclusion&lt;/h4&gt;
+&lt;h4 id=&#34;a-name-toc-java-modifier-exclusion-a-java-modifier-exclusion&#34;&gt;&lt;a name=&#34;TOC-Java-Modifier-Exclusion&#34;&gt;&lt;/a&gt;Java Modifier Exclusion&lt;/h4&gt;
 
 &lt;p&gt;By default, if you mark a field as &lt;code&gt;transient&lt;/code&gt;, it will be excluded. As well, if a field is marked as &lt;code&gt;static&lt;/code&gt; then by default it will be excluded. If you want to include some transient fields then you can do the following:&lt;/p&gt;
 
@@ -4879,11 +4838,11 @@ Gson gson = new GsonBuilder()
     .create();
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;a-name-toc-gson-s-expose-a-gson-s-expose:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Gson-s-Expose&#34;&gt;&lt;/a&gt;Gson&amp;rsquo;s &lt;code&gt;@Expose&lt;/code&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;a-name-toc-gson-s-expose-a-gson-s-expose&#34;&gt;&lt;a name=&#34;TOC-Gson-s-Expose&#34;&gt;&lt;/a&gt;Gson&amp;rsquo;s &lt;code&gt;@Expose&lt;/code&gt;&lt;/h4&gt;
 
 &lt;p&gt;This feature provides a way where you can mark certain fields of your objects to be excluded for consideration for serialization and deserialization to JSON. To use this annotation, you must create Gson by using &lt;code&gt;new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()&lt;/code&gt;. The Gson instance created will exclude all fields in a class that are not marked with &lt;code&gt;@Expose&lt;/code&gt; annotation.&lt;/p&gt;
 
-&lt;h4 id=&#34;a-name-toc-user-defined-exclusion-strategies-a-user-defined-exclusion-strategies:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-User-Defined-Exclusion-Strategies&#34;&gt;&lt;/a&gt;User Defined Exclusion Strategies&lt;/h4&gt;
+&lt;h4 id=&#34;a-name-toc-user-defined-exclusion-strategies-a-user-defined-exclusion-strategies&#34;&gt;&lt;a name=&#34;TOC-User-Defined-Exclusion-Strategies&#34;&gt;&lt;/a&gt;User Defined Exclusion Strategies&lt;/h4&gt;
 
 &lt;p&gt;If the above mechanisms for excluding fields and class type do not work for you then you can always write your own exclusion strategy and plug it into Gson. See the &lt;a href=&#34;http://google.github.io/gson/apidocs/com/google/gson/ExclusionStrategy.html&#34;&gt;&lt;code&gt;ExclusionStrategy&lt;/code&gt;&lt;/a&gt; JavaDoc for more information.&lt;/p&gt;
 
@@ -4940,7 +4899,7 @@ public static void main(String[] args) {
 &lt;pre&gt;&lt;code&gt;{&amp;quot;longField&amp;quot;:1234}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-name-toc-json-field-naming-support-a-json-field-naming-support:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-JSON-Field-Naming-Support&#34;&gt;&lt;/a&gt;JSON Field Naming Support&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-json-field-naming-support-a-json-field-naming-support&#34;&gt;&lt;a name=&#34;TOC-JSON-Field-Naming-Support&#34;&gt;&lt;/a&gt;JSON Field Naming Support&lt;/h3&gt;
 
 &lt;p&gt;Gson supports some pre-defined field naming policies to convert the standard Java field names (i.e., camel cased names starting with lower case &amp;mdash; &lt;code&gt;sampleFieldNameInJava&lt;/code&gt;) to a Json field name (i.e., &lt;code&gt;sample_field_name_in_java&lt;/code&gt; or &lt;code&gt;SampleFieldNameInJava&lt;/code&gt;). See the &lt;a href=&#34;http://google.github.io/gson/apidocs/com/google/gson/FieldNamingPolicy.html&#34;&gt;FieldNamingPolicy&lt;/a&gt; class for information on the pre-defined naming policies.&lt;/p&gt;
 
@@ -4971,7 +4930,7 @@ System.out.println(jsonRepresentation);
 
 &lt;p&gt;If you have a need for custom naming policy (&lt;a href=&#34;http://groups.google.com/group/google-gson/browse_thread/thread/cb441a2d717f6892&#34;&gt;see this discussion&lt;/a&gt;), you can use the &lt;a href=&#34;http://google.github.io/gson/apidocs/com/google/gson/annotations/SerializedName.html&#34;&gt;@SerializedName&lt;/a&gt; annotation.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-toc-sharing-state-across-custom-serializers-and-deserializers-a-sharing-state-across-custom-serializers-and-deserializers:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Sharing-State-Across-Custom-Serializers-and-Deserializers&#34;&gt;&lt;/a&gt;Sharing State Across Custom Serializers and Deserializers&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-sharing-state-across-custom-serializers-and-deserializers-a-sharing-state-across-custom-serializers-and-deserializers&#34;&gt;&lt;a name=&#34;TOC-Sharing-State-Across-Custom-Serializers-and-Deserializers&#34;&gt;&lt;/a&gt;Sharing State Across Custom Serializers and Deserializers&lt;/h3&gt;
 
 &lt;p&gt;Sometimes you need to share state across custom serializers/deserializers (&lt;a href=&#34;http://groups.google.com/group/google-gson/browse_thread/thread/2850010691ea09fb&#34;&gt;see this discussion&lt;/a&gt;). You can use the following three strategies to accomplish this:&lt;/p&gt;
 
@@ -4983,22 +4942,21 @@ System.out.println(jsonRepresentation);
 
 &lt;p&gt;1 and 2 are not thread-safe options, but 3 is.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-name-toc-streaming-a-streaming:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Streaming&#34;&gt;&lt;/a&gt;Streaming&lt;/h3&gt;
+&lt;h3 id=&#34;a-name-toc-streaming-a-streaming&#34;&gt;&lt;a name=&#34;TOC-Streaming&#34;&gt;&lt;/a&gt;Streaming&lt;/h3&gt;
 
 &lt;p&gt;In addition Gson&amp;rsquo;s object model and data binding, you can use Gson to read from and write to a &lt;a href=&#34;https://sites.google.com/site/gson/streaming&#34;&gt;stream&lt;/a&gt;. You can also combine streaming and object model access to get the best of both approaches.&lt;/p&gt;
 
-&lt;h2 id=&#34;a-name-toc-issues-in-designing-gson-a-issues-in-designing-gson:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Issues-in-Designing-Gson&#34;&gt;&lt;/a&gt;Issues in Designing Gson&lt;/h2&gt;
+&lt;h2 id=&#34;a-name-toc-issues-in-designing-gson-a-issues-in-designing-gson&#34;&gt;&lt;a name=&#34;TOC-Issues-in-Designing-Gson&#34;&gt;&lt;/a&gt;Issues in Designing Gson&lt;/h2&gt;
 
 &lt;p&gt;See the &lt;a href=&#34;https://sites.google.com/site/gson/gson-design-document&#34; title=&#34;Gson design document&#34;&gt;Gson design document&lt;/a&gt; for a discussion of issues we faced while designing Gson. It also include a comparison of Gson with other Java libraries that can be used for Json conversion.&lt;/p&gt;
 
-&lt;h2 id=&#34;a-name-toc-future-enhancements-to-gson-a-future-enhancements-to-gson:44e1d5afd8024397723223fe19ec4679&#34;&gt;&lt;a name=&#34;TOC-Future-Enhancements-to-Gson&#34;&gt;&lt;/a&gt;Future Enhancements to Gson&lt;/h2&gt;
+&lt;h2 id=&#34;a-name-toc-future-enhancements-to-gson-a-future-enhancements-to-gson&#34;&gt;&lt;a name=&#34;TOC-Future-Enhancements-to-Gson&#34;&gt;&lt;/a&gt;Future Enhancements to Gson&lt;/h2&gt;
 
 &lt;p&gt;For the latest list of proposed enhancements or if you&amp;rsquo;d like to suggest new ones, see the &lt;a href=&#34;https://github.com/google/gson/issues&#34;&gt;Issues section&lt;/a&gt; under the project website.&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://github.com/google/gson/blob/master/UserGuide.md&#34; title=&#34;User Guide&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://github.com/google/gson/blob/master/UserGuide.md&#34; title=&#34;User Guide&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -5007,17 +4965,17 @@ System.out.println(jsonRepresentation);
       <pubDate>Sat, 12 Mar 2016 20:40:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603122040/</guid>
-      <description>
-
-&lt;p&gt;In this tutorial we look at how to selectively include fields from a java object to a json string. By default, Gson tries to map all fields in the java object to the corresponding property in json. However, in certain cases we may want to control that. There are a few ways to do this. It is also possible to excluse fields from third party packages where we have no access to the source code. The different ways to exclude fields are :&lt;/p&gt;
+      <description>&lt;p&gt;In this tutorial we look at how to selectively include fields from a java object to a json string. By default, Gson tries to map all fields in the java object to the corresponding property in json. However, in certain cases we may want to control that. There are a few ways to do this. It is also possible to excluse fields from third party packages where we have no access to the source code. The different ways to exclude fields are :&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;By defining a custom annotation and ignoring fields that are annotated with that.&lt;/li&gt;
 &lt;li&gt;By Defining a custom exclusion class by extending the ExclusionStrategy interface and implementing the public boolean shouldSkipField(FieldAttributes f); and public boolean shouldSkipClass(Class clazz); methods&lt;/li&gt;
-&lt;li&gt;By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.&lt;/li&gt;
-&lt;/ol&gt;
 
-&lt;h4 id=&#34;the-example-below-demonstrates-all-three:328ca424640a9366d8b50d13fb24324f&#34;&gt;The example below demonstrates all three&lt;/h4&gt;
+&lt;li&gt;&lt;p&gt;By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.
+&lt;/p&gt;
+
+&lt;h4 id=&#34;the-example-below-demonstrates-all-three&#34;&gt;The example below demonstrates all three&lt;/h4&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
 &lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
 
@@ -5047,7 +5005,7 @@ public class ExclusionExample {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;the-cat-class:328ca424640a9366d8b50d13fb24324f&#34;&gt;The Cat class&lt;/h4&gt;
+&lt;h4 id=&#34;the-cat-class&#34;&gt;The Cat class&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
 
@@ -5108,7 +5066,7 @@ public class Cat {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;the-exclusion-strategy:328ca424640a9366d8b50d13fb24324f&#34;&gt;The Exclusion Strategy&lt;/h4&gt;
+&lt;h4 id=&#34;the-exclusion-strategy&#34;&gt;The Exclusion Strategy&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
 
@@ -5154,8 +5112,7 @@ public class CustomExclusionStrategy implements ExclusionStrategy {
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-exclusion-strategy.jsp&#34; title=&#34;Excluding certain fields from Java classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-exclusion-strategy.jsp&#34; title=&#34;Excluding certain fields from Java classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -5164,13 +5121,12 @@ public class CustomExclusionStrategy implements ExclusionStrategy {
       <pubDate>Sat, 12 Mar 2016 20:35:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603122035/</guid>
-      <description>
+      <description>&lt;p&gt;Just as we saw in the &lt;a href=&#34;http://alimy.me/post/dev_201603122030&#34;&gt;previous&lt;/a&gt; tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&amp;rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.&lt;/p&gt;
 
-&lt;p&gt;Just as we saw in the &lt;a href=&#34;http://alimy.me/post/dev_201603122030&#34;&gt;previous&lt;/a&gt; tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&amp;rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.&lt;/p&gt;
+&lt;h3 id=&#34;custom-serializer&#34;&gt;Custom Serializer&lt;/h3&gt;
 
-&lt;h3 id=&#34;custom-serializer:111b3d40cae40f94b365983d1c03789a&#34;&gt;Custom Serializer&lt;/h3&gt;
-
-&lt;p&gt;Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.&lt;/p&gt;
+&lt;p&gt;Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.
+&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
 
@@ -5251,7 +5207,7 @@ public class Dog {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;custom-deserializer:111b3d40cae40f94b365983d1c03789a&#34;&gt;Custom DeSerializer&lt;/h4&gt;
+&lt;h4 id=&#34;custom-deserializer&#34;&gt;Custom DeSerializer&lt;/h4&gt;
 
 &lt;p&gt;Use a custome De serializer to create a Dog Object from the json. To create a deserializer implement the public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException; method.&lt;/p&gt;
 
@@ -5291,8 +5247,7 @@ public class DogDeserialiser implements JsonDeserializer&amp;lt;Dog&amp;gt; {
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-introduction.jsp&#34; title=&#34;Using Custom Serialization and Deserialization classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-introduction.jsp&#34; title=&#34;Using Custom Serialization and Deserialization classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -5334,7 +5289,8 @@ public class DatasetTypeAdapterExample8 {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;The Adapter&lt;/p&gt;
+&lt;p&gt;
+The Adapter&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
 
@@ -5453,8 +5409,7 @@ public class Dataset {
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-type-adapter.jsp&#34; title=&#34;Using Custom type adapters&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-type-adapter.jsp&#34; title=&#34;Using Custom type adapters&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -5463,9 +5418,7 @@ public class Dataset {
       <pubDate>Sat, 12 Mar 2016 20:28:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603122028/</guid>
-      <description>
-
-&lt;h3 id=&#34;serializing-inner-classes:94d200a9b12cc728e29eb582b49f7787&#34;&gt;Serializing inner classes&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;serializing-inner-classes&#34;&gt;Serializing inner classes&lt;/h3&gt;
 
 &lt;p&gt;Gson can serialize inner classes and static nested classes. The detailed example below demonstrates the following things.&lt;/p&gt;
 
@@ -5476,149 +5429,155 @@ public class Dataset {
 &lt;li&gt;Serializing static nested class (without the enclosing type)&lt;/li&gt;
 &lt;li&gt;Serializing non static nested class (without the enclosing type)&lt;/li&gt;
 &lt;li&gt;De-serializing json to a static nested class (without the enclosing type)&lt;/li&gt;
-&lt;li&gt;De-serializing json to a non static nested class (without the enclosing type)&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;De-serializing json to a non static nested class (without the enclosing type)
+&lt;/p&gt;
+
+&lt;h4 id=&#34;the-example&#34;&gt;The Example&lt;/h4&gt;
+
+&lt;p&gt;```
+package com.studytrails.json.gson;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h4 id=&#34;the-example:94d200a9b12cc728e29eb582b49f7787&#34;&gt;The Example&lt;/h4&gt;
+&lt;p&gt;import java.lang.reflect.Modifier;&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-import java.lang.reflect.Modifier;
-
-import com.google.gson.Gson;
+&lt;p&gt;import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.studytrails.json.gson.AlbumsWithInnerClass.Dataset;
-import com.studytrails.json.gson.AlbumsWithInnerClass.Dataset2;
+import com.studytrails.json.gson.AlbumsWithInnerClass.Dataset2;&lt;/p&gt;
 
-public class SerializeInnerClassExample4 {
+&lt;p&gt;public class SerializeInnerClassExample4 {
     public static void main(String[] args) {
         // create an Albums class with a static nested class and a non static
         // nested class
         AlbumsWithInnerClass albums = new AlbumsWithInnerClass();
-        albums.setName(&amp;quot;SerializeInnerClass&amp;quot;);
+        albums.setName(&amp;ldquo;SerializeInnerClass&amp;rdquo;);
         // create a dataset. we need the enclosing type since this is a non
         // static nested class (inner class)
         Dataset dataset = albums.new Dataset();
-        dataset.setAlbum_id(&amp;quot;1&amp;quot;);
-        dataset.setAlbum_name(&amp;quot;albums1&amp;quot;);
+        dataset.setAlbum_id(&amp;ldquo;1&amp;rdquo;);
+        dataset.setAlbum_name(&amp;ldquo;albums1&amp;rdquo;);
         // assign the datasets to albums
-        albums.setDatasetsInner(new Dataset[] { dataset });
+        albums.setDatasetsInner(new Dataset[] { dataset });&lt;/p&gt;
 
-        // static inner class can be created without the enclosing type
-        Dataset2 dataset2 = new Dataset2();
-        dataset2.setAlbum_id(&amp;quot;2&amp;quot;);
-        dataset2.setAlbum_name(&amp;quot;albums2&amp;quot;);
-        albums.setDatasetsStatic(new Dataset2[] { dataset2 });
+&lt;pre&gt;&lt;code&gt;    // static inner class can be created without the enclosing type
+    Dataset2 dataset2 = new Dataset2();
+    dataset2.setAlbum_id(&amp;quot;2&amp;quot;);
+    dataset2.setAlbum_name(&amp;quot;albums2&amp;quot;);
+    albums.setDatasetsStatic(new Dataset2[] { dataset2 });
 
-        // create the GsonBuilder
-        GsonBuilder builder = new GsonBuilder();
-        // we ignore Private fields
-        builder.excludeFieldsWithModifiers(Modifier.PRIVATE);
-        Gson gson = builder.create();
+    // create the GsonBuilder
+    GsonBuilder builder = new GsonBuilder();
+    // we ignore Private fields
+    builder.excludeFieldsWithModifiers(Modifier.PRIVATE);
+    Gson gson = builder.create();
 
-        // serialize the albums object
-        String json = gson.toJson(albums);
-        System.out.println(json);
-        // prints
-        // {&amp;quot;name&amp;quot;:&amp;quot;SerializeInnerClass&amp;quot;,&amp;quot;datasetsInner&amp;quot;:[{&amp;quot;album_name&amp;quot;:&amp;quot;SerializeInnerClass_albums1&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;1&amp;quot;}],
-        // &amp;quot;datasetsStatic&amp;quot;:[{&amp;quot;album_name&amp;quot;:&amp;quot;albums2&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;2&amp;quot;}]}
+    // serialize the albums object
+    String json = gson.toJson(albums);
+    System.out.println(json);
+    // prints
+    // {&amp;quot;name&amp;quot;:&amp;quot;SerializeInnerClass&amp;quot;,&amp;quot;datasetsInner&amp;quot;:[{&amp;quot;album_name&amp;quot;:&amp;quot;SerializeInnerClass_albums1&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;1&amp;quot;}],
+    // &amp;quot;datasetsStatic&amp;quot;:[{&amp;quot;album_name&amp;quot;:&amp;quot;albums2&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;2&amp;quot;}]}
 
-        // We read the json string now and recreate the AlbumsWithInnerClass class
-        Gson gson3 = new Gson();
-        AlbumsWithInnerClass parsedAlbums = gson3.fromJson(json, AlbumsWithInnerClass.class);
-        System.out.println(parsedAlbums.datasetsInner[0].album_name);
-        // prints SerializeInnerClass_albums1
-        System.out.println(parsedAlbums.datasetsStatic[0].album_name);
-        // prints albums2
+    // We read the json string now and recreate the AlbumsWithInnerClass class
+    Gson gson3 = new Gson();
+    AlbumsWithInnerClass parsedAlbums = gson3.fromJson(json, AlbumsWithInnerClass.class);
+    System.out.println(parsedAlbums.datasetsInner[0].album_name);
+    // prints SerializeInnerClass_albums1
+    System.out.println(parsedAlbums.datasetsStatic[0].album_name);
+    // prints albums2
 
-        // now lets try and serialize only the object of inner class
-        Gson gson2 = new Gson();
-        String json2 = gson2.toJson(dataset);
-        System.out.println(json2);
-        // prints {&amp;quot;album_name&amp;quot;:&amp;quot;SerializeInnerClass_albums1&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;1&amp;quot;}
+    // now lets try and serialize only the object of inner class
+    Gson gson2 = new Gson();
+    String json2 = gson2.toJson(dataset);
+    System.out.println(json2);
+    // prints {&amp;quot;album_name&amp;quot;:&amp;quot;SerializeInnerClass_albums1&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;1&amp;quot;}
 
-        // serialize nested static class
-        String json3 = gson2.toJson(dataset2);
-        System.out.println(json3);
-        // prints {&amp;quot;album_name&amp;quot;:&amp;quot;albums2&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;2&amp;quot;}
+    // serialize nested static class
+    String json3 = gson2.toJson(dataset2);
+    System.out.println(json3);
+    // prints {&amp;quot;album_name&amp;quot;:&amp;quot;albums2&amp;quot;,&amp;quot;album_id&amp;quot;:&amp;quot;2&amp;quot;}
 
-        // let us now create the inner class from the json string
-        Gson gson4 = new Gson();
-        Dataset parsedDataset = gson4.fromJson(json2, Dataset.class);
-        System.out.println(parsedDataset.getClass());
-        // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset
-        System.out.println(parsedDataset.album_name);
-        // prints SerializeInnerClass_albums1
+    // let us now create the inner class from the json string
+    Gson gson4 = new Gson();
+    Dataset parsedDataset = gson4.fromJson(json2, Dataset.class);
+    System.out.println(parsedDataset.getClass());
+    // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset
+    System.out.println(parsedDataset.album_name);
+    // prints SerializeInnerClass_albums1
 
-        // create nested static class from the json string
-        Dataset2 parsedStaticNestedClass = gson4.fromJson(json3, Dataset2.class);
-        System.out.println(parsedStaticNestedClass.getClass());
-        // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset2
-        System.out.println(parsedStaticNestedClass.album_name);
-        // prints albums2
+    // create nested static class from the json string
+    Dataset2 parsedStaticNestedClass = gson4.fromJson(json3, Dataset2.class);
+    System.out.println(parsedStaticNestedClass.getClass());
+    // prints class com.studytrails.json.gson.AlbumsWithInnerClass$Dataset2
+    System.out.println(parsedStaticNestedClass.album_name);
+    // prints albums2
 
-    }
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;the-albumswithinnerclass:94d200a9b12cc728e29eb582b49f7787&#34;&gt;The AlbumsWithInnerClass&lt;/h4&gt;
+&lt;p&gt;}&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+&lt;pre&gt;&lt;code&gt;#### The AlbumsWithInnerClass
+&lt;/code&gt;&lt;/pre&gt;
 
-public class AlbumsWithInnerClass {
+&lt;p&gt;package com.studytrails.json.gson;&lt;/p&gt;
+
+&lt;p&gt;public class AlbumsWithInnerClass {
     public String name;
     private String year;
     public Dataset[] datasetsInner;
-    public Dataset2[] datasetsStatic;
+    public Dataset2[] datasetsStatic;&lt;/p&gt;
 
-    public void setDatasetsInner(Dataset[] datasetsInner) {
-        this.datasetsInner = datasetsInner;
+&lt;pre&gt;&lt;code&gt;public void setDatasetsInner(Dataset[] datasetsInner) {
+    this.datasetsInner = datasetsInner;
+}
+
+public void setDatasetsStatic(Dataset2[] datasetsStatic) {
+    this.datasetsStatic = datasetsStatic;
+}
+
+public void setName(String name) {
+    this.name = name;
+}
+
+public void setYear(String year) {
+    this.year = year;
+}
+
+class Dataset {
+    public String album_name;
+    public String album_id;
+
+    public void setAlbum_id(String album_id) {
+        this.album_id = album_id;
     }
 
-    public void setDatasetsStatic(Dataset2[] datasetsStatic) {
-        this.datasetsStatic = datasetsStatic;
+    public void setAlbum_name(String album_name) {
+        this.album_name = name + &amp;quot;_&amp;quot; + album_name;
+    }
+}
+
+static class Dataset2 {
+    public String album_name;
+    public String album_id;
+
+    public void setAlbum_id(String album_id) {
+        this.album_id = album_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    class Dataset {
-        public String album_name;
-        public String album_id;
-
-        public void setAlbum_id(String album_id) {
-            this.album_id = album_id;
-        }
-
-        public void setAlbum_name(String album_name) {
-            this.album_name = name + &amp;quot;_&amp;quot; + album_name;
-        }
-    }
-
-    static class Dataset2 {
-        public String album_name;
-        public String album_id;
-
-        public void setAlbum_id(String album_id) {
-            this.album_id = album_id;
-        }
-
-        public void setAlbum_name(String album_name) {
-            this.album_name = album_name;
-        }
+    public void setAlbum_name(String album_name) {
+        this.album_name = album_name;
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;p&gt;}
+```&lt;/p&gt;
+
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-serialize-inner-classes.jsp&#34; title=&#34;Serializing Inner Classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-serialize-inner-classes.jsp&#34; title=&#34;Serializing Inner Classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -5627,9 +5586,7 @@ public class AlbumsWithInnerClass {
       <pubDate>Sat, 12 Mar 2016 20:25:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603122025/</guid>
-      <description>
-
-&lt;h3 id=&#34;serializing-list:48eff8845146e9414ebbce90bbfb026f&#34;&gt;Serializing list&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;serializing-list&#34;&gt;Serializing list&lt;/h3&gt;
 
 &lt;p&gt;As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.&lt;/p&gt;
 
@@ -5671,7 +5628,9 @@ public class GenericTypesExample8 {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;animal-class:48eff8845146e9414ebbce90bbfb026f&#34;&gt;Animal class&lt;/h4&gt;
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;animal-class&#34;&gt;Animal class&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
 
@@ -5690,7 +5649,7 @@ public class Animal {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;dog-class:48eff8845146e9414ebbce90bbfb026f&#34;&gt;Dog Class&lt;/h4&gt;
+&lt;h4 id=&#34;dog-class&#34;&gt;Dog Class&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
 
@@ -5710,8 +5669,7 @@ public class Dog {
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-introduction.jsp&#34; title=&#34;Serializing and deserializing Java Generic Classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-introduction.jsp&#34; title=&#34;Serializing and deserializing Java Generic Classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -5720,9 +5678,7 @@ public class Dog {
       <pubDate>Sat, 12 Mar 2016 20:22:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603122022/</guid>
-      <description>
-
-&lt;h3 id=&#34;serializing-list:0245d903820e8dfe5f649eea2e56a9f6&#34;&gt;Serializing list&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;serializing-list&#34;&gt;Serializing list&lt;/h3&gt;
 
 &lt;p&gt;Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.&lt;/p&gt;
 
@@ -5757,7 +5713,9 @@ public class DeSerializeListExample5 {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;the-dataset-class:0245d903820e8dfe5f649eea2e56a9f6&#34;&gt;The Dataset Class&lt;/h4&gt;
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;the-dataset-class&#34;&gt;The Dataset Class&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
 
@@ -5794,8 +5752,7 @@ public class Dataset {
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-serializing-collections.jsp&#34; title=&#34;Serializing Collections&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-serializing-collections.jsp&#34; title=&#34;Serializing Collections&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>

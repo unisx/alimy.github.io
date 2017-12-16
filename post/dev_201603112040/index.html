@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,9 +233,7 @@
         <div class="post panel-wrapper">
             <h2>Jackson: Json Data Binding</h2>
           
-          
-
-<p>A thing that most java developers love to deal with is &hellip;. Java POJO. Wouldn&rsquo;t you love a black box where you can see JSON string entering from one side and POJOs coming out from the other. That&rsquo;s what Jackson data binding does. This can be best explained by an example. We use the json from free music archive. It has an API to get latest albums in the form of JSON. we would read that json string (Click on this link to see the json) into Albums object. The Albums object contains an array of Dataset.</p>
+          <p>A thing that most java developers love to deal with is &hellip;. Java POJO. Wouldn&rsquo;t you love a black box where you can see JSON string entering from one side and POJOs coming out from the other. That&rsquo;s what Jackson data binding does. This can be best explained by an example. We use the json from free music archive. It has an API to get latest albums in the form of JSON. we would read that json string (Click on this link to see the json) into Albums object. The Albums object contains an array of Dataset.</p>
 
 <p>Here&rsquo;s how The JSON to Java conversion works</p>
 
@@ -245,14 +241,14 @@
 <li>The first step is to create the Java class that would hold the JSON data. Look at the json. we create an Albums object to hold the entire json. The json contains an array of &lsquo;dataset&rsquo; elements. We create a Java Object of type DataSet and in the Albums object we create a dataset property that is an array of type DataSet.</li>
 <li>Create an instance of the com.fasterxml.jackson.databind.ObjectMapper class. This is the class that maps a JSON to a Java Object.<code>ObjectMapper mapper = new ObjectMapper();</code></li>
 <li>We use the <em>readValue</em> method of the ObjectMapper to read. There are multiple versions of this method and we use the method that takes in a URL. However, there are method that read from a file, inputstream, String or a ByteArray.</li>
-<li>The ObjectMapper caches serializers and deserializers so it would be a good idea to reuse an ObjectMapper instance for multiple conversions</li>
+<li>The ObjectMapper caches serializers and deserializers so it would be a good idea to reuse an ObjectMapper instance for multiple conversions
+
+If you have an InputStream then pass it to Jackson as such and do not wrap it in InputStreamReader for performance reasons.</li>
 </ol>
 
-<p>If you have an InputStream then pass it to Jackson as such and do not wrap it in InputStreamReader for performance reasons.</p>
+<h3 id="data-binding-example">Data Binding Example</h3>
 
-<h3 id="data-binding-example:8bc1c18631645e9b29be4de3b97e5ac6">Data Binding Example</h3>
-
-<h4 id="databinding:8bc1c18631645e9b29be4de3b97e5ac6">Databinding</h4>
+<h4 id="databinding">Databinding</h4>
 
 <pre><code>package com.studytrails.json.jackson;
 
@@ -282,7 +278,7 @@ public class DataBinding1 {
 
 <p>We have disabled the feature that causes the mapper to break if it encounters an unknown property. Therefore, if the json has 10 properties and you define only two in your bean, then the other 8 will be ignored.</p>
 
-<h4 id="the-albums-class:8bc1c18631645e9b29be4de3b97e5ac6">The Albums class</h4>
+<h4 id="the-albums-class">The Albums class</h4>
 
 <pre><code>package com.studytrails.json.jackson;
 
@@ -310,7 +306,7 @@ public class Albums {
 }
 </code></pre>
 
-<h4 id="dataset-class:8bc1c18631645e9b29be4de3b97e5ac6">Dataset class</h4>
+<h4 id="dataset-class">Dataset class</h4>
 
 <pre><code>package com.studytrails.json.jackson;
 
@@ -348,7 +344,6 @@ public class Dataset {
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-jackson-Data-Binding.jsp" title="Jackson - Data Binding"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603112035/" title="上一篇">&lt;&lt; Jackson: build java tree model from json</a>
@@ -377,7 +372,7 @@ public class Dataset {
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

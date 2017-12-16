@@ -36,7 +36,8 @@ github.com/codegangsta/cli
 
 &lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{.ImportPath}}&#39;
 &lt;/code&gt;&lt;/pre&gt;
-</description>
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -45,9 +46,7 @@ github.com/codegangsta/cli
       <pubDate>Sat, 02 Apr 2016 14:45:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201604021445/</guid>
-      <description>
-
-&lt;h3 id=&#34;notation:363df3e80a0a36e21d4481f199b5995a&#34;&gt;Notation&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;notation&#34;&gt;Notation&lt;/h3&gt;
 
 &lt;p&gt;The syntax is specified using Extended Backus-Naur Form (EBNF):&lt;/p&gt;
 
@@ -68,11 +67,11 @@ Repetition  = &amp;quot;{&amp;quot; Expression &amp;quot;}&amp;quot; .
 {}  repetition (0 to n times)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Lower-case production names are used to identify lexical tokens. Non-terminals are in CamelCase. Lexical tokens are enclosed in double quotes &amp;ldquo;&amp;rdquo; or back quotes ``.&lt;/p&gt;
+&lt;p&gt;Lower-case production names are used to identify lexical tokens. Non-terminals are in CamelCase. Lexical tokens are enclosed in double quotes &amp;ldquo;&amp;rdquo; or back quotes ``.
 
-&lt;p&gt;The form a … b represents the set of characters from a through b as alternatives. The horizontal ellipsis … is also used elsewhere in the spec to informally denote various enumerations or code snippets that are not further specified. The character … (as opposed to the three characters &amp;hellip;) is not a token of the Go language.&lt;/p&gt;
+The form a … b represents the set of characters from a through b as alternatives. The horizontal ellipsis … is also used elsewhere in the spec to informally denote various enumerations or code snippets that are not further specified. The character … (as opposed to the three characters &amp;hellip;) is not a token of the Go language.&lt;/p&gt;
 
-&lt;h3 id=&#34;go-ebnf:363df3e80a0a36e21d4481f199b5995a&#34;&gt;Go EBNF&lt;/h3&gt;
+&lt;h3 id=&#34;go-ebnf&#34;&gt;Go EBNF&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Characters&lt;/p&gt;
@@ -184,24 +183,19 @@ uint16      the set of all unsigned 16-bit integers (0 to 65535)
 uint32      the set of all unsigned 32-bit integers (0 to 4294967295)
 uint64      the set of all unsigned 64-bit integers (0 to 18446744073709551615)
 
-
 int8        the set of all signed  8-bit integers (-128 to 127)
 int16       the set of all signed 16-bit integers (-32768 to 32767)
 int32       the set of all signed 32-bit integers (-2147483648 to 2147483647)
 int64       the set of all signed 64-bit integers (-9223372036854775808 to 9223372036854775807)
 
-
 float32     the set of all IEEE-754 32-bit floating-point numbers
 float64     the set of all IEEE-754 64-bit floating-point numbers
-
 
 complex64   the set of all complex numbers with float32 real and imaginary parts
 complex128  the set of all complex numbers with float64 real and imaginary parts
 
-
 byte        alias for uint8
 rune        alias for int32
-
 
 uint     either 32 or 64 bits
 int      same size as uint
@@ -272,12 +266,10 @@ KeyType     = Type .
 chan&amp;lt;- float64  // can only be used to send float64s
 &amp;lt;-chan int      // can only be used to receive ints
 
-
 chan&amp;lt;- chan int    // same as chan&amp;lt;- (chan int)
 chan&amp;lt;- &amp;lt;-chan int  // same as chan&amp;lt;- (&amp;lt;-chan int)
 &amp;lt;-chan &amp;lt;-chan int  // same as &amp;lt;-chan (&amp;lt;-chan int)
 chan (&amp;lt;-chan int)
-
 
 make(chan int, 100)
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -331,14 +323,11 @@ TopLevelDecl  = Declaration | FunctionDecl | MethodDecl .
     int int8 int16 int32 int64 rune string
     uint uint8 uint16 uint32 uint64 uintptr
 
-
 Constants:
     true false iota
 
-
 Zero value:
     nil
-
 
 Functions:
     append cap close complex copy delete imag len
@@ -364,7 +353,6 @@ All other identifiers are not exported.&lt;/li&gt;
 &lt;pre&gt;&lt;code&gt;ConstDecl      = &amp;quot;const&amp;quot; ( ConstSpec | &amp;quot;(&amp;quot; { ConstSpec &amp;quot;;&amp;quot; } &amp;quot;)&amp;quot; ) .
 ConstSpec      = IdentifierList [ [ Type ] &amp;quot;=&amp;quot; ExpressionList ] .
 
-
 IdentifierList = identifier { &amp;quot;,&amp;quot; identifier } .
 ExpressionList = Expression { &amp;quot;,&amp;quot; Expression } .
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -378,7 +366,6 @@ Within a constant declaration, the predeclared identifier iota represents succes
     c2 = iota  // c2 == 2
 )
 
-
 const ( // iota is reset to 0
     a = 1 &amp;lt;&amp;lt; iota  // a == 1
     b = 1 &amp;lt;&amp;lt; iota  // b == 2
@@ -386,17 +373,14 @@ const ( // iota is reset to 0
     d = 1 &amp;lt;&amp;lt; iota  // d == 8
 )
 
-
 const ( // iota is reset to 0
     u         = iota * 42  // u == 0     (untyped integer constant)
     v float64 = iota * 42  // v == 42.0  (float64 constant)
     w         = iota * 42  // w == 84    (untyped integer constant)
 )
 
-
 const x = iota  // x == 0  (iota has been reset)
 const y = iota  // y == 0  (iota has been reset)
-
 
 const (
     bit0, mask0 = 1 &amp;lt;&amp;lt; iota, 1&amp;lt;&amp;lt;iota - 1  // bit0 == 1, mask0 == 0
@@ -414,18 +398,15 @@ TypeSpec     = identifier Type .
 
 &lt;pre&gt;&lt;code&gt;type IntArray [16]int
 
-
 type (
     Point struct{ x, y float64 }
     Polar Point
 )
 
-
 type TreeNode struct {
     left, right *TreeNode
     value *Comparable
 }
-
 
 type Block interface {
     BlockSize() int
@@ -441,22 +422,18 @@ type Mutex struct         { /* Mutex fields */ }
 func (m *Mutex) Lock()    { /* Lock implementation */ }
 func (m *Mutex) Unlock()  { /* Unlock implementation */ }
 
-
 // NewMutex has the same composition as Mutex but its method set is empty.
 type NewMutex Mutex
-
 
 // The method set of the base type of PtrMutex remains unchanged,
 // but the method set of PtrMutex is empty.
 type PtrMutex *Mutex
-
 
 // The method set of *PrintableMutex contains the methods
 // Lock and Unlock bound to its anonymous field Mutex.
 type PrintableMutex struct {
     Mutex
 }
-
 
 // MyBlock is an interface type that has the same method set as Block.
 type MyBlock Block
@@ -466,14 +443,12 @@ type MyBlock Block
 
 &lt;pre&gt;&lt;code&gt;type TimeZone int
 
-
 const (
     EST TimeZone = -(5 + iota)
     CST
     MST
     PST
 )
-
 
 func (tz TimeZone) String() string {
     return fmt.Sprintf(&amp;quot;GMT%+dh&amp;quot;, tz)
@@ -568,7 +543,6 @@ Element       = Expression | LiteralValue .
     PrimaryExpr TypeAssertion |
     PrimaryExpr Arguments .
 
-
 Selector       = &amp;quot;.&amp;quot; identifier .
 Index          = &amp;quot;[&amp;quot; Expression &amp;quot;]&amp;quot; .
 Slice          = &amp;quot;[&amp;quot; ( [ Expression ] &amp;quot;:&amp;quot; [ Expression ] ) |
@@ -597,7 +571,8 @@ Arguments      = &amp;quot;(&amp;quot; [ ( ExpressionList | Type [ &amp;quot;,&a
 &lt;li&gt;As an exception, if the type of x is a named pointer type and (*x).f is a valid selector expression denoting a field (but not a method), x.f is shorthand for (*x).f.&lt;/li&gt;
 &lt;li&gt;In all other cases, x.f is illegal.&lt;/li&gt;
 &lt;li&gt;If x is of pointer type and has the value nil and x.f denotes a struct field, assigning to or evaluating x.f causes a run-time panic.&lt;/li&gt;
-&lt;li&gt;If x is of interface type and has the value nil, calling or evaluating the method x.f causes a run-time panic.&lt;/li&gt;
+&lt;li&gt;If x is of interface type and has the value nil, calling or evaluating the method x.f causes a run-time panic.
+&lt;br /&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Method expressions&lt;/p&gt;
@@ -614,7 +589,6 @@ ReceiverType  = TypeName | &amp;quot;(&amp;quot; &amp;quot;*&amp;quot; TypeName 
 &lt;li&gt;&lt;p&gt;Slice expressions&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;a[low : high]
-
 
 a[low : high : max]
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -649,12 +623,10 @@ Greeting(&amp;quot;goodbye:&amp;quot;, s...)
 &lt;pre&gt;&lt;code&gt;Expression = UnaryExpr | Expression binary_op Expression .
 UnaryExpr  = PrimaryExpr | unary_op UnaryExpr .
 
-
 binary_op  = &amp;quot;||&amp;quot; | &amp;quot;&amp;amp;&amp;amp;&amp;quot; | rel_op | add_op | mul_op .
 rel_op     = &amp;quot;==&amp;quot; | &amp;quot;!=&amp;quot; | &amp;quot;&amp;lt;&amp;quot; | &amp;quot;&amp;lt;=&amp;quot; | &amp;quot;&amp;gt;&amp;quot; | &amp;quot;&amp;gt;=&amp;quot; .
 add_op     = &amp;quot;+&amp;quot; | &amp;quot;-&amp;quot; | &amp;quot;|&amp;quot; | &amp;quot;^&amp;quot; .
 mul_op     = &amp;quot;*&amp;quot; | &amp;quot;/&amp;quot; | &amp;quot;%&amp;quot; | &amp;quot;&amp;lt;&amp;lt;&amp;quot; | &amp;quot;&amp;gt;&amp;gt;&amp;quot; | &amp;quot;&amp;amp;&amp;quot; | &amp;quot;&amp;amp;^&amp;quot; .
-
 
 unary_op   = &amp;quot;+&amp;quot; | &amp;quot;-&amp;quot; | &amp;quot;!&amp;quot; | &amp;quot;^&amp;quot; | &amp;quot;*&amp;quot; | &amp;quot;&amp;amp;&amp;quot; | &amp;quot;&amp;lt;-&amp;quot; .
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -715,7 +687,6 @@ unary_op   = &amp;quot;+&amp;quot; | &amp;quot;-&amp;quot; | &amp;quot;!&amp;quo
 *p
 *pf(x)
 
-
 var x *int = nil
 *x   // causes a run-time panic
 &amp;amp;*x  // causes a run-time panic
@@ -727,7 +698,6 @@ var x *int = nil
 v2 = &amp;lt;-ch
 f(&amp;lt;-ch)
 &amp;lt;-strobe  // wait until clock pulse and discard received value
-
 
 x, ok = &amp;lt;-ch
 x, ok := &amp;lt;-ch
@@ -746,7 +716,6 @@ var x, ok = &amp;lt;-ch
     GoStmt | ReturnStmt | BreakStmt | ContinueStmt | GotoStmt |
     FallthroughStmt | Block | IfStmt | SwitchStmt | SelectStmt | ForStmt |
     DeferStmt .
-
 
 SimpleStmt = EmptyStmt | ExpressionStmt | SendStmt | IncDecStmt | Assignment | ShortVarDecl .
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -788,9 +757,7 @@ Channel  = Expression .
 
 &lt;pre&gt;&lt;code&gt;Assignment = ExpressionList assign_op ExpressionList .
 
-
 assign_op = [ add_op | mul_op ] &amp;quot;=&amp;quot; .
-
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
@@ -840,7 +807,6 @@ PostStmt = SimpleStmt .
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;Range expression                          1st value          2nd value
-
 
 array or slice  a  [n]E, *[n]E, or []E    index    i  int    a[i]       E
 string          s  string type            index    i  int    see below  rune
@@ -912,11 +878,9 @@ ImportPath       = string_lit .
 
 &lt;pre&gt;&lt;code&gt;Import declaration          Local name of Sin
 
-
 import   &amp;quot;lib/math&amp;quot;         math.Sin
 import m &amp;quot;lib/math&amp;quot;         m.Sin
 import . &amp;quot;lib/math&amp;quot;         Sin
-
 
 import _ &amp;quot;lib/math&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -926,7 +890,6 @@ import _ &amp;quot;lib/math&amp;quot;
 &lt;p&gt;For the numeric types, the following sizes are guaranteed:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;type                                 size in bytes
-
 
 byte, uint8, int8                     1
 uint16, int16                         2
@@ -940,7 +903,8 @@ complex128                           16
 &lt;ul&gt;
 &lt;li&gt;For a variable x of any type: unsafe.Alignof(x) is at least 1.&lt;/li&gt;
 &lt;li&gt;For a variable x of struct type: unsafe.Alignof(x) is the largest of all the values unsafe.Alignof(x.f) for each field f of x, but at least 1.&lt;/li&gt;
-&lt;li&gt;For a variable x of array type: unsafe.Alignof(x) is the same as unsafe.Alignof(x[0]), but at least 1.&lt;/li&gt;
+&lt;li&gt;For a variable x of array type: unsafe.Alignof(x) is the same as unsafe.Alignof(x[0]), but at least 1.
+&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;A struct or array type has size zero if it contains no fields (or elements, respectively) that have a size greater than zero. Two distinct zero-size variables may have the same address in memory.&lt;/p&gt;&lt;/li&gt;
@@ -948,8 +912,7 @@ complex128                           16
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: The Go Programming Language Specification is &lt;a href=&#34;https://golang.org/ref/spec&#34; title=&#34;The Go Programming Language Specification&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: The Go Programming Language Specification is &lt;a href=&#34;https://golang.org/ref/spec&#34; title=&#34;The Go Programming Language Specification&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -958,18 +921,17 @@ complex128                           16
       <pubDate>Wed, 02 Apr 2014 00:00:00 UTC</pubDate>
       
       <guid>http://alimy.me/post/etc_201404021616/</guid>
-      <description>
-
-&lt;h2 id=&#34;step-1-install-hugo:5050ca46773ef6f0124899a69e9db37c&#34;&gt;Step 1. Install Hugo&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;step-1-install-hugo&#34;&gt;Step 1. Install Hugo&lt;/h2&gt;
 
 &lt;p&gt;Goto &lt;a href=&#34;https://github.com/spf13/hugo/releases&#34;&gt;hugo releases&lt;/a&gt; and download the
 appropriate version for your os and architecture.&lt;/p&gt;
 
 &lt;p&gt;Save it somewhere specific as we will be using it in the next step.&lt;/p&gt;
 
-&lt;p&gt;More complete instructions are available at &lt;a href=&#34;http://alimy.me/overview/installing/&#34;&gt;installing hugo&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;More complete instructions are available at &lt;a href=&#34;http://alimy.me/overview/installing/&#34;&gt;installing hugo&lt;/a&gt;
+&lt;/p&gt;
 
-&lt;h2 id=&#34;step-2-build-the-docs:5050ca46773ef6f0124899a69e9db37c&#34;&gt;Step 2. Build the Docs&lt;/h2&gt;
+&lt;h2 id=&#34;step-2-build-the-docs&#34;&gt;Step 2. Build the Docs&lt;/h2&gt;
 
 &lt;p&gt;Hugo has its own example site which happens to also be the documentation site
 you are reading right now.&lt;/p&gt;
@@ -997,7 +959,7 @@ cd hugo
 
 &lt;p&gt;Once you&amp;rsquo;ve gotten here, follow along the rest of this page on your local build.&lt;/p&gt;
 
-&lt;h2 id=&#34;step-3-change-the-docs-site:5050ca46773ef6f0124899a69e9db37c&#34;&gt;Step 3. Change the docs site&lt;/h2&gt;
+&lt;h2 id=&#34;step-3-change-the-docs-site&#34;&gt;Step 3. Change the docs site&lt;/h2&gt;
 
 &lt;p&gt;Stop the Hugo process by hitting ctrl+c.&lt;/p&gt;
 
@@ -1033,10 +995,9 @@ are located at the same relative location as the url, in our case
 &lt;p&gt;Notice how quick that was. Try to refresh the site before it&amp;rsquo;s finished building.. I double dare you.
 Having nearly instant feedback enables you to have your creativity flow without waiting for long builds.&lt;/p&gt;
 
-&lt;h2 id=&#34;step-4-have-fun:5050ca46773ef6f0124899a69e9db37c&#34;&gt;Step 4. Have fun&lt;/h2&gt;
+&lt;h2 id=&#34;step-4-have-fun&#34;&gt;Step 4. Have fun&lt;/h2&gt;
 
-&lt;p&gt;The best way to learn something is to play with it.&lt;/p&gt;
-</description>
+&lt;p&gt;The best way to learn something is to play with it.&lt;/p&gt;</description>
     </item>
     
   </channel>

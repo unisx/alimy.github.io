@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,11 +233,9 @@
         <div class="post panel-wrapper">
             <h2>Jackson: jackson Mix- In Annotations</h2>
           
-          
+          <p>Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class</p>
 
-<p>Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class</p>
-
-<h3 id="jackson-mix-in-example:7634bf28f621093315cf4d8b563f8a36">Jackson Mix-In Example</h3>
+<h3 id="jackson-mix-in-example">Jackson Mix-In Example</h3>
 
 <pre><code>package com.studytrails.json.jackson;
 
@@ -264,7 +260,9 @@ public class SerializeExample3 {
 }
 </code></pre>
 
-<h4 id="the-bird-class:7634bf28f621093315cf4d8b563f8a36">The Bird class</h4>
+<p></p>
+
+<h4 id="the-bird-class">The Bird class</h4>
 
 <pre><code>package com.studytrails.json.jackson;
 
@@ -305,7 +303,7 @@ public class Bird {
 }
 </code></pre>
 
-<h4 id="the-mix-in-class:7634bf28f621093315cf4d8b563f8a36">The Mix-in class</h4>
+<h4 id="the-mix-in-class">The Mix-in class</h4>
 
 <pre><code>package com.studytrails.json.jackson;
 
@@ -326,7 +324,6 @@ public abstract class BirdMixIn {
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-jackson-mix-in-annotation.jsp" title="jackson Mix- In Annotations"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603112055/" title="上一篇">&lt;&lt; Jackson: Json data binding filters</a>
@@ -355,7 +352,7 @@ public abstract class BirdMixIn {
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

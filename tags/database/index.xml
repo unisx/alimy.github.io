@@ -23,9 +23,9 @@
 
 &lt;p&gt;Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.&lt;/p&gt;
 
-&lt;p&gt;Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.&lt;/p&gt;
+&lt;p&gt;Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.
 
-&lt;p&gt;… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:&lt;/p&gt;
+… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;package main
 
@@ -125,8 +125,7 @@ BenchmarkJsonDecode   200000      12993 ns/op
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/&#34; title=&#34;Intro to BoltDB&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/&#34; title=&#34;Intro to BoltDB&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>

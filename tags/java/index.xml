@@ -15,9 +15,7 @@
       <pubDate>Sun, 13 Mar 2016 20:30:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603132030/</guid>
-      <description>
-
-&lt;h3 id=&#34;overview-of-date-and-calendar-classes:903fa8484a7e080c7a9dddbda27c7bc4&#34;&gt;Overview of Date and Calendar classes&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;overview-of-date-and-calendar-classes&#34;&gt;Overview of Date and Calendar classes&lt;/h3&gt;
 
 &lt;p&gt;In this tutorial we look at the classes in java that are helpful in manipulating dates. Manipulating dates in java can be challenging, especially if you are building applications that cater to multiple timezones. Parsing dates, printing a date in UTC, printing a date in a different timezone, comparing dates, adding time to date&amp;hellip; we will be looking at all of these in this tutorial. We first begin with the introduction to the classes and then follow up with examples. You may want to directly jump to the examples, however, we strongly recommend that you understand the classes first, since that will make the examples very easy to understand.&lt;/p&gt;
 
@@ -30,62 +28,62 @@ The DAY_OF_MONTH starts from 1&lt;br /&gt;
 the DAY_OF_WEEK starts from SUNDAY with a value of 1.&lt;br /&gt;
 HOUR starts from 0&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;&lt;p&gt;java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples
+&lt;/p&gt;
 
-&lt;h4 id=&#34;create-a-date-object-and-print-it:903fa8484a7e080c7a9dddbda27c7bc4&#34;&gt;Create a Date object and print it&lt;/h4&gt;
+&lt;h4 id=&#34;create-a-date-object-and-print-it&#34;&gt;Create a Date object and print it&lt;/h4&gt;
 
-&lt;pre&gt;&lt;code&gt;    public void createDateAndPrintIt() {
-    // create and prints the current date. It prints the data in the local
-    // timezone
-    System.out.println(new java.util.Date());
-    // prints Sun Jul 28 20:09:36 IST 2013
-    // get the number of milli seconds since epock
-    System.out.println(new java.util.Date().getTime());
-    // prints 1375022617792
+&lt;pre&gt;&lt;code&gt;public void createDateAndPrintIt() {
+// create and prints the current date. It prints the data in the local
+// timezone
+System.out.println(new java.util.Date());
+// prints Sun Jul 28 20:09:36 IST 2013
+// get the number of milli seconds since epock
+System.out.println(new java.util.Date().getTime());
+// prints 1375022617792
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;get-an-instance-of-calendar-object-and-print-it:903fa8484a7e080c7a9dddbda27c7bc4&#34;&gt;get an instance of Calendar object and print it&lt;/h4&gt;
+&lt;h4 id=&#34;get-an-instance-of-calendar-object-and-print-it&#34;&gt;get an instance of Calendar object and print it&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;public void createCalendarAndPrintIt() {
-    Calendar cal = Calendar.getInstance();
-    System.out.println(cal);
-    // java.util.GregorianCalendar[time=1375025205859,areFieldsSet=true,areAllFieldsSet=true,lenient=true,
-    // zone=sun.util.calendar.ZoneInfo[id=&amp;quot;Asia/Calcutta&amp;quot;,offset=19800000,dstSavings=0,useDaylight=false,transitions=6,lastRule=null],
-    // firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2013,MONTH=6,WEEK_OF_YEAR=31,WEEK_OF_MONTH=5,DAY_OF_MONTH=28,
-    // DAY_OF_YEAR=209,DAY_OF_WEEK=1,DAY_OF_WEEK_IN_MONTH=4,AM_PM=1,HOUR=8,HOUR_OF_DAY=20,MINUTE=56,SECOND=45,MILLISECOND=859,ZONE_OFFSET=19800000,DST_OFFSET=0]
-    System.out.println(cal.getTime());
-    // prints Sun Jul 28 20:56:45 IST 2013
+Calendar cal = Calendar.getInstance();
+System.out.println(cal);
+// java.util.GregorianCalendar[time=1375025205859,areFieldsSet=true,areAllFieldsSet=true,lenient=true,
+// zone=sun.util.calendar.ZoneInfo[id=&amp;quot;Asia/Calcutta&amp;quot;,offset=19800000,dstSavings=0,useDaylight=false,transitions=6,lastRule=null],
+// firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2013,MONTH=6,WEEK_OF_YEAR=31,WEEK_OF_MONTH=5,DAY_OF_MONTH=28,
+// DAY_OF_YEAR=209,DAY_OF_WEEK=1,DAY_OF_WEEK_IN_MONTH=4,AM_PM=1,HOUR=8,HOUR_OF_DAY=20,MINUTE=56,SECOND=45,MILLISECOND=859,ZONE_OFFSET=19800000,DST_OFFSET=0]
+System.out.println(cal.getTime());
+// prints Sun Jul 28 20:56:45 IST 2013
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;manipulate-calendar:903fa8484a7e080c7a9dddbda27c7bc4&#34;&gt;Manipulate Calendar&lt;/h4&gt;
+&lt;h4 id=&#34;manipulate-calendar&#34;&gt;Manipulate Calendar&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;public void manipulateCalendar() {
-    Calendar cal = Calendar.getInstance();
-    System.out.println(cal.getTime());// Sun Jul 28 21:53:55 IST 2013
-    // add a day
-    cal.add(Calendar.DAY_OF_MONTH, 1);
-    System.out.println(cal.getTime());// Mon Jul 29 21:53:55 IST 2013
-    cal.add(Calendar.DAY_OF_WEEK, 1);
-    System.out.println(cal.getTime());// Tue Jul 30 21:53:55 IST 2013
-    cal.add(Calendar.HOUR, 1);
-    System.out.println(cal.getTime());// Tue Jul 30 22:53:55 IST 2013
-    cal.add(Calendar.HOUR_OF_DAY, 1);
-    System.out.println(cal.getTime());// Tue Jul 30 23:53:55 IST 2013
-    cal.add(Calendar.MINUTE, 100);
-    System.out.println(cal.getTime());// Wed Jul 31 01:33:55 IST 2013
-    // demonstrate leniency
-    cal.add(Calendar.DAY_OF_MONTH, 32);
-    System.out.println(cal.getTime());// Sun Sep 01 01:33:55 IST 2013
+Calendar cal = Calendar.getInstance();
+System.out.println(cal.getTime());// Sun Jul 28 21:53:55 IST 2013
+// add a day
+cal.add(Calendar.DAY_OF_MONTH, 1);
+System.out.println(cal.getTime());// Mon Jul 29 21:53:55 IST 2013
+cal.add(Calendar.DAY_OF_WEEK, 1);
+System.out.println(cal.getTime());// Tue Jul 30 21:53:55 IST 2013
+cal.add(Calendar.HOUR, 1);
+System.out.println(cal.getTime());// Tue Jul 30 22:53:55 IST 2013
+cal.add(Calendar.HOUR_OF_DAY, 1);
+System.out.println(cal.getTime());// Tue Jul 30 23:53:55 IST 2013
+cal.add(Calendar.MINUTE, 100);
+System.out.println(cal.getTime());// Wed Jul 31 01:33:55 IST 2013
+// demonstrate leniency
+cal.add(Calendar.DAY_OF_MONTH, 32);
+System.out.println(cal.getTime());// Sun Sep 01 01:33:55 IST 2013
 }
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/date/java-date-and-calendar-classes.jsp&#34; title=&#34;Date And Calendar&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/date/java-date-and-calendar-classes.jsp&#34; title=&#34;Date And Calendar&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,17 +233,17 @@
         <div class="post panel-wrapper">
             <h2>Gson: Exclusion Strategy</h2>
           
-          
-
-<p>In this tutorial we look at how to selectively include fields from a java object to a json string. By default, Gson tries to map all fields in the java object to the corresponding property in json. However, in certain cases we may want to control that. There are a few ways to do this. It is also possible to excluse fields from third party packages where we have no access to the source code. The different ways to exclude fields are :</p>
+          <p>In this tutorial we look at how to selectively include fields from a java object to a json string. By default, Gson tries to map all fields in the java object to the corresponding property in json. However, in certain cases we may want to control that. There are a few ways to do this. It is also possible to excluse fields from third party packages where we have no access to the source code. The different ways to exclude fields are :</p>
 
 <ol>
 <li>By defining a custom annotation and ignoring fields that are annotated with that.</li>
 <li>By Defining a custom exclusion class by extending the ExclusionStrategy interface and implementing the public boolean shouldSkipField(FieldAttributes f); and public boolean shouldSkipClass(Class clazz); methods</li>
-<li>By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.</li>
-</ol>
 
-<h4 id="the-example-below-demonstrates-all-three:328ca424640a9366d8b50d13fb24324f">The example below demonstrates all three</h4>
+<li><p>By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.
+</p>
+
+<h4 id="the-example-below-demonstrates-all-three">The example below demonstrates all three</h4></li>
+</ol>
 
 <pre><code>package com.studytrails.json.gson;
 
@@ -275,7 +273,7 @@ public class ExclusionExample {
 }
 </code></pre>
 
-<h4 id="the-cat-class:328ca424640a9366d8b50d13fb24324f">The Cat class</h4>
+<h4 id="the-cat-class">The Cat class</h4>
 
 <pre><code>package com.studytrails.json.gson;
 
@@ -336,7 +334,7 @@ public class Cat {
 }
 </code></pre>
 
-<h4 id="the-exclusion-strategy:328ca424640a9366d8b50d13fb24324f">The Exclusion Strategy</h4>
+<h4 id="the-exclusion-strategy">The Exclusion Strategy</h4>
 
 <pre><code>package com.studytrails.json.gson;
 
@@ -383,7 +381,6 @@ public class CustomExclusionStrategy implements ExclusionStrategy {
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-google-json-exclusion-strategy.jsp" title="Excluding certain fields from Java classes"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603122035/" title="上一篇">&lt;&lt; Gson: Custom Serializer</a>
@@ -412,7 +409,7 @@ public class CustomExclusionStrategy implements ExclusionStrategy {
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

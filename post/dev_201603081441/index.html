@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -243,17 +241,20 @@
 <li>@XStreamAlias - Used on the type, field or attribute. To understand &lsquo;aliases&rsquo; look at this tutorial</li>
 <li>@XStreamImplicit - Used on Collections or array. To understand &lsquo;Implicit Collections/Arrays&rsquo; look at the this tutorial.</li>
 <li>@XStreamAsAttribute - Used to mark a field as an attribute.</li>
-<li>@XStreamConverter - Use a specific converter for this field. We will look at Converters in detail in a later tutorial. In this example we use a Boolean converter for &lsquo;isAlive&rsquo; field, we want the XML to have values yes or no instead of true or false.</li>
-</ul>
 
-<p>Here is the complete example. In this example we want to create an XML from an object of type JazzArtist2.</p>
+<li><p>@XStreamConverter - Use a specific converter for this field. We will look at Converters in detail in a later tutorial. In this example we use a Boolean converter for &lsquo;isAlive&rsquo; field, we want the XML to have values yes or no instead of true or false.
 
-<ul>
-<li>We use annotation to first use an alias of &lsquo;artist&rsquo; for JazzArtist2. Each Jazz Artist has a list of albums.</li>
-<li>In the resulting XML we dont want the albums to appear under the element &lsquo;albums&rsquo;, rather we want each album to be the child of the artist element. We therefore mark &lsquo;albums&rsquo; as an implicit collection using the @XStreamImplicit annotation.</li>
-<li>We don&rsquo;t want to include the &lsquo;noOfRecords&rsquo; in the resulting XML, we therefore use the @XStreamOmitField to omit that field.</li>
-<li>We want genre to be an attribute of the album instead of a child. we use @XStreamAsAttribute to mark genre as an attribute.</li>
-<li>In this example we also use an annotation for a Converter. There is a boolean field in the JazzArtist2 class called isAlive. We dont want the   XML to have values &lsquo;true&rsquo; or &lsquo;false&rsquo; but values &lsquo;yes&rsquo; or &lsquo;no&rsquo; since they are more human friendly. The @XStreamConverter can be used to specify a Converter and pass values to its constructor.</li>
+Here is the complete example. In this example we want to create an XML from an object of type JazzArtist2.</p></li>
+
+<li><p>We use annotation to first use an alias of &lsquo;artist&rsquo; for JazzArtist2. Each Jazz Artist has a list of albums.</p></li>
+
+<li><p>In the resulting XML we dont want the albums to appear under the element &lsquo;albums&rsquo;, rather we want each album to be the child of the artist element. We therefore mark &lsquo;albums&rsquo; as an implicit collection using the @XStreamImplicit annotation.</p></li>
+
+<li><p>We don&rsquo;t want to include the &lsquo;noOfRecords&rsquo; in the resulting XML, we therefore use the @XStreamOmitField to omit that field.</p></li>
+
+<li><p>We want genre to be an attribute of the album instead of a child. we use @XStreamAsAttribute to mark genre as an attribute.</p></li>
+
+<li><p>In this example we also use an annotation for a Converter. There is a boolean field in the JazzArtist2 class called isAlive. We dont want the   XML to have values &lsquo;true&rsquo; or &lsquo;false&rsquo; but values &lsquo;yes&rsquo; or &lsquo;no&rsquo; since they are more human friendly. The @XStreamConverter can be used to specify a Converter and pass values to its constructor.</p></li>
 </ul>
 
 <pre><code>package com.studytrails.xml.xstream;
@@ -353,7 +354,6 @@ class Album2 {
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-java-to-xml-annotated.jsp" title="Java to XML Using Annotation"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603081433/" title="上一篇">&lt;&lt; XStream: Java to XML</a>
@@ -382,7 +382,7 @@ class Album2 {
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

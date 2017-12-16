@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,36 +233,35 @@
         <div class="post panel-wrapper">
             <h2>XStream: Java to XML and Back</h2>
           
-          
-
-<h3 id="the-problem-statement:bc08890a77c807eef23ae3fbd92d9134">The Problem Statement</h3>
+          <h3 id="the-problem-statement">The Problem Statement</h3>
 
 <p>XStream can be used to convert a Java Object to XML and back. This tutorial aims to create a java representation of the BBC RSS. We will start with a Simple java class and gradually start adding complexity to it so that it can be converted to the BBC RSS. Note that if you are looking at a way to parse an XML, it would be a good idea to first build a java class that XStream can convert to the required XML. XStream can then use the same class to deserialize the XML. First, have a look at the <a href="http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int" title="BBC RSS">BBC RSS</a>. Your browser would have formatted it to html so look at the source to see the XML. The parent element is &lsquo;rss&rsquo;. It has a child element called &lsquo;channel&rsquo;. The &lsquo;channel&rsquo; has some properties (title, link, image etc) and a list of news &lsquo;item&rsquo;(s). Each &lsquo;item&rsquo; has properties set on it (title, description etc). The aim is to create a Java class that XStream can convert to the BBC RSS.</p>
 
-<h3 id="creating-an-xstream-instance:bc08890a77c807eef23ae3fbd92d9134">Creating an XStream Instance</h3>
+<h3 id="creating-an-xstream-instance">Creating an XStream Instance</h3>
 
-<p>The first step is to create an instance of com.thoughtworks.xstream.XStream. This class is a facade to the XStream API and provides all major functionalities. If this class does not solve your problem then you could directly call the API methods. After obtaining the instance of XStream use the fromXML method to convert the XML to a java object. Note that creating an XStream instance is an expensive operation. It is therefore advisable to create a proper instance once and then reuse it for multiple calls (even in parallel). The setup is not threadsafe but any subsequent marshalling/unmarshalling is threadsafe.</p>
+<p>The first step is to create an instance of com.thoughtworks.xstream.XStream. This class is a facade to the XStream API and provides all major functionalities. If this class does not solve your problem then you could directly call the API methods. After obtaining the instance of XStream use the fromXML method to convert the XML to a java object. Note that creating an XStream instance is an expensive operation. It is therefore advisable to create a proper instance once and then reuse it for multiple calls (even in parallel). The setup is not threadsafe but any subsequent marshalling/unmarshalling is threadsafe.
+</p>
 
-<h3 id="aliases:bc08890a77c807eef23ae3fbd92d9134">Aliases</h3>
+<h3 id="aliases">Aliases</h3>
 
 <p>XStream provides a very useful functionality called aliases. In our example we want to convert an instance of com.studytrails.xml.xstream.Rss to an rss element. We tell XStream that the element &lsquo;rss&rsquo; is an &lsquo;alias&rsquo; to &lsquo;com.studytrails.xml.xstream.Rss&rsquo; so that XStream knows how to convert them. If we dont provide the alias while converting the object to XML then XStream would give the element the fully qualified name of the class. Aliases work for Classes as well as fields. The example below demonstrates the use of aliases.</p>
 
-<h3 id="implicit-collection:bc08890a77c807eef23ae3fbd92d9134">Implicit Collection</h3>
+<h3 id="implicit-collection">Implicit Collection</h3>
 
 <p>The Channel element in BBC has a list of items. However, note that the XML stream does not have an <items> element containing a list of <item> elements. The XML stream just has a list of <item> elements directly under the <Channel> element. We want to map them to the &lsquo;items&rsquo; java.util.List of the Channel Object. To accomplish this we use a concept in XStream called Implicit Collection. we say that &lsquo;items&rsquo; is an implicit collection. What that means is that there is actually no &lsquo;items&rsquo; element in the XML, but put all XML elements with name &lsquo;item&rsquo; (since the java property items is of type List<Item>) into the &lsquo;items&rsquo; property of the java object. Look at the example to see how it works.</p>
 
-<h3 id="attributes:bc08890a77c807eef23ae3fbd92d9134">Attributes</h3>
+<h3 id="attributes">Attributes</h3>
 
 <p>Handling attributes is a little tricky. In this example we provide one way to handle attributes, however, we have a dedicated tutorial to explain how attributes can be handled using XStream.</p>
 
-<h3 id="namespaces:bc08890a77c807eef23ae3fbd92d9134">Namespaces</h3>
+<h3 id="namespaces">Namespaces</h3>
 
 <p>Elements within a namespace can be handled by XStream by using aliases. In this example there is a link within the namespace atom. we just use an alias to read that</p>
 
 <pre><code>xstream.aliasField(&quot;atom:link&quot;, Channel.class, &quot;a_link&quot;);
 </code></pre>
 
-<h3 id="example:bc08890a77c807eef23ae3fbd92d9134">Example</h3>
+<h3 id="example">Example</h3>
 
 <p>Lets start building the java example. As a first step create a Java class for the root element i.e. RSS</p>
 
@@ -544,7 +541,6 @@ class Image {
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-java-to-xml-and-back.jsp" title="XStream Parsing an XML"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603081355/" title="上一篇">&lt;&lt; Xstream: Introduction</a>
@@ -573,7 +569,7 @@ class Image {
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

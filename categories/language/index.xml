@@ -15,17 +15,16 @@
       <pubDate>Wed, 13 Jan 2016 00:00:00 UTC</pubDate>
       
       <guid>http://alimy.me/post/dev_201601131558/</guid>
-      <description>
-
-&lt;h3 id=&#34;sect-what-is-markdown:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;&amp;sect; What is Markdown?&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;sect-what-is-markdown&#34;&gt;&amp;sect; What is Markdown?&lt;/h3&gt;
 
 &lt;p&gt;Markdown is a way to style text on the web. You control the display of the
 document; formatting words as bold or italic, adding images, and creating lists
 are just a few of the things we can do with Markdown. Mostly, Markdown is just
 regular text with a few non-alphabetic characters thrown in, like # or *.&lt;br /&gt;
-&lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34; title=&#34;Daring FireBall: Home&#34;&gt;[Markdown Reference]&lt;/a&gt; &lt;a href=&#34;https://guides.github.com/features/mastering-markdown/&#34; title=&#34;GitHub&#39;s Mastering Markdown&#34;&gt;[Mastering Markdown]&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34; title=&#34;Daring FireBall: Home&#34;&gt;[Markdown Reference]&lt;/a&gt; &lt;a href=&#34;https://guides.github.com/features/mastering-markdown/&#34; title=&#34;GitHub&#39;s Mastering Markdown&#34;&gt;[Mastering Markdown]&lt;/a&gt;
+&lt;/p&gt;
 
-&lt;h3 id=&#34;sect-syntax-cheatsheet:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;&amp;sect; Syntax Cheatsheet:&lt;/h3&gt;
+&lt;h3 id=&#34;sect-syntax-cheatsheet&#34;&gt;&amp;sect; Syntax Cheatsheet:&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Phrase Emphasis&lt;/p&gt;
@@ -82,9 +81,9 @@ Header 2
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;blockquote&gt;
-&lt;h1 id=&#34;header-1:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 1&lt;/h1&gt;
+&lt;h1 id=&#34;header-1&#34;&gt;Header 1&lt;/h1&gt;
 
-&lt;h2 id=&#34;header-2:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 2&lt;/h2&gt;
+&lt;h2 id=&#34;header-2&#34;&gt;Header 2&lt;/h2&gt;
 &lt;/blockquote&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Headers-Atx-style(closing #&amp;rsquo;s are optional)&lt;/p&gt;
@@ -98,17 +97,17 @@ Header 2
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;blockquote&gt;
-&lt;h1 id=&#34;header-1-1:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 1&lt;/h1&gt;
+&lt;h1 id=&#34;header-1-1&#34;&gt;Header 1&lt;/h1&gt;
 
-&lt;h2 id=&#34;header-2-1:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 2&lt;/h2&gt;
+&lt;h2 id=&#34;header-2-1&#34;&gt;Header 2&lt;/h2&gt;
 
-&lt;h3 id=&#34;header-3:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 3&lt;/h3&gt;
+&lt;h3 id=&#34;header-3&#34;&gt;Header 3&lt;/h3&gt;
 
-&lt;h4 id=&#34;header-4:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 4&lt;/h4&gt;
+&lt;h4 id=&#34;header-4&#34;&gt;Header 4&lt;/h4&gt;
 
-&lt;h5 id=&#34;header-5:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 5&lt;/h5&gt;
+&lt;h5 id=&#34;header-5&#34;&gt;Header 5&lt;/h5&gt;
 
-&lt;h6 id=&#34;header-6:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Header 6&lt;/h6&gt;
+&lt;h6 id=&#34;header-6&#34;&gt;Header 6&lt;/h6&gt;
 &lt;/blockquote&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;List-Ordered,without paragraphs&lt;/p&gt;
@@ -130,9 +129,7 @@ Header 2
 &lt;pre&gt;&lt;code&gt;&amp;gt; Email-style angle brackets
 &amp;gt; are used for blockquotes.
 
-
 &amp;gt; &amp;gt; And, they can be nested.
-
 
 &amp;gt; #### Headers in blockquotes
 &amp;gt;
@@ -150,7 +147,7 @@ are used for blockquotes.&lt;/p&gt;
 &lt;p&gt;And, they can be nested.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h4 id=&#34;headers-in-blockquotes:8a3103bd0efc46558eecfb5aef7eee0d&#34;&gt;Headers in blockquotes&lt;/h4&gt;
+&lt;h4 id=&#34;headers-in-blockquotes&#34;&gt;Headers in blockquotes&lt;/h4&gt;
 
 &lt;ul&gt;
 &lt;li&gt;You can quote a list.&lt;/li&gt;
@@ -168,7 +165,6 @@ You can include literal backticks like `` `this` ``.
 Indent every line of a code block by at least 4 spaces or 1 tab.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;This is a normal paragraph.
-
 
   This is a preformatted
   code block.
@@ -203,8 +199,7 @@ Violets are blue.
 &lt;p&gt;Roses are red,&lt;br /&gt;
 Violets are blue.&lt;/p&gt;
 &lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+&lt;/ul&gt;</description>
     </item>
     
     <item>
@@ -213,14 +208,13 @@ Violets are blue.&lt;/p&gt;
       <pubDate>Tue, 12 Jan 2016 00:00:00 UTC</pubDate>
       
       <guid>http://alimy.me/post/dev_201601121531/</guid>
-      <description>
-
-&lt;h2 id=&#34;由来:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;由来&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;由来&#34;&gt;&amp;gt;由来&lt;/h2&gt;
 
 &lt;p&gt;gogs 打开一个android app库的资源文件夹(/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi)
-返回 500&lt;/p&gt;
+返回 500
+&lt;/p&gt;
 
-&lt;h2 id=&#34;源头:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;源头&lt;/h2&gt;
+&lt;h2 id=&#34;源头&#34;&gt;&amp;gt;源头&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code&gt;[git@linux gogs]$ ./gogs web
 2016/01/12 15:35:31 [T] Custom path: /home/git/opt/gogs/custom
@@ -243,7 +237,7 @@ Violets are blue.&lt;/p&gt;
 
 &lt;p&gt;&amp;bull; 原来是&lt;code&gt;pipe2: too many open files&lt;/code&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;ulimit:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;ulimit&lt;/h2&gt;
+&lt;h2 id=&#34;ulimit&#34;&gt;&amp;gt;ulimit&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code&gt;[git@linux gogs]$ ulimit -a
 core file size          (blocks, -c) 0
@@ -266,7 +260,7 @@ file locks                      (-x) unlimited
 
 &lt;p&gt;&amp;bull; 嗯，(open files)=4096，那也不小啊，gogs君，这是Bug吗？好吧，我改&amp;hellip;&lt;/p&gt;
 
-&lt;h2 id=&#34;解决方案:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;解决方案&lt;/h2&gt;
+&lt;h2 id=&#34;解决方案&#34;&gt;&amp;gt;解决方案&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code&gt;[root@linux gogs]# cat /proc/sys/fs/file-max
 813396
@@ -298,7 +292,7 @@ virtual memory          (kbytes, -v) unlimited
 file locks                      (-x) unlimited
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;终极方案:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;终极方案&lt;/h2&gt;
+&lt;h2 id=&#34;终极方案&#34;&gt;&amp;gt;终极方案&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code&gt;[root@linux gogs]# cat /etc/security/limits.conf
 # /etc/security/limits.conf
@@ -381,7 +375,7 @@ file locks                      (-x) unlimited
 
 &lt;p&gt;&amp;bull; 系统重启后生效。&lt;/p&gt;
 
-&lt;h2 id=&#34;limits-conf的工作原理:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;limits.conf的工作原理&lt;/h2&gt;
+&lt;h2 id=&#34;limits-conf的工作原理&#34;&gt;&amp;gt;limits.conf的工作原理&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;limits.conf是pam_limits.so的配置文件&lt;/li&gt;
@@ -394,7 +388,7 @@ file locks                      (-x) unlimited
 &lt;li&gt;查看应用程序能否被PAM支持，用ldd&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;limits-conf文件中的参数配置方式:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;limits.conf文件中的参数配置方式&lt;/h2&gt;
+&lt;h2 id=&#34;limits-conf文件中的参数配置方式&#34;&gt;&amp;gt;limits.conf文件中的参数配置方式&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;暂时地，登录 shell 会话期间使用ulimit 命令配置&lt;/li&gt;
@@ -403,7 +397,7 @@ file locks                      (-x) unlimited
 或者通过编辑 /etc/security/limits.conf.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;后记:24c92de71c82cd5c5c09db7aef53b004&#34;&gt;&amp;gt;后记&lt;/h2&gt;
+&lt;h2 id=&#34;后记&#34;&gt;&amp;gt;后记&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;以上方法并没有完全解决gogs:too many files -&amp;gt; return 500的问题,如果以服务的模式运行
@@ -438,8 +432,7 @@ Environment=USER=git HOME=/home/git
 
 [Install]
 WantedBy=multi-user.target
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
@@ -448,22 +441,21 @@ WantedBy=multi-user.target
       <pubDate>Sun, 03 Jan 2016 00:00:00 UTC</pubDate>
       
       <guid>http://alimy.me/post/dev_201601031221/</guid>
-      <description>
-
-&lt;h2 id=&#34;toml的由来:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;TOML的由来&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;toml的由来&#34;&gt;TOML的由来&lt;/h2&gt;
 
 &lt;p&gt;TOML的全称是　Tom&amp;rsquo;s Obvious, Minimal Language，因为它是GitHub　前CEO,联合创始人
 Tom Preston-Werner 于2013年创建的语言。&lt;/p&gt;
 
 &lt;p&gt;配置文件的使用由来已久，从.ini、XML、JSON、YAML再到TOML，语言的表达能力越来越强，同时书
-写便捷性也在不断提升。&lt;/p&gt;
+写便捷性也在不断提升。
+&lt;/p&gt;
 
-&lt;h2 id=&#34;toml-的目标:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;TOML 的目标&lt;/h2&gt;
+&lt;h2 id=&#34;toml-的目标&#34;&gt;TOML 的目标&lt;/h2&gt;
 
 &lt;p&gt;TOML的目标是成为一个小规模的易于使用的语义化配置文件格式。TOML被设计为可以无二义性的转换
 为一个哈希表(Hash table)，从而被多种语言解析。&lt;/p&gt;
 
-&lt;h3 id=&#34;例子:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;例子&lt;/h3&gt;
+&lt;h3 id=&#34;例子&#34;&gt;例子&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;title = &amp;quot;TOML 例子&amp;quot;
 
@@ -502,7 +494,7 @@ hosts = [
 
 &lt;p&gt;TOML是大小写敏感的。&lt;/p&gt;
 
-&lt;h3 id=&#34;注释:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;注释&lt;/h3&gt;
+&lt;h3 id=&#34;注释&#34;&gt;注释&lt;/h3&gt;
 
 &lt;p&gt;使用 # 表示注释：&lt;/p&gt;
 
@@ -510,7 +502,7 @@ hosts = [
 key = &amp;quot;value&amp;quot; # Yeah, you can do this.
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;字符串:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;字符串&lt;/h3&gt;
+&lt;h3 id=&#34;字符串&#34;&gt;字符串&lt;/h3&gt;
 
 &lt;p&gt;字符串和 JSON 的定义一致，只有一点除外：　TOML 要求使用　UTF-8 编码。&lt;/p&gt;
 
@@ -542,11 +534,11 @@ right = &amp;quot;C:\\Users\\nodejs\\templates&amp;quot;
 
 &lt;p&gt;二进制数据建议使用　Base64　或其他合适的编码。具体的处理取决于特定的应用。&lt;/p&gt;
 
-&lt;h3 id=&#34;整数:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;整数&lt;/h3&gt;
+&lt;h3 id=&#34;整数&#34;&gt;整数&lt;/h3&gt;
 
 &lt;p&gt;整数就是一些没有小数点的数字。想用负数？按直觉来就行。整数的尺寸最小为64位。&lt;/p&gt;
 
-&lt;h3 id=&#34;浮点数:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;浮点数&lt;/h3&gt;
+&lt;h3 id=&#34;浮点数&#34;&gt;浮点数&lt;/h3&gt;
 
 &lt;p&gt;浮点数带小数点。小数点两边都有数字。64位精度。&lt;/p&gt;
 
@@ -554,7 +546,7 @@ right = &amp;quot;C:\\Users\\nodejs\\templates&amp;quot;
 -0.01
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;布尔值:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;布尔值&lt;/h3&gt;
+&lt;h3 id=&#34;布尔值&#34;&gt;布尔值&lt;/h3&gt;
 
 &lt;p&gt;布尔值永远是小写。&lt;/p&gt;
 
@@ -562,14 +554,14 @@ right = &amp;quot;C:\\Users\\nodejs\\templates&amp;quot;
 false
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;日期时间:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;日期时间&lt;/h3&gt;
+&lt;h3 id=&#34;日期时间&#34;&gt;日期时间&lt;/h3&gt;
 
 &lt;p&gt;使用　ISO 8601　完整格式。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;1979-05-27T07:32:00Z
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;数组:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;数组&lt;/h3&gt;
+&lt;h3 id=&#34;数组&#34;&gt;数组&lt;/h3&gt;
 
 &lt;p&gt;数组使用方括号包裹。空格会被忽略。元素使用逗号分隔。注意，不允许混用数据类型。&lt;/p&gt;
 
@@ -583,7 +575,7 @@ false
 &lt;p&gt;数组可以多行。也就是说，除了空格之外，方括号间的换行也会被忽略。在关闭方括号前的最终项后的
 逗号是允许的。&lt;/p&gt;
 
-&lt;h3 id=&#34;表格:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;表格&lt;/h3&gt;
+&lt;h3 id=&#34;表格&#34;&gt;表格&lt;/h3&gt;
 
 &lt;p&gt;表格（也叫哈希表或字典）是键值对的集合。它们在方括号内，自成一行。注意和数组相区分，数组只
 有值。&lt;/p&gt;
@@ -650,7 +642,7 @@ b = 1
 c = 2
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;表格数组:c808c7cfd184060a6bdad6a24f7f1e55&#34;&gt;表格数组&lt;/h3&gt;
+&lt;h3 id=&#34;表格数组&#34;&gt;表格数组&lt;/h3&gt;
 
 &lt;p&gt;最后要介绍的类型是表格数组。表格数组可以通过包裹在双方括号内的表格名来表达。使用相同的双方
 括号名称的表格是同一个数组的元素。表格按照书写的顺序插入。双方括号表格如果没有键值对，会被
@@ -740,8 +732,7 @@ color = &amp;quot;gray&amp;quot;
   # 和上面冲突了
   [fruit.variety]
     name = &amp;quot;granny smith&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
@@ -750,22 +741,21 @@ color = &amp;quot;gray&amp;quot;
       <pubDate>Sat, 02 Jan 2016 00:00:00 UTC</pubDate>
       
       <guid>http://alimy.me/post/dev_201601021221/</guid>
-      <description>
-
-&lt;p&gt;Tom&amp;rsquo;s Obvious, Minimal Language.&lt;/p&gt;
+      <description>&lt;p&gt;Tom&amp;rsquo;s Obvious, Minimal Language.&lt;/p&gt;
 
 &lt;p&gt;By Tom Preston-Werner.&lt;/p&gt;
 
 &lt;p&gt;Be warned, this spec is still changing a lot. Until it&amp;rsquo;s marked as 1.0, you
-should assume that it is unstable and act accordingly.&lt;/p&gt;
+should assume that it is unstable and act accordingly.
+&lt;/p&gt;
 
-&lt;h2 id=&#34;objectives:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Objectives&lt;/h2&gt;
+&lt;h2 id=&#34;objectives&#34;&gt;Objectives&lt;/h2&gt;
 
 &lt;p&gt;TOML aims to be a minimal configuration file format that&amp;rsquo;s easy to read due to
 obvious semantics. TOML is designed to map unambiguously to a hash table. TOML
 should be easy to parse into data structures in a wide variety of languages.&lt;/p&gt;
 
-&lt;h2 id=&#34;example:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Example&lt;/h2&gt;
+&lt;h2 id=&#34;example&#34;&gt;Example&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-toml&#34;&gt;# This is a TOML document. Boom.
 
@@ -802,7 +792,7 @@ hosts = [
 ]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;spec:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Spec&lt;/h2&gt;
+&lt;h2 id=&#34;spec&#34;&gt;Spec&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;TOML is case sensitive.&lt;/li&gt;
@@ -811,7 +801,7 @@ hosts = [
 &lt;li&gt;Newline means LF (0x0A) or CRLF (0x0D0A).&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;comment:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Comment&lt;/h2&gt;
+&lt;h2 id=&#34;comment&#34;&gt;Comment&lt;/h2&gt;
 
 &lt;p&gt;Speak your mind with the hash symbol. They go from the symbol to the end of the
 line.&lt;/p&gt;
@@ -820,7 +810,7 @@ line.&lt;/p&gt;
 key = &amp;quot;value&amp;quot; # Yeah, you can do this.
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;string:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;String&lt;/h2&gt;
+&lt;h2 id=&#34;string&#34;&gt;String&lt;/h2&gt;
 
 &lt;p&gt;There are four ways to express strings: basic, multi-line basic, literal, and
 multi-line literal. All strings must contain only valid UTF-8 characters.&lt;/p&gt;
@@ -934,7 +924,7 @@ trimmed in raw strings.
 &lt;p&gt;For binary data it is recommended that you use Base64 or another suitable ASCII
 or UTF-8 encoding. The handling of that encoding will be application specific.&lt;/p&gt;
 
-&lt;h2 id=&#34;integer:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Integer&lt;/h2&gt;
+&lt;h2 id=&#34;integer&#34;&gt;Integer&lt;/h2&gt;
 
 &lt;p&gt;Integers are whole numbers. Positive numbers may be prefixed with a plus sign.
 Negative numbers are prefixed with a minus sign.&lt;/p&gt;
@@ -960,7 +950,7 @@ series of digits are not allowed.&lt;/p&gt;
 &lt;p&gt;64 bit (signed long) range expected (âˆ’9,223,372,036,854,775,808 to
 9,223,372,036,854,775,807).&lt;/p&gt;
 
-&lt;h2 id=&#34;float:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Float&lt;/h2&gt;
+&lt;h2 id=&#34;float&#34;&gt;Float&lt;/h2&gt;
 
 &lt;p&gt;A float consists of an integer part (which may be prefixed with a plus or minus
 sign) followed by a fractional part and/or an exponent part. If both a
@@ -995,7 +985,7 @@ underscore must be surrounded by at least one digit.&lt;/p&gt;
 
 &lt;p&gt;64-bit (double) precision expected.&lt;/p&gt;
 
-&lt;h2 id=&#34;boolean:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Boolean&lt;/h2&gt;
+&lt;h2 id=&#34;boolean&#34;&gt;Boolean&lt;/h2&gt;
 
 &lt;p&gt;Booleans are just the tokens you&amp;rsquo;re used to. Always lowercase.&lt;/p&gt;
 
@@ -1003,7 +993,7 @@ underscore must be surrounded by at least one digit.&lt;/p&gt;
 false
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;datetime:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Datetime&lt;/h2&gt;
+&lt;h2 id=&#34;datetime&#34;&gt;Datetime&lt;/h2&gt;
 
 &lt;p&gt;Datetimes are &lt;a href=&#34;http://tools.ietf.org/html/rfc3339&#34;&gt;RFC 3339&lt;/a&gt; dates.&lt;/p&gt;
 
@@ -1012,7 +1002,7 @@ false
 1979-05-27T00:32:00.999999-07:00
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;array:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Array&lt;/h2&gt;
+&lt;h2 id=&#34;array&#34;&gt;Array&lt;/h2&gt;
 
 &lt;p&gt;Arrays are square brackets with other primitives inside. Whitespace is ignored.
 Elements are separated by commas. Data types may not be mixed (though all string
@@ -1040,7 +1030,7 @@ key = [
 ]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;table:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Table&lt;/h2&gt;
+&lt;h2 id=&#34;table&#34;&gt;Table&lt;/h2&gt;
 
 &lt;p&gt;Tables (also known as hash tables or dictionaries) are collections of key/value
 pairs. They appear in square brackets on a line by themselves. You can tell them
@@ -1144,7 +1134,7 @@ c = 2
  = &amp;quot;no key name&amp;quot; # not allowed
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;inline-table:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Inline Table&lt;/h2&gt;
+&lt;h2 id=&#34;inline-table&#34;&gt;Inline Table&lt;/h2&gt;
 
 &lt;p&gt;Inline tables provide a more compact syntax for expressing tables. They are
 especially useful for grouped data that can otherwise quickly become verbose.
@@ -1174,7 +1164,7 @@ x = 1
 y = 2
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;array-of-tables:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Array of Tables&lt;/h2&gt;
+&lt;h2 id=&#34;array-of-tables&#34;&gt;Array of Tables&lt;/h2&gt;
 
 &lt;p&gt;The last type that has not yet been expressed is an array of tables. These can
 be expressed by using a table name in double brackets. Each table with the same
@@ -1276,21 +1266,21 @@ array must produce an error at parse time.&lt;/p&gt;
            { x = 2, y = 4, z = 8 } ]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;seriously:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Seriously?&lt;/h2&gt;
+&lt;h2 id=&#34;seriously&#34;&gt;Seriously?&lt;/h2&gt;
 
 &lt;p&gt;Yep.&lt;/p&gt;
 
-&lt;h2 id=&#34;but-why:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;But why?&lt;/h2&gt;
+&lt;h2 id=&#34;but-why&#34;&gt;But why?&lt;/h2&gt;
 
 &lt;p&gt;Because we need a decent human-readable format that unambiguously maps to a hash
 table and the YAML spec is like 80 pages long and gives me rage. No, JSON
 doesn&amp;rsquo;t count. You know why.&lt;/p&gt;
 
-&lt;h2 id=&#34;oh-god-you-re-right:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Oh god, you&amp;rsquo;re right&lt;/h2&gt;
+&lt;h2 id=&#34;oh-god-you-re-right&#34;&gt;Oh god, you&amp;rsquo;re right&lt;/h2&gt;
 
 &lt;p&gt;Yuuuup. Wanna help? Send a pull request. Or write a parser. BE BRAVE.&lt;/p&gt;
 
-&lt;h2 id=&#34;projects-using-toml:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Projects using TOML&lt;/h2&gt;
+&lt;h2 id=&#34;projects-using-toml&#34;&gt;Projects using TOML&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://doc.crates.io/&#34;&gt;Cargo&lt;/a&gt; - The Rust language&amp;rsquo;s package manager.&lt;/li&gt;
@@ -1299,7 +1289,7 @@ doesn&amp;rsquo;t count. You know why.&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; - Static site generator in Go.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;implementations:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Implementations&lt;/h2&gt;
+&lt;h2 id=&#34;implementations&#34;&gt;Implementations&lt;/h2&gt;
 
 &lt;p&gt;If you have an implementation, send a pull request adding to this list. Please
 note the commit SHA1 or version tag that your parser supports in your Readme.&lt;/p&gt;
@@ -1369,19 +1359,19 @@ note the commit SHA1 or version tag that your parser supports in your Readme.&lt
 &lt;li&gt;Scala - &lt;a href=&#34;https://github.com/axelarge/tomelette&#34;&gt;https://github.com/axelarge/tomelette&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;validators:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Validators&lt;/h2&gt;
+&lt;h2 id=&#34;validators&#34;&gt;Validators&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Go (@BurntSushi) - &lt;a href=&#34;https://github.com/BurntSushi/toml/tree/master/cmd/tomlv&#34;&gt;https://github.com/BurntSushi/toml/tree/master/cmd/tomlv&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;language-agnostic-test-suite-for-toml-decoders-and-encoders:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Language agnostic test suite for TOML decoders and encoders&lt;/h2&gt;
+&lt;h2 id=&#34;language-agnostic-test-suite-for-toml-decoders-and-encoders&#34;&gt;Language agnostic test suite for TOML decoders and encoders&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;toml-test (@BurntSushi) - &lt;a href=&#34;https://github.com/BurntSushi/toml-test&#34;&gt;https://github.com/BurntSushi/toml-test&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;editor-support:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Editor support&lt;/h2&gt;
+&lt;h2 id=&#34;editor-support&#34;&gt;Editor support&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Atom - &lt;a href=&#34;https://github.com/atom/language-toml&#34;&gt;https://github.com/atom/language-toml&lt;/a&gt;&lt;/li&gt;
@@ -1393,7 +1383,7 @@ note the commit SHA1 or version tag that your parser supports in your Readme.&lt
 &lt;li&gt;Vim (@cespare) - &lt;a href=&#34;https://github.com/cespare/vim-toml&#34;&gt;https://github.com/cespare/vim-toml&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;encoder:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Encoder&lt;/h2&gt;
+&lt;h2 id=&#34;encoder&#34;&gt;Encoder&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Dart (@just95) - &lt;a href=&#34;https://github.com/just95/toml.dart&#34;&gt;https://github.com/just95/toml.dart&lt;/a&gt;&lt;/li&gt;
@@ -1401,7 +1391,7 @@ note the commit SHA1 or version tag that your parser supports in your Readme.&lt
 &lt;li&gt;PHP (@ayushchd) - &lt;a href=&#34;https://github.com/ayushchd/php-toml-encoder&#34;&gt;https://github.com/ayushchd/php-toml-encoder&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;converters:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Converters&lt;/h2&gt;
+&lt;h2 id=&#34;converters&#34;&gt;Converters&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;remarshal (@dbohdan) - &lt;a href=&#34;https://github.com/dbohdan/remarshal&#34;&gt;https://github.com/dbohdan/remarshal&lt;/a&gt;&lt;/li&gt;
@@ -1409,12 +1399,11 @@ note the commit SHA1 or version tag that your parser supports in your Readme.&lt
 &lt;li&gt;yaml2toml.dart (@just95) - &lt;a href=&#34;https://github.com/just95/yaml2toml.dart&#34;&gt;https://github.com/just95/yaml2toml.dart&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;organization:5ff9e6c178c0a97810ff2a2c2ec622b5&#34;&gt;Organization&lt;/h2&gt;
+&lt;h2 id=&#34;organization&#34;&gt;Organization&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;toml-lang (@BurntSushi) - &lt;a href=&#34;https://github.com/toml-lang&#34;&gt;https://github.com/toml-lang&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+&lt;/ul&gt;</description>
     </item>
     
   </channel>

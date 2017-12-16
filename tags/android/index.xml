@@ -15,14 +15,12 @@
       <pubDate>Sat, 19 Mar 2016 22:45:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201603192245/</guid>
-      <description>
-
-&lt;h3 id=&#34;android-network-simple:03999fb0359803477bc987da56a0bc05&#34;&gt;Android Network Simple&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;android-network-simple&#34;&gt;Android Network Simple&lt;/h3&gt;
 
 &lt;p&gt;This article shows how to use volley with OkHttp and security your api with https.
 本文可以在&lt;a href=&#34;http://www.jianshu.com/p/e58161cbc3a4&#34; title=&#34;Android 网络--我是怎么做的: Volley+OkHttp+Https&#34;&gt;简书&lt;/a&gt;浏览。&lt;/p&gt;
 
-&lt;h3 id=&#34;使用-okhttp-作为传输层的实现:03999fb0359803477bc987da56a0bc05&#34;&gt;使用 OkHttp 作为传输层的实现.&lt;/h3&gt;
+&lt;h3 id=&#34;使用-okhttp-作为传输层的实现&#34;&gt;使用 OkHttp 作为传输层的实现.&lt;/h3&gt;
 
 &lt;p&gt;Volley 默认根据 Android 系统版本使用不同的 Http 传输协议实现. 3.0 以上使用HttpUrlConnection, 2.3 以下使用 ApacheHttpStack, 参考&lt;a href=&#34;http://android-developers.blogspot.com/2011/09/androids-http-clients.html&#34;&gt;Android Http Client&lt;/a&gt;.&lt;/p&gt;
 
@@ -34,10 +32,10 @@
 &lt;li&gt;使用GZIP压缩下载内容，且压缩操作对用户是透明的。&lt;/li&gt;
 &lt;li&gt;利用响应缓存来避免重复的网络请求。&lt;/li&gt;
 &lt;li&gt;当网络出现问题的时候，OKHttp会依然有效，它将从常见的连接问题当中恢复。&lt;/li&gt;
-&lt;li&gt;如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。
 
-&lt;p&gt;因此使用 OkHttp 作为替代是好的选择.&lt;/p&gt;
+因此使用 OkHttp 作为替代是好的选择.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;首先用 OkHttp 实现一个新的 &lt;code&gt;HurlStack&lt;/code&gt; 用于构建 Volley 的 requestQueue.&lt;/p&gt;
 
@@ -76,7 +74,7 @@ requestQueue.start();
 
 &lt;p&gt;这样就行了.&lt;/p&gt;
 
-&lt;h3 id=&#34;使用-https:03999fb0359803477bc987da56a0bc05&#34;&gt;使用 Https&lt;/h3&gt;
+&lt;h3 id=&#34;使用-https&#34;&gt;使用 Https&lt;/h3&gt;
 
 &lt;p&gt;作为一个有节操的开发者应该使用 Https 来保护用户的数据, Android 开发者网站上文章&lt;a href=&#34;https://developer.android.com/training/articles/security-ssl.html&#34;&gt;Security with HTTPS and SSL&lt;/a&gt;做了详尽的阐述.&lt;/p&gt;
 
@@ -92,7 +90,7 @@ requestQueue.start();
 缺点:
 * 证书部署灵活性降低, 一旦变更证书必须升级程序.&lt;/p&gt;
 
-&lt;h3 id=&#34;实现步骤:03999fb0359803477bc987da56a0bc05&#34;&gt;实现步骤&lt;/h3&gt;
+&lt;h3 id=&#34;实现步骤&#34;&gt;实现步骤&lt;/h3&gt;
 
 &lt;p&gt;以最著名的自签名网站12306为例说明&lt;/p&gt;
 
@@ -122,9 +120,7 @@ requestQueue.start();
 &lt;pre&gt;&lt;code&gt; // A HttpStack implement witch can verify specified self-signed certification.
 public class SelfSignSslOkHttpStack extends HurlStack {
 
-
   private OkHttpClient okHttpClient;
-
 
   private Map&amp;lt;String, SSLSocketFactory&amp;gt; socketFactoryMap;
 
@@ -141,7 +137,6 @@ public class SelfSignSslOkHttpStack extends HurlStack {
     this.okHttpClient = okHttpClient;
     this.socketFactoryMap = factoryMap;
   }
-
 
   @Override
   protected HttpURLConnection createConnection(URL url) throws IOException {
@@ -163,7 +158,6 @@ int[] certRes = {R.raw.kyfw};
 String[] certPass = {&amp;quot;asdfqaz&amp;quot;};
 socketFactoryMap = new Hashtable&amp;lt;&amp;gt;(hosts.length);
 
-
 for (int i = 0; i &amp;lt; certRes.length; i++) {
     int res = certRes[i];
     String password = certPass[i];
@@ -171,9 +165,7 @@ for (int i = 0; i &amp;lt; certRes.length; i++) {
     socketFactoryMap.put(hosts[i], sslSocketFactory);
 }
 
-
 HurlStack stack = new SelfSignSslOkHttpStack(socketFactoryMap);
-
 
 requestQueue = Volley.newRequestQueue(context, stack);
 requestQueue.start();
@@ -184,8 +176,7 @@ requestQueue.start();
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://github.com/dodocat/AndroidNetworkdemo&#34; title=&#34;android network demo&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;
-</description>
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://github.com/dodocat/AndroidNetworkdemo&#34; title=&#34;android network demo&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>

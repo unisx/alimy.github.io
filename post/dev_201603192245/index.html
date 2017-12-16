@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,14 +233,12 @@
         <div class="post panel-wrapper">
             <h2>Android: Volley&#43;OkHttp with https</h2>
           
-          
-
-<h3 id="android-network-simple:03999fb0359803477bc987da56a0bc05">Android Network Simple</h3>
+          <h3 id="android-network-simple">Android Network Simple</h3>
 
 <p>This article shows how to use volley with OkHttp and security your api with https.
 本文可以在<a href="http://www.jianshu.com/p/e58161cbc3a4" title="Android 网络--我是怎么做的: Volley+OkHttp+Https">简书</a>浏览。</p>
 
-<h3 id="使用-okhttp-作为传输层的实现:03999fb0359803477bc987da56a0bc05">使用 OkHttp 作为传输层的实现.</h3>
+<h3 id="使用-okhttp-作为传输层的实现">使用 OkHttp 作为传输层的实现.</h3>
 
 <p>Volley 默认根据 Android 系统版本使用不同的 Http 传输协议实现. 3.0 以上使用HttpUrlConnection, 2.3 以下使用 ApacheHttpStack, 参考<a href="http://android-developers.blogspot.com/2011/09/androids-http-clients.html">Android Http Client</a>.</p>
 
@@ -254,10 +250,10 @@
 <li>使用GZIP压缩下载内容，且压缩操作对用户是透明的。</li>
 <li>利用响应缓存来避免重复的网络请求。</li>
 <li>当网络出现问题的时候，OKHttp会依然有效，它将从常见的连接问题当中恢复。</li>
-<li>如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。</li>
-</ul>
+<li>如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。
 
-<p>因此使用 OkHttp 作为替代是好的选择.</p>
+因此使用 OkHttp 作为替代是好的选择.</li>
+</ul>
 
 <p>首先用 OkHttp 实现一个新的 <code>HurlStack</code> 用于构建 Volley 的 requestQueue.</p>
 
@@ -296,7 +292,7 @@ requestQueue.start();
 
 <p>这样就行了.</p>
 
-<h3 id="使用-https:03999fb0359803477bc987da56a0bc05">使用 Https</h3>
+<h3 id="使用-https">使用 Https</h3>
 
 <p>作为一个有节操的开发者应该使用 Https 来保护用户的数据, Android 开发者网站上文章<a href="https://developer.android.com/training/articles/security-ssl.html">Security with HTTPS and SSL</a>做了详尽的阐述.</p>
 
@@ -312,7 +308,7 @@ requestQueue.start();
 缺点:
 * 证书部署灵活性降低, 一旦变更证书必须升级程序.</p>
 
-<h3 id="实现步骤:03999fb0359803477bc987da56a0bc05">实现步骤</h3>
+<h3 id="实现步骤">实现步骤</h3>
 
 <p>以最著名的自签名网站12306为例说明</p>
 
@@ -342,9 +338,7 @@ requestQueue.start();
 <pre><code> // A HttpStack implement witch can verify specified self-signed certification.
 public class SelfSignSslOkHttpStack extends HurlStack {
 
-
   private OkHttpClient okHttpClient;
-
 
   private Map&lt;String, SSLSocketFactory&gt; socketFactoryMap;
 
@@ -361,7 +355,6 @@ public class SelfSignSslOkHttpStack extends HurlStack {
     this.okHttpClient = okHttpClient;
     this.socketFactoryMap = factoryMap;
   }
-
 
   @Override
   protected HttpURLConnection createConnection(URL url) throws IOException {
@@ -383,7 +376,6 @@ int[] certRes = {R.raw.kyfw};
 String[] certPass = {&quot;asdfqaz&quot;};
 socketFactoryMap = new Hashtable&lt;&gt;(hosts.length);
 
-
 for (int i = 0; i &lt; certRes.length; i++) {
     int res = certRes[i];
     String password = certPass[i];
@@ -391,9 +383,7 @@ for (int i = 0; i &lt; certRes.length; i++) {
     socketFactoryMap.put(hosts[i], sslSocketFactory);
 }
 
-
 HurlStack stack = new SelfSignSslOkHttpStack(socketFactoryMap);
-
 
 requestQueue = Volley.newRequestQueue(context, stack);
 requestQueue.start();
@@ -405,7 +395,6 @@ requestQueue.start();
 <hr />
 
 <p>(Note: This article’s original links is <a href="https://github.com/dodocat/AndroidNetworkdemo" title="android network demo"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/arc_201603192212/" title="上一篇">&lt;&lt; 庆余年: 又一叶</a>
@@ -434,7 +423,7 @@ requestQueue.start();
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

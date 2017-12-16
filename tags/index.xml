@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Tags on Alimy </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
+    <link>http://alimy.me/tags/</link>
+    
+    
+    <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
+    <updated>Sat, 19 Mar 2016 22:45:00 CST</updated>
+    
+    <item>
+      <title>Android</title>
+      <link>http://alimy.me/tags/android/</link>
+      <pubDate>Sat, 19 Mar 2016 22:45:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Art</title>
+      <link>http://alimy.me/tags/art/</link>
+      <pubDate>Sat, 09 Apr 2016 15:21:01 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/art/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cloud</title>
+      <link>http://alimy.me/tags/cloud/</link>
+      <pubDate>Sat, 16 Jan 2016 00:00:00 UTC</pubDate>
+      
+      <guid>http://alimy.me/tags/cloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Database</title>
+      <link>http://alimy.me/tags/database/</link>
+      <pubDate>Sat, 19 Mar 2016 22:55:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/database/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Development</title>
+      <link>http://alimy.me/tags/development/</link>
+      <pubDate>Sun, 10 Apr 2016 18:27:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Game</title>
+      <link>http://alimy.me/tags/game/</link>
+      <pubDate>Thu, 24 Mar 2016 21:35:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/game/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Go</title>
+      <link>http://alimy.me/tags/go/</link>
+      <pubDate>Fri, 18 Mar 2016 20:45:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Golang</title>
+      <link>http://alimy.me/tags/golang/</link>
+      <pubDate>Sun, 10 Apr 2016 18:27:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gopher</title>
+      <link>http://alimy.me/tags/gopher/</link>
+      <pubDate>Fri, 18 Mar 2016 20:45:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/gopher/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>History</title>
+      <link>http://alimy.me/tags/history/</link>
+      <pubDate>Thu, 24 Mar 2016 21:35:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/history/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>http://alimy.me/tags/hugo/</link>
+      <pubDate>Wed, 02 Apr 2014 00:00:00 UTC</pubDate>
+      
+      <guid>http://alimy.me/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>http://alimy.me/tags/java/</link>
+      <pubDate>Sun, 13 Mar 2016 20:30:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Json</title>
+      <link>http://alimy.me/tags/json/</link>
+      <pubDate>Sun, 13 Mar 2016 20:25:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/json/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Language</title>
+      <link>http://alimy.me/tags/language/</link>
+      <pubDate>Fri, 18 Mar 2016 20:45:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/language/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Other</title>
+      <link>http://alimy.me/tags/other/</link>
+      <pubDate>Fri, 15 Apr 2016 10:10:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/other/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

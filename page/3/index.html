@@ -1,6 +1,7 @@
     <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
+	<meta name="generator" content="Hugo 0.30.2" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -11,8 +12,6 @@
     
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
-    
-    <link href="http://alimy.me/index.xml" rel="alternate" type="application/rss+xml" title="Alimy" />
     
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
@@ -163,7 +162,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -206,7 +205,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -240,16 +239,37 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603122040/" title="阅读全文">Gson: Exclusion Strategy </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In this tutorial we look at how to selectively include fields from a java object to a json string. By default, Gson tries to map all fields in the java object to the corresponding property in json. However, in certain cases we may want to control that. There are a few ways to do this. It is also possible to excluse fields from third party packages where we have no access to the source code. The different ways to exclude fields are :</p>
+
+<ol>
+<li>By defining a custom annotation and ignoring fields that are annotated with that.</li>
+<li>By Defining a custom exclusion class by extending the ExclusionStrategy interface and implementing the public boolean shouldSkipField(FieldAttributes f); and public boolean shouldSkipClass(Class clazz); methods</li>
+
+<li><p>By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122040/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122035/" title="阅读全文">Gson: Custom Serializer </a> </h2>
 
 </header>
 <div class="summary">
     <p>Just as we saw in the <a href="http://alimy.me/post/dev_201603122030">previous</a> tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.</p>
 
-<h3 id="custom-serializer:111b3d40cae40f94b365983d1c03789a">Custom Serializer</h3>
+<h3 id="custom-serializer">Custom Serializer</h3>
 
-<p>Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.</p>
-
+<p>Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.
+</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122035/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -295,7 +315,6 @@ public class DatasetTypeAdapterExample8 {
 	}
 }
 </code></pre>
-
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122030/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -309,7 +328,7 @@ public class DatasetTypeAdapterExample8 {
 
 </header>
 <div class="summary">
-    <h3 id="serializing-inner-classes:94d200a9b12cc728e29eb582b49f7787">Serializing inner classes</h3>
+    <h3 id="serializing-inner-classes">Serializing inner classes</h3>
 
 <p>Gson can serialize inner classes and static nested classes. The detailed example below demonstrates the following things.</p>
 
@@ -320,9 +339,9 @@ public class DatasetTypeAdapterExample8 {
 <li>Serializing static nested class (without the enclosing type)</li>
 <li>Serializing non static nested class (without the enclosing type)</li>
 <li>De-serializing json to a static nested class (without the enclosing type)</li>
-<li>De-serializing json to a non static nested class (without the enclosing type)</li>
-</ol>
 
+<li><p>De-serializing json to a non static nested class (without the enclosing type)
+</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122028/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -336,7 +355,7 @@ public class DatasetTypeAdapterExample8 {
 
 </header>
 <div class="summary">
-    <h3 id="serializing-list:48eff8845146e9414ebbce90bbfb026f">Serializing list</h3>
+    <h3 id="serializing-list">Serializing list</h3>
 
 <p>As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.</p>
 
@@ -378,6 +397,7 @@ public class GenericTypesExample8 {
 }
 </code></pre>
 
+<p></p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122025/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -391,7 +411,7 @@ public class GenericTypesExample8 {
 
 </header>
 <div class="summary">
-    <h3 id="serializing-list:0245d903820e8dfe5f649eea2e56a9f6">Serializing list</h3>
+    <h3 id="serializing-list">Serializing list</h3>
 
 <p>Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.</p>
 
@@ -426,6 +446,7 @@ public class DeSerializeListExample5 {
 }
 </code></pre>
 
+<p></p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122022/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -439,8 +460,8 @@ public class DeSerializeListExample5 {
 
 </header>
 <div class="summary">
-    <p>In the <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class</p>
-
+    <p>In the <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class
+</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122020/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -454,8 +475,8 @@ public class DeSerializeListExample5 {
 
 </header>
 <div class="summary">
-    <p>In the earlier tutorials we saw how to <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.</p>
-
+    <p>In the earlier tutorials we saw how to <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.
+</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122015/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -490,7 +511,6 @@ dataset: [
 {
 ......
 </code></pre>
-
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122010/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -512,9 +532,8 @@ latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new m
 <ol>
 <li><p><a href="http://alimy.me/post/dev_201603122010" title="Java to JSON and Back - Data Binding">Java to JSON and Back - Data Binding</a> - In this example we look at how to bind a Json to a java object. Gson is quite powerful when it comes to binding a json to Java since it has a lot of built in serializers and deserializers. A serializer has code that helps in converting a Json string to corresponding java type. For example if you have an array in JSON (elements enclosed in &lsquo;[&rsquo; and &lsquo;]&rsquo;) and you want to convert that to a Java array then Gson would internally use an ArrayTypeAdapter to convert the Json Array to Java Array and back. If you are looking at Gson primarily to parse JSON then we would suggest that you start with a simple Java class, convert that to JSON and make sure it looks like the JSON that you want to parse. You can then gradually start adding complexities to the java class and at each step convert it to a JSON and ensure that the JSON is similar to the one that you are trying to parse. It is good to think of parsing a JSON as creating a java class that can give you the JSON that you want to parse. Also note that you have certain flexibility while creating the java object. You could represent a Json Array as a Java array or a Java List. The choice may be driven more by how you want to use the class. If you map a Json property to a java array Gson would use an Array adapter but if you map it to a List it would use the collection adapter and you, the user, does not have to worry about that. Gson also handles null gracefully</p></li>
 
-<li><p><a href="http://alimy.me/post/dev_201603122015" title="Java to JSON and Back - Streaming">Java to JSON and Back - Streaming</a> - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.</p></li>
-</ol>
-
+<li><p><a href="http://alimy.me/post/dev_201603122015" title="Java to JSON and Back - Streaming">Java to JSON and Back - Streaming</a> - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.
+</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122005/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -530,7 +549,7 @@ latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new m
 <div class="summary">
     <p>Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.</p>
 
-<h3 id="data-serialization-and-polymorphism-example:46b64fca9632a887d3524460bdf45d73">Data Serialization and Polymorphism Example</h3>
+<h3 id="data-serialization-and-polymorphism-example">Data Serialization and Polymorphism Example</h3>
 
 <pre><code>package com.studytrails.json.jackson;
 
@@ -562,7 +581,6 @@ public class SerializeExample1 {
     }
 }
 </code></pre>
-
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112105/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -578,7 +596,7 @@ public class SerializeExample1 {
 <div class="summary">
     <p>Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class</p>
 
-<h3 id="jackson-mix-in-example:7634bf28f621093315cf4d8b563f8a36">Jackson Mix-In Example</h3>
+<h3 id="jackson-mix-in-example">Jackson Mix-In Example</h3>
 
 <pre><code>package com.studytrails.json.jackson;
 
@@ -603,66 +621,10 @@ public class SerializeExample3 {
 }
 </code></pre>
 
+<p></p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112100/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
-
-<ol>
-<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &lsquo;tags&rsquo; property from the albums dataset.</li>
-<li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
-<li>Using Custom filters</li>
-</ol>
-
-<p>The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.</p>
-
-<h3 id="data-binding-filters-example:36264cd232902e18141acc789ff21fa2">Data Binding Filters Example</h3>
-
-<h4 id="databinding:36264cd232902e18141acc789ff21fa2">Databinding</h4>
-
-<pre><code>package com.studytrails.json.jackson;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-// Do not use fields to autodetect. use the public getter methods to autodetect properties
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
-public class AlbumsFilter {
-
-    private String title;
-    private DatasetFilter[] datasetFilter;
-    public String total_pages;
-
-    protected String getTotal_pages() {
-        return total_pages;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    // this getter method is for the 'dataset' property
-    @JsonProperty(&quot;dataset&quot;)
-    public DatasetFilter[] getDatasetFilter() {
-        return datasetFilter;
-    }
-}
-</code></pre>
-
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112055/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
@@ -675,68 +637,122 @@ public class AlbumsFilter {
                 </section>
                 <div class="pages">
   
+
+<ul class="pagination">
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="http://alimy.me/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="http://alimy.me/page/2/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="http://alimy.me/">1</a></li>
-        
-        <li
-        ><a href="http://alimy.me/page/2/">2</a></li>
-        
-        <li
-        class="active"><a href="http://alimy.me/page/3/">3</a></li>
-        
-        <li
-        ><a href="http://alimy.me/page/4/">4</a></li>
-        
-        <li
-        ><a href="http://alimy.me/page/5/">5</a></li>
-        
-        <li
-        ><a href="http://alimy.me/page/6/">6</a></li>
-        
-        <li
-        ><a href="http://alimy.me/page/7/">7</a></li>
-        
-        <li
-        ><a href="http://alimy.me/page/8/">8</a></li>
-        
-        <li
-        ><a href="http://alimy.me/page/9/">9</a></li>
-        
-        <li
-        ><a href="http://alimy.me/page/10/">10</a></li>
-        
-        <li
-        ><a href="http://alimy.me/page/11/">11</a></li>
-        
-        <li
-        ><a href="http://alimy.me/page/12/">12</a></li>
-        
-        <li
-        >
-        <a href="http://alimy.me/page/4/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="http://alimy.me/page/12/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
+    <li>
+        <a href="http://alimy.me/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
     
+    <li
+    >
+    <a href="http://alimy.me/page/2/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li
+    ><a href="http://alimy.me/">1</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li
+    ><a href="http://alimy.me/page/2/">2</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li
+    class="active"><a href="http://alimy.me/page/3/">3</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li
+    ><a href="http://alimy.me/page/4/">4</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li
+    ><a href="http://alimy.me/page/8/">8</a></li>
+    
+    
+    <li
+    >
+    <a href="http://alimy.me/page/4/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="http://alimy.me/page/8/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
 </div>
 
-            <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+            <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
             </div>
         </div>

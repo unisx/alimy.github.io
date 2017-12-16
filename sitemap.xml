@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://alimy.me/</loc>
-    <lastmod>2016-04-15T10:10:00+08:00</lastmod>
-    <priority>0</priority>
+    <loc>http://alimy.me/post/etc_201409281221/</loc>
+    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/post/etc_201403101221/</loc>
+    <lastmod>2014-03-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -80,11 +85,6 @@
   <url>
     <loc>http://alimy.me/post/etc_201603192115/</loc>
     <lastmod>2016-03-19T21:15:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/inf_201603182105/</loc>
-    <lastmod>2016-03-18T21:05:00+08:00</lastmod>
   </url>
   
   <url>
@@ -303,263 +303,8 @@
   </url>
   
   <url>
-    <loc>http://alimy.me/post/joy_201602011156/</loc>
-    <lastmod>2016-02-01T11:56:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011155/</loc>
-    <lastmod>2016-02-01T11:55:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011154/</loc>
-    <lastmod>2016-02-01T11:54:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011153/</loc>
-    <lastmod>2016-02-01T11:53:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011152/</loc>
-    <lastmod>2016-02-01T11:52:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011151/</loc>
-    <lastmod>2016-02-01T11:51:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011150/</loc>
-    <lastmod>2016-02-01T11:50:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011149/</loc>
-    <lastmod>2016-02-01T11:49:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011148/</loc>
-    <lastmod>2016-02-01T11:48:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011147/</loc>
-    <lastmod>2016-02-01T11:47:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011146/</loc>
-    <lastmod>2016-02-01T11:46:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011145/</loc>
-    <lastmod>2016-02-01T11:45:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011144/</loc>
-    <lastmod>2016-02-01T11:44:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011143/</loc>
-    <lastmod>2016-02-01T11:43:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011142/</loc>
-    <lastmod>2016-02-01T11:42:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011141/</loc>
-    <lastmod>2016-02-01T11:41:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011140/</loc>
-    <lastmod>2016-02-01T11:40:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011139/</loc>
-    <lastmod>2016-02-01T11:39:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011138/</loc>
-    <lastmod>2016-02-01T11:38:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011137/</loc>
-    <lastmod>2016-02-01T11:37:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011136/</loc>
-    <lastmod>2016-02-01T11:36:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011135/</loc>
-    <lastmod>2016-02-01T11:35:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011134/</loc>
-    <lastmod>2016-02-01T11:34:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011133/</loc>
-    <lastmod>2016-02-01T11:33:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011132/</loc>
-    <lastmod>2016-02-01T11:32:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011131/</loc>
-    <lastmod>2016-02-01T11:31:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011130/</loc>
-    <lastmod>2016-02-01T11:30:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011129/</loc>
-    <lastmod>2016-02-01T11:29:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011128/</loc>
-    <lastmod>2016-02-01T11:28:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201602011127/</loc>
-    <lastmod>2016-02-01T11:27:00+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://alimy.me/post/etc_201404021221/</loc>
     <lastmod>2016-02-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601311217/</loc>
-    <lastmod>2016-01-31T12:17:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601311216/</loc>
-    <lastmod>2016-01-31T12:16:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601311215/</loc>
-    <lastmod>2016-01-31T12:15:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601311214/</loc>
-    <lastmod>2016-01-31T12:14:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601311213/</loc>
-    <lastmod>2016-01-31T12:13:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601311212/</loc>
-    <lastmod>2016-01-31T12:12:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601311211/</loc>
-    <lastmod>2016-01-31T12:11:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301724/</loc>
-    <lastmod>2016-01-30T17:24:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301723/</loc>
-    <lastmod>2016-01-30T17:23:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301722/</loc>
-    <lastmod>2016-01-30T17:22:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301721/</loc>
-    <lastmod>2016-01-30T17:21:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301720/</loc>
-    <lastmod>2016-01-30T17:20:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301719/</loc>
-    <lastmod>2016-01-30T17:19:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301718/</loc>
-    <lastmod>2016-01-30T17:18:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301717/</loc>
-    <lastmod>2016-01-30T17:17:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301716/</loc>
-    <lastmod>2016-01-30T17:16:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301715/</loc>
-    <lastmod>2016-01-30T17:15:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301714/</loc>
-    <lastmod>2016-01-30T17:14:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301713/</loc>
-    <lastmod>2016-01-30T17:13:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301712/</loc>
-    <lastmod>2016-01-30T17:12:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alimy.me/post/joy_201601301711/</loc>
-    <lastmod>2016-01-30T17:11:00+08:00</lastmod>
   </url>
   
   <url>
@@ -678,23 +423,182 @@
   </url>
   
   <url>
-    <loc>http://alimy.me/post/inf_201512241212/</loc>
-    <lastmod>2015-12-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://alimy.me/post/etc_201404021616/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://alimy.me/post/etc_201409281221/</loc>
+    <loc>http://alimy.me/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://alimy.me/post/etc_201403101221/</loc>
-    <lastmod>2014-03-10T00:00:00+00:00</lastmod>
+    <loc>http://alimy.me/tags/android/</loc>
+    <lastmod>2016-03-19T22:45:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/categories/art/</loc>
+    <lastmod>2016-04-09T15:21:01+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/art/</loc>
+    <lastmod>2016-04-09T15:21:01+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/categories/</loc>
+    <lastmod>2016-04-09T15:21:01+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/categories/cloud/</loc>
+    <lastmod>2016-01-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/cloud/</loc>
+    <lastmod>2016-01-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/database/</loc>
+    <lastmod>2016-03-19T22:55:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/categories/development/</loc>
+    <lastmod>2016-04-10T18:27:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/development/</loc>
+    <lastmod>2016-04-10T18:27:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/categories/game/</loc>
+    <lastmod>2016-03-24T21:35:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/game/</loc>
+    <lastmod>2016-03-24T21:35:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/go/</loc>
+    <lastmod>2016-03-18T20:45:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/categories/golang/</loc>
+    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/golang/</loc>
+    <lastmod>2016-04-10T18:27:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/gopher/</loc>
+    <lastmod>2016-03-18T20:45:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/history/</loc>
+    <lastmod>2016-03-24T21:35:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/hugo/</loc>
+    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/java/</loc>
+    <lastmod>2016-03-13T20:30:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/json/</loc>
+    <lastmod>2016-03-13T20:25:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/categories/language/</loc>
+    <lastmod>2016-01-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/language/</loc>
+    <lastmod>2016-03-18T20:45:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/categories/other/</loc>
+    <lastmod>2016-04-15T10:10:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/other/</loc>
+    <lastmod>2016-04-15T10:10:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/post/</loc>
+    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/</loc>
+    <lastmod>2016-03-19T22:45:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/categories/transport/</loc>
+    <lastmod>2016-03-24T22:55:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/transport/</loc>
+    <lastmod>2016-03-24T21:35:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://alimy.me/tags/xml/</loc>
+    <lastmod>2016-03-09T21:20:00+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
 </urlset>

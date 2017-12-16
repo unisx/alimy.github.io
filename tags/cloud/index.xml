@@ -15,9 +15,7 @@
       <pubDate>Sat, 16 Jan 2016 00:00:00 UTC</pubDate>
       
       <guid>http://alimy.me/post/dev_201601161712/</guid>
-      <description>
-
-&lt;h3 id=&#34;sect-这些都是什么:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;这些都是什么？&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;sect-这些都是什么&#34;&gt;&amp;sect;这些都是什么？&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;都是操作系统&lt;/li&gt;
@@ -30,9 +28,10 @@
 
 &lt;p&gt;当然不是这么简单 :)&lt;/p&gt;
 
-&lt;p&gt;但是也不希望写的太长。以下就尽量言简意垓的把来龙去脉，历史纠纷，以及革命先进性都说清楚。&lt;/p&gt;
+&lt;p&gt;但是也不希望写的太长。以下就尽量言简意垓的把来龙去脉，历史纠纷，以及革命先进性都说清楚。
+&lt;/p&gt;
 
-&lt;h3 id=&#34;sect-从illumos开始:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;从illumos开始&lt;/h3&gt;
+&lt;h3 id=&#34;sect-从illumos开始&#34;&gt;&amp;sect;从illumos开始&lt;/h3&gt;
 
 &lt;p&gt;什么是&lt;a href=&#34;http://www.illumos.org&#34;&gt;illumos&lt;/a&gt;？简单的讲，illumos是OpenSolaris的后续开源项目。万恶的Oracle收购了Sun之后，原有OpenSolaris的开发者基本上都离开了Oracle，组成了illumos社区，继续对OpenSolaris先进的内核进行维护，更新，以及添加nb的新功能。这种事情在Oracle的收购史上似乎一再出现，想想MySQL，OpenOffice，Java，强烈的既视感。&lt;/p&gt;
 
@@ -61,7 +60,7 @@ LVM以及一堆不同的文件系统完成&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;p&gt;但是需要注意的是illumos只是一个内核（正确的说是，内核(OS)加网络层(Network)，即ON）。在geek的手里，它已经完备;放在生产环境，则还欠缺一个包装。&lt;/p&gt;
 
-&lt;h3 id=&#34;sect-然后是smartos:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;然后是SmartOS&lt;/h3&gt;
+&lt;h3 id=&#34;sect-然后是smartos&#34;&gt;&amp;sect;然后是SmartOS&lt;/h3&gt;
 
 &lt;p&gt;怎么把illumos包装成通常意义上的OS，这是接下来需要考虑的问题，也是最好的商业化的契机。&lt;/p&gt;
 
@@ -88,7 +87,7 @@ LVM以及一堆不同的文件系统完成&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 不明显，但是有商业公司进行探讨&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;sect-project-fifo:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;Project FiFo&lt;/h3&gt;
+&lt;h3 id=&#34;sect-project-fifo&#34;&gt;&amp;sect;Project FiFo&lt;/h3&gt;
 
 &lt;p&gt;SmartOS是纯粹为云计算而生的操作系统，出世之后即引起了群众的注意，开始应用。但是数据中心维护的管理员熟知，安装好方才是梦魇的开始。&lt;/p&gt;
 
@@ -127,7 +126,7 @@ LVM以及一堆不同的文件系统完成&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;p&gt;让我们感谢Heinz先。&lt;/p&gt;
 
-&lt;h3 id=&#34;sect-最后是dogeos:a570edf7f9cf5da971e53a3290dfcb84&#34;&gt;&amp;sect;最后是DogeOS&lt;/h3&gt;
+&lt;h3 id=&#34;sect-最后是dogeos&#34;&gt;&amp;sect;最后是DogeOS&lt;/h3&gt;
 
 &lt;p&gt;Project FiFo作为一套运维管理系统，补全了SmartOS，但是它并不是SmartOS的一部分。&lt;/p&gt;
 
@@ -149,8 +148,7 @@ LVM以及一堆不同的文件系统完成&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://liyu1981.github.io/dogeos-smartos-illumos/&#34; title=&#34;liyu1981&#39;s page&#34;&gt;【转载自liyu1981】&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;a href=&#34;http://liyu1981.github.io/dogeos-smartos-illumos/&#34; title=&#34;liyu1981&#39;s page&#34;&gt;【转载自liyu1981】&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

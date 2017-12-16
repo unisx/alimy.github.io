@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -243,7 +241,8 @@ latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new m
 <ol>
 <li><p><a href="http://alimy.me/post/dev_201603122010" title="Java to JSON and Back - Data Binding">Java to JSON and Back - Data Binding</a> - In this example we look at how to bind a Json to a java object. Gson is quite powerful when it comes to binding a json to Java since it has a lot of built in serializers and deserializers. A serializer has code that helps in converting a Json string to corresponding java type. For example if you have an array in JSON (elements enclosed in &lsquo;[&rsquo; and &lsquo;]&rsquo;) and you want to convert that to a Java array then Gson would internally use an ArrayTypeAdapter to convert the Json Array to Java Array and back. If you are looking at Gson primarily to parse JSON then we would suggest that you start with a simple Java class, convert that to JSON and make sure it looks like the JSON that you want to parse. You can then gradually start adding complexities to the java class and at each step convert it to a JSON and ensure that the JSON is similar to the one that you are trying to parse. It is good to think of parsing a JSON as creating a java class that can give you the JSON that you want to parse. Also note that you have certain flexibility while creating the java object. You could represent a Json Array as a Java array or a Java List. The choice may be driven more by how you want to use the class. If you map a Json property to a java array Gson would use an Array adapter but if you map it to a List it would use the collection adapter and you, the user, does not have to worry about that. Gson also handles null gracefully</p></li>
 
-<li><p><a href="http://alimy.me/post/dev_201603122015" title="Java to JSON and Back - Streaming">Java to JSON and Back - Streaming</a> - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.</p></li>
+<li><p><a href="http://alimy.me/post/dev_201603122015" title="Java to JSON and Back - Streaming">Java to JSON and Back - Streaming</a> - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.
+</p></li>
 
 <li><p><a href="http://alimy.me/post/dev_201603122020" title="Java to JSON and Back - Tree representation">Java to JSON and Back - Tree representation</a> - The first two examples look at how to convert JSON to Java using data binding and a Streaming API. This tutorial explains a third way to parse JSON, i.e. by building a Java tree representation of the JSON. The nodes of the tree may either be a JsonObject or a JsonArray. The JsonObject has methods to retrive the key-value pairs of the JSON. The JsonArray provides way to iterate over the elements of the array which are themselves either a JsonObject or a JsonArray.</p></li>
 
@@ -279,7 +278,6 @@ latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new m
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-google-json-introduction.jsp" title="Java Google Json Introduction"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603112105/" title="上一篇">&lt;&lt; Jackson: Json Polymorphism</a>
@@ -308,7 +306,7 @@ latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new m
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

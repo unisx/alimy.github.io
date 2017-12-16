@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,13 +233,12 @@
         <div class="post panel-wrapper">
             <h2>Gson: Custom Serializer</h2>
           
-          
+          <p>Just as we saw in the <a href="http://alimy.me/post/dev_201603122030">previous</a> tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.</p>
 
-<p>Just as we saw in the <a href="http://alimy.me/post/dev_201603122030">previous</a> tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.</p>
+<h3 id="custom-serializer">Custom Serializer</h3>
 
-<h3 id="custom-serializer:111b3d40cae40f94b365983d1c03789a">Custom Serializer</h3>
-
-<p>Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.</p>
+<p>Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.
+</p>
 
 <pre><code>package com.studytrails.json.gson;
 
@@ -322,7 +319,7 @@ public class Dog {
 }
 </code></pre>
 
-<h4 id="custom-deserializer:111b3d40cae40f94b365983d1c03789a">Custom DeSerializer</h4>
+<h4 id="custom-deserializer">Custom DeSerializer</h4>
 
 <p>Use a custome De serializer to create a Dog Object from the json. To create a deserializer implement the public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException; method.</p>
 
@@ -363,7 +360,6 @@ public class DogDeserialiser implements JsonDeserializer&lt;Dog&gt; {
 <hr />
 
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-google-json-introduction.jsp" title="Using Custom Serialization and Deserialization classes"><em>here</em></a> )</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603122030/" title="上一篇">&lt;&lt; Gson: Custom Type Adapter</a>
@@ -392,7 +388,7 @@ public class DogDeserialiser implements JsonDeserializer&lt;Dog&gt; {
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

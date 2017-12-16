@@ -12,8 +12,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="http://alimy.me/favicon.png">
     
-    <link href="" rel="alternate" type="application/rss+xml" title="Alimy" />
-    
     <script src="http://alimy.me/js/jquery.min.js"></script>
     <script src="http://alimy.me/js/main.min.js"></script>
     <script>
@@ -161,7 +159,7 @@
                     <a href="http://alimy.me/">Alimy</a>
                 </h1>
                 <hr class="panel-cover__divider" />
-                <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                <p class="panel-cover__description">  Make it easy and stupid.  </p>
                 <hr class="panel-cover__divider panel-cover__divider--secondary" />
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
@@ -204,7 +202,7 @@
                         <a href="http://alimy.me/">Alimy</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description">  乱花渐欲迷人眼，浅草才能没马蹄。  </p>
+                    <p class="panel-cover__description">  Make it easy and stupid.  </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
@@ -235,22 +233,21 @@
         <div class="post panel-wrapper">
             <h2>TOML v0.4.0</h2>
           
-          
-
-<p>Tom&rsquo;s Obvious, Minimal Language.</p>
+          <p>Tom&rsquo;s Obvious, Minimal Language.</p>
 
 <p>By Tom Preston-Werner.</p>
 
 <p>Be warned, this spec is still changing a lot. Until it&rsquo;s marked as 1.0, you
-should assume that it is unstable and act accordingly.</p>
+should assume that it is unstable and act accordingly.
+</p>
 
-<h2 id="objectives:5ff9e6c178c0a97810ff2a2c2ec622b5">Objectives</h2>
+<h2 id="objectives">Objectives</h2>
 
 <p>TOML aims to be a minimal configuration file format that&rsquo;s easy to read due to
 obvious semantics. TOML is designed to map unambiguously to a hash table. TOML
 should be easy to parse into data structures in a wide variety of languages.</p>
 
-<h2 id="example:5ff9e6c178c0a97810ff2a2c2ec622b5">Example</h2>
+<h2 id="example">Example</h2>
 
 <pre><code class="language-toml"># This is a TOML document. Boom.
 
@@ -287,7 +284,7 @@ hosts = [
 ]
 </code></pre>
 
-<h2 id="spec:5ff9e6c178c0a97810ff2a2c2ec622b5">Spec</h2>
+<h2 id="spec">Spec</h2>
 
 <ul>
 <li>TOML is case sensitive.</li>
@@ -296,7 +293,7 @@ hosts = [
 <li>Newline means LF (0x0A) or CRLF (0x0D0A).</li>
 </ul>
 
-<h2 id="comment:5ff9e6c178c0a97810ff2a2c2ec622b5">Comment</h2>
+<h2 id="comment">Comment</h2>
 
 <p>Speak your mind with the hash symbol. They go from the symbol to the end of the
 line.</p>
@@ -305,7 +302,7 @@ line.</p>
 key = &quot;value&quot; # Yeah, you can do this.
 </code></pre>
 
-<h2 id="string:5ff9e6c178c0a97810ff2a2c2ec622b5">String</h2>
+<h2 id="string">String</h2>
 
 <p>There are four ways to express strings: basic, multi-line basic, literal, and
 multi-line literal. All strings must contain only valid UTF-8 characters.</p>
@@ -419,7 +416,7 @@ trimmed in raw strings.
 <p>For binary data it is recommended that you use Base64 or another suitable ASCII
 or UTF-8 encoding. The handling of that encoding will be application specific.</p>
 
-<h2 id="integer:5ff9e6c178c0a97810ff2a2c2ec622b5">Integer</h2>
+<h2 id="integer">Integer</h2>
 
 <p>Integers are whole numbers. Positive numbers may be prefixed with a plus sign.
 Negative numbers are prefixed with a minus sign.</p>
@@ -445,7 +442,7 @@ series of digits are not allowed.</p>
 <p>64 bit (signed long) range expected (âˆ’9,223,372,036,854,775,808 to
 9,223,372,036,854,775,807).</p>
 
-<h2 id="float:5ff9e6c178c0a97810ff2a2c2ec622b5">Float</h2>
+<h2 id="float">Float</h2>
 
 <p>A float consists of an integer part (which may be prefixed with a plus or minus
 sign) followed by a fractional part and/or an exponent part. If both a
@@ -480,7 +477,7 @@ underscore must be surrounded by at least one digit.</p>
 
 <p>64-bit (double) precision expected.</p>
 
-<h2 id="boolean:5ff9e6c178c0a97810ff2a2c2ec622b5">Boolean</h2>
+<h2 id="boolean">Boolean</h2>
 
 <p>Booleans are just the tokens you&rsquo;re used to. Always lowercase.</p>
 
@@ -488,7 +485,7 @@ underscore must be surrounded by at least one digit.</p>
 false
 </code></pre>
 
-<h2 id="datetime:5ff9e6c178c0a97810ff2a2c2ec622b5">Datetime</h2>
+<h2 id="datetime">Datetime</h2>
 
 <p>Datetimes are <a href="http://tools.ietf.org/html/rfc3339">RFC 3339</a> dates.</p>
 
@@ -497,7 +494,7 @@ false
 1979-05-27T00:32:00.999999-07:00
 </code></pre>
 
-<h2 id="array:5ff9e6c178c0a97810ff2a2c2ec622b5">Array</h2>
+<h2 id="array">Array</h2>
 
 <p>Arrays are square brackets with other primitives inside. Whitespace is ignored.
 Elements are separated by commas. Data types may not be mixed (though all string
@@ -525,7 +522,7 @@ key = [
 ]
 </code></pre>
 
-<h2 id="table:5ff9e6c178c0a97810ff2a2c2ec622b5">Table</h2>
+<h2 id="table">Table</h2>
 
 <p>Tables (also known as hash tables or dictionaries) are collections of key/value
 pairs. They appear in square brackets on a line by themselves. You can tell them
@@ -629,7 +626,7 @@ c = 2
  = &quot;no key name&quot; # not allowed
 </code></pre>
 
-<h2 id="inline-table:5ff9e6c178c0a97810ff2a2c2ec622b5">Inline Table</h2>
+<h2 id="inline-table">Inline Table</h2>
 
 <p>Inline tables provide a more compact syntax for expressing tables. They are
 especially useful for grouped data that can otherwise quickly become verbose.
@@ -659,7 +656,7 @@ x = 1
 y = 2
 </code></pre>
 
-<h2 id="array-of-tables:5ff9e6c178c0a97810ff2a2c2ec622b5">Array of Tables</h2>
+<h2 id="array-of-tables">Array of Tables</h2>
 
 <p>The last type that has not yet been expressed is an array of tables. These can
 be expressed by using a table name in double brackets. Each table with the same
@@ -761,21 +758,21 @@ array must produce an error at parse time.</p>
            { x = 2, y = 4, z = 8 } ]
 </code></pre>
 
-<h2 id="seriously:5ff9e6c178c0a97810ff2a2c2ec622b5">Seriously?</h2>
+<h2 id="seriously">Seriously?</h2>
 
 <p>Yep.</p>
 
-<h2 id="but-why:5ff9e6c178c0a97810ff2a2c2ec622b5">But why?</h2>
+<h2 id="but-why">But why?</h2>
 
 <p>Because we need a decent human-readable format that unambiguously maps to a hash
 table and the YAML spec is like 80 pages long and gives me rage. No, JSON
 doesn&rsquo;t count. You know why.</p>
 
-<h2 id="oh-god-you-re-right:5ff9e6c178c0a97810ff2a2c2ec622b5">Oh god, you&rsquo;re right</h2>
+<h2 id="oh-god-you-re-right">Oh god, you&rsquo;re right</h2>
 
 <p>Yuuuup. Wanna help? Send a pull request. Or write a parser. BE BRAVE.</p>
 
-<h2 id="projects-using-toml:5ff9e6c178c0a97810ff2a2c2ec622b5">Projects using TOML</h2>
+<h2 id="projects-using-toml">Projects using TOML</h2>
 
 <ul>
 <li><a href="http://doc.crates.io/">Cargo</a> - The Rust language&rsquo;s package manager.</li>
@@ -784,7 +781,7 @@ doesn&rsquo;t count. You know why.</p>
 <li><a href="http://gohugo.io/">Hugo</a> - Static site generator in Go.</li>
 </ul>
 
-<h2 id="implementations:5ff9e6c178c0a97810ff2a2c2ec622b5">Implementations</h2>
+<h2 id="implementations">Implementations</h2>
 
 <p>If you have an implementation, send a pull request adding to this list. Please
 note the commit SHA1 or version tag that your parser supports in your Readme.</p>
@@ -854,19 +851,19 @@ note the commit SHA1 or version tag that your parser supports in your Readme.</p
 <li>Scala - <a href="https://github.com/axelarge/tomelette">https://github.com/axelarge/tomelette</a></li>
 </ul>
 
-<h2 id="validators:5ff9e6c178c0a97810ff2a2c2ec622b5">Validators</h2>
+<h2 id="validators">Validators</h2>
 
 <ul>
 <li>Go (@BurntSushi) - <a href="https://github.com/BurntSushi/toml/tree/master/cmd/tomlv">https://github.com/BurntSushi/toml/tree/master/cmd/tomlv</a></li>
 </ul>
 
-<h2 id="language-agnostic-test-suite-for-toml-decoders-and-encoders:5ff9e6c178c0a97810ff2a2c2ec622b5">Language agnostic test suite for TOML decoders and encoders</h2>
+<h2 id="language-agnostic-test-suite-for-toml-decoders-and-encoders">Language agnostic test suite for TOML decoders and encoders</h2>
 
 <ul>
 <li>toml-test (@BurntSushi) - <a href="https://github.com/BurntSushi/toml-test">https://github.com/BurntSushi/toml-test</a></li>
 </ul>
 
-<h2 id="editor-support:5ff9e6c178c0a97810ff2a2c2ec622b5">Editor support</h2>
+<h2 id="editor-support">Editor support</h2>
 
 <ul>
 <li>Atom - <a href="https://github.com/atom/language-toml">https://github.com/atom/language-toml</a></li>
@@ -878,7 +875,7 @@ note the commit SHA1 or version tag that your parser supports in your Readme.</p
 <li>Vim (@cespare) - <a href="https://github.com/cespare/vim-toml">https://github.com/cespare/vim-toml</a></li>
 </ul>
 
-<h2 id="encoder:5ff9e6c178c0a97810ff2a2c2ec622b5">Encoder</h2>
+<h2 id="encoder">Encoder</h2>
 
 <ul>
 <li>Dart (@just95) - <a href="https://github.com/just95/toml.dart">https://github.com/just95/toml.dart</a></li>
@@ -886,7 +883,7 @@ note the commit SHA1 or version tag that your parser supports in your Readme.</p
 <li>PHP (@ayushchd) - <a href="https://github.com/ayushchd/php-toml-encoder">https://github.com/ayushchd/php-toml-encoder</a></li>
 </ul>
 
-<h2 id="converters:5ff9e6c178c0a97810ff2a2c2ec622b5">Converters</h2>
+<h2 id="converters">Converters</h2>
 
 <ul>
 <li>remarshal (@dbohdan) - <a href="https://github.com/dbohdan/remarshal">https://github.com/dbohdan/remarshal</a></li>
@@ -894,12 +891,11 @@ note the commit SHA1 or version tag that your parser supports in your Readme.</p
 <li>yaml2toml.dart (@just95) - <a href="https://github.com/just95/yaml2toml.dart">https://github.com/just95/yaml2toml.dart</a></li>
 </ul>
 
-<h2 id="organization:5ff9e6c178c0a97810ff2a2c2ec622b5">Organization</h2>
+<h2 id="organization">Organization</h2>
 
 <ul>
 <li>toml-lang (@BurntSushi) - <a href="https://github.com/toml-lang">https://github.com/toml-lang</a></li>
 </ul>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="http://alimy.me/post/day_201601010000/" title="上一篇">&lt;&lt; 2016年的第一天</a>
@@ -928,7 +924,7 @@ note the commit SHA1 or version tag that your parser supports in your Readme.</p
 
 
         </div>
-        <footer id="copyright"> <p>&copy;2016 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
