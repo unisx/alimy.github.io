@@ -7,1279 +7,7 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sun, 28 Sep 2014 00:00:00 UTC</updated>
-    
-    <item>
-      <title>Creating a New Theme</title>
-      <link>http://alimy.me/post/etc_201409281221/</link>
-      <pubDate>Sun, 28 Sep 2014 00:00:00 UTC</pubDate>
-      
-      <guid>http://alimy.me/post/etc_201409281221/</guid>
-      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-
-&lt;p&gt;This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.&lt;/p&gt;
-
-&lt;p&gt;We&amp;rsquo;ll start with creating a new site with a very basic template. Then we&amp;rsquo;ll add in a few pages and posts. With small variations on that, you will be able to create many different types of web sites.&lt;/p&gt;
-
-&lt;p&gt;In this tutorial, commands that you enter will start with the &amp;ldquo;$&amp;rdquo; prompt. The output will follow. Lines that start with &amp;ldquo;#&amp;rdquo; are comments that I&amp;rsquo;ve added to explain a point. When I show updates to a file, the &amp;ldquo;:wq&amp;rdquo; on the last line means to save the file.
-
-Here&amp;rsquo;s an example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;## this is a comment
-$ echo this is a command
-this is a command
-
-## edit the file
-$vi foo.md
-+++
-date = &amp;quot;2014-09-28&amp;quot;
-title = &amp;quot;creating a new theme&amp;quot;
-+++
-
-bah and humbug
-:wq
-
-## show it
-$ cat foo.md
-+++
-date = &amp;quot;2014-09-28&amp;quot;
-title = &amp;quot;creating a new theme&amp;quot;
-+++
-
-bah and humbug
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;some-definitions&#34;&gt;Some Definitions&lt;/h2&gt;
-
-&lt;p&gt;There are a few concepts that you need to understand before creating a theme.&lt;/p&gt;
-
-&lt;h3 id=&#34;skins&#34;&gt;Skins&lt;/h3&gt;
-
-&lt;p&gt;Skins are the files responsible for the look and feel of your site. It’s the CSS that controls colors and fonts, it’s the Javascript that determines actions and reactions. It’s also the rules that Hugo uses to transform your content into the HTML that the site will serve to visitors.&lt;/p&gt;
-
-&lt;p&gt;You have two ways to create a skin. The simplest way is to create it in the &lt;code&gt;layouts/&lt;/code&gt; directory. If you do, then you don’t have to worry about configuring Hugo to recognize it. The first place that Hugo will look for rules and files is in the &lt;code&gt;layouts/&lt;/code&gt; directory so it will always find the skin.&lt;/p&gt;
-
-&lt;p&gt;Your second choice is to create it in a sub-directory of the &lt;code&gt;themes/&lt;/code&gt; directory. If you do, then you must always tell Hugo where to search for the skin. It’s extra work, though, so why bother with it?&lt;/p&gt;
-
-&lt;p&gt;The difference between creating a skin in &lt;code&gt;layouts/&lt;/code&gt; and creating it in &lt;code&gt;themes/&lt;/code&gt; is very subtle. A skin in &lt;code&gt;layouts/&lt;/code&gt; can’t be customized without updating the templates and static files that it is built from. A skin created in &lt;code&gt;themes/&lt;/code&gt;, on the other hand, can be and that makes it easier for other people to use it.&lt;/p&gt;
-
-&lt;p&gt;The rest of this tutorial will call a skin created in the &lt;code&gt;themes/&lt;/code&gt; directory a theme.&lt;/p&gt;
-
-&lt;p&gt;Note that you can use this tutorial to create a skin in the &lt;code&gt;layouts/&lt;/code&gt; directory if you wish to. The main difference will be that you won’t need to update the site’s configuration file to use a theme.&lt;/p&gt;
-
-&lt;h3 id=&#34;the-home-page&#34;&gt;The Home Page&lt;/h3&gt;
-
-&lt;p&gt;The home page, or landing page, is the first page that many visitors to a site see. It is the index.html file in the root directory of the web site. Since Hugo writes files to the public/ directory, our home page is public/index.html.&lt;/p&gt;
-
-&lt;h3 id=&#34;site-configuration-file&#34;&gt;Site Configuration File&lt;/h3&gt;
-
-&lt;p&gt;When Hugo runs, it looks for a configuration file that contains settings that override default values for the entire site. The file can use TOML, YAML, or JSON. I prefer to use TOML for my configuration files. If you prefer to use JSON or YAML, you’ll need to translate my examples. You’ll also need to change the name of the file since Hugo uses the extension to determine how to process it.&lt;/p&gt;
-
-&lt;p&gt;Hugo translates Markdown files into HTML. By default, Hugo expects to find Markdown files in your &lt;code&gt;content/&lt;/code&gt; directory and template files in your &lt;code&gt;themes/&lt;/code&gt; directory. It will create HTML files in your &lt;code&gt;public/&lt;/code&gt; directory. You can change this by specifying alternate locations in the configuration file.&lt;/p&gt;
-
-&lt;h3 id=&#34;content&#34;&gt;Content&lt;/h3&gt;
-
-&lt;p&gt;Content is stored in text files that contain two sections. The first section is the “front matter,” which is the meta-information on the content. The second section contains Markdown that will be converted to HTML.&lt;/p&gt;
-
-&lt;h4 id=&#34;front-matter&#34;&gt;Front Matter&lt;/h4&gt;
-
-&lt;p&gt;The front matter is information about the content. Like the configuration file, it can be written in TOML, YAML, or JSON. Unlike the configuration file, Hugo doesn’t use the file’s extension to know the format. It looks for markers to signal the type. TOML is surrounded by “&lt;code&gt;+++&lt;/code&gt;”, YAML by “&lt;code&gt;---&lt;/code&gt;”, and JSON is enclosed in curly braces. I prefer to use TOML, so you’ll need to translate my examples if you prefer YAML or JSON.&lt;/p&gt;
-
-&lt;p&gt;The information in the front matter is passed into the template before the content is rendered into HTML.&lt;/p&gt;
-
-&lt;h4 id=&#34;markdown&#34;&gt;Markdown&lt;/h4&gt;
-
-&lt;p&gt;Content is written in Markdown which makes it easier to create the content. Hugo runs the content through a Markdown engine to create the HTML which will be written to the output file.&lt;/p&gt;
-
-&lt;h3 id=&#34;template-files&#34;&gt;Template Files&lt;/h3&gt;
-
-&lt;p&gt;Hugo uses template files to render content into HTML. Template files are a bridge between the content and presentation. Rules in the template define what content is published, where it&amp;rsquo;s published to, and how it will rendered to the HTML file. The template guides the presentation by specifying the style to use.&lt;/p&gt;
-
-&lt;p&gt;There are three types of templates: single, list, and partial. Each type takes a bit of content as input and transforms it based on the commands in the template.&lt;/p&gt;
-
-&lt;p&gt;Hugo uses its knowledge of the content to find the template file used to render the content. If it can’t find a template that is an exact match for the content, it will shift up a level and search from there. It will continue to do so until it finds a matching template or runs out of templates to try. If it can’t find a template, it will use the default template for the site.&lt;/p&gt;
-
-&lt;p&gt;Please note that you can use the front matter to influence Hugo’s choice of templates.&lt;/p&gt;
-
-&lt;h4 id=&#34;single-template&#34;&gt;Single Template&lt;/h4&gt;
-
-&lt;p&gt;A single template is used to render a single piece of content. For example, an article or post would be a single piece of content and use a single template.&lt;/p&gt;
-
-&lt;h4 id=&#34;list-template&#34;&gt;List Template&lt;/h4&gt;
-
-&lt;p&gt;A list template renders a group of related content. That could be a summary of recent postings or all articles in a category. List templates can contain multiple groups.&lt;/p&gt;
-
-&lt;p&gt;The homepage template is a special type of list template. Hugo assumes that the home page of your site will act as the portal for the rest of the content in the site.&lt;/p&gt;
-
-&lt;h4 id=&#34;partial-template&#34;&gt;Partial Template&lt;/h4&gt;
-
-&lt;p&gt;A partial template is a template that can be included in other templates. Partial templates must be called using the “partial” template command. They are very handy for rolling up common behavior. For example, your site may have a banner that all pages use. Instead of copying the text of the banner into every single and list template, you could create a partial with the banner in it. That way if you decide to change the banner, you only have to change the partial template.&lt;/p&gt;
-
-&lt;h2 id=&#34;create-a-new-site&#34;&gt;Create a New Site&lt;/h2&gt;
-
-&lt;p&gt;Let&amp;rsquo;s use Hugo to create a new web site. I&amp;rsquo;m a Mac user, so I&amp;rsquo;ll create mine in my home directory, in the Sites folder. If you&amp;rsquo;re using Linux, you might have to create the folder first.&lt;/p&gt;
-
-&lt;p&gt;The &amp;ldquo;new site&amp;rdquo; command will create a skeleton of a site. It will give you the basic directory structure and a useable configuration file.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ hugo new site ~/Sites/zafta
-$ cd ~/Sites/zafta
-$ ls -l
-total 8
-drwxr-xr-x  7 quoha  staff  238 Sep 29 16:49 .
-drwxr-xr-x  3 quoha  staff  102 Sep 29 16:49 ..
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 archetypes
--rw-r--r--  1 quoha  staff   82 Sep 29 16:49 config.toml
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 content
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 layouts
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 static
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Take a look in the content/ directory to confirm that it is empty.&lt;/p&gt;
-
-&lt;p&gt;The other directories (archetypes/, layouts/, and static/) are used when customizing a theme. That&amp;rsquo;s a topic for a different tutorial, so please ignore them for now.&lt;/p&gt;
-
-&lt;h3 id=&#34;generate-the-html-for-the-new-site&#34;&gt;Generate the HTML For the New Site&lt;/h3&gt;
-
-&lt;p&gt;Running the &lt;code&gt;hugo&lt;/code&gt; command with no options will read all the available content and generate the HTML files. It will also copy all static files (that&amp;rsquo;s everything that&amp;rsquo;s not content). Since we have an empty site, it won&amp;rsquo;t do much, but it will do it very quickly.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ hugo --verbose
-INFO: 2014/09/29 Using config file: config.toml
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/static/ to /Users/quoha/Sites/zafta/public/
-WARN: 2014/09/29 Unable to locate layout: [index.html _default/list.html _default/single.html]
-WARN: 2014/09/29 Unable to locate layout: [404.html]
-0 draft content
-0 future content
-0 pages created
-0 tags created
-0 categories created
-in 2 ms
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The &amp;ldquo;&lt;code&gt;--verbose&lt;/code&gt;&amp;rdquo; flag gives extra information that will be helpful when we build the template. Every line of the output that starts with &amp;ldquo;INFO:&amp;rdquo; or &amp;ldquo;WARN:&amp;rdquo; is present because we used that flag. The lines that start with &amp;ldquo;WARN:&amp;rdquo; are warning messages. We&amp;rsquo;ll go over them later.&lt;/p&gt;
-
-&lt;p&gt;We can verify that the command worked by looking at the directory again.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ ls -l
-total 8
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 archetypes
--rw-r--r--  1 quoha  staff   82 Sep 29 16:49 config.toml
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 content
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 layouts
-drwxr-xr-x  4 quoha  staff  136 Sep 29 17:02 public
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 static
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;See that new public/ directory? Hugo placed all generated content there. When you&amp;rsquo;re ready to publish your web site, that&amp;rsquo;s the place to start. For now, though, let&amp;rsquo;s just confirm that we have what we&amp;rsquo;d expect from a site with no content.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ ls -l public
-total 16
--rw-r--r--  1 quoha  staff  416 Sep 29 17:02 index.xml
--rw-r--r--  1 quoha  staff  262 Sep 29 17:02 sitemap.xml
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Hugo created two XML files, which is standard, but there are no HTML files.&lt;/p&gt;
-
-&lt;h3 id=&#34;test-the-new-site&#34;&gt;Test the New Site&lt;/h3&gt;
-
-&lt;p&gt;Verify that you can run the built-in web server. It will dramatically shorten your development cycle if you do. Start it by running the &amp;ldquo;server&amp;rdquo; command. If it is successful, you will see output similar to the following:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ hugo server --verbose
-INFO: 2014/09/29 Using config file: /Users/quoha/Sites/zafta/config.toml
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/static/ to /Users/quoha/Sites/zafta/public/
-WARN: 2014/09/29 Unable to locate layout: [index.html _default/list.html _default/single.html]
-WARN: 2014/09/29 Unable to locate layout: [404.html]
-0 draft content
-0 future content
-0 pages created
-0 tags created
-0 categories created
-in 2 ms
-Serving pages from /Users/quoha/Sites/zafta/public
-Web Server is available at http://localhost:1313
-Press Ctrl+C to stop
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Connect to the listed URL (it&amp;rsquo;s on the line that starts with &amp;ldquo;Web Server&amp;rdquo;). If everything is working correctly, you should get a page that shows the following:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;index.xml
-sitemap.xml
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;That&amp;rsquo;s a listing of your public/ directory. Hugo didn&amp;rsquo;t create a home page because our site has no content. When there&amp;rsquo;s no index.html file in a directory, the server lists the files in the directory, which is what you should see in your browser.&lt;/p&gt;
-
-&lt;p&gt;Let’s go back and look at those warnings again.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;WARN: 2014/09/29 Unable to locate layout: [index.html _default/list.html _default/single.html]
-WARN: 2014/09/29 Unable to locate layout: [404.html]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;That second warning is easier to explain. We haven’t created a template to be used to generate “page not found errors.” The 404 message is a topic for a separate tutorial.&lt;/p&gt;
-
-&lt;p&gt;Now for the first warning. It is for the home page. You can tell because the first layout that it looked for was “index.html.” That’s only used by the home page.&lt;/p&gt;
-
-&lt;p&gt;I like that the verbose flag causes Hugo to list the files that it&amp;rsquo;s searching for. For the home page, they are index.html, _default/list.html, and _default/single.html. There are some rules that we&amp;rsquo;ll cover later that explain the names and paths. For now, just remember that Hugo couldn&amp;rsquo;t find a template for the home page and it told you so.&lt;/p&gt;
-
-&lt;p&gt;At this point, you&amp;rsquo;ve got a working installation and site that we can build upon. All that’s left is to add some content and a theme to display it.&lt;/p&gt;
-
-&lt;h2 id=&#34;create-a-new-theme&#34;&gt;Create a New Theme&lt;/h2&gt;
-
-&lt;p&gt;Hugo doesn&amp;rsquo;t ship with a default theme. There are a few available (I counted a dozen when I first installed Hugo) and Hugo comes with a command to create new themes.&lt;/p&gt;
-
-&lt;p&gt;We&amp;rsquo;re going to create a new theme called &amp;ldquo;zafta.&amp;rdquo; Since the goal of this tutorial is to show you how to fill out the files to pull in your content, the theme will not contain any CSS. In other words, ugly but functional.&lt;/p&gt;
-
-&lt;p&gt;All themes have opinions on content and layout. For example, Zafta uses &amp;ldquo;post&amp;rdquo; over &amp;ldquo;blog&amp;rdquo;. Strong opinions make for simpler templates but differing opinions make it tougher to use themes. When you build a theme, consider using the terms that other themes do.&lt;/p&gt;
-
-&lt;h3 id=&#34;create-a-skeleton&#34;&gt;Create a Skeleton&lt;/h3&gt;
-
-&lt;p&gt;Use the hugo &amp;ldquo;new&amp;rdquo; command to create the skeleton of a theme. This creates the directory structure and places empty files for you to fill out.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ hugo new theme zafta
-
-$ ls -l
-total 8
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 archetypes
--rw-r--r--  1 quoha  staff   82 Sep 29 16:49 config.toml
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 content
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 layouts
-drwxr-xr-x  4 quoha  staff  136 Sep 29 17:02 public
-drwxr-xr-x  2 quoha  staff   68 Sep 29 16:49 static
-drwxr-xr-x  3 quoha  staff  102 Sep 29 17:31 themes
-
-$ find themes -type f | xargs ls -l
--rw-r--r--  1 quoha  staff  1081 Sep 29 17:31 themes/zafta/LICENSE.md
--rw-r--r--  1 quoha  staff     0 Sep 29 17:31 themes/zafta/archetypes/default.md
--rw-r--r--  1 quoha  staff     0 Sep 29 17:31 themes/zafta/layouts/_default/list.html
--rw-r--r--  1 quoha  staff     0 Sep 29 17:31 themes/zafta/layouts/_default/single.html
--rw-r--r--  1 quoha  staff     0 Sep 29 17:31 themes/zafta/layouts/index.html
--rw-r--r--  1 quoha  staff     0 Sep 29 17:31 themes/zafta/layouts/partials/footer.html
--rw-r--r--  1 quoha  staff     0 Sep 29 17:31 themes/zafta/layouts/partials/header.html
--rw-r--r--  1 quoha  staff    93 Sep 29 17:31 themes/zafta/theme.toml
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The skeleton includes templates (the files ending in .html), license file, a description of your theme (the theme.toml file), and an empty archetype.&lt;/p&gt;
-
-&lt;p&gt;Please take a minute to fill out the theme.toml and LICENSE.md files. They&amp;rsquo;re optional, but if you&amp;rsquo;re going to be distributing your theme, it tells the world who to praise (or blame). It&amp;rsquo;s also nice to declare the license so that people will know how they can use the theme.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/theme.toml
-author = &amp;quot;michael d henderson&amp;quot;
-description = &amp;quot;a minimal working template&amp;quot;
-license = &amp;quot;MIT&amp;quot;
-name = &amp;quot;zafta&amp;quot;
-source_repo = &amp;quot;&amp;quot;
-tags = [&amp;quot;tags&amp;quot;, &amp;quot;categories&amp;quot;]
-:wq
-
-## also edit themes/zafta/LICENSE.md and change
-## the bit that says &amp;quot;YOUR_NAME_HERE&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Note that the the skeleton&amp;rsquo;s template files are empty. Don&amp;rsquo;t worry, we&amp;rsquo;ll be changing that shortly.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ find themes/zafta -name &#39;*.html&#39; | xargs ls -l
--rw-r--r--  1 quoha  staff  0 Sep 29 17:31 themes/zafta/layouts/_default/list.html
--rw-r--r--  1 quoha  staff  0 Sep 29 17:31 themes/zafta/layouts/_default/single.html
--rw-r--r--  1 quoha  staff  0 Sep 29 17:31 themes/zafta/layouts/index.html
--rw-r--r--  1 quoha  staff  0 Sep 29 17:31 themes/zafta/layouts/partials/footer.html
--rw-r--r--  1 quoha  staff  0 Sep 29 17:31 themes/zafta/layouts/partials/header.html
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;update-the-configuration-file-to-use-the-theme&#34;&gt;Update the Configuration File to Use the Theme&lt;/h3&gt;
-
-&lt;p&gt;Now that we&amp;rsquo;ve got a theme to work with, it&amp;rsquo;s a good idea to add the theme name to the configuration file. This is optional, because you can always add &amp;ldquo;-t zafta&amp;rdquo; on all your commands. I like to put it the configuration file because I like shorter command lines. If you don&amp;rsquo;t put it in the configuration file or specify it on the command line, you won&amp;rsquo;t use the template that you&amp;rsquo;re expecting to.&lt;/p&gt;
-
-&lt;p&gt;Edit the file to add the theme, add a title for the site, and specify that all of our content will use the TOML format.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi config.toml
-theme = &amp;quot;zafta&amp;quot;
-baseurl = &amp;quot;&amp;quot;
-languageCode = &amp;quot;en-us&amp;quot;
-title = &amp;quot;zafta - totally refreshing&amp;quot;
-MetaDataFormat = &amp;quot;toml&amp;quot;
-:wq
-
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;generate-the-site&#34;&gt;Generate the Site&lt;/h3&gt;
-
-&lt;p&gt;Now that we have an empty theme, let&amp;rsquo;s generate the site again.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ hugo --verbose
-INFO: 2014/09/29 Using config file: /Users/quoha/Sites/zafta/config.toml
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/themes/zafta/static/ to /Users/quoha/Sites/zafta/public/
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/static/ to /Users/quoha/Sites/zafta/public/
-WARN: 2014/09/29 Unable to locate layout: [404.html theme/404.html]
-0 draft content
-0 future content
-0 pages created
-0 tags created
-0 categories created
-in 2 ms
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Did you notice that the output is different? The warning message for the home page has disappeared and we have an additional information line saying that Hugo is syncing from the theme&amp;rsquo;s directory.&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s check the public/ directory to see what Hugo&amp;rsquo;s created.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ ls -l public
-total 16
-drwxr-xr-x  2 quoha  staff   68 Sep 29 17:56 css
--rw-r--r--  1 quoha  staff    0 Sep 29 17:56 index.html
--rw-r--r--  1 quoha  staff  407 Sep 29 17:56 index.xml
-drwxr-xr-x  2 quoha  staff   68 Sep 29 17:56 js
--rw-r--r--  1 quoha  staff  243 Sep 29 17:56 sitemap.xml
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Notice four things:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Hugo created a home page. This is the file public/index.html.&lt;/li&gt;
-&lt;li&gt;Hugo created a css/ directory.&lt;/li&gt;
-&lt;li&gt;Hugo created a js/ directory.&lt;/li&gt;
-&lt;li&gt;Hugo claimed that it created 0 pages. It created a file and copied over static files, but didn&amp;rsquo;t create any pages. That&amp;rsquo;s because it considers a &amp;ldquo;page&amp;rdquo; to be a file created directly from a content file. It doesn&amp;rsquo;t count things like the index.html files that it creates automatically.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&#34;the-home-page-1&#34;&gt;The Home Page&lt;/h4&gt;
-
-&lt;p&gt;Hugo supports many different types of templates. The home page is special because it gets its own type of template and its own template file. The file, layouts/index.html, is used to generate the HTML for the home page. The Hugo documentation says that this is the only required template, but that depends. Hugo&amp;rsquo;s warning message shows that it looks for three different templates:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;WARN: 2014/09/29 Unable to locate layout: [index.html _default/list.html _default/single.html]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If it can&amp;rsquo;t find any of these, it completely skips creating the home page. We noticed that when we built the site without having a theme installed.&lt;/p&gt;
-
-&lt;p&gt;When Hugo created our theme, it created an empty home page template. Now, when we build the site, Hugo finds the template and uses it to generate the HTML for the home page. Since the template file is empty, the HTML file is empty, too. If the template had any rules in it, then Hugo would have used them to generate the home page.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ find . -name index.html | xargs ls -l
--rw-r--r--  1 quoha  staff  0 Sep 29 20:21 ./public/index.html
--rw-r--r--  1 quoha  staff  0 Sep 29 17:31 ./themes/zafta/layouts/index.html
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;the-magic-of-static&#34;&gt;The Magic of Static&lt;/h4&gt;
-
-&lt;p&gt;Hugo does two things when generating the site. It uses templates to transform content into HTML and it copies static files into the site. Unlike content, static files are not transformed. They are copied exactly as they are.&lt;/p&gt;
-
-&lt;p&gt;Hugo assumes that your site will use both CSS and JavaScript, so it creates directories in your theme to hold them. Remember opinions? Well, Hugo&amp;rsquo;s opinion is that you&amp;rsquo;ll store your CSS in a directory named css/ and your JavaScript in a directory named js/. If you don&amp;rsquo;t like that, you can change the directory names in your theme directory or even delete them completely. Hugo&amp;rsquo;s nice enough to offer its opinion, then behave nicely if you disagree.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ find themes/zafta -type d | xargs ls -ld
-drwxr-xr-x  7 quoha  staff  238 Sep 29 17:38 themes/zafta
-drwxr-xr-x  3 quoha  staff  102 Sep 29 17:31 themes/zafta/archetypes
-drwxr-xr-x  5 quoha  staff  170 Sep 29 17:31 themes/zafta/layouts
-drwxr-xr-x  4 quoha  staff  136 Sep 29 17:31 themes/zafta/layouts/_default
-drwxr-xr-x  4 quoha  staff  136 Sep 29 17:31 themes/zafta/layouts/partials
-drwxr-xr-x  4 quoha  staff  136 Sep 29 17:31 themes/zafta/static
-drwxr-xr-x  2 quoha  staff   68 Sep 29 17:31 themes/zafta/static/css
-drwxr-xr-x  2 quoha  staff   68 Sep 29 17:31 themes/zafta/static/js
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;the-theme-development-cycle&#34;&gt;The Theme Development Cycle&lt;/h2&gt;
-
-&lt;p&gt;When you&amp;rsquo;re working on a theme, you will make changes in the theme&amp;rsquo;s directory, rebuild the site, and check your changes in the browser. Hugo makes this very easy:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Purge the public/ directory.&lt;/li&gt;
-&lt;li&gt;Run the built in web server in watch mode.&lt;/li&gt;
-&lt;li&gt;Open your site in a browser.&lt;/li&gt;
-&lt;li&gt;Update the theme.&lt;/li&gt;
-&lt;li&gt;Glance at your browser window to see changes.&lt;/li&gt;
-&lt;li&gt;Return to step 4.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;I’ll throw in one more opinion: never work on a theme on a live site. Always work on a copy of your site. Make changes to your theme, test them, then copy them up to your site. For added safety, use a tool like Git to keep a revision history of your content and your theme. Believe me when I say that it is too easy to lose both your mind and your changes.&lt;/p&gt;
-
-&lt;p&gt;Check the main Hugo site for information on using Git with Hugo.&lt;/p&gt;
-
-&lt;h3 id=&#34;purge-the-public-directory&#34;&gt;Purge the public/ Directory&lt;/h3&gt;
-
-&lt;p&gt;When generating the site, Hugo will create new files and update existing ones in the &lt;code&gt;public/&lt;/code&gt; directory. It will not delete files that are no longer used. For example, files that were created in the wrong directory or with the wrong title will remain. If you leave them, you might get confused by them later. I recommend cleaning out your site prior to generating it.&lt;/p&gt;
-
-&lt;p&gt;Note: If you&amp;rsquo;re building on an SSD, you should ignore this. Churning on a SSD can be costly.&lt;/p&gt;
-
-&lt;h3 id=&#34;hugo-s-watch-option&#34;&gt;Hugo&amp;rsquo;s Watch Option&lt;/h3&gt;
-
-&lt;p&gt;Hugo&amp;rsquo;s &amp;ldquo;&lt;code&gt;--watch&lt;/code&gt;&amp;rdquo; option will monitor the content/ and your theme directories for changes and rebuild the site automatically.&lt;/p&gt;
-
-&lt;h3 id=&#34;live-reload&#34;&gt;Live Reload&lt;/h3&gt;
-
-&lt;p&gt;Hugo&amp;rsquo;s built in web server supports live reload. As pages are saved on the server, the browser is told to refresh the page. Usually, this happens faster than you can say, &amp;ldquo;Wow, that&amp;rsquo;s totally amazing.&amp;rdquo;&lt;/p&gt;
-
-&lt;h3 id=&#34;development-commands&#34;&gt;Development Commands&lt;/h3&gt;
-
-&lt;p&gt;Use the following commands as the basis for your workflow.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;## purge old files. hugo will recreate the public directory.
-##
-$ rm -rf public
-##
-## run hugo in watch mode
-##
-$ hugo server --watch --verbose
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here&amp;rsquo;s sample output showing Hugo detecting a change to the template for the home page. Once generated, the web browser automatically reloaded the page. I&amp;rsquo;ve said this before, it&amp;rsquo;s amazing.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ rm -rf public
-$ hugo server --watch --verbose
-INFO: 2014/09/29 Using config file: /Users/quoha/Sites/zafta/config.toml
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/themes/zafta/static/ to /Users/quoha/Sites/zafta/public/
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/static/ to /Users/quoha/Sites/zafta/public/
-WARN: 2014/09/29 Unable to locate layout: [404.html theme/404.html]
-0 draft content
-0 future content
-0 pages created
-0 tags created
-0 categories created
-in 2 ms
-Watching for changes in /Users/quoha/Sites/zafta/content
-Serving pages from /Users/quoha/Sites/zafta/public
-Web Server is available at http://localhost:1313
-Press Ctrl+C to stop
-INFO: 2014/09/29 File System Event: [&amp;quot;/Users/quoha/Sites/zafta/themes/zafta/layouts/index.html&amp;quot;: MODIFY|ATTRIB]
-Change detected, rebuilding site
-
-WARN: 2014/09/29 Unable to locate layout: [404.html theme/404.html]
-0 draft content
-0 future content
-0 pages created
-0 tags created
-0 categories created
-in 1 ms
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;update-the-home-page-template&#34;&gt;Update the Home Page Template&lt;/h2&gt;
-
-&lt;p&gt;The home page is one of a few special pages that Hugo creates automatically. As mentioned earlier, it looks for one of three files in the theme&amp;rsquo;s layout/ directory:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;index.html&lt;/li&gt;
-&lt;li&gt;_default/list.html&lt;/li&gt;
-&lt;li&gt;_default/single.html&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;We could update one of the default templates, but a good design decision is to update the most specific template available. That&amp;rsquo;s not a hard and fast rule (in fact, we&amp;rsquo;ll break it a few times in this tutorial), but it is a good generalization.&lt;/p&gt;
-
-&lt;h3 id=&#34;make-a-static-home-page&#34;&gt;Make a Static Home Page&lt;/h3&gt;
-
-&lt;p&gt;Right now, that page is empty because we don&amp;rsquo;t have any content and we don&amp;rsquo;t have any logic in the template. Let&amp;rsquo;s change that by adding some text to the template.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/layouts/index.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;body&amp;gt;
-  &amp;lt;p&amp;gt;hugo says hello!&amp;lt;/p&amp;gt;
-&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-:wq
-
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Build the web site and then verify the results.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ hugo --verbose
-INFO: 2014/09/29 Using config file: /Users/quoha/Sites/zafta/config.toml
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/themes/zafta/static/ to /Users/quoha/Sites/zafta/public/
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/static/ to /Users/quoha/Sites/zafta/public/
-WARN: 2014/09/29 Unable to locate layout: [404.html theme/404.html]
-0 draft content
-0 future content
-0 pages created
-0 tags created
-0 categories created
-in 2 ms
-
-$ find public -type f -name &#39;*.html&#39; | xargs ls -l
--rw-r--r--  1 quoha  staff  78 Sep 29 21:26 public/index.html
-
-$ cat public/index.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;body&amp;gt;
-  &amp;lt;p&amp;gt;hugo says hello!&amp;lt;/p&amp;gt;
-&amp;lt;/html&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;live-reload-1&#34;&gt;Live Reload&lt;/h4&gt;
-
-&lt;p&gt;Note: If you&amp;rsquo;re running the server with the &lt;code&gt;--watch&lt;/code&gt; option, you&amp;rsquo;ll see different content in the file:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ cat public/index.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;body&amp;gt;
-  &amp;lt;p&amp;gt;hugo says hello!&amp;lt;/p&amp;gt;
-&amp;lt;script&amp;gt;document.write(&#39;&amp;lt;script src=&amp;quot;http://&#39;
-        + (location.host || &#39;localhost&#39;).split(&#39;:&#39;)[0]
-    + &#39;:1313/livereload.js?mindelay=10&amp;quot;&amp;gt;&amp;lt;/&#39;
-        + &#39;script&amp;gt;&#39;)&amp;lt;/script&amp;gt;&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;When you use &lt;code&gt;--watch&lt;/code&gt;, the Live Reload script is added by Hugo. Look for live reload in the documentation to see what it does and how to disable it.&lt;/p&gt;
-
-&lt;h3 id=&#34;build-a-dynamic-home-page&#34;&gt;Build a &amp;ldquo;Dynamic&amp;rdquo; Home Page&lt;/h3&gt;
-
-&lt;p&gt;&amp;ldquo;Dynamic home page?&amp;rdquo; Hugo&amp;rsquo;s a static web site generator, so this seems an odd thing to say. I mean let&amp;rsquo;s have the home page automatically reflect the content in the site every time Hugo builds it. We&amp;rsquo;ll use iteration in the template to do that.&lt;/p&gt;
-
-&lt;h4 id=&#34;create-new-posts&#34;&gt;Create New Posts&lt;/h4&gt;
-
-&lt;p&gt;Now that we have the home page generating static content, let&amp;rsquo;s add some content to the site. We&amp;rsquo;ll display these posts as a list on the home page and on their own page, too.&lt;/p&gt;
-
-&lt;p&gt;Hugo has a command to generate a skeleton post, just like it does for sites and themes.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ hugo --verbose new post/first.md
-INFO: 2014/09/29 Using config file: /Users/quoha/Sites/zafta/config.toml
-INFO: 2014/09/29 attempting to create  post/first.md of post
-INFO: 2014/09/29 curpath: /Users/quoha/Sites/zafta/themes/zafta/archetypes/default.md
-ERROR: 2014/09/29 Unable to Cast &amp;lt;nil&amp;gt; to map[string]interface{}
-
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;That wasn&amp;rsquo;t very nice, was it?&lt;/p&gt;
-
-&lt;p&gt;The &amp;ldquo;new&amp;rdquo; command uses an archetype to create the post file. Hugo created an empty default archetype file, but that causes an error when there&amp;rsquo;s a theme. For me, the workaround was to create an archetypes file specifically for the post type.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/archetypes/post.md
-+++
-Description = &amp;quot;&amp;quot;
-Tags = []
-Categories = []
-+++
-:wq
-
-$ find themes/zafta/archetypes -type f | xargs ls -l
--rw-r--r--  1 quoha  staff   0 Sep 29 21:53 themes/zafta/archetypes/default.md
--rw-r--r--  1 quoha  staff  51 Sep 29 21:54 themes/zafta/archetypes/post.md
-
-$ hugo --verbose new post/first.md
-INFO: 2014/09/29 Using config file: /Users/quoha/Sites/zafta/config.toml
-INFO: 2014/09/29 attempting to create  post/first.md of post
-INFO: 2014/09/29 curpath: /Users/quoha/Sites/zafta/themes/zafta/archetypes/post.md
-INFO: 2014/09/29 creating /Users/quoha/Sites/zafta/content/post/first.md
-/Users/quoha/Sites/zafta/content/post/first.md created
-
-$ hugo --verbose new post/second.md
-INFO: 2014/09/29 Using config file: /Users/quoha/Sites/zafta/config.toml
-INFO: 2014/09/29 attempting to create  post/second.md of post
-INFO: 2014/09/29 curpath: /Users/quoha/Sites/zafta/themes/zafta/archetypes/post.md
-INFO: 2014/09/29 creating /Users/quoha/Sites/zafta/content/post/second.md
-/Users/quoha/Sites/zafta/content/post/second.md created
-
-$ ls -l content/post
-total 16
--rw-r--r--  1 quoha  staff  104 Sep 29 21:54 first.md
--rw-r--r--  1 quoha  staff  105 Sep 29 21:57 second.md
-
-$ cat content/post/first.md
-+++
-Categories = []
-Description = &amp;quot;&amp;quot;
-Tags = []
-date = &amp;quot;2014-09-29T21:54:53-05:00&amp;quot;
-title = &amp;quot;first&amp;quot;
-
-+++
-my first post
-
-$ cat content/post/second.md
-+++
-Categories = []
-Description = &amp;quot;&amp;quot;
-Tags = []
-date = &amp;quot;2014-09-29T21:57:09-05:00&amp;quot;
-title = &amp;quot;second&amp;quot;
-
-+++
-my second post
-
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Build the web site and then verify the results.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ rm -rf public
-$ hugo --verbose
-INFO: 2014/09/29 Using config file: /Users/quoha/Sites/zafta/config.toml
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/themes/zafta/static/ to /Users/quoha/Sites/zafta/public/
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/static/ to /Users/quoha/Sites/zafta/public/
-INFO: 2014/09/29 found taxonomies: map[string]string{&amp;quot;category&amp;quot;:&amp;quot;categories&amp;quot;, &amp;quot;tag&amp;quot;:&amp;quot;tags&amp;quot;}
-WARN: 2014/09/29 Unable to locate layout: [404.html theme/404.html]
-0 draft content
-0 future content
-2 pages created
-0 tags created
-0 categories created
-in 4 ms
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The output says that it created 2 pages. Those are our new posts:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ find public -type f -name &#39;*.html&#39; | xargs ls -l
--rw-r--r--  1 quoha  staff  78 Sep 29 22:13 public/index.html
--rw-r--r--  1 quoha  staff   0 Sep 29 22:13 public/post/first/index.html
--rw-r--r--  1 quoha  staff   0 Sep 29 22:13 public/post/index.html
--rw-r--r--  1 quoha  staff   0 Sep 29 22:13 public/post/second/index.html
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The new files are empty because because the templates used to generate the content are empty. The homepage doesn&amp;rsquo;t show the new content, either. We have to update the templates to add the posts.&lt;/p&gt;
-
-&lt;h3 id=&#34;list-and-single-templates&#34;&gt;List and Single Templates&lt;/h3&gt;
-
-&lt;p&gt;In Hugo, we have three major kinds of templates. There&amp;rsquo;s the home page template that we updated previously. It is used only by the home page. We also have &amp;ldquo;single&amp;rdquo; templates which are used to generate output for a single content file. We also have &amp;ldquo;list&amp;rdquo; templates that are used to group multiple pieces of content before generating output.&lt;/p&gt;
-
-&lt;p&gt;Generally speaking, list templates are named &amp;ldquo;list.html&amp;rdquo; and single templates are named &amp;ldquo;single.html.&amp;rdquo;&lt;/p&gt;
-
-&lt;p&gt;There are three other types of templates: partials, content views, and terms. We will not go into much detail on these.&lt;/p&gt;
-
-&lt;h3 id=&#34;add-content-to-the-homepage&#34;&gt;Add Content to the Homepage&lt;/h3&gt;
-
-&lt;p&gt;The home page will contain a list of posts. Let&amp;rsquo;s update its template to add the posts that we just created. The logic in the template will run every time we build the site.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/layouts/index.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;body&amp;gt;
-  {{ range first 10 .Data.Pages }}
-    &amp;lt;h1&amp;gt;{{ .Title }}&amp;lt;/h1&amp;gt;
-  {{ end }}
-&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-:wq
-
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Hugo uses the Go template engine. That engine scans the template files for commands which are enclosed between &amp;ldquo;{{&amp;rdquo; and &amp;ldquo;}}&amp;rdquo;. In our template, the commands are:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;range&lt;/li&gt;
-&lt;li&gt;.Title&lt;/li&gt;
-&lt;li&gt;end&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The &amp;ldquo;range&amp;rdquo; command is an iterator. We&amp;rsquo;re going to use it to go through the first ten pages. Every HTML file that Hugo creates is treated as a page, so looping through the list of pages will look at every file that will be created.&lt;/p&gt;
-
-&lt;p&gt;The &amp;ldquo;.Title&amp;rdquo; command prints the value of the &amp;ldquo;title&amp;rdquo; variable. Hugo pulls it from the front matter in the Markdown file.&lt;/p&gt;
-
-&lt;p&gt;The &amp;ldquo;end&amp;rdquo; command signals the end of the range iterator. The engine loops back to the top of the iteration when it finds &amp;ldquo;end.&amp;rdquo; Everything between the &amp;ldquo;range&amp;rdquo; and &amp;ldquo;end&amp;rdquo; is evaluated every time the engine goes through the iteration. In this file, that would cause the title from the first ten pages to be output as heading level one.&lt;/p&gt;
-
-&lt;p&gt;It&amp;rsquo;s helpful to remember that some variables, like .Data, are created before any output files. Hugo loads every content file into the variable and then gives the template a chance to process before creating the HTML files.&lt;/p&gt;
-
-&lt;p&gt;Build the web site and then verify the results.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ rm -rf public
-$ hugo --verbose
-INFO: 2014/09/29 Using config file: /Users/quoha/Sites/zafta/config.toml
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/themes/zafta/static/ to /Users/quoha/Sites/zafta/public/
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/static/ to /Users/quoha/Sites/zafta/public/
-INFO: 2014/09/29 found taxonomies: map[string]string{&amp;quot;tag&amp;quot;:&amp;quot;tags&amp;quot;, &amp;quot;category&amp;quot;:&amp;quot;categories&amp;quot;}
-WARN: 2014/09/29 Unable to locate layout: [404.html theme/404.html]
-0 draft content
-0 future content
-2 pages created
-0 tags created
-0 categories created
-in 4 ms
-$ find public -type f -name &#39;*.html&#39; | xargs ls -l
--rw-r--r--  1 quoha  staff  94 Sep 29 22:23 public/index.html
--rw-r--r--  1 quoha  staff   0 Sep 29 22:23 public/post/first/index.html
--rw-r--r--  1 quoha  staff   0 Sep 29 22:23 public/post/index.html
--rw-r--r--  1 quoha  staff   0 Sep 29 22:23 public/post/second/index.html
-$ cat public/index.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;body&amp;gt;
-
-    &amp;lt;h1&amp;gt;second&amp;lt;/h1&amp;gt;
-
-    &amp;lt;h1&amp;gt;first&amp;lt;/h1&amp;gt;
-
-&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Congratulations, the home page shows the title of the two posts. The posts themselves are still empty, but let&amp;rsquo;s take a moment to appreciate what we&amp;rsquo;ve done. Your template now generates output dynamically. Believe it or not, by inserting the range command inside of those curly braces, you&amp;rsquo;ve learned everything you need to know to build a theme. All that&amp;rsquo;s really left is understanding which template will be used to generate each content file and becoming familiar with the commands for the template engine.&lt;/p&gt;
-
-&lt;p&gt;And, if that were entirely true, this tutorial would be much shorter. There are a few things to know that will make creating a new template much easier. Don&amp;rsquo;t worry, though, that&amp;rsquo;s all to come.&lt;/p&gt;
-
-&lt;h3 id=&#34;add-content-to-the-posts&#34;&gt;Add Content to the Posts&lt;/h3&gt;
-
-&lt;p&gt;We&amp;rsquo;re working with posts, which are in the content/post/ directory. That means that their section is &amp;ldquo;post&amp;rdquo; (and if we don&amp;rsquo;t do something weird, their type is also &amp;ldquo;post&amp;rdquo;).&lt;/p&gt;
-
-&lt;p&gt;Hugo uses the section and type to find the template file for every piece of content. Hugo will first look for a template file that matches the section or type name. If it can&amp;rsquo;t find one, then it will look in the _default/ directory. There are some twists that we&amp;rsquo;ll cover when we get to categories and tags, but for now we can assume that Hugo will try post/single.html, then _default/single.html.&lt;/p&gt;
-
-&lt;p&gt;Now that we know the search rule, let&amp;rsquo;s see what we actually have available:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ find themes/zafta -name single.html | xargs ls -l
--rw-r--r--  1 quoha  staff  132 Sep 29 17:31 themes/zafta/layouts/_default/single.html
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We could create a new template, post/single.html, or change the default. Since we don&amp;rsquo;t know of any other content types, let&amp;rsquo;s start with updating the default.&lt;/p&gt;
-
-&lt;p&gt;Remember, any content that we haven&amp;rsquo;t created a template for will end up using this template. That can be good or bad. Bad because I know that we&amp;rsquo;re going to be adding different types of content and we&amp;rsquo;re going to end up undoing some of the changes we&amp;rsquo;ve made. It&amp;rsquo;s good because we&amp;rsquo;ll be able to see immediate results. It&amp;rsquo;s also good to start here because we can start to build the basic layout for the site. As we add more content types, we&amp;rsquo;ll refactor this file and move logic around. Hugo makes that fairly painless, so we&amp;rsquo;ll accept the cost and proceed.&lt;/p&gt;
-
-&lt;p&gt;Please see the Hugo documentation on template rendering for all the details on determining which template to use. And, as the docs mention, if you&amp;rsquo;re building a single page application (SPA) web site, you can delete all of the other templates and work with just the default single page. That&amp;rsquo;s a refreshing amount of joy right there.&lt;/p&gt;
-
-&lt;h4 id=&#34;update-the-template-file&#34;&gt;Update the Template File&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/layouts/_default/single.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;head&amp;gt;
-  &amp;lt;title&amp;gt;{{ .Title }}&amp;lt;/title&amp;gt;
-&amp;lt;/head&amp;gt;
-&amp;lt;body&amp;gt;
-  &amp;lt;h1&amp;gt;{{ .Title }}&amp;lt;/h1&amp;gt;
-  {{ .Content }}
-&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-:wq
-
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Build the web site and verify the results.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ rm -rf public
-$ hugo --verbose
-INFO: 2014/09/29 Using config file: /Users/quoha/Sites/zafta/config.toml
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/themes/zafta/static/ to /Users/quoha/Sites/zafta/public/
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/static/ to /Users/quoha/Sites/zafta/public/
-INFO: 2014/09/29 found taxonomies: map[string]string{&amp;quot;tag&amp;quot;:&amp;quot;tags&amp;quot;, &amp;quot;category&amp;quot;:&amp;quot;categories&amp;quot;}
-WARN: 2014/09/29 Unable to locate layout: [404.html theme/404.html]
-0 draft content
-0 future content
-2 pages created
-0 tags created
-0 categories created
-in 4 ms
-
-$ find public -type f -name &#39;*.html&#39; | xargs ls -l
--rw-r--r--  1 quoha  staff   94 Sep 29 22:40 public/index.html
--rw-r--r--  1 quoha  staff  125 Sep 29 22:40 public/post/first/index.html
--rw-r--r--  1 quoha  staff    0 Sep 29 22:40 public/post/index.html
--rw-r--r--  1 quoha  staff  128 Sep 29 22:40 public/post/second/index.html
-
-$ cat public/post/first/index.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;head&amp;gt;
-  &amp;lt;title&amp;gt;first&amp;lt;/title&amp;gt;
-&amp;lt;/head&amp;gt;
-&amp;lt;body&amp;gt;
-  &amp;lt;h1&amp;gt;first&amp;lt;/h1&amp;gt;
-  &amp;lt;p&amp;gt;my first post&amp;lt;/p&amp;gt;
-
-&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-
-$ cat public/post/second/index.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;head&amp;gt;
-  &amp;lt;title&amp;gt;second&amp;lt;/title&amp;gt;
-&amp;lt;/head&amp;gt;
-&amp;lt;body&amp;gt;
-  &amp;lt;h1&amp;gt;second&amp;lt;/h1&amp;gt;
-  &amp;lt;p&amp;gt;my second post&amp;lt;/p&amp;gt;
-
-&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Notice that the posts now have content. You can go to localhost:1313/post/first to verify.&lt;/p&gt;
-
-&lt;h3 id=&#34;linking-to-content&#34;&gt;Linking to Content&lt;/h3&gt;
-
-&lt;p&gt;The posts are on the home page. Let&amp;rsquo;s add a link from there to the post. Since this is the home page, we&amp;rsquo;ll update its template.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/layouts/index.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;body&amp;gt;
-  {{ range first 10 .Data.Pages }}
-    &amp;lt;h1&amp;gt;&amp;lt;a href=&amp;quot;{{ .Permalink }}&amp;quot;&amp;gt;{{ .Title }}&amp;lt;/a&amp;gt;&amp;lt;/h1&amp;gt;
-  {{ end }}
-&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Build the web site and verify the results.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ rm -rf public
-$ hugo --verbose
-INFO: 2014/09/29 Using config file: /Users/quoha/Sites/zafta/config.toml
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/themes/zafta/static/ to /Users/quoha/Sites/zafta/public/
-INFO: 2014/09/29 syncing from /Users/quoha/Sites/zafta/static/ to /Users/quoha/Sites/zafta/public/
-INFO: 2014/09/29 found taxonomies: map[string]string{&amp;quot;tag&amp;quot;:&amp;quot;tags&amp;quot;, &amp;quot;category&amp;quot;:&amp;quot;categories&amp;quot;}
-WARN: 2014/09/29 Unable to locate layout: [404.html theme/404.html]
-0 draft content
-0 future content
-2 pages created
-0 tags created
-0 categories created
-in 4 ms
-
-$ find public -type f -name &#39;*.html&#39; | xargs ls -l
--rw-r--r--  1 quoha  staff  149 Sep 29 22:44 public/index.html
--rw-r--r--  1 quoha  staff  125 Sep 29 22:44 public/post/first/index.html
--rw-r--r--  1 quoha  staff    0 Sep 29 22:44 public/post/index.html
--rw-r--r--  1 quoha  staff  128 Sep 29 22:44 public/post/second/index.html
-
-$ cat public/index.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;body&amp;gt;
-
-    &amp;lt;h1&amp;gt;&amp;lt;a href=&amp;quot;/post/second/&amp;quot;&amp;gt;second&amp;lt;/a&amp;gt;&amp;lt;/h1&amp;gt;
-
-    &amp;lt;h1&amp;gt;&amp;lt;a href=&amp;quot;/post/first/&amp;quot;&amp;gt;first&amp;lt;/a&amp;gt;&amp;lt;/h1&amp;gt;
-
-&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-
-$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;create-a-post-listing&#34;&gt;Create a Post Listing&lt;/h3&gt;
-
-&lt;p&gt;We have the posts displaying on the home page and on their own page. We also have a file public/post/index.html that is empty. Let&amp;rsquo;s make it show a list of all posts (not just the first ten).&lt;/p&gt;
-
-&lt;p&gt;We need to decide which template to update. This will be a listing, so it should be a list template. Let&amp;rsquo;s take a quick look and see which list templates are available.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ find themes/zafta -name list.html | xargs ls -l
--rw-r--r--  1 quoha  staff  0 Sep 29 17:31 themes/zafta/layouts/_default/list.html
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;As with the single post, we have to decide to update _default/list.html or create post/list.html. We still don&amp;rsquo;t have multiple content types, so let&amp;rsquo;s stay consistent and update the default list template.&lt;/p&gt;
-
-&lt;h2 id=&#34;creating-top-level-pages&#34;&gt;Creating Top Level Pages&lt;/h2&gt;
-
-&lt;p&gt;Let&amp;rsquo;s add an &amp;ldquo;about&amp;rdquo; page and display it at the top level (as opposed to a sub-level like we did with posts).&lt;/p&gt;
-
-&lt;p&gt;The default in Hugo is to use the directory structure of the content/ directory to guide the location of the generated html in the public/ directory. Let&amp;rsquo;s verify that by creating an &amp;ldquo;about&amp;rdquo; page at the top level:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi content/about.md
-+++
-title = &amp;quot;about&amp;quot;
-description = &amp;quot;about this site&amp;quot;
-date = &amp;quot;2014-09-27&amp;quot;
-slug = &amp;quot;about time&amp;quot;
-+++
-
-## about us
-
-i&#39;m speechless
-:wq
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Generate the web site and verify the results.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ find public -name &#39;*.html&#39; | xargs ls -l
--rw-rw-r--  1 mdhender  staff   334 Sep 27 15:08 public/about-time/index.html
--rw-rw-r--  1 mdhender  staff   527 Sep 27 15:08 public/index.html
--rw-rw-r--  1 mdhender  staff   358 Sep 27 15:08 public/post/first-post/index.html
--rw-rw-r--  1 mdhender  staff     0 Sep 27 15:08 public/post/index.html
--rw-rw-r--  1 mdhender  staff   342 Sep 27 15:08 public/post/second-post/index.html
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Notice that the page wasn&amp;rsquo;t created at the top level. It was created in a sub-directory named &amp;lsquo;about-time/&amp;rsquo;. That name came from our slug. Hugo will use the slug to name the generated content. It&amp;rsquo;s a reasonable default, by the way, but we can learn a few things by fighting it for this file.&lt;/p&gt;
-
-&lt;p&gt;One other thing. Take a look at the home page.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ cat public/index.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;body&amp;gt;
-    &amp;lt;h1&amp;gt;&amp;lt;a href=&amp;quot;http://localhost:1313/post/theme/&amp;quot;&amp;gt;creating a new theme&amp;lt;/a&amp;gt;&amp;lt;/h1&amp;gt;
-    &amp;lt;h1&amp;gt;&amp;lt;a href=&amp;quot;http://localhost:1313/about-time/&amp;quot;&amp;gt;about&amp;lt;/a&amp;gt;&amp;lt;/h1&amp;gt;
-    &amp;lt;h1&amp;gt;&amp;lt;a href=&amp;quot;http://localhost:1313/post/second-post/&amp;quot;&amp;gt;second&amp;lt;/a&amp;gt;&amp;lt;/h1&amp;gt;
-    &amp;lt;h1&amp;gt;&amp;lt;a href=&amp;quot;http://localhost:1313/post/first-post/&amp;quot;&amp;gt;first&amp;lt;/a&amp;gt;&amp;lt;/h1&amp;gt;
-&amp;lt;script&amp;gt;document.write(&#39;&amp;lt;script src=&amp;quot;http://&#39;
-        + (location.host || &#39;localhost&#39;).split(&#39;:&#39;)[0]
-		+ &#39;:1313/livereload.js?mindelay=10&amp;quot;&amp;gt;&amp;lt;/&#39;
-        + &#39;script&amp;gt;&#39;)&amp;lt;/script&amp;gt;&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Notice that the &amp;ldquo;about&amp;rdquo; link is listed with the posts? That&amp;rsquo;s not desirable, so let&amp;rsquo;s change that first.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/layouts/index.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;body&amp;gt;
-  &amp;lt;h1&amp;gt;posts&amp;lt;/h1&amp;gt;
-  {{ range first 10 .Data.Pages }}
-    {{ if eq .Type &amp;quot;post&amp;quot;}}
-      &amp;lt;h2&amp;gt;&amp;lt;a href=&amp;quot;{{ .Permalink }}&amp;quot;&amp;gt;{{ .Title }}&amp;lt;/a&amp;gt;&amp;lt;/h2&amp;gt;
-    {{ end }}
-  {{ end }}
-
-  &amp;lt;h1&amp;gt;pages&amp;lt;/h1&amp;gt;
-  {{ range .Data.Pages }}
-    {{ if eq .Type &amp;quot;page&amp;quot; }}
-      &amp;lt;h2&amp;gt;&amp;lt;a href=&amp;quot;{{ .Permalink }}&amp;quot;&amp;gt;{{ .Title }}&amp;lt;/a&amp;gt;&amp;lt;/h2&amp;gt;
-    {{ end }}
-  {{ end }}
-&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-:wq
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Generate the web site and verify the results. The home page has two sections, posts and pages, and each section has the right set of headings and links in it.&lt;/p&gt;
-
-&lt;p&gt;But, that about page still renders to about-time/index.html.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ find public -name &#39;*.html&#39; | xargs ls -l
--rw-rw-r--  1 mdhender  staff    334 Sep 27 15:33 public/about-time/index.html
--rw-rw-r--  1 mdhender  staff    645 Sep 27 15:33 public/index.html
--rw-rw-r--  1 mdhender  staff    358 Sep 27 15:33 public/post/first-post/index.html
--rw-rw-r--  1 mdhender  staff      0 Sep 27 15:33 public/post/index.html
--rw-rw-r--  1 mdhender  staff    342 Sep 27 15:33 public/post/second-post/index.html
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Knowing that hugo is using the slug to generate the file name, the simplest solution is to change the slug. Let&amp;rsquo;s do it the hard way and change the permalink in the configuration file.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi config.toml
-[permalinks]
-	page = &amp;quot;/:title/&amp;quot;
-	about = &amp;quot;/:filename/&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Generate the web site and verify that this didn&amp;rsquo;t work. Hugo lets &amp;ldquo;slug&amp;rdquo; or &amp;ldquo;URL&amp;rdquo; override the permalinks setting in the configuration file. Go ahead and comment out the slug in content/about.md, then generate the web site to get it to be created in the right place.&lt;/p&gt;
-
-&lt;h2 id=&#34;sharing-templates&#34;&gt;Sharing Templates&lt;/h2&gt;
-
-&lt;p&gt;If you&amp;rsquo;ve been following along, you probably noticed that posts have titles in the browser and the home page doesn&amp;rsquo;t. That&amp;rsquo;s because we didn&amp;rsquo;t put the title in the home page&amp;rsquo;s template (layouts/index.html). That&amp;rsquo;s an easy thing to do, but let&amp;rsquo;s look at a different option.&lt;/p&gt;
-
-&lt;p&gt;We can put the common bits into a shared template that&amp;rsquo;s stored in the themes/zafta/layouts/partials/ directory.&lt;/p&gt;
-
-&lt;h3 id=&#34;create-the-header-and-footer-partials&#34;&gt;Create the Header and Footer Partials&lt;/h3&gt;
-
-&lt;p&gt;In Hugo, a partial is a sugar-coated template. Normally a template reference has a path specified. Partials are different. Hugo searches for them along a TODO defined search path. This makes it easier for end-users to override the theme&amp;rsquo;s presentation.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/layouts/partials/header.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html&amp;gt;
-&amp;lt;head&amp;gt;
-	&amp;lt;title&amp;gt;{{ .Title }}&amp;lt;/title&amp;gt;
-&amp;lt;/head&amp;gt;
-&amp;lt;body&amp;gt;
-:wq
-
-$ vi themes/zafta/layouts/partials/footer.html
-&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-:wq
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;update-the-home-page-template-to-use-the-partials&#34;&gt;Update the Home Page Template to Use the Partials&lt;/h3&gt;
-
-&lt;p&gt;The most noticeable difference between a template call and a partials call is the lack of path:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ template &amp;quot;theme/partials/header.html&amp;quot; . }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;versus&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ partial &amp;quot;header.html&amp;quot; . }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Both pass in the context.&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s change the home page template to use these new partials.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/layouts/index.html
-{{ partial &amp;quot;header.html&amp;quot; . }}
-
-  &amp;lt;h1&amp;gt;posts&amp;lt;/h1&amp;gt;
-  {{ range first 10 .Data.Pages }}
-    {{ if eq .Type &amp;quot;post&amp;quot;}}
-      &amp;lt;h2&amp;gt;&amp;lt;a href=&amp;quot;{{ .Permalink }}&amp;quot;&amp;gt;{{ .Title }}&amp;lt;/a&amp;gt;&amp;lt;/h2&amp;gt;
-    {{ end }}
-  {{ end }}
-
-  &amp;lt;h1&amp;gt;pages&amp;lt;/h1&amp;gt;
-  {{ range .Data.Pages }}
-    {{ if or (eq .Type &amp;quot;page&amp;quot;) (eq .Type &amp;quot;about&amp;quot;) }}
-      &amp;lt;h2&amp;gt;&amp;lt;a href=&amp;quot;{{ .Permalink }}&amp;quot;&amp;gt;{{ .Type }} - {{ .Title }} - {{ .RelPermalink }}&amp;lt;/a&amp;gt;&amp;lt;/h2&amp;gt;
-    {{ end }}
-  {{ end }}
-
-{{ partial &amp;quot;footer.html&amp;quot; . }}
-:wq
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Generate the web site and verify the results. The title on the home page is now &amp;ldquo;your title here&amp;rdquo;, which comes from the &amp;ldquo;title&amp;rdquo; variable in the config.toml file.&lt;/p&gt;
-
-&lt;h3 id=&#34;update-the-default-single-template-to-use-the-partials&#34;&gt;Update the Default Single Template to Use the Partials&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/layouts/_default/single.html
-{{ partial &amp;quot;header.html&amp;quot; . }}
-
-  &amp;lt;h1&amp;gt;{{ .Title }}&amp;lt;/h1&amp;gt;
-  {{ .Content }}
-
-{{ partial &amp;quot;footer.html&amp;quot; . }}
-:wq
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Generate the web site and verify the results. The title on the posts and the about page should both reflect the value in the markdown file.&lt;/p&gt;
-
-&lt;h2 id=&#34;add-date-published-to-posts&#34;&gt;Add “Date Published” to Posts&lt;/h2&gt;
-
-&lt;p&gt;It&amp;rsquo;s common to have posts display the date that they were written or published, so let&amp;rsquo;s add that. The front matter of our posts has a variable named &amp;ldquo;date.&amp;rdquo; It&amp;rsquo;s usually the date the content was created, but let&amp;rsquo;s pretend that&amp;rsquo;s the value we want to display.&lt;/p&gt;
-
-&lt;h3 id=&#34;add-date-published-to-the-template&#34;&gt;Add “Date Published” to the Template&lt;/h3&gt;
-
-&lt;p&gt;We&amp;rsquo;ll start by updating the template used to render the posts. The template code will look like:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{ .Date.Format &amp;quot;Mon, Jan 2, 2006&amp;quot; }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Posts use the default single template, so we&amp;rsquo;ll change that file.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/layouts/_default/single.html
-{{ partial &amp;quot;header.html&amp;quot; . }}
-
-  &amp;lt;h1&amp;gt;{{ .Title }}&amp;lt;/h1&amp;gt;
-  &amp;lt;h2&amp;gt;{{ .Date.Format &amp;quot;Mon, Jan 2, 2006&amp;quot; }}&amp;lt;/h2&amp;gt;
-  {{ .Content }}
-
-{{ partial &amp;quot;footer.html&amp;quot; . }}
-:wq
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Generate the web site and verify the results. The posts now have the date displayed in them. There&amp;rsquo;s a problem, though. The &amp;ldquo;about&amp;rdquo; page also has the date displayed.&lt;/p&gt;
-
-&lt;p&gt;As usual, there are a couple of ways to make the date display only on posts. We could do an &amp;ldquo;if&amp;rdquo; statement like we did on the home page. Another way would be to create a separate template for posts.&lt;/p&gt;
-
-&lt;p&gt;The &amp;ldquo;if&amp;rdquo; solution works for sites that have just a couple of content types. It aligns with the principle of &amp;ldquo;code for today,&amp;rdquo; too.&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s assume, though, that we&amp;rsquo;ve made our site so complex that we feel we have to create a new template type. In Hugo-speak, we&amp;rsquo;re going to create a section template.&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s restore the default single template before we forget.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ mkdir themes/zafta/layouts/post
-$ vi themes/zafta/layouts/_default/single.html
-{{ partial &amp;quot;header.html&amp;quot; . }}
-
-  &amp;lt;h1&amp;gt;{{ .Title }}&amp;lt;/h1&amp;gt;
-  {{ .Content }}
-
-{{ partial &amp;quot;footer.html&amp;quot; . }}
-:wq
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now we&amp;rsquo;ll update the post&amp;rsquo;s version of the single template. If you remember Hugo&amp;rsquo;s rules, the template engine will use this version over the default.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ vi themes/zafta/layouts/post/single.html
-{{ partial &amp;quot;header.html&amp;quot; . }}
-
-  &amp;lt;h1&amp;gt;{{ .Title }}&amp;lt;/h1&amp;gt;
-  &amp;lt;h2&amp;gt;{{ .Date.Format &amp;quot;Mon, Jan 2, 2006&amp;quot; }}&amp;lt;/h2&amp;gt;
-  {{ .Content }}
-
-{{ partial &amp;quot;footer.html&amp;quot; . }}
-:wq
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Note that we removed the date logic from the default template and put it in the post template. Generate the web site and verify the results. Posts have dates and the about page doesn&amp;rsquo;t.&lt;/p&gt;
-
-&lt;h3 id=&#34;don-t-repeat-yourself&#34;&gt;Don&amp;rsquo;t Repeat Yourself&lt;/h3&gt;
-
-&lt;p&gt;DRY is a good design goal and Hugo does a great job supporting it. Part of the art of a good template is knowing when to add a new template and when to update an existing one. While you&amp;rsquo;re figuring that out, accept that you&amp;rsquo;ll be doing some refactoring. Hugo makes that easy and fast, so it&amp;rsquo;s okay to delay splitting up a template.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Migrate to Hugo from Jekyll</title>
-      <link>http://alimy.me/post/etc_201403101221/</link>
-      <pubDate>Mon, 10 Mar 2014 00:00:00 UTC</pubDate>
-      
-      <guid>http://alimy.me/post/etc_201403101221/</guid>
-      <description>&lt;h2 id=&#34;move-static-content-to-static&#34;&gt;Move static content to &lt;code&gt;static&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;Jekyll has a rule that any directory not starting with &lt;code&gt;_&lt;/code&gt; will be copied as-is to the &lt;code&gt;_site&lt;/code&gt; output. Hugo keeps all static content under &lt;code&gt;static&lt;/code&gt;. You should therefore move it all there.
-With Jekyll, something that looked like
-
-    ▾ &lt;root&gt;/
-        ▾ images/
-            logo.png&lt;/p&gt;
-
-&lt;p&gt;should become&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;▾ &amp;lt;root&amp;gt;/
-    ▾ static/
-        ▾ images/
-            logo.png
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Additionally, you&amp;rsquo;ll want any files that should reside at the root (such as &lt;code&gt;CNAME&lt;/code&gt;) to be moved to &lt;code&gt;static&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;create-your-hugo-configuration-file&#34;&gt;Create your Hugo configuration file&lt;/h2&gt;
-
-&lt;p&gt;Hugo can read your configuration as JSON, YAML or TOML. Hugo supports parameters custom configuration too. Refer to the &lt;a href=&#34;http://alimy.me/overview/configuration/&#34;&gt;Hugo configuration documentation&lt;/a&gt; for details.&lt;/p&gt;
-
-&lt;h2 id=&#34;set-your-configuration-publish-folder-to-site&#34;&gt;Set your configuration publish folder to &lt;code&gt;_site&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;The default is for Jekyll to publish to &lt;code&gt;_site&lt;/code&gt; and for Hugo to publish to &lt;code&gt;public&lt;/code&gt;. If, like me, you have &lt;a href=&#34;http://blog.blindgaenger.net/generate_github_pages_in_a_submodule.html&#34;&gt;&lt;code&gt;_site&lt;/code&gt; mapped to a git submodule on the &lt;code&gt;gh-pages&lt;/code&gt; branch&lt;/a&gt;, you&amp;rsquo;ll want to do one of two alternatives:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Change your submodule to point to map &lt;code&gt;gh-pages&lt;/code&gt; to public instead of &lt;code&gt;_site&lt;/code&gt; (recommended).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;git submodule deinit _site
-git rm _site
-git submodule add -b gh-pages git@github.com:your-username/your-repo.git public
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Or, change the Hugo configuration to use &lt;code&gt;_site&lt;/code&gt; instead of &lt;code&gt;public&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{
-    ..
-    &amp;quot;publishdir&amp;quot;: &amp;quot;_site&amp;quot;,
-    ..
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&#34;convert-jekyll-templates-to-hugo-templates&#34;&gt;Convert Jekyll templates to Hugo templates&lt;/h2&gt;
-
-&lt;p&gt;That&amp;rsquo;s the bulk of the work right here. The documentation is your friend. You should refer to &lt;a href=&#34;http://jekyllrb.com/docs/templates/&#34;&gt;Jekyll&amp;rsquo;s template documentation&lt;/a&gt; if you need to refresh your memory on how you built your blog and &lt;a href=&#34;http://alimy.me/layout/templates/&#34;&gt;Hugo&amp;rsquo;s template&lt;/a&gt; to learn Hugo&amp;rsquo;s way.&lt;/p&gt;
-
-&lt;p&gt;As a single reference data point, converting my templates for &lt;a href=&#34;http://heyitsalex.net/&#34;&gt;heyitsalex.net&lt;/a&gt; took me no more than a few hours.&lt;/p&gt;
-
-&lt;h2 id=&#34;convert-jekyll-plugins-to-hugo-shortcodes&#34;&gt;Convert Jekyll plugins to Hugo shortcodes&lt;/h2&gt;
-
-&lt;p&gt;Jekyll has &lt;a href=&#34;http://jekyllrb.com/docs/plugins/&#34;&gt;plugins&lt;/a&gt;; Hugo has &lt;a href=&#34;http://alimy.me/doc/shortcodes/&#34;&gt;shortcodes&lt;/a&gt;. It&amp;rsquo;s fairly trivial to do a port.&lt;/p&gt;
-
-&lt;h3 id=&#34;implementation&#34;&gt;Implementation&lt;/h3&gt;
-
-&lt;p&gt;As an example, I was using a custom &lt;a href=&#34;https://github.com/alexandre-normand/alexandre-normand/blob/74bb12036a71334fdb7dba84e073382fc06908ec/_plugins/image_tag.rb&#34;&gt;&lt;code&gt;image_tag&lt;/code&gt;&lt;/a&gt; plugin to generate figures with caption when running Jekyll. As I read about shortcodes, I found Hugo had a nice built-in shortcode that does exactly the same thing.&lt;/p&gt;
-
-&lt;p&gt;Jekyll&amp;rsquo;s plugin:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;module Jekyll
-  class ImageTag &amp;lt; Liquid::Tag
-    @url = nil
-    @caption = nil
-    @class = nil
-    @link = nil
-    // Patterns
-    IMAGE_URL_WITH_CLASS_AND_CAPTION =
-    IMAGE_URL_WITH_CLASS_AND_CAPTION_AND_LINK = /(\w+)(\s+)((https?:\/\/|\/)(\S+))(\s+)&amp;quot;(.*?)&amp;quot;(\s+)-&amp;gt;((https?:\/\/|\/)(\S+))(\s*)/i
-    IMAGE_URL_WITH_CAPTION = /((https?:\/\/|\/)(\S+))(\s+)&amp;quot;(.*?)&amp;quot;/i
-    IMAGE_URL_WITH_CLASS = /(\w+)(\s+)((https?:\/\/|\/)(\S+))/i
-    IMAGE_URL = /((https?:\/\/|\/)(\S+))/i
-    def initialize(tag_name, markup, tokens)
-      super
-      if markup =~ IMAGE_URL_WITH_CLASS_AND_CAPTION_AND_LINK
-        @class   = $1
-        @url     = $3
-        @caption = $7
-        @link = $9
-      elsif markup =~ IMAGE_URL_WITH_CLASS_AND_CAPTION
-        @class   = $1
-        @url     = $3
-        @caption = $7
-      elsif markup =~ IMAGE_URL_WITH_CAPTION
-        @url     = $1
-        @caption = $5
-      elsif markup =~ IMAGE_URL_WITH_CLASS
-        @class = $1
-        @url   = $3
-      elsif markup =~ IMAGE_URL
-        @url = $1
-      end
-    end
-    def render(context)
-      if @class
-        source = &amp;quot;&amp;lt;figure class=&#39;#{@class}&#39;&amp;gt;&amp;quot;
-      else
-        source = &amp;quot;&amp;lt;figure&amp;gt;&amp;quot;
-      end
-      if @link
-        source += &amp;quot;&amp;lt;a href=\&amp;quot;#{@link}\&amp;quot;&amp;gt;&amp;quot;
-      end
-      source += &amp;quot;&amp;lt;img src=\&amp;quot;#{@url}\&amp;quot;&amp;gt;&amp;quot;
-      if @link
-        source += &amp;quot;&amp;lt;/a&amp;gt;&amp;quot;
-      end
-      source += &amp;quot;&amp;lt;figcaption&amp;gt;#{@caption}&amp;lt;/figcaption&amp;gt;&amp;quot; if @caption
-      source += &amp;quot;&amp;lt;/figure&amp;gt;&amp;quot;
-      source
-    end
-  end
-end
-Liquid::Template.register_tag(&#39;image&#39;, Jekyll::ImageTag)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;is written as this Hugo shortcode:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;!-- image --&amp;gt;
-&amp;lt;figure {{ with .Get &amp;quot;class&amp;quot; }}class=&amp;quot;{{.}}&amp;quot;{{ end }}&amp;gt;
-    {{ with .Get &amp;quot;link&amp;quot;}}&amp;lt;a href=&amp;quot;{{.}}&amp;quot;&amp;gt;{{ end }}
-        &amp;lt;img src=&amp;quot;{{ .Get &amp;quot;src&amp;quot; }}&amp;quot; {{ if or (.Get &amp;quot;alt&amp;quot;) (.Get &amp;quot;caption&amp;quot;) }}alt=&amp;quot;{{ with .Get &amp;quot;alt&amp;quot;}}{{.}}{{else}}{{ .Get &amp;quot;caption&amp;quot; }}{{ end }}&amp;quot;{{ end }} /&amp;gt;
-    {{ if .Get &amp;quot;link&amp;quot;}}&amp;lt;/a&amp;gt;{{ end }}
-    {{ if or (or (.Get &amp;quot;title&amp;quot;) (.Get &amp;quot;caption&amp;quot;)) (.Get &amp;quot;attr&amp;quot;)}}
-    &amp;lt;figcaption&amp;gt;{{ if isset .Params &amp;quot;title&amp;quot; }}
-        {{ .Get &amp;quot;title&amp;quot; }}{{ end }}
-        {{ if or (.Get &amp;quot;caption&amp;quot;) (.Get &amp;quot;attr&amp;quot;)}}&amp;lt;p&amp;gt;
-        {{ .Get &amp;quot;caption&amp;quot; }}
-        {{ with .Get &amp;quot;attrlink&amp;quot;}}&amp;lt;a href=&amp;quot;{{.}}&amp;quot;&amp;gt; {{ end }}
-            {{ .Get &amp;quot;attr&amp;quot; }}
-        {{ if .Get &amp;quot;attrlink&amp;quot;}}&amp;lt;/a&amp;gt; {{ end }}
-        &amp;lt;/p&amp;gt; {{ end }}
-    &amp;lt;/figcaption&amp;gt;
-    {{ end }}
-&amp;lt;/figure&amp;gt;
-&amp;lt;!-- image --&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;usage&#34;&gt;Usage&lt;/h3&gt;
-
-&lt;p&gt;I simply changed:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{% image full http://farm5.staticflickr.com/4136/4829260124_57712e570a_o_d.jpg &amp;quot;One of my favorite touristy-type photos. I secretly waited for the good light while we were &amp;quot;having fun&amp;quot; and took this. Only regret: a stupid pole in the top-left corner of the frame I had to clumsily get rid of at post-processing.&amp;quot; -&amp;gt;http://www.flickr.com/photos/alexnormand/4829260124/in/set-72157624547713078/ %}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;to this (this example uses a slightly extended version named &lt;code&gt;fig&lt;/code&gt;, different than the built-in &lt;code&gt;figure&lt;/code&gt;):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;{{% fig class=&amp;quot;full&amp;quot; src=&amp;quot;http://farm5.staticflickr.com/4136/4829260124_57712e570a_o_d.jpg&amp;quot; title=&amp;quot;One of my favorite touristy-type photos. I secretly waited for the good light while we were having fun and took this. Only regret: a stupid pole in the top-left corner of the frame I had to clumsily get rid of at post-processing.&amp;quot; link=&amp;quot;http://www.flickr.com/photos/alexnormand/4829260124/in/set-72157624547713078/&amp;quot; %}}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;As a bonus, the shortcode named parameters are, arguably, more readable.&lt;/p&gt;
-
-&lt;h2 id=&#34;finishing-touches&#34;&gt;Finishing touches&lt;/h2&gt;
-
-&lt;h3 id=&#34;fix-content&#34;&gt;Fix content&lt;/h3&gt;
-
-&lt;p&gt;Depending on the amount of customization that was done with each post with Jekyll, this step will require more or less effort. There are no hard and fast rules here except that &lt;code&gt;hugo server --watch&lt;/code&gt; is your friend. Test your changes and fix errors as needed.&lt;/p&gt;
-
-&lt;h3 id=&#34;clean-up&#34;&gt;Clean up&lt;/h3&gt;
-
-&lt;p&gt;You&amp;rsquo;ll want to remove the Jekyll configuration at this point. If you have anything else that isn&amp;rsquo;t used, delete it.&lt;/p&gt;
-
-&lt;h2 id=&#34;a-practical-example-in-a-diff&#34;&gt;A practical example in a diff&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://heyitsalex.net/&#34;&gt;Hey, it&amp;rsquo;s Alex&lt;/a&gt; was migrated in less than a &lt;em&gt;father-with-kids day&lt;/em&gt; from Jekyll to Hugo. You can see all the changes (and screw-ups) by looking at this &lt;a href=&#34;https://github.com/alexandre-normand/alexandre-normand/compare/869d69435bd2665c3fbf5b5c78d4c22759d7613a...b7f6605b1265e83b4b81495423294208cc74d610&#34;&gt;diff&lt;/a&gt;.&lt;/p&gt;</description>
-    </item>
+    <updated>Fri, 15 Apr 2016 10:10:00 CST</updated>
     
     <item>
       <title>陶渊明 -「桃花源记」</title>
@@ -4178,6 +2906,2250 @@ requestQueue.start();
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://github.com/dodocat/AndroidNetworkdemo&#34; title=&#34;android network demo&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>庆余年: 又一叶</title>
+      <link>http://alimy.me/post/arc_201603192212/</link>
+      <pubDate>Sat, 19 Mar 2016 22:12:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/arc_201603192212/</guid>
+      <description>&lt;p&gt;当年的废话&lt;/p&gt;
+
+&lt;p&gt;至于是如何和小眉认识的，已经有些记不清楚了，只记得那天太阳当空照，花儿对我笑，小鸟说操操操，喔，不对，那天好象国际上又出了件什么事儿，于是我们几个兄弟以此为由撮了一顿，中午我喝了太多的酒，头有些昏，腿有些沉，舌自然也有些笨了，一个人到街上的书铺借了本小说便直奔大南门外的烂草地，准备刮刮江风，冒充一下孤独；抽抽小烟，模仿一下绝望。&lt;/p&gt;
+
+&lt;p&gt;只是有太久没有出门了，所以没想到七月的太阳竟然会这么毒。&lt;/p&gt;
+
+&lt;p&gt;当然，这是一个常识，但现在我的问题就是缺乏常识。于是在石凳上坐了五分钟后，我便决定脱下满身汗臭的格子短袖，做个脱衣的俗人，脱俗之人。&lt;/p&gt;
+
+&lt;p&gt;当我的手指伸向短袖的第三个扣子时，不期有一道很清凉，很清凉的声音从我的正前方响了起来：&lt;/p&gt;
+
+&lt;p&gt;“天气还真是热呀！”&lt;/p&gt;
+
+&lt;p&gt;甜甜的、酸酸的、有营养……我自顾自地笑了笑，第一个反应是，这绝对是一个雌性动物才能拥有的声音，而且一定是个小雌。&lt;/p&gt;
+
+&lt;p&gt;我的第二个反应是，赶忙把第二个扣子给扣了起来。&lt;/p&gt;
+
+&lt;p&gt;我的第三个反应是，脑袋嗡地一声……世界果然大不同，居然有女子主动找我搭讪。&lt;/p&gt;
+
+&lt;p&gt;我把头深深地埋在怀里，用了半分钟的时间，猜度了种种可能，唯一把美女相约的可能排除掉后，勇敢地抬起头来，面对这个脸上可能涂了八层防晒霜的恐龙。
+
+若没有眼花的话，那是一个穿着平山绫那种式样裙子，像萧淑慎一样叉着腰，左手学徐熙媛那样用花手帕扇着风，长的酷似没发胖之前的深田恭子模样的女孩，在用李艳的招牌眼神望着我。&lt;/p&gt;
+
+&lt;p&gt;一瞬间，我觉得喝酒之后的口好渴。&lt;/p&gt;
+
+&lt;p&gt;由于自己生就是个衰命，于是我拼命地告诫自己，这绝对是个幻像。对！今天的阳光太过耀眼，而自己又是刚闻韶乐，数月不知肉味。所以这绝对是个幻像！&lt;/p&gt;
+
+&lt;p&gt;可我的肋骨下方，肩胛骨前方，往往用来爱国的地方，常是酸酸的地方，怎突然一下感觉如此温柔。我一时失措，急忙用拇、食二指，曲成蟹螯之状，向腰后多肉处捏了下去……对，掐死你的温柔。&lt;/p&gt;
+
+&lt;p&gt;一掐之下，始知今季并非春日，故眼前美景绝非chun梦。&lt;/p&gt;
+
+&lt;p&gt;其实现在想起来，也不过是眉清目秀罢了。&lt;/p&gt;
+
+&lt;p&gt;但当时我的嘴角险些亲吻我的耳垂。&lt;/p&gt;
+
+&lt;p&gt;大约看我呆了太久，女孩子笑了，轻声道：“天好热啊！”&lt;/p&gt;
+
+&lt;p&gt;我回她一个自认为最儒雅的呆鹅式笑容，貌似随意地用肥厚的手指梳理了一下油搭搭的乱发，再以一秒一合的速度眨了下眼，最后以两秒一字的速度缓缓应道：&lt;/p&gt;
+
+&lt;p&gt;“对呀，好热的天啊。”&lt;/p&gt;
+
+&lt;p&gt;女孩闻言一笑，烈烈夏日空气顿化作清风拂体。&lt;/p&gt;
+
+&lt;p&gt;“这么热的天，还看书啊？”&lt;/p&gt;
+
+&lt;p&gt;我很沉着地点点头，故作镇静道：“嘿……瞎看呗！”，此时我的手中正拿着一本《潇洒出阁》，闻佳人发问，心中不禁大窘，封面已然湿透矣。&lt;/p&gt;
+
+&lt;p&gt;“我也挺喜欢看席娟的书的。”&lt;/p&gt;
+
+&lt;p&gt;“是吗？”声调不由提高了几分。&lt;/p&gt;
+
+&lt;p&gt;“你在哪儿上学了？”&lt;/p&gt;
+
+&lt;p&gt;在嘴角和耳际又做了次亲密接触后，我从牙齿缝里憋出句话来：“加里敦大学。”&lt;/p&gt;
+
+&lt;p&gt;“喔。”那女孩似觉诧异，又有些失望。&lt;/p&gt;
+
+&lt;p&gt;我有些不甘心，生平第一次被美女主动搭讪，就这般无疾而终。于是使出我的撒手锏，用蒋昌建般浑厚的嗓音，缓缓吟道：“谁言人类的精神家园已然花果飘零，看这烈日当空，未料除闲人于此瞎逛，亦有如斯佳人未肯稍弃亲近自然之机。”&lt;/p&gt;
+
+&lt;p&gt;不出我的意料，那女孩一愣之后，忽地掩嘴而笑。但出乎我的意料是，那是一串止不住的笑声，从她那纤细的手指间隙中汩汩而出。若纯以声音论，那笑声像银铃，像黄莺，像百灵（当然，我并不知道黄莺和百灵是不是一种鸟），像火锅旁的冰啤酒，像何伟炸的花生米旁的枝江大曲，像一中球场上那青青的草，还像什么来着……&lt;/p&gt;
+
+&lt;p&gt;只是若这笑声是因我而发，那未免就有些难堪了。我皱了皱眉，以示我的不爽。却闻笑声不止，间有俏声道：&lt;/p&gt;
+
+&lt;p&gt;“怎么你的声音忽上忽下，就像坏了的黑管一样。”&lt;/p&gt;
+
+&lt;p&gt;提到黑管，不由想起了一位同学，听说他在大学里就学这个的。也因如此，我才知道黑管是个乐器。我一面想着，却未料一面就说了出来：&lt;/p&gt;
+
+&lt;p&gt;“我知道黑管是件西洋乐器。”&lt;/p&gt;
+
+&lt;p&gt;她一愣，又笑了起来。我也只好陪笑，但坚决不陪别的。&lt;/p&gt;
+
+&lt;p&gt;她用双手把头发向后拢了拢，用那条花手帕扎了起来，坐了下来，饶有兴致地看着我。&lt;/p&gt;
+
+&lt;p&gt;饶有兴致！我敢用我父亲的人格发誓，她只是觉得我很莫名其妙，绝不可能对我有什么意思。&lt;/p&gt;
+
+&lt;p&gt;不过我并不反对在这样一个炎热的下午，有这样一个女孩陪我晒太阳，虽说这真的有些莫名其妙。&lt;/p&gt;
+
+&lt;p&gt;她又向我手上的书饶有兴致的看了一眼。&lt;/p&gt;
+
+&lt;p&gt;我强颜道：“我姐姐在医院住院，给她借去看，医生又不准。所以……”&lt;/p&gt;
+
+&lt;p&gt;她做出一副恍然大悟的神情，眼神中却带着一抹俏皮的调笑之色。&lt;/p&gt;
+
+&lt;p&gt;当我正要做进一步解释的时候，她笑着说：“其实席娟的书真的挺好看，风行两岸三地，清新可人，人称冰淇淋小说。”&lt;/p&gt;
+
+&lt;p&gt;说话的神情，颇似江苏文艺出版社的发行商。&lt;/p&gt;
+
+&lt;p&gt;于是，这下轮到我笑了。&lt;/p&gt;
+
+&lt;p&gt;对了，冰淇淋小说。对了，她的笑，就像夏天里的冰淇淋&lt;/p&gt;
+
+&lt;p&gt;正当我回味在冰淇淋的甜美中时，却忽然发现了一个危险的讯号。只见这女孩向我发出了一个蠢蠢的笑容。我心一紧，却听她甜甜道：&lt;/p&gt;
+
+&lt;p&gt;“今天天真热，如果能吃上冰淇淋就好了！”&lt;/p&gt;
+
+&lt;p&gt;我搔搔头，好生不解，只觉眼前这似乎应该是酒吧里的情节，而且女主角一般都会说：“嗨！能请我喝杯妈爹的吗？”&lt;/p&gt;
+
+&lt;p&gt;虽说老爸，老妈的东西都挺贵，但毕竟气氛合宜，像这般在烈日之下的滨江公园，一个年轻娇俏的女孩子向一个认识不到五分钟的胖男人“强要”那不值钱的冰淇淋吃，悠悠苍天，此何人哉？&lt;/p&gt;
+
+&lt;p&gt;不过看她的打扮，怎么也比我有钱啊。我想到了生命的真谛，不由困惑了。（扯淡，哪想的到那儿去。）&lt;/p&gt;
+
+&lt;p&gt;虽说我不介意请美女吃吃冰淇淋，聊聊天，因为想像中那种感觉应该是好极了。但当我用手轻拍自己的腰包后，便不由学起那齐什么王来，用最自然的口气，最不自然地接了下去：“这么热的天，你一个女孩子跑到这儿来干吗，不怕晒黑了吗？”&lt;/p&gt;
+
+&lt;p&gt;女孩子很执著地望着我。&lt;/p&gt;
+
+&lt;p&gt;“能请我吃冰淇淋吗？”&lt;/p&gt;
+
+&lt;p&gt;相信我，我从未遇到过这般不知头尾的事情。&lt;/p&gt;
+
+&lt;p&gt;恰好在这时，一个卖冰棍的小贩吟唱着冰淇淋之歌从我们身边走过，他以军情局特务的敏锐嗅觉，觉察出了这看上去毫不般配的男女之间，似乎将要给他创造无限商机。&lt;/p&gt;
+
+&lt;p&gt;面对着小贩饥渴的眼神，再回头看看她比小贩还饥渴的眼神，我在心中浩叹一声，认输了吧。&lt;/p&gt;
+
+&lt;p&gt;“来个蛋卷！”&lt;/p&gt;
+
+&lt;p&gt;小贩正色道：“美怡登的脆皮又出新品种了。！&lt;/p&gt;
+
+&lt;p&gt;“来个蛋卷！”&lt;/p&gt;
+
+&lt;p&gt;“新种脆皮，好吃的很！”一口四川腔。&lt;/p&gt;
+
+&lt;p&gt;龟儿子！我暗骂一句，还是老乡哩，这点面子也不给。&lt;/p&gt;
+
+&lt;p&gt;就当我和小贩以绝世内功透过凌厉眼神暗自拼杀之际，那清清的声音，懒扬扬地说了一句：&lt;/p&gt;
+
+&lt;p&gt;“你个老子的烦不烦啦！说蛋卷，就蛋卷啦！”&lt;/p&gt;
+
+&lt;p&gt;付钱，撕纸，送入嘴中。&lt;/p&gt;
+
+&lt;p&gt;我目瞪口呆地看着她，实未料到美女也会说粗话。&lt;/p&gt;
+
+&lt;p&gt;“喂！别这么看着我。”她一边从红樱桃之唇内吐出丁香之舌品味着如雪美味，一边递给我一个不屑的眼神。&lt;/p&gt;
+
+&lt;p&gt;“你一个大男人，怎么做事这么拖沓。是你买他的东西耶！怎么搞的好象你欠他似的。”&lt;/p&gt;
+
+&lt;p&gt;我这才注意到她说话，神情都干净俐落，吃冰淇淋的速度更是让人望而生畏，让人好生……佩服。而且说的话听上去似乎也有几分道理，不过我还在纳闷，凭什么我要请她吃冰淇淋。&lt;/p&gt;
+
+&lt;p&gt;我搔搔脑袋，闷头闷脑地问道：“为什么……”&lt;/p&gt;
+
+&lt;p&gt;“为什么请我吃冰淇淋？”&lt;/p&gt;
+
+&lt;p&gt;我点点头。&lt;/p&gt;
+
+&lt;p&gt;她擦了擦手，再擦了擦嘴，站起身来，原地转了一圈，以手支颌，对我眨了眨眼，似是用尽全身之力强忍住笑，问道：“你看我怎么样？”&lt;/p&gt;
+
+&lt;p&gt;我老老实实答道：“生平未见之美女。”&lt;/p&gt;
+
+&lt;p&gt;她很诚恳地点点头，道：“一来证明你近视的度数不是太高。二来说明美丽的东西总是不容易被掩盖的。”&lt;/p&gt;
+
+&lt;p&gt;接着又是一串银铃似的笑声，笑声之下是有些失神的我。&lt;/p&gt;
+
+&lt;p&gt;她坐在了我的身旁，满是笑意地望着我。我这才看清了她的容貌。在心里暗赞了一声：“真她妈生的漂亮！”&lt;/p&gt;
+
+&lt;p&gt;她妈的确把她生的很漂亮。&lt;/p&gt;
+
+&lt;p&gt;看着她那清亮的眼，俏直的眉，润红的唇，随风摇动的衣摆，阳光投射在草地上的细长的影子。我不知怎地，感到了一丝媚惑之意。此意与此女无干，纯是鄙人修行太低之故。&lt;/p&gt;
+
+&lt;p&gt;“请你生平未见之美女吃个冰淇淋，有这么痛苦吗？”&lt;/p&gt;
+
+&lt;p&gt;我回答的更老实了。&lt;/p&gt;
+
+&lt;p&gt;“我缺钱花。”&lt;/p&gt;
+
+&lt;p&gt;“你自己怎么不吃呢？”&lt;/p&gt;
+
+&lt;p&gt;未待我回答，她已抢着大悟了。“真的是很缺钱花。”&lt;/p&gt;
+
+&lt;p&gt;“好啦！看在你请我吃冰淇淋的份上，陪你聊会儿吧。”她以施舍的口气说道。接着伸了个懒腰，将双手合拢伸到裙后，肆意地伸展着身体，曲成了一个美丽的弧形，极具美感。&lt;/p&gt;
+
+&lt;p&gt;我闻言本有些不悦，但看在她伸懒腰都伸地这么漂亮的份上，也就罢了。&lt;/p&gt;
+
+&lt;p&gt;于是，开始聊天。&lt;/p&gt;
+
+&lt;p&gt;本次聊天，从席娟的小说开始，说到台湾的言情市场，再哀叹武侠风潮的没落，亦悲于温瑞安的自我放荡，再到讥笑温瑞安，真的以为自己是个武功高手，还时常穿些功夫服，拍些恶照，损害我们的视网膜。再到痛骂成龙的崇洋媚外，又很痛心吴宇森地堕落，又一致同意发哥发福之后果然更有男人魅力，并共同声讨李安很是老土。&lt;/p&gt;
+
+&lt;p&gt;说起李安曾导过理智与情感，就一同可惜没看过原著，便很有默契地认为外国小说实在是很乏趣味。&lt;/p&gt;
+
+&lt;p&gt;当然也偶有分歧。她说初看废都时，兴奋地想找朋友来研讨。我说你那还不如去看往事回忆录。她问我那是什么，我愣了一愣，她又抢着大悟，脸红了一红。&lt;/p&gt;
+
+&lt;p&gt;于是不谈小说了，说起了九九的鸭头很进味，又说九九九的鸭头大概是九九的徒弟做的。她说三十八块钱一斤的香辣蟹，只有果园路那家做的比较好。我说二十块钱一锅的肥肠，还是要到四零三底下去吃。她说看见桌上的男人喝酒时，她便很想喝鲜橙多，主要原因是因为看别人喝酒，她的胃也会跟着不舒服。我说我喝多了之后，也很想喝鲜橙多，并且主要的原因是因为做广告的那个女孩很吸引我。&lt;/p&gt;
+
+&lt;p&gt;她说看见迪吧里的那些小女孩摇头晃脑，很恐怖。我摇头晃脑一番后说，其实迪吧我还没去过。她说海王星的咖啡馆里有钢琴，不过弹地很糟糕，我终于兴奋地说，海王星？我进去过，十几个人拼了两张方桌，准备喝啤酒，结果被一个小资情调高涨的女同学带着落荒而逃。&lt;/p&gt;
+
+&lt;p&gt;本次聊天还聊了很多，最终结束于我的一句不合时宜的问话：&lt;/p&gt;
+
+&lt;p&gt;“你这么漂亮的女孩子，居然和我一样，这么有空？”&lt;/p&gt;
+
+&lt;p&gt;她抿着嘴笑了笑，笑应该是对着我笑的，眼神却像是漂到了别的地方。她说了最简单的六个字，也是最能说明问题的六个字：“&lt;/p&gt;
+
+&lt;p&gt;“送一个朋友走了。”&lt;/p&gt;
+
+&lt;p&gt;原来气氛的变化，远远迅疾过气温的变化。&lt;/p&gt;
+
+&lt;p&gt;她站起来，给了我一个温柔的笑容，学着松隆子的模样，把脑袋微微一侧，轻声道：“我得走了，谢谢你的冰淇淋。”&lt;/p&gt;
+
+&lt;p&gt;我也站了起来，给了她一个平生最温柔的笑容，用轻到听不到的声音说道：“谢谢你陪我这个无聊人聊天。”&lt;/p&gt;
+
+&lt;p&gt;（对不起，平生最这三个字，似乎又有些滥用了。不过我经常就是这样的。）&lt;/p&gt;
+
+&lt;p&gt;“再见！”&lt;/p&gt;
+
+&lt;p&gt;古龙说过，再见的意思往往就是不再见面。这意思我懂，但从未遇到过，今天和这不知名的女孩，应该算是一例吧。我有些恼火地想着。&lt;/p&gt;
+
+&lt;p&gt;已走出十几步的她，忽然转过身来，把手插在那大花裙子前面的大口袋里，侧着脑袋想了会儿，喊道：“请无聊人说出自己的三大优点。”&lt;/p&gt;
+
+&lt;p&gt;我笑了笑，喊道：“穿花裙子的花姑娘请先。”&lt;/p&gt;
+
+&lt;p&gt;“我的第一个优点是漂亮，妈妈生的；我的第二个优点是美丽，爸爸养的；我的第三个优点是可爱，自己装的。”&lt;/p&gt;
+
+&lt;p&gt;“那么我的第一个优点是老实，姐姐打出来的；我的第二个优点是诚恳，妈妈教出来的；我的第三个优点是木讷，一个姓袁的混俅老师逼出来的。”&lt;/p&gt;
+
+&lt;p&gt;“那好，无聊人，真的再见了哟！”&lt;/p&gt;
+
+&lt;p&gt;“很好，花姑娘，可以再见了耶！”我从不知道，一旦面对美女，我的语调也可以这样肉麻。&lt;/p&gt;
+
+&lt;p&gt;她回头走了，一边背着向后摆手，一边说道：“再说一句话，你长的有点儿像ＪＨＴ，就是胖一些。”&lt;/p&gt;
+
+&lt;p&gt;ＪＨＴ是谁？我不知道，不过有人说自己跟帅哥的区别只是胖一些，我已是感激涕零了。&lt;/p&gt;
+
+&lt;p&gt;不知是哪里来的灵感，我大声吼道：“83４８０６５！”&lt;/p&gt;
+
+&lt;p&gt;她愣了一愣。&lt;/p&gt;
+
+&lt;p&gt;“我的电话号码。”&lt;/p&gt;
+
+&lt;p&gt;她回头看了我一眼，忍不住笑了起来，似乎觉得真的很好笑。不过细细想来的确很好笑，从未见过那个男人用我这般愚蠢的方式，进行这种工作，似乎有些乾坤易位的感觉。&lt;/p&gt;
+
+&lt;p&gt;“陌生人的电话号码，我一般是记不住的。”&lt;/p&gt;
+
+&lt;p&gt;我摊摊手，做洒脱状，道：“无所谓啦。记不住，是你的幸运。万一记住了，就是我的幸运。”&lt;/p&gt;
+
+&lt;p&gt;她又笑了，真是个爱笑的人，而且抿着嘴笑的样子真的有点儿傻傻的……不过我喜欢。&lt;/p&gt;
+
+&lt;p&gt;老天爷其实并不公平。&lt;/p&gt;
+
+&lt;p&gt;比如说把人类生生地分成了两性，地位却有些悬殊。本来男人喜欢女人，女人喜欢男人是天公地道，若强要逆势而为，的确是有些糊涂。但我很不服气的是不喜欢女人的男人都被称作阴阳人，成为包龙星嘴下的烂腐。而不喜欢男人的女人，有个男人却给取个名字叫水母阴姬，笔下满是崇拜之情。另一个不喜欢男人的女人名字更夸张，居然叫什么日后。&lt;/p&gt;
+
+&lt;p&gt;想当太阳吗？我一向以为女人在她的男人面前才可能成为太阳。&lt;/p&gt;
+
+&lt;p&gt;还好，我是喜欢女人的。&lt;/p&gt;
+
+&lt;p&gt;尤其喜欢美女。&lt;/p&gt;
+
+&lt;p&gt;但只是远观而已。&lt;/p&gt;
+
+&lt;p&gt;那时候的我，的确很无聊，曾经有一次坐二路车到九码头拜访亲友，却一直坐到了八一钢厂，只为了车厢前排坐着一个长相清秀的红衣少女。&lt;/p&gt;
+
+&lt;p&gt;我更喜欢背着一个黑包，在晚上八点钟的时候，站在解放路的天桥上，看身边的红男绿女，看女人撒娇，看男人烦恼，自己还借着夜色的掩护傻笑。这虽有些病态，却也是消磨时光的好办法。&lt;/p&gt;
+
+&lt;p&gt;看的人多了，自然难免有些伤心。不过伤心之后，还是照看不误，美其名曰：养眼。&lt;/p&gt;
+
+&lt;p&gt;我一直以为那个冰淇淋女孩也只是偶尔出现的润洁滴眼露。唯一的区别是她曾和我说过几句话，虽说聊的很开心。&lt;/p&gt;
+
+&lt;p&gt;虽然以无穷的勇气，无耻的决心告诉了她我的电话号码，但我并不以为会有什么后文，而且的确也没什么后文。&lt;/p&gt;
+
+&lt;p&gt;于是这个美女就像钞票一样，从我的生活中消失了。&lt;/p&gt;
+
+&lt;p&gt;我没有什么不甘心的，邂逅这种浪漫的桥段，我从未期待过。&lt;/p&gt;
+
+&lt;p&gt;唯一有些放在心上的，是她说我和ＪＨＴ长的有些像。&lt;/p&gt;
+
+&lt;p&gt;要知道，我的同学们都说我长的像尹相杰。&lt;/p&gt;
+
+&lt;p&gt;ＪＨＴ是谁？莫不是亚洲第一美男元彬的英文名？&lt;/p&gt;
+
+&lt;p&gt;于是在之后的十几天里，我拼命地向我那几个读高中的小侄女打听这位明星是谁，却未料到以明星当饭吃的她们也是一脸惘然。&lt;/p&gt;
+
+&lt;p&gt;于是乎，我便产生了这样一个想法。&lt;/p&gt;
+
+&lt;p&gt;这ＪＨＴ莫不是个商界年轻才俊？&lt;/p&gt;
+
+&lt;p&gt;于是开始不顾书店老板的恶言恶语，拼命翻读商界，市场营销之类的书籍，每礼拜天晚上准时收看央视的夸富节目：对话。&lt;/p&gt;
+
+&lt;p&gt;又是十几天过去了，仍是一无所获。&lt;/p&gt;
+
+&lt;p&gt;现在已是八月的夏天，那个小资情调的女同学回来了。&lt;/p&gt;
+
+&lt;p&gt;于是我到她家去了。&lt;/p&gt;
+
+&lt;p&gt;用企望的眼光向她询问。&lt;/p&gt;
+
+&lt;p&gt;“ＪＨＴ？”&lt;/p&gt;
+
+&lt;p&gt;我点点头。&lt;/p&gt;
+
+&lt;p&gt;她一面擦着滴水的头发，一面毫不避嫌地在我面前往脸上抹些不知名的白色流质体。&lt;/p&gt;
+
+&lt;p&gt;“JHTisJackhatetitanic。”&lt;/p&gt;
+
+&lt;p&gt;我把这句半通不通的洋文重复了一遍，杰克恨泰坦尼克。什么玩意？&lt;/p&gt;
+
+&lt;p&gt;看到我犹自不醒的神情。&lt;/p&gt;
+
+&lt;p&gt;她娇嗔一声道：“就是痞子蔡的网名啦！”&lt;/p&gt;
+
+&lt;p&gt;“痞子蔡是谁？”我仍自不醒。&lt;/p&gt;
+
+&lt;p&gt;只见这位小资同学愕然之后，将那涂的本有些小巧的唇，又张成了保龄球道的洞口，白森森的牙齿象那十个木瓶一样齐刷刷地站立着，向我示威。&lt;/p&gt;
+
+&lt;p&gt;我忍住对她所用牙膏的好奇，以及将拳头送入她嘴中的冲动，仍是谦逊地又问了一遍。&lt;/p&gt;
+
+&lt;p&gt;她深深地叹了口气，似是决定原谅我的无知。然后说出了以下的一段话：&lt;/p&gt;
+
+&lt;p&gt;“当代窜红最快的男性非艺人。感情最为充沛的网络写手。他最后悔没有早读到席慕蓉的无怨的青春。最喜欢喝的是爱尔兰咖啡，最喜欢的香水是DolceVita，……喔，这是意大利文，中文意思是甜蜜的日子，他的室友叫阿泰，他的女友叫轻舞飞扬，可惜死了……”&lt;/p&gt;
+
+&lt;p&gt;虽说可惜，但我明明在小资同学的脸上，看到了一丝幸灾乐祸。&lt;/p&gt;
+
+&lt;p&gt;不等她说完，我已冲下楼，直奔新华书店。至于长的如何，更是不用问了，单看小资同学那崇拜的神情，我便已是成竹在胸。&lt;/p&gt;
+
+&lt;p&gt;到了书店，请小姐帮忙，找到了痞子蔡的书，我瞄了瞄封页，洛阳神茶，爱尔兰咖啡。我笑着问那位小姐，这人是不是卖饮料的。&lt;/p&gt;
+
+&lt;p&gt;小姐一愣，仍是很和蔼地用宜普说道：“先生，你儿可以看哈捏本。很有名的，第一次亲密接触。”（注：宜普即yc地区通用的，带有yc特色的普通话。）&lt;/p&gt;
+
+&lt;p&gt;我笑了笑，感谢她的热诚服务，然后把手插入口袋，两爪清风地离开，留下错愕的她。&lt;/p&gt;
+
+&lt;p&gt;待从另一个有利用价值的朋友处搞到了这本书后，我用了半小时的时间读完。读后深受感动。翻到前页，发现有痞子蔡的照片。&lt;/p&gt;
+
+&lt;p&gt;我认真的看了几眼，私下里并不以为他和我长的有些相像。&lt;/p&gt;
+
+&lt;p&gt;他长的的确不像尹相杰，他比尹相杰还丑。&lt;/p&gt;
+
+&lt;p&gt;伤了会儿心，然后洗了个澡，抽了根烟，躺到床上。那时是凌晨一点，老妈被我吵醒后，很诧异地问我：“今天出什么事了，这么早就睡觉。”&lt;/p&gt;
+
+&lt;p&gt;我总不能说自己很伤心吧，于是温柔地笑着问她：“儿子是不是长的不怎么帅？”&lt;/p&gt;
+
+&lt;p&gt;老妈笑了笑，拍拍我的脸，道：“我儿子长的比哪个都帅。”&lt;/p&gt;
+
+&lt;p&gt;这就是女性和伟大女性的区别。&lt;/p&gt;
+
+&lt;p&gt;有个同学谈过很多次恋爱，但他在酒桌上讲的往往只有一桩，一桩因某个停电之夜雨电交加，而促成的一段孽缘。他认为那次才是真正的浪漫到了极点。&lt;/p&gt;
+
+&lt;p&gt;什么叫浪漫呢？由他多次的谈话中我总结了一下，有这么几条。一要一个喝醉酒的男人。二要有一个孤独的女人。三天要下雨。四天若不下雨，就一定要刮风。五若天不下雨，天不刮风，则天下一定要有大太阳。六下雨的时候没有伞，或只有一把小伞。七刮风的时候，一定要呆在风最大的江岸上，以便把她刮倒在你的怀里。八日光最烈的时候，你可以有最充足的理由请她回自己家喝杯冷饮。九身上一定要带钱。若无钱，虽小说上也曾有贫贱夫妻的浪漫，只怕也是会打折的。&lt;/p&gt;
+
+&lt;p&gt;综上所述，我就不打算浪漫了。&lt;/p&gt;
+
+&lt;p&gt;那些天老姐把福山雅治和常盘贵子演的邂逅借回来看。由于我只喜欢木村和松隆子，所以在吃完饭后，坚决地背着黑包出了门。&lt;/p&gt;
+
+&lt;p&gt;我是一个很执着的人。&lt;/p&gt;
+
+&lt;p&gt;晚上八点钟，又是解放路天桥。&lt;/p&gt;
+
+&lt;p&gt;我站在天桥上想着邂逅这种事情，忽然有些伤心地发现，若邂逅的意思是指早前认识的男女在某种机缘巧合的情况下忽然碰见，那在yc城内，我是不大有什么机会和从前的朋友们邂逅了。别人伤心邂逅的理由，是怕遇不到某个想遇到的人。我伤心的理由却是怕遇不到一个认识的人。&lt;/p&gt;
+
+&lt;p&gt;想到此节，我不由悲从心来，往天桥下过往的车流吐了一口痰。&lt;/p&gt;
+
+&lt;p&gt;“这样不太好吧？”&lt;/p&gt;
+
+&lt;p&gt;一个女子杵到了我的旁边，全然未知我正在念天地之悠悠。&lt;/p&gt;
+
+&lt;p&gt;我不耐烦地看了她一眼，心中得出一个结论：“居然又是一个美女。”&lt;/p&gt;
+
+&lt;p&gt;不过由于当街吐痰被美女看到，所以我的心情不好，决定不去理她。&lt;/p&gt;
+
+&lt;p&gt;“无聊人，不记得我啦？”&lt;/p&gt;
+
+&lt;p&gt;我想到了生命的真谛，不由有些疑惑。（对不起，又想到那儿了。）晚上八点，天已有些黑了，自己又是个近视眼，所以难免有些……&lt;/p&gt;
+
+&lt;p&gt;待看清楚是那个长的像深田恭子的那个女孩，不知为何我忽然松了一口气。&lt;/p&gt;
+
+&lt;p&gt;“花姑娘今天又这么有空。”其实她今天穿的是一件淡蓝底子上印着深蓝碎花的吊带裙，看上去很漂亮，叫她花姑娘，是有些委屈她了。&lt;/p&gt;
+
+&lt;p&gt;“怎么你皇军的口吻总是不改。”她转过身来，靠在天桥的栏杆上，微微地翘起右脚，似是在地上划着什么字。&lt;/p&gt;
+
+&lt;p&gt;我不理她，径直问道：“你在这边看我多久了。”&lt;/p&gt;
+
+&lt;p&gt;“一朵花开的时间。”&lt;/p&gt;
+
+&lt;p&gt;“俗！”我做呕吐状。&lt;/p&gt;
+
+&lt;p&gt;她好心地把手并拢，摊在我的嘴前。&lt;/p&gt;
+
+&lt;p&gt;“最近忙什么呢？”&lt;/p&gt;
+
+&lt;p&gt;“忙着赚钱，花钱。你呢？”&lt;/p&gt;
+
+&lt;p&gt;“忙着睡觉，吃饭。”&lt;/p&gt;
+
+&lt;p&gt;“这回答也挺俗。对了……差点儿忘了你是加大毕业的，只是成天忙这些不烦吗？”&lt;/p&gt;
+
+&lt;p&gt;“哎，你很龟毛哎。”&lt;/p&gt;
+
+&lt;p&gt;“少假仙啦，是不是很寂寞啊。”&lt;/p&gt;
+
+&lt;p&gt;“……”&lt;/p&gt;
+
+&lt;p&gt;我们学习着言情小说里的情节，用极烂的西门町国语，进行着一场惨不忍睹的对话。双方都极力想轻描淡写地当作熟人一样来交谈，可问题是……&lt;/p&gt;
+
+&lt;p&gt;我们并不很熟。&lt;/p&gt;
+
+&lt;p&gt;“哎……”&lt;/p&gt;
+
+&lt;p&gt;两人同时长叹一声气后，大概发现了大家都没有这种本领，于是便选择了沉默。&lt;/p&gt;
+
+&lt;p&gt;于是我在桥上看美女，她在我身旁看我看美女。&lt;/p&gt;
+
+&lt;p&gt;不知站了多久，我笑了笑，道：“如果一直这么立着，别人会不会以为这是两个雕像。”&lt;/p&gt;
+
+&lt;p&gt;她轻轻笑了声，用手拨拉一下额前的刘海儿，道：“对啊，雕像的名字就是美女与野兽。”&lt;/p&gt;
+
+&lt;p&gt;我摇摇头。&lt;/p&gt;
+
+&lt;p&gt;“我以为是巴黎圣母院。”&lt;/p&gt;
+
+&lt;p&gt;看着她的头发在夜色中乱乱地拂着，我很想把它缠在自己的指尖上，不是因为别的，只是想让它安份一些。&lt;/p&gt;
+
+&lt;p&gt;不知为何，她今天的话比那天下午要少许多。&lt;/p&gt;
+
+&lt;p&gt;也许是心情不好？&lt;/p&gt;
+
+&lt;p&gt;“今天又等人吗？”&lt;/p&gt;
+
+&lt;p&gt;“等你啊！”她向我投以温柔一笑，我以傻然一笑化之。&lt;/p&gt;
+
+&lt;p&gt;忽地想起这些天的忙碌，连忙向她报怨：“我似乎比痞子蔡长的要周整些吧？”&lt;/p&gt;
+
+&lt;p&gt;“你也就头发长些，这样很丑。”&lt;/p&gt;
+
+&lt;p&gt;“头发长些，遮住脸，看上去就没那么胖了。你是女人，一定比我清楚。”&lt;/p&gt;
+
+&lt;p&gt;她看了看我衣服上的油渍，叹口气道：“头发长，身上脏，不是要饭，就开画廊。”&lt;/p&gt;
+
+&lt;p&gt;“我在家里天天做饭，哪比得上你们这些千金。”我搔搔头。&lt;/p&gt;
+
+&lt;p&gt;“你会做饭？”她露出不信的神色。&lt;/p&gt;
+
+&lt;p&gt;我暗自在心里为自己这最后的资本得意了一下，点了点头，然后痛心说道：“只是水平太差。像今天炒苦瓜，我放了些干辣椒，再加上你知道的，我怕苦……哦……对了你不知道，不过无所谓……于是我问老妈，可不可以放些糖。结果老妈把我痛骂了一番，说苦瓜不苦，那就不对了。”&lt;/p&gt;
+
+&lt;p&gt;她很轻易地站到我母亲那一边，用力点了点头，问道：“后来？”&lt;/p&gt;
+
+&lt;p&gt;“于是我老老实实地站到了锅前，把准备加的一小勺糖，换成了两勺。”我把站着的两脚前后错开，伸手一挥，大有老毛让人去下乡的气魄。&lt;/p&gt;
+
+&lt;p&gt;她捂着嘴，忍住笑道：“结果？”&lt;/p&gt;
+
+&lt;p&gt;“结果，全家一致公认，比妈炒了三十年的苦瓜要好吃。”&lt;/p&gt;
+
+&lt;p&gt;“得出什么结论？”&lt;/p&gt;
+
+&lt;p&gt;“结论是人人都怕苦，但人人都不说。”&lt;/p&gt;
+
+&lt;p&gt;两人又笑了笑，又不知道该说些什么了，这就是冷场吧，我在心里想着。&lt;/p&gt;
+
+&lt;p&gt;于是我说：“看过痞子蔡的洛阳神茶吗？”心想她可能对这个感兴趣。&lt;/p&gt;
+
+&lt;p&gt;她愣了会儿，侧着脑袋想了会儿，像是忽然明白过来了，反问道：“是洛神红茶吧？”&lt;/p&gt;
+
+&lt;p&gt;我一窘，心想这人写的书名也这么难记。&lt;/p&gt;
+
+&lt;p&gt;“洛阳神茶？”她笑了笑，“还印度神油哩。”&lt;/p&gt;
+
+&lt;p&gt;我又一窘，心知她正在颠覆我心中对漂亮女子的一贯看法。&lt;/p&gt;
+
+&lt;p&gt;“为什么他要叫ＪＨＴ呢？”&lt;/p&gt;
+
+&lt;p&gt;“因为他讨厌泰坦尼克，他的英文名却恰恰叫做杰克。”&lt;/p&gt;
+
+&lt;p&gt;“很好，我也讨厌这部戏，我的英文名叫做萧峰。”&lt;/p&gt;
+
+&lt;p&gt;“阿朱他老公，我虽然喜欢痞子蔡，但我更喜欢泰坦尼克。”她直盯盯地看着我，看样子是指望我临阵变节。&lt;/p&gt;
+
+&lt;p&gt;不过我只能说声报歉了，我对泰片之仇恨，不知其何所来，却知其永无终。&lt;/p&gt;
+
+&lt;p&gt;我清了清喉咙道：“曾经有个朋友，看电影去晚了，去的时候刚刚看到这部电影放了一半的时候。”&lt;/p&gt;
+
+&lt;p&gt;“什么时候？”&lt;/p&gt;
+
+&lt;p&gt;“就是杰克和那个女的第一次zuo爱的时候。”&lt;/p&gt;
+
+&lt;p&gt;她用疑惑的眼神看着我，不知道我接下来会说什么。&lt;/p&gt;
+
+&lt;p&gt;“我朋友一进电影院，眼睛都还没有适应黑暗，就看见银屏上，一个沾满灰尘的汽车里，隐隐约约有人影蠕动。待下个镜头切过来时，却突然！……”我做了个夸张的手势。“……看见一只瘦小的手掌，啪的一声打在那汽车玻璃上，激起阵阵灰浪，同时诡秘的音乐响起。”&lt;/p&gt;
+
+&lt;p&gt;“然后？”&lt;/p&gt;
+
+&lt;p&gt;“然后他就在电影院里睡着了。”&lt;/p&gt;
+
+&lt;p&gt;“结论？”&lt;/p&gt;
+
+&lt;p&gt;“结论是，他直到两个月后，才知道这是一部爱情片，而非他所想像的那样，是个恐怖片。”&lt;/p&gt;
+
+&lt;p&gt;……&lt;/p&gt;
+
+&lt;p&gt;……&lt;/p&gt;
+
+&lt;p&gt;不知什么时候从天桥上走下来了，一直走到了车站，足足有一百米的距离，我看了看天色，大概走了大半个小时。&lt;/p&gt;
+
+&lt;p&gt;然后她就走了，并且坚决要坐计程车。&lt;/p&gt;
+
+&lt;p&gt;我虽然不知道她家住在哪里，但我以为在yc这个小城的范围内，坐计程车本身就是一种罪过。&lt;/p&gt;
+
+&lt;p&gt;但她说她每个月有几百块钱的交通费，不坐白不坐。于是我说能不能顺便搭我一脚。她笑着说在晚上和陌生男子一同搭车，是一件很危险的事情。于是我放弃。&lt;/p&gt;
+
+&lt;p&gt;帮她关车门的时候，我对她说：“83４８０６５？”&lt;/p&gt;
+
+&lt;p&gt;看她一脸惘然，我解释道：“这还是我家的电话号码。”&lt;/p&gt;
+
+&lt;p&gt;她笑了笑，就让司机开车走了。&lt;/p&gt;
+
+&lt;p&gt;于是我也走了，回到了离车站二百米远的家里。&lt;/p&gt;
+
+&lt;p&gt;由于又碰见了美女，所以心情不错，于是便洗了个澡，抽了根烟，坐在电脑前，开始看木村和松隆子的恋爱世纪，看得自己一个劲傻笑。&lt;/p&gt;
+
+&lt;p&gt;这时候电话铃响了。我没去接，因为一般没人打电话找我。&lt;/p&gt;
+
+&lt;p&gt;但这个电话是打给我的。&lt;/p&gt;
+
+&lt;p&gt;电话的那头是一个久违了的大学同学。他很熟练地和我交换了一套来电必用的客套话，接着便直入主题：&lt;/p&gt;
+
+&lt;p&gt;“她下个星期就要去美国了。”&lt;/p&gt;
+
+&lt;p&gt;我哈哈一笑，道：“真的吗？太好了，这样看来，真是塞翁失马，焉知非福。至少我不用跟着过去吃热狗了。”&lt;/p&gt;
+
+&lt;p&gt;他在那头阴笑着说：“有人陪她吃热狗。”&lt;/p&gt;
+
+&lt;p&gt;我哈哈哈一笑，道：“那就更好了，免得一个人太无聊，又想起我来了。”&lt;/p&gt;
+
+&lt;p&gt;接着挂了电话。&lt;/p&gt;
+
+&lt;p&gt;她是我大学时的同学，我曾经以为会和我在一起的人。&lt;/p&gt;
+
+&lt;p&gt;于是我又洗了个澡，点了根烟，仍然是坐在电脑前面，开始放蓝色生死恋，让操着国语的宋慧乔把自己感动个半死。&lt;/p&gt;
+
+&lt;p&gt;电话又响了。&lt;/p&gt;
+
+&lt;p&gt;我一把抢过来，准备吼人，却没人说话。&lt;/p&gt;
+
+&lt;p&gt;半响之后，有个女孩子怯生生地问道：“你是无聊人吗？”&lt;/p&gt;
+
+&lt;p&gt;“你才无聊！”此时的我很愤怒。&lt;/p&gt;
+
+&lt;p&gt;“我们刚见过面的。”&lt;/p&gt;
+
+&lt;p&gt;“噢……”我大悟。&lt;/p&gt;
+
+&lt;p&gt;“有什么事吗？”&lt;/p&gt;
+
+&lt;p&gt;“没什么事，只是看这个电话是不是打的通。另外……”她在电话的那头笑了笑，“……我失恋了，想通知一下别人。”&lt;/p&gt;
+
+&lt;p&gt;听她的口气是认真的，只是在电话的那头笑个不停。&lt;/p&gt;
+
+&lt;p&gt;我压住自己的不耐烦，询着惯例问道：&lt;/p&gt;
+
+&lt;p&gt;“他喜欢你吗？”&lt;/p&gt;
+
+&lt;p&gt;“我想他什么都不知道吧。”&lt;/p&gt;
+
+&lt;p&gt;“笨蛋！不可救药的笨蛋。”我在心底骂了一句，却不知道是在骂谁。“既然未曾恋过，何来失恋，你这叫单恋美梦的破碎。”&lt;/p&gt;
+
+&lt;p&gt;“是吗？”她的声音一下变的空洞起来。&lt;/p&gt;
+
+&lt;p&gt;我这个师兄教导道：“痴情绝对是一种浪废，而且是一种奢侈的浪废。”&lt;/p&gt;
+
+&lt;p&gt;“好吧，我会振作起来的。”她学着那些弱智的日本女人的口气说道。接着又是一串笑声，只是不知道她是在哭着笑，还是在笑着哭。&lt;/p&gt;
+
+&lt;p&gt;不知怎地，对她忽然有了一丝怜悯，我开解道：“哭一场吧。”&lt;/p&gt;
+
+&lt;p&gt;“我哭不出来！”&lt;/p&gt;
+
+&lt;p&gt;我在心底骂道：“死撑什么，声音都发酸了。”&lt;/p&gt;
+
+&lt;p&gt;“去租些碟子回来看，别看喜剧。看到别人快乐，越发会觉得自己伤心的不像是个人了。”&lt;/p&gt;
+
+&lt;p&gt;“那看什么？”&lt;/p&gt;
+
+&lt;p&gt;“看悲剧。最好是那种没什么社会意义的，让你一看就知道女主角要死了的那一类。看完了之后，你就会觉得阳光依然灿烂了。”&lt;/p&gt;
+
+&lt;p&gt;“师兄介绍一下吧。”&lt;/p&gt;
+
+&lt;p&gt;我有些不服这个称谓，虽说生平情场战事，皆以失败告终。&lt;/p&gt;
+
+&lt;p&gt;“你可以看蛋糕上的草莓，第四集。恋爱世纪，第二集。还有蓝色生死恋的全套，不过最好是第六集和最后一集。”&lt;/p&gt;
+
+&lt;p&gt;“好的，我记一下。”接着听见电话的那头传来沙沙地写字声。&lt;/p&gt;
+
+&lt;p&gt;我很欣赏她的这种认真，虽说认真的有些过分。&lt;/p&gt;
+
+&lt;p&gt;过了一会儿，她又说话了。&lt;/p&gt;
+
+&lt;p&gt;“你现在干什么了？”&lt;/p&gt;
+
+&lt;p&gt;“我刚洗了澡，这时候正在看碟子。”&lt;/p&gt;
+
+&lt;p&gt;“看什么呢？”&lt;/p&gt;
+
+&lt;p&gt;我愣了愣，停了一会儿，对着话筒木然地说道：“我正看着俊熙背着将死的恩熙在海边散步……”&lt;/p&gt;
+
+&lt;p&gt;那边也停了会儿，然后她的声音传了过来：&lt;/p&gt;
+
+&lt;p&gt;“那是最后一集吧。”&lt;/p&gt;
+
+&lt;p&gt;也许是因为天气太热的缘故，每天晚上我都不大喜欢早上chuang，所以总有机会守在电话的旁边。&lt;/p&gt;
+
+&lt;p&gt;也许是因为像她说的那样，她的床头就有一架电话，而她也不喜欢一躺下，就想起了那个男人。&lt;/p&gt;
+
+&lt;p&gt;也许是因为她知道我也看蓝色生死恋，便以为我也和她一样，是个伤心人。&lt;/p&gt;
+
+&lt;p&gt;也许她以为很多事情都不大方便向她的朋友说。&lt;/p&gt;
+
+&lt;p&gt;也许她以为向陌生人倾述一番，倒是不错的选择。而我就是那个陌生人吧。&lt;/p&gt;
+
+&lt;p&gt;也许其实只是因为我们都很无聊。&lt;/p&gt;
+
+&lt;p&gt;所以，时不时的，我会在凌晨一两点钟，接到她的电话，没来由地东拉西扯一番。&lt;/p&gt;
+
+&lt;p&gt;我们聊一切可以聊的事情，这也就意味着聊一切事情。&lt;/p&gt;
+
+&lt;p&gt;我们经常在电话的两头交流一下看暴力电影的心得，看武侠小说的体会。不能免俗的，也会提到自己的过往。&lt;/p&gt;
+
+&lt;p&gt;不过，一般是她说她的过往，她与她的男人的过往。&lt;/p&gt;
+
+&lt;p&gt;虽说那人只是她的一个好朋友，一个兄长式的人物，但她在给我打电话时，坚持称呼为她的男人。&lt;/p&gt;
+
+&lt;p&gt;我想，这大概是在寻求一种生活中不能实现的东西，估计她有些心理上的问题。&lt;/p&gt;
+
+&lt;p&gt;听了很多遍她的故事，总觉得很无聊。不过是女人爱上男人，男人不爱女人，男人爱上女人，女人不爱男人，或是某人爱某人，但某人甲不敢让某人乙知道，或是为了某人乙已有某人丙，于是某人甲便决定瞒某人乙一生，让某人乙很无辜地成为某人甲在背后念叼上数万遍，以至头疼而亡的人。或是这些事情同时发生在三个人乃至四个人身上，总之就是在男人和女人之间加上爱或不爱这两种程式，自由组合就是。&lt;/p&gt;
+
+&lt;p&gt;我告诉她，全世界有六十亿人，那么至少就曾经有过三十亿个这种故事。&lt;/p&gt;
+
+&lt;p&gt;或许还是算少了。&lt;/p&gt;
+
+&lt;p&gt;不过好在我们确实还有许多可以聊的东西。&lt;/p&gt;
+
+&lt;p&gt;她是我所知道的第一个“非常”喜欢当莎丽遇见哈利这部电影的女人。&lt;/p&gt;
+
+&lt;p&gt;其它女人，总是有各种各样的理由来讨厌这部电影。我一向认为是她们嫉妒这种大巧无工的爱情。&lt;/p&gt;
+
+&lt;p&gt;据她说，我也是她所知道的第一个喜欢这部电影的男人。&lt;/p&gt;
+
+&lt;p&gt;她说，其它男人总认为这只是小资情调泛滥之下的产物。&lt;/p&gt;
+
+&lt;p&gt;她也是我所认识的第一个能用很平淡口吻和我谈灯草和尚写的太差的女人。&lt;/p&gt;
+
+&lt;p&gt;其实我在电话的这头早已听的面红耳赤了，后来我告诉她，实际上从来没有异性和我谈过这方面的话题。&lt;/p&gt;
+
+&lt;p&gt;她说我是第一个听她说了若干遍单恋之路故事，而没挂电话的男人。&lt;/p&gt;
+
+&lt;p&gt;其实我在心里早已斥骂她比祥林嫂还烦，只是我很懒，也不觉得有必要打断她那可怜兮兮的叙述。至少这会让我觉得，我不是太惨，尤其是想到她长的还挺不赖的。&lt;/p&gt;
+
+&lt;p&gt;她后来说，实际上她也从来没对别人讲过自己的故事。&lt;/p&gt;
+
+&lt;p&gt;于是我和她都成了彼此的第一人。&lt;/p&gt;
+
+&lt;p&gt;于是在电话里，她会这样告诉我：&lt;/p&gt;
+
+&lt;p&gt;“我的男人回来了。”&lt;/p&gt;
+
+&lt;p&gt;过了几分钟。她补充道：&lt;/p&gt;
+
+&lt;p&gt;“他带着女朋友回来了。”&lt;/p&gt;
+
+&lt;p&gt;又过了几天，她打电话告诉我：&lt;/p&gt;
+
+&lt;p&gt;“我的男人走了。”&lt;/p&gt;
+
+&lt;p&gt;过了几分钟。&lt;/p&gt;
+
+&lt;p&gt;“他居然真的带着他的女朋友走了。“&lt;/p&gt;
+
+&lt;p&gt;她男人的女朋友是她的好朋友。&lt;/p&gt;
+
+&lt;p&gt;我总以为她会很伤心，而且也有道理伤心。但她通常只是在电话的那头很好听的笑几声，然后开玩笑如常。&lt;/p&gt;
+
+&lt;p&gt;只是声音会像专供学校的学生奶一样，变的淡淡的。&lt;/p&gt;
+
+&lt;p&gt;在电话里，我也会告诉她很多事，比如我的外甥女幼儿园放学回来了，她带着她奶奶在街上买的酸奶回来了。然后是外甥女又走了，她去上幼儿园了，她又带了瓶她妈妈拿回来的酸奶走了。诸如此类。&lt;/p&gt;
+
+&lt;p&gt;于是她说我没良心。&lt;/p&gt;
+
+&lt;p&gt;我说自己的良心让她给吃了。&lt;/p&gt;
+
+&lt;p&gt;后来她开始喜欢在电话里和我对对子，虽说她的中国话比我还糟糕。&lt;/p&gt;
+
+&lt;p&gt;她起头总爱说：“我是倾国倾城貌。”一边笑着，一边告诉我，她正在顾影自怜。&lt;/p&gt;
+
+&lt;p&gt;于是我回她：“那我就是多愁多病身。”这是实话，我妈经常骂我在家里玩都快玩出病来了。&lt;/p&gt;
+
+&lt;p&gt;她说：“妾住长干里。”&lt;/p&gt;
+
+&lt;p&gt;我回：“将出玉门外。”&lt;/p&gt;
+
+&lt;p&gt;她说：“郎骑竹马来。”&lt;/p&gt;
+
+&lt;p&gt;我回：“吏捉刀笔裁。”&lt;/p&gt;
+
+&lt;p&gt;她说：“绕床弄青梅。”&lt;/p&gt;
+
+&lt;p&gt;我回：“逾墙折金兰。”&lt;/p&gt;
+
+&lt;p&gt;她说：“两小无嫌猜。”&lt;/p&gt;
+
+&lt;p&gt;我回：“独夫有人爱。”&lt;/p&gt;
+
+&lt;p&gt;她急气败坏，说：“我是兰心蕙质。”&lt;/p&gt;
+
+&lt;p&gt;我在电话这边摇摇头，说：“你是作茧自缚。”&lt;/p&gt;
+
+&lt;p&gt;她沉默了会儿，恨恨地道：“你很没情趣。”&lt;/p&gt;
+
+&lt;p&gt;我以为她生气了，不料，过了会儿，她淡淡的声音又从话筒里传来：&lt;/p&gt;
+
+&lt;p&gt;“前些天又看见他，想起以前暗恋他的日子，真是觉得像我一个同学写的一句诗，梦还身前疑入梦。”&lt;/p&gt;
+
+&lt;p&gt;我在心里说，你应该把暗恋前的以前二字去掉，然后扮出同情的语调说：&lt;/p&gt;
+
+&lt;p&gt;“对呀！这很像我一个同学写的，几人憔悴几人归呀？”&lt;/p&gt;
+
+&lt;p&gt;电话安静了会儿，然后她纠正道：&lt;/p&gt;
+
+&lt;p&gt;“这一句对得全不工整。”&lt;/p&gt;
+
+&lt;p&gt;在电话里，她一直称呼我为师兄，因为她总认为，我失恋的经验比她丰富多许多。&lt;/p&gt;
+
+&lt;p&gt;但我一直很纳闷，我从来没对她说过自己的那些伤心事，她是怎么得出这个结论的。&lt;/p&gt;
+
+&lt;p&gt;在电话里，开始时我还是称呼她为花姑娘，后来由于小泉桑又去跪那座庙，于是便简称她为花。&lt;/p&gt;
+
+&lt;p&gt;挺恶心的一个名字，她为此对我大为脾气。&lt;/p&gt;
+
+&lt;p&gt;不过，虽然她的模样我都记不真切了，但我一直有个印象：&lt;/p&gt;
+
+&lt;p&gt;她的笑颜，依稀如花。&lt;/p&gt;
+
+&lt;p&gt;她总喜欢问我喜欢过什么样的生活。我用尽所有煽情的话语还是不能满足她的胃口，只好发恨似地说了声：&lt;/p&gt;
+
+&lt;p&gt;“最好是一回家就是饭在桌上，你在床上。”&lt;/p&gt;
+
+&lt;p&gt;我是个好人，从不跟异性开这种有些不雅的玩笑的。&lt;/p&gt;
+
+&lt;p&gt;她也是个很乖的女子，可以和我探讨黄色小说的写法，内容，却绝不容许我的言语中有一星半点那种思想在里面。&lt;/p&gt;
+
+&lt;p&gt;所以她有两天没给我打电话。&lt;/p&gt;
+
+&lt;p&gt;两天之后，她来了个急电问我，说她的男人又要回来了，而她这些天又长胖了半公斤，该怎么办？&lt;/p&gt;
+
+&lt;p&gt;虽然我每天饭后和上厕所后的体重之差就要多过数个半公斤，但我还是认真地告诉她，应该去中药店买些大黄，泡水喝，可以迅速减肥，又可去体内虚火，保证不生青春小包。并且还言之凿凿地告诉她，当年我暗恋的一个女同学要回来了，我一急之下就是这样在五天之内瘦了八斤。&lt;/p&gt;
+
+&lt;p&gt;但我忘了告诉她，后来我坐在那个女孩家里，不住地捧起笑脸，往厕所里狂奔。&lt;/p&gt;
+
+&lt;p&gt;她听后似乎颇信以为真。只不知她真喝了没有。&lt;/p&gt;
+
+&lt;p&gt;这件事一直到现在我都不敢问她。&lt;/p&gt;
+
+&lt;p&gt;必须承认，我们聊天聊的很开心，虽然我活了二十几年，唯一的开心事就是聊天。&lt;/p&gt;
+
+&lt;p&gt;我在电话的这头看黑衣人，告诉她威尔史密斯长的很帅，绝对比她的男人要帅。&lt;/p&gt;
+
+&lt;p&gt;她躺在床上看那部什么初恋感觉百分百，告诉我梁咏琪真的很内骚，绝对适合我。&lt;/p&gt;
+
+&lt;p&gt;她的偶像就是那个小威，一个黑头青。&lt;/p&gt;
+
+&lt;p&gt;我当时挺喜欢梁咏琪，虽说后来看了绝世好BRA之后，很是同意二姐说的，此人无胸无脑的评语。&lt;/p&gt;
+
+&lt;p&gt;有一次我告诉她，我有个朋友，也曾经在很长一段日子里，每天深夜和一个女孩聊天，经常一聊就是通宵。&lt;/p&gt;
+
+&lt;p&gt;她问我：“后来呢？”&lt;/p&gt;
+
+&lt;p&gt;“三个月之后，他们结婚了。”&lt;/p&gt;
+
+&lt;p&gt;她咕咕地笑着，显然在话筒旁边捂着嘴，似乎是不相信。&lt;/p&gt;
+
+&lt;p&gt;“结果呢？”&lt;/p&gt;
+
+&lt;p&gt;“两个月之后，他们离婚了。”&lt;/p&gt;
+
+&lt;p&gt;“结论？”&lt;/p&gt;
+
+&lt;p&gt;“我那个朋友是个浑俅。”接着我加了一句：“我不是。”&lt;/p&gt;
+
+&lt;p&gt;我们一直以为自己会像两个经常聊天的陌生人一样，只是聊天。&lt;/p&gt;
+
+&lt;p&gt;但我们忘了，陌生人是不会经常聊天的。&lt;/p&gt;
+
+&lt;p&gt;于是有一天她说，出来见个面吧。&lt;/p&gt;
+
+&lt;p&gt;我坚决反对，誓死反对。&lt;/p&gt;
+
+&lt;p&gt;她在电话那头，闻言轻笑。风动银铃之声不绝于耳。&lt;/p&gt;
+
+&lt;p&gt;她说又不是搞网恋，大家相貌的状况又是一清二楚，绝无见光死的危险，何必如此固执。&lt;/p&gt;
+
+&lt;p&gt;我说最近更穷了，连吃冰淇淋的钱都骗不到了。&lt;/p&gt;
+
+&lt;p&gt;于是她说要请我吃饭。&lt;/p&gt;
+
+&lt;p&gt;地球人都知道，若有人请客吃饭，我向来会保有一贯的激赏之情。&lt;/p&gt;
+
+&lt;p&gt;我们约在桃花岭宾馆对门，那一片郁郁葱葱的林子里见面。&lt;/p&gt;
+
+&lt;p&gt;说郁郁葱葱大概不准确，因为那片林子的树木种的有些稀疏，非常不适合情侣幽会。&lt;/p&gt;
+
+&lt;p&gt;我在林子里呆至头顶结网时，一个美女走近了我，&lt;/p&gt;
+
+&lt;p&gt;当时我们相隔半米之遥，我用了半柱香的时间，才认出她来。&lt;/p&gt;
+
+&lt;p&gt;我说：“你来晚了。”&lt;/p&gt;
+
+&lt;p&gt;她看了看表，笑道：“我还来早了一刻钟。”&lt;/p&gt;
+
+&lt;p&gt;我也笑了笑。&lt;/p&gt;
+
+&lt;p&gt;我身上向来无表，因为无用。而且由于时间多的快发霉了，所以约会一向早到，尤其是赴宴会之约。&lt;/p&gt;
+
+&lt;p&gt;我细细地打量着她。&lt;/p&gt;
+
+&lt;p&gt;一头过肩的直发随意地挽在脑后，发上扎着一条手绢？丝巾？我不知道。身上穿着一件粉红色的紧身无袖短衣，鼓囊囊的胸前（托尔斯泰语）绘着一株极引人注目的花草。衣摆之下是一件像是白牛仔布做的热裤，此裤极短，险险裹住我们通常用来坐的部位。脚上蹬着一双我所以为的拖鞋，只是拖鞋前面还做了一个小布洞，似乎是专门为她尊贵的大脚趾服务。&lt;/p&gt;
+
+&lt;p&gt;我盯着她清凉无汗面上微微拂起的刘海儿，还有那身上无所不在的充满惑意的曲线，捏住鼻子责问道：&lt;/p&gt;
+
+&lt;p&gt;“请我吃饭，用得着下这么大本钱吗？想让我献血啊？”&lt;/p&gt;
+
+&lt;p&gt;她愣了愣，笑道：“主要是为了配合师兄你的短小打扮嘛。”&lt;/p&gt;
+
+&lt;p&gt;我愕然，看了看自己的装束，昨天刚剪短的刺发之下，是一件洗成遗物一般的格子短袖，穿的“休闲”式短裤，也因为身躯的日渐发胖而显得紧绷绷的，脚上蹬着一双上高中时候的凉鞋剪成的拖鞋，我一向很看中此鞋的舒适程度，但给人的感观却是大不佳。&lt;/p&gt;
+
+&lt;p&gt;我俩的配合，似乎并不默契。&lt;/p&gt;
+
+&lt;p&gt;我提议去得胜街吃铞仔，她闻言雀跃，说闻名已久，只是未去过。&lt;/p&gt;
+
+&lt;p&gt;我看了她半天，始相信，这是一个与社会脱离已久的人。或者说，是和下层人民没有搞好干群关系的人。&lt;/p&gt;
+
+&lt;p&gt;我叹了口气，带着她从培心路，肖家巷一路穿了过去。&lt;/p&gt;
+
+&lt;p&gt;路上顺便买了一份体坛周报，一串香蕉，两斤三两的生姜，那是家里明天要的。&lt;/p&gt;
+
+&lt;p&gt;我心安理得的指挥她给小贩付账。&lt;/p&gt;
+
+&lt;p&gt;到了得胜街，随意寻了处小饭馆，我做主，点了二十块钱的豆花肥肠，四块五一瓶的枝江大曲。&lt;/p&gt;
+
+&lt;p&gt;我深深了解细水长流的道理。&lt;/p&gt;
+
+&lt;p&gt;或许我们在电话里，真的可以做到百无禁忌。但如此真切的面对面，却总让人容易产生不真实的感觉。&lt;/p&gt;
+
+&lt;p&gt;于是，我开始喝酒，她开始看着我喝酒。过了一会儿，她开始往我杯子里倒酒。再过了会儿，她就开始从我的杯子里往外倒酒。&lt;/p&gt;
+
+&lt;p&gt;她撑着额，看着小酒馆外不时走过的醉汉，忽地向我问道：&lt;/p&gt;
+
+&lt;p&gt;“听你说话，看你行事，总以为你是个不大懂得在乎的人。&lt;/p&gt;
+
+&lt;p&gt;只是，真的可以什么都不在乎嘛？”&lt;/p&gt;
+
+&lt;p&gt;我打了个酒嗝，端起一杯淡到没有茶味的茶，漱了漱口，应道：&lt;/p&gt;
+
+&lt;p&gt;“男女之间的东西，我倒是一向不大在乎的。……嗯，只是前些天，躺在床上睡不着，瞎想心事时，才发现老爸他闭着眼睛，也会伸手到我这边来摸一摸，看看我是不是盖着。等再过了会儿，又发现老妈开始做老爸一样的事情……”我用手尖轻轻点点她冰凉的鼻尖，笑道：“我可能会在乎这些。”&lt;/p&gt;
+
+&lt;p&gt;也许是因为喝了酒的缘故，我说的分外认真。&lt;/p&gt;
+
+&lt;p&gt;她听的也很认真，然后说了句我一直记得的话：&lt;/p&gt;
+
+&lt;p&gt;“你得道了。”&lt;/p&gt;
+
+&lt;p&gt;接下来的事情有些记不清楚了，好象是我就送她到解放路的二路车站去坐的。还买了两瓶鲜橙多，一人一瓶提在手上摇着。&lt;/p&gt;
+
+&lt;p&gt;直到今天，我也不懂，为什么一定要送她到公共汽车站去坐计程车。怪哉。&lt;/p&gt;
+
+&lt;p&gt;待回到家后，我用了两个小时的时间才从酒意中醒来。&lt;/p&gt;
+
+&lt;p&gt;我死死地盯着身旁的电话，发现它一动不动，不知怎的，觉得非常搞笑。&lt;/p&gt;
+
+&lt;p&gt;于是我在半夜十二点的家中，放声大笑。&lt;/p&gt;
+
+&lt;p&gt;本以为那夜的酩酊之态会把她吓倒。没料到她的电话还是照常地骚扰我，而且似乎来的更频繁些了。&lt;/p&gt;
+
+&lt;p&gt;只是现在在电话里，她开始喜欢自以为是的剖析我，不断进行着昨日之我与今日之她的对照，进行着她所谓的理性批判，妄图谋求湖大和加大辩论赛的最后胜利，对了，我忘了说，她是湖大毕业的。&lt;/p&gt;
+
+&lt;p&gt;我说我只是想有尽可能多的时间承欢于父母之膝下，她说我的潜意识里是想榨干父母的最后一滴血汗。&lt;/p&gt;
+
+&lt;p&gt;我说我的生活态度乃是生而无为，这是很有深度，很有历史渊源的一种活法。&lt;/p&gt;
+
+&lt;p&gt;她说庄子也曾做过油漆协会的会长，老陶同志也曾努力地种田，虽说收成看样子不大好。而只有我好象是什么都不做似的，懒的连说话的声音都显得软软的。&lt;/p&gt;
+
+&lt;p&gt;于是她判定我不是生而无为，而是生而无能。&lt;/p&gt;
+
+&lt;p&gt;我原谅她的无知，须知无能这种评语是不可轻易予人的，尤其是男人。&lt;/p&gt;
+
+&lt;p&gt;我经常被她的长篇大论搞的哭笑不得。于是我常恨恨地问自己，是什么时候变得和她这样熟了，熟的以至于都可以像李艳一样肆无忌惮地攻击我。&lt;/p&gt;
+
+&lt;p&gt;更令我伤神的是，她已不再满足在电话里教育我，经常把我喊出去切磋一番。&lt;/p&gt;
+
+&lt;p&gt;只是她总喜欢带着我去一些我不大愿意去的地方，一些据她说有她和她男人之间甜蜜回忆的地方。&lt;/p&gt;
+
+&lt;p&gt;诸如，在北山坡的阿诗玛餐厅，他们吃了第一顿二人晚餐。&lt;/p&gt;
+
+&lt;p&gt;（其实只是上初中的时候，办黑板报搞晚了，所以在那里吃了两碗面条。）&lt;/p&gt;
+
+&lt;p&gt;又比如，在南榭的水塘边，他们第一次单独约会。&lt;/p&gt;
+
+&lt;p&gt;（其实只是学校办活动，他们两个负责清场。）&lt;/p&gt;
+
+&lt;p&gt;再比如，她的男人在交电大厦对门的马路上教她学的自行车。&lt;/p&gt;
+
+&lt;p&gt;（这其实……对，这是真的。）&lt;/p&gt;
+
+&lt;p&gt;不过好在每逢到了这种地方，她都是眉目含笑，巧笑倩兮。从不给我帮她擦眼泪的机会。&lt;/p&gt;
+
+&lt;p&gt;这叫坚强，还是死撑？&lt;/p&gt;
+
+&lt;p&gt;幸亏她还会主动地邀我吃饭，不然我不知道能忍受她多久，哪怕她长的挺漂亮。&lt;/p&gt;
+
+&lt;p&gt;由于饭钱是她出的，所以地方都由我定。&lt;/p&gt;
+
+&lt;p&gt;于是在yc市的街上常常可以看见一个憨拙拙的男人拖着一个傻兮兮的美女四处奔走于各大面馆之间。&lt;/p&gt;
+
+&lt;p&gt;中午，我们吃文子面馆的炸酱面，她只吃豌豆面，不放辣椒。&lt;/p&gt;
+
+&lt;p&gt;晚上，我们通常是带着在解放电影院门口买的卤豆干，臭豆干，炸豆干，直奔北门，享受那碗香喷喷的红油小面。&lt;/p&gt;
+
+&lt;p&gt;逛街的时候，若饿了，就在街边摊上吃碗凉面。若是走在中山路附近，就只吃热干面，并且一定要到新开的那家。因为据她说，这是从原来的老热干面馆里下岗的几个女工办的，所以要多多支持。&lt;/p&gt;
+
+&lt;p&gt;我不管这些，只是想到这家新开的六角钱一两，比老馆子要便宜一角钱。&lt;/p&gt;
+
+&lt;p&gt;能吃饭，而不用付钱，乃是人生最大享受。&lt;/p&gt;
+
+&lt;p&gt;只是有一天，在夷陵广场那惨兮兮的坟场灯光映照之下，她突然问道：&lt;/p&gt;
+
+&lt;p&gt;“你什么时候去挣点儿钱，也请我吃碗面条？”&lt;/p&gt;
+
+&lt;p&gt;我把叼着烟的脑袋猛地摇了摇，以示从无此意，接着便被眼前晃动的小红点吸引了自己的注意力。&lt;/p&gt;
+
+&lt;p&gt;她轻轻地抠抠耳垂，疑惑道：&lt;/p&gt;
+
+&lt;p&gt;“不对吧？虽然我没谈过恋爱，但也没听说过像你这么追求女孩的。”&lt;/p&gt;
+
+&lt;p&gt;“追求？”我猛咳数声，烟头也掉在了地上。我赶紧拾了起来，以免给城监的罚款。&lt;/p&gt;
+
+&lt;p&gt;“放心，哪怕我命犯天煞孤星，唯君能解此命数，我也不会有此想法。”&lt;/p&gt;
+
+&lt;p&gt;我赶紧撇清。&lt;/p&gt;
+
+&lt;p&gt;“为什么？难道我长的不漂亮吗？”&lt;/p&gt;
+
+&lt;p&gt;她说着一笑，然后轻盈地转了个圈，任发丝飞扬。&lt;/p&gt;
+
+&lt;p&gt;可问题在于，那天她穿了件及膝的白裙，一转之下，不止秀发飞泻，也会裙摆摇摇。&lt;/p&gt;
+
+&lt;p&gt;我睁大了眼睛走上前去，帮她把裙摆按住，以防春guang外泄旁人之眼。&lt;/p&gt;
+
+&lt;p&gt;“正是因为你长的足够漂亮，所以这才不可能。”&lt;/p&gt;
+
+&lt;p&gt;她起先疑惑，继而释然，望着我坏坏的笑道：&lt;/p&gt;
+
+&lt;p&gt;“师兄也会自卑的呀。”&lt;/p&gt;
+
+&lt;p&gt;我撇撇嘴，以示不屑此言，我左脚向前半步，右脚转向半分，头略微后仰，把髋部提前，傲然道：“想当年，班上一娇俏女子赠我雅号：笑揖清风洗我狂。”&lt;/p&gt;
+
+&lt;p&gt;她看着我的样子，先是一阵傻笑，然后细细想了会儿，忽然大悟道：“笑揖清风洗我狂？我想起来了，那是武状元苏乞儿里的一句歌词，噢，原来是送给天下第一大帮帮主的，”&lt;/p&gt;
+
+&lt;p&gt;她坏坏地笑着，坏坏的看着我。&lt;/p&gt;
+
+&lt;p&gt;我心底一阵发毛，谁知道这么帅呆了，酷毙了的一句话，居然是形容叫花子的。&lt;/p&gt;
+
+&lt;p&gt;所以我决定马上到5460上面留言，好生责问一番晶晶姑娘。&lt;/p&gt;
+
+&lt;p&gt;她拿我这脾气没法，只好叹着气，坐到了我的身旁。侧着脸望着我，笑道：&lt;/p&gt;
+
+&lt;p&gt;“我们和恋爱中的男女有分别吗？”&lt;/p&gt;
+
+&lt;p&gt;虽说这些天，我们几乎天天在一起，逛街的时候，手也会很自然的牵在一起，但我还是气壮山河地告诉她：&lt;/p&gt;
+
+&lt;p&gt;“分别很大。比如你要是死了，我会很伤心，但绝不会想到陪你去死。你若是忽然消失了，我也会很伤心，但绝不会想去找到你。你若是忽然扑上来亲我一口，我只会以为是蚊子叮了一下，绝不会……”&lt;/p&gt;
+
+&lt;p&gt;忽然瞧见她一副跃跃欲试的神情，我连忙说道：&lt;/p&gt;
+
+&lt;p&gt;“再比如我不知道你的电话号码，甚至我们俩连彼此的名字都不知道。”&lt;/p&gt;
+
+&lt;p&gt;的确，我们连彼此的名字都还不知道。&lt;/p&gt;
+
+&lt;p&gt;但此刻看着她在夜空下白衣如雪，秀发伏肩，不知怎地忽然有了想知道她姓名的念头。&lt;/p&gt;
+
+&lt;p&gt;“那师兄你叫什么名字？”&lt;/p&gt;
+
+&lt;p&gt;“xf。”&lt;/p&gt;
+
+&lt;p&gt;“？？？”&lt;/p&gt;
+
+&lt;p&gt;“拂晓的晓，晓溪塔的晓。山峰的峰。”&lt;/p&gt;
+
+&lt;p&gt;“挺不错的名字。”&lt;/p&gt;
+
+&lt;p&gt;很好，她不像别的女人一样，总是追问我姓什么。&lt;/p&gt;
+
+&lt;p&gt;“xf意指清晨的山峰，与日同生，与霞共辉的意思。”&lt;/p&gt;
+
+&lt;p&gt;她摇摇头说：“不对。xf，说的是女人的眉毛。”&lt;/p&gt;
+
+&lt;p&gt;接着她背了一句古诗。&lt;/p&gt;
+
+&lt;p&gt;虽说这句诗我没听过，但仍是面上一窘。&lt;/p&gt;
+
+&lt;p&gt;“你呢？”&lt;/p&gt;
+
+&lt;p&gt;她似笑非笑地望了我一眼，轻声道：&lt;/p&gt;
+
+&lt;p&gt;“叶轻眉，看轻天下须眉。”&lt;/p&gt;
+
+&lt;p&gt;她俏皮地抹了一下自己的眉毛，&lt;/p&gt;
+
+&lt;p&gt;偷偷看着无辜的我。&lt;/p&gt;
+
+&lt;p&gt;那天晚上，回到家中，她打来电话。&lt;/p&gt;
+
+&lt;p&gt;我问她，知道了彼此的名字意味着会发生什么事情？&lt;/p&gt;
+
+&lt;p&gt;她似乎觉得我问的有些多此一举：&lt;/p&gt;
+
+&lt;p&gt;“那我们自然就是朋友了。”&lt;/p&gt;
+
+&lt;p&gt;“朋友？”我心里狂松一口气，连忙在电话这头哈腰称是。&lt;/p&gt;
+
+&lt;p&gt;于是我们就是朋友了，很好很好的那一种。&lt;/p&gt;
+
+&lt;p&gt;必须承认，叶轻眉同志是一个好同志。&lt;/p&gt;
+
+&lt;p&gt;至少对我而言，她可以为我提供无来由的饮食供给，可以让我稍微摆脱一下无所事事的生活状态，可以锻炼我那两寸半长的许久未练过的将烂的滑舌，可以让我回忆起牵女孩子小手是一个什么感觉，可以让我重温好为人师的怪癖，可以让我幻想自己是在谈一场从天上掉下来的恋爱。&lt;/p&gt;
+
+&lt;p&gt;不过我很清醒地知道，天上从来没掉下过林妹妹，若有，也是掉到了宝玉的怡红院子里。&lt;/p&gt;
+
+&lt;p&gt;在我的记忆中，唯一从天上掉到我床上的，只有蟑螂而已。&lt;/p&gt;
+
+&lt;p&gt;这是件真事，自那天起，我便和家中的蟑螂势不两立。所以现在它们在我家里的处境非常凄凉，欲死不能，生而不爽。&lt;/p&gt;
+
+&lt;p&gt;不过至少，我现在可以几乎天天看见一张纯净的脸，这让我很容易地就陷入某种自己很喜欢的幻想中。最关键的是，这张脸上，总是带着笑意，无穷无尽的笑意。&lt;/p&gt;
+
+&lt;p&gt;总之，还是那句老话：我喜欢。&lt;/p&gt;
+
+&lt;p&gt;曾经有个中年人，在他三十六岁生日的酒桌上告诉我：&lt;/p&gt;
+
+&lt;p&gt;“xf啊，要好好过日子，人一过二十之后，这日子就跟飞一样的就跑了。当我还没明白是怎么回事，就发现自己已经是孩子他爹了。”&lt;/p&gt;
+
+&lt;p&gt;那年我十八。&lt;/p&gt;
+
+&lt;p&gt;虽说我一直牢记前辈的惨痛教训，但仍然没能阻止日子自己飞走。&lt;/p&gt;
+
+&lt;p&gt;我记得好象前不久香港才回归，怎么一晃又要跨世纪了。&lt;/p&gt;
+
+&lt;p&gt;我很担心自己搞不好哪天一觉醒来，发现自己也是孩子他爹了。&lt;/p&gt;
+
+&lt;p&gt;我曾经总结过，之所以二十岁后的日子会过的快，是因为这一段时间人会过的很疲沓。谈恋爱的没了激情，搞事业的，还来不及培养野心，读书的往往在想鸡阿姨，每天的日子似乎都是这样在过。书还是那几本书，公司还是那个公司，路也还是那条路哟，女朋友都还是那个女朋友，没法换。&lt;/p&gt;
+
+&lt;p&gt;机械的重复，永远是谋杀时间的良策，比如钟表。&lt;/p&gt;
+
+&lt;p&gt;好在东方红，太阳升，中国出了个叶轻眉。&lt;/p&gt;
+
+&lt;p&gt;她绝不会让你觉得和她在一起的时间很无聊，她只会让你觉得非常无聊，无聊地可以让时间停摆。&lt;/p&gt;
+
+&lt;p&gt;第二天，天下雨，她拉着我满大街的飞奔，对街道两旁畏畏缩缩躲在屋檐下的人们投以同情的一笑。然后，不顾那些人们对被她拖着的我的同情，从四新路一直跑到滨江公园那两个烂亭子。&lt;/p&gt;
+
+&lt;p&gt;然后她看了我一会儿，很生气地对我说：&lt;/p&gt;
+
+&lt;p&gt;“你怎么还不脱衣服啊。”&lt;/p&gt;
+
+&lt;p&gt;我大惊之下，早失色心。&lt;/p&gt;
+
+&lt;p&gt;“喂，我很冷耶。”&lt;/p&gt;
+
+&lt;p&gt;她很不耐烦地说，一点都不懂撒娇是什么意思。&lt;/p&gt;
+
+&lt;p&gt;我在心里暗骂一句自找，然后解释道：“你没看见我的衣服全湿了。”&lt;/p&gt;
+
+&lt;p&gt;她摇头以示不在乎。&lt;/p&gt;
+
+&lt;p&gt;于是我叹、叹、叹，叹这女人弱智，脱下像防洪大堤上的编织袋一样的短袖，拧了拧，递给她套上。&lt;/p&gt;
+
+&lt;p&gt;于是亭子里就出现了一个吊带裙外套着件**的短袖，而且似乎还颇为享受的美女，还有一个浑身哆嗦，胸有赘肉的男人。&lt;/p&gt;
+
+&lt;p&gt;这等场景绝对是千古难见的。&lt;/p&gt;
+
+&lt;p&gt;于是我张开猫头鹰的眼睛，透过水朦朦的眼镜，尴尬地回应着四周投来的好奇目光。&lt;/p&gt;
+
+&lt;p&gt;这时候她打了个喷嚏，声音小小的，好可怜。&lt;/p&gt;
+
+&lt;p&gt;于是我明智地打了数个喷嚏，声音颇为张狂，好可怕的那种。&lt;/p&gt;
+
+&lt;p&gt;她望了我一眼，才回过神来。&lt;/p&gt;
+
+&lt;p&gt;我可怜兮兮地通知她：&lt;/p&gt;
+
+&lt;p&gt;“好象感冒了。”&lt;/p&gt;
+
+&lt;p&gt;于是，她的同情心开始泛滥，不再坚持站在亭子里看雨景，喊了辆出租，把我送回了家。&lt;/p&gt;
+
+&lt;p&gt;待我坐到了家中，不禁为刚才的高竿击节叫好，心想若不是使出此等计谋，只怕此时还在那个鬼地方示众。&lt;/p&gt;
+
+&lt;p&gt;正当我兴高彩烈，准备晚上她打电话来的时候好好气气她时，一股酥麻无比的感觉，从两眼之间开始积发，在我还没反应过来时，一阵十二级台风，就从我的鼻孔里刮了出来。而且似乎还不解气，居然是一连刮了数次。&lt;/p&gt;
+
+&lt;p&gt;在喷嚏连连中，我才认识到，自己真的是感冒了。&lt;/p&gt;
+
+&lt;p&gt;我发誓，以后再也不糊弄她了。&lt;/p&gt;
+
+&lt;p&gt;得知我生病的消息，她非常过意不去，在电话里对我温言安慰，让我很是得意。&lt;/p&gt;
+
+&lt;p&gt;我从小便喜欢生病，一半是装的，一小半是真的，另一小半连我自己都搞不清楚是真的，还是装久了以后，搞糊涂了。&lt;/p&gt;
+
+&lt;p&gt;所以我很清楚生病所带来的好处，以前可以不上学，现在是可以不洗碗，父母不会吼你，姐姐们不敢凶你。只是没想到现在又多了一个好处。&lt;/p&gt;
+
+&lt;p&gt;可以听到叶轻眉很好听的声音，很小心地问你明天想吃什么。&lt;/p&gt;
+
+&lt;p&gt;我告诉她：“鸭头和啤酒。”&lt;/p&gt;
+
+&lt;p&gt;她在电话那头傻傻一笑，解释道：“丫头我不喝酒的。”&lt;/p&gt;
+
+&lt;p&gt;我的命不好，生在十一月，所以读书的时候，在称呼上有些吃亏，高中班上虽然还有捷捷几个帅哥比我小，但女人却都比我们大，噢，好象还有小温也比较小。&lt;/p&gt;
+
+&lt;p&gt;不过不管怎么说吧，总是很难把妹妹这个词喊出口，后来在大学里给李艳写信的时候，居然有时会错手写上个姐字。让人很是痛心。&lt;/p&gt;
+
+&lt;p&gt;于是我很喜欢叫她们丫头，一方面表达一种首长关怀小鬼的亲切，一方面，也是想树立自己憨厚长者的形象。可喊了很多年后，发现一点儿用都没有。&lt;/p&gt;
+
+&lt;p&gt;于是当她说可以喊她丫头的时候，我坚决反对。&lt;/p&gt;
+
+&lt;p&gt;我说还是喊你花吧。&lt;/p&gt;
+
+&lt;p&gt;她又抵死不从。&lt;/p&gt;
+
+&lt;p&gt;可她的名字真的挺别扭，喊眉儿吧，太媚。喊小轻轻？又怕她会错意。喊轻眉？路人可能会上来问青梅多少钱一斤。喊小叶？同志般的关怀倒是体现出来了，我又怕她喊我一休哥。至于阿叶这个称呼更是不能用的，那一般是我见到圣婴出世，或世界末日时才会发出的惊呼。&lt;/p&gt;
+
+&lt;p&gt;于是我决定叫她最常见，也是最通用的称呼。&lt;/p&gt;
+
+&lt;p&gt;“喂！”&lt;/p&gt;
+
+&lt;p&gt;她又反对，我只好说她的名字太古怪了。&lt;/p&gt;
+
+&lt;p&gt;她在电话那头想想，也承认，并说这是她老爸取的，于是就让我喊她小眉好了。&lt;/p&gt;
+
+&lt;p&gt;我想这肯定她老爸当年恢复高考时，想考中文系，而因为她的诞生而告吹的时候，一怒之下取了这么个名字。&lt;/p&gt;
+
+&lt;p&gt;我总在想，是一个什么样的人能取出如此酸腐的姓名来。&lt;/p&gt;
+
+&lt;p&gt;一个阳光明媚的下午，我们逛书店时，我把这个分析报告提交给她，她拿着本红袖招，听得吃吃直笑。然后正色告诉我，不能拿她父母开玩笑。说完后，又开始笑。&lt;/p&gt;
+
+&lt;p&gt;于是我们很开心地拖着手在解放路上毫无意义的来回逛着。&lt;/p&gt;
+
+&lt;p&gt;走到海鸥商店的时候，她喊我站住，然后把我头发上的一个纸片摘了下来。&lt;/p&gt;
+
+&lt;p&gt;正当我备感温柔之际，她却猛地把我手甩开了。&lt;/p&gt;
+
+&lt;p&gt;那一下用的劲儿可真大，直到今天回想起来，我的肩膀还隐隐作疼。（莫不是打字打的太多的原因？）&lt;/p&gt;
+
+&lt;p&gt;我愕然地看着她一脸痴呆的表情。&lt;/p&gt;
+
+&lt;p&gt;她一脸愕然地看着我的身后。&lt;/p&gt;
+
+&lt;p&gt;于是我转头，看见一个长相温厚的中年男子，正充满疑问地看着我俩，于是我又愕然。&lt;/p&gt;
+
+&lt;p&gt;然后看见她低首敛眉地轻轻唤道：“老爸！”&lt;/p&gt;
+
+&lt;p&gt;老爸！于是我在愕然之后，也变得有些痴呆。&lt;/p&gt;
+
+&lt;p&gt;我痴呆地看着那个男人，五秒钟后，很弱智地喊了声：“伯父，你好。”&lt;/p&gt;
+
+&lt;p&gt;伯父？我以为我是谁？李嘉诚的儿子？喊的***这么酸。&lt;/p&gt;
+
+&lt;p&gt;这位伯父很有深意！地看了我一眼，然后点点头，和小眉同志说了两句话，便像一个革命者一样，直挺着身板向前走去，头也不回。&lt;/p&gt;
+
+&lt;p&gt;我估计他为了克制转过头来教训我一顿的冲动，一定用尽了全身的力量。&lt;/p&gt;
+
+&lt;p&gt;待他走远后，我们二人同时瘫软在地。&lt;/p&gt;
+
+&lt;p&gt;于是我们开始分析，她老爸会不会有什么错误的判断，&lt;/p&gt;
+
+&lt;p&gt;最后得出的结论是：&lt;/p&gt;
+
+&lt;p&gt;一定会有。&lt;/p&gt;
+
+&lt;p&gt;小眉的理由是，她老爸看我的眼神像是在看一个傻女婿。&lt;/p&gt;
+
+&lt;p&gt;我的理由恰好相反，我觉得她老爸的眼神，好象在审问一个诱拐她宝贝女儿的恶棍。&lt;/p&gt;
+
+&lt;p&gt;不过虽然理由不大一样，但结论是一样的，她回家之后有麻烦了。&lt;/p&gt;
+
+&lt;p&gt;然后她开始埋怨我，说我刚才的表现真的很像电影里那些男主角第一次见老丈人的模样。&lt;/p&gt;
+
+&lt;p&gt;我连忙道歉，说那是因为紧张过度的原因。&lt;/p&gt;
+
+&lt;p&gt;接着我提出藏在心里很久的疑问，能取出这样一个名字的人究竟是何方神圣。&lt;/p&gt;
+
+&lt;p&gt;小眉指指街对面，告诉我，她老爸是市图书馆的。&lt;/p&gt;
+
+&lt;p&gt;于是我释然。于是二人开始相视大笑。&lt;/p&gt;
+
+&lt;p&gt;笑了会儿，我突然觉得有些不对劲，怎么也笑不出来了。&lt;/p&gt;
+
+&lt;p&gt;不知为什么，我突然觉得这个场景好熟悉。好象很多年前就有过一次似的。&lt;/p&gt;
+
+&lt;p&gt;于是我在漫天阳光的笼罩中开始回忆往事，越想越失神。&lt;/p&gt;
+
+&lt;p&gt;失神之后，我问她：“请我唱卡拉圈可？”&lt;/p&gt;
+
+&lt;p&gt;她是个很细心的人，连忙笑道：“小女子不胜荣幸。”&lt;/p&gt;
+
+&lt;p&gt;我很感激。&lt;/p&gt;
+
+&lt;p&gt;那天在包房里，我拼命地找齐秦的一首歌，我忘了名字，但记得歌词。&lt;/p&gt;
+
+&lt;p&gt;总算在唱完三张专辑后，那首歌的调子响了起来。&lt;/p&gt;
+
+&lt;p&gt;我像拿着手榴弹一样拿着麦克，左手抚胸，深情款款，运气憋出那股瓷盘打碎般的瓷性嗓音，认真的唱着：&lt;/p&gt;
+
+&lt;p&gt;你的近况，陆续从朋友口中传到我耳畔，我拿什么条件能够将你遗忘，除非我们……多想不去想，夜夜偏又想……&lt;/p&gt;
+
+&lt;p&gt;一曲唱罢，我把自己感动的唏嘘不已。&lt;/p&gt;
+
+&lt;p&gt;回头看她，仍是满脸带笑，脸上尽是鼓励的神色。&lt;/p&gt;
+
+&lt;p&gt;只是她的手帕还放在桌上，有些湿了。&lt;/p&gt;
+
+&lt;p&gt;据她后来说，那天晚上，她家里开了个家庭大会，着重研究了一下她的交友问题。当她老爸把下午看到的情况说出来后，大家的反应各不相同。她哥哥先是准备提拳头来寻我，待后来想清楚自己妹妹已经二十出头了，又准备提瓶酒来寻我。她的老奶奶则很是激动，要请我去她家吃饭。她妈则在傻笑。&lt;/p&gt;
+
+&lt;p&gt;听她说完后，我放声大笑，然后很无辜地问道：“真的要去吗？”&lt;/p&gt;
+
+&lt;p&gt;她瞪了我一眼，说我想的美。&lt;/p&gt;
+
+&lt;p&gt;其实我以为这是很痛苦的事。&lt;/p&gt;
+
+&lt;p&gt;她又说已经解释清楚了，我只是她的好朋友，不过为了让她家人放心，便给我这个混混儿安排了个工作，一个异常恶心的工作：网络作家。&lt;/p&gt;
+
+&lt;p&gt;我虽然早就是坐家了，但为了替她圆谎，便写了首五十一个字的诗，放到了某家网站上，然后不停地点击再alt加F4。&lt;/p&gt;
+
+&lt;p&gt;不到数天，便有些不长眼睛的人奋勇跟进，居然挤进了排行榜的前十名。&lt;/p&gt;
+
+&lt;p&gt;她拍拍我的头说，小伙子挺聪明的。&lt;/p&gt;
+
+&lt;p&gt;我靠。&lt;/p&gt;
+
+&lt;p&gt;于是我佯狂，靠在她的肩上。&lt;/p&gt;
+
+&lt;p&gt;在以后的那十来天里，我经常带她到一中江边的那道斜坡上去，就是以前上学时我经常和何伟抽烟的那个地儿。&lt;/p&gt;
+
+&lt;p&gt;她撑着额头看着我抽烟的英姿，问：“你在想什么呢？”&lt;/p&gt;
+
+&lt;p&gt;我深吸一口烟，呲牙裂嘴地把白气吐出来，回味半晌，并不答话。&lt;/p&gt;
+
+&lt;p&gt;她越看越入神。&lt;/p&gt;
+
+&lt;p&gt;我有些受不了，说：“我这是在冒充孤独，模仿绝望。”&lt;/p&gt;
+
+&lt;p&gt;她眼睛一下亮了，兴奋道：“嘿，真没想到你这么个人也能说出这么好玩的话来。”&lt;/p&gt;
+
+&lt;p&gt;我扁扁嘴以示不屑，但想了想后，又解释道：“这两句词我在发的每个帖子里都要用一遍的。”我把手一摊，笑道：“不过这是个盗版。那还是上初中的时候，在报纸上看到的。好象是一个铁路系统的文青写的。”&lt;/p&gt;
+
+&lt;p&gt;“嘁！”她颇为失望，“什么都说的这么白，多没意思。”&lt;/p&gt;
+
+&lt;p&gt;我抠抠头说：“跟你第一次见面就说过，我这人最大的好处就是诚恳了。”&lt;/p&gt;
+
+&lt;p&gt;她纠正道：“是木讷。”&lt;/p&gt;
+
+&lt;p&gt;我不服气她的说法，告诉她，我有时候一天会遇见五个问路的，而且其中三个还都没带车钱。这说明我的样貌，给人的第一感觉就是可信。&lt;/p&gt;
+
+&lt;p&gt;她又纠正道：“那叫易骗。”&lt;/p&gt;
+
+&lt;p&gt;我扭过头去，三分钟不找她说话。&lt;/p&gt;
+
+&lt;p&gt;由于我们通电话太勤了些，自然家里也发现了一些异常。比如老姐总在埋怨现在很少吃到我炒的苦瓜了。&lt;/p&gt;
+
+&lt;p&gt;于是我在家里开始被一群姑婆们追问。逼不得已，我以人格起誓，说绝对没谈恋爱。&lt;/p&gt;
+
+&lt;p&gt;结果发现，我的人格似乎有些卑下不可信。于是我改用我父亲的人格起誓，这才逃离了她们的包围。&lt;/p&gt;
+
+&lt;p&gt;有时想起来，会发现小眉同志的确是一个不错的玩伴，或者说朋友。&lt;/p&gt;
+
+&lt;p&gt;她不蹦迪，不上网聊天，不看电影，喜欢看席娟，看言情烂碟，看武侠小说，的确和我搭配的挺好。&lt;/p&gt;
+
+&lt;p&gt;而且我们两人还都是那种极少见的弱智。&lt;/p&gt;
+
+&lt;p&gt;记得有一天，家里来了亲戚，而她又约我出门，为了掌控我的行踪，老爸让姐夫哥把手机丢给我。姐夫很无辜地看了我一眼，我回他一白眼。&lt;/p&gt;
+
+&lt;p&gt;然后逛到青少年宫的时候电话响了，&lt;/p&gt;
+
+&lt;p&gt;然后我们俩人用了半个小时，也没搞清楚这手机是怎么用的。&lt;/p&gt;
+
+&lt;p&gt;于是，只好散伙回家。&lt;/p&gt;
+
+&lt;p&gt;顺便说句题外话，直到公元一九九七年，我才知道怎样打寻呼机，手机？更是没碰过的玩意。&lt;/p&gt;
+
+&lt;p&gt;她虽然在这方面的弱智和我惊人地相像，但人却比我善良多了。&lt;/p&gt;
+
+&lt;p&gt;这一点从我现在都不敢带她从解放路的天桥上过，就可见一斑。&lt;/p&gt;
+
+&lt;p&gt;yc人都知道，那天桥上盛产乞丐。&lt;/p&gt;
+
+&lt;p&gt;我告诉她，与其接济乞丐，还不如接济我。&lt;/p&gt;
+
+&lt;p&gt;她皱皱眉说，怎么能把自己和乞丐相提并论呢？我想了想后，正色答道：“的确不应该，我现在的收入比他们还少。”&lt;/p&gt;
+
+&lt;p&gt;她看着我，想了半响，无奈地点点头，算是承认了这个事实。&lt;/p&gt;
+
+&lt;p&gt;不过我们也经常吵架，争论的焦点一般集中在梅格瑞恩到底该不该和比利克里斯托上chuang。&lt;/p&gt;
+
+&lt;p&gt;她说情到浓时，自然难免。&lt;/p&gt;
+
+&lt;p&gt;我说这完全破坏了那份感觉。&lt;/p&gt;
+
+&lt;p&gt;她说最终圆满的结局证明了，这个床，上的有价值。&lt;/p&gt;
+
+&lt;p&gt;我说结局是编剧写好了的，我只记得梅格瑞恩在完事后，咧着张大嘴，用鼻子长出一口气，活像一个刚生吞了自己丈夫的母螳螂。&lt;/p&gt;
+
+&lt;p&gt;于是她恨恨地说了声；男人啊……&lt;/p&gt;
+
+&lt;p&gt;于是我们两个同时把电视打开，同步播放影碟，一边盯着屏幕，一边拿着电话开始争吵。&lt;/p&gt;
+
+&lt;p&gt;不一会儿，就看到哈利开始在街边上思念他的前妻了。&lt;/p&gt;
+
+&lt;p&gt;电视里传来比利克里斯托那土拨鼠一样的声音：&lt;/p&gt;
+
+&lt;p&gt;“我不知道是想念海伦，还是想念想念海伦的念头。”&lt;/p&gt;
+
+&lt;p&gt;莎丽正准备上前安慰他，只见哈利用哲学家的风度思考了半秒钟后，像个白痴一样，无头无脑地说：&lt;/p&gt;
+
+&lt;p&gt;“IMISSHELEN！”&lt;/p&gt;
+
+&lt;p&gt;然后，小眉在电话的那头没了声音。&lt;/p&gt;
+
+&lt;p&gt;我知道她一直在她的男人面前扮演那个最不懂事的，最傻兮兮的好朋友角色，我也知道她经常演的力不从心，知道她演的很辛苦，知道她在生活里实在是笑的太多了，又倔强的不肯哭，我知道她就像荔枝一样，最外面是鲜美而坚硬的壳，剥开后是柔嫩易伤的瓤，瓤里面裹着的是那颗苦苦的核。&lt;/p&gt;
+
+&lt;p&gt;由于我喜欢我的朋友们多笑，不哭，于是连忙开始讲解那个诃契尼还是叫契诃尼的理论。&lt;/p&gt;
+
+&lt;p&gt;就是那个说人的记忆最搞笑，得不到的东西记忆最深刻的那套玩艺儿，这套理论最关键的地方，就是什么尼说，没可能的感情付出最容易让人沉醉，因为总让你觉得对方的身上有无尽的宝藏供你挖掘，有无尽的秘密任你独享。&lt;/p&gt;
+
+&lt;p&gt;她被我拙劣的讲解搞的笑出声来，问我怎么知道那个什么尼。&lt;/p&gt;
+
+&lt;p&gt;我想了想后，记了起来，告诉她是中午在中央台看的第二起跑线里提到的。&lt;/p&gt;
+
+&lt;p&gt;她很疑惑。&lt;/p&gt;
+
+&lt;p&gt;于是我进一步解释道：“青春期性教育专题节目。”&lt;/p&gt;
+
+&lt;p&gt;我和小眉总是像恋人一样的单独出来约会。我们也从不让双方的朋友圈子交杂其间，只是进行一对一的交流，俗称单挑。&lt;/p&gt;
+
+&lt;p&gt;唯一有些遗憾的是，我绝没有恋人一方的那种权利，就是那种路漫漫其修远兮，吾将上下而……的权利。面对美女而做柳下惠，实为人生至痛。&lt;/p&gt;
+
+&lt;p&gt;偶尔有一天，她喊我陪她去赴一个酒宴，我说为什么，她说她的男人回来了。&lt;/p&gt;
+
+&lt;p&gt;于是我说好，然后我洗了个澡，找了两件姐夫哥当年和老姐斗争时的战袍，蹬上前天姐夫哥刚买的新皮鞋，揣上姐夫哥的诺基亚，虽说还不大会用。还上了点姐夫哥的咖哩水，噢不好意思，写错了。&lt;/p&gt;
+
+&lt;p&gt;总之，是打扮的人模狗样的去了。&lt;/p&gt;
+
+&lt;p&gt;她在酒店的外面接我，见到我的一身行头，很诧异地皱皱眉头，问道：“今天怎么穿成这副德行？”&lt;/p&gt;
+
+&lt;p&gt;我挑挑唇边，道：“要冒充你的男朋友，总得下点儿本钱吧。我不怕丢脸，但很怕朋友因为我而丢脸。”&lt;/p&gt;
+
+&lt;p&gt;她伸手捂住自己嘴巴，笑道：“你怎么这么聪明，我还没说，你就知道了？”&lt;/p&gt;
+
+&lt;p&gt;“我是天才。”&lt;/p&gt;
+
+&lt;p&gt;我向来持天才无用论。&lt;/p&gt;
+
+&lt;p&gt;结果那天的酒席上，我发现自己真的很无用，面对那些酒席上比我还人模狗样的人们，我实在不知该说些什么，这位说自己当年的室友在加拿大买了个PLAYSTATION，结果没玩两天就坏了。那位则把周星驰的几句话换了几个宾语在那里背来背去，还有两位更是搞笑，居然说不知道安琪集团为什么到现在还不配股，颇为不满，待听说我有个同学在安琪，居然要我喊出来聊聊，把证券的这块业务让给他们做。&lt;/p&gt;
+
+&lt;p&gt;天可怜见，我那位同学自己手上的一点内部股还不准卖哩。&lt;/p&gt;
+
+&lt;p&gt;我说天才无用的另一个佐证是，自己这个天才被那些人看鲜花下的狗屎眼光逼的举杯应战，居然战局刚开，便已丢盔卸甲了。&lt;/p&gt;
+
+&lt;p&gt;于是醉眼朦胧的我，并没能看清楚小眉那个迟到了的男人。&lt;/p&gt;
+
+&lt;p&gt;只隐约有个印象，虽然比我高，但还是不高。不过长的确实比我帅。&lt;/p&gt;
+
+&lt;p&gt;此处套用一句俗话：&lt;/p&gt;
+
+&lt;p&gt;长的比我帅不叫帅，长的比我丑，那才叫真丑。&lt;/p&gt;
+
+&lt;p&gt;后来小眉送喝醉了的我回家，到我家楼下两人分手前，她笑着对我说：“今天演的真不赖！”&lt;/p&gt;
+
+&lt;p&gt;我傻笑一番，伸出大拇指，说：“我是临时演员，而你是影坛常青树，演技比我好。”&lt;/p&gt;
+
+&lt;p&gt;知道明星什么时候会演砸吗？&lt;/p&gt;
+
+&lt;p&gt;就像姜文和万梓良拍的那部恶片，说明他在没有了自己喜欢的东西后会演砸。&lt;/p&gt;
+
+&lt;p&gt;知道明星为什么会演砸吗？&lt;/p&gt;
+
+&lt;p&gt;就像周润发拍的和平饭店，那说明他潜意识里想断绝自己在香港的后路。&lt;/p&gt;
+
+&lt;p&gt;知道小眉为什么会演砸吗？&lt;/p&gt;
+
+&lt;p&gt;道理很简单，她失去了自己最喜欢的东西，然后发现后路原来早就断了。&lt;/p&gt;
+
+&lt;p&gt;我接到她的那个电话，是在晚上九点钟，海霞马上要开始播新闻了。&lt;/p&gt;
+
+&lt;p&gt;她很可怜兮兮地在电话里告诉我，她得到消息，她的男人要结婚了。新娘当然不是她，可问题在于，新娘也不是她的那个好朋友，听说是一个南蛮小妹。&lt;/p&gt;
+
+&lt;p&gt;她说她并不伤心她的男人要结婚，只是觉得气不过怎么找了个这么个人。&lt;/p&gt;
+
+&lt;p&gt;似乎为了证明这点，她在电话那头傻笑不止。&lt;/p&gt;
+
+&lt;p&gt;然后我就听到了她的抽泣声。&lt;/p&gt;
+
+&lt;p&gt;我第一次听见她哭，就在那个似乎应该一如平常的晚上。&lt;/p&gt;
+
+&lt;p&gt;我并不是很担心她，只是觉得像电影里的情节，此时一般应该有个傻兮兮的男人守在一边。&lt;/p&gt;
+
+&lt;p&gt;虽然我不傻，但我们是朋友，我对朋友向来很温厚，所以我觉得应该马上找到她。只是我想她不会告诉我她现在在哪儿的。装惯了坚强的人，在受伤后，总喜欢找一个没人知道的角落里去哭。&lt;/p&gt;
+
+&lt;p&gt;于是我说：“你看你身边的江风一会儿向上吹，一会儿向下吹，世事如风，本无定数，何必执着呢。”&lt;/p&gt;
+
+&lt;p&gt;她闷闷地答道是啊，只是江风好冷啊。&lt;/p&gt;
+
+&lt;p&gt;于是我知道了她在江边。&lt;/p&gt;
+
+&lt;p&gt;我看了看电视上的时间，接着说：“钟楼开始敲钟了吧，你看时间总是不停的，日子总要继续吧。”&lt;/p&gt;
+
+&lt;p&gt;她说是啊，只是这声音好吵啊。&lt;/p&gt;
+
+&lt;p&gt;于是我知道她在钟楼的附近。&lt;/p&gt;
+
+&lt;p&gt;于是我知道了她是在南榭。&lt;/p&gt;
+
+&lt;p&gt;那个据说是她和号称她男人的无辜朋友第一次约会的地点。&lt;/p&gt;
+
+&lt;p&gt;于是在三分钟后，我出现在南榭的门口。&lt;/p&gt;
+
+&lt;p&gt;直到今天，我还认为，这是我平生最聪明的一次举动。&lt;/p&gt;
+
+&lt;p&gt;于是她很惊讶地迎接我的到来，很无助地靠在我的肩上。&lt;/p&gt;
+
+&lt;p&gt;我笑着对她说：“今天晚上我的肩膀对你是免费的。”&lt;/p&gt;
+
+&lt;p&gt;这句话，我是向何伟学的。&lt;/p&gt;
+
+&lt;p&gt;果然有效，她笑了。&lt;/p&gt;
+
+&lt;p&gt;于是开始陪她逛街，陪她喝酒，开始进行平日里是她做的工作，从杯子里往外面倒酒。不过区别在于，平日里她总是把我的酒倒在地上，而今夜是我把她的杯中物倒在了自己的肚子里，不能浪费，是吧。&lt;/p&gt;
+
+&lt;p&gt;可她还是醉了，我也醉了，两人像酒鬼一样互相搀扶着在江边瞎逛。&lt;/p&gt;
+
+&lt;p&gt;走到了大公桥那边，她突然伏在我的怀里哭起来。&lt;/p&gt;
+
+&lt;p&gt;我轻轻地搂着她，穿过她的黑发的我的手，轻拍着她的肩。&lt;/p&gt;
+
+&lt;p&gt;过了一阵，她平息了下来，用那双带着醉意却仍是美丽的眼睛看着我，喃喃地说道：“xf，你真是个好人。”&lt;/p&gt;
+
+&lt;p&gt;用哈利的一个男性朋友的话讲，说一个人是好人，便意味着这人长的不咋的。&lt;/p&gt;
+
+&lt;p&gt;一般的电影拍到这里就可以了，我也是这样认为。&lt;/p&gt;
+
+&lt;p&gt;所以当她用那冰凉的胳臂环住我的颈，傻傻地说道：“来，亲我的嘴。”我一时没反应过来。&lt;/p&gt;
+
+&lt;p&gt;过了小半晌，我打了个酒嗝，纠正道：“那叫吻。”&lt;/p&gt;
+
+&lt;p&gt;她在我怀里扭动着身躯，我不知道这是叫撒娇，还是喝多了不大舒服。&lt;/p&gt;
+
+&lt;p&gt;我好意地提醒她：“你刚刚吐了的。”&lt;/p&gt;
+
+&lt;p&gt;于是她用踉跄的步伐冲过马路，买来了口香糖和矿泉水，用十秒钟的时间漱完口，嚼完口香糖，又嘟起了红红的唇。&lt;/p&gt;
+
+&lt;p&gt;我深吸两口气，忽然想起了一句台词：&lt;/p&gt;
+
+&lt;p&gt;“我只是刚好路过，你就要和我……我……牙都还没刷呢。”&lt;/p&gt;
+
+&lt;p&gt;依照谢文砚的吩咐，以下删去二十一字……&lt;/p&gt;
+
+&lt;p&gt;她无意识地看着我，忽然轻轻地说道：“我们是不是只能做朋友？”&lt;/p&gt;
+
+&lt;p&gt;我点点头。&lt;/p&gt;
+
+&lt;p&gt;然后她说：“那好，我们去找家旅馆，好吗？”&lt;/p&gt;
+
+&lt;p&gt;我这才确定，她不止喝醉了，而且已经醉的人事不省了。&lt;/p&gt;
+
+&lt;p&gt;只是她的发绕着我的耳，她的唇贴着我的颊，我的手抚着她的背。&lt;/p&gt;
+
+&lt;p&gt;让我心思思。&lt;/p&gt;
+
+&lt;p&gt;必须承认，那天夜里的我是有些无耻。虽说喝醉了，但还是有些无耻。&lt;/p&gt;
+
+&lt;p&gt;于是我们开始在江边那条街上寻找地方。但由于经验方面的原因，二人一直是逡巡不前，对那些闪着光的招牌有些望而生畏。&lt;/p&gt;
+
+&lt;p&gt;一直疲惫地走到一马路那里，她软软地靠在我身上，轻声骂了我一句：“你是男人哎，连开房都不会，真是个笨蛋。”&lt;/p&gt;
+
+&lt;p&gt;我虽然已醉了，但还是回了句：“笑话，我是很纯洁的。”&lt;/p&gt;
+
+&lt;p&gt;然后，我们同时注意到了街对面的一个招牌：烟草招待所。招牌的下面有四个小字：安全舒适。&lt;/p&gt;
+
+&lt;p&gt;然后，我们四目互视，像那夜在天桥上一样，化为雕像长达半个小时。&lt;/p&gt;
+
+&lt;p&gt;然后，她鼓起勇气，一个人走过去问房间多少钱一夜。&lt;/p&gt;
+
+&lt;p&gt;小姐告诉她，是按床收费，不是按房间。&lt;/p&gt;
+
+&lt;p&gt;一个床位三十五，双人间就是七十。&lt;/p&gt;
+
+&lt;p&gt;然后她像蜗牛一样地走了回来，&lt;/p&gt;
+
+&lt;p&gt;然后她说没带钱，让我去交钱。&lt;/p&gt;
+
+&lt;p&gt;然后我说我也没带。&lt;/p&gt;
+
+&lt;p&gt;于是我拦了辆的士送她回家。&lt;/p&gt;
+
+&lt;p&gt;然后她很自然地掏出了皮包里的钞票付了车钱。&lt;/p&gt;
+
+&lt;p&gt;然后我又拦了辆的士回家。&lt;/p&gt;
+
+&lt;p&gt;然后我很后悔地摸出今天家里刚交上来的生活费付了车钱。&lt;/p&gt;
+
+&lt;p&gt;可能是那夜酒喝的太多了的原因吧，我们有三天没见面。&lt;/p&gt;
+
+&lt;p&gt;再见面的时候，我们约在儿童公园。&lt;/p&gt;
+
+&lt;p&gt;儿童公园里最出名的，便是那些一个疯胜一个的气功爱好者，以及湖心亭里那几位不惧风雨的老同志，一声凄厉过一声的吊嗓子声。他们十分爱好伟大祖国的历史遗产，却忘了更多的人一向是拒领这份遗产的。&lt;/p&gt;
+
+&lt;p&gt;我和小眉见面的时候是下午，那时候公园里非常的安静。&lt;/p&gt;
+
+&lt;p&gt;我忽然十分想念那些老同志发出来的声音。&lt;/p&gt;
+
+&lt;p&gt;在儿童公园里那些大树的荫蔽之下，我看着穿着一件大红裙子的她，觉得好尴尬。&lt;/p&gt;
+
+&lt;p&gt;在不时拂来的热风里，她盯着满脸紧张的我，显得好无措。&lt;/p&gt;
+
+&lt;p&gt;我强迫自己堆起脸颊边的两垛肉，笑着说：“今天穿这么红，想自杀殉情，然后化为厉鬼去找你男人算账啊？”&lt;/p&gt;
+
+&lt;p&gt;她一愣，忽地面上一红，并不答话。&lt;/p&gt;
+
+&lt;p&gt;原来这个笑话真的很冷。&lt;/p&gt;
+
+&lt;p&gt;正当我们不知该怎么办的时候，发现身边突然多了两群小孩在吵架，一群是男小孩，一群是女小孩。&lt;/p&gt;
+
+&lt;p&gt;女小孩为首的指着男小孩群说：“你们好酷喔……”然后一堆女小孩齐声叫道：“内裤的裤。”&lt;/p&gt;
+
+&lt;p&gt;为首的男小孩，指着女小孩的鼻子骂道：“你们好凶噢。”然后大家一起吼道：“胸罩的胸。”&lt;/p&gt;
+
+&lt;p&gt;于是我们在一旁放声大笑，笑的天地失色，笑的涕泪俱下，笑的夸张无比，似乎把一切可笑的事全放在此时笑了出来。&lt;/p&gt;
+
+&lt;p&gt;于是xf和小眉这两个小朋友又回到了从前。&lt;/p&gt;
+
+&lt;p&gt;我一向认为自己是一个很惫懒的人，特别是在那几年里。&lt;/p&gt;
+
+&lt;p&gt;我每天按时于十一点三十分起床，然后吃饭，刷牙。并且一直坚持吃过午饭才刷牙，因为我觉得这体现了华罗庚研究的那个什么学的原理，可以避免不必要的重复工作。&lt;/p&gt;
+
+&lt;p&gt;吃过午饭，便开始洗碗，然后趁着父母午睡的时间，一个人拿着遥控器对着电视机傻笑。等老爸起床后，为了逃避和他下象棋的苦差，便出门瞎逛。由于瞎逛是没有目的性的，于是我在那几年里，用自己的脚板，步量了yc市所有的大街小巷。&lt;/p&gt;
+
+&lt;p&gt;逛到四点半钟，便开始往回走，走到三联书店的时候，便假装自己很热爱文化，泡进去看各式小说，一直拖到六点半。&lt;/p&gt;
+
+&lt;p&gt;如果我的阴谋得逞的话，待回到家时，大概已经有人因为饿的受不了，会主动做好了饭。但很遗憾，我家人的耐性一般都比较好。&lt;/p&gt;
+
+&lt;p&gt;虽说晚上这顿饭一般逃不脱，但那几年的书店逃亡史却让我有了个新的爱好，那就是看席娟的言情小说。我觉得她的书挺好，不费神，又好看，而且她本人长的也不丑。&lt;/p&gt;
+
+&lt;p&gt;晚上吃完饭，便又开始洗碗，然后度日如年地等待着父母姐姐们看的恶俗电视剧播完。然后很殷勤地通知她们，现在已经很晚了，早些睡觉，明天上班，精神会好一些。&lt;/p&gt;
+
+&lt;p&gt;待她们入睡后，我又开始拿着遥控器，看着深夜重播的恶俗电视剧傻笑。&lt;/p&gt;
+
+&lt;p&gt;笑完后，我会洗个澡，点上一根烟，坐在阳台上想心事。&lt;/p&gt;
+
+&lt;p&gt;往往想了半天，才发现没什么心事好想。&lt;/p&gt;
+
+&lt;p&gt;于是去上厕所，然后睡觉，睡之前提醒自己，一定要在十一点半起床，提醒自己明天要改变路线，到铁路坝的新华书店去，因为三联的席娟的小说已经清空了。还提醒自己，明天又是新的一天了，应该大口地呼吸这城市里新鲜的空气，应该用笑容去面对每一个人，提醒自己要像鹌鹑一样的生活：安稳并且纯蠢。&lt;/p&gt;
+
+&lt;p&gt;由于李艳已经有了男朋友，再没空陪我了，所以当时我最大的快乐，便是那几个很穷的兄弟经常会请我吃饭喝酒。人是些极有趣的人，酒是很有糊包谷味的酒。不过最快乐的时候却在于吃完付账的时候，看着他们很头痛地凑着钱，而自己却可以跷着二郎腿，剔着牙，一副悠然自得的模样。&lt;/p&gt;
+
+&lt;p&gt;是的，我没钱，没工作，没爱人，没向往。&lt;/p&gt;
+
+&lt;p&gt;哪怕认识小眉之后，这四样还是一点没变。&lt;/p&gt;
+
+&lt;p&gt;我的生活中唯一在变的似乎只有自己的体重和年龄。&lt;/p&gt;
+
+&lt;p&gt;不过若要强说一点没变，那是撒谎。&lt;/p&gt;
+
+&lt;p&gt;至少现在是我和小眉两个人一起用脚板来丈量这个朱总理所期望的世界级城市。只是我俩一直很疑惑，这世界级的城市居然仅用双足也可以走遍。&lt;/p&gt;
+
+&lt;p&gt;现在泡书店也是两个人了，大多数时间我也不在家里吃饭了，那几个兄弟也见得少了。没办法，见色忘义乃是我辈本份。&lt;/p&gt;
+
+&lt;p&gt;不过我还是习惯晚上坐在阳台上想那些并不存在的心事。越想越以为自己患了老年痴呆。&lt;/p&gt;
+
+&lt;p&gt;不想心事的时候，我和小眉两个人穿人海，过公园，摸桂树下的草，闻面馆里的香，看尽天下言情小说，尝遍江风各种味道，曾坐在湖边一起发呆，看到美女齐声尖叫，帮老人家提过菜，也曾恐吓过骂女小孩胸罩一样凶的男小孩，勾肩搭背常有，心中坦坦荡荡是实。&lt;/p&gt;
+
+&lt;p&gt;我们谈中东危机，台湾地震，印尼失火，华为爆炸。我们也谈她的朋友以及我的朋友。谈她的家人及我的家人。谈她的过去及我的过去。只是遗漏了她的未来和我的未来。&lt;/p&gt;
+
+&lt;p&gt;她在公司里可以上网，所以帮我申请了一个信箱，问我要取个什么名字。我告诉她，就用xfstz，她想了想，说幸福属天主，什么意思？我告诉她，我不信教，意思也很简单，xf是头猪。&lt;/p&gt;
+
+&lt;p&gt;她摇摇头，没说什么。&lt;/p&gt;
+
+&lt;p&gt;她现在甚至可以问我多少天洗一次澡，我说夏天时一天洗三次都可以，冬天时三月洗一次都说不定。我还说我每年十一月十八号开始禁澡，来年的二月三十一号开禁。她正感不解，我告诉她，由于没有二月三十一号，所以顺延至三月二十二号。&lt;/p&gt;
+
+&lt;p&gt;她问是什么特别的日子，我说那天是李艳的生日，水节。&lt;/p&gt;
+
+&lt;p&gt;她还问过我，是否与当年那个女同学还有联系，我说有啊，她家的小狗叫多多，就是我取的，用的就是李艳家的小狗的名字。&lt;/p&gt;
+
+&lt;p&gt;只不过我没有告诉小眉，这似乎是我和那个女同学唯一的变相联系。&lt;/p&gt;
+
+&lt;p&gt;她疑惑了五天，才问我到底喜欢的是李艳还是谁。&lt;/p&gt;
+
+&lt;p&gt;于是我颇为得意地告诉她，如果是李艳打电话告诉我她要结婚，我一定会把她臭骂一通，然后找个机会和她老公大醉一场。&lt;/p&gt;
+
+&lt;p&gt;她还是不懂，于是我解释道，若是我那个当年的女同学结婚了，我会对那个女同学送上最诚挚的祝福，然后当掉自己所有的家当，买个钟送给她的老公。&lt;/p&gt;
+
+&lt;p&gt;她仍然不懂，于是我说，李艳是我最好的朋友，就像小眉是我最好的朋友一样。&lt;/p&gt;
+
+&lt;p&gt;于是她表示了解。&lt;/p&gt;
+
+&lt;p&gt;后来有几天，小眉的家人陪她的老奶奶回老家去了，丢下了孤伶伶的她，于是我便有了机会去她家作陪客，吃免费的肉，喝免费的好酒，抽免费的好烟，总之用了三天的时间，整干净了她父亲所有的存货。&lt;/p&gt;
+
+&lt;p&gt;我们在一起也没什么节目，一般就是她靠在我的肩上看电视，看困了她就去洗澡，然后回房睡觉，睡之前，提醒我走的时候记得要锁门。这种行事方式总是让我很难一时回过神来。&lt;/p&gt;
+
+&lt;p&gt;有一天她突然趴在我肩上问我，为什么我们两个人就是不来电。&lt;/p&gt;
+
+&lt;p&gt;“我们难道不相配吗？”&lt;/p&gt;
+
+&lt;p&gt;又不是男生女生配，我在心里想着。嘴上说：&lt;/p&gt;
+
+&lt;p&gt;“我们是天生绝配。”&lt;/p&gt;
+
+&lt;p&gt;她笑了，说：“那倒是，我有貌，美貌；你有才……”&lt;/p&gt;
+
+&lt;p&gt;“蠢材。”我接道。&lt;/p&gt;
+
+&lt;p&gt;“我不吃辣椒。”&lt;/p&gt;
+
+&lt;p&gt;“我爱好大蒜。”&lt;/p&gt;
+
+&lt;p&gt;“我喜欢席娟。”&lt;/p&gt;
+
+&lt;p&gt;“我也不讨厌。”&lt;/p&gt;
+
+&lt;p&gt;“你是徐子陵。”&lt;/p&gt;
+
+&lt;p&gt;“那你就是师妃暄。”&lt;/p&gt;
+
+&lt;p&gt;“那我是人淡如菊，爱在窗台上摆盆绿菊的凌霜华。”&lt;/p&gt;
+
+&lt;p&gt;“那我就是那个丁典，为了看你窗台上的ju花，甘愿入牢十二年。”&lt;/p&gt;
+
+&lt;p&gt;我忽地想到凌霜华最终被自己父亲害死了，而丁典也中毒而亡，不由一愣。&lt;/p&gt;
+
+&lt;p&gt;这时小眉还傻兮兮地抱着个布娃娃皱着眉头想还有什么可以说。我一是怕她想得太费神，二来也并不觉得肉麻是很有趣的，于是总结道：&lt;/p&gt;
+
+&lt;p&gt;“最关键的是你有钞票，而我没钱。”&lt;/p&gt;
+
+&lt;p&gt;她闻言大喜，连连点头。翘起两手的大拇指排成一排，&lt;/p&gt;
+
+&lt;p&gt;“果然是绝配。”接着一叹：“可惜没感觉。”&lt;/p&gt;
+
+&lt;p&gt;我想小眉说的是对的。&lt;/p&gt;
+
+&lt;p&gt;但像她这么漂亮的女孩子依在你的身旁，要说心里没点儿想法，那你绝对是在包装一家上市公司，做做样子而已。&lt;/p&gt;
+
+&lt;p&gt;我知道我的相貌是上好的绝缘体，但她常常于无意间流露出的娇憨之态却是常温下的超导材料。&lt;/p&gt;
+
+&lt;p&gt;幸亏我们只是朋友而已。不然我一定会很害怕的。&lt;/p&gt;
+
+&lt;p&gt;只是我不知道自己究竟怕的是什么。&lt;/p&gt;
+
+&lt;p&gt;过了几天，那个喜欢阴笑的大学同学又打了个电话来了，说出国的她又回成都了。&lt;/p&gt;
+
+&lt;p&gt;于是我才醒过来，原来我是一个生活在过去世界的人。&lt;/p&gt;
+
+&lt;p&gt;原来我所害怕的，只是忘了我是那个世界的人。&lt;/p&gt;
+
+&lt;p&gt;可是若我能忘了我是那个世界的人，又有什么不好呢？&lt;/p&gt;
+
+&lt;p&gt;我是忘不了，还是害怕忘了呢？&lt;/p&gt;
+
+&lt;p&gt;就像哈利说的，他是想念海伦，还是想念想念海伦的念头呢？&lt;/p&gt;
+
+&lt;p&gt;只是哈利最后也说了：“Imisshelen!”&lt;/p&gt;
+
+&lt;p&gt;这不是学会忘记的问题，而是学会不去强迫自己记得的问题。&lt;/p&gt;
+
+&lt;p&gt;而且我不敢想像，我们两个这么弱智的人也会有学会的一天。&lt;/p&gt;
+
+&lt;p&gt;我想这些的时候，已经收拾好了行李，与所有的兄弟喝完了壮行的酒，买好了去成都的车票，在车站前看着有些发呆的小眉。&lt;/p&gt;
+
+&lt;p&gt;她忍不住说：“你真的要去吗？你还不死心吗？”&lt;/p&gt;
+
+&lt;p&gt;我笑着拍拍她的脑袋，道：“丫头，今天怎么这么操心。有很多事情，往往是我们自己也控制不了的。”&lt;/p&gt;
+
+&lt;p&gt;她也笑了，道：“你今天终于肯叫我丫头了。”接着顿了顿，续道：“只是为什么今天要叫我丫头呢？”眼神中有些迷惑不解。&lt;/p&gt;
+
+&lt;p&gt;我不作解释，往车站里走去，一边走一边挥手。&lt;/p&gt;
+
+&lt;p&gt;她从后面追了上来，拉着我的包，怯怯地道：“可以不走吗？”&lt;/p&gt;
+
+&lt;p&gt;我问为什么。&lt;/p&gt;
+
+&lt;p&gt;她有些不豫，嚷道：“你老沉在那里面干吗，能当饭吃吗？你说xf是头猪，你以为你真是头猪啊！你有猪宝宝那么可爱吗？一头猪，浑身是宝，你呢？除了耍耍嘴皮子，还会做什么？吃我的花我的，现在还不知死活的跑到那个鬼地方去。我不准你去。”&lt;/p&gt;
+
+&lt;p&gt;对于她的表现，我好感激。&lt;/p&gt;
+
+&lt;p&gt;我又笑了笑，把她的发缠在自己的食指上，粗声道：“放心吧，我只是去看看。记住自己要照顾好自己哟！”&lt;/p&gt;
+
+&lt;p&gt;我想了想，又说：“其实我离开些日子也好，免得你总是吃面条，那样营养跟不上，身材可是要变形的。”&lt;/p&gt;
+
+&lt;p&gt;她也笑了，轻轻叹了口气道：“哎，算了，你还是去吧。看来我们两个都是一样的不可救药。”&lt;/p&gt;
+
+&lt;p&gt;待我走出十几米，忽然听见她在后面喊道：&lt;/p&gt;
+
+&lt;p&gt;“你可不是一头猪，你比猪还胖。”&lt;/p&gt;
+
+&lt;p&gt;我笑着摇头，结果发现车站的人都在看我。&lt;/p&gt;
+
+&lt;p&gt;“……你意为鸿鹄志在天下，只怕一失足成千古笑；你意在吞吐天地，不料却成天诛地灭……”她还在我身后，反复吟诵着。&lt;/p&gt;
+
+&lt;p&gt;我记起来了，这是白愁飞临死之前哼的两句废话。&lt;/p&gt;
+
+&lt;p&gt;我搔搔头，心想，小眉真是一个完美的一塌糊涂的女子，可惜天生就是不属于我的。&lt;/p&gt;
+
+&lt;p&gt;火车马上就要开了，在我踏入车厢的那一刻，我不自觉地张开了嘴，轻轻哼着：“我是一头小憨猪，过的很幸福，不想明天能吃什么，只把昨晚的剩菜牢牢记住，啦，啦，啦，啦，啦……过的不糊涂……”&lt;/p&gt;
+
+&lt;p&gt;成都是我曾经生活了两年半的地方。当年我在那里时，我拼命地告诉自己的高中同学，那是一个四季如春的美丽城市。后来我离开了那里，我便拼命地说，那是一个终年看不到太阳，让人闷头闷脑的地方。&lt;/p&gt;
+
+&lt;p&gt;等我回到了这里，才发现不管我怎么说，这城市还是像从前一样，淡淡的天，乌乌的云，灰灰的楼，安静的人群。&lt;/p&gt;
+
+&lt;p&gt;甚至连去学校的公汽都还是那一路。&lt;/p&gt;
+
+&lt;p&gt;我一个人背着包到了学校，找到了一个当年和她关系比较好的老师，打听她的联系方法。&lt;/p&gt;
+
+&lt;p&gt;那个老师很诧异会看到我，更加诧异地说道她昨天晚上就搭飞机走了。&lt;/p&gt;
+
+&lt;p&gt;我算了算时间，那时候我坐的火车刚刚经过达县。&lt;/p&gt;
+
+&lt;p&gt;我这才知道有钱可以改变很多东西，至少对于当时的我而言，金钱就意味着时间，时间就意味着机会，机会就意味着可能，只是可能通常的意思是说不可能……&lt;/p&gt;
+
+&lt;p&gt;我向那位老师说了声谢谢。然后走出办公室，在校园里瞎逛着。&lt;/p&gt;
+
+&lt;p&gt;路过原来住的旧六舍的时候才发现，当年的木板楼早已拆了，现在杵在我面前的是一个很漂亮的学生公寓。公寓里面灯火通明，学生们幸福的一塌糊涂。&lt;/p&gt;
+
+&lt;p&gt;我想起当年在木板楼的过道里借着灯光写信，不由笑了起来。&lt;/p&gt;
+
+&lt;p&gt;我那时候给李艳写四页纸的信，便一定会给她写五页，如此类推。&lt;/p&gt;
+
+&lt;p&gt;我搓搓手，想了起来，当时给李艳写的最长的一封信，只有十七页。&lt;/p&gt;
+
+&lt;p&gt;我突然很痛恨眼前这漂亮的建筑。&lt;/p&gt;
+
+&lt;p&gt;晚上，找到了那个大学同学。&lt;/p&gt;
+
+&lt;p&gt;他似乎并不惊讶会在这里看到我，反而幸灾乐祸地说道：“她昨天就走了。”&lt;/p&gt;
+
+&lt;p&gt;我说我知道，然后躺下就睡。&lt;/p&gt;
+
+&lt;p&gt;他看了我两眼，便出去买酒菜。&lt;/p&gt;
+
+&lt;p&gt;在他的狗窝里呆了两天，喝倒了很多老同学，又重温了一遍田晓霞之死，我便不知道该干什么了，我不知道该到哪里去了。&lt;/p&gt;
+
+&lt;p&gt;这时候，我想起了一个非常好的朋友，当年因为大学成绩过于糟糕，现在分到了阿坝自治州的一个电厂。于是我给他打了个电话，让他来接我。&lt;/p&gt;
+
+&lt;p&gt;他住的地方叫映秀镇，这个小镇我后来和很多女孩子都提过，记得是这样描述的：这个小镇，山不清，水不秀，还有个电厂，空气也不是顶好，不过人少，夜静，月明。&lt;/p&gt;
+
+&lt;p&gt;其实我最喜欢的倒是院子旁边的那条声音很大的河。&lt;/p&gt;
+
+&lt;p&gt;在那几个月里，我经常沿着那条河随意乱走，在那几条索桥之间穿来穿去，偶尔看到山垭里的野棉花，便停下来，采两把，丢到水里面。&lt;/p&gt;
+
+&lt;p&gt;有时候，看着那山顶上的积雪，也曾认真地想着要去爬一爬。&lt;/p&gt;
+
+&lt;p&gt;只是我觉得自己好累。&lt;/p&gt;
+
+&lt;p&gt;河的这岸，就是映秀小镇。&lt;/p&gt;
+
+&lt;p&gt;小镇无特色，只是豆腐多，萝卜多，毛片也多。&lt;/p&gt;
+
+&lt;p&gt;当然最多的还是一些从不认识却自然变的亲切的朋友。&lt;/p&gt;
+
+&lt;p&gt;小镇虽好，只是太过寂寞。&lt;/p&gt;
+
+&lt;p&gt;别说寂寞这词太俗。我在映秀镇只用了半个月的时间便了解了为何有些人会因孤独而死。&lt;/p&gt;
+
+&lt;p&gt;三个半月之后，我不但喝光了朋友所有的全兴，看完了所有的毛片，所有看的下去的武侠小说，到最后甚至连鲁迅杂文全集都当宝贝似地看了两遍。还因为弄饭而整坏了四个电炉，可还是寂寞。&lt;/p&gt;
+
+&lt;p&gt;于是我开始想写一本可以流传半年的武侠小说。&lt;/p&gt;
+
+&lt;p&gt;可又不会写。&lt;/p&gt;
+
+&lt;p&gt;我平均每个月打个电话回家，告诉父母我活的很好。&lt;/p&gt;
+
+&lt;p&gt;我也曾给李艳打过电话，但一直没人接。&lt;/p&gt;
+
+&lt;p&gt;所以我只好每个月给在武汉的一位女同学写封信，借此通知高中的同学们，xf还没死，只是不知道他们在不在乎。&lt;/p&gt;
+
+&lt;p&gt;我也曾给小眉打过电话，但老奶奶说她已经到天津上班去了。&lt;/p&gt;
+
+&lt;p&gt;我想这样很好。&lt;/p&gt;
+
+&lt;p&gt;直到有一天，我例行给家里打电话后，又顺手拨了李艳家的电话。&lt;/p&gt;
+
+&lt;p&gt;她在那头笑呵呵地说：“我要结婚了，祝福我吧！”&lt;/p&gt;
+
+&lt;p&gt;我忽然一下想起了小眉，想起了我对她的承诺。&lt;/p&gt;
+
+&lt;p&gt;所以我把李艳痛斥了一番，然后问她什么时候让我和老任痛痛快快地喝次酒。接着开始收拾行李。&lt;/p&gt;
+
+&lt;p&gt;在电厂工作的好朋友知道我要走了，便陪我到河的两岸去走了走。&lt;/p&gt;
+
+&lt;p&gt;那是他第二十几次陪我了。&lt;/p&gt;
+
+&lt;p&gt;他递给我一根烟，帮我点燃，然后拍拍我的头。&lt;/p&gt;
+
+&lt;p&gt;说了一句很没深度的话：&lt;/p&gt;
+
+&lt;p&gt;“其实我们这里的烧豆腐还是很好吃的，有空常来。”&lt;/p&gt;
+
+&lt;p&gt;等我坐着旅游船赶回yc的时候，才知道李艳已经在一个风雪飘扬的冬日，坐着拖拉机出嫁了。&lt;/p&gt;
+
+&lt;p&gt;于是我狠狠地吃了她们夫妇几顿。&lt;/p&gt;
+
+&lt;p&gt;回到了家里，才知道自己其实很想家。但这并不阻碍我又开始背着黑包，四处寻美色养眼。只是时近年关，人们多穿的比较厚实。看了几分钟，便觉得很没兴致。&lt;/p&gt;
+
+&lt;p&gt;于是我跑到书店里看书，坐在面馆里吃面，呆在江边吹冷风，抽三峡牌香烟，自己和自己聊天。&lt;/p&gt;
+
+&lt;p&gt;我这才发现，小眉在我的生活里不止扮演着参与者的角色，她还很能替我省钱。&lt;/p&gt;
+
+&lt;p&gt;有一天，眼镜摔坏了，我去换八块钱一个的镜片，走在路上，险些撞到一个人，由于眼前一片模糊，所以不知道长的什么样，只是觉得眼前一亮，似乎是个穿着花裙子的漂亮女孩。&lt;/p&gt;
+
+&lt;p&gt;我知道这是眼花，大冬天的，谁穿花裙子找冻。&lt;/p&gt;
+
+&lt;p&gt;父母并不曾问我这些月做了什么，我益发地觉得歉疚。所以过年的那些天，尽量不和兄弟们出去，而是呆在家里陪他们。有一天，家里来了不少亲戚，顿时热闹起来。&lt;/p&gt;
+
+&lt;p&gt;我小意地四处周旋着，却听到电话铃响了。&lt;/p&gt;
+
+&lt;p&gt;我拿起电话，听到一道夏日里冰淇淋一般清凉的声音，虽然现在是冬天，但我还是很高兴。&lt;/p&gt;
+
+&lt;p&gt;“你知道猪是怎么死的吗？”&lt;/p&gt;
+
+&lt;p&gt;我想了想，说：“笨死的。”&lt;/p&gt;
+
+&lt;p&gt;“知道农夫是怎么死的吗？”&lt;/p&gt;
+
+&lt;p&gt;我答不出来。&lt;/p&gt;
+
+&lt;p&gt;“是看见猪笨死了之后，气死了。”&lt;/p&gt;
+
+&lt;p&gt;“那你总该知道农夫的邻居是怎么死的吧？”&lt;/p&gt;
+
+&lt;p&gt;我想了想，还是答不出来。&lt;/p&gt;
+
+&lt;p&gt;“你真是头猪耶！那当然是因为看见农夫竟然会因为猪笨死而气死，所以那个邻居就笑死了。”&lt;/p&gt;
+
+&lt;p&gt;“那你知道那个邻居的老婆是怎么死的吗？”&lt;/p&gt;
+
+&lt;p&gt;我又想了想，认真回答道：“大概是看见她老公竟然笑死了，丢下自己孤儿寡母，所以恨死了。”&lt;/p&gt;
+
+&lt;p&gt;我感觉她在电话那头摇摇头，然后听见她说：&lt;/p&gt;
+
+&lt;p&gt;“那个邻居的老婆心疼死了。”&lt;/p&gt;
+
+&lt;p&gt;我在电话的这头笑了，轻声道：“小眉，好久不见。”&lt;/p&gt;
+
+&lt;p&gt;这时候门铃响了，我舍不得丢下手中的话筒，向坐在桌上的哥哥姐姐们投去求助的眼光。却发现他们的眼光都盯在桌子上。&lt;/p&gt;
+
+&lt;p&gt;于是我在电话里向小眉道了个歉，旋风一般冲到门口打开。&lt;/p&gt;
+
+&lt;p&gt;我看见门外亭亭玉立着小眉。&lt;/p&gt;
+
+&lt;p&gt;她把手机收回袋里，眉眼带笑道：“意外吧？！惊喜吧？！”&lt;/p&gt;
+
+&lt;p&gt;我很意外，待回过头来看见满桌的人张大了嘴四处找牙齿，再看见老妈露出卖掉二十几年存货的神色，才知道原来他们很惊喜。&lt;/p&gt;
+
+&lt;p&gt;像小眉这般可爱的人，自然可以很轻易地让我老爸老妈哥哥姐姐们喜爱。&lt;/p&gt;
+
+&lt;p&gt;于是她吃了平生最饱的一餐饭，听了平生最温柔的话。&lt;/p&gt;
+
+&lt;p&gt;当我看着老妈看小眉的神情，不免有些怀疑这个老妈究竟是谁的妈。&lt;/p&gt;
+
+&lt;p&gt;然后我送她回家。&lt;/p&gt;
+
+&lt;p&gt;在路上，我们一直傻傻地走着，直到她问我：“结果如何？”&lt;/p&gt;
+
+&lt;p&gt;“当然没有结果。”&lt;/p&gt;
+
+&lt;p&gt;“结论？”&lt;/p&gt;
+
+&lt;p&gt;“暂时没有。”&lt;/p&gt;
+
+&lt;p&gt;她停下来，看着我，叹口气道：“你真是快笨死了，我真是快气死了。”&lt;/p&gt;
+
+&lt;p&gt;我笑了笑，说：“你若气死了，我岂不是要笑死了。”&lt;/p&gt;
+
+&lt;p&gt;她也笑了，说：“你最好别死，不然，我可是要心疼死的。”&lt;/p&gt;
+
+&lt;p&gt;那天的风很冷，所以我不觉得自己有些发热。&lt;/p&gt;
+
+&lt;p&gt;我哈哈哈数声，然后说：“我现在正值脆弱，你可别引诱我。”&lt;/p&gt;
+
+&lt;p&gt;她呸了一声，说赏我一口唾沫。&lt;/p&gt;
+
+&lt;p&gt;我笑着摊开双掌，伸到她的唇前接着。&lt;/p&gt;
+
+&lt;p&gt;我们互述别后情由，我说我伤心的时候就抄史记，让自己以为自己是个老学究，根本不识情为何物。她说当她想她的男人的时候，就按照我教的办法，拼命看蓝色生死恋，结果越看越伤神。&lt;/p&gt;
+
+&lt;p&gt;我向她道歉，她说不用。她说我们家那错架子一般的楼梯让她好生难找，我向她道歉。她说从天津回来过年，结果等了我几天的电话，也没等着，于是我又向她道歉。她说在天津那边，偶尔还会想我，我只好又道歉。然后发觉自己道歉的很没道理。&lt;/p&gt;
+
+&lt;p&gt;于是我们又变成秤不离砣，砣不离秤了。&lt;/p&gt;
+
+&lt;p&gt;她说回来后，曾经见过一次她的男人，那是在一次牌桌上。&lt;/p&gt;
+
+&lt;p&gt;我问她表现如何。&lt;/p&gt;
+
+&lt;p&gt;她笑嘻嘻地说想到他已经结了婚了，以后也没什么机会了，所以趁着摸牌的机会，不停地用手指触摸他的手臂，拼命地揩油。&lt;/p&gt;
+
+&lt;p&gt;我笑着纠正，那不叫揩油，那叫送油上门。&lt;/p&gt;
+
+&lt;p&gt;她突然盯着我很严肃地说，现在发现过了好几个月，那个男人依然可以很轻易地影响到她的心情。&lt;/p&gt;
+
+&lt;p&gt;我想了想，认为自己没什么立场开解她，便开玩笑说，那你还是等着他离婚吧。&lt;/p&gt;
+
+&lt;p&gt;本以为她会笑，谁知她竟认真地想了起来。&lt;/p&gt;
+
+&lt;p&gt;我暗呼圣母之名。&lt;/p&gt;
+
+&lt;p&gt;她走的前一天晚上，又给我打了个电话，开门见山头一句：&lt;/p&gt;
+
+&lt;p&gt;“你做我男朋友好不好？”&lt;/p&gt;
+
+&lt;p&gt;一般日本小女生在这个时候会说：“我可以和你交往吗？”脸上还会带着羞怯而大胆的表情。&lt;/p&gt;
+
+&lt;p&gt;宣萱演的白领在这个时候会说：“上我家去喝杯咖啡吗？”表情是不容人拒绝的。&lt;/p&gt;
+
+&lt;p&gt;琼瑶一般会说：“你看那天边的两朵彩云，一朵似我，旁边的一朵是否是你呢？”表情是弱智的。&lt;/p&gt;
+
+&lt;p&gt;古时候的女人可能会说：“遗君明珠，荐君枕席，侍君添香，蒙君不弃……”表情是未知的。&lt;/p&gt;
+
+&lt;p&gt;当代的湖北女人，一般是打死都不会先说的，表情是期待的。&lt;/p&gt;
+
+&lt;p&gt;所以我知道当小眉这样说，一定有下文，所以我很平静。&lt;/p&gt;
+
+&lt;p&gt;果然她苦兮兮地叹道：“真不想走，又找不到个借口留下来。”&lt;/p&gt;
+
+&lt;p&gt;我愤然于她的麻木，惊讶于自己的麻木。&lt;/p&gt;
+
+&lt;p&gt;我说可以介绍很多优秀青年给她认识，比如捷捷和王博。&lt;/p&gt;
+
+&lt;p&gt;过了会儿，又满怀遗憾地告诉她，我们班的这两面旗帜都已倒在美人怀里了。&lt;/p&gt;
+
+&lt;p&gt;于是她又呸了我一口，然后问我，真的不考虑一下。&lt;/p&gt;
+
+&lt;p&gt;我告诉她，她既没得白血病，我也没出车祸，看样子不大可能。&lt;/p&gt;
+
+&lt;p&gt;她想了想，也认同了我的看法，并且为我万分可惜。&lt;/p&gt;
+
+&lt;p&gt;然后她笑嘻嘻地说：“你会后悔的。”&lt;/p&gt;
+
+&lt;p&gt;我说那是一定的。&lt;/p&gt;
+
+&lt;p&gt;“你再也找不到比我更合适当你女朋友的人了。”&lt;/p&gt;
+
+&lt;p&gt;我说那是不一定的。&lt;/p&gt;
+
+&lt;p&gt;“你有可能再也找不到女朋友了。”&lt;/p&gt;
+
+&lt;p&gt;我说那是你胡扯的。&lt;/p&gt;
+
+&lt;p&gt;我们很开心地笑了起来，挂电话之前她说：&lt;/p&gt;
+
+&lt;p&gt;“这次走了，可能就不回来了，以后没人陪你玩，你可别把自己闷着。还有，不该想的事就别想了。早点儿找个工作，自己都养不活自己，丢不丢人啊？还有，别对女孩子说自己喜欢看言情小说，那也很丢人的。还有注意运动，快些减肥。还有什么来着……噢，还有DON’T**OKEANDDRINKALOT，OK?”&lt;/p&gt;
+
+&lt;p&gt;我一一含笑应允，正准备挂电话，又听到她抢着说：&lt;/p&gt;
+
+&lt;p&gt;“还有……帮我问侯你爸爸，妈妈。”&lt;/p&gt;
+
+&lt;p&gt;这是我最后一次听到她的声音。&lt;/p&gt;
+
+&lt;p&gt;小眉走了以后，我仍然是像以往那样生活着，只是骗家里人买了一部电脑，所以老爸天天在和机器下棋，也没空烦我了，所以我也不用天天出门逛街了。&lt;/p&gt;
+
+&lt;p&gt;老姐带着我那个有二级厨师证书的姐夫哥搬回来住了，所以我也不用天天做饭了。&lt;/p&gt;
+
+&lt;p&gt;那些穷兄弟也渐渐地鸟兽东南散了，我也不用经常喝酒了。&lt;/p&gt;
+
+&lt;p&gt;李艳也跟随她老公南下了，我也没有吵架的对象了。&lt;/p&gt;
+
+&lt;p&gt;我也开始考文凭，准备工作了。&lt;/p&gt;
+
+&lt;p&gt;我把一天的时间分成十份，用其中六份来思念钞票，两份用来记住那位身在异国的女同学，一份用来悼念李艳和她的多多，一份用来想想高中同学的相貌，一分用来策划让别人想念。只是偶尔还会想起小眉，曾经是我最好，最好的朋友的那个小眉，那个再无音信的小眉。&lt;/p&gt;
+
+&lt;p&gt;由于时间实在还是太多，便开始续写在映秀镇上没写成的武侠小说，由于把自己幻想成了金小庸，铺设的场面太大，便喊在武汉读书的那位女同学给我拿点儿历史资料回来。结果她给我带了一本大概是小学用的中国古代通史。&lt;/p&gt;
+
+&lt;p&gt;所以这个计划又搁置了起来。&lt;/p&gt;
+
+&lt;p&gt;后来用上了ＱＱ，练就了一身双手互搏的本领，周游于诸多头像之间，发了疯似地告诉她们：&lt;/p&gt;
+
+&lt;p&gt;“从前有座学校，学校里有个澡堂，澡堂里有个我，我在澡堂里洗澡，一边洗澡一边唱歌，我是一头小憨猪，过的很幸福……”&lt;/p&gt;
+
+&lt;p&gt;然后她们说我很有趣。&lt;/p&gt;
+
+&lt;p&gt;于是我把她们都拉到了黑名单里。&lt;/p&gt;
+
+&lt;p&gt;后来又来了一批头像，她们都说对我的名字很感兴趣，说轻眉老生是什么意思。&lt;/p&gt;
+
+&lt;p&gt;我说那意味着我博学多才，成熟稳重，看轻天下其它男子。&lt;/p&gt;
+
+&lt;p&gt;她们问我有何佐证。&lt;/p&gt;
+
+&lt;p&gt;我告诉她们，我经常背的黑包里，一般放着四本书：&lt;/p&gt;
+
+&lt;p&gt;一本是荣格文集，这体现了我的深度。&lt;/p&gt;
+
+&lt;p&gt;一本是鲁迅杂文全集，这体现了我忧国忧民之心。&lt;/p&gt;
+
+&lt;p&gt;一本是平凡的世界，这说明了我如同浴火的凤凰，向往着从苦难中升华。&lt;/p&gt;
+
+&lt;p&gt;还有一本是交错时光的爱恋，完完全全是因为自己喜欢看。&lt;/p&gt;
+
+&lt;p&gt;看到我的回答，她们的答复无一例外是一声呸。&lt;/p&gt;
+
+&lt;p&gt;我也偶尔会上席绢梦幻阁去看看，取了个望月精灵的恶名，与那些十五六岁的小朋友们打打嘴仗，不亦乐乎。&lt;/p&gt;
+
+&lt;p&gt;我还上了５４６０，潜进了湖大所有的班级，只是很可惜，没有小眉的信息。&lt;/p&gt;
+
+&lt;p&gt;一个阳光明媚的夏天，我偷偷到冰箱里把外甥女的冰淇淋摸了一根，坐在电脑前有滋有味地品尝了起来。然后发现李艳在ＱＱ里埋怨我帮她取的叶轻眉的名字很难听，我笑了起来。&lt;/p&gt;
+
+&lt;p&gt;她又问我是不是还在和那些未成年人打嘴仗，也不知道省点儿钱。&lt;/p&gt;
+
+&lt;p&gt;正准备回答，就发现有另外一个头像开口了。&lt;/p&gt;
+
+&lt;p&gt;于是我告诉李艳，想到和她聊天，确实有点儿心疼钱，但想到和别人聊天，嗯不错，我舍得。&lt;/p&gt;
+
+&lt;p&gt;李艳怒发冲冠，警告我，以后不准再四处攻击她，免得影响她后半生的幸福。&lt;/p&gt;
+
+&lt;p&gt;我愕然道，你还有幸福吗，更莫说是下半辈子的。&lt;/p&gt;
+
+&lt;p&gt;两人又互骂几句后，我才有空去看来的那条消息。&lt;/p&gt;
+
+&lt;p&gt;那个头像说：&lt;/p&gt;
+
+&lt;p&gt;“天气还真是热啊。”&lt;/p&gt;
+
+&lt;p&gt;我忙着和李艳打闹，急忙敷衍道：&lt;/p&gt;
+
+&lt;p&gt;“天好热啊。”&lt;/p&gt;
+
+&lt;p&gt;本不打算再理她，谁知她的下一句话，来的奇快无比。&lt;/p&gt;
+
+&lt;p&gt;“你知道猪是怎么死的吗？”&lt;/p&gt;
+
+&lt;p&gt;我摸了摸后脑勺，点上根烟，咧着嘴笑了，像弹钢琴一样打着键盘。&lt;/p&gt;
+
+&lt;p&gt;“我是想你想死的。”&lt;/p&gt;
+
+&lt;p&gt;是的，叶轻眉，我的朋友，最好最好的那一种。&lt;/p&gt;
+
+&lt;p&gt;跋：（其实这个字本身就很有搞笑的功能）&lt;/p&gt;
+
+&lt;p&gt;我所想念的，一切都可以结束了&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;（这是猫腻的长篇小说《庆余年》里写在前面的非常有趣的一章，很喜欢这个故事，所以摘录到此）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>杂谈:指纹歌里的人生百态</title>
+      <link>http://alimy.me/post/etc_201603192115/</link>
+      <pubDate>Sat, 19 Mar 2016 21:15:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/etc_201603192115/</guid>
+      <description>&lt;p&gt;“一螺穷，二螺富，三螺四螺开当铺……”童年时代，您可曾唱过指纹歌？童谣未必预示了命运，但却包含了人生百态。&lt;/p&gt;
+
+&lt;p&gt;指纹，是在每个人出生第六个月就形成，并跟随人一生一世的身体纹线，每个人的指纹都是独一无二的，世界上绝不会有指纹完全相同的两个人。所以，我国在一千多年前的唐代，就实行了指纹画押。古代的借据就是借户用中指和食指在借据上并列印上指纹叫作“花押”。直到现代，立据签约还仍然使用这种当事人在契约上按手印的方法作为凭信。刑事侦探还把鉴别手纹作为破案的重要手段。&lt;/p&gt;
+
+&lt;p&gt;两种最基本的指纹：纹如水流中的漩涡形，或中间的纹成封口的环状，叫涡纹，又叫螺纹；指纹呈流线形脱开，不封口，叫流纹，又叫箕纹。&lt;/p&gt;
+
+&lt;p&gt;螺是指螺旋状的环形纹，箕是指簸箕状的开口纹。张爱玲在《谈看书》中提到：十只手指上，螺越多越好，聚得住钱；男人簸箕也好，会赚钱，能够把钱铲回家；女人则是螺好，会积钱，手上没螺，拿东西不牢。&lt;/p&gt;
+
+&lt;h3 id=&#34;指纹歌的地图-盛行于东南沿海&#34;&gt;指纹歌的地图：盛行于东南沿海&lt;/h3&gt;
+
+&lt;p&gt;在一些童谣集中载录了大量的指纹歌，如商务印书馆《各省童谣集》第一集（1923年）就收录了三首，分别采自安徽休宁、浙江杭县、浙江新昌；上海世界书局《绘图童谣大观》（1924年）也收录了三首，分别采自江苏的吴县、无锡和江都。&lt;/p&gt;
+
+&lt;p&gt;《各省童谣集》的编者说：“看螺纹定一生贫富贵贱，各省都有这种事，但所说各不相同，可见这事不足深信。”这话听起来，好像如果各地所说一致，就可以深信似的。这首曾经被打入“封建迷信”另册的趣味童谣，正因为异文众多，不足为信，才会给我们的童年生活带来许多相互打趣的快乐。
+
+我陆续搜集了101首大同小异的指纹歌，却发现它们只出现在11个省市，并非“各省都有”。对照中国地图看一下，指纹歌基本上流行于东南沿海地区，从江苏沿海路向南，上海、浙江、福建、台湾、广东，一个不落，而内陆却只有安徽、湖北、湖南、江西等几个紧靠以上地区的省份。在西北和东北地区，居然没能找到一首指纹歌。&lt;/p&gt;
+
+&lt;p&gt;北京的儿歌是最丰富的，可是，北大《歌谣》周刊并未见到有指纹歌发表。我所仅见的北京这首《一螺穷》，内容还被精减、合并为“一螺穷，二螺富，三螺四螺开当铺，五螺六螺磨豆腐，七螺八螺自来有，九螺一箕，稳吃稳坐”。&lt;/p&gt;
+
+&lt;h3 id=&#34;指纹歌的韵脚-韵一换-运也转&#34;&gt;指纹歌的韵脚：韵一换，运也转&lt;/h3&gt;
+
+&lt;p&gt;北京的《一螺穷》虽然简单，却大致反映了许多指纹歌的主导思路，也即张爱玲说的，螺越多越好。另一首不明地域的螺纹歌，这一思路更加明显：“一螺穷，二螺富，三螺四螺卖豆腐，五螺六螺开当铺，七螺八螺有官做，九螺十螺享清福。”生活质量的好坏基本上与手上螺纹的多少成正比。不过，指纹歌的价值更多体现在它的游戏性，而不是命相的准确度。&lt;/p&gt;
+
+&lt;p&gt;各地指纹歌中最一致的，大约是起首句“一螺穷（贫），二螺富”，全部101首中，占了67首。大凡“一螺穷，二螺富”的地区，基本都是为了在前几句中押一个“富”字韵，北平的《一螺穷》最有代表性。明白了这一点，也就明白了为什么有那么多人开当铺、磨豆腐、披麻布、无着裤、住大屋、倒大路。&lt;/p&gt;
+
+&lt;p&gt;多数“一螺穷”会在五螺之后换韵。韵一换，运也转，比如湖北流传的“一螺穷，二螺富，三螺四螺住大屋，五螺卖柴，六螺穿鞋，七螺八螺，挑屎过街，九螺单，当天官，十螺全，点状元，十个簸箕，金银挑起”。这就有点像客家儿童唱“一二三四五，上山打老虎，老虎不在家，放屁就是他”，为什么放屁的是他而不是你和我，只是因为“他”与“家”押韵。因此，如果上一句唱成“老虎在家里”，那么对不起，“放屁就是你”。&lt;/p&gt;
+
+&lt;p&gt;起首句与《一螺穷》不一致的地区，主要是广东、福建和台湾。台湾金门的“一螺一嗲嗲，二螺跄脚蹉”与闽南的“一螺一底底,二螺跑飞飞”，以及潮州的“一螺一帝帝，二螺走脚皮”估计是同源异文，所谓嗲、底、帝，大概也只是各地记录者用词的不同，都是为了表达一种闲适状态，以便与“二螺跄脚蹉”的劳碌状态相区别。&lt;/p&gt;
+
+&lt;p&gt;《一螺穷》放在闽南话中，读起来很不爽口，因此只能重编一套《一螺一嗲嗲》的新指纹歌。所以说，一螺到底是“穷”还是“嗲嗲”，不是因为东海岸人与南海岸人长得有什么不一样，而是因为他们的语言系统不一样。&lt;/p&gt;
+
+&lt;h3 id=&#34;指纹歌的秘密-三教九流-人生百态&#34;&gt;指纹歌的秘密：三教九流，人生百态&lt;/h3&gt;
+
+&lt;p&gt;在杭州到台州的连接带上，杭州、诸暨、新昌、天台、临海，都流行一种恐怖版指纹歌，杭州是“五螺磨刀枪，六螺杀爹娘”，诸暨是“七螺磨刀枪，八螺杀爷娘”，新昌是“七螺磨尖刀，八螺杀爹娘”，天台是“六螺磨刀枪，七螺杀姨娘”，临海是“五螺掼刀枪，六螺杀爷娘”。少一螺的，总是执行前一工序，或者叫帮凶；多一螺的，总是执行后一工序，因此成了凶手。&lt;/p&gt;
+
+&lt;p&gt;六螺在所有螺数中是最狠最倒霉的，在杭州和临海一定是凶手；到了天台可以弱化为帮凶；再到诸暨或新昌，穷虽穷，却可以不必干那杀人的勾当；如果能走远一点，北上江苏如皋，好歹可以“去种田”；到了扬州、仪征一带就能“骑花马”；如果脚力勤，远上北京，还能攒钱“开当铺”。但是不能往西或往南，往湖北只能“穿草鞋”、“做强盗”；往湖南则是“打草鞋”、“放鸭婆”；到江西也还有可能“打死人”；到了广东和福建，大多数情况下还是只能“讨饭匹”、“掰心肠”、“做小偷”、“给狗拆”。当然，少数南下分子也可能“做相公”；如果能渡海到台湾，则有可能“米头全”或者“有米煮”。&lt;/p&gt;
+
+&lt;p&gt;据说人种不同，螺数分布的规律也不同。白种人与非洲人箕纹多，澳洲土著螺纹多，黄种人介于两者之间。假设这种说法是正确的，那么，黄种人应该是以五螺六螺居多了，按杭州和临海的说法，他们都在“磨刀霍霍向爹娘”——这当然只能拿来当个噱头，供儿童们互相唱着取笑。&lt;/p&gt;
+
+&lt;p&gt;纵观各地指纹歌，各行各业五花八门，计有重工业（砸石条、掼刀枪），轻工业（磨豆腐、弹棉花），农牧业（会种田、牵猪牯），建筑业（起大厝），服务业（挑粪桶、抬花轿），商业（开当铺、卖老婆），交通（骑白马、坐官船），能源（担柴卖），文教卫生（中状元、捡狗屎），信息产业（做媒婆），文化艺术（吹喇叭），宗教（拜菩萨），行政管理（会做官、管天下）等等，三教九流，包罗万象。&lt;/p&gt;
+
+&lt;p&gt;指纹歌中最常见的生活状态是平平过、谷满仓、坐颓颓、走脚皮、盖草铺、住大屋、无米炊、操心肠、得高寿、有钱无人知、金子银子压秤砣之类。另外，打死人、做强盗、做贼、偷挖壁、沿街乞、倒大路的现象也非常严重。&lt;/p&gt;
+
+&lt;p&gt;要说指纹歌真实地反映了现代社会的人生百态，那显然是拔高了，但若说反映了传统农业社会对于社会结构与人生百态的粗浅理解，则不会太过。&lt;/p&gt;
+
+&lt;p&gt;当然，指纹歌也缺失了许多很重要的社会内容。比如对于读书的理解，只给出了“中状元”一条出路，似乎中不了状元就只能捡狗屎。至于现代社会的现代行业，就得不到体现了。指纹歌几乎没有什么实际的命相作用，也不会真有人拿着鸡毛当令箭，因此，我们也就用不着大惊小怪地把它当作封建迷信一棒打杀，权当一张陈旧发黄的老照片，也挺好。&lt;/p&gt;
+
+&lt;h3 id=&#34;各地指纹歌&#34;&gt;各地指纹歌&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;北京&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一螺穷二螺富，三螺四螺开当铺，五螺六螺磨豆腐，七螺八螺自来有，九螺一箕，稳吃稳坐。&lt;br /&gt;
+&lt;em&gt;（1930年，雪如女士《北平歌谣续集》）&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;一斗穷二斗富三斗四斗卖豆腐，五斗六斗开当铺，七斗八斗把官做，九斗十斗享清福.&lt;/p&gt;
+
+&lt;p&gt;一斗穷二斗富三斗四斗卖豆腐，五斗六斗去赶集，七斗八斗去赴席，九斗一过，老了稳坐&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;苏州&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一罗巧二罗好，三罗抱棒柱，四罗打得稳勿住，五罗穷六罗富，七罗做长工，八罗做相公，九罗骑白马，十罗坐官船。&lt;br /&gt;
+&lt;em&gt;原注：指纹皆圆者为罗，吴人以罗之多少，占一生之命运。（《吴歌丙集》第39首，320页）&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;一螺巧二螺拙，三螺拖棒柱，四螺纯勿识，五螺富，六螺穷，七螺做相公，八螺做长工，九螺骑白马，十螺坐官船。&lt;br /&gt;
+&lt;em&gt;原注：按指纹中作回旋状者，谓之螺，否则谓之粪箕。又传说：男以螺多为贵；女以粪箕多为贵。（《吴歌丁集》第4首，350页）&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;常熟&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一箩巧，二箩拙，三箩回勿转，四箩拖捧柱，五箩富，六箩穷，七箩相公，八箩长工，九箩撑黄伞，十箩十畚箕，堆满老宅基。&lt;/p&gt;
+
+&lt;p&gt;一螺巧，二螺笨，三螺拖捧头，四螺全不识，五螺富，六螺穷，七螺挑糞桶，八螺做长工，九螺骑白马，十螺坐官船，无螺一场空。&lt;br /&gt;
+&lt;em&gt;解释：拖捧头指吃生活挨打，全不识是文盲。&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;鄂西&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一螺穷二螺富，三螺四螺住瓦屋，五螺六螺穿草鞋，七螺八螺挑屎卖，九螺单，当天官，十螺全，点状元，十把筲箕，金银挑起&lt;br /&gt;
+&lt;em&gt;原注：螺，即指纹。呈螺旋形的叫螺，有缺口的叫筲箕。&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;杭州&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一罗穷二罗富；三罗四罗披麻布；五罗六罗开店铺；七罗八罗有官做；九罗一畚箕，顿顿吃干的；十罗全，中状元。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;临海&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一罗穷二罗富， 三罗造酒醋，四罗卖豆腐， 五罗掼刀枪，六罗杀鸡娘， 七罗七，讨饭匹， 八罗八，拜菩萨， 九罗九，做太守， 十罗十，生个小儿别大别。 满手鸡，做个状元有吃又有嬉。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;缙云&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一脶穷两脶富，三脶换豆腐，四脶卖酒醋，五脶骑白马，六脶管天下，七脶摇铃铃，八脶上天灯，九脶九，做太守，十脶全，中状元。&lt;br /&gt;
+&lt;em&gt;【注释】换豆腐——缙云古代，豆腐不用钱买，而是用豆子换，一斤豆子换三斤豆腐。做豆腐的人家一般没有多少利润，只是赚些豆腐渣喂猪。后来有了豆腐店，豆腐也可以用钱买了，但是习惯上依旧叫做“换豆腐”。摇铃铃——指当道士。上天灯——“天灯”是缙云旧俗由“积善人家”一家或几家轮流点在十字路口或丁字路口的灯笼。这里指积善。&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;诸暨&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一螺穷二螺富，三螺挑担捡鸡屙，四螺骑白马五螺管天下六螺做丞相七螺磨刀枪八螺做贼，九螺逼（追）着——十只鸡，满天飞！&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;天台&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一罗穷二罗富，三罗卖豆腐，四罗捉狗屙，五罗高官做，六罗磨刀枪，七罗杀爹娘，八罗八，敲菩萨，九罗九，做太守，十罗全，生个小囝中状元。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;瑞安&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一雷富，二雷平平过，三雷扫猪污，四雷卖豆腐，五背刀枪，六雷杀爷娘，七雷骑白马，八雷坐天下，九雷九，背快口，十雷全，中状元，十雷空，做相公。” 潮汕&lt;/p&gt;
+
+&lt;p&gt;一螺一飞飞，二螺走脚皮，三螺有米煮，四螺无米炊，五螺五田庄，六螺百心肠，七螺七益益，八螺做乞食，九螺九翁翁，十螺做太公。无螺十簸箕，免赚就有钱。&lt;br /&gt;
+&lt;em&gt;解释：飞飞即悠闲，走脚皮指到处奔波。五田庄即家有田地，地主也。百心肠是太多烦恼操心事。七益益指乐善好施。九翁翁即翁媳婆媳关系和睦。做太公即四代同堂，多子多福。&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;一螺坐颓颓；二螺走脚皮；三螺无米煮；四螺无米炊；五螺五田庄；六螺操心肠；七螺七役役；八螺做乞食；九螺九安安；十螺会做官&lt;/p&gt;
+
+&lt;p&gt;一螺穷、二螺家、三螺四螺开当铺、五个螺作媒婆、六个螺作小偷、七螺遭殃、八螺吃糠、九螺一个箕到老坐着吃、十个螺作大官。&lt;/p&gt;
+
+&lt;p&gt;一螺巧嗲嗲；二螺走脚皮；三螺有米煮；四螺胡饭炊；五螺顾三餐；六螺岁寿长；七螺七富富；八螺起大厝；九螺九安安；没螺没簸箕；有厝又有钱。&lt;/p&gt;
+
+&lt;p&gt;一螺学爬爬，二螺走骹皮，三螺无米煮，四螺无饭炊，五螺五挖挖，六螺做乞食，七螺穷到底，八螺富上天，九螺玉春臼，十螺金瓦厝。&lt;/p&gt;
+
+&lt;p&gt;一螺一帝帝，二螺走脚皮，三螺无米煮，四螺有饭炊，五螺五益益，六螺给狗拆，七螺七富裕，八螺起大厝，九螺挖壁空，十螺做相公。十畚箕，有嗵食有嗵披。&lt;/p&gt;
+
+&lt;p&gt;一螺一直坐，二螺撑脚蹄，三螺无米煮，四螺学喷吹，五螺偷挖壁，六螺做乞食，七螺穷，八螺富，九螺起大厝，十螺中进士。&lt;/p&gt;
+
+&lt;p&gt;一螺一短短，二螺欠脚气，三螺学吹箫，四螺有米煮，五螺五尖当，六螺日头长，七螺七娃娃，八螺做乞吃，九螺九安安，十螺会做官。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;赣南客家&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一螺穷二螺富，三螺牵猪古（意为贫贱），四螺蒸酒卖豆腐，五螺骑马应圩，六螺打死人，七螺做中人，八螺驮锁链（即戴枷锁），九螺解下院（意为吃官司），十螺十足，层箩列谷，瓮子盛足，无螺穿椟惢（意为什么都留不住）&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;闽东&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一螺穷，二螺富，三螺开酒库，四螺没饭吃，五螺做乞食（乞丐），六螺圆车车（形容人的富态），七螺做老爹（大官），八螺是庙祝（寺庙中管香火的人），九螺会当家，十螺管天下。（《福州百首民谣》）&lt;/p&gt;
+
+&lt;p&gt;一缧堆，二缧衰，三缧没米煮，四缧有饭吹，五缧红又红，六缧去卖田，七缧富又富，八缧穿破裤，九缧弯又弯，十缧去做官&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;闽南&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一螺一直坐，二螺撑脚蹄，三螺无米煮，四螺学喷吹，五螺偷挖壁，六螺做乞食，七螺穷，八螺富，九螺起大厝，十螺中进士。&lt;/p&gt;
+
+&lt;p&gt;一脶一坐座，二脶走脚皮，三脶无米煮，四脶有饭炊，五脶五花妆，六脶米头全，七脶七挖壁，八脶做乞吃，九脶九上山，十脶去做官。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;金门&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一螺一嗲嗲，二螺跄脚蹉，三螺贤歕吹，四螺有米煮，五螺五花装，六螺米头长，七螺七挖壁，八螺做乞食，十螺去做官。十畚箕有通食阁有通偏。&lt;br /&gt;
+&lt;em&gt;注：跄脚蹉：单脚跳。贤歕吹：很会哭。偏：占便宜。&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;资兴&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一箩穷二箩富，三箩蒸曲卖豆腐，四箩家军窟，五箩家贫民窟，六箩骑马走街上过，七箩打杀人，八箩煞娘爷，九箩咚咚咚，十箩窃古种&lt;br /&gt;
+&lt;em&gt;解释：家军窟指充军命，家平民窟，是平民命，骑马，是指中状元。打杀人，指江湖人氏，煞娘爷，相当狠。咚咚咚，不是乞丐就是戏子。窃古种，野种（窃古=小偷）。&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;安仁&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一箩穷二箩富，三箩四箩蒸酒卖豆腐，五箩六箩打草鞋，七箩八箩挑屎卖，九箩一操，骑马背官刀，十箩全，中状元。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;乐昌客家&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一螺穷，二螺富，三螺牵猪牯，四螺蒸酒卖豆腐，五螺骑马迎喝，六螺打死人，七螺做中人，八螺锁链，九螺解锁链，十螺盎子装粥吃客家,。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;南雄&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一脶穷，二脶富，三脶蒸酒磨豆腐，四脶满冬冬，五脶做相公，六脶打死人，七脶做中人，八脶平平过，九脶十脶饿死没人知。一脶巧，二脶饱，三脶抓屎爪，四脶满冬冬，五脶做相公，六脶骑马过河，七脶银打秤锤，八脶九脶子孙多，十脶死了劳劳嘈。河北&lt;/p&gt;
+
+&lt;p&gt;一斗穷，二斗富，三斗四斗开当铺，五斗卖煤子，六斗小贼子。七斗当员外，八斗作知府，九斗十斗，不做就有。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;附带一个测试游戏-测测你的指纹&#34;&gt;附带一个测试游戏（测测你的指纹）&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;注意：o为斗（手指肚上纹路形成一个闭合的圆圈环绕状），x为簸萁（其余任何图案,一般就是纹路不闭合，开口向下）斗是代表得到，簸萁是代表付出&lt;/em&gt;&lt;br /&gt;
+&lt;em&gt;提示：男左女右&lt;/em&gt;&lt;br /&gt;
+顺序：大食中无小&amp;mdash;-性格简述&lt;br /&gt;
+1.  oooox&amp;mdash;有点能力，思想波动，见异思迁，讲信用。&lt;br /&gt;
+2.  ooxoo&amp;mdash;朋友多，工作有成绩，感情深，性格开朗。&lt;br /&gt;
+3.  ooooo&amp;mdash;有信心，办事积极，有领导能力，身体健康，易挫折。&lt;br /&gt;
+4.  oooxx&amp;mdash;信用心强，心地善良。&lt;br /&gt;
+5.  xxxxx&amp;mdash;温顺有耐力，性格朴实，正直。&lt;br /&gt;
+6.  oxxxo&amp;mdash;花言巧语，诡计多端，以自己为主。&lt;br /&gt;
+7.  xxxxo&amp;mdash;机智，狡猾。&lt;br /&gt;
+8.  xxxoo&amp;mdash;唱材，感情用事，活泼，不自量。&lt;br /&gt;
+9.  xoxoo&amp;mdash;稳重，有活动能力，有信心，容易自我毁灭。&lt;br /&gt;
+10. xooxo&amp;mdash;活动能力超群，能充分理解事物。&lt;br /&gt;
+11. xxooo&amp;mdash;感情丰富，不稳定，欠考虑，活动能力强，易挫折。&lt;br /&gt;
+12. oxxoo&amp;mdash;易动感情，愿意助人。&lt;br /&gt;
+13. oxoxo&amp;mdash;感情丰富，有活动能力，好显示自己。&lt;br /&gt;
+14. oxoox&amp;mdash;易动感情，才貌超群，肯设想，通情达理。&lt;br /&gt;
+15. ooxox&amp;mdash;手巧，有能力，遇事冷静，表面急躁。&lt;br /&gt;
+16. xxoxo&amp;mdash;热情，好吹嘘，有时积极稳重，独立活动不多。&lt;br /&gt;
+17. ooxxo&amp;mdash;自私，不听劝，好色，易挫折。&lt;br /&gt;
+18. xxoxx&amp;mdash;手巧，聪明，固执。&lt;br /&gt;
+19. oooxo&amp;mdash;做事漂亮，口是心非，经不起情色考验。&lt;br /&gt;
+20. xxxox&amp;mdash;有经验，办事认真，稳重。&lt;br /&gt;
+21. xooox&amp;mdash;感情强烈，活泼，有耐心，自尊心强，但服从分配。&lt;br /&gt;
+22. oxoxx&amp;mdash;好奇心强，有志气，有远见，但易失败。&lt;br /&gt;
+23. xoooo&amp;mdash;能说能干，性格急躁，自尊心强。&lt;br /&gt;
+24. oxooo&amp;mdash;想象力丰富，个性强，运气好。&lt;br /&gt;
+25. xoxox&amp;mdash;做事无计划，通情达理，有活动能力。&lt;br /&gt;
+26. xxoox&amp;mdash;斗争性强，性格坚强，有时狂热。&lt;br /&gt;
+27. oxxxx&amp;mdash;性格温顺，善于为人，耿直，做事圆滑机智。&lt;br /&gt;
+28. ooxxx&amp;mdash;强烈求知欲，做事坚强，文武兼备。&lt;br /&gt;
+29. xoxxx&amp;mdash;铁面无私，有活动能力，待人热情。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;（资料整理自网络，仅供参考）&lt;/p&gt;</description>
     </item>
     
   </channel>
