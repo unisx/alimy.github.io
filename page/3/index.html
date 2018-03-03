@@ -239,6 +239,168 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/etc_201603152115/" title="阅读全文">诚意十足的招聘页面 </a> </h2>
+
+</header>
+<div class="summary">
+    
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/etc_201603152115/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603132045/" title="阅读全文">Intro to TOML </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="overview-of-date-and-calendar-classes">Overview of Date and Calendar classes</h3>
+
+<p>TOML stands for Tom’s Own Minimal Language. It is a configuration language vaguely similar to YAML or property lists, but far, far better. But before we get into it in detail, let’s look back at what came before.</p>
+
+<h3 id="long-ago-in-a-galaxy-far-far-away">Long Ago, In A Galaxy Far, Far Away</h3>
+
+<p>Since the beginning of computing, people have needed a way to configure their software. On Linux, this generally is done in text files. For simple configurations, good old foo = bar works pretty well. One setting per line, name on the left, value on the right, separated by an equals. Great. But when your configuration gets more complicated, this quickly breaks down. What if you need a value that is more than one line? How do you indicate a value should be parsed as a number instead of a string? How do you namespace related configuration values so you don’t need ridiculously long names to prevent collisions?</p>
+
+<h3 id="the-dark-ages">The Dark Ages</h3>
+
+<p>In the 90’s, we used XML. And it sucked. XML is verbose, it’s hard for humans to read and write, and it still doesn’t solve a lot of the problems above (like how to specify the type of a value). In addition, the XML spec is huge, processing is very complicated, and all the extra features invite abuse and overcomplication.
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603132045/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603132030/" title="阅读全文">Java: Date And Calendar </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="overview-of-date-and-calendar-classes">Overview of Date and Calendar classes</h3>
+
+<p>In this tutorial we look at the classes in java that are helpful in manipulating dates. Manipulating dates in java can be challenging, especially if you are building applications that cater to multiple timezones. Parsing dates, printing a date in UTC, printing a date in a different timezone, comparing dates, adding time to date&hellip; we will be looking at all of these in this tutorial. We first begin with the introduction to the classes and then follow up with examples. You may want to directly jump to the examples, however, we strongly recommend that you understand the classes first, since that will make the examples very easy to understand.</p>
+
+<ul>
+<li><p>java.util.Date - This class is used to represent a specific time with a precision of millisecond. If you create a new Date object, it obtains the current system time using System.currentTimeMillis(). This is the number of milliseconds since epoch time (midnight, January 1, 1970 UTC). Here&rsquo;s the tricky part, date stores time as number of seconds since epoch, it is a UTC time. However, when you print the date, you get the string representation of the date in the local timezone. Also note that the Date class is not designed to manipulate hour, month, year etc or retrieve them. Use this class only to create data or compare two dates. For all other uses, see the Calendar or GregorianCalendar class.</p></li>
+
+<li><p>java.util.Calendar - Calendar class allows manipulating data using its various fields such as minute, hour, day etc. As in the java.util.Date object, time is represented as number of milliseconds since epoch time. To get an instance of the Calendar use the Calendar.getInstance() method which returns a locale sensitive Calendar instance. Various set and get methods can be used to set and get time values. The current time is represented in two ways - 1. as number of milliseconds since epoch and 2. as local fields such as YEAR, MONTH, DAY, HOUR, MINUTE etc. The conversion between the two types is achieved by using the timezone offset (getOffset()) and the daylight savings fields.<br />
+the MONTH fields starts from 0 (JANUARY).<br />
+The DAY_OF_MONTH starts from 1<br />
+the DAY_OF_WEEK starts from SUNDAY with a value of 1.<br />
+HOUR starts from 0</p></li>
+
+<li><p>java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603132030/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603132025/" title="阅读全文">Java: org.json </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="overview-of-the-api-classes">Overview of The API Classes</h3>
+
+<p>org.json has classes to parse and write json string. It also converts between json and xml, HTTP header, Cookies, and CDF. The main classes are:</p>
+
+<ol>
+<li>org.json.JSONObject - This class stores unordered key value pairs. The value can be Boolean, JSONArray, Number, String or JSONObject.NULL. It has constructors to take in a json string and store it as key value pairs. It also has constructors that take in a Map, a bean or a String</li>
+<li>org.json.JSONTokener - This class parses a JSON string and is also used internally by the JSONObject and JSONArray classes to parse JSON Strings</li>
+<li>org.json.JSONArray - This class stores an ordered sequence of values. Externally it represents a JSON Array</li>
+<li>org.json.JSONWriter - This class represents method to produce json text. It has an append(String) method to append a string to a json text, key(String) and value(String) method to add key and values to json string. It can also write an array.</li>
+<li>org.json.CDL- This class has methods to convert comma delimited text to JSONArray and a JSONArray to a comma delimited text. The array contains rows of comma separed strings, with rows separated by newline. The first row contains names.</li>
+<li>org.json.Cookie - This class has method to convert a web browser cookie to a JSONObject and back.</li>
+<li>org.json.CookieList - This class has method to convert a list of cookies to JSONObject and back.
+Lets see some examples</li>
+</ol>
+
+<h3 id="parse-json">Parse JSON</h3>
+
+<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603132025/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603132015/" title="阅读全文">Java: Json Simple </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Json Simple is, as the name suggest, a very simple API. The API itself is made up of around 13 classes. The main classes are :</p>
+
+<ul>
+<li>JSONParser - This parses Json text. It takes in a java.io.Reader or a String Object. It is also possible to pass a ContentHandler or ContainerHandler to the parser.</li>
+<li>JSONObject - This is a java representation of JSON string. It stores key value pairs. JsonObject extends HashMap. It has method to encode a map to a JSON text (writeJSONString(Map map, Writer out))</li>
+<li>JSONArray - Represents a collection. It extends an ArrayList. It implements the JSONAware and JSONStreamAware interface</li>
+<li>JSONValue - This class has methods to parse JSON string into Java objects. It uses the JSONParser to do so. It has methods to write JSON string from many java types (writeJSONString(Object value, Writer out)). It also has methods to escapte special characters using the escape(String s) method. This method escapes quotes, \, /, \r, \n, \b, \f, \t and other control characters (U+0000 through U+001F)</li>
+<li>JSONAware - Beans that support output to JSON form should implement this interface.
+Lets see some examples</li>
+</ul>
+
+<h3 id="parse-json">Parse JSON</h3>
+
+<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603132015/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603122045/" title="阅读全文">Gson: User Guide </a> </h2>
+
+</header>
+<div class="summary">
+    <ol>
+<li><a href="#TOC-Overview">Overview</a></li>
+<li><a href="#TOC-Goals-for-Gson">Goals for Gson</a></li>
+<li><a href="#TOC-Gson-Performance-and-Scalability">Gson Performance and Scalability</a></li>
+<li><a href="#TOC-Gson-Users">Gson Users</a></li>
+<li><a href="#TOC-Using-Gson">Using Gson</a>
+
+<ul>
+<li><a href="#TOC-Gson-With-Maven">Using Gson with Maven</a></li>
+<li><a href="#TOC-Primitives-Examples">Primitives Examples</a></li>
+<li><a href="#TOC-Object-Examples">Object Examples</a></li>
+<li><a href="#TOC-Finer-Points-with-Objects">Finer Points with Objects</a></li>
+<li><a href="#TOC-Nested-Classes-including-Inner-Classes-">Nested Classes (including Inner Classes)</a></li>
+<li><a href="#TOC-Array-Examples">Array Examples</a></li>
+<li><a href="#TOC-Collections-Examples">Collections Examples</a></li>
+<li><a href="#TOC-Collections-Limitations">Collections Limitations</a></li>
+<li><a href="#TOC-Serializing-and-Deserializing-Generic-Types">Serializing and Deserializing Generic Types</a></li>
+<li><a href="#TOC-Serializing-and-Deserializing-Collection-with-Objects-of-Arbitrary-Types">Serializing and Deserializing Collection with Objects of Arbitrary Types</a></li>
+<li><a href="#TOC-Built-in-Serializers-and-Deserializers">Built-in Serializers and Deserializers</a></li>
+<li><a href="#TOC-Custom-Serialization-and-Deserialization">Custom Serialization and Deserialization</a></li>
+<li><a href="#TOC-Writing-a-Serializer">Writing a Serializer</a></li>
+<li><a href="#TOC-Writing-a-Deserializer">Writing a Deserializer</a>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122045/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122040/" title="阅读全文">Gson: Exclusion Strategy </a> </h2>
 
 </header>
@@ -318,313 +480,6 @@ public class DatasetTypeAdapterExample8 {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122030/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122028/" title="阅读全文">Gson: Serializing Inner Classes </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-inner-classes">Serializing inner classes</h3>
-
-<p>Gson can serialize inner classes and static nested classes. The detailed example below demonstrates the following things.</p>
-
-<ol>
-<li>Serializing class containing static nested class</li>
-<li>Serializing class containing non static nested class (Inner class)</li>
-<li>De-serializing json to a class containing static and non static inner class</li>
-<li>Serializing static nested class (without the enclosing type)</li>
-<li>Serializing non static nested class (without the enclosing type)</li>
-<li>De-serializing json to a static nested class (without the enclosing type)</li>
-
-<li><p>De-serializing json to a non static nested class (without the enclosing type)
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122028/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122025/" title="阅读全文">Gson: Serializing and deserializing Java Generic Classes </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-list">Serializing list</h3>
-
-<p>As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.</p>
-
-<pre><code>package com.studytrails.json.gson;
-
-import java.lang.reflect.Type;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-public class GenericTypesExample8 {
-	public static void main(String[] args) {
-		// create an animal class that is of type dog.
-		Animal animal = new Animal&lt;Dog&gt;();
-		// Create a Dog instance
-		Dog dog = new Dog(&quot;I am a dog&quot;);
-
-		animal.setAnimal(dog);
-		Gson gson = new Gson();
-		// Define a Type that is an Animal of type dog.
-		Type animalType = new TypeToken&lt;Animal&lt;Dog&gt;&gt;() {
-		}.getType();
-
-		// we first convert the animal object to a json and then read the json
-		// back. However we define the json to be of Animal type
-		Animal animal1 = gson.fromJson(gson.toJson(animal, animalType), Animal.class);
-		System.out.println(animal1.get().getClass()); // prints class
-
-    // com.google.gson.internal.LinkedTreeMap
-		// In contrast to above where we read the json back using the Animal
-		// type, here we read the json back as the custom animalType Type. This
-		// gives Gson an idea of what
-		// the generic type should be.
-		Animal animal2 = gson.fromJson(gson.toJson(animal), animalType);
-		System.out.println(animal2.get().getClass());
-		// prints class com.studytrails.json.gson.Dog
-
-	}
-}
-</code></pre>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122025/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122022/" title="阅读全文">Gson: Serializing Collections </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-list">Serializing list</h3>
-
-<p>Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.</p>
-
-<pre><code>package com.studytrails.json.gson;
-
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-public class DeSerializeListExample5 {
-	public static void main(String[] args) {
-		String json = &quot;[{album_id:1,album_title:'album1'},{album_id:2,album_title:'album2'}]&quot;;
-
-		Gson gson = new Gson();
-		// create the type for the collection. In this case define that the collection is of type Dataset
-		Type datasetListType = new TypeToken&lt;Collection&lt;Dataset&gt;&gt;() {}.getType();
-		List&lt;Dataset&gt; datasets = gson.fromJson(json, datasetListType);
-		for (Dataset dataset : datasets) {
-			System.out.println(dataset.getAlbum_title());
-			System.out.println(dataset.getAlbum_id());
-		}
-		// Prints
-		//album1
-		//1
-		//album2
-		//2
-
-	}
-}
-</code></pre>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122022/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122020/" title="阅读全文">Gson: Convert json to a java object tree </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122020/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122015/" title="阅读全文">Gson: parsing json to java token by token </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorials we saw how to <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122015/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122010/" title="阅读全文">Gson: Convert json to a java object </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Google json provides methods to convert the json string to java objects. The Java object may be hierarchical. For this example we consider java objects of non generic type only. Gson uses the name to match the json property to the java field. There are two ways to convert json to java.</p>
-
-<ul>
-<li>Using the com.google.gson.Gson class. Create a new instance of this class and use the method public <T> T fromJson(String json, Class<T> classOfT). classOfT is the java object to which the json is to be converted to.</li>
-<li>The other way is to use the com.google.gson.GsonBuilder class. This class allows setting up certain features, such as - allowing null serialization or setting up custom serializing policies. Create a GsonBuilder, apply the features and then obtain the Gson class from the builder.</li>
-</ul>
-
-<p>In this tutorial we look at the Gson class to de-serialize json from <a href="http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5" title="free music archive">free music archive</a>. The main class is the Albums class and it contains the list of Datasets. Each Dataset is one album. The way to approach the problem of deserialization is to build a java class such that the when Gson converts the Java class to JSON, the resultant JSON resembles the one we are trying to parse. Lets see this in action. If you look at the JSON, it starts with a root object that has properties such as title, message, errors, etc.</p>
-
-<pre><code>{
-title: &quot;Free Music Archive - Albums&quot;,
-message: &quot;&quot;,
-errors: [ ],
-total: &quot;11259&quot;,
-total_pages: 2252,
-page: 1,
-limit: &quot;5&quot;,
-dataset: [
-{
-......
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122010/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122005/" title="阅读全文">Gson: Introduction </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://github.com/google/gson" title="Gson@github">google json</a> - gson is an open source java api for parsing and building json. It has extensive support for java generics. It also provides support for converting third party classes to json. It can be used to serialize and deserialize complex objects with deep hierarchies that may contain generic classes. In these tutorials we demonstrate, with examples, the following functionalities of gson.</p>
-
-<p>Gson 2.3: Look at <a href="http://www.studytrails.com/java/json/java-google-json-new-2.3.jsp" title="gson tutorial">this tutorial</a> to see the
-latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new methods in JsonArray)</p>
-
-<ol>
-<li><p><a href="http://alimy.me/post/dev_201603122010" title="Java to JSON and Back - Data Binding">Java to JSON and Back - Data Binding</a> - In this example we look at how to bind a Json to a java object. Gson is quite powerful when it comes to binding a json to Java since it has a lot of built in serializers and deserializers. A serializer has code that helps in converting a Json string to corresponding java type. For example if you have an array in JSON (elements enclosed in &lsquo;[&rsquo; and &lsquo;]&rsquo;) and you want to convert that to a Java array then Gson would internally use an ArrayTypeAdapter to convert the Json Array to Java Array and back. If you are looking at Gson primarily to parse JSON then we would suggest that you start with a simple Java class, convert that to JSON and make sure it looks like the JSON that you want to parse. You can then gradually start adding complexities to the java class and at each step convert it to a JSON and ensure that the JSON is similar to the one that you are trying to parse. It is good to think of parsing a JSON as creating a java class that can give you the JSON that you want to parse. Also note that you have certain flexibility while creating the java object. You could represent a Json Array as a Java array or a Java List. The choice may be driven more by how you want to use the class. If you map a Json property to a java array Gson would use an Array adapter but if you map it to a List it would use the collection adapter and you, the user, does not have to worry about that. Gson also handles null gracefully</p></li>
-
-<li><p><a href="http://alimy.me/post/dev_201603122015" title="Java to JSON and Back - Streaming">Java to JSON and Back - Streaming</a> - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122005/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112105/" title="阅读全文">Jackson: Json Polymorphism </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.</p>
-
-<h3 id="data-serialization-and-polymorphism-example">Data Serialization and Polymorphism Example</h3>
-
-<pre><code>package com.studytrails.json.jackson;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-public class SerializeExample1 {
-    private static String outputFile = &quot;zoo.json&quot;;
-
-    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
-        // let start creating the zoo
-        Zoo zoo = new Zoo(&quot;Samba Wild Park&quot;, &quot;Paz&quot;);
-        Lion lion = new Lion(&quot;Simba&quot;);
-        Elephant elephant = new Elephant(&quot;Manny&quot;);
-        List&lt;Animal&gt; animals = new ArrayList&lt;&gt;();
-        animals.add(lion);
-        animals.add(elephant);
-        zoo.setAnimals(animals);
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter(new File(outputFile)), zoo);
-    }
-}
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112105/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112100/" title="阅读全文">Jackson: jackson Mix- In Annotations </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class</p>
-
-<h3 id="jackson-mix-in-example">Jackson Mix-In Example</h3>
-
-<pre><code>package com.studytrails.json.jackson;
-
-import java.io.File;
-import java.io.IOException;
-
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-public class SerializeExample3 {
-    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.addMixInAnnotations(Bird.class, BirdMixIn.class);
-        Bird bird = new Bird(&quot;scarlet Ibis&quot;);
-        bird.setSound(&quot;eee&quot;);
-        bird.setHabitat(&quot;water&quot;);
-
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(&quot;bird.json&quot;), bird);
-    }
-
-}
-</code></pre>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112100/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
@@ -726,8 +581,35 @@ public class SerializeExample3 {
         
     
     
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
     <li
-    ><a href="http://alimy.me/page/7/">7</a></li>
+    ><a href="http://alimy.me/page/10/">10</a></li>
     
     
     <li
@@ -736,7 +618,7 @@ public class SerializeExample3 {
     </li>
     
     <li>
-        <a href="http://alimy.me/page/7/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="http://alimy.me/page/10/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>

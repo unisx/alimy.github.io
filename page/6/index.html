@@ -239,239 +239,233 @@
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="http://alimy.me/post/etc_201602011221/" title="阅读全文">客家习俗 </a> </h2>
+<h2 ><a href="http://alimy.me/post/dev_201603092115/" title="阅读全文">XStream: Json to Java </a> </h2>
 
 </header>
 <div class="summary">
-    <p><a href="https://www.baidu.com/s?ie=utf-8&amp;f=8&amp;rsv_bp=1&amp;tn=baidu&amp;wd=%E5%AE%A2%E5%AE%B6%E4%BA%BA&amp;oq=%E5%AE%A2%E5%AE%B6%E4%BA%BA&amp;rsv_pq=e920500800005141&amp;rsv_t=e610oAaNKPlSpi7L3iFEog5KaXPzJwzEq5qS3j8RegQpcQvdRL2A20h6b7w&amp;rsv_enter=0&amp;rsv_sug7=000" title="百度：客家人">客家人</a> 的习俗大致上包括全国性的传统岁序节俗，地方性崇拜、礼节等。</p>
+    <p>XStream can also be used with JSON. XStream provides two drivers : a JsonHierarchicalStreamDriver and a JettisonMappedXmlDriver. The JsonHierarchicalStreamDriver can be used to write a JSON string but cannot deserialize a JSON. JettisonMappedXmlDriver can be used to deserialize a JSON but it introduces an additional dependency. In this example we deserialize a json string into a java object.</p>
 
-<h4 id="主要节日">主要节日</h4>
+<p>Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092115/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603092105/" title="阅读全文">XStream: Collection Converters </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the earlier tutorials we saw how to convert a <a href="http://alimy.me/post/dev_201603081411" title="parsing an xml">Java object to XML and back</a>, <a href="http://alimy.me/post/dev_201603092055" title="custom converter">custom converter</a> and <a href="http://alimy.me/post/dev_201603092100" title="basic converters">basic converters</a>. In this tutorial we look at how XStream converts array and collections from java to xml and vice versa. We will convert the following types :</p>
+
+<ol>
+<li>String[]</li>
+<li>char[]</li>
+<li>List<String></li>
+<li>java.util.Properties</li>
+<li>List<String></li>
+<li>Map<String, String></li>
+<li>TreeMap<String, String> treeMap</li>
+<li>TreeSet<String> treeSet</li>
+<li>enum</li>
+<li>EnumMap<testEnum, String> testEnum is an enum</li>
+<li>EnumSet<testEnum> testEnum is an enum
+
+Here&rsquo;s the complete example
+```
+package com.studytrails.xml.xstream;</li>
+</ol>
+
+<p>import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.TreeMap;
+import java.util.TreeSet;</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092105/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603092100/" title="阅读全文">XStream: Basic Built-in Converters </a> </h2>
+
+</header>
+<div class="summary">
+    In the previous tutorials we saw an example of how to convert java object to XML and back. That tutorial also explained the concept of aliases and implicit collection.In the last tutorial we show how to write a custom converter. In this tutorial, lets see some of the basic built in converters of XStream and how the resultant XML from those converters look like. We will look at how the following types are converted.
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092100/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603092055/" title="阅读全文">XStream: Custom Converter for BufferedImage </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the previous tutorials we saw an example of how to convert a <a href="http://alimy.me/post/dev_201603081411" title="parsing an xml">java object to XML and back</a>. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092055/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603092051/" title="阅读全文">XStream: Referencing Objects </a> </h2>
+
+</header>
+<div class="summary">
+    <p>XStream allows you to store references while converting a java object to XML. Consider a case where you have an Artist Object. The object contains albums that the artist has released, but you also want to store a reference to a &lsquo;similar artist&rsquo;. People listening to an artist might be interested in listening to a similar artist. When you convert this object to XML, XStream preserves the reference to the similar artist. It also manages circular references, so if there are no similar artist then the &lsquo;similar artist&rsquo; field could store a reference to the Owner Artist.</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092051/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603092041/" title="阅读全文">XStream: Handling Attributes in XML </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the previous tutorial we saw <a href="http://alimy.me/post/dev_201603081411" title="Parsing An XML">how to convert Java to XML and back</a>. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:</p>
+
+<pre><code>&lt;element attr=&quot;  foo\t\n   bar    &quot;&gt;
+&lt;/element&gt;
+</code></pre>
+
+<p>will always be normalized and passed this assertion:</p>
+
+<pre><code>assertEquals(&quot;foo bar&quot;, element.getAttr());
+XStream has no influence about this behavior.
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092041/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/dev_201603081441/" title="阅读全文">XStream: Java to XML Using Annotation </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the previous tutorials we saw an example of how to <a href="http://alimy.me/post/dev_201603081411">create a java object from XML</a>. That tutorial also explained the concept of aliases and implicit collection. In this tutorial we continue with that but use annotation on the java class. The advantage with annotation is that it is faster to code and develop. the disadvantage is that you bind the java class to XStream.</p>
+
+<p>In the example below we convert an object of type JazzArtist to XML. JazzArtist contains fields name, isAlive, a url and a list of albums. This example uses the following annotations</p>
 
 <ul>
-<li><strong>春节</strong>：有拜年，游乐活动等，是最隆重的节日。</li>
-<li><strong>立春</strong>：即交春。</li>
-<li><strong>元宵节</strong>：正月十五是中国民间传统的元宵节。元宵节吃元宵，玩灯，赏灯，猜灯谜。</li>
-<li><strong>二月二</strong>：开正节。</li>
-<li><strong>清明</strong>：客家扫墓习俗多从春分开始，清明达到高潮。</li>
-<li><strong>端午</strong>：客家普遍称为五月节。节日主要内容是吃粽子，雄黄酒，龙舟赛。</li>
-<li><strong>七月节</strong>：也即鬼节。</li>
-<li><strong>中秋</strong>：民间通称八月节。吃月饼，赏月等风俗大体各地相同。</li>
-<li><strong>重阳节</strong>：客家人叫“九月节”。</li>
+<li>@XStreamAlias - Used on the type, field or attribute. To understand &lsquo;aliases&rsquo; look at this tutorial</li>
+<li>@XStreamImplicit - Used on Collections or array. To understand &lsquo;Implicit Collections/Arrays&rsquo; look at the this tutorial.</li>
+<li>@XStreamAsAttribute - Used to mark a field as an attribute.</li>
 
-<li><p><strong>冬至</strong>：客家人有“冬大过年”之说。
-</p>
+<li><p>@XStreamConverter - Use a specific converter for this field. We will look at Converters in detail in a later tutorial. In this example we use a Boolean converter for &lsquo;isAlive&rsquo; field, we want the XML to have values yes or no instead of true or false.
+
+Here is the complete example. In this example we want to create an XML from an object of type JazzArtist2.</p>
 </div>
 <footer id="more">
-<a href='http://alimy.me/post/etc_201602011221/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='http://alimy.me/post/dev_201603081441/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="http://alimy.me/post/day_201601292229/" title="阅读全文">无题 </a> </h2>
+<h2 ><a href="http://alimy.me/post/dev_201603081433/" title="阅读全文">XStream: Java to XML </a> </h2>
 
 </header>
 <div class="summary">
-    <p><em>漫漫人生路，花开无尽天。</em></p>
+    <p>In the <a href="http://alimy.me/post/dev_201603081411">previous</a> example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &lsquo;JazzArtist&rsquo;. This object has a list of &lsquo;Album&rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
+
+public class CreateXMLFromMusicArtistObject {
+
+    public static void main(String[] args) {
+        CreateXMLFromMusicArtistObject marshaller = new CreateXMLFromMusicArtistObject();
+        marshaller.createXMlFromObject();
+        marshaller.createXMLFromObjectUsingAlias();
+        marshaller.createXMLFromObjectUsingAliasAndImplicitCollection();
+    }
+</code></pre>
 </div>
 <footer id="more">
-<a href='http://alimy.me/post/day_201601292229/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='http://alimy.me/post/dev_201603081433/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="http://alimy.me/post/day_201601261406/" title="阅读全文">电脑配置单 </a> </h2>
+<h2 ><a href="http://alimy.me/post/dev_201603081427/" title="阅读全文">XStream: XML To Java </a> </h2>
 
 </header>
 <div class="summary">
-    <h4 id="配置清单">配置清单</h4>
+    <p>In the earlier tutorial we looked at a way to <a href="http://alimy.me/post/dev_201603081411" title="Parsing an XML">convert Java to XML and back</a>. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.</p>
 
-<ul>
-<li>CPU : AMD APU系列 A6-7400K 双核 R5核显 FM2+接口 盒装CPU处理器 <a href="http://item.jd.com/1239472.html" title="AMD APU系列 A6-7400K 双核 R5核显 FM2+接口 盒装CPU处理器 ￥399">【京东】</a></li>
-<li>主板 : 微星（MSI)A88XM-E45 V2 <a href="http://item.jd.com/1029497.html" title="微星（MSI)A88XM-E45 V2 ￥449">【京东】</a></li>
-<li>内存 : 金士顿(Kingston)DDR3 1600 4GB 台式机内存 <a href="http://item.jd.com/652351.html" title="金士顿(Kingston)DDR3 1600 4GB 台式机内存 ￥139">【京东】</a></li>
-<li>硬盘 : 希捷(ST1000DM003) 1TB 7200转64M SATA3 台式机硬盘<a href="http://item.jd.com/544026.html" title="希捷（Seagate）1TB 7200转64M SATA3 台式机硬盘(ST1000DM003) ￥359">【京东】</a></li>
-<li>机箱 : 爱国者 魔武者D1 中塔机箱电源套装（标配250W电源/USB3.0）<a href="http://item.jd.com/878583.html" title="爱国者（aigo）魔武者D1 中塔机箱电源套装 黑色（标配250W电源/USB3.0）￥149">【京东】</a></li>
-<li>显示器 : AOC I2260SWD 21.5英寸IPS广视角炫彩硬屏LED背光显示器 <a href="http://item.jd.com/1255209.html" title="AOC I2260SWD 21.5英寸IPS广视角炫彩硬屏LED背光显示器（黑色）￥639">【京东】</a></li>
+<p>In this first example we have an XML that has a parent element called &lsquo;Music&rsquo;. It has a child element called type. We populate a Music object that has a &lsquo;type&rsquo; field which is an enum.</p>
 
-<li><p>键鼠套装 : 罗技（Logitech）MK120 键鼠套装 黑色 <a href="http://item.jd.com/584300.html" title="罗技（Logitech）MK120 键鼠套装 黑色 ￥79">【京东】</a>
-</p>
+<pre><code>package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+public class ConverterExample3 {
+    static String xml1 = &quot;&lt;Music&gt;&lt;type&gt;rock&lt;/type&gt;&lt;/Music&gt;&quot;;
+
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(Music.class);
+        Music musicObject = (Music) xStream.fromXML(xml1);
+        System.out.println(musicObject);
+        // prints Music [type=ROCK]
+    }
+
+}
+
+@XStreamAlias(&quot;Music&quot;)
+class Music {
+    public enum genre {
+        ROCK, JAZZ
+    };
+
+    genre type;
+
+    @Override
+    public String toString() {
+        return &quot;Music [type=&quot; + type + &quot;]&quot;;
+    }
+
+}     
+</code></pre>
 </div>
 <footer id="more">
-<a href='http://alimy.me/post/day_201601261406/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201601141212/" title="阅读全文">梦里水乡 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20160125165500.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160125165500.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201601141212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201601241856/" title="阅读全文">Make:Makefile </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sect-概述">&sect;概述</h3>
-
-<p>什么是makefile？或许很多Winodws的程序员都不知道这个东西，因为那些Windows的IDE都为你做了这个工作，但我觉得要作一个好的和professional的程序员，makefile还是要懂。这就好像现在有这么多的HTML的编辑器，但如果你想成为一个专业人士，你还是要了解HTML的标识的含义。特别在Unix下的软件编译，你就不能不自己写makefile了，会不会写makefile，从一个侧面说明了一个人是否具备完成大型工程的能力。
-
-因为，makefile关系到了整个工程的编译规则。一个工程中的源文件不计数，其按类型、功能、模块分别放在若干个目录中，makefile定义了一系列的规则来指定，哪些文件需要先编译，哪些文件需要后编译，哪些文件需要重新编译，甚至于进行更复杂的功能操作，因为makefile就像一个Shell脚本一样，其中也可以执行操作系统的命令。</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201601241856/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201601222145/" title="阅读全文">History of IRC </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sect-about">&sect;About</h3>
-
-<p>IRC(Internet Relay Chat) is an application layer protocol that facilitates communication in the form of text.<a href="https://en.wikipedia.org/wiki/Internet_Relay_Chat" title="Internet Relay Chat">[wikipedia]</a></p>
-
-<h3 id="sect-the-beginning">&sect;The Beginning</h3>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201601222145/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/day_201601201649/" title="阅读全文">我今年，二十七八岁 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><img src="http://alimy.me/images/post/20160120170100.webp" alt="" /></p>
-
-<p>我今年二十七八岁，每天起床的时间从中午12点变成了早上7点，睡觉的时间从凌晨变成了晚上11点。</p>
-
-<p>我今年二十七八岁，工作中开始接触形形色色的人，见到亲戚朋友，他们不再问你考试考了多少分，而
-是问你工资多少，结婚没有&hellip;
-
-我今年二十七八岁，聊天的话题从各种网络游戏变成汽车，房子…吃饭的时候，往往讨论的是他准备结婚，
-她哪年结婚了…</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/day_201601201649/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201601161712/" title="阅读全文">DogeOS,SmartOS,illumos </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sect-这些都是什么">&sect;这些都是什么？</h3>
-
-<ul>
-<li>都是操作系统</li>
-<li>都是云计算操作系统</li>
-<li>都是先进的云计算操作系统</li>
-<li>都是小众的先进的云计算操作系统<br /></li>
-</ul>
-
-<p><del>讲完收工</del></p>
-
-<p>当然不是这么简单 :)</p>
-
-<p>但是也不希望写的太长。以下就尽量言简意垓的把来龙去脉，历史纠纷，以及革命先进性都说清楚。
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201601161712/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201601131558/" title="阅读全文">Markdown </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sect-what-is-markdown">&sect; What is Markdown?</h3>
-
-<p>Markdown is a way to style text on the web. You control the display of the
-document; formatting words as bold or italic, adding images, and creating lists
-are just a few of the things we can do with Markdown. Mostly, Markdown is just
-regular text with a few non-alphabetic characters thrown in, like # or *.<br />
-<a href="http://daringfireball.net/projects/markdown/" title="Daring FireBall: Home">[Markdown Reference]</a> <a href="https://guides.github.com/features/mastering-markdown/" title="GitHub's Mastering Markdown">[Mastering Markdown]</a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201601131558/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201601121531/" title="阅读全文">Too many open files 的解决方法 </a> </h2>
-
-</header>
-<div class="summary">
-    <h2 id="由来">&gt;由来</h2>
-
-<p>gogs 打开一个android app库的资源文件夹(/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi)
-返回 500
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201601121531/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201601111212/" title="阅读全文">诱惑 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20160111121200.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160111121200.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201601111212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201601100836/" title="阅读全文">咏春 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20160110095600.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160110095600.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201601100836/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='http://alimy.me/post/dev_201603081427/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
@@ -580,13 +574,45 @@ regular text with a few non-alphabetic characters thrown in, like # or *.<br />
     ><a href="http://alimy.me/page/7/">7</a></li>
     
     
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li
+    ><a href="http://alimy.me/page/10/">10</a></li>
+    
+    
     <li
     >
     <a href="http://alimy.me/page/7/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
     </li>
     
     <li>
-        <a href="http://alimy.me/page/7/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="http://alimy.me/page/10/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>
