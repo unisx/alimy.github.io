@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Tags &middot; Alimy </title>
+    <title> Golang Tutorial: What&#39;s DefaultServeMux in net/http &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -141,7 +141,7 @@
     </style>
 </head>
 
-<body>
+  <body>
     <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
@@ -149,9 +149,7 @@
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -231,99 +229,122 @@
 </noscript>
 
     <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <section id="main">
-              <div>
-                <h1 id="title">Tags</h1>
-                <style type="text/css">
-                        #double ul{
-                          width:760px;
-                          margin-bottom:20px;
-                          overflow:hidden;
-                        }
-                        #double li{
-                          line-height:1.5em;
-                          float:left;
-                          display:inline;
-                          width:50%;
-                        }
-                </style>
-                <ul id="double">
-                
-                
-                    <li>
-                        <a href="android">android</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="art">art</a> 13
-                    </li>
-                
-                    <li>
-                        <a href="cloud">cloud</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="database">database</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="development">development</a> 55
-                    </li>
-                
-                    <li>
-                        <a href="game">game</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="go">go</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="golang">golang</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="gopher">gopher</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="history">history</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="java">java</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="json">json</a> 23
-                    </li>
-                
-                    <li>
-                        <a href="language">language</a> 6
-                    </li>
-                
-                    <li>
-                        <a href="other">other</a> 7
-                    </li>
-                
-                    <li>
-                        <a href="transport">transport</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="xml">xml</a> 14
-                    </li>
-                
-               </ul>
-              </div>
-            </section>
-            </div>
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Golang Tutorial: What&#39;s DefaultServeMux in net/http</h2>
+          
+          <p>craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:</p>
+
+<pre><code>package main
+
+import (
+	&quot;net/http&quot;
+	&quot;fmt&quot;
+	&quot;log&quot;
+)
+
+func hello(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, &quot;[%s]: hello!&quot;, r.Host)
+}
+
+func world(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, &quot;[%s]: world!&quot;, r.Host)
+}
+
+func main() {
+	server := http.Server{
+		Addr: &quot;127.0.0.1:8080&quot;,
+	}
+	http.HandleFunc(&quot;/hello&quot;, hello)
+	http.HandleFunc(&quot;/world&quot;, world)
+
+	log.Fatal(server.ListenAndServe())
+}
+</code></pre>
+
+<p></p>
+
+<p>the http.HandleFunc is defined below:</p>
+
+<pre><code>package http
+
+// HandleFunc registers the handler function for the given pattern
+// in the DefaultServeMux.
+// The documentation for ServeMux explains how patterns are matched.
+func HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+	DefaultServeMux.HandleFunc(pattern, handler)
+}
+</code></pre>
+
+<p>DefaultServeMux is a ref var of &amp;ServeMux</p>
+
+<pre><code>// DefaultServeMux is the default ServeMux used by Serve.
+var DefaultServeMux = &amp;defaultServeMux
+
+var defaultServeMux ServeMux
+</code></pre>
+
+<p>And the method of HandleFunc is defined below:</p>
+
+<pre><code>package Server
+
+// HandleFunc registers the handler function for the given pattern.
+func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+	mux.Handle(pattern, HandlerFunc(handler))
+}
+
+// The HandlerFunc type is an adapter to allow the use of
+// ordinary functions as HTTP handlers. If f is a function
+// with the appropriate signature, HandlerFunc(f) is a
+// Handler that calls f.
+type HandlerFunc func(ResponseWriter, *Request)
+
+// ServeHTTP calls f(w, r).
+func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
+	f(w, r)
+}
+</code></pre>
+
+<p>So we see,  the method of HandleFunc convert arg of func(ResponseWriter, *Request) to a http Handler and passed to ServeMux.</p>
+
+<hr />
+
+<p>(Note: <a href="http://gitbus.com/alimy/dugo.git" title="My Go Programming code repository"><em>My Code repository</em></a>)</p>
         </div>
-    </body>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201803030946/" title="上一篇">&lt;&lt; Golang Tutorial: Create HTTPS Server use net/http</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+        <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+  </body>
 </html>

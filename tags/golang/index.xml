@@ -7,7 +7,92 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 03 Mar 2018 09:46:00 CST</updated>
+    <updated>Sat, 03 Mar 2018 19:34:00 CST</updated>
+    
+    <item>
+      <title>Golang Tutorial: What&#39;s DefaultServeMux in net/http</title>
+      <link>http://alimy.me/post/dev_201803031932/</link>
+      <pubDate>Sat, 03 Mar 2018 19:34:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803031932/</guid>
+      <description>&lt;p&gt;craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;net/http&amp;quot;
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;log&amp;quot;
+)
+
+func hello(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, &amp;quot;[%s]: hello!&amp;quot;, r.Host)
+}
+
+func world(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, &amp;quot;[%s]: world!&amp;quot;, r.Host)
+}
+
+func main() {
+	server := http.Server{
+		Addr: &amp;quot;127.0.0.1:8080&amp;quot;,
+	}
+	http.HandleFunc(&amp;quot;/hello&amp;quot;, hello)
+	http.HandleFunc(&amp;quot;/world&amp;quot;, world)
+
+	log.Fatal(server.ListenAndServe())
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;the http.HandleFunc is defined below:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package http
+
+// HandleFunc registers the handler function for the given pattern
+// in the DefaultServeMux.
+// The documentation for ServeMux explains how patterns are matched.
+func HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+	DefaultServeMux.HandleFunc(pattern, handler)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;DefaultServeMux is a ref var of &amp;amp;ServeMux&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// DefaultServeMux is the default ServeMux used by Serve.
+var DefaultServeMux = &amp;amp;defaultServeMux
+
+var defaultServeMux ServeMux
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And the method of HandleFunc is defined below:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package Server
+
+// HandleFunc registers the handler function for the given pattern.
+func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+	mux.Handle(pattern, HandlerFunc(handler))
+}
+
+// The HandlerFunc type is an adapter to allow the use of
+// ordinary functions as HTTP handlers. If f is a function
+// with the appropriate signature, HandlerFunc(f) is a
+// Handler that calls f.
+type HandlerFunc func(ResponseWriter, *Request)
+
+// ServeHTTP calls f(w, r).
+func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
+	f(w, r)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So we see,  the method of HandleFunc convert arg of func(ResponseWriter, *Request) to a http Handler and passed to ServeMux.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: &lt;a href=&#34;http://gitbus.com/alimy/dugo.git&#34; title=&#34;My Go Programming code repository&#34;&gt;&lt;em&gt;My Code repository&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Golang Tutorial: Create HTTPS Server use net/http</title>
