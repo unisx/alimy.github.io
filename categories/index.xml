@@ -30,7 +30,7 @@
     <item>
       <title>Development</title>
       <link>http://alimy.me/categories/development/</link>
-      <pubDate>Sun, 10 Apr 2016 18:27:00 CST</pubDate>
+      <pubDate>Sat, 03 Mar 2018 09:46:00 CST</pubDate>
       
       <guid>http://alimy.me/categories/development/</guid>
       <description></description>
@@ -42,6 +42,15 @@
       <pubDate>Thu, 24 Mar 2016 21:35:00 CST</pubDate>
       
       <guid>http://alimy.me/categories/game/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Golang</title>
+      <link>http://alimy.me/categories/golang/</link>
+      <pubDate>Sat, 03 Mar 2018 09:46:00 CST</pubDate>
+      
+      <guid>http://alimy.me/categories/golang/</guid>
       <description></description>
     </item>
     

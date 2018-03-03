@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Tags &middot; Alimy </title>
+    <title> Golang Tutorial: Create HTTPS Server use net/http &middot; Alimy </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -141,7 +141,7 @@
     </style>
 </head>
 
-<body>
+  <body>
     <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
@@ -149,9 +149,7 @@
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -231,99 +229,129 @@
 </noscript>
 
     <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <section id="main">
-              <div>
-                <h1 id="title">Tags</h1>
-                <style type="text/css">
-                        #double ul{
-                          width:760px;
-                          margin-bottom:20px;
-                          overflow:hidden;
-                        }
-                        #double li{
-                          line-height:1.5em;
-                          float:left;
-                          display:inline;
-                          width:50%;
-                        }
-                </style>
-                <ul id="double">
-                
-                
-                    <li>
-                        <a href="android">android</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="art">art</a> 13
-                    </li>
-                
-                    <li>
-                        <a href="cloud">cloud</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="database">database</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="development">development</a> 54
-                    </li>
-                
-                    <li>
-                        <a href="game">game</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="go">go</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="golang">golang</a> 3
-                    </li>
-                
-                    <li>
-                        <a href="gopher">gopher</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="history">history</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="java">java</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="json">json</a> 23
-                    </li>
-                
-                    <li>
-                        <a href="language">language</a> 6
-                    </li>
-                
-                    <li>
-                        <a href="other">other</a> 7
-                    </li>
-                
-                    <li>
-                        <a href="transport">transport</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="xml">xml</a> 14
-                    </li>
-                
-               </ul>
-              </div>
-            </section>
-            </div>
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Golang Tutorial: Create HTTPS Server use net/http</h2>
+          
+          <p>It is simple to craete a HTTPS Server use net/http, see code below:</p>
+
+<pre><code>package main
+
+import (
+	&quot;net/http&quot;
+	&quot;fmt&quot;
+)
+
+type SimpleHandler struct {
+	Name string
+}
+
+func (h *SimpleHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, &quot;%s: Hello World!&quot;, h.Name)
+}
+
+func main() {
+	server := http.Server{
+		Addr:    &quot;127.0.0.1:8080&quot;,
+		Handler: &amp;SimpleHandler{Name: &quot;SimpleServer&quot;},
+	}
+	server.ListenAndServeTLS(&quot;cert.pem&quot;, &quot;key.pem&quot;)
+}
+</code></pre>
+
+<p></p>
+
+<p>We can use golang&rsquo;s crypto libraries to create SSL certificates that used in simple https server above. see code below:</p>
+
+<pre><code>package main
+
+import (
+	&quot;crypto/rand&quot;
+	&quot;crypto/x509/pkix&quot;
+	&quot;math/big&quot;
+	&quot;crypto/x509&quot;
+	&quot;encoding/pem&quot;
+	&quot;net&quot;
+	&quot;os&quot;
+	&quot;time&quot;
+	&quot;crypto/rsa&quot;
+)
+
+const (
+	certFileName = &quot;cert.pem&quot;
+	keyFileName  = &quot;key.pem&quot;
+)
+
+func main() {
+	max := new(big.Int).Lsh(big.NewInt(1), 128)
+	serialNumber, _ := rand.Int(rand.Reader, max)
+	subject := pkix.Name{
+		Organization:       []string{&quot;Manning Publications Co.&quot;},
+		OrganizationalUnit: []string{&quot;Books&quot;},
+		CommonName:         &quot;Go Web Programming&quot;,
+	}
+
+	template := x509.Certificate{
+		SerialNumber: serialNumber,
+		Subject:      subject,
+		NotBefore:    time.Now(),
+		NotAfter:     time.Now().Add(365 * 24 * time.Hour),
+		KeyUsage:     x509.KeyUsageKeyEncipherment | x509.KeyUsageDigitalSignature,
+		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
+		IPAddresses:  []net.IP{net.ParseIP(&quot;127.0.0.1&quot;)},
+	}
+
+	pk, _ := rsa.GenerateKey(rand.Reader, 2048)
+
+	derBytes, _ := x509.CreateCertificate(rand.Reader, &amp;template, &amp;template, &amp;pk.PublicKey, pk)
+	certOut, _ := os.Create(certFileName)
+	pem.Encode(certOut, &amp;pem.Block{Type: &quot;CERTIFICATE&quot;, Bytes: derBytes})
+	certOut.Close()
+
+	keyOut, _ := os.Create(keyFileName)
+	pem.Encode(keyOut, &amp;pem.Block{Type: &quot;RSA PRIVATE KEY&quot;, Bytes: x509.MarshalPKCS1PrivateKey(pk)})
+	keyOut.Close()
+}
+</code></pre>
+
+<hr />
+
+<p>(Note: This article’s code is reference from the simple code in book <a href="https://github.com/sausheong/gwp.git" title="Go Web Programming code repository">&lt;<strong>Go Web Programming</strong>&gt;</a> and this link is <a href="http://gitbus.com/alimy/dugo.git" title="My Go Programming code repository"><em>My Code repository</em></a>)</p>
         </div>
-    </body>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/art_201803030843/" title="上一篇">&lt;&lt; 拯救者</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+        <footer id="copyright"> <p>&copy;2017 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+  </body>
 </html>

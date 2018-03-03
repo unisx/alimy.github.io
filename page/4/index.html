@@ -239,6 +239,64 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
+
+<ol>
+<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &lsquo;tags&rsquo; property from the albums dataset.</li>
+<li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
+<li>Using Custom filters</li>
+</ol>
+
+<p>The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.</p>
+
+<h3 id="data-binding-filters-example">Data Binding Filters Example</h3>
+
+<h4 id="databinding">Databinding</h4>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+// Do not use fields to autodetect. use the public getter methods to autodetect properties
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
+public class AlbumsFilter {
+
+    private String title;
+    private DatasetFilter[] datasetFilter;
+    public String total_pages;
+
+    protected String getTotal_pages() {
+        return total_pages;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    // this getter method is for the 'dataset' property
+    @JsonProperty(&quot;dataset&quot;)
+    public DatasetFilter[] getDatasetFilter() {
+        return datasetFilter;
+    }
+}
+</code></pre>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112055/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603112050/" title="阅读全文">Jackson: Json annotations and dyna beans </a> </h2>
 
 </header>
@@ -536,21 +594,6 @@ import java.util.TreeSet;</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603092100/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092055/" title="阅读全文">XStream: Custom Converter for BufferedImage </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the previous tutorials we saw an example of how to convert a <a href="http://alimy.me/post/dev_201603081411" title="parsing an xml">java object to XML and back</a>. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092055/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

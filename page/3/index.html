@@ -239,6 +239,27 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603122040/" title="阅读全文">Gson: Exclusion Strategy </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In this tutorial we look at how to selectively include fields from a java object to a json string. By default, Gson tries to map all fields in the java object to the corresponding property in json. However, in certain cases we may want to control that. There are a few ways to do this. It is also possible to excluse fields from third party packages where we have no access to the source code. The different ways to exclude fields are :</p>
+
+<ol>
+<li>By defining a custom annotation and ignoring fields that are annotated with that.</li>
+<li>By Defining a custom exclusion class by extending the ExclusionStrategy interface and implementing the public boolean shouldSkipField(FieldAttributes f); and public boolean shouldSkipClass(Class clazz); methods</li>
+
+<li><p>By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122040/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122035/" title="阅读全文">Gson: Custom Serializer </a> </h2>
 
 </header>
@@ -604,64 +625,6 @@ public class SerializeExample3 {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112100/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
-
-<ol>
-<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &lsquo;tags&rsquo; property from the albums dataset.</li>
-<li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
-<li>Using Custom filters</li>
-</ol>
-
-<p>The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.</p>
-
-<h3 id="data-binding-filters-example">Data Binding Filters Example</h3>
-
-<h4 id="databinding">Databinding</h4>
-
-<pre><code>package com.studytrails.json.jackson;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-// Do not use fields to autodetect. use the public getter methods to autodetect properties
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
-public class AlbumsFilter {
-
-    private String title;
-    private DatasetFilter[] datasetFilter;
-    public String total_pages;
-
-    protected String getTotal_pages() {
-        return total_pages;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    // this getter method is for the 'dataset' property
-    @JsonProperty(&quot;dataset&quot;)
-    public DatasetFilter[] getDatasetFilter() {
-        return datasetFilter;
-    }
-}
-</code></pre>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112055/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

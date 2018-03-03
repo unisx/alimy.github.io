@@ -7,7 +7,99 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sun, 10 Apr 2016 18:27:00 CST</updated>
+    <updated>Sat, 03 Mar 2018 09:46:00 CST</updated>
+    
+    <item>
+      <title>Golang Tutorial: Create HTTPS Server use net/http</title>
+      <link>http://alimy.me/post/dev_201803030946/</link>
+      <pubDate>Sat, 03 Mar 2018 09:46:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803030946/</guid>
+      <description>&lt;p&gt;It is simple to craete a HTTPS Server use net/http, see code below:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;net/http&amp;quot;
+	&amp;quot;fmt&amp;quot;
+)
+
+type SimpleHandler struct {
+	Name string
+}
+
+func (h *SimpleHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, &amp;quot;%s: Hello World!&amp;quot;, h.Name)
+}
+
+func main() {
+	server := http.Server{
+		Addr:    &amp;quot;127.0.0.1:8080&amp;quot;,
+		Handler: &amp;amp;SimpleHandler{Name: &amp;quot;SimpleServer&amp;quot;},
+	}
+	server.ListenAndServeTLS(&amp;quot;cert.pem&amp;quot;, &amp;quot;key.pem&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;We can use golang&amp;rsquo;s crypto libraries to create SSL certificates that used in simple https server above. see code below:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;crypto/rand&amp;quot;
+	&amp;quot;crypto/x509/pkix&amp;quot;
+	&amp;quot;math/big&amp;quot;
+	&amp;quot;crypto/x509&amp;quot;
+	&amp;quot;encoding/pem&amp;quot;
+	&amp;quot;net&amp;quot;
+	&amp;quot;os&amp;quot;
+	&amp;quot;time&amp;quot;
+	&amp;quot;crypto/rsa&amp;quot;
+)
+
+const (
+	certFileName = &amp;quot;cert.pem&amp;quot;
+	keyFileName  = &amp;quot;key.pem&amp;quot;
+)
+
+func main() {
+	max := new(big.Int).Lsh(big.NewInt(1), 128)
+	serialNumber, _ := rand.Int(rand.Reader, max)
+	subject := pkix.Name{
+		Organization:       []string{&amp;quot;Manning Publications Co.&amp;quot;},
+		OrganizationalUnit: []string{&amp;quot;Books&amp;quot;},
+		CommonName:         &amp;quot;Go Web Programming&amp;quot;,
+	}
+
+	template := x509.Certificate{
+		SerialNumber: serialNumber,
+		Subject:      subject,
+		NotBefore:    time.Now(),
+		NotAfter:     time.Now().Add(365 * 24 * time.Hour),
+		KeyUsage:     x509.KeyUsageKeyEncipherment | x509.KeyUsageDigitalSignature,
+		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
+		IPAddresses:  []net.IP{net.ParseIP(&amp;quot;127.0.0.1&amp;quot;)},
+	}
+
+	pk, _ := rsa.GenerateKey(rand.Reader, 2048)
+
+	derBytes, _ := x509.CreateCertificate(rand.Reader, &amp;amp;template, &amp;amp;template, &amp;amp;pk.PublicKey, pk)
+	certOut, _ := os.Create(certFileName)
+	pem.Encode(certOut, &amp;amp;pem.Block{Type: &amp;quot;CERTIFICATE&amp;quot;, Bytes: derBytes})
+	certOut.Close()
+
+	keyOut, _ := os.Create(keyFileName)
+	pem.Encode(keyOut, &amp;amp;pem.Block{Type: &amp;quot;RSA PRIVATE KEY&amp;quot;, Bytes: x509.MarshalPKCS1PrivateKey(pk)})
+	keyOut.Close()
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s code is reference from the simple code in book &lt;a href=&#34;https://github.com/sausheong/gwp.git&#34; title=&#34;Go Web Programming code repository&#34;&gt;&amp;lt;&lt;strong&gt;Go Web Programming&lt;/strong&gt;&amp;gt;&lt;/a&gt; and this link is &lt;a href=&#34;http://gitbus.com/alimy/dugo.git&#34; title=&#34;My Go Programming code repository&#34;&gt;&lt;em&gt;My Code repository&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Go - See what packages my app imports</title>
