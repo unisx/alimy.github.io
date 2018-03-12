@@ -239,6 +239,42 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603192245/" title="阅读全文">Android: Volley&#43;OkHttp with https </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="android-network-simple">Android Network Simple</h3>
+
+<p>This article shows how to use volley with OkHttp and security your api with https.
+本文可以在<a href="http://www.jianshu.com/p/e58161cbc3a4" title="Android 网络--我是怎么做的: Volley+OkHttp+Https">简书</a>浏览。</p>
+
+<h3 id="使用-okhttp-作为传输层的实现">使用 OkHttp 作为传输层的实现.</h3>
+
+<p>Volley 默认根据 Android 系统版本使用不同的 Http 传输协议实现. 3.0 以上使用HttpUrlConnection, 2.3 以下使用 ApacheHttpStack, 参考<a href="http://android-developers.blogspot.com/2011/09/androids-http-clients.html">Android Http Client</a>.</p>
+
+<p>OkHttp 相较于其它的实现有以下的优点:</p>
+
+<ul>
+<li>支持<a href="http://zh.wikipedia.org/wiki/SPDY">SPDY</a>，允许连接同一主机的所有请求分享一个socket。</li>
+<li>如果SPDY不可用，会使用连接池减少请求延迟。</li>
+<li>使用GZIP压缩下载内容，且压缩操作对用户是透明的。</li>
+<li>利用响应缓存来避免重复的网络请求。</li>
+<li>当网络出现问题的时候，OKHttp会依然有效，它将从常见的连接问题当中恢复。</li>
+<li>如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。
+
+因此使用 OkHttp 作为替代是好的选择.</li>
+</ul>
+
+<p>首先用 OkHttp 实现一个新的 <code>HurlStack</code> 用于构建 Volley 的 requestQueue.</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603192245/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/arc_201603192212/" title="阅读全文">庆余年: 又一叶 </a> </h2>
 
 </header>
@@ -430,41 +466,6 @@ Lets see some examples</li>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603132015/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122045/" title="阅读全文">Gson: User Guide </a> </h2>
-
-</header>
-<div class="summary">
-    <ol>
-<li><a href="#TOC-Overview">Overview</a></li>
-<li><a href="#TOC-Goals-for-Gson">Goals for Gson</a></li>
-<li><a href="#TOC-Gson-Performance-and-Scalability">Gson Performance and Scalability</a></li>
-<li><a href="#TOC-Gson-Users">Gson Users</a></li>
-<li><a href="#TOC-Using-Gson">Using Gson</a>
-
-<ul>
-<li><a href="#TOC-Gson-With-Maven">Using Gson with Maven</a></li>
-<li><a href="#TOC-Primitives-Examples">Primitives Examples</a></li>
-<li><a href="#TOC-Object-Examples">Object Examples</a></li>
-<li><a href="#TOC-Finer-Points-with-Objects">Finer Points with Objects</a></li>
-<li><a href="#TOC-Nested-Classes-including-Inner-Classes-">Nested Classes (including Inner Classes)</a></li>
-<li><a href="#TOC-Array-Examples">Array Examples</a></li>
-<li><a href="#TOC-Collections-Examples">Collections Examples</a></li>
-<li><a href="#TOC-Collections-Limitations">Collections Limitations</a></li>
-<li><a href="#TOC-Serializing-and-Deserializing-Generic-Types">Serializing and Deserializing Generic Types</a></li>
-<li><a href="#TOC-Serializing-and-Deserializing-Collection-with-Objects-of-Arbitrary-Types">Serializing and Deserializing Collection with Objects of Arbitrary Types</a></li>
-<li><a href="#TOC-Built-in-Serializers-and-Deserializers">Built-in Serializers and Deserializers</a></li>
-<li><a href="#TOC-Custom-Serialization-and-Deserialization">Custom Serialization and Deserialization</a></li>
-<li><a href="#TOC-Writing-a-Serializer">Writing a Serializer</a></li>
-<li><a href="#TOC-Writing-a-Deserializer">Writing a Deserializer</a>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122045/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
