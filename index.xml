@@ -7,7 +7,49 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 03 Mar 2018 19:34:00 CST</updated>
+    <updated>Mon, 12 Mar 2018 22:15:00 CST</updated>
+    
+    <item>
+      <title>RFC: HTTP 0.9/1.0/1.1/2.0</title>
+      <link>http://alimy.me/post/dev_201803122215/</link>
+      <pubDate>Mon, 12 Mar 2018 22:15:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803122215/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.w3.org/Protocols/HTTP/AsImplemented.html&#34; title=&#34;HTTP 0.9&#34;&gt;&lt;strong&gt;HTTP 0.9&lt;/strong&gt; https://www.w3.org/Protocols/HTTP/AsImplemented.html &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1945&#34; title=&#34;HTTP 1.0&#34;&gt;&lt;strong&gt;HTTP 1.0&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1945.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc2616&#34; title=&#34;HTTP 1.1&#34;&gt;&lt;strong&gt;HTTP 1.1&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc2616.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc7540&#34; title=&#34;HTTP 2.0&#34;&gt;&lt;strong&gt;HTTP 2.0&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc7540.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(&lt;a href=&#34;https://tools.ietf.org/html/&#34; title=&#34;IETF Documents&#34;&gt;&lt;strong&gt;IETF Documents&lt;/strong&gt;&lt;/a&gt; &amp;amp;&amp;amp; &lt;a href=&#34;https://datatracker.ietf.org/&#34; title=&#34;IETF Datatracker&#34;&gt;&lt;strong&gt;IETF Datatracker&lt;/strong&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>RFC: TLS 1.0/1.1/1.2/1.3</title>
+      <link>http://alimy.me/post/dev_201803122145/</link>
+      <pubDate>Mon, 12 Mar 2018 21:45:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803122145/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc2246&#34; title=&#34;TLS 1.0&#34;&gt;&lt;strong&gt;TLS 1.0&lt;/strong&gt; RFC http://www.ietf.org/rfc/rfc2246.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc4346&#34; title=&#34;TLS 1.1&#34;&gt;&lt;strong&gt;TLS 1.1&lt;/strong&gt; RFC http://www.ietf.org/rfc/rfc4346.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc5246&#34; title=&#34;TLS 1.2&#34;&gt;&lt;strong&gt;TLS 1.2&lt;/strong&gt; RFC http://www.ietf.org/rfc/rfc5246.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/draft-ietf-tls-tls13-26&#34; title=&#34;draft-ietf-tls-tls13-26&#34;&gt;&lt;strong&gt;TLS 1.3&lt;/strong&gt; RFC https://www.ietf.org/id/draft-ietf-tls-tls13-26.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(&lt;a href=&#34;https://tools.ietf.org/html/&#34; title=&#34;IETF Documents&#34;&gt;&lt;strong&gt;IETF Documents&lt;/strong&gt;&lt;/a&gt; &amp;amp;&amp;amp; &lt;a href=&#34;https://datatracker.ietf.org/&#34; title=&#34;IETF Datatracker&#34;&gt;&lt;strong&gt;IETF Datatracker&lt;/strong&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Golang Tutorial: What&#39;s DefaultServeMux in net/http</title>
@@ -2653,283 +2695,6 @@ $%:当目标为库文件时,表示库文件名
 &lt;hr /&gt;
 
 &lt;p&gt;(注意: 原文的链接在 &lt;a href=&#34;http://wdxtub.com/2016/03/20/game-history-blizzard/&#34; title=&#34;游戏发展史 - Blizzard&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>聊斋：白狐</title>
-      <link>http://alimy.me/post/arc_201603192259/</link>
-      <pubDate>Sat, 19 Mar 2016 22:59:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/arc_201603192259/</guid>
-      <description>&lt;p&gt;很多年前，一个昭阳四射的清晨，书生坐在树桩上苦读四书五经。书生一贫如洗三餐不饱，家里唯一值钱的就是那两担沉甸甸的书。&lt;/p&gt;
-
-&lt;p&gt;书生每天都坐在这片林子里，随便寻个坐处，读到天黑，日子一天天的就这样在圣贤书中流逝。&lt;/p&gt;
-
-&lt;p&gt;这日黄昏，书生正在读书，读到夕阳遍地时高呼：“书中自有黄金屋，书中自有颜如玉”，突地“吱吱”而鸣声随风而来，书生抬起头来，只见一团白影扑面而至，那是一只晶莹通白的小狐狸，雪白得一尘不染，两只眼珠溜溜而动，口里哀声连连。&lt;/p&gt;
-
-&lt;p&gt;说也来怪，小狐狸奔到书生面前时，竟兀自停住脚步，气喘吁吁。&lt;/p&gt;
-
-&lt;p&gt;书生一把抓住小狐狸，只见小狐狸雪白的后腿上，斜斜地插着一支箭，鲜血顺着箭头沽沽而下，染红了一片。小狐哀鸣几声，双目对着书生，写满了哀怜与乞求。&lt;/p&gt;
-
-&lt;p&gt;书生叹一口气：“小狐狸啊小狐狸，是谁忍心伤你这么深……”&lt;/p&gt;
-
-&lt;p&gt;语音未落，远处蹄声如雷阵阵踏来，小狐狸白溜的身子不停的颤抖，仿佛要从书生手里挣扎逃走，书生急忙捧紧小狐，一咬牙将箭拔出，撕下一片烂衣袍，将小狐狸的伤口包好，轻轻放入宽大的衣袖里，说也来怪，小狐狸竟忍住疼痛，一动不动的躺在书生的袖怀之中。&lt;/p&gt;
-
-&lt;p&gt;书生刚刚端起书，只听得马蹄声轰轰而至，数十匹高大骏马踏青飞来，为头的是一个虬髯大汉，满身华贵地叫道：“兀那书生，可曾见过一只受伤的狐狸逃过？”&lt;/p&gt;
-
-&lt;p&gt;书生抬起头来：“兄台说的可是一只满身雪白的狐狸？”&lt;/p&gt;
-
-&lt;p&gt;虬髯客身旁闪出一团绿影，娇喝道：“正是，正是我射中的那只狐狸，那小畜生呢？”&lt;/p&gt;
-
-&lt;p&gt;书生只闻香风扑面，迎面是一张如花笑脸，书生猛然间惊慌失措，意迷情乱，好半天才回过神来，指着身后结结巴巴的说：“刚刚从这边跑过。”&lt;/p&gt;
-
-&lt;p&gt;少女娇声说道：“多谢书生！我们追！”
-
-猛一挥手，数十骑悠然而来，又悠然而去，只留下银铃般的笑声荡在书生耳里。&lt;/p&gt;
-
-&lt;p&gt;书生喃喃念道：“书中自有黄金屋，书中自有颜如玉”，啪地一声，圣贤书掉到地上竟不察觉。&lt;/p&gt;
-
-&lt;p&gt;小狐狸从袖口里伸出头，啊啊一声叫醒了书生，书生见它的眼里写满了凄美与感谢。&lt;/p&gt;
-
-&lt;p&gt;书生收起心，轻抚狐狸，爱怜地说：“小狐狸，快躲起来，别让人家欺负你。”&lt;/p&gt;
-
-&lt;p&gt;小狐狸顺着衣袖一溜而下，跛着腿，竟通人性，前腿合一朝书生作一个稽首，吱吱几声，雪白的身体扭着一团，竟跳起舞来，只见白影闪闪，小白狐体肢如一，夕阳西下翩翩起舞，书生看得呆了。&lt;/p&gt;
-
-&lt;p&gt;远方突地也传来吱吱之声，小狐狸收住舞步，再朝书生稽首，恋恋不舍地朝同伴而去，三步一回首，依依而别，消失在远山中。书生拍拍衣袍上的尘土，捡起书来重新苦读。&lt;/p&gt;
-
-&lt;p&gt;书生还是每天坐在树林里读书，只是每天傍晚都会沿着树林转一转，聆耳细听着什么，每每有马蹄声响起时，书生会惊喜坐起，只是他再也没遇到过绿衣女郎。&lt;/p&gt;
-
-&lt;p&gt;书生不知道，每天清晨，露叶旁都有一只小白狐，瞪大着灵动的眼珠，一动不动地望着书生，书生高读时，狐狸仍一动不动，仿佛怕打扰了书生的修行。&lt;/p&gt;
-
-&lt;p&gt;书生很奇怪，每天夕阳西下，每当书生对着远山念念不望绿衣女子时，远山上仿佛有一团白影，迎着夕阳翩翩起舞，书生寻过去时，却什么都找不到。&lt;/p&gt;
-
-&lt;p&gt;一天又一天，书生就这样生活着，直到他死去，再也没见过穿绿衣的女子，她和他不属于一个世界。&lt;/p&gt;
-
-&lt;p&gt;大家都说：书生读了一生什么也没得到，当真白读了。书生去时孤单一人，有人却说看到过一只白狐曾出没在书生的床前，又有人说每年书生祭日，坟头都会有人拜祭。&lt;/p&gt;
-
-&lt;p&gt;很多年过去了，大约是一千年吧。&lt;/p&gt;
-
-&lt;p&gt;当年的树林铲平了，这里刚刚建起了一座官邸。&lt;/p&gt;
-
-&lt;p&gt;今天到处张灯结彩，原来是新晋状元新婚大喜的日子，听说状元才高八斗，连皇上也下令将公主许配给他，举国大庆。&lt;/p&gt;
-
-&lt;p&gt;状元郎今天起得特别早，因为管家告诉他，公主的花轿很快就到了，啪啪啪啪……，鞭声撩人，管家急匆匆地闯进来：“公子！公主花轿到了，公主到了。”&lt;/p&gt;
-
-&lt;p&gt;状元郎激动得三步并作一步，冲出门外，揭开轿门：“公主……”但见一身绿装的公主坐在轿里，笑靥如花。状元一阵晕醺：公主好面熟啊，似乎在梦里见过无数次，可却总是记不起来。&lt;/p&gt;
-
-&lt;p&gt;洞房花烛夜，状元与公主四目深情，门突地被撞开，状元定睛一看，是服侍自己多年的丫鬟，丫鬟从小开始照顾状元，喜欢穿一袭白衣，丫鬟走到状元身前一稽首，眼睛里满是泪珠：“公子，丫鬟自幼伺候您，今日要与您道别了。”&lt;/p&gt;
-
-&lt;p&gt;状元猛然阵阵心痛：“为何故？”&lt;/p&gt;
-
-&lt;p&gt;丫鬟撩起裤脚，雪白的腿上留着一道深疤，丫鬟指着公主说：“临走之前，想报当年一箭之仇，请公子赐恩。”状元大惊，双手护住公主：“你到底所为何事？”&lt;/p&gt;
-
-&lt;p&gt;丫鬟泪珠夺眶而出，凄然着望着状元：“公子当年相救之恩，恨不能立时相报，修行千年方能变成人身，殷殷相许，今日公子金榜题名，前缘尽了，以一恩消一恨，望公子珍重。”&lt;/p&gt;
-
-&lt;p&gt;丫鬟再次深深稽首，礼罢退至大庭深处，翩翩起舞，但见皎皎月下，白衣胜雪，似梦似幻，舞到深处，丫鬟吱吱而鸣，声声凄然。&lt;/p&gt;
-
-&lt;p&gt;明月当空，状元喃喃而立，仿佛看到了当年的夕阳、远山，青山高处，那一团白影踏歌而舞，梦里状元满脑是绿影姣容，梦醒时，状元千百寻找的，可是那翩翩白影？&lt;/p&gt;
-
-&lt;p&gt;从那晚后，再也没见过丫鬟，有人传说：在远山深处，夕照时分，总能看到有人在翩翩起舞，状元郎也差人寻过无数次，再没找到过。&lt;/p&gt;
-
-&lt;p&gt;又有人说，那晚丫鬟哀呀而鸣，唱的是一首歌，那歌是这么唱的：&lt;/p&gt;
-
-&lt;p&gt;我是一只修行千年的狐&lt;br /&gt;
-千年修行 千年孤独&lt;br /&gt;
-夜深人静时 可有人听见我在哭&lt;br /&gt;
-灯火阑珊处 可有人看见我跳舞&lt;/p&gt;
-
-&lt;p&gt;我是一只等待千年的狐&lt;br /&gt;
-千年等待 千年孤独&lt;br /&gt;
-滚滚红尘里 谁又种下了爱的蛊&lt;br /&gt;
-茫茫人海中 谁又喝下了爱的毒&lt;/p&gt;
-
-&lt;p&gt;我爱你时 你正一贫如洗寒窗苦读&lt;br /&gt;
-离开你时 你正金榜题名洞房花烛&lt;/p&gt;
-
-&lt;p&gt;能不能为你再跳一支舞&lt;br /&gt;
-我是你千百年前放生的白狐&lt;br /&gt;
-你看衣袂飘飘 衣袂飘飘&lt;br /&gt;
-海誓山盟都化做虚无&lt;/p&gt;
-
-&lt;p&gt;能不能为你再跳一支舞&lt;br /&gt;
-只为你临别时的那一次回顾&lt;br /&gt;
-你看衣袂飘飘 衣袂飘飘&lt;br /&gt;
-天长地久都化做虚无&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;新白狐&lt;br /&gt;
-演唱：陈瑞&lt;/p&gt;
-
-&lt;p&gt;我是一只爱了千年的狐&lt;br /&gt;
-千年爱恋千年孤独&lt;br /&gt;
-长夜里你可知我的红妆为谁补&lt;br /&gt;
-红尘中你可知我的秀发为谁梳&lt;/p&gt;
-
-&lt;p&gt;我是一只守候千年的狐&lt;br /&gt;
-千年守候千年无助&lt;br /&gt;
-情到深处看我用美丽为你起舞&lt;br /&gt;
-爱到痛时听我用歌声为你倾诉&lt;/p&gt;
-
-&lt;p&gt;寒窗苦读你我海誓山盟&lt;br /&gt;
-铭心刻骨&lt;br /&gt;
-金榜花烛却是天涯漫漫&lt;br /&gt;
-陌路殊途&lt;/p&gt;
-
-&lt;p&gt;能不能让我为爱哭一哭&lt;br /&gt;
-我还是千百年前爱你的白狐&lt;br /&gt;
-多少春去春来朝朝暮暮&lt;br /&gt;
-生生世世都是你的狐&lt;/p&gt;
-
-&lt;p&gt;能不能让我为爱哭一哭&lt;br /&gt;
-我还是千百年来不变的白狐&lt;br /&gt;
-多少春去春来朝朝暮暮&lt;br /&gt;
-来生来世还做你的狐&lt;/p&gt;
-
-&lt;p&gt;我是一只守候千年的狐&lt;br /&gt;
-千年守候千年无助&lt;br /&gt;
-情到深处看我用美丽为你起舞&lt;br /&gt;
-爱到痛时听我用歌声为你倾诉&lt;/p&gt;
-
-&lt;p&gt;寒窗苦读你我海誓山盟&lt;br /&gt;
-铭心刻骨&lt;br /&gt;
-金榜花烛确是天涯漫漫&lt;br /&gt;
-陌路殊途&lt;/p&gt;
-
-&lt;p&gt;能不能让我为爱哭一哭&lt;br /&gt;
-我还是千百年前爱你的白狐&lt;br /&gt;
-多少春去春来朝朝暮暮&lt;br /&gt;
-生生世世都是你的狐&lt;/p&gt;
-
-&lt;p&gt;能不能让我为爱哭一哭&lt;br /&gt;
-我还是千百年来不变的白狐&lt;br /&gt;
-多少春去春来朝朝暮暮&lt;br /&gt;
-来生来世还做你的狐&lt;br /&gt;
-多少春去春来朝朝暮暮&lt;br /&gt;
-来生来世还做你的狐&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;（忽然想听 陈瑞 唱的《白狐》，从网络收集了相关的资料，这是其中之一）&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Intro to BoltDB: Painless Performant Persistence</title>
-      <link>http://alimy.me/post/dev_201603192255/</link>
-      <pubDate>Sat, 19 Mar 2016 22:55:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603192255/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/boltdb/bolt&#34; title=&#34;BoltDB&#34;&gt;BoltDB&lt;/a&gt; is a pure Go persistence solution that saves data to a memory mapped file. I call it a persistence solution and not a database, because the word database has a lot of baggage associated with it that doesn’t apply to bolt. And that lack of baggage is what makes bolt so awesome.&lt;/p&gt;
-
-&lt;p&gt;Bolt is just a Go package. There’s nothing you need to install on the system, no configuration to figure out before you can start coding, nothing. You just go get github.com/boltdb/bolt and then import “github.com/boltdb/bolt”.&lt;/p&gt;
-
-&lt;p&gt;All you need to fully use bolt as storage is a file name. This is fantastic from both a developer’s point of view, and a user’s point of view. I don’t know about you, but I’ve spent months of work time over my career configuring and setting up databases and debugging configuration problems, users and permissions and all the other crap you get from more traditional databases like Postgres and Mongo. There’s none of that with bolt. No users, no setup, just a file name. This is also a boon for users of your application, because they don’t have to futz with all that crap either.&lt;/p&gt;
-
-&lt;p&gt;Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.&lt;/p&gt;
-
-&lt;p&gt;Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.
-
-… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-    “fmt”
-    “log”
-
-    “github.com/boltdb/bolt”
-)
-
-var world = []byte(“world”)
-
-func main() {
-    db, err := bolt.Open(“/home/nate/foo/bolt.db”, 0644, nil)
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer db.Close()
-
-    key := []byte(“hello”)
-    value := []byte(“Hello World!”)
-
-    // store some data
-    err = db.Update(func(tx *bolt.Tx) error {
-        bucket, err := tx.CreateBucketIfNotExists(world)
-        if err != nil {
-            return err
-        }
-
-        err = bucket.Put(key, value)
-        if err != nil {
-            return err
-        }
-        return nil
-    })
-
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    // retrieve the data
-    err = db.View(func(tx *bolt.Tx) error {
-        bucket := tx.Bucket(world)
-        if bucket == nil {
-            return fmt.Errorf(“Bucket %q not found!”, world)
-        }
-
-        val := bucket.Get(key)
-        fmt.Println(string(val))
-
-        return nil
-    })
-
-    if err != nil {
-        log.Fatal(err)
-    }
-}
-
-// output:
-// Hello World!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I know what you’re thinking - that seems kinda long. But keep in mind, I fully handled all errors in at least a semi-proper way, and we’re doing all this:&lt;/p&gt;
-
-&lt;p&gt;1.) creating a database&lt;br /&gt;
-2.) creating some structure (the “world” bucket)&lt;br /&gt;
-3.) storing data to the structure&lt;br /&gt;
-4.) retrieving data from the structure.&lt;/p&gt;
-
-&lt;p&gt;I think that’s not too bad in 54 lines of code.&lt;/p&gt;
-
-&lt;p&gt;So let’s look at what that example is really doing. First we call bolt.Open to get the database. This will create the file if necessary, or open it if it exists.&lt;/p&gt;
-
-&lt;p&gt;All reads from or writes to the bolt database must be done within a transaction. You can have as many Readers in read-only transactions at the same time as you want, but only one Writer in a writable transaction at a time (readers maintain a consistent view of the DB while writers are writing).&lt;/p&gt;
-
-&lt;p&gt;To begin, we call db.Update, which takes a function to which it’ll pass a bolt.Tx - bolt’s transaction object. We then create a Bucket (since all data in bolt lives in buckets), and add our key/value pair to it. After the write transaction finishes, we start a read- only transaction with DB.View, and get the values back out.&lt;/p&gt;
-
-&lt;p&gt;What’s great about bolt’s transaction mechanism is that it’s super simple - the scope of the function is the scope of the transaction. If the function passed to Update returns nil, all updates from the transaction are atomically stored to the database. If the function passed to Update returns an error, the transaction is rolled back. This makes bolt’s transactions completely intuitive from a Go developer’s point of view. You just exit early out of your function by returning an error as usual, and bolt Does The Right Thing. No need to worry about manually rolling back updates or anything, just return an error.&lt;/p&gt;
-
-&lt;p&gt;The only other basic thing you may need is to iterate over key/value pairs in a Bucket, in which case, you just call bucket.Cursor(), which returns a Cursor value, which has functions like Next(), Prev() etc that return a key/value pair and work like you’d expect.&lt;/p&gt;
-
-&lt;p&gt;There’s a lot more to the bolt API, but most of the rest of it is more about database statistics and some stuff for more advanced usage scenarios… but the above is all you really need to know to start storing data in a bolt database.&lt;/p&gt;
-
-&lt;p&gt;For a more complex application, just storing strings in the database may not be sufficient, but that’s ok, Go has your back there, too. You can easily use encoding/json or encoding/gob to serialize structs into the database, keyed by a unique name or id. This is what makes it easy for bolt to go from a key/value store to a document store - just have one bucket per document type. Again, the benefit of bolt is low barrier of entry. You don’t have to figure out a whole database schema or install anything to be able to just start dumping data to disk in a performant and manageable way.&lt;/p&gt;
-
-&lt;p&gt;The main drawback of bolt is that there are no queries. You can’t say “give me all foo objects with a name that starts with bar”. You could make your own index in the database and keep it up to date manually. This could be as easy as a slice of IDs serialized into an “indices” bucket for a particular query. Obviously, this is where you start getting into the realm of developing your own relational database, but if you don’t go overboard, it can be nice that all this code is just that - code. It’s not queries in some external DSL, it’s just code like you’d write for an in-memory data store.&lt;/p&gt;
-
-&lt;p&gt;Bolt is not for every application. You must understand your application’s needs and if bolt’s key/value style will be sufficient to fulfill those needs. If it is, I think you’ll be very happy to use such a simple data store with so little mental overhead.&lt;/p&gt;
-
-&lt;p&gt;[edited to clarify reader/writer relationship] Bonus Gob vs. Json benchmark for storing structs in Bolt:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;BenchmarkGobEncode  1000000       2191 ns/op
-BenchmarkJsonEncode   500000       4738 ns/op
-BenchmarkGobDecode  1000000       2019 ns/op
-BenchmarkJsonDecode   200000      12993 ns/op
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/&#34; title=&#34;Intro to BoltDB&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>

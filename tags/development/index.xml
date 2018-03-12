@@ -7,7 +7,49 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 03 Mar 2018 19:34:00 CST</updated>
+    <updated>Mon, 12 Mar 2018 22:15:00 CST</updated>
+    
+    <item>
+      <title>RFC: HTTP 0.9/1.0/1.1/2.0</title>
+      <link>http://alimy.me/post/dev_201803122215/</link>
+      <pubDate>Mon, 12 Mar 2018 22:15:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803122215/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.w3.org/Protocols/HTTP/AsImplemented.html&#34; title=&#34;HTTP 0.9&#34;&gt;&lt;strong&gt;HTTP 0.9&lt;/strong&gt; https://www.w3.org/Protocols/HTTP/AsImplemented.html &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1945&#34; title=&#34;HTTP 1.0&#34;&gt;&lt;strong&gt;HTTP 1.0&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1945.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc2616&#34; title=&#34;HTTP 1.1&#34;&gt;&lt;strong&gt;HTTP 1.1&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc2616.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc7540&#34; title=&#34;HTTP 2.0&#34;&gt;&lt;strong&gt;HTTP 2.0&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc7540.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(&lt;a href=&#34;https://tools.ietf.org/html/&#34; title=&#34;IETF Documents&#34;&gt;&lt;strong&gt;IETF Documents&lt;/strong&gt;&lt;/a&gt; &amp;amp;&amp;amp; &lt;a href=&#34;https://datatracker.ietf.org/&#34; title=&#34;IETF Datatracker&#34;&gt;&lt;strong&gt;IETF Datatracker&lt;/strong&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>RFC: TLS 1.0/1.1/1.2/1.3</title>
+      <link>http://alimy.me/post/dev_201803122145/</link>
+      <pubDate>Mon, 12 Mar 2018 21:45:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803122145/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc2246&#34; title=&#34;TLS 1.0&#34;&gt;&lt;strong&gt;TLS 1.0&lt;/strong&gt; RFC http://www.ietf.org/rfc/rfc2246.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc4346&#34; title=&#34;TLS 1.1&#34;&gt;&lt;strong&gt;TLS 1.1&lt;/strong&gt; RFC http://www.ietf.org/rfc/rfc4346.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc5246&#34; title=&#34;TLS 1.2&#34;&gt;&lt;strong&gt;TLS 1.2&lt;/strong&gt; RFC http://www.ietf.org/rfc/rfc5246.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/draft-ietf-tls-tls13-26&#34; title=&#34;draft-ietf-tls-tls13-26&#34;&gt;&lt;strong&gt;TLS 1.3&lt;/strong&gt; RFC https://www.ietf.org/id/draft-ietf-tls-tls13-26.txt &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(&lt;a href=&#34;https://tools.ietf.org/html/&#34; title=&#34;IETF Documents&#34;&gt;&lt;strong&gt;IETF Documents&lt;/strong&gt;&lt;/a&gt; &amp;amp;&amp;amp; &lt;a href=&#34;https://datatracker.ietf.org/&#34; title=&#34;IETF Datatracker&#34;&gt;&lt;strong&gt;IETF Datatracker&lt;/strong&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Golang Tutorial: What&#39;s DefaultServeMux in net/http</title>
@@ -6040,297 +6082,6 @@ System.out.println(jsonRepresentation);
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://github.com/google/gson/blob/master/UserGuide.md&#34; title=&#34;User Guide&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Gson: Exclusion Strategy</title>
-      <link>http://alimy.me/post/dev_201603122040/</link>
-      <pubDate>Sat, 12 Mar 2016 20:40:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603122040/</guid>
-      <description>&lt;p&gt;In this tutorial we look at how to selectively include fields from a java object to a json string. By default, Gson tries to map all fields in the java object to the corresponding property in json. However, in certain cases we may want to control that. There are a few ways to do this. It is also possible to excluse fields from third party packages where we have no access to the source code. The different ways to exclude fields are :&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;By defining a custom annotation and ignoring fields that are annotated with that.&lt;/li&gt;
-&lt;li&gt;By Defining a custom exclusion class by extending the ExclusionStrategy interface and implementing the public boolean shouldSkipField(FieldAttributes f); and public boolean shouldSkipClass(Class clazz); methods&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.
-&lt;/p&gt;
-
-&lt;h4 id=&#34;the-example-below-demonstrates-all-three&#34;&gt;The example below demonstrates all three&lt;/h4&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-import java.awt.Color;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-public class ExclusionExample {
-	public static void main(String[] args) {
-		// We create an instance of type CAT.
-		Cat cat = new Cat();
-		cat.setName(&amp;quot;Cat&amp;quot;);
-		cat.setAge(1);
-		cat.setColor(Color.BLACK);
-		cat.setCountry(&amp;quot;US&amp;quot;);
-		// we allow serializing null. therefore although the fields lazy is
-		// null, it will be serialized. We add a CustomExclusionStrategy that
-		// will exclude the Color class. We also allow only those fields that
-		// have been exposed using the @Expore annotation
-		Gson gson = new GsonBuilder().serializeNulls().setExclusionStrategies(new CustomExclusionStrategy(Color.class))
-				.excludeFieldsWithoutExposeAnnotation().create();
-		System.out.println(gson.toJson(cat));
-		// prints {&amp;quot;name&amp;quot;:&amp;quot;Cat&amp;quot;,&amp;quot;lazy&amp;quot;:null}
-
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;the-cat-class&#34;&gt;The Cat class&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-import java.awt.Color;
-
-import com.google.gson.annotations.Expose;
-
-public class Cat {
-	@Expose
-	private String name;
-	private int age;
-	private Color color;
-	@Expose
-	@Country
-	private String country;
-	@Expose
-	private Boolean lazy = null;
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Color getColor() {
-		return color;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setLazy(Boolean lazy) {
-		this.lazy = lazy;
-	}
-
-	public Boolean getLazy() {
-		return lazy;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;the-exclusion-strategy&#34;&gt;The Exclusion Strategy&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-
-/**
- * This class defines custom exclusion policy. We want to ignore all fields that
- * have been annotated with the Country annotation. Note that we can also ignore
- * fields based on name or type. This same policy can be applied to any class.
- * In this example we apply to the CAT class, but it is not limited to the cat
- * class.
- *
- */
-public class CustomExclusionStrategy implements ExclusionStrategy {
-
-	private Class classToExclude;
-
-	public CustomExclusionStrategy(Class classToExclude) {
-		this.classToExclude = classToExclude;
-	}
-
-	// This method is called for all fields. if the method returns false the
-	// field is excluded from serialization
-	@Override
-	public boolean shouldSkipField(FieldAttributes f) {
-		if (f.getAnnotation(Country.class) == null)
-			return false;
-
-		return true;
-	}
-
-	// This method is called for all classes. If the method returns false the
-	// class is excluded.
-	@Override
-	public boolean shouldSkipClass(Class&amp;lt;?&amp;gt; clazz) {
-		if (clazz.equals(classToExclude))
-			return true;
-		return false;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-exclusion-strategy.jsp&#34; title=&#34;Excluding certain fields from Java classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Gson: Custom Serializer</title>
-      <link>http://alimy.me/post/dev_201603122035/</link>
-      <pubDate>Sat, 12 Mar 2016 20:35:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603122035/</guid>
-      <description>&lt;p&gt;Just as we saw in the &lt;a href=&#34;http://alimy.me/post/dev_201603122030&#34;&gt;previous&lt;/a&gt; tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&amp;rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.&lt;/p&gt;
-
-&lt;h3 id=&#34;custom-serializer&#34;&gt;Custom Serializer&lt;/h3&gt;
-
-&lt;p&gt;Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.
-&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-import java.lang.reflect.Type;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import com.google.gson.reflect.TypeToken;
-
-public class DogSerializer implements JsonSerializer {
-	@Override
-	public JsonElement serialize(Dog src, Type typeOfSrc, JsonSerializationContext context) {
-		// This method gets involved whenever the parser encounters the Dog
-		// object (for which this serializer is registered)
-		JsonObject object = new JsonObject();
-		String name = src.getName().replaceAll(&amp;quot; &amp;quot;, &amp;quot;_&amp;quot;);
-		object.addProperty(&amp;quot;name&amp;quot;, name);
-		// we create the json object for the dog and send it back to the
-		// Gson serializer
-		return object;
-	}
-
-	public static void main(String[] args) {
-		Animall&amp;lt;Dog&amp;gt; animal = new Animall&amp;lt;Dog&amp;gt;();
-		Dog dog = new Dog(&amp;quot;I am a dog&amp;quot;);
-		animal.setAnimal(dog);
-		// Create the GsonBuilder and register a serializer for the Dog class.
-		// Whenever the Dog class is encountered Gson calls the DogSerializer
-		// we set pretty printing own to format the json
-		Gson gson = new GsonBuilder().registerTypeAdapter(Dog.class, new DogSerializer()).setPrettyPrinting().create();
-		// Since Animal contains generic type create the type using TypeToken
-		// class.
-		Type animalType = new TypeToken&amp;lt;Animal&amp;lt;Dog&amp;gt;&amp;gt;() {
-		}.getType();
-		System.out.println(gson.toJson(animal, animalType));
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The Animal class&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-public class Animal {
-
-	public T animal;
-
-	public void setAnimal(T animal) {
-		this.animal = animal;
-	}
-
-	public T get() {
-		return animal;
-	}
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The Dog class&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-public class Dog {
-	private String name;
-
-	public Dog(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;custom-deserializer&#34;&gt;Custom DeSerializer&lt;/h4&gt;
-
-&lt;p&gt;Use a custome De serializer to create a Dog Object from the json. To create a deserializer implement the public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException; method.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
-
-import java.lang.reflect.Type;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.reflect.TypeToken;
-
-public class DogDeserialiser implements JsonDeserializer&amp;lt;Dog&amp;gt; {
-	@Override
-	public Dog deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-		String name = json.getAsJsonObject().get(&amp;quot;name&amp;quot;).getAsString();
-		name = name.replace(&amp;quot; &amp;quot;, &amp;quot;_&amp;quot;);
-		Dog dog = new Dog(name);
-
-		return dog;
-	}
-
-	public static void main(String[] args) {
-		String json = &amp;quot;{\&amp;quot;animal\&amp;quot;:{\&amp;quot;name\&amp;quot;:\&amp;quot;I am a dog\&amp;quot;}}&amp;quot;;
-		Gson gson = new GsonBuilder().registerTypeAdapter(Dog.class, new DogDeserialiser()).create();
-		Type animalType = new TypeToken&amp;lt;Animal&amp;lt;Dog&amp;gt;&amp;gt;() {
-		}.getType();
-		Animal&amp;lt;Dog&amp;gt; animal = gson.fromJson(json, animalType);
-		System.out.println(animal.get().getName());
-	}
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-google-json-introduction.jsp&#34; title=&#34;Using Custom Serialization and Deserialization classes&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>
