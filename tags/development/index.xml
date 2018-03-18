@@ -7,7 +7,24 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sun, 18 Mar 2018 17:18:00 CST</updated>
+    <updated>Sun, 18 Mar 2018 17:51:00 CST</updated>
+    
+    <item>
+      <title>RFC: DNS</title>
+      <link>http://alimy.me/post/dev_201803181751/</link>
+      <pubDate>Sun, 18 Mar 2018 17:51:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803181751/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1034&#34; title=&#34;DOMAIN NAMES - CONCEPTS AND FACILITIES&#34;&gt;&lt;strong&gt;DNS - CONCEPTS AND FACILITIES&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1034.txt&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1035&#34; title=&#34;DOMAIN NAMES - IMPLEMENTATION AND SPECIFICATION&#34;&gt;&lt;strong&gt;DNS - IMPLEMENTATION AND SPECIFICATION&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1035.txt&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(&lt;a href=&#34;https://tools.ietf.org/html/&#34; title=&#34;IETF Documents&#34;&gt;&lt;strong&gt;IETF Documents&lt;/strong&gt;&lt;/a&gt; &amp;amp;&amp;amp; &lt;a href=&#34;https://datatracker.ietf.org/&#34; title=&#34;IETF Datatracker&#34;&gt;&lt;strong&gt;IETF Datatracker&lt;/strong&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>RFC: SMTP/POP3/IMAP</title>
@@ -5186,131 +5203,6 @@ System.out.println(cal.getTime());// Sun Sep 01 01:33:55 IST 2013
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/date/java-date-and-calendar-classes.jsp&#34; title=&#34;Date And Calendar&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Java: org.json</title>
-      <link>http://alimy.me/post/dev_201603132025/</link>
-      <pubDate>Sun, 13 Mar 2016 20:25:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603132025/</guid>
-      <description>&lt;h3 id=&#34;overview-of-the-api-classes&#34;&gt;Overview of The API Classes&lt;/h3&gt;
-
-&lt;p&gt;org.json has classes to parse and write json string. It also converts between json and xml, HTTP header, Cookies, and CDF. The main classes are:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;org.json.JSONObject - This class stores unordered key value pairs. The value can be Boolean, JSONArray, Number, String or JSONObject.NULL. It has constructors to take in a json string and store it as key value pairs. It also has constructors that take in a Map, a bean or a String&lt;/li&gt;
-&lt;li&gt;org.json.JSONTokener - This class parses a JSON string and is also used internally by the JSONObject and JSONArray classes to parse JSON Strings&lt;/li&gt;
-&lt;li&gt;org.json.JSONArray - This class stores an ordered sequence of values. Externally it represents a JSON Array&lt;/li&gt;
-&lt;li&gt;org.json.JSONWriter - This class represents method to produce json text. It has an append(String) method to append a string to a json text, key(String) and value(String) method to add key and values to json string. It can also write an array.&lt;/li&gt;
-&lt;li&gt;org.json.CDL- This class has methods to convert comma delimited text to JSONArray and a JSONArray to a comma delimited text. The array contains rows of comma separed strings, with rows separated by newline. The first row contains names.&lt;/li&gt;
-&lt;li&gt;org.json.Cookie - This class has method to convert a web browser cookie to a JSONObject and back.&lt;/li&gt;
-&lt;li&gt;org.json.CookieList - This class has method to convert a list of cookies to JSONObject and back.
-Lets see some examples&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;parse-json&#34;&gt;Parse JSON&lt;/h3&gt;
-
-&lt;p&gt;This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org
-&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytriails.json.orgjson;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
-import org.json.simple.JSONArray;
-
-public class ParseJson1 {
-	public static void main(String[] args) throws MalformedURLException, IOException {
-		String url = &amp;quot;http://freemusicarchive.org/api/get/genres.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=2&amp;quot;;
-		String genreJson = IOUtils.toString(new URL(url));
-		JSONObject json = new JSONObject(genreJson);
-		// get the title
-		System.out.println(json.get(&amp;quot;title&amp;quot;));
-		// get the data
-		JSONArray genreArray = (JSONArray) json.get(&amp;quot;dataset&amp;quot;);
-		// get the first genre
-		JSONObject firstGenre = (JSONObject) genreArray.get(0);
-		System.out.println(firstGenre.get(&amp;quot;genre_title&amp;quot;));
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;build-json-using-a-bean&#34;&gt;Build JSON using a bean&lt;/h3&gt;
-
-&lt;p&gt;Lets look at how to build the same JSON string as above but using a bean for the genre&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytriails.json.orgjson;
-
-import org.json.JSONObject;
-
-public class BuildJson1 {
-
-	public static void main(String[] args) {
-		JSONObject dataset = new JSONObject();
-		dataset.put(&amp;quot;genre_id&amp;quot;, 1);
-		dataset.put(&amp;quot;genre_parent_id&amp;quot;, JSONObject.NULL);
-		dataset.put(&amp;quot;genre_title&amp;quot;, &amp;quot;International&amp;quot;);
-		// use the accumulate function to add to an existing value. The value
-		// will now be converted to a list
-		dataset.accumulate(&amp;quot;genre_title&amp;quot;, &amp;quot;Pop&amp;quot;);
-		// append to the key
-		dataset.append(&amp;quot;genre_title&amp;quot;, &amp;quot;slow&amp;quot;);
-		dataset.put(&amp;quot;genre_handle&amp;quot;, &amp;quot;International&amp;quot;);
-		dataset.put(&amp;quot;genre_color&amp;quot;, &amp;quot;#CC3300&amp;quot;);
-
-		// get the json array for a string
-		System.out.println(dataset.getJSONArray(&amp;quot;genre_title&amp;quot;));
-		// prints [&amp;quot;International&amp;quot;,&amp;quot;Pop&amp;quot;,&amp;quot;slow&amp;quot;]
-
-		// increment a number by 1
-		dataset.increment(&amp;quot;genre_id&amp;quot;);
-
-		// quote a string allowing the json to be delivered within html
-		System.out.println(JSONObject.quote(dataset.toString()));
-		// prints
-		// &amp;quot;{\&amp;quot;genre_color\&amp;quot;:\&amp;quot;#CC3300\&amp;quot;,\&amp;quot;genre_title\&amp;quot;:[\&amp;quot;International\&amp;quot;,\&amp;quot;Pop\&amp;quot;,\&amp;quot;slow\&amp;quot;],
-		// \&amp;quot;genre_handle\&amp;quot;:\&amp;quot;International\&amp;quot;,\&amp;quot;genre_parent_id\&amp;quot;:null,\&amp;quot;genre_id\&amp;quot;:2}&amp;quot;
-	}
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;creating-a-csv-from-jsonarray&#34;&gt;Creating a CSV from JsonArray&lt;/h3&gt;
-
-&lt;p&gt;Lets look at an example of how to use the java.json.CDL class to convert a jsonarray to a csv&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package com.studytriails.json.orgjson;
-
-import java.io.IOException;
-import java.net.URL;
-
-import org.apache.commons.io.IOUtils;
-import org.json.CDL;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-public class JsonToCsv {
-	public static void main(String[] args) {
-		String url = &amp;quot;http://freemusicarchive.org/api/get/genres.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=10&amp;quot;;
-		try {
-			String genreJson = IOUtils.toString(new URL(url));
-			JSONObject json = new JSONObject(genreJson);
-			System.out.println(CDL.toString(new JSONArray(json.get(&amp;quot;dataset&amp;quot;).toString())));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-org-json.jsp&#34; title=&#34;Java - org.json&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>
