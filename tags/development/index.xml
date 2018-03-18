@@ -7,7 +7,26 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Tue, 13 Mar 2018 07:21:00 CST</updated>
+    <updated>Sun, 18 Mar 2018 17:18:00 CST</updated>
+    
+    <item>
+      <title>RFC: SMTP/POP3/IMAP</title>
+      <link>http://alimy.me/post/dev_201803181718/</link>
+      <pubDate>Sun, 18 Mar 2018 17:18:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803181718/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc5321&#34; title=&#34;Simple Mail Transfer Protocol&#34;&gt;&lt;strong&gt;SMTP&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc5321.txt&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1939&#34; title=&#34;Post Office Protocol - Version 3&#34;&gt;&lt;strong&gt;POP3&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1939.txt&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc3501&#34; title=&#34; INTERNET MESSAGE ACCESS PROTOCOL - VERSION 4rev1&#34;&gt;&lt;strong&gt;IMAP&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc3501.txt&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(&lt;a href=&#34;https://tools.ietf.org/html/&#34; title=&#34;IETF Documents&#34;&gt;&lt;strong&gt;IETF Documents&lt;/strong&gt;&lt;/a&gt; &amp;amp;&amp;amp; &lt;a href=&#34;https://datatracker.ietf.org/&#34; title=&#34;IETF Datatracker&#34;&gt;&lt;strong&gt;IETF Datatracker&lt;/strong&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>AMP: Accelerated Mobile Pages</title>
@@ -56,13 +75,13 @@
       <pubDate>Mon, 12 Mar 2018 22:15:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201803122215/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.w3.org/Protocols/HTTP/AsImplemented.html&#34; title=&#34;HTTP 0.9&#34;&gt;&lt;strong&gt;HTTP 0.9&lt;/strong&gt; https://www.w3.org/Protocols/HTTP/AsImplemented.html &lt;/a&gt;&lt;/p&gt;
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.w3.org/Protocols/HTTP/AsImplemented.html&#34; title=&#34;The Original HTTP as defined in 1991&#34;&gt;&lt;strong&gt;HTTP 0.9&lt;/strong&gt; https://www.w3.org/Protocols/HTTP/AsImplemented.html &lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1945&#34; title=&#34;HTTP 1.0&#34;&gt;&lt;strong&gt;HTTP 1.0&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1945.txt &lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1945&#34; title=&#34;Hypertext Transfer Protocol -- HTTP/1.0&#34;&gt;&lt;strong&gt;HTTP 1.0&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1945.txt &lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc2616&#34; title=&#34;HTTP 1.1&#34;&gt;&lt;strong&gt;HTTP 1.1&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc2616.txt &lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc2616&#34; title=&#34;Hypertext Transfer Protocol -- HTTP/1.1&#34;&gt;&lt;strong&gt;HTTP 1.1&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc2616.txt &lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc7540&#34; title=&#34;HTTP 2.0&#34;&gt;&lt;strong&gt;HTTP 2.0&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc7540.txt &lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc7540&#34; title=&#34;Hypertext Transfer Protocol Version 2 -- HTTP/2&#34;&gt;&lt;strong&gt;HTTP 2.0&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc7540.txt &lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;
 
@@ -5292,155 +5311,6 @@ public class JsonToCsv {
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-org-json.jsp&#34; title=&#34;Java - org.json&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Java: Json Simple</title>
-      <link>http://alimy.me/post/dev_201603132015/</link>
-      <pubDate>Sun, 13 Mar 2016 20:15:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603132015/</guid>
-      <description>&lt;p&gt;Json Simple is, as the name suggest, a very simple API. The API itself is made up of around 13 classes. The main classes are :&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;JSONParser - This parses Json text. It takes in a java.io.Reader or a String Object. It is also possible to pass a ContentHandler or ContainerHandler to the parser.&lt;/li&gt;
-&lt;li&gt;JSONObject - This is a java representation of JSON string. It stores key value pairs. JsonObject extends HashMap. It has method to encode a map to a JSON text (writeJSONString(Map map, Writer out))&lt;/li&gt;
-&lt;li&gt;JSONArray - Represents a collection. It extends an ArrayList. It implements the JSONAware and JSONStreamAware interface&lt;/li&gt;
-&lt;li&gt;JSONValue - This class has methods to parse JSON string into Java objects. It uses the JSONParser to do so. It has methods to write JSON string from many java types (writeJSONString(Object value, Writer out)). It also has methods to escapte special characters using the escape(String s) method. This method escapes quotes, \, /, \r, \n, \b, \f, \t and other control characters (U+0000 through U+001F)&lt;/li&gt;
-&lt;li&gt;JSONAware - Beans that support output to JSON form should implement this interface.
-Lets see some examples&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;parse-json&#34;&gt;Parse JSON&lt;/h3&gt;
-
-&lt;p&gt;This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org
-&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;import java.io.IOException;
-import java.net.URL;
-
-import org.apache.commons.io.IOUtils;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-import org.json.simple.parser.ParseException;
-
-public class ParseJson1 {
-
-    public static void main(String[] args) {
-        String url = &amp;quot;http://freemusicarchive.org/api/get/genres.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=2&amp;quot;;
-        /*
-         * {&amp;quot;title&amp;quot;:&amp;quot;Free Music Archive - Genres&amp;quot;,&amp;quot;message&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;errors&amp;quot;:[],&amp;quot;total&amp;quot; : &amp;quot;161&amp;quot;,&amp;quot;total_pages&amp;quot;:81,&amp;quot;page&amp;quot;:1,&amp;quot;limit&amp;quot;:&amp;quot;2&amp;quot;,
-         * &amp;quot;dataset&amp;quot;:
-         * [{&amp;quot;genre_id&amp;quot;: &amp;quot;1&amp;quot;,&amp;quot;genre_parent_id&amp;quot;:&amp;quot;38&amp;quot;,&amp;quot;genre_title&amp;quot;:&amp;quot;Avant-Garde&amp;quot; ,&amp;quot;genre_handle&amp;quot;: &amp;quot;Avant-Garde&amp;quot;,&amp;quot;genre_color&amp;quot;:&amp;quot;#006666&amp;quot;},
-         * {&amp;quot;genre_id&amp;quot;:&amp;quot;2&amp;quot;,&amp;quot;genre_parent_id&amp;quot; :null,&amp;quot;genre_title&amp;quot;:&amp;quot;International&amp;quot;,&amp;quot;genre_handle&amp;quot;:&amp;quot;International&amp;quot;,&amp;quot;genre_color&amp;quot;:&amp;quot;#CC3300&amp;quot;}]}
-         */
-        try {
-            String genreJson = IOUtils.toString(new URL(url));
-            JSONObject genreJsonObject = (JSONObject) JSONValue.parseWithException(genreJson);
-            // get the title
-            System.out.println(genreJsonObject.get(&amp;quot;title&amp;quot;));
-            // get the data
-            JSONArray genreArray = (JSONArray) genreJsonObject.get(&amp;quot;dataset&amp;quot;);
-            // get the first genre
-            JSONObject firstGenre = (JSONObject) genreArray.get(0);
-            System.out.println(firstGenre.get(&amp;quot;genre_title&amp;quot;));
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;build-json&#34;&gt;Build JSON&lt;/h3&gt;
-
-&lt;p&gt;We now build a json string for a genre&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;import java.util.HashMap;
-import java.util.Map;
-
-import org.json.simple.JSONAware;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
-public class BuildJson2 {
-
-    public static void main(String[] args) {
-        BuildJson2 json2 = new BuildJson2();
-        GenreBean bean = json2.new GenreBean();
-        bean.setGenre_title(&amp;quot;International&amp;quot;);
-        bean.setGenre_color(&amp;quot;#CC3300&amp;quot;);
-        bean.setGenre_handle(&amp;quot;International&amp;quot;);
-        bean.setGenre_id(1);
-        System.out.println(JSONValue.toJSONString(bean));
-    }
-
-    class GenreBean implements JSONAware {
-
-        int genre_id;
-        int genre_parent_id;
-        String genre_handle;
-        String genre_title;
-        String genre_color;
-
-        @Override
-        public String toJSONString() {
-            Map&amp;lt;Object , Object&amp;gt; genreBeanJsonMap = new HashMap&amp;lt;Object , Object&amp;gt;();
-            genreBeanJsonMap.put(&amp;quot;genre_id&amp;quot;, getGenre_id());
-            genreBeanJsonMap.put(&amp;quot;genre_parent_id&amp;quot;, getGenre_parent_id());
-            genreBeanJsonMap.put(&amp;quot;genre_handle&amp;quot;, getGenre_handle());
-            genreBeanJsonMap.put(&amp;quot;genre_title&amp;quot;, getGenre_handle());
-            genreBeanJsonMap.put(&amp;quot;genre_color&amp;quot;, getGenre_color());
-            return JSONObject.toJSONString(genreBeanJsonMap);
-        }
-
-        public int getGenre_id() {
-            return genre_id;
-        }
-
-        public void setGenre_id(int genre_id) {
-            this.genre_id = genre_id;
-        }
-
-        public int getGenre_parent_id() {
-            return genre_parent_id;
-        }
-
-        public void setGenre_parent_id(int genre_parent_id) {
-            this.genre_parent_id = genre_parent_id;
-        }
-
-        public String getGenre_handle() {
-            return genre_handle;
-        }
-
-        public void setGenre_handle(String genre_handle) {
-            this.genre_handle = genre_handle;
-        }
-
-        public String getGenre_title() {
-            return genre_title;
-        }
-
-        public void setGenre_title(String genre_title) {
-            this.genre_title = genre_title;
-        }
-
-        public String getGenre_color() {
-            return genre_color;
-        }
-
-        public void setGenre_color(String genre_color) {
-            this.genre_color = genre_color;
-        }
-
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/json/java-json-simple.jsp&#34; title=&#34;Java - Json Simple&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>

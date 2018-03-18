@@ -239,6 +239,34 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603132015/" title="阅读全文">Java: Json Simple </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Json Simple is, as the name suggest, a very simple API. The API itself is made up of around 13 classes. The main classes are :</p>
+
+<ul>
+<li>JSONParser - This parses Json text. It takes in a java.io.Reader or a String Object. It is also possible to pass a ContentHandler or ContainerHandler to the parser.</li>
+<li>JSONObject - This is a java representation of JSON string. It stores key value pairs. JsonObject extends HashMap. It has method to encode a map to a JSON text (writeJSONString(Map map, Writer out))</li>
+<li>JSONArray - Represents a collection. It extends an ArrayList. It implements the JSONAware and JSONStreamAware interface</li>
+<li>JSONValue - This class has methods to parse JSON string into Java objects. It uses the JSONParser to do so. It has methods to write JSON string from many java types (writeJSONString(Object value, Writer out)). It also has methods to escapte special characters using the escape(String s) method. This method escapes quotes, \, /, \r, \n, \b, \f, \t and other control characters (U+0000 through U+001F)</li>
+<li>JSONAware - Beans that support output to JSON form should implement this interface.
+Lets see some examples</li>
+</ul>
+
+<h3 id="parse-json">Parse JSON</h3>
+
+<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603132015/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122045/" title="阅读全文">Gson: User Guide </a> </h2>
 
 </header>
@@ -500,21 +528,6 @@ public class DeSerializeListExample5 {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122020/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122015/" title="阅读全文">Gson: parsing json to java token by token </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorials we saw how to <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122015/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
