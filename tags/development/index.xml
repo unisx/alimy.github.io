@@ -7,7 +7,1931 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sun, 18 Mar 2018 17:51:00 CST</updated>
+    <updated>Sat, 24 Mar 2018 10:12:00 CST</updated>
+    
+    <item>
+      <title>rsync: 中文手册</title>
+      <link>http://alimy.me/post/dev_201803241012/</link>
+      <pubDate>Sat, 24 Mar 2018 10:12:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803241012/</guid>
+      <description>&lt;p&gt;rsync(1)&lt;/p&gt;
+
+&lt;p&gt;名称
+       rsync - 一个快速、多功能的远程(和本地)文件拷贝工具&lt;/p&gt;
+
+&lt;p&gt;摘要
+       Local:  rsync [OPTION&amp;hellip;] SRC&amp;hellip; [DEST]&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   Access via remote shell:
+     Pull: rsync [OPTION...] [USER@]HOST:SRC... [DEST]
+     Push: rsync [OPTION...] SRC... [USER@]HOST:DEST
+
+   Access via rsync daemon:
+     Pull: rsync [OPTION...] [USER@]HOST::SRC... [DEST]
+           rsync [OPTION...] rsync://[USER@]HOST[:PORT]/SRC... [DEST]
+     Push: rsync [OPTION...] SRC... [USER@]HOST::DEST
+           rsync [OPTION...] SRC... rsync://[USER@]HOST[:PORT]/DEST
+
+
+   当仅有一个SRC或DEST参数时将列出源文件列表而不是复制文件。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;描述
+       Rsync是一个快速且功能非常丰富的文件拷贝工具。它可以在本地和远程之间通过shell或rsync服务互相拷贝文件。
+       它提供了大量的选项来控制它各方面功能的行为，且在指定待拷贝文件方面非常有弹性。它以其增量拷贝算法而出
+       名，只拷贝源和目标不同的文件部分，因此减少网络间要传输的数据。Rsync每天都被广泛用于做备份、镜像和当
+       作升级版拷贝命令。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   Rsync使用&amp;quot;quick check&amp;quot;算法(默认)决定文件是否需要被传输，它会找出大小或最后修改时间(mtime)不同的文件。
+   当&amp;quot;quick check&amp;quot;算法表明了文件不需要被更新时，任何其他保留属性(译者注:除大小和最后修改时间外的属性)都
+   将直接在目标文件上修改。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   rsync的其他特性包括：
+
+   o      支持拷贝链接文件、设备文件、所有权(即所有者和所属组)、属组以及权限
+
+   o      支持类似于GNU tar命令的exclude和exclude-from选项
+
+   o      支持CVS排除模式以忽略相同的文件(译者注：CVS是一种版本控制系统，其他版本控制系统如git、svn)
+
+   o      可以使用任意透明的远程shell(remote shell)，包括ssh或rsh
+
+   o      不要求超级管理员权限
+
+   o      以pipeline管道模型传输文件以便最小化降低成本
+
+   o      支持匿名或可身份认证的rsync daemon模式(做镜像的理想方式)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一般特性
+       Rsync在本地或远程主机之间拷贝文件(但不支持两个远程之间互相拷贝)。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   rsync有两种不同的方式联系远程主机：使用远程shell程序作为传输方式(如ssh或rsh)或直接通过TCP联系rsync守护
+   进程。当命令行中指定的源或目标主机后使用了单个冒号(:)时将使用远程shell传输模式。当在命令行中指定的源
+   或目标主机后使用双冒号(::)或使用了rsync://这种URL时将表示使用TCP联系rsync守护进程，但rsync://方式有一个
+   例外，请参见下文&amp;quot;通过远程SHELL连接使用RSYNC-DAEMON特性&amp;quot;段落的内容。
+
+   但有一个特殊情况，如果只给定了源地址没有给定目标地址，则将以类似于&amp;quot;ls -l&amp;quot;的格式输出文件列表。
+
+   意料之中的是，如果给定的源地址和目标地址都不是远程地址，则在本机进行拷贝(见--list-only选项)。
+
+   Rsync命令中，本地端总是扮演&amp;quot;client&amp;quot;角色，远程端总是扮演&amp;quot;server&amp;quot;角色。不要混淆&amp;quot;server&amp;quot;和rsync daemon，rsync
+   daemon一定是一个&amp;quot;server&amp;quot;，但是&amp;quot;server&amp;quot;可能是一个rsync daemon也可能是远程shell派生出来的进程。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;安装
+       请阅读README文件来查看安装说明。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   当安装完成后，你可以通过远程shell(也可以通过rsync daemon协议)让rsync与任意你能访问的主机进行交流。对于远
+   程传输，现代rsync使用ssh与其他主机进行交流，但是可以配置其他默认的远程shell，如rsh或remsh。
+
+   你也可以通过命令行的&amp;quot;-e&amp;quot;选项或设置RSYNC_RSH环境变量来指定你想要使用的远程shell。
+
+   rsync必须同时装在源主机和目标主机上。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;用法
+       rsync的使用方法和rcp一样。你必须指定源地址和目标地址，其中一个可能是远程地址。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   也许解释语法最好的方式是通过几个示例：
+
+          rsync -t *.c foo:src/
+
+   这将会把当前目录下所有能匹配*.c的文件传输到主机foo上的src目录下。如果远程主机上已经存在某些同名文件，rsync
+   的远程更新(rsync-update)协议将会更新哪些有差异的文件。更详细的内容见技术报告。
+
+          rsync -avz foo:src/bar /data/tmp
+
+   这将会以递归方式把远程主机foo上的src/bar目录下的所有文件传输到本地主机的/data/tmp目录下。这些文件以归档(archive)
+   模式传输，它保证在传输过程中保留符号链接、设备文件、属性、权限、所有者、所属组等。另外，在传输过程中会使用压缩功能以减少
+   要传输的数据体积。
+
+          rsync -avz foo:src/bar/ /data/tmp
+
+   使用尾随斜线(/)改变了原本的行为，它避免了在目标地址创建一个额外的目录层次。带有尾随斜线时，你可以理解为&amp;quot;拷贝目录
+   的内容&amp;quot;而不是拷贝&amp;quot;拷贝目录名&amp;quot;(译者注：即拷贝目录本身)，但是这两种情况都会将目录中包含的文件传输到目标目录下。换句
+   话说，下面两条命令都以相同的方式进行拷贝，包括/dest/foo的属性设置。
+
+          rsync -av /src/foo /dest
+          rsync -av /src/foo/ /dest/foo
+
+   还需要注意的是，拷贝主机或引用模块的默认目录不需要尾随斜线。例如，下面的命令都拷贝远程(默认)目录的内容到本地的&amp;quot;/dest&amp;quot;。
+
+          rsync -av host: /dest
+          rsync -av host::module /dest
+
+   你也可以仅使用rsync的仅本地(local-only)模式，此模式下的源地址和目标地址名称中都不需要冒号(:)。它行为类似于cp命令的升级版。
+
+   最后，你可以通过移除模块名参数部分的方式列出rsync daemon中所有可用模块。
+
+          rsync somehost.mydomain.com::
+
+   更详细信息见下面段落。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;高级用法
+       请求从远程主机传输多个文件的语法是通过指定和第一个远程地址格式相同的多个远程地址参数，或者可以省略主机名部分。例如，下面的
+       命令都会正常工作：(译者注：远程地址中省略主机名时，将取前一个远程地址的主机名作为它的主机名)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;          rsync -av host:file1 :file2 host:file{3,4} /dest/
+          rsync -av host::modname/file{1,2} host::modname/file3 /dest/
+          rsync -av host::modname/file1 ::modname/file{3,4}
+
+   老版本的rsync需要在SRC部分使用引号和空格，如下示例：
+
+          rsync -av host:&#39;dir1/file1 dir2/file2&#39; /dest
+          rsync host::&#39;modname/dir1/file1 modname/dir2/file2&#39; /dest
+
+   这种方式在后续rsync版本中将继续(默认)有效，但是它没有第一种方式简便。
+
+   如果你要传输一个文件名中包含了空白字符的文件，可以使用&amp;quot;--protect-args&amp;quot;(&amp;quot;-s&amp;quot;)选项，也可以使用转义符将空白字符转义。例如：
+
+          rsync -av host:&#39;file\ name\ with\ spaces&#39; /dest
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;连接RSYNC DAEMON
+       rsync也可以不使用远程shell作为传输方式。这情况看下，将直接连接远程RSYNC守护进程，一般使用的是TCP的873端口。(显然，这要求
+       远程的RSYNC守护进程必须是已运行的，见下文&amp;rdquo;启动RSYNC服务以接受连接请求&amp;rdquo;)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   这种方式的rsync使用方式和远程shell方式一样，除了：
+
+   o      需要使用双冒号&amp;quot;::&amp;quot;分隔主机名和路径，或者使用rsync://的URL格式。
+
+   o      &amp;quot;path&amp;quot;部分的第一个词语是一个模块名(译者注：如hostname::modname/file)。
+
+   o      远程RSYNC守护进程可能会输出你连接它的日期时间。
+
+   o      如果没有指定远程rsync服务的路径名，将列出rsync服务主机上可访问的路径。
+
+   o      如果没有指定本地目标地址，将列出远程rsync服务主机上指定的文件。
+
+   o      必须不能指定&amp;quot;--rsh&amp;quot;(&amp;quot;-e&amp;quot;)选项。
+
+
+   以下是拷贝远程模块名为&amp;quot;src&amp;quot;中的所有文件示例：
+
+       rsync -av host::src /dest
+
+   远程daemon上的某些模块可能需要身份验证。如果是这样，在连接时将会被询问输入密码。如果想要避免被询问，可以通过设置环境变量
+   RSYNC_PASSWORD的值为你要使用的密码，或者使用&amp;quot;--password-file&amp;quot;选项。这非常适用于脚本中。
+
+   警告：在某些系统上，环境变量是对所有用户可见的，此时建议使用&amp;quot;--password-file&amp;quot;选项。
+
+   你可以通过web代理(web proxy)的方式与rsync daemon建立连接，只需设置环境变量RSYNC_PROXY的值为hostname:port指向你的web代理。但
+   要注意，web代理的配置必须得支持与873端口的代理连接。
+
+   你还可以使用代理程序与rsync daemon建立连接，只需设置环境变量RSYNC_CONNECT_PROG的值为你想要运行的命令来代替建立套接字连接。
+   环境变量的值中可能会包含&amp;quot;%H&amp;quot;，它代表rsync命令中所指定的主机名(因此如果想在值中包含一个&amp;quot;%&amp;quot;字符，需要使用&amp;quot;%%&amp;quot;)。例如：
+
+     export RSYNC_CONNECT_PROG=&#39;ssh proxyhost nc %H 873&#39;
+     rsync -av targethost1::module/src/ /dest/
+     rsync -av rsync:://targethost2/module/src/ /dest/
+
+   上面的命令中使用ssh在proxyhost上运行了nc命令，它将会转发所有数据到目标主机(%H)的873端口。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通过远程SHELL连接使用RSYNC-DAEMON特性
+       某些时候使用rsync daemon的各种特性(如可命名的模块)比允许任意套接字连接到系统上(除了真正需要使用远程shell的访问)更方便。
+       rsync支持使用远程shell连接到主机上，它会派生出一个单用途(single-use)的&amp;rdquo;daemon&amp;rdquo;服务用于读取远程用户家目录下的配置文件。
+       如果你想要加密daemon-sytle传输的数据，但由于daemon是被远程用户启动的，你无法通过这样的daemon使用像chroot这样的功能，也
+       无法修改uid，这时使用远程shell是比较好的。(另一个加密daemon传输的方式是，使用ssh建立本地端口到远程主机的隧道，并且在远
+       程主机上配置一个普通的rsync daemon只允许从&amp;rdquo;localhost&amp;rdquo;发起连接(译者注：其实就是配置ssh的端口转发))&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   从用户角度来看，使用远程shell连接使用rsync daemon与连接普通rsync daemon的命令行语法几乎相同，唯一例外的是必须在命令行使用
+   --rsh=COMMAND选项设置远程shell程序。(设置RSYNC_RSH环境变量不会打开此功能)例如：
+
+       rsync -av --rsh=ssh host::module /dest
+
+   如果需要指定不同用户的远程shell，一定要记住，host前缀&amp;quot;user@&amp;quot;设置的是rsync上的用户(即用于需要用户认证的模块)。这意味着必须在ssh命令中
+   使用&amp;quot;-l user&amp;quot;选项来指定远程shell，下面的例子中使用了&amp;quot;--rsh&amp;quot;的短格式选项&amp;quot;-e&amp;quot;：
+
+       rsync -av -e &amp;quot;ssh -l ssh-user&amp;quot; rsync-user@host::module /dest
+
+   &amp;quot;ssh-user&amp;quot;将在ssh上生效，而&amp;quot;rsync-user&amp;quot;将用于认证使用&amp;quot;module&amp;quot;模块。(译者注：对于连接目标非daemon时，&amp;quot;ssh -l user&amp;quot;和&amp;quot;user@&amp;quot;作用是一样的)
+
+   (译者注：远程shell连接使用rsync daemon，和真正的守护进程rsync daemon是不同的，后者是配置好后永久监听在后台提供服务，而远程shell使用
+   rsync daemon则是一种临时性单用途的daemon进程，虽然也会读取配置文件，但它是由远程shell进程fork出来的子进程，此次连接结束后，此daemon
+   进程会自动消逝)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;启动RSYNC服务以接受连接请求
+       要连接到一个rsync daemon，远程系统上的rsync daemon必须已经运行(或者像inetd一样，已经配置了当特殊端口上有连接时会派生出rsync daemon)。
+       关于如何启动一个能处理从套接字进来的连接的daemon的完整信息，请查看rsyncd.conf(5)——这是rsync daemon的配置文件，它包含如何运行daemon的
+       非常详细的信息(包括独立模式(stand-alone)和inetd格式的配置)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   如果你使用的是某种远程shell传输方式，则没有手动启动rsync daemon的必要。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;传输过程中的排序
+       Rsync总是会在内部传输列表中对指定的文件名进行排序。这将会使得相同目录名的文件被合并在一起进行传输，这样一来，去除重复文件名就比较容
+       易，但这可能会让一些人产生疑惑：文件传输时的顺序和命令行中给的顺序不一致。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   如果想要让那个某个特殊的文件比其他文件先传输，可以将它们分隔到不同的rsync命令上，或考虑使用&amp;quot;--delay-updates&amp;quot;选项(它不会影响传输时的
+   排序，但会使得最后的文件更新(file-updating)阶段更迅速)。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;示例
+       以下是一些我使用rsync的示例。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   要备份包含了大量word文档和邮件文件夹的家目录，使用一个任务计划(cron job)运行：
+
+          rsync -Cavz . arvidsjaur:backup
+
+   每个晚上都将通过PPP连接到主机&amp;quot;arvidsjaur&amp;quot;上的backup目录。
+
+   要同步samba源码树，使用下面的Makefile targets：
+
+       get:
+               rsync -avuzb --exclude &#39;*~&#39; samba:samba/ .
+       put:
+               rsync -Cavuzb . samba:samba/
+       sync: get put
+
+   这可以让我和连接另一端的CVS目录保持同步。然后再在远程主机上做一些CVS操作，这节省了我大量时间，因为远程CVS协议的效率并不高。
+
+   我使用下面的命令在我的&amp;quot;old&amp;quot;和&amp;quot;new&amp;quot;ftp站点之间做一个镜像：
+
+   rsync -az -e ssh --delete ~ftp/pub/samba nimbus:&amp;quot;~ftp/pub/tridge&amp;quot;
+
+   由于设置了cron计划，每隔几小时它就登录一次。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;选项汇总
+       下面是rsync中可用的命令汇总，关于选项的完整描述，请看后文。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    -v, --verbose               increase verbosity
+    -q, --quiet                 suppress non-error messages
+        --no-motd               suppress daemon-mode MOTD (see caveat)
+    -c, --checksum              skip based on checksum, not mod-time &amp;amp; size
+    -a, --archive               archive mode; equals -rlptgoD (no -H,-A,-X)
+        --no-OPTION             turn off an implied OPTION (e.g. --no-D)
+    -r, --recursive             recurse into directories
+    -R, --relative              use relative path names
+        --no-implied-dirs       don&#39;t send implied dirs with --relative
+    -b, --backup                make backups (see --suffix &amp;amp; --backup-dir)
+        --backup-dir=DIR        make backups into hierarchy based in DIR
+        --suffix=SUFFIX         backup suffix (default ~ w/o --backup-dir)
+    -u, --update                skip files that are newer on the receiver
+        --inplace               update destination files in-place
+        --append                append data onto shorter files
+        --append-verify         --append w/old data in file checksum
+    -d, --dirs                  transfer directories without recursing
+    -l, --links                 copy symlinks as symlinks
+    -L, --copy-links            transform symlink into referent file/dir
+        --copy-unsafe-links     only &amp;quot;unsafe&amp;quot; symlinks are transformed
+        --safe-links            ignore symlinks that point outside the tree
+    -k, --copy-dirlinks         transform symlink to dir into referent dir
+    -K, --keep-dirlinks         treat symlinked dir on receiver as dir
+    -H, --hard-links            preserve hard links
+    -p, --perms                 preserve permissions
+    -E, --executability         preserve executability
+        --chmod=CHMOD           affect file and/or directory permissions
+    -A, --acls                  preserve ACLs (implies -p)
+    -X, --xattrs                preserve extended attributes
+    -o, --owner                 preserve owner (super-user only)
+    -g, --group                 preserve group
+        --devices               preserve device files (super-user only)
+        --copy-devices          copy device contents as regular file
+        --specials              preserve special files
+    -D                          same as --devices --specials
+    -t, --times                 preserve modification times
+    -O, --omit-dir-times        omit directories from --times
+        --super                 receiver attempts super-user activities
+        --fake-super            store/recover privileged attrs using xattrs
+    -S, --sparse                handle sparse files efficiently
+    -n, --dry-run               perform a trial run with no changes made
+    -W, --whole-file            copy files whole (w/o delta-xfer algorithm)
+    -x, --one-file-system       don&#39;t cross filesystem boundaries
+    -B, --block-size=SIZE       force a fixed checksum block-size
+    -e, --rsh=COMMAND           specify the remote shell to use
+        --rsync-path=PROGRAM    specify the rsync to run on remote machine
+        --existing              skip creating new files on receiver
+        --ignore-existing       skip updating files that exist on receiver
+        --remove-source-files   sender removes synchronized files (non-dir)
+        --del                   an alias for --delete-during
+        --delete                delete extraneous files from dest dirs
+        --delete-before         receiver deletes before xfer, not during
+        --delete-during         receiver deletes during the transfer
+        --delete-delay          find deletions during, delete after
+        --delete-after          receiver deletes after transfer, not during
+        --delete-excluded       also delete excluded files from dest dirs
+        --ignore-errors         delete even if there are I/O errors
+        --force                 force deletion of dirs even if not empty
+        --max-delete=NUM        don&#39;t delete more than NUM files
+        --max-size=SIZE         don&#39;t transfer any file larger than SIZE
+        --min-size=SIZE         don&#39;t transfer any file smaller than SIZE
+        --partial               keep partially transferred files
+        --partial-dir=DIR       put a partially transferred file into DIR
+        --delay-updates         put all updated files into place at end
+    -m, --prune-empty-dirs      prune empty directory chains from file-list
+        --numeric-ids           don&#39;t map uid/gid values by user/group name
+        --timeout=SECONDS       set I/O timeout in seconds
+        --contimeout=SECONDS    set daemon connection timeout in seconds
+    -I, --ignore-times          don&#39;t skip files that match size and time
+        --size-only             skip files that match in size
+        --modify-window=NUM     compare mod-times with reduced accuracy
+    -T, --temp-dir=DIR          create temporary files in directory DIR
+    -y, --fuzzy                 find similar file for basis if no dest file
+        --compare-dest=DIR      also compare received files relative to DIR
+        --copy-dest=DIR         ... and include copies of unchanged files
+        --link-dest=DIR         hardlink to files in DIR when unchanged
+    -z, --compress              compress file data during the transfer
+        --compress-level=NUM    explicitly set compression level
+        --skip-compress=LIST    skip compressing files with suffix in LIST
+    -C, --cvs-exclude           auto-ignore files in the same way CVS does
+    -f, --filter=RULE           add a file-filtering RULE
+    -F                          same as --filter=&#39;dir-merge /.rsync-filter&#39;
+                                repeated: --filter=&#39;- .rsync-filter&#39;
+        --exclude=PATTERN       exclude files matching PATTERN
+        --exclude-from=FILE     read exclude patterns from FILE
+        --include=PATTERN       don&#39;t exclude files matching PATTERN
+        --include-from=FILE     read include patterns from FILE
+        --files-from=FILE       read list of source-file names from FILE
+    -0, --from0                 all *from/filter files are delimited by 0s
+    -s, --protect-args          no space-splitting; wildcard chars only
+        --address=ADDRESS       bind address for outgoing socket to daemon
+        --port=PORT             specify double-colon alternate port number
+        --sockopts=OPTIONS      specify custom TCP options
+        --blocking-io           use blocking I/O for the remote shell
+        --stats                 give some file-transfer stats
+    -8, --8-bit-output          leave high-bit chars unescaped in output
+    -h, --human-readable        output numbers in a human-readable format
+        --progress              show progress during transfer
+    -P                          same as --partial --progress
+    -i, --itemize-changes       output a change-summary for all updates
+        --out-format=FORMAT     output updates using the specified FORMAT
+        --log-file=FILE         log what we&#39;re doing to the specified FILE
+        --log-file-format=FMT   log updates using the specified FMT
+        --password-file=FILE    read daemon-access password from FILE
+        --list-only             list the files instead of copying them
+        --bwlimit=KBPS          limit I/O bandwidth; KBytes per second
+        --write-batch=FILE      write a batched update to FILE
+        --only-write-batch=FILE like --write-batch but w/o updating dest
+        --read-batch=FILE       read a batched update from FILE
+        --protocol=NUM          force an older protocol version to be used
+        --iconv=CONVERT_SPEC    request charset conversion of filenames
+        --checksum-seed=NUM     set block/file checksum seed (advanced)
+    -4, --ipv4                  prefer IPv4
+    -6, --ipv6                  prefer IPv6
+        --version               print version number
+   (-h) --help                  show this help (see below for -h comment)
+
+
+   Rsync以daemon方式运行时，还可以接受以下选项：
+
+        --daemon                run as an rsync daemon
+        --address=ADDRESS       bind to the specified address
+        --bwlimit=KBPS          limit I/O bandwidth; KBytes per second
+        --config=FILE           specify alternate rsyncd.conf file
+        --no-detach             do not detach from the parent
+        --port=PORT             listen on alternate port number
+        --log-file=FILE         override the &amp;quot;log file&amp;quot; setting
+        --log-file-format=FMT   override the &amp;quot;log format&amp;quot; setting
+        --sockopts=OPTIONS      specify custom TCP options
+    -v, --verbose               increase verbosity
+    -4, --ipv4                  prefer IPv4
+    -6, --ipv6                  prefer IPv6
+    -h, --help                  show this help (if used after --daemon)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;选项
+       Rsync可以接受长格式选项和段格式选项，下面列出了所有可使用的选项。如果以多种方式指定同一个选项，则使用逗号分隔。某些选项只有长格式，
+       没有短格式。如果选项要带参数，参数只能列在长格式选项后。如果要指定选项的参数，可以使用&amp;rdquo;&amp;ndash;option=param&amp;rdquo;的格式，也可以使用空白字符替
+       换&amp;rdquo;=&amp;ldquo;。某些参数可能需要使用引号包围，避免被shell命令行解析。需要记住，文件名中的前导波浪号(~)是被shell替换的，因此&amp;rdquo;&amp;ndash;option=~/foo&amp;rdquo;
+       将不会从波浪号进入家目录(若要如此，将&amp;rdquo;=&amp;ldquo;移除)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   --help 输出所有选项简短格式的帮助信息并退出。为了兼容老版本，当只使用一个&amp;quot;-h&amp;quot;选项时也会输出这些帮助信息。
+
+   --version
+          输出rsync的版本号并退出。
+
+   -v, --verbose
+          该选项增加了传输过程中的大量信息。默认情况下，rsync以静默(silent)模式工作。单个&amp;quot;-v&amp;quot;将给出哪些文件正在被传输的信息，还会在传输
+          结束时给出一个简要总结信息。两个&amp;quot;-v&amp;quot;选项(-vv)将给出哪些文件被忽略，并且在传输结束时给出更详细的信息。超过两个&amp;quot;-v&amp;quot;选项一般只在
+          调试过程中使用。
+
+          需要注意的是，传输过程中输出的文件名是被&amp;quot;--out-format=%n%L&amp;quot;处理过的，它表示仅显示文件名，如果是软链接文件，则还显示它指向谁。
+          当使用一个&amp;quot;-v&amp;quot;选项时，将不会告诉你文件的属性改变了。如果明确要列出改变了属性的文件列表清单(既可以使用&amp;quot;--itemize-change&amp;quot;也可以
+          在&amp;quot;--out-format&amp;quot;中增加&amp;quot;%i&amp;quot;)，(客户端)输出结果中将总是会增加所有已改变的条目清单。更详细信息见&amp;quot;--out-format&amp;quot;选项。
+
+   -q, --quiet
+          该选项将减少大量传输过程中的信息，但无法禁止从远程主机产生的信息。该选项适用于cron任务计划中。
+
+   --no-motd
+          此选项会影响客户端在守护程序传输开始时输出的信息。它会禁止motd信息，但是也会影响daemon对&amp;quot;rsync host::&amp;quot;请求显示模块列表的回应
+          信息，因此如果想要请求daemon的模块列表，应该忽略该选项。
+
+   -I, --ignore-times
+          正常情况下，rsync会忽略文件大小相同且最后修改时间戳相同的文件，该选项关闭&amp;quot;quick check&amp;quot;行为，使得所有的文件都会被更新。
+          (译者注：即从增量拷贝变成全量拷贝)
+
+   --size-only
+          该选项将修改rsync查找需要被传输文件的&amp;quot;quick check&amp;quot;算法，默认该算法会找出所有大小或最后修改时间戳改变文件并传输，使用该选项
+          将仅查找大小改变的文件并传输。在使用了某些镜像备份但没有保留精确时间戳的情况下，使用带有该选项的rsync将非常有帮助。
+
+   --modify-window
+          当比较时间戳时，rsync会把两者相差不超过该选项所指定的值时认为是相同的时间戳。正常情况下该选项的值为0(精确匹配)，但在某些情
+          况下，将此选项的值设置为非0将非常有用。特别是与Windows的FAT文件系统(此文件系统有2秒范围内的精确度差异)传输数据时，设置
+          &amp;quot;--modify-window=1&amp;quot;将非常有用(允许文件时间戳有1秒的差异)。
+
+   -c, --checksum
+          此选项改变了rsync检查文件改变和决定是否要传输的方式。不使用该选项，rsync使用&amp;quot;quick check&amp;quot;(默认的)检查发送端和接收端两边文件的
+          大小和最后一次修改时间是否改变。使用该选项，将对每个匹配了大小的文件比较128位的校验码。生成校验码意味着两端都会消耗大量的磁盘
+          I/O以读取传输队列中文件的数据内容(传输队列早于读取文件数据，即先quick check，再生成和比较校验码)，因此该选项会大幅度降低效率。
+
+          发送端生成校验码的时刻是做文件系统扫描以生成可获取文件列表时。接收端生成校验码的时刻是在扫描哪些文件发生改变时，它会对那些与
+          发送端文件大小相同的文件生成校验码。所以，该选项的结果是：只传输校验码改变或文件大小改变(意味着校验码也改变)的文件。
+
+          注意，rsync默认总是在文件传输完成后再生成全部文件(whole-file)的校验码，并验证传输完成的文件是否正确重组。但是使用该选项，它隐
+          含了在传输前做&amp;quot;该文件是否需要更新？&amp;quot;的检查，使得文件传输结束后不会自动去验证它们重组的正确性。
+
+          从协议30版本开始(对应的rsync版本从3.0.0开始)使用的校验码是MD5格式的，更老的协议版本使用的校验码是MD4格式的。
+           (译者注：即基于checksum来判断文件是否要同步，而不是基于quick check算法。在两个地方会计算checksum：sender端发送文件列表时，
+           接收端的generator判断文件是否要传输时)
+
+   -a, --archive
+          该选项等价于&amp;quot;-rlptgoD&amp;quot;选项的组合。它表示使用归档模式并保留几乎所有属性(明显遗漏了&amp;quot;-H&amp;quot;选项)。上面的等价选项的唯一例外是指定了
+          &amp;quot;--files-from&amp;quot;选项，它使得&amp;quot;-r&amp;quot;选项被强制忽略。
+
+          注意，&amp;quot;-a&amp;quot;选项不保留硬链接属性，因为查找多个硬链接文件是非常昂贵的。若要保留硬链接属性，必须与&amp;quot;-a&amp;quot;分开独立使用&amp;quot;-H&amp;quot;选项。
+
+   --no-OPTION
+          在选项前面加上前缀&amp;quot;no-&amp;quot;表示关闭该选项的隐含选项功能。不是所有选项都能使用&amp;quot;no-&amp;quot;前缀：
+          只有那些隐含了其他选项的选项(如--no-D,--no-perms)或者不同环境下有不同默认值的选项(如--no-whole-file,--no-blocking-io,--no-dirs)。
+          &amp;quot;no-&amp;quot;后面即可以接短格式选项，也可以接长格式选项(如--no-R等价于--no-relative)
+
+          例如：你想使用&amp;quot;-a&amp;quot;选项但不想使用它的隐含选项&amp;quot;-o&amp;quot;(--owner)，即让&amp;quot;-a&amp;quot;等价于&amp;quot;-rlptgD&amp;quot;，可以指定&amp;quot;-a --no-o&amp;quot;(或-a --no-owner)。
+
+          选项的顺序是非常重要的：如果指定&amp;quot;--no-r -a&amp;quot;，则最终会启用&amp;quot;-r&amp;quot;选项，与之相反的是&amp;quot;-a --no-r&amp;quot;。同样需要注意的是&amp;quot;--files-from&amp;quot;的副
+          作用，它的位置顺序不重要，因为它影响了某些选项的默认行为，并轻微改变了&amp;quot;-a&amp;quot;的意义(见&amp;quot;--files-from&amp;quot;选项以获取更详细说明)。
+
+   -r, --recursive
+          此选项告诉rsync以递归模式拷贝目录。参见&amp;quot;--dirs&amp;quot;(-d)。
+
+          从rsync 3.0.0开始，现在使用的递归算法是一种增量扫描，比以前少占用很多内存，并且在最初扫描完一些目录后就开始进行数据传输。增量
+          扫描仅影响递归算法，不会改变非递归的传输类型。同样，只有传输两端的版本都高于3.0.0才会如此。
+
+          某些选项要求rsync知道完整的文件列表，所以它们会禁用增量递归模式。这些选项包括：--delete-before,--delete-after,--prune-empty-dirs
+          和--delay-updates。正因为如此，如果两端rsync版本都高于3.0.0时，指定&amp;quot;--delete&amp;quot;时的默认删除模式变为&amp;quot;--delete-during&amp;quot;(可以使用&amp;quot;--del&amp;quot;
+          或&amp;quot;--del-during&amp;quot;来精确指定删除模式)。同样，选择使用&amp;quot;--delete-delay&amp;quot;选项比&amp;quot;--delete-after&amp;quot;会更好。
+
+          增量递归模式可以使用&amp;quot;--no-inc-recursive&amp;quot;(--no-i-r)选项来禁用。
+
+
+   -R, --relative
+          表示使用相对路径。这意味着会将命令行中指定的全路径名而非路径最尾部的文件名发送给服务端。当要一次性发送多个不同目录时该选项非
+          常有用。例如，如果使用下面的命令：
+
+             rsync -av /foo/bar/baz.c remote:/tmp/
+
+          这将会在远程主机上的/tmp/目录下创建一个baz.c文件。如果使用下面的命令：
+
+             rsync -avR /foo/bar/baz.c remote:/tmp/
+
+          将会在远程主机的/tmp/目录下递归创建foo/bar/baz.c，它保留了命令行中指定的全路径。这些额外的路径元素被称为&amp;quot;隐含目录&amp;quot;(如上例中的
+          foo和foo/bar)。
+
+          从rsync 3.0.0开始，rsync总是会发送这些隐含目录作为文件列表中的真实的目录，即使发送端的某个路径元素是一个软链接。这使得拷贝全
+          路径文件时，不用担心因为路径中包含了软链接而可能出现的非预期的问题(译者注：即链接追踪)。如果要复制服务端符号链接，请通过其
+          路径来复制符号链接，并通过实际路径来复制器真实对象。如果使用的rsync版本较老，可能需要使用&amp;quot;--no-implied-dirs&amp;quot;选项。
+
+          也可以对所指定的路径限制发送时作为隐含目录的路径信息。从rsync 2.6.7版本开始，rsync可以在源路径插入一个点&amp;quot;.&amp;quot;，就像这样：
+
+             rsync -avR /foo/./bar/baz.c remote:/tmp/
+
+          这将会在远程主机上创建/tmp/bar/baz.c。(注意点后面必须跟上斜线，因此&amp;quot;/foo/.&amp;quot;将不会被缩写)对于更老版本的rsync，可能需要改变目录来
+          限制源路径。例如，推送文件时：
+
+             (cd /foo; rsync -avR bar/baz.c remote:/tmp/)
+
+
+          (注意，括号将把两个命令放入子shell中执行，因此cd改变目录不会影响未来的命令)如果使用老版本的rsync拉取文件，使用以下惯用格式
+          (但只适用于非daemon的传输)：
+
+             rsync -avR --rsync-path=&amp;quot;cd /foo; rsync&amp;quot; \
+                 remote:bar/baz.c /tmp/
+
+
+   --no-implied-dirs
+          该选项影响&amp;quot;--relative&amp;quot;选项的默认行为。当指定该选项时，在传输时不会包含源文件的隐含目录。这意味着目标主机上对应路径元素会被保
+          留不变(如果它们存在的话)，并且缺少的隐含目录会以默认属性方式被创建。甚至允许目标主机上隐含路径元素和源地址的属性有非常大的区
+          别，例如在接收端某文件可能是某个目录的符号链接。
+
+          另外，当rsync要传输的文件为&amp;quot;path/foo/file&amp;quot;时，如果使用&amp;quot;--relative&amp;quot;选项，则目录&amp;quot;path&amp;quot;和&amp;quot;path/foo&amp;quot;是隐含目录。如果在目标主机上
+          &amp;quot;path/foo&amp;quot;是一个指向&amp;quot;bar&amp;quot;文件的符号连接，接收端的rsync会删除&amp;quot;path/foo&amp;quot;，并重建它为一个目录，然后将接收到的文件放入此新目录中。
+          使用&amp;quot;--no-implied-dirs&amp;quot;选项，接收端使用已存在的路径元素更新&amp;quot;path/foo/file&amp;quot;，意味着最终会在&amp;quot;path/bar&amp;quot;中创建file文件。另一个实现
+          连接保留功能的方法是使用&amp;quot;--keep-dirlinks&amp;quot;选项(也将会使得后续的传输从符号链接定位到目录中)。
+
+          当使用早于3.0.0版本的rsync拉取文件时，如果发送端的路径中包含了符号链接，并且希望隐含目录能以普通目录方式被传输时，可能需要使
+          用该选项。
+
+   -b, --backup
+          当使用该选项时，如果目标路径中已存在需要被传输或需要被删除的文件时将重命名该文件。可以使用&amp;quot;--backup-dir&amp;quot;选项控制备份文件的保
+          存路径，使用&amp;quot;--suffix&amp;quot;选项控制备份时追加在原文件名后的后缀。
+
+          注意，如果不指定&amp;quot;--backup-dir&amp;quot;选项：(1)将隐含&amp;quot;--omit-dir-times&amp;quot;选项(2)如果&amp;quot;--delete&amp;quot;选项同时影响该文件，rsync将在排除规则的尾部
+          添加一个起&amp;quot;保护&amp;quot;作用的筛选规则(例如，-f &amp;quot;P *~&amp;quot;)，这会阻止之前备份的文件被删除。注意，如果你使用了自己定义的筛选规则，你可能需
+          要手动插入你的exclude/include规则，并且保证其优先级较高防止被其他规则先匹配上而导致失效。
+
+   --backup-dir=DIR
+          结合&amp;quot;--backup&amp;quot;选项一起使用，这表示rsync在远端将存储所有备份文件到指定的目录下。这可用于增量备份。可以使用&amp;quot;--suffix&amp;quot;选项额外指
+          定备份后缀(否则备份到指定目录的文件将使用原文件名)。
+
+          需要注意如果拟制定了一个相对路径，备份目录将会相对到目标目录，因此你可能真正想要指定的是一个绝对路径或以&amp;quot;../&amp;quot;开头的路径。如果
+          接收端是rsync daemon，备份目录将无法超出模块的路径层次结构，因此请特别注意不要将其删除或复制到其中。
+
+   --suffix=SUFFIX
+          该选项可以自定义&amp;quot;--backup&amp;quot;(-b)选项的备份文件名后缀，如果没有指定&amp;quot;--backup-dir&amp;quot;选项，则默认后缀为&amp;quot;~&amp;quot;，否则后缀为空字符串。
+
+   -u, --update
+          该选项将强制忽略在目标路径下已存在且修改时间比源文件更新的文件。(如果已存在的目标文件的修改时间和源文件相同，则只在文件大小
+          不同时才会更新)
+
+          注意该选项不会影响软链接或其他特殊文件的拷贝机制。而且，不管两端文件中的数据是否相同，考虑发送端和接收端不同的文件格式对于更
+          新来说也是非常重要的。换句话说，如果源文件是一个目录，而目标已存在的同名文件却是一个普通文件，则rsync会直接忽略它们的时间戳。
+
+          该选项是一种传输规则，不是排除规则，因此不会影响进入file-lists的文件，也因此不会影响删除。它仅会限制接收端请求传输的文件。
+
+   --inplace
+          该选项会改变当数据需要更新时，rsync传输文件的方式。默认情况下，rysnc会创建一个文件的新副本，当此文件传输完成时会将此副本移动
+          到指定的路径下。使用此选项后，将直接把更新部分的数据写入到目标文件中。
+
+          (译者注：此选项的拷贝机制可以理解为类似于drbd基于块的拷贝机制)
+
+          这会带来以下几种影响：
+
+          o      硬链接不会被破坏。这意味着通过其他硬链接文件可以直接访问到新数据。更进一步说，尝试拷贝不同源文件到多重链接的目标文件
+                 时，将导致目标数据像&amp;quot;拔河&amp;quot;一样，来来回回地变化。
+
+          o      使用中的二进制程序不会被更新(操作系统会防止这样的事情发生，二进制程序自身也会在尝试数据交换时崩溃)。
+
+          o      在传输过程中，文件的数据会进入不一致状态，并且如果传输被中断或者更新失败时，文件将继续不一致。
+
+          o      rsync无法将数据写入到一个无法被更新的文件中。虽然超级管理员可以更新任意文件，但普通用户需要获取文件的写权限才能打开文件
+                 并向其中成功写入数据。
+
+          o      如果目标文件中的数据在它被复制到某个位置之前被覆盖，则rsync的增量拷贝效率会降低。如果使用了&amp;quot;--backup&amp;quot;则不会出现这样的问
+                 题，因为rsync足够智能，它会使用备份文件作为传输的基准文件。
+
+          警告：不能使用该选项对那些正被其他用户访问的文件，因此在选择使用此选项进行拷贝时需要小心谨慎。
+
+          该选项适用于对于那些基于数据块(block-based)改变或向文件尾部追加了数据的大文件，也适用于那些安装在磁盘上而不是网络上的系统。
+          它也能有效帮助保持写时复制(copy-on-write)文件系统的快照。
+
+          该选项隐含了&amp;quot;--partial&amp;quot;选项(因为传输中断不会删除文件)，但和&amp;quot;--partial-dir&amp;quot;以及&amp;quot;--delay-udpates&amp;quot;选项冲突。
+
+   --append
+          该选项使得rsync以追加数据到文件尾部的方式来更新文件，它会假定接收端上已存在的文件和发送端文件的前段数据是一致的。如果接收端上
+          文件的大小等于或大于发送端文件的大小，则此文件会被忽略。该选项不会干涉不被传输文件的非内容属性(non-content，如权限，所有者等)，
+          也不会影响对非普通文件(non-regular)的更新。隐含了&amp;quot;--inplace&amp;quot;选项，但是和&amp;quot;--sparse&amp;quot;选项不冲突(因为它总是扩充一个文件的长度)。
+
+   --append-verify
+          工作方式类似于&amp;quot;--append&amp;quot;选项，但是接收端已存在的数据在验证阶段会被包含在whole-file校验码中，如果最后验证阶段失败了，该文件会被
+          传输(rsync将使用正常、非追加的&amp;quot;--inplace&amp;quot;模式重发文件)。
+
+   -d, --dirs
+          以不递归的方式拷贝目录本身，它不会拷贝目录中的文件。不像&amp;quot;--recursive&amp;quot;选项，只拷贝目录中的内容而不拷贝目录本身。除非目录名中使
+          用了&amp;quot;.&amp;quot;或者以斜线结尾(如&amp;quot;.&amp;quot;,&amp;quot;dir/.&amp;quot;,&amp;quot;dir/&amp;quot;等)。既不指定该选项，也不指定&amp;quot;--recursive&amp;quot;选项时，rsync将忽略所有遇到的目录(并会向输
+          出这些影响信息)。如果同时指定了&amp;quot;--dirs&amp;quot;和&amp;quot;--recursive&amp;quot;选项，&amp;quot;--recursive&amp;quot;将优先生效。
+
+          如果没有给定&amp;quot;--recursive&amp;quot;选项，&amp;quot;--files-from&amp;quot;或&amp;quot;--list-only&amp;quot;选项会隐含&amp;quot;--dirs&amp;quot;选项，此时在列表中能见到所有目录。要想关闭此功能，
+          可以指定&amp;quot;--no-dirs&amp;quot;或&amp;quot;--no-d&amp;quot;选项。
+
+          还有一个比较有用的向后兼容的选项：&amp;quot;--old-dirs&amp;quot;(--old-d)。它告诉rsync使用&amp;quot;-r --exclude=&#39;/*/*&#39;&amp;quot;仅列出目录而不递归。
+
+   -l, --links
+          当遇到符号链接时，将在目标路径重新创建符号链接。(译者注：即拷贝符号链接本身)
+
+   -L, --copy-links
+          使用该选项时，当遇到符号链接时将拷贝它所指向的目标而不是符号链接本身(译者加：但仅只是追踪了链接文件指向文件中的数据，文件名
+          仍然是符号链接文件的文件名。举个例子，如果client端a文件--&amp;gt;b文件，则使用该选项拷贝a时，将在receiver端生成a文件，但a文件是一个
+          普通文件，其中的数据来源是client端b文件的数据)。老版本的rsync使用该选项还会告诉接收端也追踪符号链接到其指向的目标中。在目前
+          的rsync版本中，要实现这样的功能需要指定&amp;quot;--keep-dirlinks&amp;quot;(-K)选项。
+
+   --copy-unsafe-links
+          This  tells  rsync  to copy the referent of symbolic links that point outside the copied tree.  Absolute symlinks are also treated
+          like ordinary files, and so are any symlinks in the source path itself when --relative is used.  This  option  has  no  additional
+          effect if --copy-links was also specified.
+
+   --safe-links
+          This  tells  rsync to ignore any symbolic links which point outside the copied tree. All absolute symlinks are also ignored. Using
+          this option in conjunction with --relative may give unexpected results.
+
+   -k, --copy-dirlinks
+
+          Without  this  option,  if the sending side has replaced a directory with a symlink to a directory, the receiving side will delete
+          anything that is in the way of the new symlink, including a directory hierarchy (as long as --force or --delete is in effect).
+
+          See also --keep-dirlinks for an analogous option for the receiving side.
+
+          --copy-dirlinks applies to all symlinks to directories in the source.  If you want to follow only  a  few  specified  symlinks,  a
+          trick  you  can  use  is to pass them as additional source args with a trailing slash, using --relative to make the paths match up
+          right.  For example:
+
+          rsync -r --relative src/./ src/./follow-me/ dest/
+
+
+          This works because rsync calls lstat(2) on the source arg as given, and the trailing slash makes lstat(2) follow the symlink, giv‐
+          ing rise to a directory in the file-list which overrides the symlink found during the scan of &amp;quot;src/./&amp;quot;.
+
+   -K, --keep-dirlinks
+          该选项使得receiver端将符号链接视为目录文件，就像它是真的目录一样，但只有它在sender端能匹配一个真实目录时才会如此。不使用该选
+          项，receiver端的符号链接将被删除或替换为一个真实目录。
+
+          例如，假设你要传输一个包含文件&amp;quot;file&amp;quot;的目录&amp;quot;foo&amp;quot;，但是在receiver端上的&amp;quot;foo&amp;quot;是一个指向&amp;quot;bar&amp;quot;目录的符号链接。如果不使用该选项，
+          receiver端将删除符号链接&amp;quot;foo&amp;quot;，然后重建它为一个目录，然后接收&amp;quot;file&amp;quot;到此目录中。如果使用了该选项，receiver端将保留符号链接，然
+          后将&amp;quot;file&amp;quot;存放到&amp;quot;bar&amp;quot;目录中去。
+          (译者注：上述示例的命令格式为&amp;quot;rsync -r foo user@host:/path&amp;quot;，其中path下有个名为foo的链接文件)
+
+          需要注意一点：如果使用了&amp;quot;--keep-dirlinks&amp;quot;，你必须信任你所有拷贝中的链接文件。如果某个非信任用户要创建属于它自己的符号链接(指
+          向某目录)，在下一次传输过程中，可能会使用真实目录替换掉符号链接并影响链接文件所指向目录中的文件内容。对于备份拷贝，你最好是
+          用mount的bind功能而不是使用符号链接来改变接收端的目录层次。
+
+          参见&amp;quot;--copy-dirlinks&amp;quot;选项，它是在sender端上类似的选项。
+
+   -H, --hard-links
+          This tells rsync to look for hard-linked files in the source and link together the corresponding files on the destination.   With‐
+          out this option, hard-linked files in the source are treated as though they were separate files.
+
+          This  option  does  NOT  necessarily  ensure that the pattern of hard links on the destination exactly matches that on the source.
+          Cases in which the destination may end up with extra hard links include the following:
+
+          o      If the destination contains extraneous hard-links (more linking than what is present in the source file list), the  copying
+                 algorithm  will  not  break  them  explicitly.   However,  if one or more of the paths have content differences, the normal
+                 file-update process will break those extra links (unless you are using the --inplace option).
+
+          o      If you specify a --link-dest directory that contains  hard  links,  the  linking  of  the  destination  files  against  the
+                 --link-dest files can cause some paths in the destination to become linked together due to the --link-dest associations.
+
+
+          Note that rsync can only detect hard links between files that are inside the transfer set.  If rsync updates a file that has extra
+          hard-link connections to files outside the transfer, that linkage will be broken.  If you are tempted to use the --inplace  option
+          to  avoid this breakage, be very careful that you know how your files are being updated so that you are certain that no unintended
+          changes happen due to lingering hard links (and see the --inplace option for more caveats).
+
+          If incremental recursion is active (see --recursive), rsync may transfer a missing hard-linked file before it finds  that  another
+          link for that contents exists elsewhere in the hierarchy.  This does not affect the accuracy of the transfer (i.e. which files are
+          hard-linked together), just its efficiency (i.e. copying the data for a new, early copy of a hard-linked file that could have been
+          found  later in the transfer in another member of the hard-linked set of files).  One way to avoid this inefficiency is to disable
+          incremental recursion using the --no-inc-recursive option.
+
+   -p, --perms
+          该选项告诉receiver端的rsync，要将目标文件的权限值设置为何源文件一样(即权限保留)。(参见&amp;quot;--chmod&amp;quot;选项以获取rsync修改sender端权限
+          的方式)
+
+          当没有使用该选项时，将以如下方式设置权限值：
+
+          o      已存在的文件继续保留它们的原有权限，尽管&amp;quot;--executability&amp;quot;选项可能会改变文件的执行权限。
+
+          o      对于新文件，将从源文件中获取普通权限值，再配合receiver端文件所在目录的默认ACL权限或umask值决定文件的最终权限，并且会禁
+                 用它们的特殊权限位，除非新的目录文件从其父目录中继承了sgid权限。
+
+          因此，当&amp;quot;--perms&amp;quot;和&amp;quot;--executability&amp;quot;选项都被禁用时，rsync的行为和其它文件拷贝工具的行为一样，例如cp、tar。
+
+          总结以下：要设置目标文件(包括新文件和已存在的旧文件)的权限值为源文件的权限值，使用&amp;quot;--perms&amp;quot;选项。要设置新的目标文件默认权限，
+          请确保&amp;quot;--perms&amp;quot;选项是关闭的，然后使用&amp;quot;--chmod=ugo=rwX&amp;quot;(这将保证启用所有非掩码位权限)。如果想以更简单的方式实现后一种情况，你
+          可能需要为其定义一个popt别名，例如将下面的命令行放入文件~/.popt中(下面的命令中定义了&amp;quot;-Z&amp;quot;选项，并使用了&amp;quot;--no-g&amp;quot;使得目标文件的
+          所属组使用目标目录的默认组)：
+
+             rsync alias -Z --no-p --no-g --chmod=ugo=rwX
+
+          然后可以在命令行中使用新的选项，例如：
+
+             rsync -avZ src/ dest/
+
+          (警告：请确保&amp;quot;-a&amp;quot;选项不是跟随在&amp;quot;-Z&amp;quot;后的，否则将重新启用上面已经定义的两个&amp;quot;--no-*&amp;quot;选项。)
+
+   -E, --executability
+          该选项使得rsync在未指定&amp;quot;--perms&amp;quot;选项时对普通文件保留文件的执行权限(或者不可执行权限)。普通文件上开启了&amp;quot;x&amp;quot;才认为有可执行权限。
+          当目标文件已存在且和对应源文件的可执行权限值不一样时，rsync将采用如下方式修改权限：
+
+          o      To make a file non-executable, rsync turns off all its ’x’ permissions.
+
+          o      To make a file executable, rsync turns on each ’x’ permission that has a corresponding ’r’ permission enabled.
+
+          如果指定了&amp;quot;--perms&amp;quot;选项，则该选项被忽略。
+
+   -A, --acls
+          使目标文件的ACL属性和源文件的ACL属性一致。该选项隐含了&amp;quot;--perms&amp;quot;选项。
+
+   -X, --xattrs
+          使目标文件的扩展属性和源文件的扩展属性保持一致。
+
+   --chmod
+          该选项使得rsync可以将目标文件的权限设定为此处所指定的权限值，让rsync以为这些指定的权限就是源文件的权限。也因此在未配合&amp;quot;--perms&amp;quot;
+          一起使用时该选项无效。
+
+          在chmod(1)的man文档中记录了普通的语法解析规则，你可以通过加上一个前缀&amp;quot;D&amp;quot;来指定该权限规则只对目录有效，或者加上前缀&amp;quot;F&amp;quot;指定该权
+          限规则只对普通文件有效。例如，下面的例子保证了所有目录都标记了sgid权限，其它人对文件都不可写，所有者和所属组都可写，且所有人
+          都有执行权限：
+
+          --chmod=Dg+s,ug+w,Fo-w,+X
+
+          可以指定多个使用逗号分隔的&amp;quot;--chomod&amp;quot;选项。
+
+   -o, --owner
+          该选项使得rsync将目标文件的所有者设置为和源文件一样(即保留所有者属性)，但要求接收端的rsync是以super user身份运行的(或指定了
+          &amp;quot;--no-super&amp;quot;选项)。如果不指定该选项，目标文件的所有者将设置为调用rsync的用户身份(译者注：例如rsync /src name1@host:/path，则
+          目标文件的所有者为name1)。
+
+          默认情况下，目标文件的所有者名称是由uid来匹配的，但在某些环境下，可能会保留使用uid。(详细信息见&amp;quot;--numeric-ids&amp;quot;选项)
+
+          (译者注：例如源文件的所有者为name1，其uid=1000，那么将在目标主机上寻找uid=1000所对应的用户名，如果能找到则所有者设置为用户名，
+          否则设置为uid=1000)
+
+   -g, --group
+          此选项的意义完全同&amp;quot;--owner&amp;quot;，所以不做对应翻译。
+
+   --devices
+          该选项使得rsync可以传输字符设备和块设备到目标主机上以重新创建这些设备。该选项要求接收端的rsync是以super user身份运行的(译者注：
+          例如，root用户也算是super user，则rsync /devicename root@host:/path)，否则该选项失效。(见&amp;quot;--super&amp;quot;和&amp;quot;--fake-super&amp;quot;选项)
+
+   --specials
+          该选项使得rsync可以传输特殊文件，如命名套接字，命名管道等。
+
+   -D     该选项等价于&amp;quot;--devices --specials&amp;quot;选项组合。
+
+   -t, --times
+          该选项告诉rsync将mtime随同文件一起传输给receiver，使得目标文件的mtime和源文件一样。千万注意，如果不指定该选项，原本排除那些
+          mtime相同的文件而获得的性能提升将不再生效；换句话说，如果没有在rsync命令行中使用&amp;quot;-t&amp;quot;或&amp;quot;-a&amp;quot;选项，将导致下一次传输以类似于&amp;quot;-I&amp;quot;
+          的方式进行，即更新所有文件(尽管在文件没有真正发生更改的情况下，rsync的增量传输算法可以让更新效率很高，但最好还是使用&amp;quot;-t&amp;quot;)
+
+   -O, --omit-dir-times
+          该选项告诉rsync，当保留mtime(见&amp;quot;--times&amp;quot;)时，将忽略目录。如果receiver端正在通过NFS共享目录，使用&amp;quot;-O&amp;quot;是一个不错的选择。
+          如果指定了&amp;quot;--backup&amp;quot;但没有指定&amp;quot;--backup-dir&amp;quot;，将隐含该选项。
+
+   --super
+          该选项告诉receiver端在进行某些操作时尝试使用super-user身份，尽管receiver端的rsync不是以super user身份运行的。这些操作包括：
+          通过&amp;quot;--owner&amp;quot;保留文件所有者，通过&amp;quot;--groups&amp;quot;保留文件所属组(包括辅助组)，通过&amp;quot;--devices&amp;quot;选项拷贝设备文件。在receiver端未以super
+           user身份调用rsync时，这些选项很有用。如果要关闭super user选项功能，则使用&amp;quot;--no-super&amp;quot;
+
+   --fake-super
+          如果启用了该选项，rsync将通过对附加在每个文件上的扩展属性(根据实际需要)的保存/恢复来模拟super user。扩展属性包括：文件的owner、
+          group、文件的设备信息(设备文件和特殊文件被创建为空文本文件)以及所有特殊权限位(suid/sgid/sbit)。
+
+          在不使用super user备份数据时但又想保存ACL属性时，该选项很有用。
+
+          &amp;quot;--fake-super&amp;quot;选项默认只影响命令发起端，如果想要通过远程shell影响远程端时，可以指定rsync的路径：
+
+            rsync -av --rsync-path=&amp;quot;rsync --fake-super&amp;quot; /src/ host:/dest/
+
+          由于本地拷贝时，两端都在本地主机上，该选项将会同时影响本地的sender端和receiver端的文件。如果想要避免这样的情况，需要通过指定
+          &amp;quot;localhost&amp;quot;的地址方式来实现拷贝，或者可能也可以使用&amp;quot;lsh&amp;quot;远程shell来完成。
+
+          该选项会被&amp;quot;--super&amp;quot;以及&amp;quot;--no-super&amp;quot;选项覆盖。
+
+          其他信息可以参见rsyncd.conf文件中的&amp;quot;fake super&amp;quot;。
+
+   -S, --sparse
+          尝试以高效率的方式处理稀疏文件，使得它们在目标主机上占用更少的空间。该选项不能和&amp;quot;--inplace&amp;quot;选项一起使用，因为&amp;quot;--inplace&amp;quot;不能向
+          稀疏模式的文件中覆盖数据。
+
+   -n, --dry-run
+          该选项使得rsync仅测试运行(并生成和真正运行时几乎一样的输出信息)。该选项常和&amp;quot;-v&amp;quot;、&amp;quot;--verbose&amp;quot;、&amp;quot;-i&amp;quot;、&amp;quot;--itemize-changes&amp;quot;选项一
+          起使用，以便查看rsync在这些选项下是如何工作的。
+
+          配合&amp;quot;--itemize-changes&amp;quot;时的输出结果应该要和真正运行的结果完全一致(除非人为故意欺骗rsync或系统调用失败)。如果输出结果不一致，则
+          出现了bug。配合其他几个选项时，输出结果除了在某些方面外应该保持几乎一致。尤其是，dry run不会真的发送数据，因此&amp;quot;--progress&amp;quot;将的
+          结果将很可能异常。             
+
+   -W, --whole-file
+          使用该选项将使得rsync不再使用增量传输算法，而是传输所有文件。如果源和目标主机之间的带宽高于磁盘的带宽(特别是&amp;quot;磁盘&amp;quot;是网络文件
+          系统时)，则该选项比增量传输更有效。当源和目标都是本地时，该选项是默认的传输算法，但若受到write batch模式影响，则此算法不生效。
+
+          (译者注：假设A主机和B主机之间的网络可以以1000MB/s的速度传输，而目标主机B上磁盘的带宽只有500MB/s，显然目标主机在文件重组时从
+          basis file读取数据块的速度不如A发送给B快，所以在这种情况下，增量传输不如全量传输)
+
+   -x, --one-file-system
+          该选项告诉rsync不能跨文件系统递归(译者注：例如根目录下有mnt目录，mnt常用来做挂载点，则递归根目录时，不会递归到mnt里面)。该选
+          项不会限制用户从多个文件系统指定拷贝项，仅只是限制rsync在每个目录下进行递归，同时也以类似的限制方式限制删除时receiver端递归。
+          需要记住，使用mount命令的&amp;quot;bind&amp;quot;功能绑定了设备文件时，它也被认为是在同一个文件系统上。
+
+          如果重复指定该选项，rsync将忽略client端所有的挂载点目录。否则，当遇到挂载点时将当作是空目录(这些空目录使用已挂载目录的属性，
+          因为挂载点目录下的文件是无法访问的)。
+
+          如果指定了&amp;quot;--copy-links&amp;quot;或&amp;quot;--copy-unsafe-links&amp;quot;选项使得rsync&amp;quot;瓦解&amp;quot;符号链接，则符号链接所指向的是另一个设备上的目录时将和挂载点
+          一样对待。该选项不会影响指向非目录的符号链接。
+          (译者注：翻译有点不标准，以下是原文)
+          This  tells rsync to avoid crossing a filesystem boundary when recursing.  This does not limit the user’s ability to specify items
+          to copy from multiple filesystems, just rsync’s recursion through the hierarchy of each directory that  the  user  specified,  and
+          also  the  analogous  recursion  on the receiving side during deletion.  Also keep in mind that rsync treats a &amp;quot;bind&amp;quot; mount to the
+          same device as being on the same filesystem.
+
+          If this option is repeated, rsync omits all mount-point directories from the copy.  Otherwise, it includes an empty  directory  at
+          each  mount-point  it encounters (using the attributes of the mounted directory because those of the underlying mount-point direc‐
+          tory are inaccessible).
+
+          If rsync has been told to collapse symlinks (via --copy-links or --copy-unsafe-links), a symlink to a directory on another  device
+          is treated like a mount-point.  Symlinks to non-directories are unaffected by this option.
+
+   --existing, --ignore-non-existing
+          告诉rsync，如果目标主机上文件或文件所在目录还不存在，则不自动创建它们，即这些文件将不被传输。如果该选项和&amp;quot;--ignore-existing&amp;quot;
+          选项一起使用，将不更新任何文件(如果你的目的是删除目标主机上的无关文件，这将非常有用)。
+
+          (译者注：例如rsync --existing /etc/dhcp/* /tmp，由于/tmp下没有dhcp目录，所以dhcp目录和其中的文件都不会被传输到/tmp下)
+
+          该选项属于一种transfer rule，而不是exclude rule，因此不会影响进入file list的文件，也因此不会影响删除操作。该选项仅对receiver所
+          请求要传输的文件进行了限制。
+
+   --ignore-existing
+          该选项告诉rsync忽略对目标主机上已存在的文件的更新(不会忽略已存在的目录，或者什么也不做)。见&amp;quot;--existing&amp;quot;选项说明。
+
+          该选项属于一种transfer rule，而不是exclude rule，因此不会影响进入file list的文件，也因此不会影响删除操作。该选项仅对receiver所
+          请求要传输的文件进行了限制。              
+
+          对于使用了&amp;quot;--link-dest&amp;quot;选项做备份时，碰巧备份被中断，如果想继续完成备份，则该选项有用。因为&amp;quot;--link-dest&amp;quot;选项会拷贝到一个新的目
+          录层次中，使用&amp;quot;--ignore-existing&amp;quot;将保证已存在的文件不会被调整。这意味着该选项仅盯着目标上已存在的文件不放。
+
+   --remove-source-files
+          该选项告诉rsync移除sender端已经成功传输到receiver端的文件(不包括任何目录文件)。
+
+   --delete
+          该选项告诉rsync删除receiver端有而sender端没有的文件，但不是删除receiver端所有文件，而是只对将要同步的目录生效。你需要明确指定
+          整个目录(如&amp;quot;dir&amp;quot;或&amp;quot;dir/&amp;quot;)而不是使用通配符来通配目录的内容(如&amp;quot;dir/*&amp;quot;)，因为通配符会被shell进行扩展，使得rsync被请求传输单个文件
+          而非文件的父目录。被exclude排除的文件也会从delete中排除掉，除非使用了&amp;quot;--delete-excluded&amp;quot;选项或者标记了只对sender端匹配上的文件
+          有效(见筛选规则中的include/exclude修饰符)。
+          (译者注：由于exclude规则先生效，delete时认为源端不存在而目标端存在，使得delete也想要删除这些被排除的文件，但默认情况下，在删除
+          时对这些被排除的文件加上了保护规则，所以这些文件无法被delete掉，这是一个容易疑惑的地方。要删除这些被排除的文件，只需使用选项
+          &amp;quot;--delete-excluded&amp;quot;选项将这些被保护的文件强制取消保护)
+
+          (译者注：(1)不会删除receiver端任何目录，即使是子目录也不删除(2)delete动作是由generator进程执行的)
+
+          该选项如果错误使用将是非常危险的！强烈建议先使用&amp;quot;--dry-run&amp;quot;(-n)进行测试，以确定将删除那些文件。
+
+          如果sender端探测到了任何i/o错误，将自动禁用远程删除功能。这是为了防止sender端的临时文件系统故障(如NFS错误)导致大规模删除目标
+          文件。可以指定&amp;quot;--ignore-errors&amp;quot;选项强制忽略任何I/O错误。
+
+          &amp;quot;--delete&amp;quot;选项一般可能会配合&amp;quot;--delete-WHEN&amp;quot;的某一种或&amp;quot;--delete-excluded&amp;quot;，它们不会产生冲突。但是，如果未指定任何&amp;quot;--delete-WHEN&amp;quot;
+          时，rsync将默认采用&amp;quot;--delete-during&amp;quot;算法。
+          (译者注：即在generator启动后，每处理一个文件列表，就删除该文件列表中需要删除的文件，在处理某个文件列表时不会删除别的文件列表
+          中的文件，其实这一点从&amp;quot;-vvvv&amp;quot;的结果中很容易获取到)
+
+   --delete-before
+          请求在传输开始前执行目标文件删除行为。该选项隐含了&amp;quot;--delete&amp;quot;选项。
+          (译者注：传输之前删除指的在处理所有文件列表之前先删除所有文件列表中指定要删除的文件，也就是说在generator刚启动时立即删除所有
+          文件列表中待删除文件，而默认的--delete则是在generator刚启动时删除第一个文件列表中的待删除文件)
+
+          在传输之前执行删除对于文件系统空间紧俏时是很有帮助的。但是，由于它会在传输开始之前发起一段延迟，这一段延迟很可能会使得传输
+          超时(如果指定了&amp;quot;--timeout&amp;quot;选项)，还会强制rsync使用老的、非增量的递归算法，此算法要求rsync将所有传输中的文件一次性扫描到内存中。
+
+   --delete-during, --del
+          请求receiver端的文件删除行为是随着文件传输时逐步执行的。隐含了&amp;quot;--delete&amp;quot;选项。
+          (译者注：&amp;quot;--delete&amp;quot;没有和&amp;quot;--delete-WHEN&amp;quot;同时使用时，&amp;quot;--delete&amp;quot;默认采用的就是&amp;quot;--delete-during&amp;quot;）
+
+   --delete-delay
+          请求receiver端的文件删除行为在所有文件列表中的文件都全部传输完成后才删除。在结合&amp;quot;--delay-updates&amp;quot;、&amp;quot;--fuzzy&amp;quot;选项一起使用时比较
+          有用，并且相比&amp;quot;--delete-after&amp;quot;来说效率更高。
+
+   --delete-after
+          请求receiver端的文件删除行为在所有文件列表中的文件都全部传输完成后才删除。和&amp;quot;--delete-delay&amp;quot;不同的是，该选项会采用老的、非增量
+          传输的算法将传输中的所有文件一次性扫描到内存中，因此效率不高。
+
+   --delete-excluded
+          为了删除sender端没有而receiver端有的文件，可以指定该选项告诉rsync即使文件被&amp;quot;--exclude&amp;quot;排除了，也要在远程将其删除。
+
+   --ignore-errors
+          告诉&amp;quot;--delete&amp;quot;，即使在遇到I/O错误时也要继续。
+
+   --force
+          该选项告诉rsync，当某个非空目录要被非目录文件替换时，将此非空目录删除掉。这只有在删除行为未激活时才有效。
+
+   --max-delete=NUM
+          限制rsync最多能删除NUM个文件或目录，如果突破了该限制，将输出警告信息并以状态码25退出。
+
+          可以使用&amp;quot;--max-delete=0&amp;quot;来保证不会在远程删除任何文件，因为只要有删除行为，就会警告并退出。
+
+   --max-size=SIZE
+          限制rsync传输的最大文件大小。可以使用单位后缀，还可以是一个小数值(例如：&amp;quot;--max-size=1.5m&amp;quot;)。
+
+          该选项是一个传输规则，而不是排除规则，因此不会影响文件进入文件列表，也因此不会影响删除行为。它仅仅只是限制了receiver端请求传
+          输的文件。
+
+          有如下可用后缀：&amp;quot;K&amp;quot;(&amp;quot;KiB&amp;quot;)=1024字节、&amp;quot;M&amp;quot;(&amp;quot;MiB&amp;quot;)、&amp;quot;G&amp;quot;(&amp;quot;GiB&amp;quot;)。如果想使用1000作为换算单位，则使用KB、MB、GB。(注意，所有大写字母都
+          可以使用小写字母替换)。最后，如果后缀以&amp;quot;+1&amp;quot;或&amp;quot;-1&amp;quot;结尾，则值表示减小或增大一个字节。
+
+          例如：&amp;quot;--max-size=1.5mb-1&amp;quot;表示1499999字节，&amp;quot;--max-size=2g+1&amp;quot;表示2147483649字节。
+
+   --min-size=SIZE
+          限制rsync传输的最小文件大小。这可以用于禁止传输小文件或那些垃圾文件。单位的指定方法同&amp;quot;--max-size&amp;quot;。
+
+   -B, --block-size=BLOCKSIZE
+          该选项强制修改rsync算法将文件划分为数据块时的块大小。一般基于正在更新的文件来选择大小值。详细信息见技术报告。
+          (译者注：rsync算法的作者说块大小在500-1000时是比较好的选择。
+          对于超过1M的文件绝对不要让块大小低于500，否则性能极低。)
+
+   -e, --rsh=COMMAND
+          该选项允许你选择用于本地和远程之间的通信的远程shell程序。一般情况下，rsync默认配置为使用ssh，但如果在本地网络上，你可能更喜欢
+          使用rsh。
+
+          如果该选项和格式[user@]host::module/path一起使用，则该远程shell命令会在远程主机上启动一个rsync daemon(译者注：可以认为是临时模
+          拟的rsync daemon进程)，并且所有数据都将通过此远程shell的连接传输，而不是通过网络套接字所连接的远程主机上的rsync daemon。见上文
+          &amp;quot;通过远程SHELL连接使用RSYNC-DAEMON特性&amp;quot;。
+
+          允许在COMMAND中提供多个远程shell参数，它们将会作为一个整体传递给rsync。多个参数必须使用空格(不能是制表符tab或其他任意空白字符)，
+          分隔，也可以使用单引号或双引号包围参数来保护空格(但不能使用反斜线)。注意在单引号字符串内部使用多个单引号将返回给你一对单引号，
+          同理，双引号也一样(尽管你需要注意哪些引号是shell来解析的，哪些引号是rsync解析的)。例如：
+
+              -e &#39;ssh -p 2234&#39;
+              -e &#39;ssh -o &amp;quot;ProxyCommand nohup ssh firewall nc -w1 %h %p&amp;quot;&#39;            
+
+          (Note that ssh users can alternately customize site-specific connect options in their .ssh/config file.)
+
+          你也可以使用RSYNC_RSH环境变量指定远程shell程序，它能接受和&amp;quot;-e&amp;quot;选项一样的值。
+
+          另外请查看会影响该选项的&amp;quot;--blocking-io&amp;quot;选项。
+
+   --rsync-path=PROGRAM
+          指定远程机器上要运行的程序以启动远程rsync进程。当远程rsync程序不在默认目录/usr/local/bin/rsync下常会使用该选项指定其路径。
+          但要注意，PROGRAM是在shell的帮助下运行的，因此它可以是任意程序、脚本或你想运行的命令序列，只要它们不会破坏rsync正在使用的标准
+          输入和标准输出即可。
+
+          一个很棘手的例子是在远程机器上设置不同的默认目录以便使用&amp;quot;--relative&amp;quot;选项。例如：
+
+              rsync -avR --rsync-path=&amp;quot;cd /a/b &amp;amp;&amp;amp; rsync&amp;quot; host:c/d /e/
+
+          (译者注：以上示例将会在本地主机创建/e/c/d，其中c/d数据来源于远程主机的/a/b/c/d)
+
+   -C, --cvs-exclude
+          这是一个很有用的简写排除文件法，用于排除大量不希望在系统之间传输的文件。它使用了类似于CVS的算法来决定一个文件是否要被忽略。
+
+          exclude列表被初始化为排除以下格式的文件(这些初始化条目被标记为易过期，见&amp;quot;筛选规则&amp;quot;段落的说明)：
+
+                 RCS SCCS CVS CVS.adm RCSLOG cvslog.* tags TAGS .make.state .nse_depinfo *~ #* .#* ,* _$* *$ *.old *.bak *.BAK *.orig  *.rej
+                 .del-* *.a *.olb *.o *.obj *.so *.exe *.Z *.elc *.ln core .svn/ .git/ .hg/ .bzr/
+
+          然后，$HOME/.cvsignore文件中的文件列表将会被添加到此exclude列表，此外还会包含CVSIGNORE环境变量中指定的所有文件(所有cvsignore
+          名称由空白字符分隔)
+
+          最后，和.cvsignore文件在同一个目录中的文件，如果它们能匹配此文件中列出的规则，则也会被排除。不像rsync的筛选/排除规则，这些匹
+          配模式是使用空白字符分隔的。更多cvs的模式见cvs(1)的man文档。
+
+          如果将&amp;quot;-C&amp;quot;选项结合&amp;quot;--filter&amp;quot;规则，需要记住，无论&amp;quot;-C&amp;quot;选项处于命令行的哪些位置，这些cvs排除规则都将会追加在你所指定的规则之后。
+          这就使得&amp;quot;-C&amp;quot;选项指定的规则比你自行指定的规则优先级耕地。如果你想将CVS规则插入到你的筛选规则中的某个位置，那么就不要使用&amp;quot;-C&amp;quot;
+          选项，而是使用一种结合方式：&amp;quot;--filter:C&amp;quot;或&amp;quot;--filter=-C&amp;quot;。前者启用.cvsignore文件中的规则进行每目录扫描，后者则是一次性导入所有
+          上面说所的CVS规则。
+
+   -f, --filter=RULE
+          该选项可以让你添加规则，以便从待传输的文件列表中有选择性地排除某些文件。在递归传输中，结合该选项是非常有用的。
+
+          你可以在命令行中使用任意多个&amp;quot;--filter&amp;quot;选项以建立要排除的文件列表。如果筛选规则中包含了空白字符，需要使用引号包围以防被shell
+          解析。在下文中同样介绍了如何使用下划线替代空格来分隔rsync参数和规则。
+
+          该选项的详细信息请参见&amp;quot;筛选规则&amp;quot;段落说明。
+
+   -F     该选项是一种添加到&amp;quot;--filter&amp;quot;规则的简写法，只有两种可能：第一种是单个&amp;quot;-F&amp;quot;选项，此时它是以下规则的简写：
+
+             --filter=&#39;dir-merge /.rsync-filter&#39;
+
+          这告诉rsync查找那些分散在目录结构中的所有.rsync-filter文件，然后使用这些规则筛选出传输中的文件。
+          第二种是如果重复使用&amp;quot;-F&amp;quot;选项，则它是以下规则的简写：
+
+             --filter=&#39;exclude .rsync-filter&#39;
+
+          该规则将从传输中筛选出.rsync-filter本身。
+
+          关于该选项如何工作的更详细信息，见&amp;quot;筛选规则&amp;quot;段落说明。
+
+   --exclude=PATTERN
+          该选项是&amp;quot;--filter&amp;quot;选项的简化格式，默认为排除(exclude)规则，并且它将禁止对普通的筛选规则进行解析。
+
+          更详细信息见&amp;quot;筛选规则&amp;quot;段落说明。
+
+   --exclude-from=FILE
+          该选项和&amp;quot;--exclude&amp;quot;选项类似，但是它是从包含了排除规则的文件中读取排除规则(每行一个规则)。空行以及&amp;quot;;&amp;quot;或&amp;quot;#&amp;quot;开头的行为注释行，如
+          果给定的文件为&amp;quot;-&amp;quot;，则表示从标准输入中读取排除规则。
+
+   --include=PATTERN
+          该选项是&amp;quot;--filter&amp;quot;选项的简化格式，默认为包含(include)规则，并且它将禁止对普通的筛选规则进行语法解析。
+
+           更详细信息见&amp;quot;筛选规则&amp;quot;段落说明。
+
+   --include-from=FILE
+          该选项和&amp;quot;--exclude&amp;quot;选项类似，但是它是从包含了排除规则的文件中读取排除规则(每行一个规则)。空行以及&amp;quot;;&amp;quot;或&amp;quot;#&amp;quot;开头的行为注释行，如
+          果给定的文件为&amp;quot;-&amp;quot;，则表示从标准输入中读取排除规则。
+
+   --files-from=FILE
+          该选项可以在FILE中精确指定要传输的文件列表。如果FILE为&amp;quot;-&amp;quot;则表示从标准输入中读取文件列表。它还调整了rysnc的默认行为以便能够
+          更简单地指定要传输的文件：
+
+          o      它隐含了&amp;quot;--relative&amp;quot;(-R)选项，所以会保留在文件中每个条目所指定的路径信息。(使用&amp;quot;--no-relative&amp;quot;或&amp;quot;--no-R&amp;quot;关闭该功能)
+
+          o      它隐含了&amp;quot;--dirs&amp;quot;(-d)选项，所以将在目标主机上创建列表中指定的目录而不是悄悄地跳过它们。(使用&amp;quot;--no-dirs&amp;quot;或&amp;quot;--no-d&amp;quot;关闭
+                 该功能)
+
+          o      &amp;quot;--archive&amp;quot;(-a)将不再隐含&amp;quot;--recursive&amp;quot;(-r)，因此如果真的要递归到目录中，需要显式指定&amp;quot;--recursive&amp;quot;(-r)。
+
+          o      它的副作用是改变了rsync的默认状态，因此&amp;quot;--files-from&amp;quot;选项在命令行中的位置和其它选项的解析无关(例如，&amp;quot;-a&amp;quot;选项放在
+                 &amp;quot;--files-from&amp;quot;选项的前后的工作方式是一样的)。
+
+          从FILE中读取的所有文件名都是相对于源目录的相对路径，任何前导斜线都会被移除，也无法使用&amp;quot;..&amp;quot;进入源目录的上一层次目录。例如：
+
+             rsync -a --files-from=/tmp/foo /usr remote:/backup
+
+          如果/tmp/foo中包含了字符串&amp;quot;bin&amp;quot;或&amp;quot;/bin&amp;quot;，将在远程主机上创建/backup/bin作为/usr/bin所对应的目标文件。如果包含了字符串&amp;quot;bin/&amp;quot;
+          (注意尾随斜线)，则将传输/usr/bin目录以及其内的文件。如果指定了&amp;quot;-r&amp;quot;选项，则所有目录结构都会被传输(要记住当使用了&amp;quot;--files-from&amp;quot;
+          时，&amp;quot;-r&amp;quot;选项需要显式指定，因为&amp;quot;-a&amp;quot;选项不再隐含该选项)。还要注意，适用&amp;quot;--files-from&amp;quot;时，&amp;quot;--relative&amp;quot;选项的默认行为是仅复制从文
+          件中读取的路径信息，不再强制复制原规范路径(即此示例中的/usr)
+
+          另外，&amp;quot;--files-from&amp;quot;的文件可以从远程主机上读取，而不一定要从本地主机上读取，只需在文件的前面指定&amp;quot;host:&amp;quot;即可。要求&amp;quot;host:&amp;quot;的host
+          必须是rsync两端的某一端，为了简写，可以使用简写的前缀&amp;quot;:&amp;quot;表示远端主机。例如：
+
+             rsync -a --files-from=srchost:/path/file-list srchost:/ /tmp/copy
+             rsync -a --files-from=:/path/file-list        srchost:/ /tmp/copy
+
+          这将会拷贝在远程主机&amp;quot;srchost&amp;quot;上/path/file-list文件中指定的所有文件。
+
+          注意：对&amp;quot;--files-from&amp;quot;的文件进行排序可以使得rsync效率更高，因为它将使得rsync不用再重新读取相邻能共用的路径元素。如果不进行排序，
+          则rsync可能会多次重新扫描路径元素(隐含目录)，重复生成文件列表。
+
+   -0, --from0
+          告诉rsync从文件中读取规则或文件名时是以空字符(\0)终止的。该选项会影响&amp;quot;--exclude-from&amp;quot;、&amp;quot;--include-from&amp;quot;、&amp;quot;--files-from&amp;quot;以及所有
+          在&amp;quot;--filter&amp;quot;中指定的规则合并文件。它不会影响&amp;quot;--cvs-exclude&amp;quot;(因为从.cvsignore文件中读取的名称都是以空白字符分隔的)。
+
+   -s, --protect-args
+          该选项将使得所有发送给远程rsync进程的文件名和大多数选项都不允许被远程shell解析。这意味着空格不再分隔文件名，任意非通配特殊字符
+          都不会被翻译(即成为普通字符，如：~、$、;、&amp;amp;等)。通配字符将被远程主机上的rsync扩展(正常情况下是由远程shell来扩展的)。
+
+   -T, --temp-dir=DIR
+          该选项明确receiver端文件重组时的临时目录。默认情况下，receiver端将在文件所在目录中创建临时文件。
+
+          在receiver端，如果目标文件所在磁盘分区剩余大小不足以存储待重组文件时，可以使用该选项将临时文件存储到其他的分区中，在这种情况
+          下，由于创建的临时文件和目标路径不在同一个分区上，所以重组完成时无法直接重命名，而是只能从临时目录中拷贝到目标路径下。
+
+          如果你使用该选项的原因不是磁盘空间不足，你可能要将此选项结合&amp;quot;--delay-updates&amp;quot;选项一起使用，这将保证所有的拷贝文件都放入到目标
+          层次结构的子目录中，并等待传输结束。
+
+   -y, --fuzzy
+          该选项告诉rsync，如果目标主机上的basis file缺失，将主动搜索出一个文件作为basis file。目前的算法是在同一目录中模糊搜索目标
+          basis file，搜索的规则是：要么文件大小和修改时间完全一致，要么文件名相似。如果搜索到了符合条件的文件，rsync将使用该文件作为
+          basis file，这样可能会加速传输速度。
+          (译者注：在目标主机上进行文件重组时，会从basis file中拷贝匹配块，在真正的basis file缺失时，模糊搜索出的basis file可能能提供
+          一些匹配块，从而减少sender要发送的数据量，加快整个同步过程)
+
+          注意，如果使用了&amp;quot;--delete&amp;quot;选项，可能会把潜在的basis file给删除掉，因此如果想避免这种情况，可以指定&amp;quot;--delete-after&amp;quot;选项，或者
+          直接指定文件名来排除将被删除的文件。
+
+   --compare-dest=DIR
+          该选项指示rsync使用目标主机上的DIR作为额外的层次结构，以便和传输中的文件做比较(如果目标目录中不存在basis file)。如果在DIR中发
+          现了和sender端完全一致的文件，则该文件将不会传输到目标目录中。该选项在做稀疏备份时很有用，因为它仅备份从某一次更早的备份开始
+          发生了改变的文件。(译者注：以备份目录为比较目录DIR，同步时将比较该目录中的文件，最终将仅传输发生了改变的文件到目标目录下)
+
+          从rsync 2.6.4版本开始，可以通过多个&amp;quot;--compare-dest&amp;quot;选项提供多个比较目录，使得rsync可以按照为了精确匹配而指定的顺序来搜索列表。
+          如果发现能匹配上但仅只有属性不同，将生成一个本地副本然后更新这些属性信息。如果未能匹配上，将选择DIRs中的basis file来提高传输
+          速度。
+
+          如果DIR是相对路径，它将是相对于目标目录的。见&amp;quot;--copy-dest&amp;quot;和&amp;quot;--link-dest&amp;quot;。
+
+   --copy-dest=DIR
+          该选项类似于&amp;quot;--compare-dest&amp;quot;，但rsync会从DIR中以本地拷贝的方式拷贝未改变的文件到目标目录中。
+
+          可以通过多个&amp;quot;--copy-dest&amp;quot;选项提供多个DIR，使得rsync可以按照为了匹配未修改文件的顺序来搜索列表。如果未匹配上，则选择DIR中的basis
+          file以尝试提高传输速度。
+
+          如果DIR是相对路径，它将是相对于目标目录的。见&amp;quot;--copy-dest&amp;quot;和&amp;quot;--link-dest&amp;quot;。
+
+   --link-dest=DIR
+          This  option  behaves like --copy-dest, but unchanged files are hard linked from DIR to the destination directory.  The files must
+          be identical in all preserved attributes (e.g. permissions, possibly ownership) in order for the files to be linked together.   An
+          example:
+
+            rsync -av --link-dest=$PWD/prior_dir host:src_dir/ new_dir/
+
+
+          If file’s aren’t linking, double-check their attributes.  Also check if some attributes are getting forced outside of rsync’s con‐
+          trol, such a mount option that squishes root to a single user, or mounts a removable drive with generic ownership (such as OS  X’s
+          &amp;quot;Ignore ownership on this volume&amp;quot; option).
+
+          Beginning  in  version  2.6.4,  multiple --link-dest directories may be provided, which will cause rsync to search the list in the
+          order specified for an exact match.  If a match is found that differs only in attributes, a local copy is made and the  attributes
+          updated.  If a match is not found, a basis file from one of the DIRs will be selected to try to speed up the transfer.
+
+          This option works best when copying into an empty destination hierarchy, as rsync treats existing files as definitive (so it never
+          looks in the link-dest dirs when a destination file already exists), and as malleable (so it might change the attributes of a des‐
+          tination file, which affects all the hard-linked versions).
+
+          Note  that  if you combine this option with --ignore-times, rsync will not link any files together because it only links identical
+          files together as a substitute for transferring the file, never as an additional check after the file is updated.
+
+          If DIR is a relative path, it is relative to the destination directory.  See also --compare-dest and --copy-dest.
+
+          Note that rsync versions prior to 2.6.1 had a bug that could prevent --link-dest from working properly for a  non-super-user  when
+          -o was specified (or implied by -a).  You can work-around this bug by avoiding the -o option when sending to an old rsync.
+
+   -z, --compress
+          使用该选项，rsync将对发送给目标主机的文件数据(file data)进行压缩，这可以减少传输的数据量——在某些缓慢的连接中可能比较适用。
+
+          注意，该选项一般情况下可以实现比通过远程shell压缩或传输过程压缩获得更好的压缩比，因为它利用了明确不通过连接发送的匹配数据块中
+          的隐含信息。
+
+          请通过&amp;quot;--skip-compress&amp;quot;选项确定不被压缩的默认文件后缀列表。
+
+   --compress-level=NUM
+          显式指定&amp;quot;--compress&amp;quot;的压缩级别。如果NUM为非零值，则该选项将隐含&amp;quot;--compress&amp;quot;选项。
+
+   --skip-compress=LIST
+          该选项通过指定后缀格式来决定哪些文件不被压缩。LIST的值为使用斜杠&amp;quot;/&amp;quot;分隔的一个或多个文件后缀(不包括点.)
+
+          如果LIST指定的是空字符串，则表示压缩所有文件。
+
+          支持简单的字符类匹配。所谓的字符类由中括号和写在中括号中的一系列的字母组成(例如：非特殊的字符类[abcz]，特殊的字符类[:alpha:]，
+          注意，短横线&amp;quot;-&amp;quot;在此没有特殊的意义，仅表示一个简单的字符)。
+
+          注意，字符&amp;quot;*&amp;quot;和&amp;quot;?&amp;quot;没有特殊的意义。
+
+          例如此处示例指定了6个不压缩的后缀(因为其中一个规则mp[34]匹配了两种后缀)：
+
+              --skip-compress=gz/jpg/mp[34]/7z/bz2
+
+
+          默认不被压缩的后缀列表为：(不同版本的rsync可能会有些微改变)
+
+          7z avi bz2 deb gz iso jpeg jpg mov mp3 mp4 ogg rpm tbz tgz z zip
+
+          该后缀列表将会被&amp;quot;--skip-compress&amp;quot;选项指定的后缀列表覆盖，但有一种情况例外：以rsync daemon为源拷贝文件时，rsync将在不被压缩的
+          文件列表中增加你指定的后缀文件(并且该文件列表可能会被配置为非默认情况)(译者注：也就是说，当从rsync daemon拷贝时，指定的压缩忽略
+          后缀不是覆盖原压缩忽略列表，而是追加到原压缩忽略列表)。
+
+   --numeric-ids
+          使用该选项后，rsync将传输gid和uid，而不是字符格式的username和groupname然后将其映射到两端。
+
+          默认情况下，rsync将使用用户名和组名来决定如何设置文件的所有者和所属组。但要注意，即使没有指定&amp;quot;--numeric-ids&amp;quot;选项，也绝不会通
+          过字符格式的username和groupname来映射特殊的uid=0和gid=0。
+
+          如果在源主机上的用户或组没有字符格式的名称(译者注：即只有uid和gid，没有username和groupname)，或者目标主机上没有相同的用户/组，
+          则将使用uid/gid来设置所有权关系。请参看rsyncd.conf的man文档中关于&amp;quot;use chroot&amp;quot;的设置说明，以获取关于chroot设置后如何影响rsync对
+          用户名和组名的查找能力以及你能对此做些什么。
+
+   --timeout=TIMEOUT
+          该选项设置的是最大IO超时时间，单位为秒。如果在指定时间内没有数据被传输，则rsync将直接退出。默认值为0表示永不超时。
+
+   --contimeout
+          该选项设置rsync成功连接rsync daemon的等待超时时间。如果在指定时间内未连接上rsync daemon，则rsync将以错误方式退出。
+
+   --address
+          默认当rsync连接rsync daemon时，rsync所使用的地址将会绑定到通配符地址上(译者注：默认通配符地址为0.0.0.0，即可以从任意接口的任意
+          地址上向外发起连接)。使用该选项可以明确指定rsync要绑定的IP地址或主机名。请同样参见&amp;quot;--daemon&amp;quot;模式中&amp;quot;--address&amp;quot;选项获取详细信息。
+
+   --port=PORT
+          该选项可以显式指定一个要使用的tcp端口号而不是默认的873端口。该选项只能在连接rsync daemon时的双冒号(::)的语法格式中使用(因为URL
+          rsync://user@host:port/语法本身就可以指定端口号，所以不需要该选项明确指定)。请同样参见&amp;quot;--daemon&amp;quot;模式中&amp;quot;--port&amp;quot;选项获取详细信息。
+
+   --sockopts
+          这个选项可以为希望最大程度地调整系统的人们提供无穷乐趣。你可以设置各种套接字选项使得传输速度更快(或更慢！)。关于该选项的可设
+          置项请阅读setsockopt()系统调用的man文档。默认情况下，该选项没有设置任何值。该选项只影响使用套接字连接rsync daemon的情况。在
+          &amp;quot;--daemon&amp;quot;模式中也有该选项。
+
+   --blocking-io
+          该选项告诉rsync在启动远程shell传输时使用阻塞I/O模型。如果远程shell为rsh或remsh，rsync默认会使用阻塞I/O，否则默认将使用非阻塞I/O
+          模型。(注意，ssh更适合使用非阻塞I/O)
+
+   -i, --itemize-changes
+          请求输出一个明细列表，这个列表记录的是每个文件发生了哪些改变，包括属性的改变。它完全等价于&amp;quot;--out-format=&#39;%i %n%L&#39;&amp;quot;。如果重复
+          该选项，未发生改变的文件也会被输出。
+
+          因为几乎不用，所以不做翻译。
+
+   --out-format=FORMAT
+          该选项允许你自定义rsync client对每个更新过程产生输出的信息格式。指定的格式为&amp;quot;%&amp;quot;加一个单字符。如果指定了&amp;quot;-v&amp;quot;选项，则其默认的
+          格式为&amp;quot;%n%L&amp;quot;(将输出文件名，如果是一个链接文件，则输出其指向的对象)。完整的格式列表，见rsyncd.conf的man文档中&amp;quot;log format&amp;quot;段落。
+
+          指定&amp;quot;--out-format&amp;quot;是对每个文件、目录等都输出信息的。
+
+          rsync将在文件传输之前输出这些信息，除非请求输出传输过程中的统计信息，这样它会在文件传输结束前输出信息，在这种情况下如果同时
+          指定了&amp;quot;--progress&amp;quot;选项，rsync将会同时输出正在传输中的文件名。
+
+   --log-file=FILE
+          请求将输出信息记录到文件中。类似于&amp;quot;--out-format&amp;quot;。它可以指定记录client以及非daemon的server端的日志。如果在客户端的命令行上指定
+          该选项，则默认格式为&amp;quot;%i %n%L&amp;quot;。以下是一个请求远端来记录日志的示例：
+
+            rsync -av --rsync-path=&amp;quot;rsync --log-file=/tmp/rlog&amp;quot; src/ dest/
+
+          该选项对于调试非预期的连接关闭比较有用。
+
+   --log-file-format=FORMAT
+          该选项指定要在&amp;quot;--log-file&amp;quot;文件中记录的日志格式(当然，需配合&amp;quot;--log-file&amp;quot;才生效)。如果FORMAT指定为空，将不会记录更新的文件信息。
+          完整的格式列表，见rsyncd.conf的man文档中&amp;quot;log format&amp;quot;段落。
+
+   --stats
+          该选项让rsync打印文件传输过程中的详细统计数据，从中可以看出增量算法的效率如何。
+
+          统计数据包括如下几项：
+
+          o      Number of files是所有&amp;quot;文件&amp;quot;的数量总数，包含目录、字符链接等。
+
+          o      Number of files transferred是普通文件通过rsync的增量传输算法更新的数据大小，它不包括创建的目录、字符链接等非文件数据。
+
+          o      Total file size是传输中所有文件的总大小。该大小不会计算目录和特殊文件大小，但会包含字符链接的大小。
+
+          o      Total transferred file size是所有已传输文件的总大小。
+
+          o      Literal data是所有非匹配数据块的数据大小，即传输给receiver端的纯文件数据大小。
+
+          o      Matched data是所有匹配块的数据总大小，即receiver端从basis file中拷贝的数据大小。
+
+          o      File list size是sender发送给receiver端的文件列表大小。它比内存中文件列表的内容要小很多，因为sender将其传输给receiver端的时
+                 候会将其进行压缩。
+
+          o      File list generation time是sender创建文件列表消耗的时间，单位为秒。老版本的rysnc可能不会输出该项。
+
+          o      File list transfer time是sender将文件列表发送给receiver端所消耗的时间，单位为秒。
+
+          o      Total bytes sent是rsync从sender端传输给receiver端的所有数据大小，单位字节。(译者注：包括纯文件数据，信息数据等等非文件数据)
+
+          o      Total  bytes  received是receiver端收到的所有非信息数据大小，单位字节。
+
+   -8, --8-bit-output
+          告诉rsync在输出信息中保留所有高位字符不进行转义。几乎用不上，所以不做翻译。
+
+   -h, --human-readable
+          以人类可读方式输出信息。如果只指定单个该选项，则K/M/G的转换单位为1000，指定多次，则转换单位为1024。
+
+   --partial
+          默认rsync在传输中断时会删除只传输了一部分不完整文件(partial file)。在某些环境下，可能希望保留这些已传输的部分。&amp;quot;--partial&amp;quot;选项
+          告诉rsync保留这些部分，这可以使得下一次传输只传输剩余部分，从而加快传输速度。
+
+   --partial-dir=DIR
+          比直接使用&amp;quot;--partial&amp;quot;更好的做法是指定一个存放不完整数据(partial file)的目录DIR，下次再传输时，rsync将使用一个文件来寻找到该DIR
+          中的文件，以便提高传输速率，当数据真正传输完整且传输真正完成后，该DIR将被删除。
+
+          注意，如果指定了&amp;quot;--whole-file&amp;quot;选项(后者隐含了该选项)，则所有的&amp;quot;partial-dir&amp;quot;中正在更新的文件都会被删除，因为rsync此时没有使用
+          增量传输算法来传输文件。
+
+          rsync如果发现DIR不存在，则自动创建(但不是递归创建整个目录路径)，这使得rsync在需要时能更方便地使用相对路径在文件所在目录下直接
+          创建partial-dir(例如&amp;quot;--partial-dir=.rsync-partial&amp;quot;)，并且在partial file被删除时自动移除该目录。
+
+          如果partial-dir的值不是一个绝对路径，rsync将在所有的exclude规则的尾部追加一个exclude规则，用于防止partial file已经存在于sender
+          端，也能防止receiver端过早删除partial file。例如：&amp;quot;--partial-dir&amp;quot;将在其他筛选规则的尾部添加一个等价于&amp;quot;-f &#39;P .rsync-partial/&#39;&amp;quot;
+          的规则。
+
+          如果你正在使用自定义的exclude规则，你可能需要在你的exclude/hide/protect规则中添加partial-dir相关的条目，因为(1)向其他规则的尾部
+          自动添加规则的行为可能会失效(2)你可能希望覆盖rsync的排除选择。例如，如果你想让rsync清除被随意乱放置的剩余partial file，需要指
+          定&amp;quot;--delete-after&amp;quot;并且添加一条&amp;quot;risk&amp;quot;筛选规则，如&amp;quot;-f &#39;R .rsync-partial/&#39;&amp;quot;(不要使用&amp;quot;--delete-before&amp;quot;或&amp;quot;--delete-during&amp;quot;，除非你不想
+          让rsync使用剩余的partial file来完成此次传输)。
+
+          重要：&amp;quot;--partial-dir&amp;quot;目录不能让其他用户可写，否则它有安全隐患。例如避免使用&amp;quot;/tmp&amp;quot;。
+
+          你也可以通过环境变量&amp;quot;RSYNC_PARTIAL_DIR&amp;quot;来设置partial-dir的值。设置该环境变量不会强制开启&amp;quot;--partial&amp;quot;，但在指定了&amp;quot;--partial&amp;quot;时会
+          影响它的partial-dir路径。例如，不再让&amp;quot;-partial-dir=.rsync-tmp&amp;quot;随同&amp;quot;--progress&amp;quot;一起使用，而是设置&amp;quot;RSYNC_PARTIAL_DIR=.rsync-tmp&amp;quot;，
+          然后只需使用&amp;quot;-P&amp;quot;选项来应用&amp;quot;.rsync-tmp&amp;quot;目录以完成partial传输。只有在以下情况下&amp;quot;--partial&amp;quot;不会查找该环境变量的值：(1)使用了选项
+          &amp;quot;--inplace&amp;quot;(因为&amp;quot;--inplace&amp;quot;和&amp;quot;--partial-dir&amp;quot;选项冲突)(2)使用了选项&amp;quot;--delay-updates&amp;quot;(见下文)。
+
+   --delay-updates
+          该选项将receiver端每个重组的临时文件保留在某个目录中，直到传输结束之前才一次性将它们全部重命名为各自对应的目标文件。这样的
+          行为使得所有文件的更新更具有原子性(译者注：如果你了解数据库事务，就知道原子性是什么意思，最直白地说，具有原子性表示要么全部
+          成功，要么全部失败，所以这里更新具有原子性表示要么全部更新成功，要么全部更新失败，但由于重命名覆盖目标文件后是不可回滚的，所
+          以这里的原子性并不是那么的严格)。默认情况下，这些临时文件将放在每个目标文件所在目录下的&amp;quot;.~tmp~&amp;quot;子目录下，但如果指定了选项
+          &amp;quot;--partial-dir&amp;quot;，那么将使用该选项指定的目录。请参见&amp;quot;--partial-dir&amp;quot;选项获取相关信息。该选项和&amp;quot;--inplace&amp;quot;以及&amp;quot;--append&amp;quot;选项冲突。
+
+          该选项使得receiver端使用更多的内存空间，并且需要更多的磁盘空间以存储额外的目标文件副本。需要注意，&amp;quot;--partial-dir&amp;quot;不能使用绝对
+          路径，除非你能保证传输中的文件没有同名文件(因为如果使用了绝对路径，所有的临时文件都放在那一个目录下，重名文件会先后覆盖)，且
+          在目录层次结构中没有挂载点(因为如果无法重命名到指定路径下，延迟更新将失败)
+
+   -m, --prune-empty-dirs
+          该选项告诉receiver端的rsync从文件列表中删除空目录，包括那些没有文件的空的嵌套目录。这对于避免创建一堆无用的目录很有用，例如在
+          sender端使用include/exclude/filter规则扫描递归层次时会创建所有层次的目录。
+
+          注意传输规则(如&amp;quot;--min-size&amp;quot;)不会影响文件进入文件列表，因此不会让目录成为空目录，即使目录中没有任何文件可以匹配上传输规则。
+
+
+          由于该选项会修剪file list，所以会影响delete对目录的删除行为。但请记住，exclude排除的文件和目录可以防止现有条目被删除，因为排除
+          规则即隐藏了源文件，又保护了目标文件。
+
+          可以使用全局&amp;quot;protect&amp;quot;筛选规则防止file list中的某个特定目录被修剪。例如，下面的选项可以保证目录&amp;quot;emptydir&amp;quot;仍然保留在file list中：
+
+          --filter ’protect emptydir/’
+
+          以下的示例可以从一个层次结构中拷贝其中所有的.pdf文件，并且只在目标主机上创建必要的目录来存放这些.pdf文件，并会移除目标上所有
+          多余文件和目录(注意此处使用了非目录文件的hide筛选规则替代exclude规则)：
+
+          rsync -avm --del --include=’*.pdf’ -f ’hide,! */’ src/ dest
+
+          如果不想删除目标主机上多余的文件，可以使用更古老的选项&amp;quot;--include=&#39;*/&#39; --exclude=&#39;*&#39;&amp;quot;替代hide筛选规则，不过你不一定能适应它，毕竟
+          它是古老的选项。
+
+   --progress
+          该选项告诉rsync显示传输进度信息，这是给那些无聊的用户看的(译者注：写此文档的作者还真是调皮，竟然这么直白)。该选项隐含&amp;quot;--verbose&amp;quot;
+          选项。
+
+          如果rsync正在传输的是一个普通文件，将以下面格式显示进度信息：
+
+                782448  63%  110.64kB/s    0:00:04
+
+          在此例中，receiver重组了sender发送的文件的782448字节的数据或者说重组了该文件的63%(译者注：此处的意思是这些数据是文件的纯数据，
+          不包括那些非文件信息类数据)，且以110.64kB/s的速率重建文件，如果保持该速率，该文件将在4秒后重建完成。
+
+          如果使用的是rsync的增量拷贝算法，那么这些统计数据可能会误导用户。例如，如果sender的文件由basis file和另一段放在basis file前面
+          的数据组成，那么当reciever在获取纯文件数据时，此处所显示的速率值会急剧下降，而且要完成传输可能会比估计的时间更长，因为它还要
+          处理匹配的数据块部分。(译者注：换句话说，该进度信息是sender发送的纯数据相关信息，和真正完成同步的进度没有直接关系)              
+
+          当文件传输完成，rsync将使用总结性的行替代进度信息，类似格式如下：
+
+               1238099 100%  146.38kB/s    0:00:08  (xfer#5, to-check=169/396)
+
+          此示例中，文件大小为1238099字节，整体传输平均速率是146.38kB/s，总共消耗了8秒才传输完成。&amp;quot;xfer#5&amp;quot;表示此文件是该rsync会话期间第
+          5个传输的文件，&amp;quot;to-check=169/396&amp;quot;表示此次传输的文件列表中共要检查396个文件，其中有169个文件待检查以确定它们是否需要传输。
+          (译者注：可以认为396是某些文件被排除后待考虑是否传输的总文件数，196则是还剩下196个文件还未检查)
+
+   -P     该选项等价于&amp;quot;--partial --progess&amp;quot;选项。指定这两个选项的目的是为了让某一次可能会中断的较长传输过程变得更简单。
+
+   --password-file
+          该选项让rsync在连接rsync daemon时从密码文件中获取密码。密码文件必须可读。该文件中只有第一行是rsync将读取的密码，其他所有行都自
+          动忽略。
+
+          该选项无法为远程shell(如ssh)提供密码，至于如何为远程shell提供密码，参考对应远程shell的文档(译者注：对于ssh而言，使用公钥认证机
+          制即可)。当使用远程shell访问rsync daemon时，该选项只有完成了远程shell的身份验证过程才生效。
+
+   --list-only
+          该选项强制rsync仅列出源路径的文件列表而不是进行文件传输。如果rsync命令行中只给出了一个地址，将隐含该选项。注意通配符会被shell
+          解析并扩展为rsync的参数。例如：
+
+              rsync -av --list-only foo* dest/
+
+   --bwlimit=KBPS
+          该选项对rsync的传输最大速度进行限速。该限制值是一个平均值，所以在实际传输过程中可能会短暂的超出该限制值。设置为0则表示不限速。
+
+   --write-batch=FILE
+          记录一个稍后被&amp;quot;--read-batch&amp;quot;读取的文件，该文件可被用于另一个完全一致的目标路径。详细信息见&amp;quot;批处理模式&amp;quot;段落信息。
+
+          (译者注：通俗地说，就是将源和目标的不同点记录下来保存在FILE中，然后通过&amp;quot;--read-batch&amp;quot;读取这些不同点并更新目标文件，如果有多台
+          目标主机上的文件情况是完全一致的，则可以通过此FILE一次性应用于所有这些主机，因此称之为&amp;quot;批处理模式&amp;quot;。注意，FILE中不仅记录了不
+          同之处，还记录了将要应用于目标主机的数据部分，因此它是一个&amp;quot;信息+数据&amp;quot;文件而不仅仅只是小小的信息文件)
+
+   --only-write-batch=FILE
+          和&amp;quot;--write-batch&amp;quot;工作方式类似，区别是当生成batch file的时候不会对目标路径做任何操作。这使得你可以通过某些方法将所发生改变的信
+          息传输到目标系统上，然后通过&amp;quot;--read-batch&amp;quot;应用这些改变。
+
+          可以直接将批处理文件FILE保存到任意的移动存储设备中。
+
+          注意，只有向远程主机推送这些改变时才能节省带宽，因为这样可以让sender端的数据分流记录到FILE中，而无需通过连接传输给receiver端。
+          (如果是拉取数据，则sender端为remote，因此无法写批处理文件FILE)
+
+
+   --read-batch=FILE
+          读取所有通过&amp;quot;--write-batch&amp;quot;生成的批处理文件FILE并通过其中的&amp;quot;信息+数据&amp;quot;应用于目标主机。如果FILE未&amp;quot;-&amp;quot;，则批处理数据将从标准输入
+          中读取。  
+
+   --protocol=NUM
+          强制指定要使用的协议版本。一般只在创建批处理文件以兼容老版本的rsync时可能会用上，因此不做翻译。
+
+   --iconv=CONVERT_SPEC
+          rsync可以在不同字符集间转换文件名。基本用不会上，因此不做翻译。
+
+   -4, --ipv4 or -6, --ipv6
+          限制rsync使用ipv4还是ipv6创建套接字。该选项由于明确表示了要用网络套接字，也就限制了只有连接rsync daemon时才生效。
+
+          如果编译rsync时没有将ipv6的功能编译进去，则&amp;quot;--ipv6&amp;quot;无效。通过&amp;quot;--version&amp;quot;的输出结果可以知道是否编译了ipv6功能。
+
+   --checksum-seed=NUM
+          指定checksum的种子长度。默认种子长度为4字节，应用于每个数据块级和文件级checksum的计算。默认checksum的种子由server和其默认的当
+          前系统时间time()计算生成。该选项显示指定特定的checksum种子，对应想要重复计算块级或文件级checksum时或者用户想要一个更具随机性
+          的checksum种子时比较有用。设置NUM为0将导致rsync使用默认的time()来计算种子。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;DAEMON OPTIONS
+       当启动rsync daemon时，可以指定以下几个选项：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   --daemon
+          该选项告诉rsync以daemon方式运行。可以在client端使用host::module or rsync://host/module/格式的命令来访问daemon。
+
+          如果标准输入是一个套接字，则rsync被认为是通过inetd方式运行的，否则它将从当前终端上分离出来并成为后台守护进程。每次和daemon进行
+          连接时，daemon都会读取配置文件(rsyncd.conf)并给出对应的相应。更详细信息见rsyncd.conf的man文档。
+
+   --address
+          rsync daemon的绑定地址，默认会绑定在通配地址上(默认为0.0.0.0)。使用&amp;quot;--address&amp;quot;选项可以显式指定要绑定的IP地址或主机。可以配合
+          &amp;quot;--config&amp;quot;一起使用来实现rsync虚拟主机的功能。更多信息见rsyncd.conf的man文档中&amp;quot;address&amp;quot;段落说明。
+
+   --bwlimit=KBPS
+          该选项对rsync的传输最大速度进行限速。该限制值是一个平均值，所以在实际传输过程中可能会短暂的超出该限制值。设置为0则表示不限速。
+
+   --config=FILE
+          该选项用于指定额外的配置文件来代替默认的配置文件，只有和&amp;quot;--daemon&amp;quot;选项同时使用时才有效。默认daemon的配置文件为/etc/rsyncd.conf，
+          除非是通过远程shell启动的临时daemon，使用远程shell连接的daemon的默认配置文件是当前目录(一般是$HOME)下的rsyncd.conf。
+
+   --no-detach
+          当以daemon形式运行时，该选项表示rsync不从终端中将自己分离出来，所以工作在前台。在各种daemon管理工具如daemontools、systemd上需要
+          使用。如果rsync是由sshd或inetd派生出来的话，则该选项无效。
+
+   --port=PORT
+          指定daemon的监听端口，默认为873。
+
+   --log-file=FILE
+          该选项告诉rsync daemon使用此处指定的日志文件替代配置文件中&amp;quot;log file&amp;quot;指定的日志文件。
+
+   --log-file-format=FORMAT
+          该选项告诉rsync daemon使用此处指定的日志格式而不是配置文件中&amp;quot;log format&amp;quot;指定的日志格式。该选项会自动开启&amp;quot;transfer logging&amp;quot;，除非
+          它的值为空，因为这样表示关闭transfer logging功能。
+
+   --sockopts
+          指定套接字选项，将覆盖配置文件配置的套接字选项。
+
+   -v, --verbose
+          该选项输出rsync daemon启动时的详细信息。它不控制客户端和daemon连接时的信息详细程度，因为这些信息详细程度是由client和模块配置段
+          中的&amp;quot;max verbosity&amp;quot;控制的。
+
+   -4, --ipv4 or -6, --ipv6
+          告诉rsync使用IPV4还是IPV6创建套接字，然后rsync daemon将监听在对应的地址类型上。
+
+          如果编译rsync时没有将ipv6的功能编译进去，则&amp;quot;--ipv6&amp;quot;无效。通过&amp;quot;--version&amp;quot;的输出结果可以知道是否编译了ipv6功能。
+
+   -h, --help
+          如果该选项指定在&amp;quot;--daemon&amp;quot;选项之后，则输出rsync daemon可用选项的简短帮助信息。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;FILTER RULES&lt;/p&gt;
+
+&lt;p&gt;(译者注：下面筛选规则的内容很多地方都提到了&amp;rdquo;传输中根目录&amp;rdquo;(transfer-root)的概念，所以提前在此做个解释。
+    假设执行rsync -r /www/lvm /www/audit remote_host:/path命令，则待传输的目录lvm和audit称为传输过程中的根目录，即顶级目录)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   筛选规则可以弹性定义哪些文件需要传输(include)(译者注：前文中出现的传输规则指的就是include规则)，以及哪些文件需要跳过(exclude)。这些
+   规则要么直接指定include/exclude匹配模式，要么指定一种方式从中获取include/exclude匹配模式(例如从文件中读取规则)。
+
+   对于已经创建好的file list中的文件或目录，rsync会按先后顺序对其中的每一个名称检查是否能匹配incluee/exclude规，且先匹配上的规则生效：
+   如果能匹配上exclude规则，则该文件被跳过，如果该文件能匹配include或不能匹配任何规则，则不挑过该文件。
+
+   rsync会按照命令行中指定的筛选规则建立一个有序的规则列表。筛选规则语法如下：
+
+          RULE [PATTERN_OR_FILENAME]
+          RULE,MODIFIERS [PATTERN_OR_FILENAME]
+
+   你可以选择使用下面所描述的长格式或短格式的RULE名称。如果使用短格式命名的的rule，则分隔RULE和MODIFIERS中间的&amp;quot;,&amp;quot;是可选的。其后的PATTERN
+   或FILENAME必须跟在单个空格或下划线(_)之后。以下是规则前缀：
+
+          exclude, - 指定排除规则。
+          include, + 指定包含规则。
+          merge, . 指定一个从中读取更多规则的merge-file。
+          dir-merge, : 指定一个每目录的merge-file。
+          hide, H 指定传输过程中需要隐藏的文件。(译者注：exclude的本质就是hide，该类型的规则显然只作用于sender端，下面的&amp;quot;S&amp;quot;同样如此)
+          show, S 指定不被隐藏的文件。         (译者注：include的本质就是show)
+          protect, P 指定保护文件不被删除的规则。
+          (译者注：--delete和--exclude同时使用时，会对被排除的文件加上保护规则。该类型的规则显然只作用于receiver端，下面的&amp;quot;R&amp;quot;同样如此)
+          risk, R 指定不被保护的文件，即能被删除的文件。(译者注：&amp;quot;--delete-excluded&amp;quot;就是将被保护的文件强制取消保护)
+          clear, ! 清空当前include/exclude规则列表。 (不带任何参数)
+
+   如果是从一个文件中读取规则，将忽略空行以及使用&amp;quot;#&amp;quot;开头的注释行。
+
+   注意，使用了&amp;quot;--include&amp;quot;或&amp;quot;--exclude&amp;quot;选项后，将不再解析上述所说的规则序列，只允许使用&amp;quot;!&amp;quot;表示清空include/exclude规则。如果匹配模式不是
+   使用&amp;quot;- &amp;quot;(减号加一个空格)或&amp;quot;+ &amp;quot;(加号加一个空格)开头，则规则将被认为是在字符串的前面加了&amp;quot;+ &amp;quot;(即包含规则)或&amp;quot;- &amp;quot;(即排除规则)前缀。实际上
+   &amp;quot;--filter&amp;quot;选项的规则字符串中必须在字符串开头包含短名称或长名称的规则。
+
+   同时需要注意的是，每个&amp;quot;--filter&amp;quot;、&amp;quot;--include&amp;quot;以及&amp;quot;--exclude&amp;quot;选项都只表示一条规则，如果要使用多条规则，你可以重复使用这些选项，或者使
+   用&amp;quot;--filter&amp;quot;选项的merge-file语法，又或者是&amp;quot;--include-from&amp;quot;、&amp;quot;--exclude-from&amp;quot;选项。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;INCLUDE/EXCLUDE PATTERN RULES
+       你可以使用&amp;rdquo;+&amp;ldquo;、&amp;rdquo;-&amp;ldquo;等规则名称来指定包含和排除文件的规则，以及其他的规则。每个include/exclude规则都会对应一个匹配模式用于匹配将要传输
+       的文件名。匹配模式有以下几种格式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   o      如果匹配模式以斜线(/)开头，它表示锚定层次结构中某个特定位置的文件，否则将表示匹配路径名的结尾。这有点类似于正则表达式中的行首
+          &amp;quot;^&amp;quot;。因此&amp;quot;/foo&amp;quot;匹配的是&amp;quot;传输中根目录&amp;quot;(transfer-root)下的&amp;quot;foo&amp;quot;文件，或者是merge-file目录中的&amp;quot;foo&amp;quot;文件。对于不做限制的&amp;quot;foo&amp;quot;匹配模
+          式，由于算法会从顶部开始向下逐层递归，所以它能匹配任意位置名为&amp;quot;foo&amp;quot;的文件。但是对于非锚定的&amp;quot;sub/foo&amp;quot;模式，将匹配层次结构中位于
+          sub目录下的foo。对于如何指定匹配根&amp;quot;/&amp;quot;的模式见&amp;quot;ANCHORING INCLUDE/EXCLUDE PATTERNS&amp;quot;的段落说明。
+
+   o      如果匹配模式以斜线(/)结尾，将只匹配目录，而不匹配普通文件、字符链接以及设备文件。
+
+   o      rsync通过检查匹配模式中是否包含&amp;quot;*&amp;quot;、&amp;quot;?&amp;quot;以及&amp;quot;[&amp;quot;符号来决定是做简单的字符串匹配还是通配符匹配。
+
+   o      单个&amp;quot;*&amp;quot;匹配任意路径元素，但在遇到斜线时终止匹配。
+
+   o      &amp;quot;**&amp;quot;匹配任意路径元素，与&amp;quot;*&amp;quot;不同的是，它能匹配斜线。
+
+   o      &amp;quot;?&amp;quot;匹配任意非斜线的单个字符。
+
+   o      &amp;quot;[&amp;quot;表示字符类匹配，例如&amp;quot;[a-z]&amp;quot;，[[:alpha:]]。
+
+   o      在通配匹配模式中，反斜线(\)可以对通配符号进行转义，但如果不是对通配符号使用反斜线，则它仅仅只是一个普通的反斜线字符。
+
+   o      如果匹配模式中包含了一个&amp;quot;/&amp;quot;(不包括以斜线结尾的情况)或&amp;quot;**&amp;quot;，则表示对包括前导目录的全路径进行匹配。如果匹配模式中不包括&amp;quot;/&amp;quot;或&amp;quot;**&amp;quot;，
+          则表示只对全路径尾部的路径元素进行匹配。(注意：使用了递归功能时，&amp;quot;全路径&amp;quot;可能是从最顶端开始向下递归的某中间一段路径)。
+
+   o      对于&amp;quot;dir_name/***&amp;quot;来说，它将匹配dir_name下的所有层次的文件。
+
+   注意，当使用&amp;quot;--recursive&amp;quot;(-r)选项(-a隐含该选项)时，每个子路径元素会自顶向下逐层被访问，因此include/exclude匹配模式会对每个子路径元素
+   的全路径名进行递归(例如，要包含&amp;quot;/foo/bar/baz&amp;quot;，则&amp;quot;/foo&amp;quot;和&amp;quot;/foo/bar&amp;quot;必须不能被排除)。实际上，排除匹配模式在发现有文件要传输时，此文件
+   所在目录层次的排除遍历会被短路。如果排除了某个父目录，则更深层次的include模式匹配将无效，因为rsync从排除的那个父目录位置开始不会再
+   向下遍历。这在使用尾随&amp;quot;*&amp;quot;时尤为重要。例如，下面的例子不会正常工作：
+
+          + /some/path/this-file-will-not-be-found
+          + /file-is-included
+          - *
+
+   由于父目录&amp;quot;some&amp;quot;被规则&amp;quot;*&amp;quot;所排除，所以会失败，rsync绝不会访问&amp;quot;some&amp;quot;或&amp;quot;some/path&amp;quot;中的任何文件。一种解决方式是请求包含层次结构中的所有目
+   录，只需使用一个规则&amp;quot;+ */&amp;quot;(需放在&amp;quot;- *&amp;quot;规则的前面)即可，可能还需要使用&amp;quot;--prune-empty-dirs&amp;quot;选项。另一解决方式是为所有需要被访问的父目录
+   增加特定包含规则。例如，下面的规则可以正常工作：
+
+          + /some/
+          + /some/path/
+          + /some/path/this-file-is-found
+          + /file-also-included
+          - *
+
+   以下是一些exclude/include规则匹配模式：
+
+   o      &amp;quot;- *.o&amp;quot;将排除所有文件名能匹配&amp;quot;*.o&amp;quot;的文件。
+
+   o      &amp;quot;- /foo&amp;quot;将排除&amp;quot;传输中根目录&amp;quot;(transfer-root)下名为&amp;quot;foo&amp;quot;的文件或目录。
+
+   o      &amp;quot;- foo/&amp;quot;将排除所有名为&amp;quot;foo&amp;quot;的目录。
+
+   o      &amp;quot;- /foo/*/bar&amp;quot;将排除&amp;quot;传输中根目录&amp;quot;(transfer-root)下&amp;quot;foo&amp;quot;目录再向下两层的&amp;quot;bar&amp;quot;文件。
+
+   o      &amp;quot;- /foo/**/bar&amp;quot;将排除transfer-root下&amp;quot;foo&amp;quot;目录再向下递归任意层次后名为&amp;quot;bar&amp;quot;的文件。(译者注：&amp;quot;**&amp;quot;匹配任意多个层次的目录)
+
+   o      同时使用&amp;quot;+  */&amp;quot;、&amp;quot;+ *.c&amp;quot;和&amp;quot;- *&amp;quot;，将只包含所有目录和C源码文件，除此之外的所有文件和目录都被排除。(参见选项&amp;quot;--prune-empty-dirs&amp;quot;)
+
+   o      同时使用&amp;quot;+ foo/&amp;quot;、&amp;quot;+ foo/bar.c&amp;quot;和&amp;quot;- *&amp;quot;将只包含&amp;quot;foo&amp;quot;目录和&amp;quot;foo/bar.c&amp;quot;。(&amp;quot;foo&amp;quot;目录必须显式包含，否则将被排除规则&amp;quot;- *&amp;quot;排除掉)
+
+   以下是&amp;quot;+&amp;quot;或&amp;quot;-&amp;quot;后可接的修饰符：
+
+   o      &amp;quot;/&amp;quot;指定include/exclude规则需要与当前条目的绝对路径进行匹配。例如，&amp;quot;-/ /etc/passwd&amp;quot;将在任意传输/etc目录中文件时刻都排除passwd文
+          件。而对于&amp;quot;-/ subdir/foo&amp;quot;规则，当传输&amp;quot;subdir&amp;quot;目录中文件时，将总是排除&amp;quot;foo&amp;quot;文件，即使&amp;quot;foo&amp;quot;文件可能是在transfer-root中的。
+
+   o      &amp;quot;!&amp;quot;指定如果模式匹配失败，则include/exclude规则生效。例如，&amp;quot;-! */&amp;quot;将排除所有非目录文件。(译者注：反向匹配的意思，&amp;quot;- */&amp;quot;规则是排
+          除所有目录，那些非目录文件就匹配不上，加上&amp;quot;!&amp;quot;，即&amp;quot;-! */&amp;quot;，则表示匹配不上的这些非目录文件被匹配上)
+
+   o      &amp;quot;C&amp;quot;表示将所有的全局CVS排除规则插入到普通排除规则中，而不再使用&amp;quot;-C&amp;quot;选项来插入。其后不能再接其他参数。
+
+   o      &amp;quot;s&amp;quot;表示规则只应用于sender端。当某规则作用于sender端时，它可以防止文件被传输。默认情况下，所有规则都会作用于两端，除非使用了
+          &amp;quot;--delete-exclude&amp;quot;选项，这样规则将只作用于sender端。请参见&amp;quot;hide&amp;quot;(H)和&amp;quot;show&amp;quot;(S)规则，这是指定sender端include/exclude规则的另一种
+          方式。
+
+   o      &amp;quot;r&amp;quot;表示规则只应用于receiver端。当规则作用于receiver端，它可以防止文件被删除。更多信息见上面的&amp;quot;s&amp;quot;修饰符。另请参见&amp;quot;P&amp;quot;和&amp;quot;R&amp;quot;规则，
+          它们是指定receiver端include/exclude规则的另一种方式。
+
+   o      &amp;quot;p&amp;quot;表示此规则是易过期的，这意味着将忽略正在被删除的目录。例如，&amp;quot;-C&amp;quot;选项的默认规则是以CVS风格进行排除，且&amp;quot;*.o&amp;quot;文件会被标记为
+          易过期，这将不会阻止在源端移除的目录在目标端上被删除(译者注：也就是说在源端删除的目录在目标端上也会被删除。以下是原文，翻译
+          也许有误)。
+          A p indicates that a rule is perishable, meaning that it is ignored in directories that are being deleted.  For instance,  the  -C
+          option’s  default  rules  that exclude things like &amp;quot;CVS&amp;quot; and &amp;quot;*.o&amp;quot; are marked as perishable, and will not prevent a directory that
+          was removed on the source from being deleted on the destination.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;MERGE-FILE FILTER RULES
+       你可以通过指定&amp;rdquo;.&amp;ldquo;将某文件中的规则合并在规则集合中，或指定&amp;rdquo;:&amp;ldquo;(dir-merge)将目录下文件中的规则合并在规则集合中。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   有两种合并文件的方式：单实例合并&amp;quot;.&amp;quot;和每目录合并&amp;quot;:&amp;quot;。单实例合并文件仅读取一次，其中的规则被合并到筛选列表中替代&amp;quot;.&amp;quot;所代表的规则。对于
+   每目录合并文件，rsync将扫描每个目录以遍历指定名称的规则文件，并合并规则文件中的内容到当前规则列表中。每目录合并的规则文件必须创建在
+   sender端，因为会扫描sender端来决定哪些文件要被传输。如果想让规则文件作用于receiver端不想被删除的文件，则需要将规则文件传输到receiver
+   端(见下面的&amp;quot;PER-DIRECTORY RULES AND DELETE&amp;quot;)。
+
+   一些示例：
+
+          merge /etc/rsync/default.rules
+          . /etc/rsync/default.rules
+          dir-merge .per-dir-filter
+          dir-merge,n- .non-inherited-per-dir-excludes
+          :n- .non-inherited-per-dir-excludes
+
+   以下是单实例合并&amp;quot;.&amp;quot;和每目录合并&amp;quot;:&amp;quot;后可接的修饰符：
+
+   o      &amp;quot;-&amp;quot;表示规则文件中只有exclude规则，可以在文件中使用注释行。
+
+   o      &amp;quot;+&amp;quot;表示规则文件中只有include规则，可以在文件中使用注释行。
+
+   o      &amp;quot;C&amp;quot;指定的是CVS分格的规则。它将会开启&amp;quot;n&amp;quot;、&amp;quot;w&amp;quot;和&amp;quot;-&amp;quot;，也允许指定规则列表清空修饰符&amp;quot;!&amp;quot;。若不提供任何文件名，则默认为&amp;quot;.cvsignore&amp;quot;。
+
+   o      &amp;quot;e&amp;quot;表示排除合并文件使其不被传输。例如&amp;quot;dir-merge,e .rules&amp;quot;等价于&amp;quot;dir-merge .rules&amp;quot;+&amp;quot;- .rules&amp;quot;。
+
+   o      &amp;quot;n&amp;quot;表示规则不被子目录继承。
+
+   o      &amp;quot;w&amp;quot;表示规则是使用空白符号分隔的而不是默认的换行符。显然，这种方式下合并文件中不能使用注释行。
+          注意：分隔规则前缀的空格是有特殊意义的，例如&amp;quot;- foo + bar&amp;quot;会被解析为两条规则。
+
+   o      此外，你可能还需要指定上文所述的&amp;quot;+&amp;quot;、&amp;quot;-&amp;quot;规则的修饰符，以便对这些从文件中读取的规则具有修饰符集(除了&amp;quot;!&amp;quot;修饰符)。例如
+          &amp;quot;merge,-/ .excl&amp;quot;将把&amp;quot;.excl&amp;quot;文件中的内容视为绝对路径排除，而&amp;quot;dir-merge,s .filt&amp;quot;和&amp;quot;:sC&amp;quot;都将使得所有每目录规则仅作用于sender端。
+
+  Per-directory rules are inherited in all subdirectories of the directory where the merge-file was found unless the &#39;n&#39; modifier was used.
+  Each subdirectory&#39;s rules are prefixed to the inherited per-directory rules from its parents, which gives the newest rules a higher priority
+  than the inherited rules. The entire set of dir-merge rules are grouped together in the spot where the merge-file was specified, so it is
+  possible to override dir-merge rules via a rule that got specified earlier in the list of global rules. When the list-clearing rule (&amp;quot;!&amp;quot;) is
+  read from a per-directory file, it only clears the inherited rules for the current merge file.
+
+  Another way to prevent a single rule from a dir-merge file from being inherited is to anchor it with a leading slash. Anchored rules
+  in a per-directory merge-file are relative to the merge-file&#39;s directory, so a pattern &amp;quot;/foo&amp;quot; would only match the file &amp;quot;foo&amp;quot; in the directory
+  where the dir-merge filter file was found.
+
+  Here&#39;s an example filter file which you&#39;d specify via --filter=&amp;quot;. file&amp;quot;:
+
+     merge /home/user/.global-filter
+     - *.gz
+     dir-merge .rules
+     + *.[ch]
+     - *.o
+
+   This will merge the contents of the /home/user/.global-filter file at the start of the list and also turns the &amp;quot;.rules&amp;quot; filename into a
+   per-directory filter file. All rules read in prior to the start of the directory scan follow the global anchoring rules (i.e. a leading slash
+   matches at the root of the transfer).
+
+   If  a  per-directory  merge-file is specified with a path that is a parent directory of the first transfer directory, rsync will scan all
+   the parent dirs from that starting point to the transfer directory for the indicated per-directory file.  For instance, here is a  common
+   filter (see -F):
+
+          --filter=&#39;: /.rsync-filter&#39;
+
+
+   That rule tells rsync to scan for the file .rsync-filter in all directories from the root down through the parent directory of the trans‐
+   fer prior to the start of the normal directory scan of the file in the directories that are sent as a part of the transfer.   (Note:  for
+   an rsync daemon, the root is always the same as the module’s &amp;quot;path&amp;quot;.)
+
+   Some examples of this pre-scanning for per-directory files:
+
+          rsync -avF /src/path/ /dest/dir
+          rsync -av --filter=&#39;: ../../.rsync-filter&#39; /src/path/ /dest/dir
+          rsync -av --filter=&#39;: .rsync-filter&#39; /src/path/ /dest/dir
+
+
+   The  first  two  commands  above  will  look  for &amp;quot;.rsync-filter&amp;quot; in &amp;quot;/&amp;quot; and &amp;quot;/src&amp;quot; before the normal scan begins looking for the file in
+   &amp;quot;/src/path&amp;quot; and its subdirectories.  The last command avoids the parent-dir scan and only looks for the  &amp;quot;.rsync-filter&amp;quot;  files  in  each
+   directory that is a part of the transfer.
+
+   If  you  want  to include the contents of a &amp;quot;.cvsignore&amp;quot; in your patterns, you should use the rule &amp;quot;:C&amp;quot;, which creates a dir-merge of the
+   .cvsignore file, but parsed in a CVS-compatible manner.  You can use this to affect where the --cvs-exclude (-C)  option’s  inclusion  of
+   the  per-directory .cvsignore file gets placed into your rules by putting the &amp;quot;:C&amp;quot; wherever you like in your filter rules.  Without this,
+   rsync would add the dir-merge rule for the .cvsignore file at the end of all your other rules (giving it a lower priority than your  com‐
+   mand-line rules).  For example:
+
+          cat &amp;lt;&amp;lt;EOT | rsync -avC --filter=&#39;. -&#39; a/ b
+          + foo.o
+          :C
+          - *.old
+          EOT
+          rsync -avC --include=foo.o -f :C --exclude=&#39;*.old&#39; a/ b
+
+
+   Both  of  the  above  rsync commands are identical.  Each one will merge all the per-directory .cvsignore rules in the middle of the list
+   rather than at the end.  This allows their dir-specific rules to supersede the rules that follow the :C instead of being  subservient  to
+   all  your  rules.   To affect the other CVS exclude rules (i.e. the default list of exclusions, the contents of $HOME/.cvsignore, and the
+   value of $CVSIGNORE) you should omit the -C command-line option and instead insert a &amp;quot;-C&amp;quot; rule  into  your  filter  rules;  e.g.  &amp;quot;--fil‐
+   ter=-C&amp;quot;.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;LIST-CLEARING FILTER RULE(清空筛选规则列表)
+       You can clear the current include/exclude list by using the &amp;ldquo;!&amp;rdquo; filter rule (as introduced in the FILTER RULES section above).  The &amp;ldquo;cur‐
+       rent&amp;rdquo; list is either the global list of rules (if the rule is encountered while parsing the filter options) or  a  set  of  per-directory
+       rules (which are inherited in their own sub-list, so a subdirectory can use this to clear out the parent’s rules).&lt;/p&gt;
+
+&lt;p&gt;ANCHORING INCLUDE/EXCLUDE PATTERNS(INCLUDE/EXCULDE匹配模式的锚定行为)
+       As  mentioned  earlier, global include/exclude patterns are anchored at the &amp;ldquo;root of the transfer&amp;rdquo; (as opposed to per-directory patterns,
+       which are anchored at the merge-file’s directory).  If you think of the transfer as a subtree of names that are being sent from sender to
+       receiver,  the  transfer-root  is  where the tree starts to be duplicated in the destination directory.  This root governs where patterns
+       that start with a / match.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   Because the matching is relative to the transfer-root, changing the trailing slash on a source path or changing your use of  the  --rela‐
+   tive  option  affects  the  path you need to use in your matching (in addition to changing how much of the file tree is duplicated on the
+   destination host).  The following examples demonstrate this.
+
+   Let’s say that we want to match  two  source  files,  one  with  an  absolute  path  of  &amp;quot;/home/me/foo/bar&amp;quot;,  and  one  with  a  path  of
+   &amp;quot;/home/you/bar/baz&amp;quot;.  Here is how the various command choices differ for a 2-source transfer:
+
+          Example cmd: rsync -a /home/me /home/you /dest
+          +/- pattern: /me/foo/bar
+          +/- pattern: /you/bar/baz
+          Target file: /dest/me/foo/bar
+          Target file: /dest/you/bar/baz
+
+
+          Example cmd: rsync -a /home/me/ /home/you/ /dest
+          +/- pattern: /foo/bar               (note missing &amp;quot;me&amp;quot;)
+          +/- pattern: /bar/baz               (note missing &amp;quot;you&amp;quot;)
+          Target file: /dest/foo/bar
+          Target file: /dest/bar/baz
+
+
+          Example cmd: rsync -a --relative /home/me/ /home/you /dest
+          +/- pattern: /home/me/foo/bar       (note full path)
+          +/- pattern: /home/you/bar/baz      (ditto)
+          Target file: /dest/home/me/foo/bar
+          Target file: /dest/home/you/bar/baz
+
+
+          Example cmd: cd /home; rsync -a --relative me/foo you/ /dest
+          +/- pattern: /me/foo/bar      (starts at specified path)
+          +/- pattern: /you/bar/baz     (ditto)
+          Target file: /dest/me/foo/bar
+          Target file: /dest/you/bar/baz
+
+
+   The  easiest  way  to see what name you should filter is to just look at the output when using --verbose and put a / in front of the name
+   (use the --dry-run option if you’re not yet ready to copy any files).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;PER-DIRECTORY RULES AND DELETE
+       Without a delete option, per-directory rules are only relevant on the sending side, so you can feel free to exclude the merge files them‐
+       selves  without  affecting  the transfer.  To make this easy, the ’e’ modifier adds this exclude for you, as seen in these two equivalent
+       commands:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;          rsync -av --filter=&#39;: .excl&#39; --exclude=.excl host:src/dir /dest
+          rsync -av --filter=&#39;:e .excl&#39; host:src/dir /dest
+
+
+   However, if you want to do a delete on the receiving side AND you want some files to be excluded from being deleted, you’ll  need  to  be
+   sure  that  the  receiving side knows what files to exclude.  The easiest way is to include the per-directory merge files in the transfer
+   and use --delete-after, because this ensures that the receiving side gets all the same exclude rules as the sending side before it  tries
+   to delete anything:
+
+          rsync -avF --delete-after host:src/dir /dest
+
+
+   However,  if  the  merge files are not a part of the transfer, you’ll need to either specify some global exclude rules (i.e. specified on
+   the command line), or you’ll need to maintain your own per-directory merge files on the receiving side.  An example of the first is  this
+   (assume that the remote .rules files exclude themselves):
+
+   rsync -av --filter=’: .rules’ --filter=’. /my/extra.rules’
+      --delete host:src/dir /dest
+
+
+   In  the  above example the extra.rules file can affect both sides of the transfer, but (on the sending side) the rules are subservient to
+   the rules merged from the .rules files because they were specified after the per-directory merge rule.
+
+   In one final example, the remote side is excluding the .rsync-filter files from the transfer, but we want to use  our  own  .rsync-filter
+   files to control what gets deleted on the receiving side.  To do this we must specifically exclude the per-directory merge files (so that
+   they don’t get deleted) and then put rules into the local files to control what else should not get deleted.  Like one of these commands:
+
+       rsync -av --filter=&#39;:e /.rsync-filter&#39; --delete \
+           host:src/dir /dest
+       rsync -avFF --delete host:src/dir /dest
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;BATCH MODE
+       Batch mode can be used to apply the same set of updates to many identical systems. Suppose one has a tree which is replicated on a number
+       of  hosts.   Now  suppose  some changes have been made to this source tree and those changes need to be propagated to the other hosts. In
+       order to do this using batch mode, rsync is run with the write-batch option to apply the changes made to the source tree to  one  of  the
+       destination  trees.   The write-batch option causes the rsync client to store in a &amp;ldquo;batch file&amp;rdquo; all the information needed to repeat this
+       operation against other, identical destination trees.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   Generating the batch file once saves having to perform the file status, checksum, and data block generation more than once when  updating
+   multiple  destination  trees.  Multicast  transport protocols can be used to transfer the batch update files in parallel to many hosts at
+   once, instead of sending the same data to every host individually.
+
+   To apply the recorded changes to another destination tree, run rsync with the read-batch option, specifying the name of  the  same  batch
+   file, and the destination tree.  Rsync updates the destination tree using the information stored in the batch file.
+
+   For  your  convenience,  a  script file is also created when the write-batch option is used:  it will be named the same as the batch file
+   with &amp;quot;.sh&amp;quot; appended.  This script file contains a command-line suitable for updating a destination tree using the associated batch  file.
+   It can be executed using a Bourne (or Bourne-like) shell, optionally passing in an alternate destination tree pathname which is then used
+   instead of the original destination path.  This is useful when the destination tree path on the current host differs from the one used to
+   create the batch file.
+
+   Examples:
+
+          $ rsync --write-batch=foo -a host:/source/dir/ /adest/dir/
+          $ scp foo* remote:
+          $ ssh remote ./foo.sh /bdest/dir/
+
+
+          $ rsync --write-batch=foo -a /source/dir/ /adest/dir/
+          $ ssh remote rsync --read-batch=- -a /bdest/dir/ &amp;lt;foo
+
+
+   In  these examples, rsync is used to update /adest/dir/ from /source/dir/ and the information to repeat this operation is stored in &amp;quot;foo&amp;quot;
+   and &amp;quot;foo.sh&amp;quot;.  The host &amp;quot;remote&amp;quot; is then updated with the batched data going into the directory /bdest/dir.  The differences between  the
+   two examples reveals some of the flexibility you have in how you deal with batches:
+
+   o      The  first  example  shows that the initial copy doesn’t have to be local -- you can push or pull data to/from a remote host using
+          either the remote-shell syntax or rsync daemon syntax, as desired.
+
+   o      The first example uses the created &amp;quot;foo.sh&amp;quot; file to get the right rsync options when running the read-batch command on the  remote
+          host.
+
+   o      The  second example reads the batch data via standard input so that the batch file doesn’t need to be copied to the remote machine
+          first.  This example avoids the foo.sh script because it needed to use a modified --read-batch option,  but  you  could  edit  the
+          script  file  if  you  wished  to  make  use of it (just be sure that no other option is trying to use standard input, such as the
+          &amp;quot;--exclude-from=-&amp;quot; option).
+
+
+   Caveats:
+
+   The read-batch option expects the destination tree that it is updating to be identical to the destination tree that was  used  to  create
+   the  batch  update  fileset.  When a difference between the destination trees is encountered the update might be discarded with a warning
+   (if the file appears to be up-to-date already) or the file-update may be attempted and then, if the file fails to verify, the update dis‐
+   carded with an error.  This means that it should be safe to re-run a read-batch operation if the command got interrupted.  If you wish to
+   force the batched-update to always be attempted regardless of the file’s size and date, use the -I option (when reading the  batch).   If
+   an  error  occurs,  the  destination  tree  will probably be in a partially updated state. In that case, rsync can be used in its regular
+   (non-batch) mode of operation to fix up the destination tree.
+
+   The rsync version used on all destinations must be at least as new as the one used to generate the batch file.  Rsync will  die  with  an
+   error  if  the protocol version in the batch file is too new for the batch-reading rsync to handle.  See also the --protocol option for a
+   way to have the creating rsync generate a batch file that an older rsync can understand.  (Note that batch files changed format  in  ver‐
+   sion 2.6.3, so mixing versions older than that with newer versions will not work.)
+
+   When  reading  a  batch file, rsync will force the value of certain options to match the data in the batch file if you didn’t set them to
+   the same as the batch-writing command.  Other options can (and should) be changed.  For instance --write-batch changes  to  --read-batch,
+   --files-from is dropped, and the --filter/--include/--exclude options are not needed unless one of the --delete options is specified.
+
+   The  code  that  creates  the BATCH.sh file transforms any filter/include/exclude options into a single list that is appended as a &amp;quot;here&amp;quot;
+   document to the shell script file.  An advanced user can use this to modify the exclude list if a change in what gets deleted by --delete
+   is  desired.   A normal user can ignore this detail and just use the shell script as an easy way to run the appropriate --read-batch com‐
+   mand for the batched data.
+
+   The original batch mode in rsync was based on &amp;quot;rsync+&amp;quot;, but the latest version uses a new implementation.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;符号链接
+       当rsync在源目录中遇到符号链接有3种基本行为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   默认情况下，符号链接不会被传输。且会提示&amp;quot;skipping non-regular file is emmitted&amp;quot;。
+
+   如果指定了&amp;quot;--links&amp;quot;选项，则在目标路径下创建指向相同对象的符号链接。注意，&amp;quot;--archive&amp;quot;选项隐含了&amp;quot;--links&amp;quot;选项。
+   (译者注：即传输符号链接本身，如果目标主机上没有该链接指向的对象，则目标主机上此符号链接是一个损坏的软链接)
+
+   如果指定了&amp;quot;--copy-links&amp;quot;选项，符号链接将&amp;quot;折叠&amp;quot;(collapsed)其所指向文件的内容并传输，而不是传输链接本身。
+   (译者注：举个例子，例如源主机符号链接a指向b，如果指定该选项，则在目标主机上会创建文件a，但a不是符号链接，而是普通文件或目录，其内容
+   和b中的内容完全一致，也就是将b中的内容叠进符号链接中。)
+
+   rsync同样可以识别&amp;quot;安全&amp;quot;(safe)和&amp;quot;不安全&amp;quot;(unsafe)链接。可能会在web镜像站点中使用它们，例如希望保证被拷贝的rsync模块不包含指向/etc/passwd
+   的符号链接。使用&amp;quot;--copy-unsafe-links&amp;quot;将导致任何软链接以其指向的文件进行拷贝，使用&amp;quot;--safe-links&amp;quot;则使得unsafe软链接完全被忽略。
+   (注意：必须指定&amp;quot;--links&amp;quot;，&amp;quot;--safe-links&amp;quot;选项才会生效。)
+
+
+   以下是被视为不安全的符号链接的情况：路径是绝对链接(以斜线/开头)、空链接、路径中包含&amp;quot;..&amp;quot;。
+
+   以下是符号链接相关选项的解释：优先级从高到低排序
+
+   --copy-links
+          将所有符号链接变为普通文件(所有符号链接相关的其他选项都不会对此选项产生影响)。
+
+   --links --copy-unsafe-links
+          将所有不安全符号链接编程文件，并复制所有安全符号链接。
+
+   --copy-unsafe-links
+          将所有不安全符号链接变为文件，但跳过所有安全符号链接。
+
+   --links --safe-links
+          复制所有安全符号链接并跳过不安全符号链接。
+
+   --links
+          复制所有符号链接本身。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;DIAGNOSTICS
+       rsync  occasionally  produces  error messages that may seem a little cryptic. The one that seems to cause the most confusion is &amp;ldquo;protocol
+       version mismatch &amp;ndash; is your shell clean?&amp;ldquo;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   This message is usually caused by your startup scripts or remote shell facility producing unwanted garbage on the stream  that  rsync  is
+   using for its transport. The way to diagnose this problem is to run your remote shell like this:
+
+          ssh remotehost /bin/true &amp;gt; out.dat
+
+
+   then  look  at  out.dat. If everything is working correctly then out.dat should be a zero length file. If you are getting the above error
+   from rsync then you will probably find that out.dat contains some text or data. Look at the contents and try to work out what is  produc‐
+   ing it. The most common cause is incorrectly configured shell startup scripts (such as .cshrc or .profile) that contain output statements
+   for non-interactive logins.
+
+   If you are having trouble debugging filter patterns, then try specifying the -vv option.  At this level of verbosity rsync will show  why
+   each individual file is included or excluded.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ENVIRONMENT VARIABLES
+       CVSIGNORE
+              The CVSIGNORE environment variable supplements any ignore patterns in .cvsignore files. See  the  &amp;ndash;cvs-exclude  option  for  more
+              details.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   RSYNC_ICONV
+          Specify a default --iconv setting using this environment variable. (First supported in 3.0.0.)
+
+   RSYNC_RSH
+          The RSYNC_RSH environment variable allows you to override the default shell used as the transport for rsync.  Command line options
+          are permitted after the command name, just as in the -e option.
+
+   RSYNC_PROXY
+          The RSYNC_PROXY environment variable allows you to redirect your rsync client to use a web proxy when connecting to a  rsync  dae‐
+          mon. You should set RSYNC_PROXY to a hostname:port pair.
+
+   RSYNC_PASSWORD
+          Setting  RSYNC_PASSWORD to the required password allows you to run authenticated rsync connections to an rsync daemon without user
+          intervention. Note that this does not supply a password to a remote shell transport such as ssh; to learn how to do that,  consult
+          the remote shell’s documentation.
+
+   USER or LOGNAME
+          The  USER or LOGNAME environment variables are used to determine the default username sent to an rsync daemon.  If neither is set,
+          the username defaults to &amp;quot;nobody&amp;quot;.
+
+   HOME   The HOME environment variable is used to find the user’s default .cvsignore file.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;FILES
+       /etc/rsyncd.conf or rsyncd.conf&lt;/p&gt;
+
+&lt;p&gt;SEE ALSO
+       rsyncd.conf(5)&lt;/p&gt;
+
+&lt;p&gt;VERSION
+       This man page is current for version 3.0.9 of rsync.&lt;/p&gt;
+
+&lt;p&gt;INTERNAL OPTIONS
+       The options &amp;ndash;server and &amp;ndash;sender are used internally by rsync, and should never be typed by a user  under  normal  circumstances.   Some
+       awareness  of  these options may be needed in certain scenarios, such as when setting up a login that can only run an rsync command.  For
+       instance, the support directory of the rsync distribution has an example script named rrsync (for restricted rsync) that can be used with
+       a restricted ssh login.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: 本文转载于 &lt;a href=&#34;http://www.cnblogs.com/f-ck-need-u/p/7221713.html&#34; title=&#34;man rsync翻译(rsync命令中文手册&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>RFC: DNS</title>
@@ -5126,83 +7050,6 @@ text = &amp;quot;Love it!&amp;quot;
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://npf.io/2014/08/intro-to-toml/&#34; title=&#34;Intro to TOML&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Java: Date And Calendar</title>
-      <link>http://alimy.me/post/dev_201603132030/</link>
-      <pubDate>Sun, 13 Mar 2016 20:30:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603132030/</guid>
-      <description>&lt;h3 id=&#34;overview-of-date-and-calendar-classes&#34;&gt;Overview of Date and Calendar classes&lt;/h3&gt;
-
-&lt;p&gt;In this tutorial we look at the classes in java that are helpful in manipulating dates. Manipulating dates in java can be challenging, especially if you are building applications that cater to multiple timezones. Parsing dates, printing a date in UTC, printing a date in a different timezone, comparing dates, adding time to date&amp;hellip; we will be looking at all of these in this tutorial. We first begin with the introduction to the classes and then follow up with examples. You may want to directly jump to the examples, however, we strongly recommend that you understand the classes first, since that will make the examples very easy to understand.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;java.util.Date - This class is used to represent a specific time with a precision of millisecond. If you create a new Date object, it obtains the current system time using System.currentTimeMillis(). This is the number of milliseconds since epoch time (midnight, January 1, 1970 UTC). Here&amp;rsquo;s the tricky part, date stores time as number of seconds since epoch, it is a UTC time. However, when you print the date, you get the string representation of the date in the local timezone. Also note that the Date class is not designed to manipulate hour, month, year etc or retrieve them. Use this class only to create data or compare two dates. For all other uses, see the Calendar or GregorianCalendar class.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;java.util.Calendar - Calendar class allows manipulating data using its various fields such as minute, hour, day etc. As in the java.util.Date object, time is represented as number of milliseconds since epoch time. To get an instance of the Calendar use the Calendar.getInstance() method which returns a locale sensitive Calendar instance. Various set and get methods can be used to set and get time values. The current time is represented in two ways - 1. as number of milliseconds since epoch and 2. as local fields such as YEAR, MONTH, DAY, HOUR, MINUTE etc. The conversion between the two types is achieved by using the timezone offset (getOffset()) and the daylight savings fields.&lt;br /&gt;
-the MONTH fields starts from 0 (JANUARY).&lt;br /&gt;
-The DAY_OF_MONTH starts from 1&lt;br /&gt;
-the DAY_OF_WEEK starts from SUNDAY with a value of 1.&lt;br /&gt;
-HOUR starts from 0&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples
-&lt;/p&gt;
-
-&lt;h4 id=&#34;create-a-date-object-and-print-it&#34;&gt;Create a Date object and print it&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;public void createDateAndPrintIt() {
-// create and prints the current date. It prints the data in the local
-// timezone
-System.out.println(new java.util.Date());
-// prints Sun Jul 28 20:09:36 IST 2013
-// get the number of milli seconds since epock
-System.out.println(new java.util.Date().getTime());
-// prints 1375022617792
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;get-an-instance-of-calendar-object-and-print-it&#34;&gt;get an instance of Calendar object and print it&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;public void createCalendarAndPrintIt() {
-Calendar cal = Calendar.getInstance();
-System.out.println(cal);
-// java.util.GregorianCalendar[time=1375025205859,areFieldsSet=true,areAllFieldsSet=true,lenient=true,
-// zone=sun.util.calendar.ZoneInfo[id=&amp;quot;Asia/Calcutta&amp;quot;,offset=19800000,dstSavings=0,useDaylight=false,transitions=6,lastRule=null],
-// firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2013,MONTH=6,WEEK_OF_YEAR=31,WEEK_OF_MONTH=5,DAY_OF_MONTH=28,
-// DAY_OF_YEAR=209,DAY_OF_WEEK=1,DAY_OF_WEEK_IN_MONTH=4,AM_PM=1,HOUR=8,HOUR_OF_DAY=20,MINUTE=56,SECOND=45,MILLISECOND=859,ZONE_OFFSET=19800000,DST_OFFSET=0]
-System.out.println(cal.getTime());
-// prints Sun Jul 28 20:56:45 IST 2013
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;manipulate-calendar&#34;&gt;Manipulate Calendar&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;public void manipulateCalendar() {
-Calendar cal = Calendar.getInstance();
-System.out.println(cal.getTime());// Sun Jul 28 21:53:55 IST 2013
-// add a day
-cal.add(Calendar.DAY_OF_MONTH, 1);
-System.out.println(cal.getTime());// Mon Jul 29 21:53:55 IST 2013
-cal.add(Calendar.DAY_OF_WEEK, 1);
-System.out.println(cal.getTime());// Tue Jul 30 21:53:55 IST 2013
-cal.add(Calendar.HOUR, 1);
-System.out.println(cal.getTime());// Tue Jul 30 22:53:55 IST 2013
-cal.add(Calendar.HOUR_OF_DAY, 1);
-System.out.println(cal.getTime());// Tue Jul 30 23:53:55 IST 2013
-cal.add(Calendar.MINUTE, 100);
-System.out.println(cal.getTime());// Wed Jul 31 01:33:55 IST 2013
-// demonstrate leniency
-cal.add(Calendar.DAY_OF_MONTH, 32);
-System.out.println(cal.getTime());// Sun Sep 01 01:33:55 IST 2013
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://www.studytrails.com/java/date/java-date-and-calendar-classes.jsp&#34; title=&#34;Date And Calendar&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>
