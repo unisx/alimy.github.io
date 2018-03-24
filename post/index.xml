@@ -7,7 +7,673 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 24 Mar 2018 10:12:00 CST</updated>
+    <updated>Sat, 24 Mar 2018 12:18:00 CST</updated>
+    
+    <item>
+      <title>rsync: 基本命令和用法</title>
+      <link>http://alimy.me/post/dev_201803241218/</link>
+      <pubDate>Sat, 24 Mar 2018 12:18:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803241218/</guid>
+      <description>&lt;h3 id=&#34;2-1-说在前面的话&#34;&gt;2.1 说在前面的话&lt;/h3&gt;
+
+&lt;p&gt;rsync官方网站: &lt;a href=&#34;https://www.samba.org/ftp/rsync/rsync.html,&#34; title=&#34;rsync官方网站&#34;&gt;https://www.samba.org/ftp/rsync/rsync.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;rsync是可以实现增量备份的工具。配合任务计划，rsync能实现定时或间隔同步，配合inotify或sersync，可以实现触发式的实时同步。&lt;/p&gt;
+
+&lt;p&gt;rsync可以实现scp的远程拷贝(rsync不支持远程到远程的拷贝，但scp支持)、cp的本地拷贝、rm删除和&amp;rdquo;ls -l&amp;rdquo;显示文件列表等功能。但需要注意的是，rsync的最终目的或者说其原始目的是实现两端主机的文件同步，因此实现的scp/cp/rm等功能仅仅只是同步的辅助手段，且rsync实现这些功能的方式和这些命令是不一样的。事实上，rsync有一套自己的算法，其算法原理以及rsync对算法实现的机制可能比想象中要复杂一些。平时使用rsync实现简单的备份、同步等功能足以，没有多大必要去深究这些原理性的内容。但是想要看懂rsync命令的man文档、使用&amp;rdquo;-vvvv&amp;rdquo;分析rsync执行过程，以及实现rsync更强大更完整的功能，没有这些理论知识的支持是绝对不可能实现的。本篇文章将简单介绍rsync的使用方法和它常用的功能。在本篇文章之后的下几篇文章中，将介绍inotify+rsync和sersync，再之后将详细解释rsync相关的原理，其中包括官方技术报告的翻译(即算法原理)、rsync同步的整个过程(也是官方推荐文章的翻译)，然后专门使用一篇文章通过示例来详细解释rsync算法原理，最后给出rsync的man文档翻译。希望各位朋友能藉此深入rsync。&lt;/p&gt;
+
+&lt;p&gt;回归正题，以下是rsync相关基础内容。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;2-2-rsync同步基本说明&#34;&gt;2.2 rsync同步基本说明&lt;/h3&gt;
+
+&lt;p&gt;rsync的目的是实现本地主机和远程主机上的文件同步(包括本地推到远程，远程拉到本地两种同步方式)，也可以实现本地不同路径下文件的同步，但不能实现远程路径1到远程路径2之间的同步(scp可以实现)。&lt;/p&gt;
+
+&lt;p&gt;不考虑rsync的实现细节，就文件同步而言，涉及了源文件和目标文件的概念，还涉及了以哪边文件为同步基准。例如，想让目标主机上的文件和本地文件保持同步，则是以本地文件为同步基准，将本地文件作为源文件推送到目标主机上。反之，如果想让本地主机上的文件和目标主机上的文件保持同步，则目标主机上的文件为同步基准，实现方式是将目标主机上的文件作为源文件拉取到本地。当然，要保持本地的两个文件相互同步，rsync也一样能实现，这就像Linux中cp命令一样，以本地某文件作为源，另一文件作为目标文件，但请注意，虽然rsync和cp能达到相同的目的，但它们的实现方式是不一样的。&lt;/p&gt;
+
+&lt;p&gt;既然是文件同步，在同步过程中必然会涉及到源和目标两文件之间版本控制的问题，例如是否要删除源主机上没有但目标上多出来的文件，目标文件比源文件更新(newer than source)时是否仍要保持同步，遇到软链接时是拷贝软链接本身还是拷贝软链接所指向的文件，目标文件已存在时是否要先对其做个备份等等。&lt;/p&gt;
+
+&lt;p&gt;rsync同步过程中由两部分模式组成：决定哪些文件需要同步的检查模式以及文件同步时的同步模式。&lt;/p&gt;
+
+&lt;p&gt;(1).检查模式是指按照指定规则来检查哪些文件需要被同步，例如哪些文件是明确被排除不传输的。默认情况下，rsync使用&amp;rdquo;quick check&amp;rdquo;算法快速检查源文件和目标文件的大小、mtime(修改时间)是否一致，如果不一致则需要传输。当然，也可以通过在rsync命令行中指定某些选项来改变quick check的检查模式，比如&amp;rdquo;&amp;ndash;size-only&amp;rdquo;选项表示&amp;rdquo;quick check&amp;rdquo;将仅检查文件大小不同的文件作为待传输文件。rsync支持非常多的选项，其中检查模式的自定义性是非常有弹性的。&lt;/p&gt;
+
+&lt;p&gt;(2).同步模式是指在文件确定要被同步后，在同步过程发生之前要做哪些额外工作。例如上文所说的是否要先删除源主机上没有但目标主机上有的文件，是否要先备份已存在的目标文件，是否要追踪链接文件等额外操作。rsync也提供非常多的选项使得同步模式变得更具弹性。&lt;/p&gt;
+
+&lt;p&gt;相对来说，为rsync手动指定同步模式的选项更常见一些，只有在有特殊需求时才指定检查模式，因为大多数检查模式选项都可能会影响rsync的性能。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-3-rsync三种工作方式&#34;&gt;2.3 rsync三种工作方式&lt;/h3&gt;
+
+&lt;p&gt;以下是rsync的语法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+Local:  rsync [OPTION...] SRC... [DEST]
+
+Access via remote shell:
+  Pull: rsync [OPTION...] [USER@]HOST:SRC... [DEST]
+  Push: rsync [OPTION...] SRC... [USER@]HOST:DEST
+
+Access via rsync daemon:
+  Pull: rsync [OPTION...] [USER@]HOST::SRC... [DEST]
+        rsync [OPTION...] rsync://[USER@]HOST[:PORT]/SRC... [DEST]
+  Push: rsync [OPTION...] SRC... [USER@]HOST::DEST
+        rsync [OPTION...] SRC... rsync://[USER@]HOST[:PORT]/DEST
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由此语法可知，rsync有三种工作方式：&lt;/p&gt;
+
+&lt;p&gt;(1).本地文件系统上实现同步。命令行语法格式为上述&amp;rdquo;Local&amp;rdquo;段的格式。&lt;/p&gt;
+
+&lt;p&gt;(2).本地主机使用远程shell和远程主机通信。命令行语法格式为上述&amp;rdquo;Access via remote shell&amp;rdquo;段的格式。&lt;/p&gt;
+
+&lt;p&gt;(3).本地主机通过网络套接字连接远程主机上的rsync daemon。命令行语法格式为上述&amp;rdquo;Access via rsync daemon&amp;rdquo;段的格式。&lt;/p&gt;
+
+&lt;p&gt;前两者的本质是通过管道通信，即使是远程shell。而方式(3)则是让远程主机上运行rsync服务，使其监听在一个端口上，等待客户端的连接。&lt;/p&gt;
+
+&lt;p&gt;但是，通过远程shell也能临时启动一个rsync daemon，这不同于方式(3)，它不要求远程主机上事先启动rsync服务，而是临时派生出rsync daemon，它是单用途的一次性daemon，仅用于临时读取daemon的配置文件，当此次rsync同步完成，远程shell启动的rsync daemon进程也会自动消逝。此通信方式的命令行语法格式同&amp;rdquo;Access via rsync daemon&amp;rdquo;，但要求options部分必须明确指定&amp;rdquo;&amp;ndash;rsh&amp;rdquo;选项或其短选项&amp;rdquo;-e&amp;rdquo;。&lt;/p&gt;
+
+&lt;p&gt;以下是对rsync语法的简单说明，由于rsync支持一百多个选项，所以此处只介绍几个常用选项。完整的选项说明以及rsync的使用方法见我翻译的&amp;rdquo;man rsync&amp;rdquo;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Local:  rsync [OPTION...] SRC... [DEST]
+
+Access via remote shell:
+  Pull: rsync [OPTION...] [USER@]HOST:SRC... [DEST]
+  Push: rsync [OPTION...] SRC... [USER@]HOST:DEST
+
+Access via rsync daemon:
+  Pull: rsync [OPTION...] [USER@]HOST::SRC... [DEST]
+        rsync [OPTION...] rsync://[USER@]HOST[:PORT]/SRC... [DEST]
+  Push: rsync [OPTION...] SRC... [USER@]HOST::DEST
+        rsync [OPTION...] SRC... rsync://[USER@]HOST[:PORT]/DEST
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中，第一个路径参数一定是源文件路径，即作为同步基准的一方，可以同时指定多个源文件路径。最后一个路径参数则是目标文件路径，也就是待同步方。路径的格式可以是本地路径，也可以是使用user@host:path或user@host::path的远程路径，如果主机和path路径之间使用单个冒号隔开，表示使用的是远程shell通信方式，而使用双冒号隔开的则表示的是连接rsync daemon。另外，连接rsync daemon时，还提供了URL格式的路径表述方式rsync://user@host/path。&lt;/p&gt;
+
+&lt;p&gt;如果仅有一个SRC或DEST参数，则将以类似于&amp;rdquo;ls -l&amp;rdquo;的方式列出源文件列表(只有一个路径参数，总会认为是源文件)，而不是复制文件。&lt;/p&gt;
+
+&lt;p&gt;如果对rsync不熟悉，可暂先只了解本地以及远程shell格式的user@host:path路径格式。例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync /etc/fstab /tmp                # 在本地同步
+[root@xuexi ~]# rsync -r /etc 172.16.10.5:/tmp       # 将本地/etc目录拷贝到远程主机的/tmp下，以保证远程/tmp目录和本地/etc保持同步
+[root@xuexi ~]# rsync -r 172.16.10.5:/etc /tmp       # 将远程主机的/etc目录拷贝到本地/tmp下，以保证本地/tmp目录和远程/etc保持同步
+[root@xuexi ~]# rsync /etc/                          # 列出本地/etc/目录下的文件列表
+[root@xuexi ~]# rsync 172.16.10.5:/tmp/              # 列出远程主机上/tmp/目录下的文件列表
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另外，使用rsync一定要注意的一点是，源路径如果是一个目录的话，带上尾随斜线和不带尾随斜线是不一样的，不带尾随斜线表示的是整个目录包括目录本身，带上尾随斜线表示的是目录中的文件，不包括目录本身。例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync /etc /tmp
+[root@xuexi ~]# rsync /etc/ /tmp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;第一个命令会在/tmp目录下创建etc目录，而第二个命令不会在/tmp目录下创建etc目录，源路径/etc/中的所有文件都直接放在/tmp目录下。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-4-选项说明和示例&#34;&gt;2.4 选项说明和示例&lt;/h3&gt;
+
+&lt;p&gt;接下来是rsync的选项说明。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-v：显示rsync过程中详细信息。可以使用&amp;quot;-vvvv&amp;quot;获取更详细信息。
+-P：显示文件传输的进度信息。(实际上&amp;quot;-P&amp;quot;=&amp;quot;--partial --progress&amp;quot;，其中的&amp;quot;--progress&amp;quot;才是显示进度信息的)。
+-n --dry-run  ：仅测试传输，而不实际传输。常和&amp;quot;-vvvv&amp;quot;配合使用来查看rsync是如何工作的。
+-a --archive  ：归档模式，表示递归传输并保持文件属性。等同于&amp;quot;-rtopgDl&amp;quot;。
+-r --recursive：递归到目录中去。
+-t --times：保持mtime属性。强烈建议任何时候都加上&amp;quot;-t&amp;quot;，否则目标文件mtime会设置为系统时间，导致下次更新
+          ：检查出mtime不同从而导致增量传输无效。
+-o --owner：保持owner属性(属主)。
+-g --group：保持group属性(属组)。
+-p --perms：保持perms属性(权限，不包括特殊权限)。
+-D        ：是&amp;quot;--device --specials&amp;quot;选项的组合，即也拷贝设备文件和特殊文件。
+-l --links：如果文件是软链接文件，则拷贝软链接本身而非软链接所指向的对象。
+-z        ：传输时进行压缩提高效率。
+-R --relative：使用相对路径。意味着将命令行中指定的全路径而非路径最尾部的文件名发送给服务端，包括它们的属性。用法见下文示例。
+--size-only ：默认算法是检查文件大小和mtime不同的文件，使用此选项将只检查文件大小。
+-u --update ：仅在源mtime比目标已存在文件的mtime新时才拷贝。注意，该选项是接收端判断的，不会影响删除行为。
+-d --dirs   ：以不递归的方式拷贝目录本身。默认递归时，如果源为&amp;quot;dir1/file1&amp;quot;，则不会拷贝dir1目录，使用该选项将拷贝dir1但不拷贝file1。
+--max-size  ：限制rsync传输的最大文件大小。可以使用单位后缀，还可以是一个小数值(例如：&amp;quot;--max-size=1.5m&amp;quot;)
+--min-size  ：限制rsync传输的最小文件大小。这可以用于禁止传输小文件或那些垃圾文件。
+--exclude   ：指定排除规则来排除不需要传输的文件。
+--delete    ：以SRC为主，对DEST进行同步。多则删之，少则补之。注意&amp;quot;--delete&amp;quot;是在接收端执行的，所以它是在
+            ：exclude/include规则生效之后才执行的。
+-b --backup ：对目标上已存在的文件做一个备份，备份的文件名后默认使用&amp;quot;~&amp;quot;做后缀。
+--backup-dir：指定备份文件的保存路径。不指定时默认和待备份文件保存在同一目录下。
+-e          ：指定所要使用的远程shell程序，默认为ssh。
+--port      ：连接daemon时使用的端口号，默认为873端口。
+--password-file：daemon模式时的密码文件，可以从中读取密码实现非交互式。注意，这不是远程shell认证的密码，而是rsync模块认证的密码。
+-W --whole-file：rsync将不再使用增量传输，而是全量传输。在网络带宽高于磁盘带宽时，该选项比增量传输更高效。
+--existing  ：要求只更新目标端已存在的文件，目标端还不存在的文件不传输。注意，使用相对路径时如果上层目录不存在也不会传输。
+--ignore-existing：要求只更新目标端不存在的文件。和&amp;quot;--existing&amp;quot;结合使用有特殊功能，见下文示例。
+--remove-source-files：要求删除源端已经成功传输的文件。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;rsync的选项非常多，能够实现非常具有弹性的功能，以上选项仅仅只是很小一部分常用的选项，关于更完整更详细的选项说明，见我的rsync man手册翻译。&lt;/p&gt;
+
+&lt;p&gt;虽然选项非常多，但最常用的选项组合是&amp;rdquo;avz&amp;rdquo;，即压缩和显示部分信息，并以归档模式传输。&lt;/p&gt;
+
+&lt;h4 id=&#34;2-4-1-基础示例&#34;&gt;2.4.1 基础示例&lt;/h4&gt;
+
+&lt;p&gt;以下是几个本地同步示例和通过远程shell实现的同步示例，示例中没有使用&amp;rdquo;-a&amp;rdquo;选项，目的是为了更清晰地说明各选项的作用。&lt;/p&gt;
+
+&lt;p&gt;(1).将/etc/fstab拷贝到/tmp目录下。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync /etc/fstab /tmp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2).将/etc/cron.d目录拷贝到/tmp下。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync -r /etc/cron.d /tmp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;该命令会在目标主机上创建/tmp/cron.d目录，并将/etc/cron.d/中的文件放入到/tmp/cron.d/目录中，也就是说默认情况下，是不会在目录路径下创建上层目录/etc的。&lt;/p&gt;
+
+&lt;p&gt;(3).将/etc/cron.d目录拷贝到/tmp下，但要求在/tmp下也生成etc子目录。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync -R -r /etc/cron.d /tmp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中&amp;rdquo;-R&amp;rdquo;选项表示使用相对路径，此相对路径是以目标目录为根的。对于上面的示例，表示在目标上的/tmp下创建etc/cron.d目录，即/tmp/etc/cron.d，etc/cron.d的根&amp;rdquo;/&amp;ldquo;代表的就是目标/tmp。&lt;/p&gt;
+
+&lt;p&gt;如果要拷贝的源路径较长，但只想在目标主机上保留一部分目录结构，例如要拷贝/var/log/anaconda/*到/tmp下，但只想在/tmp下保留从log开始的目录，如何操作？使用一个点代表相对路径的起始位置即可，也就是将长目录进行划分。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync -R -r /var/./log/anaconda /tmp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样，从点开始的目录都是相对路径，其相对根目录为目标路径。所以对于上面的示例，将在目标上创建/tmp/log/anaconda/*。&lt;/p&gt;
+
+&lt;p&gt;(4).对远程目录下已存在文件做一个备份。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync -R -r --backup /var/./log/anaconda /tmp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样在目标目录下，已存在的文件就被做一个备份，备份文件默认使用&amp;rdquo;~&amp;ldquo;做后缀，可以使用&amp;rdquo;&amp;ndash;suffix&amp;rdquo;指定备份后缀。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi tmp]# ll log/anaconda/
+total 3112
+-rw------- 1 root root    6668 Jul 14 12:45 anaconda.log
+-rw------- 1 root root    6668 Jul 14 11:44 anaconda.log~
+-rw------- 1 root root    3826 Jul 14 12:45 ifcfg.log
+-rw------- 1 root root    3826 Jul 14 11:44 ifcfg.log~
+-rw------- 1 root root 1102699 Jul 14 12:45 journal.log
+-rw------- 1 root root 1102699 Jul 14 11:44 journal.log~
+-rw------- 1 root root       0 Jul 14 12:45 ks-script-1uLekR.log
+-rw------- 1 root root       0 Jul 14 11:44 ks-script-1uLekR.log~
+-rw------- 1 root root       0 Jul 14 12:45 ks-script-iGpl4q.log
+-rw------- 1 root root       0 Jul 14 11:44 ks-script-iGpl4q.log~
+-rw------- 1 root root  160420 Jul 14 12:45 packaging.log
+-rw------- 1 root root  160420 Jul 14 11:44 packaging.log~
+-rw------- 1 root root   27906 Jul 14 12:45 program.log
+-rw------- 1 root root   27906 Jul 14 11:44 program.log~
+-rw------- 1 root root   78001 Jul 14 12:45 storage.log
+-rw------- 1 root root   78001 Jul 14 11:44 storage.log~
+-rw------- 1 root root  197961 Jul 14 12:45 syslog
+-rw------- 1 root root  197961 Jul 14 11:44 syslog~
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以使用&amp;rdquo;&amp;ndash;backup-dir&amp;rdquo;指定备份文件保存路径，但要求保存路径必须存在。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# mkdir /tmp/log_back
+
+[root@xuexi ~]# rsync -R -r --backup --backup-dir=/tmp/log_back /var/./log/anaconda /tmp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;指定备份路径后，默认将不会加备份后缀，除非使用&amp;rdquo;&amp;ndash;suffix&amp;rdquo;显式指定后缀，如&amp;rdquo;&amp;ndash;suffix=~&amp;ldquo;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi tmp]# tree /tmp/log_back/
+/tmp/log_back/
+└── log
+    └── anaconda
+        ├── anaconda.log
+        ├── ifcfg.log
+        ├── journal.log
+        ├── ks-script-1uLekR.log
+        ├── ks-script-iGpl4q.log
+        ├── packaging.log
+        ├── program.log
+        ├── storage.log
+        └── syslog
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(5).指定ssh连接参数，如端口、连接的用户、ssh选项等。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi tmp]# &amp;gt;~/.ssh/known_hosts   # 先清空host key以便下面的测试
+
+[root@xuexi tmp]# rsync -e &amp;quot;ssh -p 22 -o StrictHostKeyChecking=no&amp;quot; /etc/fstab 172.16.10.5:/tmp
+Warning: Permanently added &#39;172.16.10.5&#39; (RSA) to the list of known hosts.
+root@172.16.10.5&#39;s password:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可见直接指定ssh参数是生效的。&lt;/p&gt;
+
+&lt;p&gt;(6).&amp;ldquo;&amp;ndash;existing&amp;rdquo;和&amp;rdquo;&amp;ndash;ignore-existing&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;&amp;rdquo;&amp;ndash;existing&amp;rdquo;是只更新目标端已存在的文件。&lt;/p&gt;
+
+&lt;p&gt;目前/tmp/{a,b}目录中内容如下，bashrc在a目录中，crontab在b目录中，且a目录中多了一个c子目录。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# tree /tmp/{a,b}
+/tmp/a
+├── bashrc
+├── c
+│   └── find
+├── fstab
+├── profile
+└── rc.local
+/tmp/b
+├── crontab
+├── fstab
+├── profile
+└── rc.local
+
+1 directory, 9 files
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用&amp;rdquo;&amp;ndash;existing&amp;rdquo;选项使得只更新目标端已存在的文件。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync -r -v --existing /tmp/a/ /tmp/b           
+sending incremental file list
+fstab
+profile
+rc.local
+
+sent 2972 bytes  received 70 bytes  6084.00 bytes/sec
+total size is 204755  speedup is 67.31
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;结果只有3个目标上已存在的文件被更新了，由于目标上没有c目录，所以c目录中的文件也没有进行传输。&lt;/p&gt;
+
+&lt;p&gt;而&amp;rdquo;&amp;ndash;ignore-existing&amp;rdquo;是更新目标端不存在的文件。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync -r -v --ignore-existing /tmp/a/ /tmp/b
+sending incremental file list
+bashrc
+c/
+c/find
+
+sent 202271 bytes  received 54 bytes  404650.00 bytes/sec
+total size is 204755  speedup is 1.01
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(7).&amp;ldquo;&amp;ndash;remove-source-files&amp;rdquo;删除源端文件。&lt;/p&gt;
+
+&lt;p&gt;使用该选项后，源端已经更新成功的文件都会被删除，源端所有未传输或未传输成功的文件都不会被移除。未传输成功的原因有多种，如exclude排除了，&amp;rdquo;quick check&amp;rdquo;未选项该文件，传输中断等等。&lt;/p&gt;
+
+&lt;p&gt;总之，显示在&amp;rdquo;rsync -v&amp;rdquo;被传输列表中的文件都会被移除。如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync -r -v --remove-source-files /tmp/a/anaconda /tmp/a/audit /tmp       
+sending incremental file list
+anaconda/anaconda.log
+anaconda/ifcfg.log
+anaconda/journal.log
+anaconda/ks-script-1uLekR.log
+anaconda/ks-script-iGpl4q.log
+anaconda/packaging.log
+anaconda/program.log
+anaconda/storage.log
+anaconda/syslog
+audit/audit.log
+
+sent 4806915 bytes  received 204 bytes  9614238.00 bytes/sec
+total size is 4805676  speedup is 1.00
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上述显示出来的文件在源端全部被删除。&lt;/p&gt;
+
+&lt;h4 id=&#34;2-4-2-exclude-排除规则&#34;&gt;2.4.2 &amp;ldquo;&amp;ndash;exclude&amp;rdquo;排除规则&lt;/h4&gt;
+
+&lt;p&gt;使用&amp;rdquo;&amp;ndash;exclude&amp;rdquo;选项指定排除规则，排除那些不需要传输的文件。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi tmp]# rsync -r -v --exclude=&amp;quot;anaconda/*.log&amp;quot; /var/log/anaconda /var/log/audit /tmp
+sending incremental file list
+anaconda/
+anaconda/syslog
+audit/
+audit/audit.log
+
+sent 3365629 bytes  received 58 bytes  6731374.00 bytes/sec
+total size is 3365016  speedup is 1.00
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上例中只排除了anaconda目录中的log文件，但是audit目录中的log文件是正常传输的。&lt;/p&gt;
+
+&lt;p&gt;注意，一个&amp;rdquo;&amp;ndash;exclude&amp;rdquo;只能指定一条规则，要指定多条排除规则，需要使用多个&amp;rdquo;&amp;ndash;exclude&amp;rdquo;选项，或者将排除规则写入到文件中，然后使用&amp;rdquo;&amp;ndash;exclude-from&amp;rdquo;选项读取该规则文件。&lt;/p&gt;
+
+&lt;p&gt;另外，除了&amp;rdquo;&amp;ndash;exclude&amp;rdquo;排除规则，还有&amp;rdquo;&amp;ndash;include&amp;rdquo;包含规则，顾名思义，它就是筛选出要进行传输的文件，所以include规则也称为传输规则。它的使用方法和&amp;rdquo;&amp;ndash;exclude&amp;rdquo;一样。如果一个文件即能匹配排除规则，又能匹配包含规则，则先匹配到的立即生效，生效后就不再进行任何匹配。&lt;/p&gt;
+
+&lt;p&gt;最后，关于规则，最重要的一点是它的作用时间。当发送端敲出rsync命令后，rsync将立即扫描命令行中给定的文件和目录(扫描过程中还会按照目录进行排序，将同一个目录的文件放在相邻的位置)，这称为拷贝树(copy tree)，扫描完成后将待传输的文件或目录记录到文件列表中，然后将文件列表传输给接收端。而筛选规则的作用时刻是在扫描拷贝树时，所以会根据规则来匹配并决定文件是否记录到文件列表中(严格地说是会记录到文件列表中的，只不过排除的文件会被标记为hide隐藏起来)，只有记录到了文件列表中的文件或目录才是真正需要传输的内容。换句话说，筛选规则的生效时间在rsync整个同步过程中是非常靠前的，它会影响很多选项的操作对象，最典型的如&amp;rdquo;&amp;ndash;delete&amp;rdquo;。也许，你看完这一整篇文章都没感觉到这一点的重要性，但如果你阅读rsync的man文档或者学习rsync的原理，你一定会深有体会。&lt;/p&gt;
+
+&lt;p&gt;实际上，排除规则和包含规则都只是&amp;rdquo;&amp;ndash;filter&amp;rdquo;筛选规则的两种特殊规则。&amp;rdquo;&amp;ndash;filter&amp;rdquo;比较复杂，它有自己的规则语法和匹配模式，由于篇幅有限，以及考虑到本文的难度定位，&amp;rdquo;&amp;ndash;filter&amp;rdquo;规则不便在此多做解释，仅简单说明下规则类，帮助理解下文的&amp;rdquo;&amp;ndash;delete&amp;rdquo;。&lt;/p&gt;
+
+&lt;p&gt;以下是rsync中的规则种类，不解之处请结合下文的&amp;rdquo;&amp;ndash;delete&amp;rdquo;分析：&lt;/p&gt;
+
+&lt;p&gt;(1).exclude规则：即排除规则，只作用于发送端，被排除的文件不会进入文件列表(实际上是加上隐藏规则进行隐藏)。&lt;/p&gt;
+
+&lt;p&gt;(2).include规则：即包含规则，也称为传输规则，只作用于发送端，被包含的文件将明确记录到文件列表中。&lt;/p&gt;
+
+&lt;p&gt;(3).hide规则：即隐藏规则，只作用于发送端，隐藏后的文件对于接收端来说是看不见的，也就是说接收端会认为它不存在于源端。&lt;/p&gt;
+
+&lt;p&gt;(4).show规则：即显示规则，只作用于发送端，是隐藏规则的反向规则。&lt;/p&gt;
+
+&lt;p&gt;(5).protect规则：即保护规则，该规则只作用于接收端，被保护的文件不会被删除掉。&lt;/p&gt;
+
+&lt;p&gt;(6).risk规则：即取消保护规则。是protect的反向规则。&lt;/p&gt;
+
+&lt;p&gt;除此之外，还有一种规则是&amp;rdquo;clear规则&amp;rdquo;，作用是删除include/exclude规则列表。&lt;/p&gt;
+
+&lt;h4 id=&#34;2-4-3-delete-解释&#34;&gt;2.4.3 &amp;ldquo;&amp;ndash;delete&amp;rdquo;解释&lt;/h4&gt;
+
+&lt;p&gt;使用&amp;rdquo;&amp;ndash;delete&amp;rdquo;选项后，接收端的rsync会先删除目标目录下已经存在，但源端目录不存在的文件。也就是&amp;rdquo;多则删之，少则补之&amp;rdquo;。&lt;/p&gt;
+
+&lt;p&gt;例如，先实现一次同步，再向目标目录中拷贝一个新文件，这样目标目录中就比源目录多出一个文件。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync -r /etc/cron.d /tmp/
+
+[root@xuexi ~]# cp /etc/fstab /tmp/cron.d/
+
+[root@xuexi ~]# ls /tmp/cron.d/
+0hourly  fstab  raid-check  sysstat
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;再使用&amp;rdquo;&amp;ndash;delete&amp;rdquo;选项，这时会将目标端多出的文件给删除掉，然后进行同步。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync -r -v /etc/cron.d /tmp --delete
+sending incremental file list
+deleting cron.d/fstab
+cron.d/0hourly
+cron.d/raid-check
+cron.d/sysstat
+
+sent 704 bytes  received 70 bytes  1548.00 bytes/sec
+total size is 471  speedup is 0.61
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样的行为实现了远程删除的功能，对于作用于本地的rsync，也就实现了rm的本地删除功能。而且，如果使用空目录作为源目录，则它的作用是清空目录上的整个目录。&lt;/p&gt;
+
+&lt;p&gt;如果将&amp;rdquo;&amp;ndash;delete&amp;rdquo;选项和&amp;rdquo;&amp;ndash;exlcude&amp;rdquo;选项一起使用，则被排除的文件不会被删除。例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync -r /var/log/anaconda /var/log/audit /tmp  # 先进行一次同步以便测试
+
+[root@xuexi ~]# cp /etc/fstab /tmp/anaconda/                    # 拷贝一个新文件到目标目录以便测试
+
+[root@xuexi ~]# rsync -r -v --exclude=&amp;quot;anaconda/*.log&amp;quot; /var/log/anaconda /var/log/audit /tmp --delete
+sending incremental file list
+deleting anaconda/fstab
+anaconda/syslog
+audit/audit.log
+
+sent 3406190 bytes  received 52 bytes  6812484.00 bytes/sec
+total size is 3405579  speedup is 1.00
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;结果发现只删除了&amp;rdquo;anaconda/fstab&amp;rdquo;文件，被&amp;rdquo;&amp;ndash;exclude&amp;rdquo;规则匹配的anaconda/*.log文件都没有被删除。也就是网上所说的言论：exclude排除的文件不会被删除。&lt;/p&gt;
+
+&lt;p&gt;结论是没错的，但我想很多人不知道为何会如此，也可能从来没想过为何会如此，所以我简单地做个说明。&lt;/p&gt;
+
+&lt;p&gt;在发送端将文件列表发送给接收端后，接收端的generator(要是不知道，你认为是某个就好了)进程会扫描每个文件列表中的信息，然后对列表中的每个信息条目都计算数据块校验码，最后将数据库校验码发给发送端，发送端通过校验码来匹配哪些数据块是需要传输的，这样就实现了增量传输的功能——只传输改变的部分，不会传输整个文件。而delete删除的时间点是generator进程处理每个文件列表时、生成校验码之前进行的，先将目标上存在但源上不存在的多余文件删除，这样就无需为多余的文件生成校验码。&lt;/p&gt;
+
+&lt;p&gt;所以，delete动作是比&amp;rdquo;&amp;ndash;exclude&amp;rdquo;规则更晚执行的，被&amp;rdquo;&amp;ndash;exlcude&amp;rdquo;规则排除的文件不会进入文件列表中，在执行了delete时会认为该文件不存在于源端，从而导致目标端将这些文件删除。但这是想当然的，尽管理论上确实是这样的，但是rsync为了防止众多误删除情况，提供了两种规则：保护规则(protect)和取消保护规则(risk)。默认情况下，&amp;rdquo;&amp;ndash;delete&amp;rdquo;和&amp;rdquo;&amp;ndash;exclude&amp;rdquo;一起使用时，虽然发送端的exclude规则将文件标记为隐藏，使得接收端认为这些被排除文件在源端不存在，但rsync会将这些隐藏文件标记为保护文件，使得它们不受delete行为的影响，这样delete就删除不了这些被排除的文件。如果还是想要强行删除被exclude排除的文件，可以使用&amp;rdquo;&amp;ndash;delete-excluded&amp;rdquo;选项强制取消保护，这样即使被排除的文件也会被删除。&lt;/p&gt;
+
+&lt;p&gt;那么现在，是否理解了网上的言论&amp;rdquo;exclude排除的文件不会被删除&amp;rdquo;？&lt;/p&gt;
+
+&lt;p&gt;除了&amp;rdquo;&amp;ndash;delete&amp;rdquo;，相关的选项还有&amp;rdquo;&amp;ndash;delete-before&amp;rdquo;、&amp;rdquo;&amp;ndash;delete-during&amp;rdquo;、&amp;rdquo;&amp;ndash;delete-delay&amp;rdquo;等，它们都隐含了&amp;rdquo;&amp;ndash;delete&amp;rdquo;选项，它们分别表示generator处理各个文件列表之前一次性全部删除待删除文件、处理文件列表时处理到哪个文件列表就删除该文件列表中的待删除文件，以及同步完所有数据后一次性删除所有待删除文件。&lt;/p&gt;
+
+&lt;p&gt;举个例子，假如源端要传输3个目录a、b、c，在目标端a目录中有a1、a2、a3共3个文件需要被删除，b目录中有b1、b2、b3需要删除，同理c目录也一样c1、c2、c3需要被删除。&lt;/p&gt;
+
+&lt;p&gt;如果是&amp;rdquo;&amp;ndash;delete-before&amp;rdquo;，则在目标端rsync刚启动时，就会把a1-a3、b1-b3、c1-c3一次性删除，然后才会处理文件列表中的a目录，处理完a后处理b，再是c。&lt;/p&gt;
+
+&lt;p&gt;如果是&amp;rdquo;&amp;ndash;delete-during&amp;rdquo;，则在目标端rsync刚启动时，先处理文件列表中的a目录，处理a目录时发现此目录中有待删除文件a1-a3，顺手就删除它们，然后完成a目录的相关操作，再处理文件列表中的b目录，发现也有待删除文件b1-b3，顺手删除它们，同理c1-c3也如此。&lt;/p&gt;
+
+&lt;p&gt;如果是&amp;rdquo;&amp;ndash;delete-delay&amp;rdquo;，则同步完文件列表中的a/b/c目录后，最后一次性删除a1-a3、b1-b3、c1-c3。&lt;/p&gt;
+
+&lt;p&gt;其实&amp;rdquo;&amp;ndash;delete&amp;rdquo;选项大多数情况下默认采用的就是&amp;rdquo;&amp;ndash;delete-during&amp;rdquo;。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-5-rsync-daemon模式&#34;&gt;2.5 rsync daemon模式&lt;/h3&gt;
+
+&lt;h4 id=&#34;2-5-1-简单介绍&#34;&gt;2.5.1 简单介绍&lt;/h4&gt;
+
+&lt;p&gt;既然rsync通过远程shell就能实现两端主机上的文件同步，还要使用rsync的服务干啥？试想下，你有的机器上有一堆文件需要时不时地同步到众多机器上去，比如目录a、b、c是专门传输到web服务器上的，d/e、f、g/h是专门传输到ftp服务器上的，还要对这些目录中的某些文件进行排除，如果通过远程shell连接方式，无论是使用排除规则还是包含规则，甚至一条一条rsync命令地传输，这都没问题，但太过繁琐且每次都要输入同样的命令显得太死板。使用rsync daemon就可以解决这种死板问题。而且，rsync daemon是向外提供服务的，这样只要告诉了别人rsync的url路径，外人就能向ftp服务器一样获取文件列表并进行选择性地下载，所以，你所制定的列表，你的同事也可以获取到并使用。&lt;/p&gt;
+
+&lt;p&gt;举个简单的例子，Linux内核官网www.kernel.org提供rsync的下载方式，官方给出的地址是rsync://rsync.kernel.org/pub，可以根据这个地址找出你想下载的内核版本。例如要找出linux-3.0.15版本的内核相关文件。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync --no-motd -r -v -f &amp;quot;+ */&amp;quot; -f &amp;quot;+ linux-3.0.15*&amp;quot; -f &amp;quot;- *&amp;quot; -m rsync://rsync.kernel.org/pub/
+receiving file list ... done
+drwxr-xr-x         124 2017/07/14 20:27:22 .
+drwxr-xr-x         178 2014/11/12 05:50:10 linux
+drwxr-xr-x        4096 2017/06/27 05:46:27 linux/kernel
+drwxr-xr-x      237568 2017/07/05 20:49:33 linux/kernel/v3.x
+-rw-r--r--    76803806 2012/01/04 03:00:31 linux/kernel/v3.x/linux-3.0.15.tar.bz2
+-rw-r--r--    96726195 2012/01/04 03:00:31 linux/kernel/v3.x/linux-3.0.15.tar.gz
+-rw-r--r--         836 2012/01/04 03:00:31 linux/kernel/v3.x/linux-3.0.15.tar.sign
+-rw-r--r--    63812604 2012/01/04 03:00:31 linux/kernel/v3.x/linux-3.0.15.tar.xz
+
+sent 59 bytes  received 80.19K bytes  12.35K bytes/sec
+total size is 237.34M  speedup is 2957.66
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你无需关注上面的规则代表什么意思，需要关注的重点是通过rsync可以向外提供文件列表并提供相应的下载。&lt;/p&gt;
+
+&lt;p&gt;同样，你还可以根据路径，将rsync daemon上的文件拉取到本地实现下载的功能。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync --no-motd -avzP rsync://rsync.kernel.org/pub/linux/kernel/v3.x/linux-3.0.15.tar.bz2 /tmp
+receiving incremental file list
+linux-3.0.15.tar.bz2
+     2834426   3%   300.51kB/s    0:40:22
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面就来介绍下rsync daemon。&lt;/p&gt;
+
+&lt;p&gt;rsync daemon是&amp;rdquo;rsync &amp;ndash;daemon&amp;rdquo;或再加上其他一些选项启动的，它会读取配置文件，默认是/etc/rsyncd.conf，并默认监听在873端口上，当外界有客户端对此端口发起连接请求，通过这个网络套接字就可以完成连接，以后与该客户端通信的所有数据都通过该网络套接字传输。&lt;/p&gt;
+
+&lt;p&gt;rsync daemon的通信方式和传输通道与远程shell不同。远程shell连接的两端是通过管道完成通信和数据传输的，即使连接的一端是远程主机，当连接到目标端时，将在目标端上根据远程shell进程fork出rsync进程使其成为rsync server。而rsync daemon是事先在server端上运行好的rsync后台进程(根据启动选项，也可以设置为非后台进程)，它监听套接字等待client端的连接，连接建立后所有通信方式都是通过套接字完成的。&lt;/p&gt;
+
+&lt;p&gt;注意，rsync中的server的概念从来就不代表是rsync daemon，server在rsync中只是一种通用称呼，只要不是发起rsync请求的client端，就是server端，你可以认为rsync daemon是一种特殊的server，其实daemon更应该称之为service。(之所以解释这一点，是避免各位初学的朋友在阅读man rsync过程中产生误解)&lt;/p&gt;
+
+&lt;p&gt;以下是rsync client连接rsync daemon时的命令语法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Pull: rsync [OPTION...] [USER@]HOST::SRC... [DEST]
+      rsync [OPTION...] rsync://[USER@]HOST[:PORT]/SRC... [DEST]
+Push: rsync [OPTION...] SRC... [USER@]HOST::DEST
+      rsync [OPTION...] SRC... rsync://[USER@]HOST[:PORT]/DEST
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;连接命令有两种类型，一种是rsync风格使用双冒号的&amp;rdquo;rsync user@host::src dest&amp;rdquo;，一种是url风格的&amp;rdquo;rsync://user@host:port/src dest&amp;rdquo;。对于rsync风格的连接命令，如果想要指定端口号，则需要使用选项&amp;rdquo;&amp;ndash;port&amp;rdquo;。&lt;/p&gt;
+
+&lt;p&gt;上述语法中，其中daemon端的路径，如user@host::src，它的src代表的是模块名，而不是真的文件系统中的路径。关于rsync中的模块，相信见了下面的配置文件就会知道是什么意思。&lt;/p&gt;
+
+&lt;h4 id=&#34;2-5-2-daemon配置文件rsyncd-conf&#34;&gt;2.5.2 daemon配置文件rsyncd.conf&lt;/h4&gt;
+
+&lt;p&gt;默认&amp;rdquo;rsync &amp;ndash;daemon&amp;rdquo;读取的配置文件为/etc/rsyncd.conf，有些版本的系统上可能该文件默认不存在。rsyncd.conf的配置见man rsyncd.conf。以下是部分内容：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# cat /etc/rsyncd.conf
+# /etc/rsyncd: configuration file for rsync daemon mode
+
+# See rsyncd.conf man page for more options.
+
+# configuration example:
+
+# uid = nobody
+# gid = nobody
+# use chroot = yes
+# max connections = 4
+# pid file = /var/run/rsyncd.pid
+# exclude = lost+found/
+# transfer logging = yes
+# timeout = 900
+# ignore nonreadable = yes
+# dont compress   = *.gz *.tgz *.zip *.z *.Z *.rpm *.deb *.bz2
+
+# [ftp1]
+#        path = /home/ftp
+#        comment = ftp export area
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在上述示例配置文件中，先定义了一些全局选项，然后定义了[ftp1]，这个用中括号包围的&amp;rdquo;[ftp1]&amp;ldquo;就是rsync中所谓的模块，ftp1为模块ID，必须保证唯一，每个模块中必须定义一项&amp;rdquo;path&amp;rdquo;，path定义的是该模块代表的路径，例如此示例文件中，如果想请求ftp1模块，则在客户端使用&amp;rdquo;rsync user@host::ftp1&amp;rdquo;，这表示访问user@host上的/home/ftp目录，如果要访问/home/ftp目录下的子目录www，则&amp;rdquo;rsync user@host::ftp1/www&amp;rdquo;。&lt;/p&gt;
+
+&lt;p&gt;以下是常见的配置项，也算是一个配置示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;######### 全局配置参数 ##########
+port=888    # 指定rsync端口。默认873
+uid = rsync # rsync服务的运行用户，默认是nobody，文件传输成功后属主将是这个uid
+gid = rsync # rsync服务的运行组，默认是nobody，文件传输成功后属组将是这个gid
+use chroot = no # rsync daemon在传输前是否切换到指定的path目录下，并将其监禁在内
+max connections = 200 # 指定最大连接数量，0表示没有限制
+timeout = 300         # 确保rsync服务器不会永远等待一个崩溃的客户端，0表示永远等待
+motd file = /var/rsyncd/rsync.motd   # 客户端连接过来显示的消息
+pid file = /var/run/rsyncd.pid       # 指定rsync daemon的pid文件
+lock file = /var/run/rsync.lock      # 指定锁文件
+log file = /var/log/rsyncd.log       # 指定rsync的日志文件，而不把日志发送给syslog
+dont compress = *.gz *.tgz *.zip *.z *.Z *.rpm *.deb *.bz2  # 指定哪些文件不用进行压缩传输
+
+###########下面指定模块，并设定模块配置参数，可以创建多个模块###########
+[longshuai]        # 模块ID
+path = /longshuai/ # 指定该模块的路径，该参数必须指定。启动rsync服务前该目录必须存在。rsync请求访问模块本质就是访问该路径。
+ignore errors      # 忽略某些IO错误信息
+read only = false  # 指定该模块是否可读写，即能否上传文件，false表示可读写，true表示可读不可写。所有模块默认不可上传
+write only = false # 指定该模式是否支持下载，设置为true表示客户端不能下载。所有模块默认可下载
+list = false       # 客户端请求显示模块列表时，该模块是否显示出来，设置为false则该模块为隐藏模块。默认true
+hosts allow = 10.0.0.0/24 # 指定允许连接到该模块的机器，多个ip用空格隔开或者设置区间
+hosts deny = 0.0.0.0/32   # 指定不允许连接到该模块的机器
+auth users = rsync_backup # 指定连接到该模块的用户列表，只有列表里的用户才能连接到模块，用户名和对应密码保存在secrts file中，
+                          # 这里使用的不是系统用户，而是虚拟用户。不设置时，默认所有用户都能连接，但使用的是匿名连接
+secrets file = /etc/rsyncd.passwd # 保存auth users用户列表的用户名和密码，每行包含一个username:passwd。由于&amp;quot;strict modes&amp;quot;
+                                  # 默认为true，所以此文件要求非rsync daemon用户不可读写。只有启用了auth users该选项才有效。
+[xiaofang]    # 以下定义的是第二个模块
+path=/xiaofang/
+read only = false
+ignore errors
+comment = anyone can access
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意：&lt;/p&gt;
+
+&lt;p&gt;(1).客户端推到服务端时，文件的属主和属组是配置文件中指定的uid和gid。但是客户端从服务端拉的时候，文件的属主和属组是客户端正在操作rsync的用户身份，因为执行rsync程序的用户为当前用户。&lt;/p&gt;
+
+&lt;p&gt;(2).auth users和secrets file这两行不是一定需要的，省略它们时将默认使用匿名连接。但是如果使用了它们，则secrets file的权限必须是600。客户端的密码文件也必须是600。&lt;/p&gt;
+
+&lt;p&gt;(3).关于secrets file的权限，实际上并非一定是600，只要满足除了运行rsync daemon的用户可读即可。是否检查权限的设定是通过选项strict mode设置的，如果设置为false，则无需关注文件的权限。但默认是yes，即需要设置权限。&lt;/p&gt;
+
+&lt;p&gt;配置完后，再就是提供模块相关目录、身份验证文件等。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# useradd -r -s /sbin/nologin rsync
+
+[root@xuexi ~]# mkdir /{longshuai,xiaofang}
+
+[root@xuexi ~]# chown -R rsync.rsync /{longshuai,xiaofang}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;提供模块longshuai身份验证文件，由于rsync daemon是以root身份运行的，所以要求身份验证文件对非root用户不可读写，所以设置为600权限。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# echo &amp;quot;rsync_backup:123456&amp;quot; &amp;gt;&amp;gt; /etc/rsyncd.passwd
+
+[root@xuexi ~]# chmod 600 /etc/rsyncd.passwd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后启动rsync daemon，启动方式很简单。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync --daemon
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果是CentOS 7，则自带启动脚本。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# systemctl start rsyncd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;看看该脚本的内容。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# cat /usr/lib/systemd/system/rsyncd.service
+[Unit]
+Description=fast remote file copy program daemon
+ConditionPathExists=/etc/rsyncd.conf
+
+[Service]
+EnvironmentFile=/etc/sysconfig/rsyncd
+ExecStart=/usr/bin/rsync --daemon --no-detach &amp;quot;$OPTIONS&amp;quot;
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到启动方法也仅仅只是多了一个&amp;rdquo;&amp;ndash;no-detach&amp;rdquo;，该选项表示rsync不将自己从终端上剥离。&lt;/p&gt;
+
+&lt;p&gt;总之，启动好rysnc daemon后，它就监听在指定的端口上，等待客户端的连接。&lt;/p&gt;
+
+&lt;p&gt;由于上述示例中的模块longshuai配置了身份验证功能，所以客户端连接时会询问密码。如果不想手动输入密码，则可以使用&amp;rdquo;&amp;ndash;password-file&amp;rdquo;选项提供密码文件，密码文件中只有第一行才是传递的密码，其余所有的行都会被自动忽略。&lt;/p&gt;
+
+&lt;p&gt;例如在客户端上：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# echo &amp;quot;123456&amp;quot; &amp;gt; /tmp/rsync_passwd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后使用该&amp;rdquo;&amp;ndash;password-file&amp;rdquo;连接需要身份验证的longshuai模块。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# echo &amp;quot;123456&amp;quot; &amp;gt; /tmp/rsync_passwd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果需要访问模块中的某个文件，则：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync --list-only --port 888 rsync_backup@172.16.l0.6::longshuai/a/b --password-file=/tmp/rsync_passwd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;还可以使用url格式语法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync --list-only rsync://rsync_backup@172.16.l0.6:888/longshuai/a/b --password-file=/tmp/rsync_passwd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-6-远程shell方式连接使用daemon&#34;&gt;2.6 远程shell方式连接使用daemon&lt;/h3&gt;
+
+&lt;p&gt;在前文说了rsync有三种工作方式：本地同步模式、远程shell模式和rsync daemon模式。前两者是使用管道进行通信和传输数据的，后者是通过网络套接字进行通信和传输数据的，且rsync daemon要求在server端必须已经运行好rsync且监听在指定端口上。&lt;/p&gt;
+
+&lt;p&gt;但rsync支持第4种工作方式：通过远程shell方式连接rsync daemon。也就是将第二种和第三种方式结合起来。虽然这种方式用的不多，但还是有必要稍微解释下，为你阅读rsync的man文档提供一些帮助。&lt;/p&gt;
+
+&lt;p&gt;为了下面称呼的方便，暂且将通过远程shell连接使用daemon的方式成为&amp;rdquo;远程shell daemon&amp;rdquo;，当然，官方并没有这样的术语，仅仅只是本人在此为了方便而如此称呼。&lt;/p&gt;
+
+&lt;p&gt;远程shell daemon的方式严格地说是&amp;rdquo;远程shell通信方式+使用rsync daemon的功能&amp;rdquo;。所以它的通信方式和远程shell是一样的，在客户端发起远程shell连接，在server端fork远程shell进程以启动rsync进程，但这个rsync进程是临时的rsync daemon，它只读取配置文件中client所请求的模块部分，且只读取模块部分中的path和身份认证相关内容，(也就是说不会将全局配置项和其它模块项加载到内存，该模块下的其他配置也不会生效)，当rsync操作完成，该rsync daemon就消逝并从内存中被清理。而且，远程shell daemon启动的临时daemon不会和已经在server端运行的rsync daemon冲突，它们可以并存。由于远程shell连接的最终目标是rsync模块，所以它只能使用rsync daemon语法。&lt;/p&gt;
+
+&lt;p&gt;以下是语法格式：为了简洁，没有指定src还是dest，且以ssh这个远程shell为例。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;rsync [options] --rsh=ssh auth_user@host::module
+
+rsync [options] --rsh=&amp;quot;ssh -l ssh_user&amp;quot; auth_user@host::module
+
+rsync [options] -e &amp;quot;ssh -l ssh_user&amp;quot; auth_user@host::module
+
+rsync [options] -e &amp;quot;ssh -l ssh_user&amp;quot; rsync://auth_user@host/module
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;涉及了两个用户ssh_user和auth_user，由于使用的是远程shell通信方式，所以client要和server端建立ssh连接，ssh_user就是ssh连接server的用户。auth_user则是模块中的身份认证用户。如果不指定&amp;rdquo;ssh_user&amp;rdquo;，则默认将使用auth_user，但很多时候auth_user都只是一个虚拟用户，这样就建立不了ssh连接导致失败，所以建议明确指定ssh_user和auth_user。&lt;/p&gt;
+
+&lt;p&gt;举个例子就能说明上面的一切。以下是server端配置文件/etc/rsyncd.conf中的一个模块配置，稍后将从client端使用远程shell方式请求该模块。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[tmpdir]
+path=/tmp
+auth users=lisi
+secrets file=/tmp/lisi_passwd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当前server端是没有rsync daemon在运行的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# netstat -tnl
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State     
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN    
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN    
+tcp6       0      0 :::22                   :::*                    LISTEN    
+tcp6       0      0 ::1:25                  :::*                    LISTEN
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在客户端上使用以下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[root@xuexi ~]# rsync --list-only -e &amp;quot;ssh -l root&amp;quot; lisi@172.16.10.6::tmpdir
+root@172.16.10.6&#39;s password:
+
+Password:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到要求输入两次密码，第一次密码是root@XXX的密码，即建立ssh连接使用的密码，只有建立了ssh连接，才能在server上启动临时rsync daemon。第二次输入的密码Password是&amp;rdquo;auth users=lisi&amp;rdquo;对应的密码。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: 本文转载于 &lt;a href=&#34;https://www.cnblogs.com/f-ck-need-u/p/7220009.html&#34; title=&#34;rsync基本命令和用法&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>rsync: 中文手册</title>
@@ -17,10 +683,10 @@
       <guid>http://alimy.me/post/dev_201803241012/</guid>
       <description>&lt;p&gt;rsync(1)&lt;/p&gt;
 
-&lt;p&gt;名称
+&lt;p&gt;名称&lt;br /&gt;
        rsync - 一个快速、多功能的远程(和本地)文件拷贝工具&lt;/p&gt;
 
-&lt;p&gt;摘要
+&lt;p&gt;摘要&lt;br /&gt;
        Local:  rsync [OPTION&amp;hellip;] SRC&amp;hellip; [DEST]&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;   Access via remote shell:
@@ -35,24 +701,20 @@
 
 
    当仅有一个SRC或DEST参数时将列出源文件列表而不是复制文件。
+   
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;描述
+&lt;p&gt;描述&lt;br /&gt;
        Rsync是一个快速且功能非常丰富的文件拷贝工具。它可以在本地和远程之间通过shell或rsync服务互相拷贝文件。
        它提供了大量的选项来控制它各方面功能的行为，且在指定待拷贝文件方面非常有弹性。它以其增量拷贝算法而出
        名，只拷贝源和目标不同的文件部分，因此减少网络间要传输的数据。Rsync每天都被广泛用于做备份、镜像和当
-       作升级版拷贝命令。&lt;/p&gt;
+       作升级版拷贝命令。&lt;br /&gt;
+       Rsync使用&amp;rdquo;quick check&amp;rdquo;算法(默认)决定文件是否需要被传输，它会找出大小或最后修改时间(mtime)不同的文件。
+       当&amp;rdquo;quick check&amp;rdquo;算法表明了文件不需要被更新时，任何其他保留属性(译者注:除大小和最后修改时间外的属性)都
+       将直接在目标文件上修改。&lt;br /&gt;
+       rsync的其他特性包括：&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;   Rsync使用&amp;quot;quick check&amp;quot;算法(默认)决定文件是否需要被传输，它会找出大小或最后修改时间(mtime)不同的文件。
-   当&amp;quot;quick check&amp;quot;算法表明了文件不需要被更新时，任何其他保留属性(译者注:除大小和最后修改时间外的属性)都
-   将直接在目标文件上修改。
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;   rsync的其他特性包括：
-
-   o      支持拷贝链接文件、设备文件、所有权(即所有者和所属组)、属组以及权限
+&lt;pre&gt;&lt;code&gt;   o      支持拷贝链接文件、设备文件、所有权(即所有者和所属组)、属组以及权限
 
    o      支持类似于GNU tar命令的exclude和exclude-from选项
 
@@ -4078,159 +4740,6 @@ complex128                           16
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: The Go Programming Language Specification is &lt;a href=&#34;https://golang.org/ref/spec&#34; title=&#34;The Go Programming Language Specification&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Makefile:简介</title>
-      <link>http://alimy.me/post/dev_201603242255/</link>
-      <pubDate>Thu, 24 Mar 2016 22:55:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603242255/</guid>
-      <description>&lt;p&gt;Make 可以简化编译过程，如果有一个近百个源文件的项目，如果有个文件更改后工程需要重新编译，那么一直用gcc -c a.c这些个命令敲来敲去会屎人的。运行make时候，他会寻找指定目录下（默认是 .）的 Makefile 文件并且分析依赖关系进行必要的编译。&lt;/p&gt;
-
-&lt;h3 id=&#34;makefile文件的基本格式很简单&#34;&gt;Makefile文件的基本格式很简单：&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;目标文件： 依赖文件1 依赖文件2 依赖文件3 。。。。
-[tab]编译命令
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;他的意思是目标文件是依赖于冒号后面几个文件的，如果这些依赖文件有更新的，那么其目标文件也需要更新。&lt;/p&gt;
-
-&lt;p&gt;Makefile 中可能有很多以上条目，他们共同组成了一个有向无回路图（DAG图），这样可以传递依赖。make 命令会把 Makefile 文件的第一个目标文件作为默认目标，当执行 make 命令时，make 会考察这个目标文件的依赖关系，进行编译。也可以指定，比如这个 Makefile：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;main: a.o b.o
-[tab]gcc -o main a.o b.o
-a.o : a.c c.h
-[tab]gcc -c a.c -o a.o
-b.o: b.c c.h
-[tab]gcc -c b.c -o b.o
-// [tab]的意思是这里用tab字符代替，不能有其他的什么字符
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;在命令行里执行make，分析关系并生成main，如果是make a.o那么他只会编译到 a.o 。
-
-当然我们还可以设定伪目标，比如：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;clean：
-[tab]rm a.o b.o
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;这样执行make clean的时候就把.o文件清除了,这里不会生成什么文件,只进行一些操作,更清楚的做法是在前面加上以下语句:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;.PHONY : clean install dest [其他伪目标]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;下面来说下变量，Makefile 里的变量按惯例是大写，包括数字字母下划线。当我们需要一个变量的值的时候，通常用 ${NAME} 或者 $(NAME)。他有好几种变量定义的方法。&lt;/p&gt;
-
-&lt;p&gt;首先是常规法，就是&lt;code&gt;A=content&lt;/code&gt;，等号两边可以有空格，和shell不一样。&lt;/p&gt;
-
-&lt;p&gt;其次是递归法，比如&lt;code&gt;A=$(B)，B=$(C)，C=haha&lt;/code&gt;，那么当寻找A的定义的时候就会去找B，然后再找C，变量展开的时候就是当他被引用的时候，这种方法效率比较低，因为如果他引用了函数，那么每次展开都要调用函数，而且可能会出现无限递归&lt;code&gt;（A=$(B),B=$(A)）&lt;/code&gt;。&lt;/p&gt;
-
-&lt;p&gt;然后是直接展开法。这个很容易理解，就像是c语言是按照顺序执行的，当变量定义的时候这个变量就已经展开了（如果他引用了变量A，引用的是他定义时候A的值），当被引用的时候就直接用他代表的字符串替代。但是他用的不是等号 是 := ,比如 &lt;code&gt;A:=hello，A:=$(B)&lt;/code&gt;。&lt;/p&gt;
-
-&lt;p&gt;还有嵌套定义： &lt;code&gt;A=B,B=haha,V=$($(A))&lt;/code&gt;类似于这种的V的值是haha&lt;/p&gt;
-
-&lt;p&gt;最后是替换引用定义，他会替换后缀，有个例子很好 &lt;code&gt;foo := a.o b.o c.o ,bar := $(foo:.o=.c)&lt;/code&gt;,我们可以知道bar的值就是&lt;code&gt;a.c b.c c.c&lt;/code&gt;。&lt;/p&gt;
-
-&lt;h3 id=&#34;变量还有分类&#34;&gt;变量还有分类：&lt;/h3&gt;
-
-&lt;p&gt;1.预定义变量，当使用隐式规则的时候他会派上用场，常用的有以下几个：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;CC   c编译器的名称（默认gcc？）
-CPP    c预编译器名称（默认$(CC) -E）
-CXX c++编译器的名称(默认g++)
-CFLAGS c编译器选项,无默认值
-CXXFLAGS c++编译器选项,无默认值
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;2.自动变量,常用有以下:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$@:表示当前规则中的完整目标文件名
-$*:不包含扩展名的目标文件名
-$&amp;lt;:当前规则中第一个依赖文件名
-$^:当前规则所有文件列表
-$%:当目标为库文件时,表示库文件名
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;3.环境变量,Makefile对环境变量是可见的,可以引用.&lt;/p&gt;
-
-&lt;p&gt;Makefile还有个常用的东东就是隐式规则,make会自己推导.比如说&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;c：a.o b.o
-[tab]gcc -o c a.o b.o
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;这时我们可以省略下面的命令，直接用第一行就行。make自动分析生成a，此时预定义变量就有用了，CC，CFLAGS等也派上了用场。&lt;/p&gt;
-
-&lt;p&gt;由于把握不了隐式规则的底线和能力，我还是觉得隐式规则应用的不要太多太复杂影响阅读为好。。&lt;/p&gt;
-
-&lt;h3 id=&#34;make的工作过程大概是以下几步&#34;&gt;make的工作过程大概是以下几步&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;读取Makefile，根据make的选项查找Makefile
-初始化Makefile，将Makefile中的变量进行替换，如果Makefile中包含其他文件，则加载他&lt;/li&gt;
-&lt;li&gt;解释规则，对其中的执行规则进行解析，推导隐藏规则，为目标建立关系链&lt;/li&gt;
-&lt;li&gt;分析变更，根据依赖关系和时间戳，判断有木有变化。&lt;/li&gt;
-&lt;li&gt;执行。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;编译的基本流程&#34;&gt;编译的基本流程&lt;/h3&gt;
-
-&lt;p&gt;基本过程是以下四步：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;c(.c) 和 c++(.cc, .cpp, .cxx) 的源文件&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;pre&gt;&lt;code&gt;gcc -E a.c -o a.i   // 如果不加-o参数，gcc会把处理过的源文件放到标准输出中
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;2.预处理后的源文件。c源文件预处理后后缀为 .i , c++为 .ii 。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;gcc -S a.i  //会在当前文件夹下生成a.s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;3.编译后生成的汇编源代码。后缀为 .s , .S 。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;gcc -c a.s
-//只进行汇编生成目标文件,.o结尾的目标文件可以用
-//(ar crv libabc.a a.o b.o c.o )打包成形如lib×××.a的静态库
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;4.目标文件与库文件进行链接，生成可执行文件。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;gcc a.o //在当前文件夹下生成a.out
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;其中任何一种状态，用 gcc 如果不加 -c ， -E ， -S 选项都会直接生成可执行文件，如果加上了选项，可以由之前任一状态生成所需要的文件（如 gcc -S a.c 可以直接生成 a.s，gcc -c a.i 可以直接生成 a.o ）。如果是c++直接换用g++命令就行。&lt;/p&gt;
-
-&lt;p&gt;另外 &lt;code&gt;gcc -v&lt;/code&gt;可以输出编译过程的配置和版本信息。&lt;/p&gt;
-
-&lt;h3 id=&#34;gcc-警告提示&#34;&gt;gcc 警告提示&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;-fsyntax-only   检查程序中的语法错误，不产生输出信息
--w 禁止所有警告信息
--Wunused 声明了木有用
--Wmain main函数定义不常规
--Wall 提供所有警告
--pedantic-errors 允许ansi c标准列出的全部信息
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;其他常用选项&#34;&gt;其他常用选项&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;-g 加入调试信息，gdb调试的时候要用。&lt;/li&gt;
-&lt;li&gt;-On 优化选项。这里的n可以用0-3来替代。数字越大优化效果越好，-O0表示不进行优化。优化可能针对硬件进行优化，也可能针对代码优化（删除公共表达式，循环优化，删除无用信息）。优化可能大大增加编译时间和内存，他通常会将循环或函数展开，使他们以内联的方式进行，不是通过函数调用，这样可以显著提高性能，不过调试最好不要用优化选项。&lt;/li&gt;
-&lt;li&gt;-l 指定要用到的库，注意这里之后要加的是库的名字，如果是多线程，可能要用到pthread库，那么此时就要加上 -lpthread ，这样gcc就会到库目录中找名为libpthread.so（lib×××.so）的文件，如果是静态库的话是libpthread.a( lib×××.a)（貌似gcc先找动态库，再找静态库？）。&lt;/li&gt;
-&lt;li&gt;-L 指定所需要的库所在的文件夹。系统先寻找标准位置，再寻找指定位置（标准库一般在/lib或/usr/lib）。&lt;/li&gt;
-&lt;li&gt;-I 指定头文件的寻找路径。先找标准的，后找指定的（标准的一般在/usr/include）。&lt;/li&gt;
-&lt;li&gt;-static 只用静态库,再拿上面那个例子，如果加上-static，系统就会只寻找libpthread.a文件。&lt;/li&gt;
-&lt;li&gt;-shared 生成动态库（共享库）文件，形如 libxxx.so （gcc -shared dang.o -o libdang.so）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(注意: 原文的链接在 &lt;a href=&#34;http://wdxtub.com/2016/03/20/make-gcc-guide/&#34; title=&#34;GCC Makefile&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>

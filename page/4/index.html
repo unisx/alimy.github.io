@@ -239,6 +239,31 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603132045/" title="阅读全文">Intro to TOML </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="overview-of-date-and-calendar-classes">Overview of Date and Calendar classes</h3>
+
+<p>TOML stands for Tom’s Own Minimal Language. It is a configuration language vaguely similar to YAML or property lists, but far, far better. But before we get into it in detail, let’s look back at what came before.</p>
+
+<h3 id="long-ago-in-a-galaxy-far-far-away">Long Ago, In A Galaxy Far, Far Away</h3>
+
+<p>Since the beginning of computing, people have needed a way to configure their software. On Linux, this generally is done in text files. For simple configurations, good old foo = bar works pretty well. One setting per line, name on the left, value on the right, separated by an equals. Great. But when your configuration gets more complicated, this quickly breaks down. What if you need a value that is more than one line? How do you indicate a value should be parsed as a number instead of a string? How do you namespace related configuration values so you don’t need ridiculously long names to prevent collisions?</p>
+
+<h3 id="the-dark-ages">The Dark Ages</h3>
+
+<p>In the 90’s, we used XML. And it sucked. XML is verbose, it’s hard for humans to read and write, and it still doesn’t solve a lot of the problems above (like how to specify the type of a value). In addition, the XML spec is huge, processing is very complicated, and all the extra features invite abuse and overcomplication.
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603132045/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603132030/" title="阅读全文">Java: Date And Calendar </a> </h2>
 
 </header>
@@ -468,62 +493,6 @@ public class DatasetTypeAdapterExample8 {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122028/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122025/" title="阅读全文">Gson: Serializing and deserializing Java Generic Classes </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-list">Serializing list</h3>
-
-<p>As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.</p>
-
-<pre><code>package com.studytrails.json.gson;
-
-import java.lang.reflect.Type;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-public class GenericTypesExample8 {
-	public static void main(String[] args) {
-		// create an animal class that is of type dog.
-		Animal animal = new Animal&lt;Dog&gt;();
-		// Create a Dog instance
-		Dog dog = new Dog(&quot;I am a dog&quot;);
-
-		animal.setAnimal(dog);
-		Gson gson = new Gson();
-		// Define a Type that is an Animal of type dog.
-		Type animalType = new TypeToken&lt;Animal&lt;Dog&gt;&gt;() {
-		}.getType();
-
-		// we first convert the animal object to a json and then read the json
-		// back. However we define the json to be of Animal type
-		Animal animal1 = gson.fromJson(gson.toJson(animal, animalType), Animal.class);
-		System.out.println(animal1.get().getClass()); // prints class
-
-    // com.google.gson.internal.LinkedTreeMap
-		// In contrast to above where we read the json back using the Animal
-		// type, here we read the json back as the custom animalType Type. This
-		// gives Gson an idea of what
-		// the generic type should be.
-		Animal animal2 = gson.fromJson(gson.toJson(animal), animalType);
-		System.out.println(animal2.get().getClass());
-		// prints class com.studytrails.json.gson.Dog
-
-	}
-}
-</code></pre>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122025/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

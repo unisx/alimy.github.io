@@ -239,6 +239,62 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603122025/" title="阅读全文">Gson: Serializing and deserializing Java Generic Classes </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="serializing-list">Serializing list</h3>
+
+<p>As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.</p>
+
+<pre><code>package com.studytrails.json.gson;
+
+import java.lang.reflect.Type;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+public class GenericTypesExample8 {
+	public static void main(String[] args) {
+		// create an animal class that is of type dog.
+		Animal animal = new Animal&lt;Dog&gt;();
+		// Create a Dog instance
+		Dog dog = new Dog(&quot;I am a dog&quot;);
+
+		animal.setAnimal(dog);
+		Gson gson = new Gson();
+		// Define a Type that is an Animal of type dog.
+		Type animalType = new TypeToken&lt;Animal&lt;Dog&gt;&gt;() {
+		}.getType();
+
+		// we first convert the animal object to a json and then read the json
+		// back. However we define the json to be of Animal type
+		Animal animal1 = gson.fromJson(gson.toJson(animal, animalType), Animal.class);
+		System.out.println(animal1.get().getClass()); // prints class
+
+    // com.google.gson.internal.LinkedTreeMap
+		// In contrast to above where we read the json back using the Animal
+		// type, here we read the json back as the custom animalType Type. This
+		// gives Gson an idea of what
+		// the generic type should be.
+		Animal animal2 = gson.fromJson(gson.toJson(animal), animalType);
+		System.out.println(animal2.get().getClass());
+		// prints class com.studytrails.json.gson.Dog
+
+	}
+}
+</code></pre>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122025/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122022/" title="阅读全文">Gson: Serializing Collections </a> </h2>
 
 </header>
@@ -515,27 +571,6 @@ public class AlbumsFilter {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112055/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112050/" title="阅读全文">Jackson: Json annotations and dyna beans </a> </h2>
-
-</header>
-<div class="summary">
-    <p>The json string at times have a lot of properties. It seems a waste creating a POJO with all those properties. Wouldnt it be great if there was a catch&rsquo;all that could read all properties in a map? Jackson provides annotations to do just that. In the example below we have set two properties in the bean and the other properties are read into a map. These example also introduces some common annotations using in Jackson. Lets look at them briefly:</p>
-
-<ol>
-<li>@JsonProperty-This annotation is used to mark a method as a getter or setter for a property. In other words, it associates a json field with a java property. If a name is specified (@JsonProperty(&ldquo;age&rdquo;)) then the java property that is annotated with this annotation is mapped to the &lsquo;age&rsquo; field of the json, If no name is specified the java property name is used.</li>
-<li>@JsonCreator-This annotation is used the define constructors that are used to create java objects from json string. It is used during data binding and specifies properties that will be used to create java objects during deserialization.</li>
-
-<li><p>@JsonAnyGetter and @JsonAnySetter - This annotations are used to mark methods that set or read fields that are not handled by any other java property. These act like catch-all and handle all fields that are not handled by any other java property. The fields are stored in a map as key value pairs.
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112050/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
