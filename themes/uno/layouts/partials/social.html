@@ -1,4 +1,5 @@
 <nav class="cover-navigation navigation--social">
+</br>
     <ul class="navigation"> {{ if .Site.Params.twitter }}
         <!-- Twitter -->
         <li class="navigation__item">
@@ -11,6 +12,10 @@
         <!-- github -->
         <li class="navigation__item">
             <a href="https://github.com/{{ .Site.Params.github }}" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li> {{ end }} {{ if .Site.Params.gitbus }}
+        <!-- gitbus -->
+        <li class="navigation__item">
+            <a href="http://gitbus.com/{{ .Site.Params.gitbus }}" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
         </li> {{ end }} </br> {{ if .Site.Params.flickr }}
         <!-- Flickr -->
         <li class="navigation__item">
