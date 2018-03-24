@@ -243,7 +243,7 @@
 
 </header>
 <div class="summary">
-    <h3 id="2-1-说在前面的话">2.1 说在前面的话</h3>
+    <h3 id="1-说在前面的话">1 说在前面的话</h3>
 
 <p>rsync官方网站: <a href="https://www.samba.org/ftp/rsync/rsync.html," title="rsync官方网站">https://www.samba.org/ftp/rsync/rsync.html</a></p>
 
@@ -271,6 +271,23 @@
 
 <p>名称<br />
        rsync - 一个快速、多功能的远程(和本地)文件拷贝工具</p>
+
+<p>摘要<br />
+       Local:  rsync [OPTION&hellip;] SRC&hellip; [DEST]</p>
+
+<pre><code>   Access via remote shell:
+     Pull: rsync [OPTION...] [USER@]HOST:SRC... [DEST]
+     Push: rsync [OPTION...] SRC... [USER@]HOST:DEST
+
+   Access via rsync daemon:
+     Pull: rsync [OPTION...] [USER@]HOST::SRC... [DEST]
+           rsync [OPTION...] rsync://[USER@]HOST[:PORT]/SRC... [DEST]
+     Push: rsync [OPTION...] SRC... [USER@]HOST::DEST
+           rsync [OPTION...] SRC... rsync://[USER@]HOST[:PORT]/DEST
+
+
+   当仅有一个SRC或DEST参数时将列出源文件列表而不是复制文件。
+</code></pre>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201803241012/' title="继续阅读"><nobr>Read More →</nobr></a>
