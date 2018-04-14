@@ -7,7 +7,7 @@ paginate = 9
 theme = "uno"
 
 [params]
-    name = "alimy"
+    name = "Alimy"
     logo = "/images/logo.jpg"
     description = "糊涂小栈"
     github = "alimy"
