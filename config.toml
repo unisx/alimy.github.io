@@ -1,5 +1,5 @@
 baseurl = "http://alimy.me"
-title = "Alimy"
+title = "北野家"
 author = "Michael Li"
 copyright = "&copy;2016, Alimy; all rights reserved."
 canonifyurls = true
@@ -7,9 +7,9 @@ paginate = 9
 theme = "uno"
 
 [params]
-    name = "Alimy"
+    name = "alimy"
     logo = "/images/logo.jpg"
-    description = "Make it easy and stupid."
+    description = "糊涂小栈"
     github = "alimy"
     gitbus = "alimy"
     twitter = "alimy86"
