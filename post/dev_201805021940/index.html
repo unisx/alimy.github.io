@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Categories &middot; 北野家 </title>
+    <title> NewSQL: 分布式数据库TiDB、CockroachDB &middot; 北野家 </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -141,7 +141,7 @@
     </style>
 </head>
 
-<body>
+  <body>
     <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
@@ -149,9 +149,7 @@
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -243,67 +241,58 @@
 </noscript>
 
     <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <section id="main">
-              <div>
-                <h1 id="title">Categories</h1>
-                <style type="text/css">
-                        #double ul{
-                          width:760px;
-                          margin-bottom:20px;
-                          overflow:hidden;
-                        }
-                        #double li{
-                          line-height:1.5em;
-                          float:left;
-                          display:inline;
-                          width:50%;
-                        }
-                </style>
-                <ul id="double">
-                
-                
-                    <li>
-                        <a href="art">art</a> 13
-                    </li>
-                
-                    <li>
-                        <a href="cloud">cloud</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="development">development</a> 63
-                    </li>
-                
-                    <li>
-                        <a href="game">game</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="golang">golang</a> 2
-                    </li>
-                
-                    <li>
-                        <a href="language">language</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="other">other</a> 7
-                    </li>
-                
-                    <li>
-                        <a href="transport">transport</a> 48
-                    </li>
-                
-               </ul>
-              </div>
-            </section>
-            </div>
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>NewSQL: 分布式数据库TiDB、CockroachDB</h2>
+          
+          <h3 id="tidb-https-pingcap-com-pingcap官网"><a href="https://pingcap.com/" title="PingCap官网">TiDB</a></h3>
+
+<p>TiDB 开源分布式 NewSQL 关系型数据库
+TiDB 是新一代开源分布式 NewSQL 数据库，模型受 Google Spanner / F1 论文的启发，实现了自动的水平伸缩，强一致性的分布式事务，基于 Raft 算法的多副本复制等重要 NewSQL 特性。TiDB 结合了 RDBMS 和 NoSQL 的优点，部署简单，在线弹性扩容和异步表结构变更不影响业务， 真正的异地多活及自动故障恢复保障数据安全，同时兼容 <a href="https://mariadb.com/kb/en/library/documentation/" title="MariaDB Documentation">MySQL</a> 协议，使迁移使用成本降到极低。</p>
+
+<h3 id="cockroachdb-https-www-cockroachlabs-com-cockroach-labs-蟑螂db-小强db"><a href="https://www.cockroachlabs.com/" title="Cockroach LABS">CockroachDB</a> (蟑螂DB/小强DB)</h3>
+
+<p>CockroachDB（中文名蟑螂DB，所以又可以称为小强DB），是构建于事务处理及强一致性KV存储上的分布式SQL数据库，支持水平扩展、自动容错处理、强一致性事务，并且提供SQL接口用于数据处理，是Google Spanner/F1的开源实现。
+   CockroachDB适用于应用对数据要求精确、可靠、完全正确的场景，支持自动复制、均匀分布、基于极小配置的数据恢复，可用于分布式的、可复制的联机事务处理（OLTP），多数据中心的部署，私有云的基础构建，它不适用于读少写多的场景，可以用内存数据库来代替，也不适用于复杂的join查询，重量级的数据分析及联机分析处理（OLAP）。</p>
+
+<p></p>
+
+<p>CockroachDB is a distributed SQL database built on a transactional and strongly-consistent key-value store. It scales horizontally; survives disk, machine, rack, and even datacenter failures with minimal latency disruption and no manual intervention; supports strongly-consistent ACID transactions; and provides a familiar SQL API for structuring, manipulating, and querying data.SQL queries reach CockroachDB&rsquo;s cluster through the <a href="https://www.postgresql.org/docs/10/static/index.html" title="PostgreSQL 10.3 Documentation">PostgreSQL</a> wire protocol.</p>
         </div>
-    </body>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201803241218/" title="上一篇">&lt;&lt; rsync: 基本命令和用法</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+        <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+  </body>
 </html>

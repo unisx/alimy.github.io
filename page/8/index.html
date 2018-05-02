@@ -251,6 +251,27 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603081411/" title="阅读全文">XStream: Java to XML and Back </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="the-problem-statement">The Problem Statement</h3>
+
+<p>XStream can be used to convert a Java Object to XML and back. This tutorial aims to create a java representation of the BBC RSS. We will start with a Simple java class and gradually start adding complexity to it so that it can be converted to the BBC RSS. Note that if you are looking at a way to parse an XML, it would be a good idea to first build a java class that XStream can convert to the required XML. XStream can then use the same class to deserialize the XML. First, have a look at the <a href="http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int" title="BBC RSS">BBC RSS</a>. Your browser would have formatted it to html so look at the source to see the XML. The parent element is &lsquo;rss&rsquo;. It has a child element called &lsquo;channel&rsquo;. The &lsquo;channel&rsquo; has some properties (title, link, image etc) and a list of news &lsquo;item&rsquo;(s). Each &lsquo;item&rsquo; has properties set on it (title, description etc). The aim is to create a Java class that XStream can convert to the BBC RSS.</p>
+
+<h3 id="creating-an-xstream-instance">Creating an XStream Instance</h3>
+
+<p>The first step is to create an instance of com.thoughtworks.xstream.XStream. This class is a facade to the XStream API and provides all major functionalities. If this class does not solve your problem then you could directly call the API methods. After obtaining the instance of XStream use the fromXML method to convert the XML to a java object. Note that creating an XStream instance is an expensive operation. It is therefore advisable to create a proper instance once and then reuse it for multiple calls (even in parallel). The setup is not threadsafe but any subsequent marshalling/unmarshalling is threadsafe.
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603081411/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603081355/" title="阅读全文">Xstream: Introduction </a> </h2>
 
 </header>
@@ -416,21 +437,6 @@ Version 1.8 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spe
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/day_201601261406/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201601141212/" title="阅读全文">梦里水乡 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20160125165500.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160125165500.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201601141212/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
