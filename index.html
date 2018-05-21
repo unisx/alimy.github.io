@@ -251,6 +251,28 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/info_201805210818/" title="阅读全文">收藏: 技术相关网站 </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="kubernetes-https-kubernetes-io-kubernetes官网"><a href="https://kubernetes.io/" title="Kubernetes官网">Kubernetes</a></h3>
+
+<ul>
+<li><a href="https://kubernetes.io/cn/docs/" title="官方中文文档">官方中文文档</a></li>
+<li><a href="https://kubernetes.feisky.xyz/zh/" title="feisky版 Kubernetes指南">Kubernetes指南</a></li>
+<li><a href="https://jimmysong.io/kubernetes-handbook/" title="Jimmy版 Kubernetes指南">Kubernetes指南</a></li>
+</ul>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/info_201805210818/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201805021940/" title="阅读全文">NewSQL: 分布式数据库TiDB、CockroachDB </a> </h2>
 
 </header>
@@ -433,49 +455,6 @@ TiDB 是新一代开源分布式 NewSQL 数据库，模型受 Google Spanner / F
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201803122145/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201803031932/" title="阅读全文">Golang Tutorial: What&#39;s DefaultServeMux in net/http </a> </h2>
-
-</header>
-<div class="summary">
-    <p>craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:</p>
-
-<pre><code>package main
-
-import (
-	&quot;net/http&quot;
-	&quot;fmt&quot;
-	&quot;log&quot;
-)
-
-func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;[%s]: hello!&quot;, r.Host)
-}
-
-func world(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;[%s]: world!&quot;, r.Host)
-}
-
-func main() {
-	server := http.Server{
-		Addr: &quot;127.0.0.1:8080&quot;,
-	}
-	http.HandleFunc(&quot;/hello&quot;, hello)
-	http.HandleFunc(&quot;/world&quot;, world)
-
-	log.Fatal(server.ListenAndServe())
-}
-</code></pre>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201803031932/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

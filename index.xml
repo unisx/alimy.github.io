@@ -7,7 +7,24 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Wed, 02 May 2018 19:40:00 CST</updated>
+    <updated>Mon, 21 May 2018 08:19:00 CST</updated>
+    
+    <item>
+      <title>收藏: 技术相关网站</title>
+      <link>http://alimy.me/post/info_201805210818/</link>
+      <pubDate>Mon, 21 May 2018 08:19:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/info_201805210818/</guid>
+      <description>&lt;h3 id=&#34;kubernetes-https-kubernetes-io-kubernetes官网&#34;&gt;&lt;a href=&#34;https://kubernetes.io/&#34; title=&#34;Kubernetes官网&#34;&gt;Kubernetes&lt;/a&gt;&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/cn/docs/&#34; title=&#34;官方中文文档&#34;&gt;官方中文文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.feisky.xyz/zh/&#34; title=&#34;feisky版 Kubernetes指南&#34;&gt;Kubernetes指南&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://jimmysong.io/kubernetes-handbook/&#34; title=&#34;Jimmy版 Kubernetes指南&#34;&gt;Kubernetes指南&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>NewSQL: 分布式数据库TiDB、CockroachDB</title>
@@ -3872,20 +3889,6 @@ github.com/codegangsta/cli
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>爱</title>
-      <link>http://alimy.me/post/art_201604091521/</link>
-      <pubDate>Sat, 09 Apr 2016 15:21:01 CST</pubDate>
-      
-      <guid>http://alimy.me/post/art_201604091521/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://alimy.me/images/post/20160409152101.jpg&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;http://alimy.me/images/post/20160409152100.webp&#34; alt=&#34;图片加载中...使用支持Webp的浏览器可以加速查看&#34; /&gt;&lt;/a&gt;&lt;br /&gt;
-&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;繁星点点（&lt;a href=&#34;http://alimy.me/images/post/20160409152101.webp&#34; title=&#34;webp格式图片&#34;&gt;查看大图&lt;/a&gt;）&lt;/li&gt;
-&lt;/ul&gt;</description>
     </item>
     
   </channel>

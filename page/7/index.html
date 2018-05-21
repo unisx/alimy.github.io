@@ -251,6 +251,71 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603092120/" title="阅读全文">XStream: XML Transformation </a> </h2>
+
+</header>
+<div class="summary">
+    <p>XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.TraxSource;
+
+public class XStreamTransformationExample {
+	public static void main(String[] args) throws TransformerFactoryConfigurationError, TransformerException {
+		XStreamTransformationExample transformationExample = new XStreamTransformationExample();
+		transformationExample.runTransformation();
+	}
+
+	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
+		XStream xstream = new XStream();
+		xstream.alias(&quot;rss&quot;, Rss2.class);
+		xstream.alias(&quot;item&quot;, Item2.class);
+		Rss2 rss = new Rss2();
+		Channel2 channel = new Channel2();
+		rss.channel = channel;
+		channel.title = &quot;Title&quot;;
+		channel.link = &quot;link&quot;;
+		channel.image = new Image2();
+		channel.image.link = &quot;image link&quot;;
+		Item2 item1 = new Item2();
+		item1.link = &quot;item link&quot;;
+		item1.title = &quot;Item Title&quot;;
+		channel.items = new ArrayList&lt;Item2&gt;();
+		channel.items.add(item1);
+		System.out.println(xstream.toXML(rss));
+
+		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&quot;bbc.xsl&quot;));
+		TraxSource traxSource = new TraxSource(rss, xstream);
+		StreamResult result = new StreamResult(System.out);
+		transformer.transform(traxSource, result);
+
+		// prints the html on console
+
+	}
+}
+</code></pre>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603092120/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603092115/" title="阅读全文">XStream: Json to Java </a> </h2>
 
 </header>
@@ -428,56 +493,6 @@ public class CreateXMLFromMusicArtistObject {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603081433/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603081427/" title="阅读全文">XStream: XML To Java </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorial we looked at a way to <a href="http://alimy.me/post/dev_201603081411" title="Parsing an XML">convert Java to XML and back</a>. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.</p>
-
-<p>In this first example we have an XML that has a parent element called &lsquo;Music&rsquo;. It has a child element called type. We populate a Music object that has a &lsquo;type&rsquo; field which is an enum.</p>
-
-<pre><code>package com.studytrails.xml.xstream;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
-public class ConverterExample3 {
-    static String xml1 = &quot;&lt;Music&gt;&lt;type&gt;rock&lt;/type&gt;&lt;/Music&gt;&quot;;
-
-    public static void main(String[] args) {
-        XStream xStream = new XStream();
-        xStream.processAnnotations(Music.class);
-        Music musicObject = (Music) xStream.fromXML(xml1);
-        System.out.println(musicObject);
-        // prints Music [type=ROCK]
-    }
-
-}
-
-@XStreamAlias(&quot;Music&quot;)
-class Music {
-    public enum genre {
-        ROCK, JAZZ
-    };
-
-    genre type;
-
-    @Override
-    public String toString() {
-        return &quot;Music [type=&quot; + type + &quot;]&quot;;
-    }
-
-}     
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603081427/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

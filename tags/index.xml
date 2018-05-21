@@ -100,6 +100,15 @@
     </item>
     
     <item>
+      <title>Information</title>
+      <link>http://alimy.me/tags/information/</link>
+      <pubDate>Mon, 21 May 2018 08:19:00 CST</pubDate>
+      
+      <guid>http://alimy.me/tags/information/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Java</title>
       <link>http://alimy.me/tags/java/</link>
       <pubDate>Sun, 13 Mar 2016 20:30:00 CST</pubDate>
@@ -132,15 +141,6 @@
       <pubDate>Fri, 15 Apr 2016 10:10:00 CST</pubDate>
       
       <guid>http://alimy.me/tags/other/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Transport</title>
-      <link>http://alimy.me/tags/transport/</link>
-      <pubDate>Thu, 24 Mar 2016 21:35:00 CST</pubDate>
-      
-      <guid>http://alimy.me/tags/transport/</guid>
       <description></description>
     </item>
     

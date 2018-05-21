@@ -251,6 +251,22 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603182045/" title="阅读全文">50 Shades of Go </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Go is a simple and fun language, but, like any other language, it has a few gotchas&hellip; Many of those gotchas are not entirely Go&rsquo;s fault. Some of these mistakes are natural traps if you are coming from another language. Others are due to faulty assumptions and missing details.</p>
+
+<p>A lot of these gotchas may seem obvious if you took the time to learn the language reading the official spec, wiki, mailing list discussions, many great posts and presentations by Rob Pike, and the source code. Not everybody starts the same way though and that&rsquo;s OK. If you are new to Go the information here will save you hours debugging your code.</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603182045/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/etc_201603152115/" title="阅读全文">诚意十足的招聘页面 </a> </h2>
 
 </header>
@@ -447,51 +463,6 @@ Lets see some examples</li>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122035/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122030/" title="阅读全文">Gson: Custom Type Adapter </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorials we have seen how gson can serialize and deserialize java classes with or without hierarchies. By default, it introspects the classes and comes with with a strategy for serializing and deserializing it. However, in some cases, you want to specify your own conversion strategy. That is, you want to control how the java object is converted to json string and the other way round. Gson provides a capability to specify a custom type adapter. You tell Gson that for a particular class, use the conversion strategy specified by your custom adapter. Lets look at how to write the type adapter :
-To write a custom adapter extend the com.google.gson.TypeAdapter abstract class. Implement the public abstract T read(JsonReader in) throws IOException; and public abstract void write(JsonWriter out, T value) throws IOException; methods. The adapter should also handle nulls. Create the Type adapter instance and then register it with the GsonBuilder. Create the Gson object from the GsonBuilder and then use that to serialize and deserialize. Lets look at an example</p>
-
-<pre><code>package com.studytrails.json.gson;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.apache.commons.io.IOUtils;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-public class DatasetTypeAdapterExample8 {
-
-	public static void main(String[] args) throws MalformedURLException, IOException {
-		String url = &quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5&quot;;
-		String json = IOUtils.toString(new URL(url));
-		// Create the custom type adapter and register it with the GsonBuilder
-		// class.
-		Gson gson = new GsonBuilder().registerTypeAdapter(Dataset.class, new DatasetTypeAdapter()).create();
-		// deserialize the json to Albums class. The Dataset objects are part of
-		// the Albums class. Whenever Gson encounters an object of type DataSet
-		// it calls the DatasetTypeAdapter to read and write json.
-		Albums albums = gson.fromJson(json, Albums.class);
-		System.out.println(albums.getDataset()[1].getAlbum_title());
-		// prints
-		// http://freemusicarchive.org/music/The_Yes_Sirs/Through_The_Cracks_Mix_Vol_1/
-	}
-}
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122030/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
