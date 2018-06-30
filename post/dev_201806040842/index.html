@@ -1,11 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.30.2" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> 北 野 &middot; 北 野 </title>
+    <title> Gogs: PR-5262 &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -157,17 +156,15 @@ fathom('trackPageview');
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover panel-cover--collapsed
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -258,285 +255,168 @@ fathom('trackPageview');
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201601031221/" title="阅读全文">关于TOML </a> </h2>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Gogs: PR-5262</h2>
+          
+          <h3 id="fix-make-build-failure-when-enviroment-of-gopath-have-multiple-items">Fix make build failure when enviroment of <code>GOPATH</code> have multiple items</h3>
 
-</header>
-<div class="summary">
-    <h2 id="toml的由来">TOML的由来</h2>
+<pre><code>[alimy@rover gogs]$ pwd
+/home/alimy/art/arg/src/github.com/gogs/gogs
+[alimy@rover gogs]$ echo $GOPATH
+/home/alimy/art/ago:/home/alimy/art/arg
+[alimy@rover gogs]$ make
+go install &quot;-v&quot; -ldflags '-X &quot;github.com/gogs/gogs/pkg/setting.BuildTime=2018-06-04 06:17:19 UTC&quot; -X &quot;github.com/gogs/gogs/pkg/setting.BuildGitHash=c08aab90ec696b7fcc56b8da0a468e74d266b89e&quot;' -tags '&quot;&quot;'
+cp '/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs' .
+cp: cannot stat '/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs': No such file or directory
+Makefile:36: recipe for target 'build' failed
+make: *** [build] Error 1
+</code></pre>
 
-<p>TOML的全称是　Tom&rsquo;s Obvious, Minimal Language，因为它是GitHub　前CEO,联合创始人
-Tom Preston-Werner 于2013年创建的语言。</p>
+<p>In this scene <code>GOPATH</code> have two item (/home/alimy/art/ago and /home/alimy/art/arg) and gogs source is not in first <code>GOPATH</code> items, when excecute <code>go install ...</code> will install to path that contain the source of gogs&rsquo;s <code>GOPATH</code> items. when cp gogs file back will occur error like above.
+this patch fixed this problem.</p>
 
-<p>配置文件的使用由来已久，从.ini、XML、JSON、YAML再到TOML，语言的表达能力越来越强，同时书
-写便捷性也在不断提升。
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201601031221/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201601021221/" title="阅读全文">TOML v0.4.0 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Tom&rsquo;s Obvious, Minimal Language.</p>
-
-<p>By Tom Preston-Werner.</p>
-
-<p>Be warned, this spec is still changing a lot. Until it&rsquo;s marked as 1.0, you
-should assume that it is unstable and act accordingly.
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201601021221/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/day_201601010000/" title="阅读全文">2016年的第一天 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>2016年，很好。<br />
-<img src="http://alimy.me/images/post/20160101121200.webp" alt="请使用支持Webp的浏览器(最新版Chrome/FireFox)查看" />
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/day_201601010000/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/day_201512312359/" title="阅读全文">2015年的最后一天 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><img src="http://alimy.me/images/post/20151231235900.webp" alt="" /></p>
-
-<ul>
-<li>今天是2015年的最后一天，天气晴，我决定去 <em>逛一逛</em> 。
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/day_201512312359/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201512301212/" title="阅读全文">童话 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20151230121200.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20151230121201.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201512301212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/day_201512292359/" title="阅读全文">Hello World:博客开张 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><img src="http://alimy.me/images/post/20151229235900.webp" alt="" /></p>
-
-<h3 id="亲-博客正式开张啦-哈哈哈">～亲～博客正式开张啦～～哈哈哈～～</h3>
-
-<p><img src="http://alimy.me/images/post/20151229235901.webp" alt="" /></p>
-
-<h3 id="hello-world">～Hello World～</h3>
-
-<p><img src="http://alimy.me/images/post/20151229235902.webp" alt="" /></p>
-
-<h3 id="欢迎光临-请随便吐糟-呵呵呵">～欢迎光临～请随便吐糟～～呵呵呵～～</h3>
+<pre><code>[alimy@rover gogs]$ echo $GOPATH
+/home/alimy/art/ago:/home/alimy/art/arg
+[alimy@rover gogs]$ pwd
+/home/alimy/art/arg/src/github.com/gogs/gogs
+[alimy@rover gogs]$ echo ${PWD%%src*}
+/home/alimy/art/arg/
+</code></pre>
 
 <p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/day_201512292359/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
 
-                        
-                    </div>
-                    </br>
-                    <h4>
-                        <a href="http://alimy.me/post/" title="文章列表">Archive</a>
-                    </h4>
-                </section>
-                <div class="pages">
-  
+<p>Also when have multiple item in <code>GOPATH</code> env you should do this:</p>
 
-<ul class="pagination">
-    
-    <li>
-        <a href="http://alimy.me/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-    </li>
-    
-    <li
-    >
-    <a href="http://alimy.me/page/10/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-    </li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/">1</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/page/2/">2</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/page/3/">3</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/page/10/">10</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    class="active"><a href="http://alimy.me/page/11/">11</a></li>
-    
-    
-    <li
-    class="disabled">
-    <a href="" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-    </li>
-    
-    <li>
-        <a href="http://alimy.me/page/11/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-    </li>
-    
-</ul>
+<pre><code>export GOPATH=$HOME/art/ago:$HOME/art/arg
+export PATH=$GOROOT/bin:${GOPATH//://bin:}/bin
+</code></pre>
 
-</div>
+<p>Gogs&rsquo;s Makefile:</p>
 
-              <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+<pre><code>LDFLAGS += -X &quot;github.com/gogs/gogs/pkg/setting.BuildTime=$(shell date -u '+%Y-%m-%d %I:%M:%S %Z')&quot;
+LDFLAGS += -X &quot;github.com/gogs/gogs/pkg/setting.BuildGitHash=$(shell git rev-parse HEAD)&quot;
 
-            </div>
+DATA_FILES := $(shell find conf | sed 's/ /\\ /g')
+LESS_FILES := $(wildcard public/less/gogs.less public/less/_*.less)
+GENERATED  := pkg/bindata/bindata.go public/css/gogs.css
+
+OS := $(shell uname)
+
+TAGS = &quot;&quot;
+BUILD_FLAGS = &quot;-v&quot;
+
+RELEASE_ROOT = &quot;release&quot;
+RELEASE_GOGS = &quot;release/gogs&quot;
+NOW = $(shell date -u '+%Y%m%d%I%M%S')
+GOVET = go tool vet -composites=false -methods=false -structtags=false
+GOPATH = $(shell echo $${PWD%%src*})
+
+.PHONY: build pack release bindata clean
+
+.IGNORE: public/css/gogs.css
+
+all: build
+
+check: test
+
+dist: release
+
+web: build
+	./gogs web
+
+govet:
+	$(GOVET) gogs.go
+	$(GOVET) models pkg routes
+
+build: $(GENERATED)
+	go install $(BUILD_FLAGS) -ldflags '$(LDFLAGS)' -tags '$(TAGS)'
+	cp '$(GOPATH)/bin/gogs' .
+
+build-dev: $(GENERATED) govet
+	go install $(BUILD_FLAGS) -tags '$(TAGS)'
+	cp '$(GOPATH)/bin/gogs' .
+
+build-dev-race: $(GENERATED) govet
+	go install $(BUILD_FLAGS) -race -tags '$(TAGS)'
+	cp '$(GOPATH)/bin/gogs' .
+
+pack:
+	rm -rf $(RELEASE_GOGS)
+	mkdir -p $(RELEASE_GOGS)
+	cp -r gogs LICENSE README.md README_ZH.md templates public scripts $(RELEASE_GOGS)
+	rm -rf $(RELEASE_GOGS)/public/config.codekit $(RELEASE_GOGS)/public/less
+	cd $(RELEASE_ROOT) &amp;&amp; zip -r gogs.$(NOW).zip &quot;gogs&quot;
+
+release: build pack
+
+bindata: pkg/bindata/bindata.go
+
+pkg/bindata/bindata.go: $(DATA_FILES)
+	go-bindata -o=$@ -ignore=&quot;\\.DS_Store|README.md|TRANSLATORS|auth.d&quot; -pkg=bindata conf/...
+
+less: public/css/gogs.css
+
+public/css/gogs.css: $(LESS_FILES)
+	@type lessc &gt;/dev/null 2&gt;&amp;1 &amp;&amp; lessc $&lt; &gt;$@ || echo &quot;lessc command not found, skipped.&quot;
+
+clean:
+	go clean -i ./...
+
+clean-mac: clean
+	find . -name &quot;.DS_Store&quot; -print0 | xargs -0 rm
+
+test:
+	go test -cover -race ./...
+
+fixme:
+	grep -rnw &quot;FIXME&quot; cmd routers models pkg
+
+todo:
+	grep -rnw &quot;TODO&quot; cmd routers models pkg
+
+# Legacy code should be remove by the time of release
+legacy:
+	grep -rnw &quot;LEGACY&quot; cmd routes models pkg
+</code></pre>
+
+<p><a href="https://github.com/gogs/gogs/pull/5262" title="Gogs PR-5262">Note a PR-5322 for Gogs.</a></p>
         </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/info_201805210818/" title="上一篇">&lt;&lt; 收藏: 技术相关网站</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201806301842/" title="下一篇">Gogs: PR-5322 >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
+  </body>
 </html>

@@ -124,6 +124,136 @@ CMD [&amp;quot;/bin/s6-svscan&amp;quot;, &amp;quot;/app/gogs/docker/s6/&amp;quot
     </item>
     
     <item>
+      <title>Gogs: PR-5262</title>
+      <link>http://alimy.me/post/dev_201806040842/</link>
+      <pubDate>Mon, 04 Jun 2018 08:42:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201806040842/</guid>
+      <description>&lt;h3 id=&#34;fix-make-build-failure-when-enviroment-of-gopath-have-multiple-items&#34;&gt;Fix make build failure when enviroment of &lt;code&gt;GOPATH&lt;/code&gt; have multiple items&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;[alimy@rover gogs]$ pwd
+/home/alimy/art/arg/src/github.com/gogs/gogs
+[alimy@rover gogs]$ echo $GOPATH
+/home/alimy/art/ago:/home/alimy/art/arg
+[alimy@rover gogs]$ make
+go install &amp;quot;-v&amp;quot; -ldflags &#39;-X &amp;quot;github.com/gogs/gogs/pkg/setting.BuildTime=2018-06-04 06:17:19 UTC&amp;quot; -X &amp;quot;github.com/gogs/gogs/pkg/setting.BuildGitHash=c08aab90ec696b7fcc56b8da0a468e74d266b89e&amp;quot;&#39; -tags &#39;&amp;quot;&amp;quot;&#39;
+cp &#39;/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs&#39; .
+cp: cannot stat &#39;/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs&#39;: No such file or directory
+Makefile:36: recipe for target &#39;build&#39; failed
+make: *** [build] Error 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In this scene &lt;code&gt;GOPATH&lt;/code&gt; have two item (/home/alimy/art/ago and /home/alimy/art/arg) and gogs source is not in first &lt;code&gt;GOPATH&lt;/code&gt; items, when excecute &lt;code&gt;go install ...&lt;/code&gt; will install to path that contain the source of gogs&amp;rsquo;s &lt;code&gt;GOPATH&lt;/code&gt; items. when cp gogs file back will occur error like above.
+this patch fixed this problem.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[alimy@rover gogs]$ echo $GOPATH
+/home/alimy/art/ago:/home/alimy/art/arg
+[alimy@rover gogs]$ pwd
+/home/alimy/art/arg/src/github.com/gogs/gogs
+[alimy@rover gogs]$ echo ${PWD%%src*}
+/home/alimy/art/arg/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;Also when have multiple item in &lt;code&gt;GOPATH&lt;/code&gt; env you should do this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export GOPATH=$HOME/art/ago:$HOME/art/arg
+export PATH=$GOROOT/bin:${GOPATH//://bin:}/bin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Gogs&amp;rsquo;s Makefile:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;LDFLAGS += -X &amp;quot;github.com/gogs/gogs/pkg/setting.BuildTime=$(shell date -u &#39;+%Y-%m-%d %I:%M:%S %Z&#39;)&amp;quot;
+LDFLAGS += -X &amp;quot;github.com/gogs/gogs/pkg/setting.BuildGitHash=$(shell git rev-parse HEAD)&amp;quot;
+
+DATA_FILES := $(shell find conf | sed &#39;s/ /\\ /g&#39;)
+LESS_FILES := $(wildcard public/less/gogs.less public/less/_*.less)
+GENERATED  := pkg/bindata/bindata.go public/css/gogs.css
+
+OS := $(shell uname)
+
+TAGS = &amp;quot;&amp;quot;
+BUILD_FLAGS = &amp;quot;-v&amp;quot;
+
+RELEASE_ROOT = &amp;quot;release&amp;quot;
+RELEASE_GOGS = &amp;quot;release/gogs&amp;quot;
+NOW = $(shell date -u &#39;+%Y%m%d%I%M%S&#39;)
+GOVET = go tool vet -composites=false -methods=false -structtags=false
+GOPATH = $(shell echo $${PWD%%src*})
+
+.PHONY: build pack release bindata clean
+
+.IGNORE: public/css/gogs.css
+
+all: build
+
+check: test
+
+dist: release
+
+web: build
+	./gogs web
+
+govet:
+	$(GOVET) gogs.go
+	$(GOVET) models pkg routes
+
+build: $(GENERATED)
+	go install $(BUILD_FLAGS) -ldflags &#39;$(LDFLAGS)&#39; -tags &#39;$(TAGS)&#39;
+	cp &#39;$(GOPATH)/bin/gogs&#39; .
+
+build-dev: $(GENERATED) govet
+	go install $(BUILD_FLAGS) -tags &#39;$(TAGS)&#39;
+	cp &#39;$(GOPATH)/bin/gogs&#39; .
+
+build-dev-race: $(GENERATED) govet
+	go install $(BUILD_FLAGS) -race -tags &#39;$(TAGS)&#39;
+	cp &#39;$(GOPATH)/bin/gogs&#39; .
+
+pack:
+	rm -rf $(RELEASE_GOGS)
+	mkdir -p $(RELEASE_GOGS)
+	cp -r gogs LICENSE README.md README_ZH.md templates public scripts $(RELEASE_GOGS)
+	rm -rf $(RELEASE_GOGS)/public/config.codekit $(RELEASE_GOGS)/public/less
+	cd $(RELEASE_ROOT) &amp;amp;&amp;amp; zip -r gogs.$(NOW).zip &amp;quot;gogs&amp;quot;
+
+release: build pack
+
+bindata: pkg/bindata/bindata.go
+
+pkg/bindata/bindata.go: $(DATA_FILES)
+	go-bindata -o=$@ -ignore=&amp;quot;\\.DS_Store|README.md|TRANSLATORS|auth.d&amp;quot; -pkg=bindata conf/...
+
+less: public/css/gogs.css
+
+public/css/gogs.css: $(LESS_FILES)
+	@type lessc &amp;gt;/dev/null 2&amp;gt;&amp;amp;1 &amp;amp;&amp;amp; lessc $&amp;lt; &amp;gt;$@ || echo &amp;quot;lessc command not found, skipped.&amp;quot;
+
+clean:
+	go clean -i ./...
+
+clean-mac: clean
+	find . -name &amp;quot;.DS_Store&amp;quot; -print0 | xargs -0 rm
+
+test:
+	go test -cover -race ./...
+
+fixme:
+	grep -rnw &amp;quot;FIXME&amp;quot; cmd routers models pkg
+
+todo:
+	grep -rnw &amp;quot;TODO&amp;quot; cmd routers models pkg
+
+# Legacy code should be remove by the time of release
+legacy:
+	grep -rnw &amp;quot;LEGACY&amp;quot; cmd routes models pkg
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/gogs/gogs/pull/5262&#34; title=&#34;Gogs PR-5262&#34;&gt;Note a PR-5322 for Gogs.&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>NewSQL: 分布式数据库TiDB、CockroachDB</title>
       <link>http://alimy.me/post/dev_201805021940/</link>
       <pubDate>Wed, 02 May 2018 19:40:00 CST</pubDate>
@@ -4083,125 +4213,6 @@ $%:当目标为库文件时,表示库文件名
 &lt;hr /&gt;
 
 &lt;p&gt;(注意: 原文的链接在 &lt;a href=&#34;http://wdxtub.com/2016/03/20/make-gcc-guide/&#34; title=&#34;GCC Makefile&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Intro to BoltDB: Painless Performant Persistence</title>
-      <link>http://alimy.me/post/dev_201603192255/</link>
-      <pubDate>Sat, 19 Mar 2016 22:55:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603192255/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/boltdb/bolt&#34; title=&#34;BoltDB&#34;&gt;BoltDB&lt;/a&gt; is a pure Go persistence solution that saves data to a memory mapped file. I call it a persistence solution and not a database, because the word database has a lot of baggage associated with it that doesn’t apply to bolt. And that lack of baggage is what makes bolt so awesome.&lt;/p&gt;
-
-&lt;p&gt;Bolt is just a Go package. There’s nothing you need to install on the system, no configuration to figure out before you can start coding, nothing. You just go get github.com/boltdb/bolt and then import “github.com/boltdb/bolt”.&lt;/p&gt;
-
-&lt;p&gt;All you need to fully use bolt as storage is a file name. This is fantastic from both a developer’s point of view, and a user’s point of view. I don’t know about you, but I’ve spent months of work time over my career configuring and setting up databases and debugging configuration problems, users and permissions and all the other crap you get from more traditional databases like Postgres and Mongo. There’s none of that with bolt. No users, no setup, just a file name. This is also a boon for users of your application, because they don’t have to futz with all that crap either.&lt;/p&gt;
-
-&lt;p&gt;Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.&lt;/p&gt;
-
-&lt;p&gt;Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.
-
-… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-    “fmt”
-    “log”
-
-    “github.com/boltdb/bolt”
-)
-
-var world = []byte(“world”)
-
-func main() {
-    db, err := bolt.Open(“/home/nate/foo/bolt.db”, 0644, nil)
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer db.Close()
-
-    key := []byte(“hello”)
-    value := []byte(“Hello World!”)
-
-    // store some data
-    err = db.Update(func(tx *bolt.Tx) error {
-        bucket, err := tx.CreateBucketIfNotExists(world)
-        if err != nil {
-            return err
-        }
-
-        err = bucket.Put(key, value)
-        if err != nil {
-            return err
-        }
-        return nil
-    })
-
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    // retrieve the data
-    err = db.View(func(tx *bolt.Tx) error {
-        bucket := tx.Bucket(world)
-        if bucket == nil {
-            return fmt.Errorf(“Bucket %q not found!”, world)
-        }
-
-        val := bucket.Get(key)
-        fmt.Println(string(val))
-
-        return nil
-    })
-
-    if err != nil {
-        log.Fatal(err)
-    }
-}
-
-// output:
-// Hello World!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I know what you’re thinking - that seems kinda long. But keep in mind, I fully handled all errors in at least a semi-proper way, and we’re doing all this:&lt;/p&gt;
-
-&lt;p&gt;1.) creating a database&lt;br /&gt;
-2.) creating some structure (the “world” bucket)&lt;br /&gt;
-3.) storing data to the structure&lt;br /&gt;
-4.) retrieving data from the structure.&lt;/p&gt;
-
-&lt;p&gt;I think that’s not too bad in 54 lines of code.&lt;/p&gt;
-
-&lt;p&gt;So let’s look at what that example is really doing. First we call bolt.Open to get the database. This will create the file if necessary, or open it if it exists.&lt;/p&gt;
-
-&lt;p&gt;All reads from or writes to the bolt database must be done within a transaction. You can have as many Readers in read-only transactions at the same time as you want, but only one Writer in a writable transaction at a time (readers maintain a consistent view of the DB while writers are writing).&lt;/p&gt;
-
-&lt;p&gt;To begin, we call db.Update, which takes a function to which it’ll pass a bolt.Tx - bolt’s transaction object. We then create a Bucket (since all data in bolt lives in buckets), and add our key/value pair to it. After the write transaction finishes, we start a read- only transaction with DB.View, and get the values back out.&lt;/p&gt;
-
-&lt;p&gt;What’s great about bolt’s transaction mechanism is that it’s super simple - the scope of the function is the scope of the transaction. If the function passed to Update returns nil, all updates from the transaction are atomically stored to the database. If the function passed to Update returns an error, the transaction is rolled back. This makes bolt’s transactions completely intuitive from a Go developer’s point of view. You just exit early out of your function by returning an error as usual, and bolt Does The Right Thing. No need to worry about manually rolling back updates or anything, just return an error.&lt;/p&gt;
-
-&lt;p&gt;The only other basic thing you may need is to iterate over key/value pairs in a Bucket, in which case, you just call bucket.Cursor(), which returns a Cursor value, which has functions like Next(), Prev() etc that return a key/value pair and work like you’d expect.&lt;/p&gt;
-
-&lt;p&gt;There’s a lot more to the bolt API, but most of the rest of it is more about database statistics and some stuff for more advanced usage scenarios… but the above is all you really need to know to start storing data in a bolt database.&lt;/p&gt;
-
-&lt;p&gt;For a more complex application, just storing strings in the database may not be sufficient, but that’s ok, Go has your back there, too. You can easily use encoding/json or encoding/gob to serialize structs into the database, keyed by a unique name or id. This is what makes it easy for bolt to go from a key/value store to a document store - just have one bucket per document type. Again, the benefit of bolt is low barrier of entry. You don’t have to figure out a whole database schema or install anything to be able to just start dumping data to disk in a performant and manageable way.&lt;/p&gt;
-
-&lt;p&gt;The main drawback of bolt is that there are no queries. You can’t say “give me all foo objects with a name that starts with bar”. You could make your own index in the database and keep it up to date manually. This could be as easy as a slice of IDs serialized into an “indices” bucket for a particular query. Obviously, this is where you start getting into the realm of developing your own relational database, but if you don’t go overboard, it can be nice that all this code is just that - code. It’s not queries in some external DSL, it’s just code like you’d write for an in-memory data store.&lt;/p&gt;
-
-&lt;p&gt;Bolt is not for every application. You must understand your application’s needs and if bolt’s key/value style will be sufficient to fulfill those needs. If it is, I think you’ll be very happy to use such a simple data store with so little mental overhead.&lt;/p&gt;
-
-&lt;p&gt;[edited to clarify reader/writer relationship] Bonus Gob vs. Json benchmark for storing structs in Bolt:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;BenchmarkGobEncode  1000000       2191 ns/op
-BenchmarkJsonEncode   500000       4738 ns/op
-BenchmarkGobDecode  1000000       2019 ns/op
-BenchmarkJsonDecode   200000      12993 ns/op
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/&#34; title=&#34;Intro to BoltDB&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>

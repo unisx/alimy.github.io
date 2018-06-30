@@ -266,6 +266,28 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201803122215/" title="阅读全文">RFC: HTTP 0.9/1.0/1.1/2.0 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://www.w3.org/Protocols/HTTP/AsImplemented.html" title="The Original HTTP as defined in 1991"><strong>HTTP 0.9</strong> https://www.w3.org/Protocols/HTTP/AsImplemented.html </a></p>
+
+<p><a href="https://tools.ietf.org/html/rfc1945" title="Hypertext Transfer Protocol -- HTTP/1.0"><strong>HTTP 1.0</strong> RFC https://www.ietf.org/rfc/rfc1945.txt </a></p>
+
+<p><a href="https://tools.ietf.org/html/rfc2616" title="Hypertext Transfer Protocol -- HTTP/1.1"><strong>HTTP 1.1</strong> RFC https://www.ietf.org/rfc/rfc2616.txt </a></p>
+
+<p><a href="https://tools.ietf.org/html/rfc7540" title="Hypertext Transfer Protocol Version 2 -- HTTP/2"><strong>HTTP 2.0</strong> RFC https://www.ietf.org/rfc/rfc7540.txt </a></p>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201803122215/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201803122145/" title="阅读全文">RFC: TLS 1.0/1.1/1.2/1.3 </a> </h2>
 
 </header>
@@ -490,39 +512,6 @@ github.com/codegangsta/cli
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/art_201604091521/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201604021445/" title="阅读全文">Go - EBNF </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="notation">Notation</h3>
-
-<p>The syntax is specified using Extended Backus-Naur Form (EBNF):</p>
-
-<pre><code>Production  = production_name &quot;=&quot; [ Expression ] &quot;.&quot; .
-Expression  = Alternative { &quot;|&quot; Alternative } .
-Alternative = Term { Term } .
-Term        = production_name | token [ &quot;…&quot; token ] | Group | Option | Repetition .
-Group       = &quot;(&quot; Expression &quot;)&quot; .
-Option      = &quot;[&quot; Expression &quot;]&quot; .
-Repetition  = &quot;{&quot; Expression &quot;}&quot; .
-</code></pre>
-
-<p>Productions are expressions constructed from terms and the following operators, in increasing precedence:</p>
-
-<pre><code>|   alternation
-()  grouping
-[]  option (0 or 1 times)
-{}  repetition (0 to n times)
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201604021445/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
