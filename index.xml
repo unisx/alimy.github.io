@@ -35,7 +35,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Optionally a name can be given to a new build stage by adding AS name to the FROM instruction. The name can be used in subsequent FROM and COPY &amp;ndash;from=&lt;name|index&gt; instructions to refer to the image built in this stage.&lt;/li&gt;
+&lt;li&gt;Optionally a name can be given to a new build stage by adding &lt;code&gt;AS&lt;/code&gt; name to the &lt;code&gt;FROM&lt;/code&gt; instruction. The name can be used in subsequent &lt;code&gt;FROM&lt;/code&gt; and &lt;code&gt;COPY --from=&amp;lt;name|index&amp;gt;&lt;/code&gt; instructions to refer to the image built in this stage.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Find Docker-ce official document &lt;a href=&#34;https://docs.docker.com/v17.06/engine/reference/builder/#from&#34; title=&#34;Docker official Document&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
