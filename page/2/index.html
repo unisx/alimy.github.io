@@ -266,6 +266,28 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201803122145/" title="阅读全文">RFC: TLS 1.0/1.1/1.2/1.3 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://tools.ietf.org/html/rfc2246" title="TLS 1.0"><strong>TLS 1.0</strong> RFC http://www.ietf.org/rfc/rfc2246.txt </a></p>
+
+<p><a href="https://tools.ietf.org/html/rfc4346" title="TLS 1.1"><strong>TLS 1.1</strong> RFC http://www.ietf.org/rfc/rfc4346.txt </a></p>
+
+<p><a href="https://tools.ietf.org/html/rfc5246" title="TLS 1.2"><strong>TLS 1.2</strong> RFC http://www.ietf.org/rfc/rfc5246.txt </a></p>
+
+<p><a href="https://tools.ietf.org/html/draft-ietf-tls-tls13-28" title="draft-ietf-tls-tls13-28"><strong>TLS 1.3</strong> RFC https://www.ietf.org/id/draft-ietf-tls-tls13-28.txt </a></p>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201803122145/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201803031932/" title="阅读全文">Golang Tutorial: What&#39;s DefaultServeMux in net/http </a> </h2>
 
 </header>
@@ -501,43 +523,6 @@ Repetition  = &quot;{&quot; Expression &quot;}&quot; .
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201604021445/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603242255/" title="阅读全文">Makefile:简介 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Make 可以简化编译过程，如果有一个近百个源文件的项目，如果有个文件更改后工程需要重新编译，那么一直用gcc -c a.c这些个命令敲来敲去会屎人的。运行make时候，他会寻找指定目录下（默认是 .）的 Makefile 文件并且分析依赖关系进行必要的编译。</p>
-
-<h3 id="makefile文件的基本格式很简单">Makefile文件的基本格式很简单：</h3>
-
-<pre><code>目标文件： 依赖文件1 依赖文件2 依赖文件3 。。。。
-[tab]编译命令
-</code></pre>
-
-<p>他的意思是目标文件是依赖于冒号后面几个文件的，如果这些依赖文件有更新的，那么其目标文件也需要更新。</p>
-
-<p>Makefile 中可能有很多以上条目，他们共同组成了一个有向无回路图（DAG图），这样可以传递依赖。make 命令会把 Makefile 文件的第一个目标文件作为默认目标，当执行 make 命令时，make 会考察这个目标文件的依赖关系，进行编译。也可以指定，比如这个 Makefile：</p>
-
-<pre><code>main: a.o b.o
-[tab]gcc -o main a.o b.o
-a.o : a.c c.h
-[tab]gcc -c a.c -o a.o
-b.o: b.c c.h
-[tab]gcc -c b.c -o b.o
-// [tab]的意思是这里用tab字符代替，不能有其他的什么字符
-</code></pre>
-
-<p>在命令行里执行make，分析关系并生成main，如果是make a.o那么他只会编译到 a.o 。
-
-当然我们还可以设定伪目标，比如：</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603242255/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

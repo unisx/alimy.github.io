@@ -266,6 +266,43 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603242255/" title="阅读全文">Makefile:简介 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Make 可以简化编译过程，如果有一个近百个源文件的项目，如果有个文件更改后工程需要重新编译，那么一直用gcc -c a.c这些个命令敲来敲去会屎人的。运行make时候，他会寻找指定目录下（默认是 .）的 Makefile 文件并且分析依赖关系进行必要的编译。</p>
+
+<h3 id="makefile文件的基本格式很简单">Makefile文件的基本格式很简单：</h3>
+
+<pre><code>目标文件： 依赖文件1 依赖文件2 依赖文件3 。。。。
+[tab]编译命令
+</code></pre>
+
+<p>他的意思是目标文件是依赖于冒号后面几个文件的，如果这些依赖文件有更新的，那么其目标文件也需要更新。</p>
+
+<p>Makefile 中可能有很多以上条目，他们共同组成了一个有向无回路图（DAG图），这样可以传递依赖。make 命令会把 Makefile 文件的第一个目标文件作为默认目标，当执行 make 命令时，make 会考察这个目标文件的依赖关系，进行编译。也可以指定，比如这个 Makefile：</p>
+
+<pre><code>main: a.o b.o
+[tab]gcc -o main a.o b.o
+a.o : a.c c.h
+[tab]gcc -c a.c -o a.o
+b.o: b.c c.h
+[tab]gcc -c b.c -o b.o
+// [tab]的意思是这里用tab字符代替，不能有其他的什么字符
+</code></pre>
+
+<p>在命令行里执行make，分析关系并生成main，如果是make a.o那么他只会编译到 a.o 。
+
+当然我们还可以设定伪目标，比如：</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603242255/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/ark_201603242135/" title="阅读全文">游戏发展史:Valve </a> </h2>
 
 </header>
@@ -481,30 +518,6 @@ fathom('trackPageview');
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/arc_201603192212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/etc_201603192115/" title="阅读全文">杂谈:指纹歌里的人生百态 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>“一螺穷，二螺富，三螺四螺开当铺……”童年时代，您可曾唱过指纹歌？童谣未必预示了命运，但却包含了人生百态。</p>
-
-<p>指纹，是在每个人出生第六个月就形成，并跟随人一生一世的身体纹线，每个人的指纹都是独一无二的，世界上绝不会有指纹完全相同的两个人。所以，我国在一千多年前的唐代，就实行了指纹画押。古代的借据就是借户用中指和食指在借据上并列印上指纹叫作“花押”。直到现代，立据签约还仍然使用这种当事人在契约上按手印的方法作为凭信。刑事侦探还把鉴别手纹作为破案的重要手段。</p>
-
-<p>两种最基本的指纹：纹如水流中的漩涡形，或中间的纹成封口的环状，叫涡纹，又叫螺纹；指纹呈流线形脱开，不封口，叫流纹，又叫箕纹。</p>
-
-<p>螺是指螺旋状的环形纹，箕是指簸箕状的开口纹。张爱玲在《谈看书》中提到：十只手指上，螺越多越好，聚得住钱；男人簸箕也好，会赚钱，能够把钱铲回家；女人则是螺好，会积钱，手上没螺，拿东西不牢。</p>
-
-<h3 id="指纹歌的地图-盛行于东南沿海">指纹歌的地图：盛行于东南沿海</h3>
-
-<p>在一些童谣集中载录了大量的指纹歌，如商务印书馆《各省童谣集》第一集（1923年）就收录了三首，分别采自安徽休宁、浙江杭县、浙江新昌；上海世界书局《绘图童谣大观》（1924年）也收录了三首，分别采自江苏的吴县、无锡和江都。</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/etc_201603192115/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

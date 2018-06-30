@@ -7,7 +7,121 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Wed, 02 May 2018 19:40:00 CST</updated>
+    <updated>Sat, 30 Jun 2018 18:42:00 CST</updated>
+    
+    <item>
+      <title>Gogs: PR-5322</title>
+      <link>http://alimy.me/post/dev_201806301842/</link>
+      <pubDate>Sat, 30 Jun 2018 18:42:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201806301842/</guid>
+      <description>&lt;h3 id=&#34;add-new-dockerfile-docker-ce-for-docker-ce-v17-06-to-build-gogs-s-docker-image&#34;&gt;Add new Dockerfile.docker-ce for docker-ce(&amp;gt;=v17.06) to build Gogs&amp;rsquo;s docker image&lt;/h3&gt;
+
+&lt;p&gt;Docker-CE can be given to a new build stage by adding &lt;code&gt;AS&lt;/code&gt; name to the&lt;code&gt;FROM&lt;/code&gt; instruction sine release version of v17.06. The Dockerfile&amp;rsquo;s &lt;code&gt;FROM&lt;/code&gt; instruction like below:&lt;/p&gt;
+
+&lt;h4 id=&#34;from&#34;&gt;FROM&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt; [AS &amp;lt;name&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt;[:&amp;lt;tag&amp;gt;] [AS &amp;lt;name&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt;[@&amp;lt;digest&amp;gt;] [AS &amp;lt;name&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Optionally a name can be given to a new build stage by adding AS name to the FROM instruction. The name can be used in subsequent FROM and COPY &amp;ndash;from=&lt;name|index&gt; instructions to refer to the image built in this stage.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Find Docker-ce official document &lt;a href=&#34;https://docs.docker.com/v17.06/engine/reference/builder/#from&#34; title=&#34;Docker official Document&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;You can use this patch to build docker image if  docker-ce that version &amp;gt;=v17.06 is installed:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt;docker version
+Client:
+ Version:      18.03.1-ce
+ API version:  1.37
+ Go version:   go1.9.5
+ Git commit:   9ee9f40
+ Built:        Thu Apr 26 07:20:16 2018
+ OS/Arch:      linux/amd64
+ Experimental: false
+ Orchestrator: swarm
+
+Server:
+ Engine:
+  Version:      18.03.1-ce
+  API version:  1.37 (minimum version 1.12)
+  Go version:   go1.9.5
+  Git commit:   9ee9f40
+  Built:        Thu Apr 26 07:23:58 2018
+  OS/Arch:      linux/amd64
+  Experimental: false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Build docker image&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; cd $GOPATH/src/github.com/gogs/gogs
+&amp;gt; docker build -t &amp;lt;your/image-tag&amp;gt; -f Dockerfile.docker-ce .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Dockerfile.docker-ce&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM golang:1.10.3-alpine AS binarybuilder
+# Install build deps
+RUN apk --no-cache --no-progress add --virtual build-deps build-base git linux-pam-dev
+WORKDIR /go/src/github.com/gogs/gogs
+COPY . .
+RUN make build TAGS=&amp;quot;sqlite cert pam&amp;quot;
+
+FROM alpine:3.7
+# Install system utils &amp;amp; Gogs runtime dependencies
+ADD https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 /usr/sbin/gosu
+RUN chmod +x /usr/sbin/gosu \
+  &amp;amp;&amp;amp; echo http://dl-2.alpinelinux.org/alpine/edge/community/ &amp;gt;&amp;gt; /etc/apk/repositories \
+  &amp;amp;&amp;amp; apk --no-cache --no-progress add \
+    bash \
+    ca-certificates \
+    curl \
+    git \
+    linux-pam \
+    openssh \
+    s6 \
+    shadow \
+    socat \
+    tzdata
+
+ENV GOGS_CUSTOM /data/gogs
+
+# Configure LibC Name Service
+COPY docker/nsswitch.conf /etc/nsswitch.conf
+
+WORKDIR /app/gogs
+COPY docker ./docker
+COPY templates ./templates
+COPY public ./public
+COPY --from=binarybuilder /go/src/github.com/gogs/gogs/gogs .
+
+RUN ./docker/finalize-docker-ce.sh
+
+# Configure Docker Container
+VOLUME [&amp;quot;/data&amp;quot;]
+EXPOSE 22 3000
+ENTRYPOINT [&amp;quot;/app/gogs/docker/start.sh&amp;quot;]
+CMD [&amp;quot;/bin/s6-svscan&amp;quot;, &amp;quot;/app/gogs/docker/s6/&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/gogs/gogs/pull/5322&#34; title=&#34;Gogs PR-5322&#34;&gt;Note a PR-5322 for Gogs.&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>NewSQL: 分布式数据库TiDB、CockroachDB</title>
@@ -4088,176 +4202,6 @@ BenchmarkJsonDecode   200000      12993 ns/op
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/&#34; title=&#34;Intro to BoltDB&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Android: Volley&#43;OkHttp with https</title>
-      <link>http://alimy.me/post/dev_201603192245/</link>
-      <pubDate>Sat, 19 Mar 2016 22:45:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201603192245/</guid>
-      <description>&lt;h3 id=&#34;android-network-simple&#34;&gt;Android Network Simple&lt;/h3&gt;
-
-&lt;p&gt;This article shows how to use volley with OkHttp and security your api with https.
-本文可以在&lt;a href=&#34;http://www.jianshu.com/p/e58161cbc3a4&#34; title=&#34;Android 网络--我是怎么做的: Volley+OkHttp+Https&#34;&gt;简书&lt;/a&gt;浏览。&lt;/p&gt;
-
-&lt;h3 id=&#34;使用-okhttp-作为传输层的实现&#34;&gt;使用 OkHttp 作为传输层的实现.&lt;/h3&gt;
-
-&lt;p&gt;Volley 默认根据 Android 系统版本使用不同的 Http 传输协议实现. 3.0 以上使用HttpUrlConnection, 2.3 以下使用 ApacheHttpStack, 参考&lt;a href=&#34;http://android-developers.blogspot.com/2011/09/androids-http-clients.html&#34;&gt;Android Http Client&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;OkHttp 相较于其它的实现有以下的优点:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;支持&lt;a href=&#34;http://zh.wikipedia.org/wiki/SPDY&#34;&gt;SPDY&lt;/a&gt;，允许连接同一主机的所有请求分享一个socket。&lt;/li&gt;
-&lt;li&gt;如果SPDY不可用，会使用连接池减少请求延迟。&lt;/li&gt;
-&lt;li&gt;使用GZIP压缩下载内容，且压缩操作对用户是透明的。&lt;/li&gt;
-&lt;li&gt;利用响应缓存来避免重复的网络请求。&lt;/li&gt;
-&lt;li&gt;当网络出现问题的时候，OKHttp会依然有效，它将从常见的连接问题当中恢复。&lt;/li&gt;
-&lt;li&gt;如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。
-
-因此使用 OkHttp 作为替代是好的选择.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;首先用 OkHttp 实现一个新的 &lt;code&gt;HurlStack&lt;/code&gt; 用于构建 Volley 的 requestQueue.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class OkHttpStack extends HurlStack {
-
-    private OkHttpClient okHttpClient;
-
-    /**
-     * Create a OkHttpStack with default OkHttpClient.
-     */
-    public OkHttpStack() {
-        this(new OkHttpClient());
-    }
-
-    /**
-     * Create a OkHttpStack with a custom OkHttpClient
-     * @param okHttpClient Custom OkHttpClient, NonNull
-     */
-    public OkHttpStack(OkHttpClient okHttpClient) {
-        this.okHttpClient = okHttpClient;
-    }
-
-    @Override
-    protected HttpURLConnection createConnection(URL url) throws IOException {
-        OkUrlFactory okUrlFactory = new OkUrlFactory(okHttpClient);
-        return okUrlFactory.open(url);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后使用 OkHttpStack 创建新的 Volley requestQueue.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;requestQueue = Volley.newRequestQueue(getContext(), new OkHttpStack());
-requestQueue.start();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;这样就行了.&lt;/p&gt;
-
-&lt;h3 id=&#34;使用-https&#34;&gt;使用 Https&lt;/h3&gt;
-
-&lt;p&gt;作为一个有节操的开发者应该使用 Https 来保护用户的数据, Android 开发者网站上文章&lt;a href=&#34;https://developer.android.com/training/articles/security-ssl.html&#34;&gt;Security with HTTPS and SSL&lt;/a&gt;做了详尽的阐述.&lt;/p&gt;
-
-&lt;p&gt;OkHttp 自身是支持 Https 的. 参考文档 &lt;a href=&#34;https://github.com/square/okhttp/wiki/HTTPS&#34;&gt;OkHttp Https&lt;/a&gt;, 直接使用上面的 &lt;code&gt;OkHttpStack&lt;/code&gt; 就可以了, 但是如果遇到服务器开发哥哥使用了自签名的证书(不要问我为什么要用自签名的), 就无法正常访问了.&lt;/p&gt;
-
-&lt;p&gt;网上有很多文章给出的方案是提供一个什么事情都不做的&lt;code&gt;TrustManager&lt;/code&gt; 跳过 &lt;code&gt;SSL&lt;/code&gt; 的验证, 这样做很容受到攻击, Https 也就形同虚设了.&lt;/p&gt;
-
-&lt;p&gt;我采用的方案是将自签名的证书打包入 APK 加入信任.&lt;/p&gt;
-
-&lt;p&gt;好处:
-* 应用难以逆向, 应用不再依赖系统的 trust store, 使得 Charles 抓包等工具失效. 要分析应用 API 必须反编译 APK.
-* 不用额外购买证书, 省钱&amp;hellip;.
-缺点:
-* 证书部署灵活性降低, 一旦变更证书必须升级程序.&lt;/p&gt;
-
-&lt;h3 id=&#34;实现步骤&#34;&gt;实现步骤&lt;/h3&gt;
-
-&lt;p&gt;以最著名的自签名网站12306为例说明&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;导出证书&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;echo | openssl s_client -connect kyfw.12306.cn:443 2&amp;gt;&amp;amp;1 |  sed -ne &#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39; &amp;gt; kyfw.12306.cn.pem
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;将证书转为 bks 格式
-下载最新的bcprov-jdk, 执行下面的命令. storepass 是导出密钥文件的密码.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;keytool -importcert -v \
-    -trustcacerts \
-    -alias 0 \
-    -file &amp;lt;(openssl x509 -in kyfw.12306.cn.pem) \
-    -keystore kyfw.bks -storetype BKS \
-    -providerclass     org.bouncycastle.jce.provider.BouncyCastleProvider \
-    -providerpath ./bcprov-jdk16-1.46.jar \
-    -storepass asdfqaz
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;将导出的 kyfw.bks 文件放入 res/raw 文件夹下.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;创建  &lt;code&gt;SelfSignSslOkHttpStack&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; // A HttpStack implement witch can verify specified self-signed certification.
-public class SelfSignSslOkHttpStack extends HurlStack {
-
-  private OkHttpClient okHttpClient;
-
-  private Map&amp;lt;String, SSLSocketFactory&amp;gt; socketFactoryMap;
-
-
-   // Create a OkHttpStack with default OkHttpClient.
-  public SelfSignSslOkHttpStack(Map&amp;lt;String, SSLSocketFactory&amp;gt; factoryMap) {
-    this(new OkHttpClient(), factoryMap);
-  }
-
-
-  // Create a OkHttpStack with a custom OkHttpClient
-  // @param okHttpClient Custom OkHttpClient, NonNull
-  public SelfSignSslOkHttpStack(OkHttpClient okHttpClient, Map&amp;lt;String, SSLSocketFactory&amp;gt; factoryMap) {
-    this.okHttpClient = okHttpClient;
-    this.socketFactoryMap = factoryMap;
-  }
-
-  @Override
-  protected HttpURLConnection createConnection(URL url) throws IOException {
-    if (&amp;quot;https&amp;quot;.equals(url.getProtocol()) &amp;amp;&amp;amp; socketFactoryMap.containsKey(url.getHost())) {
-        HttpsURLConnection connection = (HttpsURLConnection) new OkUrlFactory(okHttpClient).open(url);
-        connection.setSSLSocketFactory(socketFactoryMap.get(url.getHost()));
-        return connection;
-    } else {
-        return  new OkUrlFactory(okHttpClient).open(url);
-    }
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;然后用 &lt;code&gt;SelfSignSslOkHttpStack&lt;/code&gt; 创建 Volley 的 RequestQueue.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;String[] hosts = {&amp;quot;kyfw.12306.cn&amp;quot;};
-int[] certRes = {R.raw.kyfw};
-String[] certPass = {&amp;quot;asdfqaz&amp;quot;};
-socketFactoryMap = new Hashtable&amp;lt;&amp;gt;(hosts.length);
-
-for (int i = 0; i &amp;lt; certRes.length; i++) {
-    int res = certRes[i];
-    String password = certPass[i];
-    SSLSocketFactory sslSocketFactory = createSSLSocketFactory(context, res, password);
-    socketFactoryMap.put(hosts[i], sslSocketFactory);
-}
-
-HurlStack stack = new SelfSignSslOkHttpStack(socketFactoryMap);
-
-requestQueue = Volley.newRequestQueue(context, stack);
-requestQueue.start();
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;done&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://github.com/dodocat/AndroidNetworkdemo&#34; title=&#34;android network demo&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>

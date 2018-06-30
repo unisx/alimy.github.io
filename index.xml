@@ -7,7 +7,121 @@
     
     
     <copyright>&amp;copy;2016, Alimy; all rights reserved.</copyright>
-    <updated>Mon, 21 May 2018 08:19:00 CST</updated>
+    <updated>Sat, 30 Jun 2018 18:42:00 CST</updated>
+    
+    <item>
+      <title>Gogs: PR-5322</title>
+      <link>http://alimy.me/post/dev_201806301842/</link>
+      <pubDate>Sat, 30 Jun 2018 18:42:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201806301842/</guid>
+      <description>&lt;h3 id=&#34;add-new-dockerfile-docker-ce-for-docker-ce-v17-06-to-build-gogs-s-docker-image&#34;&gt;Add new Dockerfile.docker-ce for docker-ce(&amp;gt;=v17.06) to build Gogs&amp;rsquo;s docker image&lt;/h3&gt;
+
+&lt;p&gt;Docker-CE can be given to a new build stage by adding &lt;code&gt;AS&lt;/code&gt; name to the&lt;code&gt;FROM&lt;/code&gt; instruction sine release version of v17.06. The Dockerfile&amp;rsquo;s &lt;code&gt;FROM&lt;/code&gt; instruction like below:&lt;/p&gt;
+
+&lt;h4 id=&#34;from&#34;&gt;FROM&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt; [AS &amp;lt;name&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt;[:&amp;lt;tag&amp;gt;] [AS &amp;lt;name&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt;[@&amp;lt;digest&amp;gt;] [AS &amp;lt;name&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Optionally a name can be given to a new build stage by adding AS name to the FROM instruction. The name can be used in subsequent FROM and COPY &amp;ndash;from=&lt;name|index&gt; instructions to refer to the image built in this stage.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Find Docker-ce official document &lt;a href=&#34;https://docs.docker.com/v17.06/engine/reference/builder/#from&#34; title=&#34;Docker official Document&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;You can use this patch to build docker image if  docker-ce that version &amp;gt;=v17.06 is installed:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt;docker version
+Client:
+ Version:      18.03.1-ce
+ API version:  1.37
+ Go version:   go1.9.5
+ Git commit:   9ee9f40
+ Built:        Thu Apr 26 07:20:16 2018
+ OS/Arch:      linux/amd64
+ Experimental: false
+ Orchestrator: swarm
+
+Server:
+ Engine:
+  Version:      18.03.1-ce
+  API version:  1.37 (minimum version 1.12)
+  Go version:   go1.9.5
+  Git commit:   9ee9f40
+  Built:        Thu Apr 26 07:23:58 2018
+  OS/Arch:      linux/amd64
+  Experimental: false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Build docker image&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; cd $GOPATH/src/github.com/gogs/gogs
+&amp;gt; docker build -t &amp;lt;your/image-tag&amp;gt; -f Dockerfile.docker-ce .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Dockerfile.docker-ce&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM golang:1.10.3-alpine AS binarybuilder
+# Install build deps
+RUN apk --no-cache --no-progress add --virtual build-deps build-base git linux-pam-dev
+WORKDIR /go/src/github.com/gogs/gogs
+COPY . .
+RUN make build TAGS=&amp;quot;sqlite cert pam&amp;quot;
+
+FROM alpine:3.7
+# Install system utils &amp;amp; Gogs runtime dependencies
+ADD https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 /usr/sbin/gosu
+RUN chmod +x /usr/sbin/gosu \
+  &amp;amp;&amp;amp; echo http://dl-2.alpinelinux.org/alpine/edge/community/ &amp;gt;&amp;gt; /etc/apk/repositories \
+  &amp;amp;&amp;amp; apk --no-cache --no-progress add \
+    bash \
+    ca-certificates \
+    curl \
+    git \
+    linux-pam \
+    openssh \
+    s6 \
+    shadow \
+    socat \
+    tzdata
+
+ENV GOGS_CUSTOM /data/gogs
+
+# Configure LibC Name Service
+COPY docker/nsswitch.conf /etc/nsswitch.conf
+
+WORKDIR /app/gogs
+COPY docker ./docker
+COPY templates ./templates
+COPY public ./public
+COPY --from=binarybuilder /go/src/github.com/gogs/gogs/gogs .
+
+RUN ./docker/finalize-docker-ce.sh
+
+# Configure Docker Container
+VOLUME [&amp;quot;/data&amp;quot;]
+EXPOSE 22 3000
+ENTRYPOINT [&amp;quot;/app/gogs/docker/start.sh&amp;quot;]
+CMD [&amp;quot;/bin/s6-svscan&amp;quot;, &amp;quot;/app/gogs/docker/s6/&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/gogs/gogs/pull/5322&#34; title=&#34;Gogs PR-5322&#34;&gt;Note a PR-5322 for Gogs.&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>收藏: 技术相关网站</title>
@@ -3859,37 +3973,6 @@ func main() {
 天 之 道 ， 利 而 不 害 ﹔
 圣 人 之 道 ， 为 而 不 争 。
 &lt;/code&gt;&lt;/pre&gt;</description>
-    </item>
-    
-    <item>
-      <title>Go - See what packages my app imports</title>
-      <link>http://alimy.me/post/dev_201604101827/</link>
-      <pubDate>Sun, 10 Apr 2016 18:27:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201604101827/</guid>
-      <description>&lt;p&gt;It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.&lt;/p&gt;
-
-&lt;p&gt;Go to your app and run the following.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here is an example with the clirescue refactoring example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
-$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; | xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
-github.com/GoBootcamp/clirescue/cmdutil
-github.com/GoBootcamp/clirescue/trackerapi
-github.com/GoBootcamp/clirescue/user
-github.com/codegangsta/cli
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If you want the list to also contain standard packages, edit the template and use:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{.ImportPath}}&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>
