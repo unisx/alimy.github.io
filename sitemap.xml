@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://alimy.me/post/dev_201807011459/</loc>
+    <lastmod>2018-07-01T14:59:00+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://alimy.me/post/dev_201806301842/</loc>
     <lastmod>2018-06-30T18:42:00+08:00</lastmod>
   </url>
@@ -526,13 +531,13 @@
   
   <url>
     <loc>http://alimy.me/tags/development/</loc>
-    <lastmod>2018-06-30T18:42:00+08:00</lastmod>
+    <lastmod>2018-07-01T14:59:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://alimy.me/categories/development/</loc>
-    <lastmod>2018-06-30T18:42:00+08:00</lastmod>
+    <lastmod>2018-07-01T14:59:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -628,7 +633,7 @@
   
   <url>
     <loc>http://alimy.me/post/</loc>
-    <lastmod>2018-06-30T18:42:00+08:00</lastmod>
+    <lastmod>2018-07-01T14:59:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -658,7 +663,7 @@
   
   <url>
     <loc>http://alimy.me/</loc>
-    <lastmod>2018-06-30T18:42:00+08:00</lastmod>
+    <lastmod>2018-07-01T14:59:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
