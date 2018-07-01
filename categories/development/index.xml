@@ -44,8 +44,9 @@ $ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/do
 &lt;pre&gt;&lt;code&gt;{
   &amp;quot;debug&amp;quot;: true,
   &amp;quot;tls&amp;quot;: true,
-  &amp;quot;tlscert&amp;quot;: &amp;quot;/var/docker/server.pem&amp;quot;,
-  &amp;quot;tlskey&amp;quot;: &amp;quot;/var/docker/serverkey.pem&amp;quot;,
+  &amp;quot;tlscacert&amp;quot;: &amp;quot;/etc/docker/ca.pem&amp;quot;,
+  &amp;quot;tlscert&amp;quot;: &amp;quot;/etc/docker/server-cert.pem&amp;quot;,
+  &amp;quot;tlskey&amp;quot;: &amp;quot;/etc/docker/server-key.pem&amp;quot;,
   &amp;quot;hosts&amp;quot;: [&amp;quot;tcp://&amp;lt;config of CN&amp;gt;:2376&amp;quot;]
 }
 &lt;/code&gt;&lt;/pre&gt;

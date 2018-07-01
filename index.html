@@ -299,8 +299,9 @@ $ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/do
 <pre><code>{
   &quot;debug&quot;: true,
   &quot;tls&quot;: true,
-  &quot;tlscert&quot;: &quot;/var/docker/server.pem&quot;,
-  &quot;tlskey&quot;: &quot;/var/docker/serverkey.pem&quot;,
+  &quot;tlscacert&quot;: &quot;/etc/docker/ca.pem&quot;,
+  &quot;tlscert&quot;: &quot;/etc/docker/server-cert.pem&quot;,
+  &quot;tlskey&quot;: &quot;/etc/docker/server-key.pem&quot;,
   &quot;hosts&quot;: [&quot;tcp://&lt;config of CN&gt;:2376&quot;]
 }
 </code></pre>
