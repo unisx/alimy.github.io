@@ -1,7 +1,7 @@
 baseurl = "http://alimy.me"
-title = "北 野"
+title = "牧 野"
 author = "Michael Li"
-copyright = "&copy;2016, Alimy; all rights reserved."
+copyright = "&copy;2018, Alimy; all rights reserved."
 canonifyurls = true
 paginate = 9
 theme = "uno"
