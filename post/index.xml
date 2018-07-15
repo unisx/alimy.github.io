@@ -16,7 +16,7 @@
       
       <guid>http://alimy.me/post/dev_201807151843/</guid>
       <description>&lt;p&gt;The name mux stands for &amp;ldquo;HTTP request multiplexer&amp;rdquo;. Like the standard
-http.ServeMux, mux.Router matches incoming requests against a list of
+&lt;code&gt;http.ServeMux&lt;/code&gt;, &lt;code&gt;mux.Router&lt;/code&gt; matches incoming requests against a list of
 registered routes and calls a handler for the route that matches the URL
 or other conditions. The main features are:&lt;/p&gt;
 
