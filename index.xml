@@ -7,7 +7,342 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sun, 01 Jul 2018 22:19:00 CST</updated>
+    <updated>Sun, 15 Jul 2018 18:43:00 CST</updated>
+    
+    <item>
+      <title>Guide: gorilla/mux</title>
+      <link>http://alimy.me/post/dev_201807151843/</link>
+      <pubDate>Sun, 15 Jul 2018 18:43:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201807151843/</guid>
+      <description>&lt;p&gt;The name mux stands for &amp;ldquo;HTTP request multiplexer&amp;rdquo;. Like the standard
+http.ServeMux, mux.Router matches incoming requests against a list of
+registered routes and calls a handler for the route that matches the URL
+or other conditions. The main features are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* Requests can be matched based on URL host, path, path prefix, schemes,
+  header and query values, HTTP methods or using custom matchers.
+* URL hosts, paths and query values can have variables with an optional
+  regular expression.
+* Registered URLs can be built, or &amp;quot;reversed&amp;quot;, which helps maintaining
+  references to resources.
+* Routes can be used as subrouters: nested routes are only tested if the
+  parent route matches. This is useful to define groups of routes that
+  share common conditions like a host, a path prefix or other repeated
+  attributes. As a bonus, this optimizes request matching.
+* It implements the http.Handler interface so it is compatible with the
+  standard http.ServeMux.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let&amp;rsquo;s start registering a couple of URL paths and handlers:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func main() {
+    r := mux.NewRouter()
+    r.HandleFunc(&amp;quot;/&amp;quot;, HomeHandler)
+    r.HandleFunc(&amp;quot;/products&amp;quot;, ProductsHandler)
+    r.HandleFunc(&amp;quot;/articles&amp;quot;, ArticlesHandler)
+    http.Handle(&amp;quot;/&amp;quot;, r)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;
+Here we register three routes mapping URL paths to handlers. This is
+equivalent to how http.HandleFunc() works: if an incoming request URL matches
+one of the paths, the corresponding handler is called passing
+(http.ResponseWriter, *http.Request) as parameters.&lt;/p&gt;
+
+&lt;p&gt;Paths can have variables. They are defined using the format {name} or
+{name:pattern}. If a regular expression pattern is not defined, the matched
+variable will be anything until the next slash. For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r := mux.NewRouter()
+r.HandleFunc(&amp;quot;/products/{key}&amp;quot;, ProductHandler)
+r.HandleFunc(&amp;quot;/articles/{category}/&amp;quot;, ArticlesCategoryHandler)
+r.HandleFunc(&amp;quot;/articles/{category}/{id:[0-9]+}&amp;quot;, ArticleHandler)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Groups can be used inside patterns, as long as they are non-capturing (?:re). For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r.HandleFunc(&amp;quot;/articles/{category}/{sort:(?:asc|desc|new)}&amp;quot;, ArticlesCategoryHandler)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The names are used to create a map of route variables which can be retrieved
+calling mux.Vars():&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;vars := mux.Vars(request)
+category := vars[&amp;quot;category&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that if any capturing groups are present, mux will panic() during parsing. To prevent
+this, convert any capturing groups to non-capturing, e.g. change &amp;ldquo;/{sort:(asc|desc)}&amp;rdquo; to
+&amp;ldquo;/{sort:(?:asc|desc)}&amp;ldquo;. This is a change from prior versions which behaved unpredictably
+when capturing groups were present.&lt;/p&gt;
+
+&lt;p&gt;And this is all you need to know about the basic usage. More advanced options
+are explained below.&lt;/p&gt;
+
+&lt;p&gt;Routes can also be restricted to a domain or subdomain. Just define a host
+pattern to be matched. They can also have variables:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r := mux.NewRouter()
+// Only matches if domain is &amp;quot;www.example.com&amp;quot;.
+r.Host(&amp;quot;www.example.com&amp;quot;)
+// Matches a dynamic subdomain.
+r.Host(&amp;quot;{subdomain:[a-z]+}.domain.com&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are several other matchers that can be added. To match path prefixes:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r.PathPrefix(&amp;quot;/products/&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;hellip;or HTTP methods:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r.Methods(&amp;quot;GET&amp;quot;, &amp;quot;POST&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;hellip;or URL schemes:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r.Schemes(&amp;quot;https&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;hellip;or header values:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r.Headers(&amp;quot;X-Requested-With&amp;quot;, &amp;quot;XMLHttpRequest&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;hellip;or query values:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r.Queries(&amp;quot;key&amp;quot;, &amp;quot;value&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;hellip;or to use a custom matcher function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r.MatcherFunc(func(r *http.Request, rm *RouteMatch) bool {
+    return r.ProtoMajor == 0
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;hellip;and finally, it is possible to combine several matchers in a single route:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r.HandleFunc(&amp;quot;/products&amp;quot;, ProductsHandler).
+  Host(&amp;quot;www.example.com&amp;quot;).
+  Methods(&amp;quot;GET&amp;quot;).
+  Schemes(&amp;quot;http&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Setting the same matching conditions again and again can be boring, so we have
+a way to group several routes that share the same requirements.
+We call it &amp;ldquo;subrouting&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;For example, let&amp;rsquo;s say we have several URLs that should only match when the
+host is &amp;ldquo;www.example.com&amp;rdquo;. Create a route for that host and get a &amp;ldquo;subrouter&amp;rdquo;
+from it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r := mux.NewRouter()
+s := r.Host(&amp;quot;www.example.com&amp;quot;).Subrouter()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then register routes in the subrouter:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;s.HandleFunc(&amp;quot;/products/&amp;quot;, ProductsHandler)
+s.HandleFunc(&amp;quot;/products/{key}&amp;quot;, ProductHandler)
+s.HandleFunc(&amp;quot;/articles/{category}/{id:[0-9]+}&amp;quot;), ArticleHandler)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The three URL paths we registered above will only be tested if the domain is
+&amp;ldquo;www.example.com&amp;rdquo;, because the subrouter is tested first. This is not
+only convenient, but also optimizes request matching. You can create
+subrouters combining any attribute matchers accepted by a route.&lt;/p&gt;
+
+&lt;p&gt;Subrouters can be used to create domain or path &amp;ldquo;namespaces&amp;rdquo;: you define
+subrouters in a central place and then parts of the app can register its
+paths relatively to a given subrouter.&lt;/p&gt;
+
+&lt;p&gt;There&amp;rsquo;s one more thing about subroutes. When a subrouter has a path prefix,
+the inner routes use it as base for their paths:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r := mux.NewRouter()
+s := r.PathPrefix(&amp;quot;/products&amp;quot;).Subrouter()
+// &amp;quot;/products/&amp;quot;
+s.HandleFunc(&amp;quot;/&amp;quot;, ProductsHandler)
+// &amp;quot;/products/{key}/&amp;quot;
+s.HandleFunc(&amp;quot;/{key}/&amp;quot;, ProductHandler)
+// &amp;quot;/products/{key}/details&amp;quot;
+s.HandleFunc(&amp;quot;/{key}/details&amp;quot;, ProductDetailsHandler)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that the path provided to PathPrefix() represents a &amp;ldquo;wildcard&amp;rdquo;: calling
+PathPrefix(&amp;ldquo;/static/&amp;rdquo;).Handler(&amp;hellip;) means that the handler will be passed any
+request that matches &amp;ldquo;/static/*&amp;ldquo;. This makes it easy to serve static files with mux:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func main() {
+    var dir string
+
+    flag.StringVar(&amp;amp;dir, &amp;quot;dir&amp;quot;, &amp;quot;.&amp;quot;, &amp;quot;the directory to serve files from. Defaults to the current dir&amp;quot;)
+    flag.Parse()
+    r := mux.NewRouter()
+
+    // This will serve files under http://localhost:8000/static/&amp;lt;filename&amp;gt;
+    r.PathPrefix(&amp;quot;/static/&amp;quot;).Handler(http.StripPrefix(&amp;quot;/static/&amp;quot;, http.FileServer(http.Dir(dir))))
+
+    srv := &amp;amp;http.Server{
+        Handler:      r,
+        Addr:         &amp;quot;127.0.0.1:8000&amp;quot;,
+        // Good practice: enforce timeouts for servers you create!
+        WriteTimeout: 15 * time.Second,
+        ReadTimeout:  15 * time.Second,
+    }
+
+    log.Fatal(srv.ListenAndServe())
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now let&amp;rsquo;s see how to build registered URLs.&lt;/p&gt;
+
+&lt;p&gt;Routes can be named. All routes that define a name can have their URLs built,
+or &amp;ldquo;reversed&amp;rdquo;. We define a name calling Name() on a route. For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r := mux.NewRouter()
+r.HandleFunc(&amp;quot;/articles/{category}/{id:[0-9]+}&amp;quot;, ArticleHandler).
+  Name(&amp;quot;article&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To build a URL, get the route and call the URL() method, passing a sequence of
+key/value pairs for the route variables. For the previous route, we would do:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;url, err := r.Get(&amp;quot;article&amp;quot;).URL(&amp;quot;category&amp;quot;, &amp;quot;technology&amp;quot;, &amp;quot;id&amp;quot;, &amp;quot;42&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;hellip;and the result will be a url.URL with the following path:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;/articles/technology/42&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This also works for host and query value variables:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r := mux.NewRouter()
+r.Host(&amp;quot;{subdomain}.domain.com&amp;quot;).
+  Path(&amp;quot;/articles/{category}/{id:[0-9]+}&amp;quot;).
+  Queries(&amp;quot;filter&amp;quot;, &amp;quot;{filter}&amp;quot;).
+  HandlerFunc(ArticleHandler).
+  Name(&amp;quot;article&amp;quot;)
+
+// url.String() will be &amp;quot;http://news.domain.com/articles/technology/42?filter=gorilla&amp;quot;
+url, err := r.Get(&amp;quot;article&amp;quot;).URL(&amp;quot;subdomain&amp;quot;, &amp;quot;news&amp;quot;,
+                                 &amp;quot;category&amp;quot;, &amp;quot;technology&amp;quot;,
+                                 &amp;quot;id&amp;quot;, &amp;quot;42&amp;quot;,
+                                 &amp;quot;filter&amp;quot;, &amp;quot;gorilla&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;All variables defined in the route are required, and their values must
+conform to the corresponding patterns. These requirements guarantee that a
+generated URL will always match a registered route &amp;ndash; the only exception is
+for explicitly defined &amp;ldquo;build-only&amp;rdquo; routes which never match.&lt;/p&gt;
+
+&lt;p&gt;Regex support also exists for matching Headers within a route. For example, we could do:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r.HeadersRegexp(&amp;quot;Content-Type&amp;quot;, &amp;quot;application/(text|json)&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;hellip;and the route will match both requests with a Content-Type of &lt;code&gt;application/json&lt;/code&gt; as well as
+&lt;code&gt;application/text&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;There&amp;rsquo;s also a way to build only the URL host or path for a route:
+use the methods URLHost() or URLPath() instead. For the previous route,
+we would do:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// &amp;quot;http://news.domain.com/&amp;quot;
+host, err := r.Get(&amp;quot;article&amp;quot;).URLHost(&amp;quot;subdomain&amp;quot;, &amp;quot;news&amp;quot;)
+
+// &amp;quot;/articles/technology/42&amp;quot;
+path, err := r.Get(&amp;quot;article&amp;quot;).URLPath(&amp;quot;category&amp;quot;, &amp;quot;technology&amp;quot;, &amp;quot;id&amp;quot;, &amp;quot;42&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And if you use subrouters, host and path defined separately can be built
+as well:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r := mux.NewRouter()
+s := r.Host(&amp;quot;{subdomain}.domain.com&amp;quot;).Subrouter()
+s.Path(&amp;quot;/articles/{category}/{id:[0-9]+}&amp;quot;).
+  HandlerFunc(ArticleHandler).
+  Name(&amp;quot;article&amp;quot;)
+
+// &amp;quot;http://news.domain.com/articles/technology/42&amp;quot;
+url, err := r.Get(&amp;quot;article&amp;quot;).URL(&amp;quot;subdomain&amp;quot;, &amp;quot;news&amp;quot;,
+                                 &amp;quot;category&amp;quot;, &amp;quot;technology&amp;quot;,
+                                 &amp;quot;id&amp;quot;, &amp;quot;42&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Mux supports the addition of middlewares to a Router, which are executed in the order they are added if a match is found, including its subrouters. Middlewares are (typically) small pieces of code which take one request, do something with it, and pass it down to another middleware or the final handler. Some common use cases for middleware are request logging, header manipulation, or ResponseWriter hijacking.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type MiddlewareFunc func(http.Handler) http.Handler
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Typically, the returned handler is a closure which does something with the http.ResponseWriter and http.Request passed to it, and then calls the handler passed as parameter to the MiddlewareFunc (closures can access variables from the context where they are created).&lt;/p&gt;
+
+&lt;p&gt;A very basic middleware which logs the URI of the request being handled could be written as:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func simpleMw(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        // Do stuff here
+        log.Println(r.RequestURI)
+        // Call the next handler, which can be another middleware in the chain, or the final handler.
+        next.ServeHTTP(w, r)
+    })
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Middlewares can be added to a router using &lt;code&gt;Router.Use()&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r := mux.NewRouter()
+r.HandleFunc(&amp;quot;/&amp;quot;, handler)
+r.Use(simpleMw)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A more complex authentication middleware, which maps session token to users, could be written as:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// Define our struct
+type authenticationMiddleware struct {
+    tokenUsers map[string]string
+}
+
+// Initialize it somewhere
+func (amw *authenticationMiddleware) Populate() {
+    amw.tokenUsers[&amp;quot;00000000&amp;quot;] = &amp;quot;user0&amp;quot;
+    amw.tokenUsers[&amp;quot;aaaaaaaa&amp;quot;] = &amp;quot;userA&amp;quot;
+    amw.tokenUsers[&amp;quot;05f717e5&amp;quot;] = &amp;quot;randomUser&amp;quot;
+    amw.tokenUsers[&amp;quot;deadbeef&amp;quot;] = &amp;quot;user0&amp;quot;
+}
+
+// Middleware function, which will be called for each request
+func (amw *authenticationMiddleware) Middleware(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        token := r.Header.Get(&amp;quot;X-Session-Token&amp;quot;)
+
+        if user, found := amw.tokenUsers[token]; found {
+            // We found the token in our map
+            log.Printf(&amp;quot;Authenticated user %s\n&amp;quot;, user)
+            next.ServeHTTP(w, r)
+        } else {
+            http.Error(w, &amp;quot;Forbidden&amp;quot;, http.StatusForbidden)
+        }
+    })
+}
+
+r := mux.NewRouter()
+r.HandleFunc(&amp;quot;/&amp;quot;, handler)
+
+amw := authenticationMiddleware{}
+amw.Populate()
+
+r.Use(amw.Middleware)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note: The handler chain will be stopped if your middleware doesn&amp;rsquo;t call &lt;code&gt;next.ServeHTTP()&lt;/code&gt; with the corresponding parameters. This can be used to abort a request if the middleware writer wants to.&lt;/p&gt;
+
+&lt;p&gt;(Origin official document is &lt;a href=&#34;http://www.gorillatoolkit.org/pkg/mux&#34; title=&#34;gorilla/mux document&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt; and &lt;a href=&#34;https://github.com/gorilla/mux&#34; title=&#34;gorilla/mux source code in GitHub&#34;&gt;&lt;em&gt;Source code in GitHub&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Docker: 对Docker Remote API进行认证</title>
@@ -3176,98 +3511,6 @@ func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
 &lt;hr /&gt;
 
 &lt;p&gt;(Note: &lt;a href=&#34;http://gitbus.com/alimy/dugo.git&#34; title=&#34;My Go Programming code repository&#34;&gt;&lt;em&gt;My Code repository&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Golang Tutorial: Create HTTPS Server use net/http</title>
-      <link>http://alimy.me/post/dev_201803030946/</link>
-      <pubDate>Sat, 03 Mar 2018 09:46:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201803030946/</guid>
-      <description>&lt;p&gt;It is simple to craete a HTTPS Server use net/http, see code below:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;net/http&amp;quot;
-	&amp;quot;fmt&amp;quot;
-)
-
-type SimpleHandler struct {
-	Name string
-}
-
-func (h *SimpleHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;%s: Hello World!&amp;quot;, h.Name)
-}
-
-func main() {
-	server := http.Server{
-		Addr:    &amp;quot;127.0.0.1:8080&amp;quot;,
-		Handler: &amp;amp;SimpleHandler{Name: &amp;quot;SimpleServer&amp;quot;},
-	}
-	server.ListenAndServeTLS(&amp;quot;cert.pem&amp;quot;, &amp;quot;key.pem&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;
-
-&lt;p&gt;We can use golang&amp;rsquo;s crypto libraries to create SSL certificates that used in simple https server above. see code below:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;crypto/rand&amp;quot;
-	&amp;quot;crypto/x509/pkix&amp;quot;
-	&amp;quot;math/big&amp;quot;
-	&amp;quot;crypto/x509&amp;quot;
-	&amp;quot;encoding/pem&amp;quot;
-	&amp;quot;net&amp;quot;
-	&amp;quot;os&amp;quot;
-	&amp;quot;time&amp;quot;
-	&amp;quot;crypto/rsa&amp;quot;
-)
-
-const (
-	certFileName = &amp;quot;cert.pem&amp;quot;
-	keyFileName  = &amp;quot;key.pem&amp;quot;
-)
-
-func main() {
-	max := new(big.Int).Lsh(big.NewInt(1), 128)
-	serialNumber, _ := rand.Int(rand.Reader, max)
-	subject := pkix.Name{
-		Organization:       []string{&amp;quot;Manning Publications Co.&amp;quot;},
-		OrganizationalUnit: []string{&amp;quot;Books&amp;quot;},
-		CommonName:         &amp;quot;Go Web Programming&amp;quot;,
-	}
-
-	template := x509.Certificate{
-		SerialNumber: serialNumber,
-		Subject:      subject,
-		NotBefore:    time.Now(),
-		NotAfter:     time.Now().Add(365 * 24 * time.Hour),
-		KeyUsage:     x509.KeyUsageKeyEncipherment | x509.KeyUsageDigitalSignature,
-		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
-		IPAddresses:  []net.IP{net.ParseIP(&amp;quot;127.0.0.1&amp;quot;)},
-	}
-
-	pk, _ := rsa.GenerateKey(rand.Reader, 2048)
-
-	derBytes, _ := x509.CreateCertificate(rand.Reader, &amp;amp;template, &amp;amp;template, &amp;amp;pk.PublicKey, pk)
-	certOut, _ := os.Create(certFileName)
-	pem.Encode(certOut, &amp;amp;pem.Block{Type: &amp;quot;CERTIFICATE&amp;quot;, Bytes: derBytes})
-	certOut.Close()
-
-	keyOut, _ := os.Create(keyFileName)
-	pem.Encode(keyOut, &amp;amp;pem.Block{Type: &amp;quot;RSA PRIVATE KEY&amp;quot;, Bytes: x509.MarshalPKCS1PrivateKey(pk)})
-	keyOut.Close()
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s code is reference from the simple code in book &lt;a href=&#34;https://github.com/sausheong/gwp.git&#34; title=&#34;Go Web Programming code repository&#34;&gt;&amp;lt;&lt;strong&gt;Go Web Programming&lt;/strong&gt;&amp;gt;&lt;/a&gt; and this link is &lt;a href=&#34;http://gitbus.com/alimy/dugo.git&#34; title=&#34;My Go Programming code repository&#34;&gt;&lt;em&gt;My Code repository&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
     </item>
     
   </channel>
