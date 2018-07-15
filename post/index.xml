@@ -42,6 +42,7 @@ or other conditions. The main features are:&lt;/p&gt;
     r.HandleFunc(&amp;quot;/products&amp;quot;, ProductsHandler)
     r.HandleFunc(&amp;quot;/articles&amp;quot;, ArticlesHandler)
     http.Handle(&amp;quot;/&amp;quot;, r)
+log.Fatal(http.ListenAndServe(&amp;quot;:12345&amp;quot;, nil))
 }
 &lt;/code&gt;&lt;/pre&gt;
 
