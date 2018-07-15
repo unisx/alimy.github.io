@@ -282,23 +282,23 @@ or other conditions. The main features are:</p>
 <p>Let&rsquo;s start registering a couple of URL paths and handlers:</p>
 
 <pre><code>func main() {
-    r := mux.NewRouter()
-    r.HandleFunc(&quot;/&quot;, HomeHandler)
-    r.HandleFunc(&quot;/products&quot;, ProductsHandler)
-    r.HandleFunc(&quot;/articles&quot;, ArticlesHandler)
-    http.Handle(&quot;/&quot;, r)
-log.Fatal(http.ListenAndServe(&quot;:12345&quot;, nil))
+  r := mux.NewRouter()
+  r.HandleFunc(&quot;/&quot;, HomeHandler)
+  r.HandleFunc(&quot;/products&quot;, ProductsHandler)
+  r.HandleFunc(&quot;/articles&quot;, ArticlesHandler)
+  http.Handle(&quot;/&quot;, r)
+  log.Fatal(http.ListenAndServe(&quot;:12345&quot;, nil))
 }
 </code></pre>
 
 <p>
 Here we register three routes mapping URL paths to handlers. This is
-equivalent to how http.HandleFunc() works: if an incoming request URL matches
+equivalent to how <code>http.HandleFunc()</code> works: if an incoming request URL matches
 one of the paths, the corresponding handler is called passing
-(http.ResponseWriter, *http.Request) as parameters.</p>
+<code>(http.ResponseWriter, *http.Request)</code> as parameters.</p>
 
-<p>Paths can have variables. They are defined using the format {name} or
-{name:pattern}. If a regular expression pattern is not defined, the matched
+<p>Paths can have variables. They are defined using the format <code>{name}</code> or
+<code>{name:pattern}</code>. If a regular expression pattern is not defined, the matched
 variable will be anything until the next slash. For example:</p>
 
 <pre><code>r := mux.NewRouter()
@@ -307,7 +307,7 @@ r.HandleFunc(&quot;/articles/{category}/&quot;, ArticlesCategoryHandler)
 r.HandleFunc(&quot;/articles/{category}/{id:[0-9]+}&quot;, ArticleHandler)
 </code></pre>
 
-<p>Groups can be used inside patterns, as long as they are non-capturing (?:re). For example:</p>
+<p>Groups can be used inside patterns, as long as they are non-capturing <code>(?:re)</code>. For example:</p>
 
 <pre><code>r.HandleFunc(&quot;/articles/{category}/{sort:(?:asc|desc|new)}&quot;, ArticlesCategoryHandler)
 </code></pre>
@@ -320,8 +320,8 @@ category := vars[&quot;category&quot;]
 </code></pre>
 
 <p>Note that if any capturing groups are present, mux will panic() during parsing. To prevent
-this, convert any capturing groups to non-capturing, e.g. change &ldquo;/{sort:(asc|desc)}&rdquo; to
-&ldquo;/{sort:(?:asc|desc)}&ldquo;. This is a change from prior versions which behaved unpredictably
+this, convert any capturing groups to non-capturing, e.g. change<code>&quot;/{sort:(asc|desc)}&quot;</code> to
+<code>&quot;/{sort:(?:asc|desc)}&quot;</code>. This is a change from prior versions which behaved unpredictably
 when capturing groups were present.</p>
 
 <p>And this is all you need to know about the basic usage. More advanced options
@@ -379,10 +379,10 @@ r.Host(&quot;{subdomain:[a-z]+}.domain.com&quot;)
 
 <p>Setting the same matching conditions again and again can be boring, so we have
 a way to group several routes that share the same requirements.
-We call it &ldquo;subrouting&rdquo;.</p>
+We call it <code>subrouting</code>.</p>
 
 <p>For example, let&rsquo;s say we have several URLs that should only match when the
-host is &ldquo;www.example.com&rdquo;. Create a route for that host and get a &ldquo;subrouter&rdquo;
+host is <code>www.example.com</code>. Create a route for that host and get a <code>subrouter</code>
 from it:</p>
 
 <pre><code>r := mux.NewRouter()
@@ -397,11 +397,11 @@ s.HandleFunc(&quot;/articles/{category}/{id:[0-9]+}&quot;), ArticleHandler)
 </code></pre>
 
 <p>The three URL paths we registered above will only be tested if the domain is
-&ldquo;www.example.com&rdquo;, because the subrouter is tested first. This is not
+<code>www.example.com</code>, because the subrouter is tested first. This is not
 only convenient, but also optimizes request matching. You can create
 subrouters combining any attribute matchers accepted by a route.</p>
 
-<p>Subrouters can be used to create domain or path &ldquo;namespaces&rdquo;: you define
+<p>Subrouters can be used to create domain or path <code>namespaces</code>: you define
 subrouters in a central place and then parts of the app can register its
 paths relatively to a given subrouter.</p>
 
@@ -418,9 +418,9 @@ s.HandleFunc(&quot;/{key}/&quot;, ProductHandler)
 s.HandleFunc(&quot;/{key}/details&quot;, ProductDetailsHandler)
 </code></pre>
 
-<p>Note that the path provided to PathPrefix() represents a &ldquo;wildcard&rdquo;: calling
-PathPrefix(&ldquo;/static/&rdquo;).Handler(&hellip;) means that the handler will be passed any
-request that matches &ldquo;/static/*&ldquo;. This makes it easy to serve static files with mux:</p>
+<p>Note that the path provided to <code>PathPrefix()</code> represents a &ldquo;wildcard&rdquo;: calling
+<code>PathPrefix(&quot;/static/&quot;).Handler(...)</code>means that the handler will be passed any
+request that matches<code>&quot;/static/*&quot;</code>. This makes it easy to serve static files with mux:</p>
 
 <pre><code>func main() {
     var dir string
@@ -447,15 +447,15 @@ request that matches &ldquo;/static/*&ldquo;. This makes it easy to serve static
 <p>Now let&rsquo;s see how to build registered URLs.</p>
 
 <p>Routes can be named. All routes that define a name can have their URLs built,
-or &ldquo;reversed&rdquo;. We define a name calling Name() on a route. For example:</p>
+or &ldquo;reversed&rdquo;. We define a name calling <code>Name()</code> on a route. For example:</p>
 
 <pre><code>r := mux.NewRouter()
 r.HandleFunc(&quot;/articles/{category}/{id:[0-9]+}&quot;, ArticleHandler).
   Name(&quot;article&quot;)
 </code></pre>
 
-<p>To build a URL, get the route and call the URL() method, passing a sequence of
-key/value pairs for the route variables. For the previous route, we would do:</p>
+<p>To build a URL, get the route and call the <code>URL()</code> method, passing a sequence of
+<code>key/value</code> pairs for the route variables. For the previous route, we would do:</p>
 
 <pre><code>url, err := r.Get(&quot;article&quot;).URL(&quot;category&quot;, &quot;technology&quot;, &quot;id&quot;, &quot;42&quot;)
 </code></pre>

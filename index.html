@@ -292,12 +292,12 @@ or other conditions. The main features are:</p>
 <p>Let&rsquo;s start registering a couple of URL paths and handlers:</p>
 
 <pre><code>func main() {
-    r := mux.NewRouter()
-    r.HandleFunc(&quot;/&quot;, HomeHandler)
-    r.HandleFunc(&quot;/products&quot;, ProductsHandler)
-    r.HandleFunc(&quot;/articles&quot;, ArticlesHandler)
-    http.Handle(&quot;/&quot;, r)
-log.Fatal(http.ListenAndServe(&quot;:12345&quot;, nil))
+  r := mux.NewRouter()
+  r.HandleFunc(&quot;/&quot;, HomeHandler)
+  r.HandleFunc(&quot;/products&quot;, ProductsHandler)
+  r.HandleFunc(&quot;/articles&quot;, ArticlesHandler)
+  http.Handle(&quot;/&quot;, r)
+  log.Fatal(http.ListenAndServe(&quot;:12345&quot;, nil))
 }
 </code></pre>
 </div>

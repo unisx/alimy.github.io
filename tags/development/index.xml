@@ -37,23 +37,23 @@ or other conditions. The main features are:&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s start registering a couple of URL paths and handlers:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;func main() {
-    r := mux.NewRouter()
-    r.HandleFunc(&amp;quot;/&amp;quot;, HomeHandler)
-    r.HandleFunc(&amp;quot;/products&amp;quot;, ProductsHandler)
-    r.HandleFunc(&amp;quot;/articles&amp;quot;, ArticlesHandler)
-    http.Handle(&amp;quot;/&amp;quot;, r)
-log.Fatal(http.ListenAndServe(&amp;quot;:12345&amp;quot;, nil))
+  r := mux.NewRouter()
+  r.HandleFunc(&amp;quot;/&amp;quot;, HomeHandler)
+  r.HandleFunc(&amp;quot;/products&amp;quot;, ProductsHandler)
+  r.HandleFunc(&amp;quot;/articles&amp;quot;, ArticlesHandler)
+  http.Handle(&amp;quot;/&amp;quot;, r)
+  log.Fatal(http.ListenAndServe(&amp;quot;:12345&amp;quot;, nil))
 }
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;
 Here we register three routes mapping URL paths to handlers. This is
-equivalent to how http.HandleFunc() works: if an incoming request URL matches
+equivalent to how &lt;code&gt;http.HandleFunc()&lt;/code&gt; works: if an incoming request URL matches
 one of the paths, the corresponding handler is called passing
-(http.ResponseWriter, *http.Request) as parameters.&lt;/p&gt;
+&lt;code&gt;(http.ResponseWriter, *http.Request)&lt;/code&gt; as parameters.&lt;/p&gt;
 
-&lt;p&gt;Paths can have variables. They are defined using the format {name} or
-{name:pattern}. If a regular expression pattern is not defined, the matched
+&lt;p&gt;Paths can have variables. They are defined using the format &lt;code&gt;{name}&lt;/code&gt; or
+&lt;code&gt;{name:pattern}&lt;/code&gt;. If a regular expression pattern is not defined, the matched
 variable will be anything until the next slash. For example:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;r := mux.NewRouter()
@@ -62,7 +62,7 @@ r.HandleFunc(&amp;quot;/articles/{category}/&amp;quot;, ArticlesCategoryHandler)
 r.HandleFunc(&amp;quot;/articles/{category}/{id:[0-9]+}&amp;quot;, ArticleHandler)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Groups can be used inside patterns, as long as they are non-capturing (?:re). For example:&lt;/p&gt;
+&lt;p&gt;Groups can be used inside patterns, as long as they are non-capturing &lt;code&gt;(?:re)&lt;/code&gt;. For example:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;r.HandleFunc(&amp;quot;/articles/{category}/{sort:(?:asc|desc|new)}&amp;quot;, ArticlesCategoryHandler)
 &lt;/code&gt;&lt;/pre&gt;
@@ -75,8 +75,8 @@ category := vars[&amp;quot;category&amp;quot;]
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Note that if any capturing groups are present, mux will panic() during parsing. To prevent
-this, convert any capturing groups to non-capturing, e.g. change &amp;ldquo;/{sort:(asc|desc)}&amp;rdquo; to
-&amp;ldquo;/{sort:(?:asc|desc)}&amp;ldquo;. This is a change from prior versions which behaved unpredictably
+this, convert any capturing groups to non-capturing, e.g. change&lt;code&gt;&amp;quot;/{sort:(asc|desc)}&amp;quot;&lt;/code&gt; to
+&lt;code&gt;&amp;quot;/{sort:(?:asc|desc)}&amp;quot;&lt;/code&gt;. This is a change from prior versions which behaved unpredictably
 when capturing groups were present.&lt;/p&gt;
 
 &lt;p&gt;And this is all you need to know about the basic usage. More advanced options
@@ -134,10 +134,10 @@ r.Host(&amp;quot;{subdomain:[a-z]+}.domain.com&amp;quot;)
 
 &lt;p&gt;Setting the same matching conditions again and again can be boring, so we have
 a way to group several routes that share the same requirements.
-We call it &amp;ldquo;subrouting&amp;rdquo;.&lt;/p&gt;
+We call it &lt;code&gt;subrouting&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;For example, let&amp;rsquo;s say we have several URLs that should only match when the
-host is &amp;ldquo;www.example.com&amp;rdquo;. Create a route for that host and get a &amp;ldquo;subrouter&amp;rdquo;
+host is &lt;code&gt;www.example.com&lt;/code&gt;. Create a route for that host and get a &lt;code&gt;subrouter&lt;/code&gt;
 from it:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;r := mux.NewRouter()
@@ -152,11 +152,11 @@ s.HandleFunc(&amp;quot;/articles/{category}/{id:[0-9]+}&amp;quot;), ArticleHandl
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The three URL paths we registered above will only be tested if the domain is
-&amp;ldquo;www.example.com&amp;rdquo;, because the subrouter is tested first. This is not
+&lt;code&gt;www.example.com&lt;/code&gt;, because the subrouter is tested first. This is not
 only convenient, but also optimizes request matching. You can create
 subrouters combining any attribute matchers accepted by a route.&lt;/p&gt;
 
-&lt;p&gt;Subrouters can be used to create domain or path &amp;ldquo;namespaces&amp;rdquo;: you define
+&lt;p&gt;Subrouters can be used to create domain or path &lt;code&gt;namespaces&lt;/code&gt;: you define
 subrouters in a central place and then parts of the app can register its
 paths relatively to a given subrouter.&lt;/p&gt;
 
@@ -173,9 +173,9 @@ s.HandleFunc(&amp;quot;/{key}/&amp;quot;, ProductHandler)
 s.HandleFunc(&amp;quot;/{key}/details&amp;quot;, ProductDetailsHandler)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Note that the path provided to PathPrefix() represents a &amp;ldquo;wildcard&amp;rdquo;: calling
-PathPrefix(&amp;ldquo;/static/&amp;rdquo;).Handler(&amp;hellip;) means that the handler will be passed any
-request that matches &amp;ldquo;/static/*&amp;ldquo;. This makes it easy to serve static files with mux:&lt;/p&gt;
+&lt;p&gt;Note that the path provided to &lt;code&gt;PathPrefix()&lt;/code&gt; represents a &amp;ldquo;wildcard&amp;rdquo;: calling
+&lt;code&gt;PathPrefix(&amp;quot;/static/&amp;quot;).Handler(...)&lt;/code&gt;means that the handler will be passed any
+request that matches&lt;code&gt;&amp;quot;/static/*&amp;quot;&lt;/code&gt;. This makes it easy to serve static files with mux:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;func main() {
     var dir string
@@ -202,15 +202,15 @@ request that matches &amp;ldquo;/static/*&amp;ldquo;. This makes it easy to serv
 &lt;p&gt;Now let&amp;rsquo;s see how to build registered URLs.&lt;/p&gt;
 
 &lt;p&gt;Routes can be named. All routes that define a name can have their URLs built,
-or &amp;ldquo;reversed&amp;rdquo;. We define a name calling Name() on a route. For example:&lt;/p&gt;
+or &amp;ldquo;reversed&amp;rdquo;. We define a name calling &lt;code&gt;Name()&lt;/code&gt; on a route. For example:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;r := mux.NewRouter()
 r.HandleFunc(&amp;quot;/articles/{category}/{id:[0-9]+}&amp;quot;, ArticleHandler).
   Name(&amp;quot;article&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;To build a URL, get the route and call the URL() method, passing a sequence of
-key/value pairs for the route variables. For the previous route, we would do:&lt;/p&gt;
+&lt;p&gt;To build a URL, get the route and call the &lt;code&gt;URL()&lt;/code&gt; method, passing a sequence of
+&lt;code&gt;key/value&lt;/code&gt; pairs for the route variables. For the previous route, we would do:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;url, err := r.Get(&amp;quot;article&amp;quot;).URL(&amp;quot;category&amp;quot;, &amp;quot;technology&amp;quot;, &amp;quot;id&amp;quot;, &amp;quot;42&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
