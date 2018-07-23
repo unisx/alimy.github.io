@@ -260,12 +260,12 @@ fathom('trackPageview');
         <div class="post panel-wrapper">
             <h2>Go modules</h2>
           
-          <h3 id="sect-definition">&sect;Definition</h3>
+          <h4 id="sect-definition">&sect;Definition</h4>
 
 <p>A module is a collection of related go packages. Modules are the unit of
 source code interchange and versionning.</p>
 
-<h3 id="sect-quick-history">&sect;Quick history</h3>
+<h4 id="sect-quick-history">&sect;Quick history</h4>
 
 <ul>
 <li>Go before 1.5: populating <em>GOPATH</em> with <code>go get</code>.</li>
@@ -274,7 +274,7 @@ source code interchange and versionning.</p>
 <li>Go 1.11 (beta): <code>vgo</code> is being merged and refined as <code>go mod</code> (experimental).</li>
 </ul>
 
-<h3 id="sect-terminology">&sect;Terminology</h3>
+<h4 id="sect-terminology">&sect;Terminology</h4>
 
 <p>This article refers to recurrent expressions. Let&rsquo;s clarify them:</p>
 
@@ -285,7 +285,7 @@ source code interchange and versionning.</p>
 is run.</li>
 </ul>
 
-<h3 id="sect-module-structure">&sect;Module structure</h3>
+<h4 id="sect-module-structure">&sect;Module structure</h4>
 
 <p>A module is a tree of Go source files to which is added a file named <em>go.mod</em>.
 It contains the module import name, and the declaration of dependency
@@ -324,7 +324,7 @@ that cached dependencies meet module requirements.</p>
 <p>A module root can reside <strong>anywhere</strong> on the filesystem, whatever is the
 current <em>GOPATH</em>.</p>
 
-<h3 id="sect-module-dependencies">&sect;Module dependencies</h3>
+<h4 id="sect-module-dependencies">&sect;Module dependencies</h4>
 
 <p>Dependencies are downloaded and stored in <code>GOPATH/src/mod</code>. A direct
 consequence is that the use of a <em>vendor</em> directory is now obsolete.</p>
@@ -345,7 +345,7 @@ folder.</li>
 <li>VCS data is stored in the <em>vcs</em> folder.</li>
 </ul>
 
-<h3 id="sect-enabling-go-modules-support">&sect;Enabling Go modules support</h3>
+<h4 id="sect-enabling-go-modules-support">&sect;Enabling Go modules support</h4>
 
 <p>In <em>Go 1.11beta2</em>, the environment variable <code>GO111MODULE</code> controls whether
 module support is enabled or disabled. It accepts three values: <code>on</code>, <code>off</code>,
@@ -359,14 +359,14 @@ module support is enabled or disabled. It accepts three values: <code>on</code>,
 <em>GOPATH</em> only if the current directory is a module root or one of
 its subdirectories.</p>
 
-<h3 id="sect-integration">&sect;Integration</h3>
+<h4 id="sect-integration">&sect;Integration</h4>
 
 <p>Go modules are integrated with Go tools, for instance upon invocation of
 commands such as <code>go build</code>, <code>go install</code>, <code>go run</code>, <code>go test</code> appropriate
 actions will fire up like populating the cache, creating or updating <em>go.mod</em>
 and <em>go.sum</em> etc.</p>
 
-<h3 id="sect-autoformat">&sect;Autoformat</h3>
+<h4 id="sect-autoformat">&sect;Autoformat</h4>
 
 <p>You should never have to run these commands on your own since they are
 invoked by other commands, but for the sake of completeness, let&rsquo;s mention
@@ -380,7 +380,7 @@ clean, like:</p>
 <li>Updating requirements to reflect exclusions.</li>
 </ul>
 
-<h3 id="sect-initialization">&sect;Initialization</h3>
+<h4 id="sect-initialization">&sect;Initialization</h4>
 
 <p>To create <em>go.mod</em>:</p>
 
@@ -394,7 +394,7 @@ module root lives outside a VCS.</p>
 process, module creation has support for popular dependency management tools
 like <code>dep</code>, <code>glide</code>, <code>glock</code>, <code>godep</code> and so on.</p>
 
-<h3 id="sect-synchronization">&sect;Synchronization</h3>
+<h4 id="sect-synchronization">&sect;Synchronization</h4>
 
 <p>In order to clean up unused dependencies or to fetch new ones, use the sync
 option:</p>
@@ -402,7 +402,7 @@ option:</p>
 <pre><code>go mod -sync
 </code></pre>
 
-<h3 id="sect-adding-excluding-and-replacing-dependencies">&sect;Adding, excluding and replacing dependencies</h3>
+<h4 id="sect-adding-excluding-and-replacing-dependencies">&sect;Adding, excluding and replacing dependencies</h4>
 
 <p>Two possibilities: either edit <em>go.mod</em> by hand or use the CLI. The latter
 comes with the following commands:</p>
@@ -426,14 +426,14 @@ go mod -replace src/thing@version=dst/thing@version
 go mod -dropreplace src/thing@version
 </code></pre>
 
-<h3 id="sect-dependency-graph">&sect;Dependency graph</h3>
+<h4 id="sect-dependency-graph">&sect;Dependency graph</h4>
 
 <p>To print the graph of module dependencies:</p>
 
 <pre><code>go mod -graph
 </code></pre>
 
-<h3 id="sect-generating-vendor">&sect;Generating <em>vendor</em></h3>
+<h4 id="sect-generating-vendor">&sect;Generating <em>vendor</em></h4>
 
 <p>If for backward compatibility reasons you need to ship your application with
 vendoring, you can generate the <em>vendor</em> directory from <em>go.mod</em> thanks to:</p>
@@ -441,7 +441,7 @@ vendoring, you can generate the <em>vendor</em> directory from <em>go.mod</em> t
 <pre><code>go mod -vendor
 </code></pre>
 
-<h3 id="sect-getting-help">&sect;Getting help</h3>
+<h4 id="sect-getting-help">&sect;Getting help</h4>
 
 <p>Don&rsquo;t hesistate to refer to <code>go help mod</code> and <code>go help modules</code> for further
 details about Go module support!</p>
