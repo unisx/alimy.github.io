@@ -266,6 +266,66 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201807232147/" title="阅读全文">Go modules </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="sect-definition">&sect;Definition</h3>
+
+<p>A module is a collection of related go packages. Modules are the unit of
+source code interchange and versionning.</p>
+
+<h3 id="sect-quick-history">&sect;Quick history</h3>
+
+<ul>
+<li>Go before 1.5: populating <em>GOPATH</em> with <code>go get</code>.</li>
+<li>Go 1.5 and after: dependency vendoring is introduced.</li>
+<li><a href="https://github.com/golang/vgo">vgo</a> is proposed as a prototype for Go modules support.</li>
+<li>Go 1.11 (beta): <code>vgo</code> is being merged and refined as <code>go mod</code> (experimental).</li>
+</ul>
+
+<h3 id="sect-terminology">&sect;Terminology</h3>
+
+<p>This article refers to recurrent expressions. Let&rsquo;s clarify them:</p>
+
+<ul>
+<li><em>&ldquo;Module root&rdquo;</em>: the directory containing the file named <code>go.mod</code>.</li>
+<li><em>&ldquo;Module path&rdquo;</em>: the import path prefix corresponding to the module root.</li>
+<li><em>&ldquo;Main module&rdquo;</em>: the module containing the directory where the <code>go</code> command
+is run.</li>
+</ul>
+
+<h3 id="sect-module-structure">&sect;Module structure</h3>
+
+<p>A module is a tree of Go source files to which is added a file named <em>go.mod</em>.
+It contains the module import name, and the declaration of dependency
+requirements, exclusions and replacements. Its content would look like this:</p>
+
+<pre><code class="language-text">module my/thing
+  
+require (
+        one/thing v1.3.2
+        other/thing v2.5.0 // indirect
+        ...
+)
+
+exclude (
+        bad/thing v0.7.3
+)
+
+replace (
+        src/thing 1.0.2 =&gt; dst/thing v1.1.0
+)
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201807232147/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201807151843/" title="阅读全文">Guide: gorilla/mux </a> </h2>
 
 </header>
@@ -525,40 +585,6 @@ TiDB 是新一代开源分布式 NewSQL 数据库，模型受 Google Spanner / F
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201803241012/" title="阅读全文">rsync: 中文手册 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>rsync(1)</p>
-
-<p>名称<br />
-       rsync - 一个快速、多功能的远程(和本地)文件拷贝工具</p>
-
-<p>摘要<br />
-       Local:  rsync [OPTION&hellip;] SRC&hellip; [DEST]</p>
-
-<pre><code>   Access via remote shell:
-     Pull: rsync [OPTION...] [USER@]HOST:SRC... [DEST]
-     Push: rsync [OPTION...] SRC... [USER@]HOST:DEST
-
-   Access via rsync daemon:
-     Pull: rsync [OPTION...] [USER@]HOST::SRC... [DEST]
-           rsync [OPTION...] rsync://[USER@]HOST[:PORT]/SRC... [DEST]
-     Push: rsync [OPTION...] SRC... [USER@]HOST::DEST
-           rsync [OPTION...] SRC... rsync://[USER@]HOST[:PORT]/DEST
-
-
-   当仅有一个SRC或DEST参数时将列出源文件列表而不是复制文件。
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201803241012/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     <h4>
@@ -689,8 +715,17 @@ TiDB 是新一代开源分布式 NewSQL 数据库，模型受 Google Spanner / F
         
     
     
+    
+    
+    
+    
+    
+        
+        
+    
+    
     <li
-    ><a href="http://alimy.me/page/11/">11</a></li>
+    ><a href="http://alimy.me/page/12/">12</a></li>
     
     
     <li
@@ -699,7 +734,7 @@ TiDB 是新一代开源分布式 NewSQL 数据库，模型受 Google Spanner / F
     </li>
     
     <li>
-        <a href="http://alimy.me/page/11/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="http://alimy.me/page/12/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>

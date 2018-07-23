@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Categories &middot; 北 野 </title>
+    <title> Go modules &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -156,7 +156,7 @@ fathom('trackPageview');
     </style>
 </head>
 
-<body>
+  <body>
     <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
@@ -164,9 +164,7 @@ fathom('trackPageview');
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -258,71 +256,234 @@ fathom('trackPageview');
 </noscript>
 
     <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <section id="main">
-              <div>
-                <h1 id="title">Categories</h1>
-                <style type="text/css">
-                        #double ul{
-                          width:760px;
-                          margin-bottom:20px;
-                          overflow:hidden;
-                        }
-                        #double li{
-                          line-height:1.5em;
-                          float:left;
-                          display:inline;
-                          width:50%;
-                        }
-                </style>
-                <ul id="double">
-                
-                
-                    <li>
-                        <a href="art">art</a> 13
-                    </li>
-                
-                    <li>
-                        <a href="cloud">cloud</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="development">development</a> 69
-                    </li>
-                
-                    <li>
-                        <a href="game">game</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="golang">golang</a> 2
-                    </li>
-                
-                    <li>
-                        <a href="information">information</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="language">language</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="other">other</a> 7
-                    </li>
-                
-                    <li>
-                        <a href="transport">transport</a> 48
-                    </li>
-                
-               </ul>
-              </div>
-            </section>
-            </div>
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Go modules</h2>
+          
+          <h3 id="sect-definition">&sect;Definition</h3>
+
+<p>A module is a collection of related go packages. Modules are the unit of
+source code interchange and versionning.</p>
+
+<h3 id="sect-quick-history">&sect;Quick history</h3>
+
+<ul>
+<li>Go before 1.5: populating <em>GOPATH</em> with <code>go get</code>.</li>
+<li>Go 1.5 and after: dependency vendoring is introduced.</li>
+<li><a href="https://github.com/golang/vgo">vgo</a> is proposed as a prototype for Go modules support.</li>
+<li>Go 1.11 (beta): <code>vgo</code> is being merged and refined as <code>go mod</code> (experimental).</li>
+</ul>
+
+<h3 id="sect-terminology">&sect;Terminology</h3>
+
+<p>This article refers to recurrent expressions. Let&rsquo;s clarify them:</p>
+
+<ul>
+<li><em>&ldquo;Module root&rdquo;</em>: the directory containing the file named <code>go.mod</code>.</li>
+<li><em>&ldquo;Module path&rdquo;</em>: the import path prefix corresponding to the module root.</li>
+<li><em>&ldquo;Main module&rdquo;</em>: the module containing the directory where the <code>go</code> command
+is run.</li>
+</ul>
+
+<h3 id="sect-module-structure">&sect;Module structure</h3>
+
+<p>A module is a tree of Go source files to which is added a file named <em>go.mod</em>.
+It contains the module import name, and the declaration of dependency
+requirements, exclusions and replacements. Its content would look like this:</p>
+
+<pre><code class="language-text">module my/thing
+  
+require (
+        one/thing v1.3.2
+        other/thing v2.5.0 // indirect
+        ...
+)
+
+exclude (
+        bad/thing v0.7.3
+)
+
+replace (
+        src/thing 1.0.2 =&gt; dst/thing v1.1.0
+)
+</code></pre>
+
+<p>
+Note that a dependency not directly imported in the module&rsquo;s source code by
+an import statement is indentified as <em>indirect</em> in the file.</p>
+
+<p>A module can contain other modules, in which case their content is excluded
+from the parent module.</p>
+
+<p><img src="http://alimy.me/images/post/20180723215300.png" alt="" /></p>
+
+<p>Alongside <em>go.mod</em>, a file named <code>go.sum</code> may be present. This file retains
+cryptographic cheksums of module dependencies, if any. It is used to verify
+that cached dependencies meet module requirements.</p>
+
+<p>A module root can reside <strong>anywhere</strong> on the filesystem, whatever is the
+current <em>GOPATH</em>.</p>
+
+<h3 id="sect-module-dependencies">&sect;Module dependencies</h3>
+
+<p>Dependencies are downloaded and stored in <code>GOPATH/src/mod</code>. A direct
+consequence is that the use of a <em>vendor</em> directory is now obsolete.</p>
+
+<p>What does this new structure looks like? Suppose we are working on a module
+that depends on <em>github.com/me/lib</em> at version <em>1.0.0</em>. For such a case, in
+<em>GOPATH/src/mod</em> we would find:</p>
+
+<p><img src="http://alimy.me/images/post/20180723215301.png" alt="" /></p>
+
+<p>What we can observe is:</p>
+
+<ul>
+<li>Dependencies source trees are placed at the root of this directory, with a
+slight change: the import path is suffixed with <code>@version</code>.</li>
+<li>Source archives retrieved or built from VCS are stored in the <em>download</em>
+folder.</li>
+<li>VCS data is stored in the <em>vcs</em> folder.</li>
+</ul>
+
+<h3 id="sect-enabling-go-modules-support">&sect;Enabling Go modules support</h3>
+
+<p>In <em>Go 1.11beta2</em>, the environment variable <code>GO111MODULE</code> controls whether
+module support is enabled or disabled. It accepts three values: <code>on</code>, <code>off</code>,
+<code>auto</code> (default).</p>
+
+<p>If set to <em>&ldquo;on&rdquo;</em>, module support is enabled whatever path we are in.</p>
+
+<p>If set to <em>&ldquo;off&rdquo;</em>, it is permanently disabled.</p>
+
+<p>If unset or set to <em>&ldquo;auto&rdquo;</em>, module support is enabled outside of
+<em>GOPATH</em> only if the current directory is a module root or one of
+its subdirectories.</p>
+
+<h3 id="sect-integration">&sect;Integration</h3>
+
+<p>Go modules are integrated with Go tools, for instance upon invocation of
+commands such as <code>go build</code>, <code>go install</code>, <code>go run</code>, <code>go test</code> appropriate
+actions will fire up like populating the cache, creating or updating <em>go.mod</em>
+and <em>go.sum</em> etc.</p>
+
+<h3 id="sect-autoformat">&sect;Autoformat</h3>
+
+<p>You should never have to run these commands on your own since they are
+invoked by other commands, but for the sake of completeness, let&rsquo;s mention
+that <code>go mod -fmt</code> is the equivalent of <code>go fmt</code> for <em>go.mod</em> and <em>go.sum</em>
+files and that <code>go mod -fix</code> do some smart things in order to keep <em>go.mod</em>
+clean, like:</p>
+
+<ul>
+<li>Rewriting non-canonical version identifiers to semantic versioning form.</li>
+<li>Removing duplicates.</li>
+<li>Updating requirements to reflect exclusions.</li>
+</ul>
+
+<h3 id="sect-initialization">&sect;Initialization</h3>
+
+<p>To create <em>go.mod</em>:</p>
+
+<pre><code>go mod -init
+</code></pre>
+
+<p>You may have to pass the command an import path with <code>-module &lt;path&gt;</code> if the
+module root lives outside a VCS.</p>
+
+<p>For the sake of backward compatibility and in order to ease the transition
+process, module creation has support for popular dependency management tools
+like <code>dep</code>, <code>glide</code>, <code>glock</code>, <code>godep</code> and so on.</p>
+
+<h3 id="sect-synchronization">&sect;Synchronization</h3>
+
+<p>In order to clean up unused dependencies or to fetch new ones, use the sync
+option:</p>
+
+<pre><code>go mod -sync
+</code></pre>
+
+<h3 id="sect-adding-excluding-and-replacing-dependencies">&sect;Adding, excluding and replacing dependencies</h3>
+
+<p>Two possibilities: either edit <em>go.mod</em> by hand or use the CLI. The latter
+comes with the following commands:</p>
+
+<pre><code class="language-bash"># require a new dependency
+go mod -require one/thing@version
+
+# drop a requirement
+go mod -droprequire one/thing
+
+# exclude a dependency
+go mod -exclude bad/thing@version
+
+# drop an exclusion
+go mod -dropexclude bad/thing@version
+
+# replace a dependency
+go mod -replace src/thing@version=dst/thing@version
+
+# drop a replacement
+go mod -dropreplace src/thing@version
+</code></pre>
+
+<h3 id="sect-dependency-graph">&sect;Dependency graph</h3>
+
+<p>To print the graph of module dependencies:</p>
+
+<pre><code>go mod -graph
+</code></pre>
+
+<h3 id="sect-generating-vendor">&sect;Generating <em>vendor</em></h3>
+
+<p>If for backward compatibility reasons you need to ship your application with
+vendoring, you can generate the <em>vendor</em> directory from <em>go.mod</em> thanks to:</p>
+
+<pre><code>go mod -vendor
+</code></pre>
+
+<h3 id="sect-getting-help">&sect;Getting help</h3>
+
+<p>Don&rsquo;t hesistate to refer to <code>go help mod</code> and <code>go help modules</code> for further
+details about Go module support!</p>
+
+<hr />
+
+<p>(Note: This article’s original links is <a href="https://systemdump.io/posts/2018-07-22-go-modules" title="go modules"><em>here</em></a> )</p>
         </div>
-    </body>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201807151843/" title="上一篇">&lt;&lt; Guide: gorilla/mux</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+  </body>
 </html>

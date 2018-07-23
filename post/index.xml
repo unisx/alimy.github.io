@@ -7,7 +7,204 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sun, 15 Jul 2018 18:43:00 CST</updated>
+    <updated>Mon, 23 Jul 2018 21:47:00 CST</updated>
+    
+    <item>
+      <title>Go modules</title>
+      <link>http://alimy.me/post/dev_201807232147/</link>
+      <pubDate>Mon, 23 Jul 2018 21:47:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201807232147/</guid>
+      <description>&lt;h3 id=&#34;sect-definition&#34;&gt;&amp;sect;Definition&lt;/h3&gt;
+
+&lt;p&gt;A module is a collection of related go packages. Modules are the unit of
+source code interchange and versionning.&lt;/p&gt;
+
+&lt;h3 id=&#34;sect-quick-history&#34;&gt;&amp;sect;Quick history&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Go before 1.5: populating &lt;em&gt;GOPATH&lt;/em&gt; with &lt;code&gt;go get&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Go 1.5 and after: dependency vendoring is introduced.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/golang/vgo&#34;&gt;vgo&lt;/a&gt; is proposed as a prototype for Go modules support.&lt;/li&gt;
+&lt;li&gt;Go 1.11 (beta): &lt;code&gt;vgo&lt;/code&gt; is being merged and refined as &lt;code&gt;go mod&lt;/code&gt; (experimental).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;sect-terminology&#34;&gt;&amp;sect;Terminology&lt;/h3&gt;
+
+&lt;p&gt;This article refers to recurrent expressions. Let&amp;rsquo;s clarify them:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;&amp;ldquo;Module root&amp;rdquo;&lt;/em&gt;: the directory containing the file named &lt;code&gt;go.mod&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&amp;ldquo;Module path&amp;rdquo;&lt;/em&gt;: the import path prefix corresponding to the module root.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&amp;ldquo;Main module&amp;rdquo;&lt;/em&gt;: the module containing the directory where the &lt;code&gt;go&lt;/code&gt; command
+is run.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;sect-module-structure&#34;&gt;&amp;sect;Module structure&lt;/h3&gt;
+
+&lt;p&gt;A module is a tree of Go source files to which is added a file named &lt;em&gt;go.mod&lt;/em&gt;.
+It contains the module import name, and the declaration of dependency
+requirements, exclusions and replacements. Its content would look like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;module my/thing
+  
+require (
+        one/thing v1.3.2
+        other/thing v2.5.0 // indirect
+        ...
+)
+
+exclude (
+        bad/thing v0.7.3
+)
+
+replace (
+        src/thing 1.0.2 =&amp;gt; dst/thing v1.1.0
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;
+Note that a dependency not directly imported in the module&amp;rsquo;s source code by
+an import statement is indentified as &lt;em&gt;indirect&lt;/em&gt; in the file.&lt;/p&gt;
+
+&lt;p&gt;A module can contain other modules, in which case their content is excluded
+from the parent module.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://alimy.me/images/post/20180723215300.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Alongside &lt;em&gt;go.mod&lt;/em&gt;, a file named &lt;code&gt;go.sum&lt;/code&gt; may be present. This file retains
+cryptographic cheksums of module dependencies, if any. It is used to verify
+that cached dependencies meet module requirements.&lt;/p&gt;
+
+&lt;p&gt;A module root can reside &lt;strong&gt;anywhere&lt;/strong&gt; on the filesystem, whatever is the
+current &lt;em&gt;GOPATH&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;sect-module-dependencies&#34;&gt;&amp;sect;Module dependencies&lt;/h3&gt;
+
+&lt;p&gt;Dependencies are downloaded and stored in &lt;code&gt;GOPATH/src/mod&lt;/code&gt;. A direct
+consequence is that the use of a &lt;em&gt;vendor&lt;/em&gt; directory is now obsolete.&lt;/p&gt;
+
+&lt;p&gt;What does this new structure looks like? Suppose we are working on a module
+that depends on &lt;em&gt;github.com/me/lib&lt;/em&gt; at version &lt;em&gt;1.0.0&lt;/em&gt;. For such a case, in
+&lt;em&gt;GOPATH/src/mod&lt;/em&gt; we would find:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://alimy.me/images/post/20180723215301.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;What we can observe is:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Dependencies source trees are placed at the root of this directory, with a
+slight change: the import path is suffixed with &lt;code&gt;@version&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Source archives retrieved or built from VCS are stored in the &lt;em&gt;download&lt;/em&gt;
+folder.&lt;/li&gt;
+&lt;li&gt;VCS data is stored in the &lt;em&gt;vcs&lt;/em&gt; folder.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;sect-enabling-go-modules-support&#34;&gt;&amp;sect;Enabling Go modules support&lt;/h3&gt;
+
+&lt;p&gt;In &lt;em&gt;Go 1.11beta2&lt;/em&gt;, the environment variable &lt;code&gt;GO111MODULE&lt;/code&gt; controls whether
+module support is enabled or disabled. It accepts three values: &lt;code&gt;on&lt;/code&gt;, &lt;code&gt;off&lt;/code&gt;,
+&lt;code&gt;auto&lt;/code&gt; (default).&lt;/p&gt;
+
+&lt;p&gt;If set to &lt;em&gt;&amp;ldquo;on&amp;rdquo;&lt;/em&gt;, module support is enabled whatever path we are in.&lt;/p&gt;
+
+&lt;p&gt;If set to &lt;em&gt;&amp;ldquo;off&amp;rdquo;&lt;/em&gt;, it is permanently disabled.&lt;/p&gt;
+
+&lt;p&gt;If unset or set to &lt;em&gt;&amp;ldquo;auto&amp;rdquo;&lt;/em&gt;, module support is enabled outside of
+&lt;em&gt;GOPATH&lt;/em&gt; only if the current directory is a module root or one of
+its subdirectories.&lt;/p&gt;
+
+&lt;h3 id=&#34;sect-integration&#34;&gt;&amp;sect;Integration&lt;/h3&gt;
+
+&lt;p&gt;Go modules are integrated with Go tools, for instance upon invocation of
+commands such as &lt;code&gt;go build&lt;/code&gt;, &lt;code&gt;go install&lt;/code&gt;, &lt;code&gt;go run&lt;/code&gt;, &lt;code&gt;go test&lt;/code&gt; appropriate
+actions will fire up like populating the cache, creating or updating &lt;em&gt;go.mod&lt;/em&gt;
+and &lt;em&gt;go.sum&lt;/em&gt; etc.&lt;/p&gt;
+
+&lt;h3 id=&#34;sect-autoformat&#34;&gt;&amp;sect;Autoformat&lt;/h3&gt;
+
+&lt;p&gt;You should never have to run these commands on your own since they are
+invoked by other commands, but for the sake of completeness, let&amp;rsquo;s mention
+that &lt;code&gt;go mod -fmt&lt;/code&gt; is the equivalent of &lt;code&gt;go fmt&lt;/code&gt; for &lt;em&gt;go.mod&lt;/em&gt; and &lt;em&gt;go.sum&lt;/em&gt;
+files and that &lt;code&gt;go mod -fix&lt;/code&gt; do some smart things in order to keep &lt;em&gt;go.mod&lt;/em&gt;
+clean, like:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Rewriting non-canonical version identifiers to semantic versioning form.&lt;/li&gt;
+&lt;li&gt;Removing duplicates.&lt;/li&gt;
+&lt;li&gt;Updating requirements to reflect exclusions.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;sect-initialization&#34;&gt;&amp;sect;Initialization&lt;/h3&gt;
+
+&lt;p&gt;To create &lt;em&gt;go.mod&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;go mod -init
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You may have to pass the command an import path with &lt;code&gt;-module &amp;lt;path&amp;gt;&lt;/code&gt; if the
+module root lives outside a VCS.&lt;/p&gt;
+
+&lt;p&gt;For the sake of backward compatibility and in order to ease the transition
+process, module creation has support for popular dependency management tools
+like &lt;code&gt;dep&lt;/code&gt;, &lt;code&gt;glide&lt;/code&gt;, &lt;code&gt;glock&lt;/code&gt;, &lt;code&gt;godep&lt;/code&gt; and so on.&lt;/p&gt;
+
+&lt;h3 id=&#34;sect-synchronization&#34;&gt;&amp;sect;Synchronization&lt;/h3&gt;
+
+&lt;p&gt;In order to clean up unused dependencies or to fetch new ones, use the sync
+option:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;go mod -sync
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;sect-adding-excluding-and-replacing-dependencies&#34;&gt;&amp;sect;Adding, excluding and replacing dependencies&lt;/h3&gt;
+
+&lt;p&gt;Two possibilities: either edit &lt;em&gt;go.mod&lt;/em&gt; by hand or use the CLI. The latter
+comes with the following commands:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# require a new dependency
+go mod -require one/thing@version
+
+# drop a requirement
+go mod -droprequire one/thing
+
+# exclude a dependency
+go mod -exclude bad/thing@version
+
+# drop an exclusion
+go mod -dropexclude bad/thing@version
+
+# replace a dependency
+go mod -replace src/thing@version=dst/thing@version
+
+# drop a replacement
+go mod -dropreplace src/thing@version
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;sect-dependency-graph&#34;&gt;&amp;sect;Dependency graph&lt;/h3&gt;
+
+&lt;p&gt;To print the graph of module dependencies:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;go mod -graph
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;sect-generating-vendor&#34;&gt;&amp;sect;Generating &lt;em&gt;vendor&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;If for backward compatibility reasons you need to ship your application with
+vendoring, you can generate the &lt;em&gt;vendor&lt;/em&gt; directory from &lt;em&gt;go.mod&lt;/em&gt; thanks to:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;go mod -vendor
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;sect-getting-help&#34;&gt;&amp;sect;Getting help&lt;/h3&gt;
+
+&lt;p&gt;Don&amp;rsquo;t hesistate to refer to &lt;code&gt;go help mod&lt;/code&gt; and &lt;code&gt;go help modules&lt;/code&gt; for further
+details about Go module support!&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://systemdump.io/posts/2018-07-22-go-modules&#34; title=&#34;go modules&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Guide: gorilla/mux</title>
@@ -3427,91 +3624,6 @@ Password:
 &lt;hr /&gt;
 
 &lt;p&gt;(&lt;a href=&#34;https://tools.ietf.org/html/&#34; title=&#34;IETF Documents&#34;&gt;&lt;strong&gt;IETF Documents&lt;/strong&gt;&lt;/a&gt; &amp;amp;&amp;amp; &lt;a href=&#34;https://datatracker.ietf.org/&#34; title=&#34;IETF Datatracker&#34;&gt;&lt;strong&gt;IETF Datatracker&lt;/strong&gt;&lt;/a&gt;)&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Golang Tutorial: What&#39;s DefaultServeMux in net/http</title>
-      <link>http://alimy.me/post/dev_201803031932/</link>
-      <pubDate>Sat, 03 Mar 2018 19:34:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201803031932/</guid>
-      <description>&lt;p&gt;craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;net/http&amp;quot;
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;log&amp;quot;
-)
-
-func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;[%s]: hello!&amp;quot;, r.Host)
-}
-
-func world(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;[%s]: world!&amp;quot;, r.Host)
-}
-
-func main() {
-	server := http.Server{
-		Addr: &amp;quot;127.0.0.1:8080&amp;quot;,
-	}
-	http.HandleFunc(&amp;quot;/hello&amp;quot;, hello)
-	http.HandleFunc(&amp;quot;/world&amp;quot;, world)
-
-	log.Fatal(server.ListenAndServe())
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;
-
-&lt;p&gt;the http.HandleFunc is defined below:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package http
-
-// HandleFunc registers the handler function for the given pattern
-// in the DefaultServeMux.
-// The documentation for ServeMux explains how patterns are matched.
-func HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
-	DefaultServeMux.HandleFunc(pattern, handler)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;DefaultServeMux is a ref var of &amp;amp;ServeMux&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// DefaultServeMux is the default ServeMux used by Serve.
-var DefaultServeMux = &amp;amp;defaultServeMux
-
-var defaultServeMux ServeMux
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And the method of HandleFunc is defined below:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package Server
-
-// HandleFunc registers the handler function for the given pattern.
-func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
-	mux.Handle(pattern, HandlerFunc(handler))
-}
-
-// The HandlerFunc type is an adapter to allow the use of
-// ordinary functions as HTTP handlers. If f is a function
-// with the appropriate signature, HandlerFunc(f) is a
-// Handler that calls f.
-type HandlerFunc func(ResponseWriter, *Request)
-
-// ServeHTTP calls f(w, r).
-func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
-	f(w, r)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So we see,  the method of HandleFunc convert arg of func(ResponseWriter, *Request) to a http Handler and passed to ServeMux.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: &lt;a href=&#34;http://gitbus.com/alimy/dugo.git&#34; title=&#34;My Go Programming code repository&#34;&gt;&lt;em&gt;My Code repository&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
     </item>
     
   </channel>
