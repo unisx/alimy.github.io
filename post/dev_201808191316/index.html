@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Go modules &middot; 北 野 </title>
+    <title> SRE:3节点部署TiKV用于测试功能 &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -258,201 +258,241 @@ fathom('trackPageview');
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
         <div class="post panel-wrapper">
-            <h2>Go modules</h2>
+            <h2>SRE:3节点部署TiKV用于测试功能</h2>
           
-          <h4 id="sect-definition">&sect;Definition</h4>
+          <h4 id="源起">源起</h4>
 
-<p>A module is a collection of related go packages. Modules are the unit of
-source code interchange and versionning.</p>
+<p>闲置几台屌丝版腾讯云服务器（2 core <code>CPU</code> 4GB <code>Memory</code> 40GB <code>Disk</code>)，难得清闲，用其中的3台部署一套TiKV用于测试功能和代码研究。</p>
 
-<h4 id="sect-quick-history">&sect;Quick history</h4>
+<h4 id="节点分布">节点分布</h4>
+
+<p>使用Docker进行部署,官方镜像pingcap/pd:v2.0.6、pingcap/tikv:v2.0.6</p>
+
+<pre><code>|    Name   |   Host IP   |  Services  |  Docker Volume  |  Data Path  |
+| Node1(TB) | 172.22.0.6  |    PD1     |     pd-data     |    /data    |
+| Node2(TD) | 172.22.0.10 |    PD2     |     pd-data     |    /data    |
+| Node3(TE) | 172.22.0.15 |    PD3     |     pd-data     |    /data    |
+| Node1(TB) | 172.22.0.6  |   TiKV1    |     tikv-data   |    /data    |
+| Node2(TD) | 172.22.0.10 |   TiKV2    |     tikv-data   |    /data    |
+| Node3(TE) | 172.22.0.15 |   TiKV3    |     tikv-data   |    /data    |
+</code></pre>
+
+<p></p>
+
+<h4 id="准备工作">准备工作</h4>
+
+<p>三节点（Node1/Node2/Node3)都执行</p>
+
+<pre><code>sudo docker pull pd:v2.0.6  
+sudo docker pull tikv:v2.0.6  
+sudo docker volume create pd-data  
+sudo docker volume create tikv-data
+
+export TBIP=&quot;172.21.0.6&quot;
+export TDIP=&quot;172.21.0.10&quot;
+export TEIP=&quot;172.21.0.15&quot;
+</code></pre>
+
+<h4 id="部署pd">部署PD</h4>
 
 <ul>
-<li>Go before 1.5: populating <em>GOPATH</em> with <code>go get</code>.</li>
-<li>Go 1.5 and after: dependency vendoring is introduced.</li>
-<li><a href="https://github.com/golang/vgo">vgo</a> is proposed as a prototype for Go modules support.</li>
-<li>Go 1.11 (beta): <code>vgo</code> is being merged and refined as <code>go mod</code> (experimental).</li>
+<li>In Node1(TB)&gt;：</li>
 </ul>
 
-<h4 id="sect-terminology">&sect;Terminology</h4>
-
-<p>This article refers to recurrent expressions. Let&rsquo;s clarify them:</p>
+<pre><code>sudo docker run -d --restart=always --name pd1 \
+-p 2379:2379 \
+-p 2380:2380 \
+-v pd-data:/data \
+pingcap/pd:v2.0.6 \
+--name=&quot;pd1&quot; \
+--data-dir=&quot;/data/pd1&quot; \
+--client-urls=&quot;http://0.0.0.0:2379&quot; \
+--advertise-client-urls=&quot;http://${TBIP}:2379&quot; \
+--peer-urls=&quot;http://0.0.0.0:2380&quot; \
+--advertise-peer-urls=&quot;http://${TBIP}:2380&quot; \
+--initial-cluster=&quot;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&quot;
+</code></pre>
 
 <ul>
-<li><em>&ldquo;Module root&rdquo;</em>: the directory containing the file named <code>go.mod</code>.</li>
-<li><em>&ldquo;Module path&rdquo;</em>: the import path prefix corresponding to the module root.</li>
-<li><em>&ldquo;Main module&rdquo;</em>: the module containing the directory where the <code>go</code> command
-is run.</li>
+<li>In Node2(TD)&gt;:</li>
 </ul>
 
-<h4 id="sect-module-structure">&sect;Module structure</h4>
+<pre><code>sudo docker run -d --restart=always --name pd2 \
+-p 2379:2379 \
+-p 2380:2380 \
+-v pd-data:/data \
+pingcap/pd:v2.0.6 \
+--name=&quot;pd2&quot; \
+--data-dir=&quot;/data/pd2&quot; \
+--client-urls=&quot;http://0.0.0.0:2379&quot; \
+--advertise-client-urls=&quot;http://${TDIP}:2379&quot; \
+--peer-urls=&quot;http://0.0.0.0:2380&quot; \
+--advertise-peer-urls=&quot;http://${TDIP}:2380&quot; \
+--initial-cluster=&quot;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&quot;
+</code></pre>
 
-<p>A module is a tree of Go source files to which is added a file named <em>go.mod</em>.
-It contains the module import name, and the declaration of dependency
-requirements, exclusions and replacements. Its content would look like this:</p>
+<ul>
+<li>In Node3(TE)&gt;:</li>
+</ul>
 
-<pre><code class="language-text">module my/thing
-  
-require (
-        one/thing v1.3.2
-        other/thing v2.5.0 // indirect
-        ...
+<pre><code>sudo docker run -d --restart=always --name pd3 \
+-p 2379:2379 \
+-p 2380:2380 \
+-v pd-data:/data \
+pingcap/pd:v2.0.6 \
+--name=&quot;pd3&quot; \
+--data-dir=&quot;/data/pd3&quot; \
+--client-urls=&quot;http://0.0.0.0:2379&quot; \
+--advertise-client-urls=&quot;http://${TEIP}:2379&quot; \
+--peer-urls=&quot;http://0.0.0.0:2380&quot; \
+--advertise-peer-urls=&quot;http://${TEIP}:2380&quot; \
+--initial-cluster=&quot;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&quot;
+</code></pre>
+
+<h4 id="部署tikv">部署TiKV</h4>
+
+<ul>
+<li>In Node1(TB)&gt;:</li>
+</ul>
+
+<pre><code>sudo docker run -d --restart=always --name tikv1 \
+--ulimit nofile=82920:82920 \
+-p 20160:20160 \
+-v tikv-data:/data \
+pingcap/tikv:v2.0.6 \
+--addr=&quot;0.0.0.0:20160&quot; \
+--advertise-addr=&quot;${TBIP}:20160&quot; \
+--data-dir=&quot;/data/tikv1&quot; \
+--pd=&quot;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&quot;
+</code></pre>
+
+<ul>
+<li>In Node2(TD)&gt;:</li>
+</ul>
+
+<pre><code>sudo docker run -d --restart=always --name tikv2 \
+--ulimit nofile=82920:82920 \
+-p 20160:20160 \
+-v tikv-data:/data \
+pingcap/tikv:v2.0.6 \
+--addr=&quot;0.0.0.0:20160&quot; \
+--advertise-addr=&quot;${TDIP}:20160&quot; \
+--data-dir=&quot;/data/tikv2&quot; \
+--pd=&quot;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&quot;
+</code></pre>
+
+<ul>
+<li>In Node3(TE)&gt;:</li>
+</ul>
+
+<pre><code>sudo docker run -d --restart=always --name tikv3 \
+--ulimit nofile=82920:82920 \
+-p 20160:20160 \
+-v tikv-data:/data \
+pingcap/tikv:v2.0.6 \
+--addr=&quot;0.0.0.0:20160&quot; \
+--advertise-addr=&quot;${TEIP}:20160&quot; \
+--data-dir=&quot;/data/tikv3&quot; \
+--pd=&quot;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&quot;
+</code></pre>
+
+<h4 id="检验是否部署完成">检验是否部署完成</h4>
+
+<ul>
+<li>查看PD的成员 (任意节点中执行)</li>
+</ul>
+
+<pre><code>curl ${TAIP}:2379/v2/members
+或（使用httpie）
+http ${TAIP}:2379/v2/members
+</code></pre>
+
+<ul>
+<li>查看TiKV节点 (任意节点中执行)</li>
+</ul>
+
+<pre><code>curl ${TAIP}:2379/pd/api/v1/stores
+或（使用httpie）
+http ${TAIP}:2379/pd/api/v1/stores
+</code></pre>
+
+<h4 id="tikv-api-简单使用">TiKV API 简单使用</h4>
+
+<pre><code>package main
+
+import (
+    &quot;fmt&quot;
+
+    &quot;github.com/pingcap/tidb/config&quot;
+    &quot;github.com/pingcap/tidb/store/tikv&quot;
 )
 
-exclude (
-        bad/thing v0.7.3
-)
+func main() {
+    cli, err := tikv.NewRawKVClient([]string{&quot;:2379&quot;}, config.Security{})
+    if err != nil {
+        panic(err)
+    }
+    defer cli.Close()
 
-replace (
-        src/thing 1.0.2 =&gt; dst/thing v1.1.0
-)
+    fmt.Printf(&quot;cluster ID: %d\n&quot;, cli.ClusterID())
+
+    key := []byte(&quot;Company&quot;)
+    val := []byte(&quot;PingCAP&quot;)
+
+    // put key into tikv
+    err = cli.Put(key, val)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Printf(&quot;Successfully put %s:%s to tikv\n&quot;, key, val)
+
+    // get key from tikv
+    val, err = cli.Get(key)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Printf(&quot;found val: %s for key: %s\n&quot;, val, key)
+
+    // delete key from tikv
+    err = cli.Delete(key)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Printf(&quot;key: %s deleted\n&quot;, key)
+
+    // get key again from tikv
+    val, err = cli.Get(key)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Printf(&quot;found val: %s for key: %s\n&quot;, val, key)
+}
+
+// output:
+// INFO[0000] [pd] create pd client with endpoints [192.168.199.113:2379]
+// INFO[0000] [pd] leader switches to: http://127.0.0.1:2379, previous:
+// INFO[0000] [pd] init cluster id 6554145799874853483
+// cluster ID: 6554145799874853483
+// Successfully put Company:PingCAP to tikv
+// found val: PingCAP for key: Company
+// key: Company deleted
+// found val:  for key: Company
 </code></pre>
 
-<p>
-Note that a dependency not directly imported in the module&rsquo;s source code by
-an import statement is indentified as <em>indirect</em> in the file.</p>
-
-<p>A module can contain other modules, in which case their content is excluded
-from the parent module.</p>
-
-<p><img src="http://alimy.me/images/post/20180723215300.png" alt="" /></p>
-
-<p>Alongside <em>go.mod</em>, a file named <code>go.sum</code> may be present. This file retains
-cryptographic cheksums of module dependencies, if any. It is used to verify
-that cached dependencies meet module requirements.</p>
-
-<p>A module root can reside <strong>anywhere</strong> on the filesystem, whatever is the
-current <em>GOPATH</em>.</p>
-
-<h4 id="sect-module-dependencies">&sect;Module dependencies</h4>
-
-<p>Dependencies are downloaded and stored in <code>GOPATH/src/mod</code>. A direct
-consequence is that the use of a <em>vendor</em> directory is now obsolete.</p>
-
-<p>What does this new structure looks like? Suppose we are working on a module
-that depends on <em>github.com/me/lib</em> at version <em>1.0.0</em>. For such a case, in
-<em>GOPATH/src/mod</em> we would find:</p>
-
-<p><img src="http://alimy.me/images/post/20180723215301.png" alt="" /></p>
-
-<p>What we can observe is:</p>
+<h4 id="注意要点">注意要点</h4>
 
 <ul>
-<li>Dependencies source trees are placed at the root of this directory, with a
-slight change: the import path is suffixed with <code>@version</code>.</li>
-<li>Source archives retrieved or built from VCS are stored in the <em>download</em>
-folder.</li>
-<li>VCS data is stored in the <em>vcs</em> folder.</li>
+<li>在部署TiKV时， 如果按官方文档部署， 有的使用环境下会出现因为Docker容器内最大文件打开数小于82920导致启动TiKV服务失败, 需要添加<code>--ulimit nofile=82920:82920</code>选项使用docker启动TiKV</li>
+<li>PD先部署启动完成后再去部署TiKV</li>
 </ul>
-
-<h4 id="sect-enabling-go-modules-support">&sect;Enabling Go modules support</h4>
-
-<p>In <em>Go 1.11beta2</em>, the environment variable <code>GO111MODULE</code> controls whether
-module support is enabled or disabled. It accepts three values: <code>on</code>, <code>off</code>,
-<code>auto</code> (default).</p>
-
-<p>If set to <em>&ldquo;on&rdquo;</em>, module support is enabled whatever path we are in.</p>
-
-<p>If set to <em>&ldquo;off&rdquo;</em>, it is permanently disabled.</p>
-
-<p>If unset or set to <em>&ldquo;auto&rdquo;</em>, module support is enabled outside of
-<em>GOPATH</em> only if the current directory is a module root or one of
-its subdirectories.</p>
-
-<h4 id="sect-integration">&sect;Integration</h4>
-
-<p>Go modules are integrated with Go tools, for instance upon invocation of
-commands such as <code>go build</code>, <code>go install</code>, <code>go run</code>, <code>go test</code> appropriate
-actions will fire up like populating the cache, creating or updating <em>go.mod</em>
-and <em>go.sum</em> etc.</p>
-
-<h4 id="sect-autoformat">&sect;Autoformat</h4>
-
-<p>You should never have to run these commands on your own since they are
-invoked by other commands, but for the sake of completeness, let&rsquo;s mention
-that <code>go mod -fmt</code> is the equivalent of <code>go fmt</code> for <em>go.mod</em> and <em>go.sum</em>
-files and that <code>go mod -fix</code> do some smart things in order to keep <em>go.mod</em>
-clean, like:</p>
-
-<ul>
-<li>Rewriting non-canonical version identifiers to semantic versioning form.</li>
-<li>Removing duplicates.</li>
-<li>Updating requirements to reflect exclusions.</li>
-</ul>
-
-<h4 id="sect-initialization">&sect;Initialization</h4>
-
-<p>To create <em>go.mod</em>:</p>
-
-<pre><code>go mod -init
-</code></pre>
-
-<p>You may have to pass the command an import path with <code>-module &lt;path&gt;</code> if the
-module root lives outside a VCS.</p>
-
-<p>For the sake of backward compatibility and in order to ease the transition
-process, module creation has support for popular dependency management tools
-like <code>dep</code>, <code>glide</code>, <code>glock</code>, <code>godep</code> and so on.</p>
-
-<h4 id="sect-synchronization">&sect;Synchronization</h4>
-
-<p>In order to clean up unused dependencies or to fetch new ones, use the sync
-option:</p>
-
-<pre><code>go mod -sync
-</code></pre>
-
-<h4 id="sect-adding-excluding-and-replacing-dependencies">&sect;Adding, excluding and replacing dependencies</h4>
-
-<p>Two possibilities: either edit <em>go.mod</em> by hand or use the CLI. The latter
-comes with the following commands:</p>
-
-<pre><code class="language-bash"># require a new dependency
-go mod -require one/thing@version
-
-# drop a requirement
-go mod -droprequire one/thing
-
-# exclude a dependency
-go mod -exclude bad/thing@version
-
-# drop an exclusion
-go mod -dropexclude bad/thing@version
-
-# replace a dependency
-go mod -replace src/thing@version=dst/thing@version
-
-# drop a replacement
-go mod -dropreplace src/thing@version
-</code></pre>
-
-<h4 id="sect-dependency-graph">&sect;Dependency graph</h4>
-
-<p>To print the graph of module dependencies:</p>
-
-<pre><code>go mod -graph
-</code></pre>
-
-<h4 id="sect-generating-vendor">&sect;Generating <em>vendor</em></h4>
-
-<p>If for backward compatibility reasons you need to ship your application with
-vendoring, you can generate the <em>vendor</em> directory from <em>go.mod</em> thanks to:</p>
-
-<pre><code>go mod -vendor
-</code></pre>
-
-<h4 id="sect-getting-help">&sect;Getting help</h4>
-
-<p>Don&rsquo;t hesistate to refer to <code>go help mod</code> and <code>go help modules</code> for further
-details about Go module support!</p>
 
 <hr />
 
-<p>(Note: This article’s original links is <a href="https://systemdump.io/posts/2018-07-22-go-modules" title="go modules"><em>here</em></a> )</p>
+<p><a href="https://www.pingcap.com/docs/tikv/deploy-tikv-using-docker/" title="deploy-tikv-using-docker">Docker部署TiKV官方文档</a></p>
         </div>
         <div id="post-navigator">
-          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201807151843/" title="上一篇">&lt;&lt; Guide: gorilla/mux</a>
-          <a id="post-navigator-next" href="http://alimy.me/post/dev_201808191316/" title="下一篇">SRE:3节点部署TiKV用于测试功能 >></a>
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201807232147/" title="上一篇">&lt;&lt; Go modules</a>
+          
         </div>
         <div id="post-comments">
           <h3>Comments</h3>

@@ -7,7 +7,244 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Mon, 23 Jul 2018 21:47:00 CST</updated>
+    <updated>Sun, 19 Aug 2018 13:16:00 CST</updated>
+    
+    <item>
+      <title>SRE:3节点部署TiKV用于测试功能</title>
+      <link>http://alimy.me/post/dev_201808191316/</link>
+      <pubDate>Sun, 19 Aug 2018 13:16:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201808191316/</guid>
+      <description>&lt;h4 id=&#34;源起&#34;&gt;源起&lt;/h4&gt;
+
+&lt;p&gt;闲置几台屌丝版腾讯云服务器（2 core &lt;code&gt;CPU&lt;/code&gt; 4GB &lt;code&gt;Memory&lt;/code&gt; 40GB &lt;code&gt;Disk&lt;/code&gt;)，难得清闲，用其中的3台部署一套TiKV用于测试功能和代码研究。&lt;/p&gt;
+
+&lt;h4 id=&#34;节点分布&#34;&gt;节点分布&lt;/h4&gt;
+
+&lt;p&gt;使用Docker进行部署,官方镜像pingcap/pd:v2.0.6、pingcap/tikv:v2.0.6&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;|    Name   |   Host IP   |  Services  |  Docker Volume  |  Data Path  |
+| Node1(TB) | 172.22.0.6  |    PD1     |     pd-data     |    /data    |
+| Node2(TD) | 172.22.0.10 |    PD2     |     pd-data     |    /data    |
+| Node3(TE) | 172.22.0.15 |    PD3     |     pd-data     |    /data    |
+| Node1(TB) | 172.22.0.6  |   TiKV1    |     tikv-data   |    /data    |
+| Node2(TD) | 172.22.0.10 |   TiKV2    |     tikv-data   |    /data    |
+| Node3(TE) | 172.22.0.15 |   TiKV3    |     tikv-data   |    /data    |
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;准备工作&#34;&gt;准备工作&lt;/h4&gt;
+
+&lt;p&gt;三节点（Node1/Node2/Node3)都执行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo docker pull pd:v2.0.6  
+sudo docker pull tikv:v2.0.6  
+sudo docker volume create pd-data  
+sudo docker volume create tikv-data
+
+export TBIP=&amp;quot;172.21.0.6&amp;quot;
+export TDIP=&amp;quot;172.21.0.10&amp;quot;
+export TEIP=&amp;quot;172.21.0.15&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;部署pd&#34;&gt;部署PD&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;In Node1(TB)&amp;gt;：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo docker run -d --restart=always --name pd1 \
+-p 2379:2379 \
+-p 2380:2380 \
+-v pd-data:/data \
+pingcap/pd:v2.0.6 \
+--name=&amp;quot;pd1&amp;quot; \
+--data-dir=&amp;quot;/data/pd1&amp;quot; \
+--client-urls=&amp;quot;http://0.0.0.0:2379&amp;quot; \
+--advertise-client-urls=&amp;quot;http://${TBIP}:2379&amp;quot; \
+--peer-urls=&amp;quot;http://0.0.0.0:2380&amp;quot; \
+--advertise-peer-urls=&amp;quot;http://${TBIP}:2380&amp;quot; \
+--initial-cluster=&amp;quot;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;In Node2(TD)&amp;gt;:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo docker run -d --restart=always --name pd2 \
+-p 2379:2379 \
+-p 2380:2380 \
+-v pd-data:/data \
+pingcap/pd:v2.0.6 \
+--name=&amp;quot;pd2&amp;quot; \
+--data-dir=&amp;quot;/data/pd2&amp;quot; \
+--client-urls=&amp;quot;http://0.0.0.0:2379&amp;quot; \
+--advertise-client-urls=&amp;quot;http://${TDIP}:2379&amp;quot; \
+--peer-urls=&amp;quot;http://0.0.0.0:2380&amp;quot; \
+--advertise-peer-urls=&amp;quot;http://${TDIP}:2380&amp;quot; \
+--initial-cluster=&amp;quot;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;In Node3(TE)&amp;gt;:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo docker run -d --restart=always --name pd3 \
+-p 2379:2379 \
+-p 2380:2380 \
+-v pd-data:/data \
+pingcap/pd:v2.0.6 \
+--name=&amp;quot;pd3&amp;quot; \
+--data-dir=&amp;quot;/data/pd3&amp;quot; \
+--client-urls=&amp;quot;http://0.0.0.0:2379&amp;quot; \
+--advertise-client-urls=&amp;quot;http://${TEIP}:2379&amp;quot; \
+--peer-urls=&amp;quot;http://0.0.0.0:2380&amp;quot; \
+--advertise-peer-urls=&amp;quot;http://${TEIP}:2380&amp;quot; \
+--initial-cluster=&amp;quot;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;部署tikv&#34;&gt;部署TiKV&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;In Node1(TB)&amp;gt;:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo docker run -d --restart=always --name tikv1 \
+--ulimit nofile=82920:82920 \
+-p 20160:20160 \
+-v tikv-data:/data \
+pingcap/tikv:v2.0.6 \
+--addr=&amp;quot;0.0.0.0:20160&amp;quot; \
+--advertise-addr=&amp;quot;${TBIP}:20160&amp;quot; \
+--data-dir=&amp;quot;/data/tikv1&amp;quot; \
+--pd=&amp;quot;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;In Node2(TD)&amp;gt;:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo docker run -d --restart=always --name tikv2 \
+--ulimit nofile=82920:82920 \
+-p 20160:20160 \
+-v tikv-data:/data \
+pingcap/tikv:v2.0.6 \
+--addr=&amp;quot;0.0.0.0:20160&amp;quot; \
+--advertise-addr=&amp;quot;${TDIP}:20160&amp;quot; \
+--data-dir=&amp;quot;/data/tikv2&amp;quot; \
+--pd=&amp;quot;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;In Node3(TE)&amp;gt;:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo docker run -d --restart=always --name tikv3 \
+--ulimit nofile=82920:82920 \
+-p 20160:20160 \
+-v tikv-data:/data \
+pingcap/tikv:v2.0.6 \
+--addr=&amp;quot;0.0.0.0:20160&amp;quot; \
+--advertise-addr=&amp;quot;${TEIP}:20160&amp;quot; \
+--data-dir=&amp;quot;/data/tikv3&amp;quot; \
+--pd=&amp;quot;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;检验是否部署完成&#34;&gt;检验是否部署完成&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;查看PD的成员 (任意节点中执行)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;curl ${TAIP}:2379/v2/members
+或（使用httpie）
+http ${TAIP}:2379/v2/members
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;查看TiKV节点 (任意节点中执行)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;curl ${TAIP}:2379/pd/api/v1/stores
+或（使用httpie）
+http ${TAIP}:2379/pd/api/v1/stores
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;tikv-api-简单使用&#34;&gt;TiKV API 简单使用&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+    &amp;quot;fmt&amp;quot;
+
+    &amp;quot;github.com/pingcap/tidb/config&amp;quot;
+    &amp;quot;github.com/pingcap/tidb/store/tikv&amp;quot;
+)
+
+func main() {
+    cli, err := tikv.NewRawKVClient([]string{&amp;quot;:2379&amp;quot;}, config.Security{})
+    if err != nil {
+        panic(err)
+    }
+    defer cli.Close()
+
+    fmt.Printf(&amp;quot;cluster ID: %d\n&amp;quot;, cli.ClusterID())
+
+    key := []byte(&amp;quot;Company&amp;quot;)
+    val := []byte(&amp;quot;PingCAP&amp;quot;)
+
+    // put key into tikv
+    err = cli.Put(key, val)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Printf(&amp;quot;Successfully put %s:%s to tikv\n&amp;quot;, key, val)
+
+    // get key from tikv
+    val, err = cli.Get(key)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Printf(&amp;quot;found val: %s for key: %s\n&amp;quot;, val, key)
+
+    // delete key from tikv
+    err = cli.Delete(key)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Printf(&amp;quot;key: %s deleted\n&amp;quot;, key)
+
+    // get key again from tikv
+    val, err = cli.Get(key)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Printf(&amp;quot;found val: %s for key: %s\n&amp;quot;, val, key)
+}
+
+// output:
+// INFO[0000] [pd] create pd client with endpoints [192.168.199.113:2379]
+// INFO[0000] [pd] leader switches to: http://127.0.0.1:2379, previous:
+// INFO[0000] [pd] init cluster id 6554145799874853483
+// cluster ID: 6554145799874853483
+// Successfully put Company:PingCAP to tikv
+// found val: PingCAP for key: Company
+// key: Company deleted
+// found val:  for key: Company
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;注意要点&#34;&gt;注意要点&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在部署TiKV时， 如果按官方文档部署， 有的使用环境下会出现因为Docker容器内最大文件打开数小于82920导致启动TiKV服务失败, 需要添加&lt;code&gt;--ulimit nofile=82920:82920&lt;/code&gt;选项使用docker启动TiKV&lt;/li&gt;
+&lt;li&gt;PD先部署启动完成后再去部署TiKV&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.pingcap.com/docs/tikv/deploy-tikv-using-docker/&#34; title=&#34;deploy-tikv-using-docker&#34;&gt;Docker部署TiKV官方文档&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Go modules</title>
@@ -3597,27 +3834,6 @@ Password:
 &lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc2616&#34; title=&#34;Hypertext Transfer Protocol -- HTTP/1.1&#34;&gt;&lt;strong&gt;HTTP 1.1&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc2616.txt &lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc7540&#34; title=&#34;Hypertext Transfer Protocol Version 2 -- HTTP/2&#34;&gt;&lt;strong&gt;HTTP 2.0&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc7540.txt &lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(&lt;a href=&#34;https://tools.ietf.org/html/&#34; title=&#34;IETF Documents&#34;&gt;&lt;strong&gt;IETF Documents&lt;/strong&gt;&lt;/a&gt; &amp;amp;&amp;amp; &lt;a href=&#34;https://datatracker.ietf.org/&#34; title=&#34;IETF Datatracker&#34;&gt;&lt;strong&gt;IETF Datatracker&lt;/strong&gt;&lt;/a&gt;)&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>RFC: TLS 1.0/1.1/1.2/1.3</title>
-      <link>http://alimy.me/post/dev_201803122145/</link>
-      <pubDate>Mon, 12 Mar 2018 21:45:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201803122145/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc2246&#34; title=&#34;TLS 1.0&#34;&gt;&lt;strong&gt;TLS 1.0&lt;/strong&gt; RFC http://www.ietf.org/rfc/rfc2246.txt &lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc4346&#34; title=&#34;TLS 1.1&#34;&gt;&lt;strong&gt;TLS 1.1&lt;/strong&gt; RFC http://www.ietf.org/rfc/rfc4346.txt &lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc5246&#34; title=&#34;TLS 1.2&#34;&gt;&lt;strong&gt;TLS 1.2&lt;/strong&gt; RFC http://www.ietf.org/rfc/rfc5246.txt &lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc8446&#34; title=&#34;TLS 1.3&#34;&gt;&lt;strong&gt;TLS 1.3&lt;/strong&gt; RFC http://www.ietf.org/rfc/rfc8446.txt &lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;
 
