@@ -38,8 +38,8 @@
 
 &lt;p&gt;三节点（Node1/Node2/Node3)都执行&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;sudo docker pull pd:v2.0.6  
-sudo docker pull tikv:v2.0.6  
+&lt;pre&gt;&lt;code&gt;sudo docker pull pingcap/pd:v2.0.6  
+sudo docker pull pingcap/tikv:v2.0.6  
 sudo docker volume create pd-data  
 sudo docker volume create tikv-data
 
