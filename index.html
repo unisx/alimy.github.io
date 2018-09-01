@@ -266,6 +266,58 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/day_2018090119142/" title="阅读全文">Hello, Rustacean </a> </h2>
+
+</header>
+<div class="summary">
+    <pre><code>fn main() {
+    let greetings = [&quot;Hello&quot;, &quot;Hola&quot;, &quot;Bonjour&quot;,
+                     &quot;Ciao&quot;, &quot;こんにちは&quot;, &quot;안녕하세요&quot;,
+                     &quot;Cześć&quot;, &quot;Olá&quot;, &quot;Здравствуйте&quot;,
+                     &quot;Chào bạn&quot;, &quot;您好&quot;, &quot;Hallo&quot;,
+                     &quot;Hej&quot;, &quot;Ahoj&quot;, &quot;سلام&quot;,&quot;สวัสดี&quot;];
+
+    for (num, greeting) in greetings.iter().enumerate() {
+        print!(&quot;{} : &quot;, greeting);
+        match num {
+            0 =&gt;  println!(&quot;This code is editable and runnable!&quot;),
+            1 =&gt;  println!(&quot;¡Este código es editable y ejecutable!&quot;),
+            2 =&gt;  println!(&quot;Ce code est modifiable et exécutable !&quot;),
+            3 =&gt;  println!(&quot;Questo codice è modificabile ed eseguibile!&quot;),
+            4 =&gt;  println!(&quot;このコードは編集して実行出来ます！&quot;),
+            5 =&gt;  println!(&quot;여기에서 코드를 수정하고 실행할 수 있습니다!&quot;),
+            6 =&gt;  println!(&quot;Ten kod można edytować oraz uruchomić!&quot;),
+            7 =&gt;  println!(&quot;Este código é editável e executável!&quot;),
+            8 =&gt;  println!(&quot;Этот код можно отредактировать и запустить!&quot;),
+            9 =&gt;  println!(&quot;Bạn có thể edit và run code trực tiếp!&quot;),
+            10 =&gt; println!(&quot;这段代码是可以编辑并且能够运行的！&quot;),
+            11 =&gt; println!(&quot;Dieser Code kann bearbeitet und ausgeführt werden!&quot;),
+            12 =&gt; println!(&quot;Den här koden kan redigeras och köras!&quot;),
+            13 =&gt; println!(&quot;Tento kód můžete upravit a spustit&quot;),
+            14 =&gt; println!(&quot;این کد قابلیت ویرایش و اجرا دارد!&quot;),
+            15 =&gt; println!(&quot;โค้ดนี้สามารถแก้ไขได้และรันได้&quot;),
+            _ =&gt;  {},
+        }
+    }
+}
+</code></pre>
+
+<p>没错，今天开始，我正式入坑<a href="https://www.rust-lang.org" title="Rust official site"><strong>Rust</strong></a>，要成为<a href="http://www.rustacean.net/" title="Hello, crustaceans"><strong>Rustacean</strong></a>（Rust社区的成员被称为 Rustacean）的一员！我已经是一名Gopher（Golang程序猿的昵称），日常就是使用Go写写bug，研究一下大佬们的代码，然后继续写自个儿的bug，标准的Gopher节奏，WTF～</p>
+
+<p>话说，<a href="https://golang.org" title="Go official site"><strong>Golang</strong></a>的吉祥物是Gopher（囊地鼠），陆上跑地欢；Rust的吉祥物是Crab（螃蟹），海里游地慌；巧合吗，很有意思！既如此，已经入坑了陆上跑地欢的<code>Go</code>，再入手个海里游地慌的<code>Rust</code>，又有何妨，乐哉!似乎还有一个<code>Swift</code>，吉祥物是天上飞的雨燕， 也是计划入手的一门语言，但不是现在（项目暂时没用上,不急）， 到时候就海陆空全齐了， 哈哈哈～</p>
+
+<p>欲攻其事，必先善其器，各门语言有他们擅长的使用场景，都有他们各自溜的舞台，项目需要或适合什么语言去构建，自然就要入手去使用，达到最好运行效果！ 嗯哼， 之所以入手Rust语言，除了项目用的上，更简单的原因就是：看上了<a href="https://github.com/tikv/tikv" title="TikV in GitHub"><strong>TiKV</strong></a> ~<em>So Easy So Nice</em>~</p>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/day_2018090119142/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201808191316/" title="阅读全文">SRE:3节点部署TiKV用于测试功能 </a> </h2>
 
 </header>
@@ -564,30 +616,6 @@ this patch fixed this problem.</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/info_201805210818/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201805021940/" title="阅读全文">NewSQL: 分布式数据库TiDB、CockroachDB </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="tidb-https-pingcap-com-pingcap官网"><a href="https://pingcap.com/" title="PingCap官网">TiDB</a></h3>
-
-<p>TiDB 开源分布式 NewSQL 关系型数据库
-TiDB 是新一代开源分布式 NewSQL 数据库，模型受 Google Spanner / F1 论文的启发，实现了自动的水平伸缩，强一致性的分布式事务，基于 Raft 算法的多副本复制等重要 NewSQL 特性。TiDB 结合了 RDBMS 和 NoSQL 的优点，部署简单，在线弹性扩容和异步表结构变更不影响业务， 真正的异地多活及自动故障恢复保障数据安全，同时兼容 <a href="https://mariadb.com/kb/en/library/documentation/" title="MariaDB Documentation">MySQL</a> 协议，使迁移使用成本降到极低。</p>
-
-<h3 id="cockroachdb-https-www-cockroachlabs-com-cockroach-labs-蟑螂db-小强db"><a href="https://www.cockroachlabs.com/" title="Cockroach LABS">CockroachDB</a> (蟑螂DB/小强DB)</h3>
-
-<p>CockroachDB（中文名蟑螂DB，所以又可以称为小强DB），是构建于事务处理及强一致性KV存储上的分布式SQL数据库，支持水平扩展、自动容错处理、强一致性事务，并且提供SQL接口用于数据处理，是Google Spanner/F1的开源实现。
-   CockroachDB适用于应用对数据要求精确、可靠、完全正确的场景，支持自动复制、均匀分布、基于极小配置的数据恢复，可用于分布式的、可复制的联机事务处理（OLTP），多数据中心的部署，私有云的基础构建，它不适用于读少写多的场景，可以用内存数据库来代替，也不适用于复杂的join查询，重量级的数据分析及联机分析处理（OLAP）。</p>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201805021940/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
