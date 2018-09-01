@@ -51,7 +51,7 @@
 
 &lt;p&gt;话说，&lt;a href=&#34;https://golang.org&#34; title=&#34;Go official site&#34;&gt;&lt;strong&gt;Golang&lt;/strong&gt;&lt;/a&gt;的吉祥物是Gopher（囊地鼠），陆上跑地欢；Rust的吉祥物是Crab（螃蟹），海里游地慌；巧合吗，很有意思！既如此，已经入坑了陆上跑地欢的&lt;code&gt;Go&lt;/code&gt;，再入手个海里游地慌的&lt;code&gt;Rust&lt;/code&gt;，又有何妨，乐哉!似乎还有一个&lt;code&gt;Swift&lt;/code&gt;，吉祥物是天上飞的雨燕， 也是计划入手的一门语言，但不是现在（项目暂时没用上,不急）， 到时候就海陆空全齐了， 哈哈哈～&lt;/p&gt;
 
-&lt;p&gt;欲攻其事，必先善其器，各门语言有他们擅长的使用场景，都有他们各自溜的舞台，项目需要或适合什么语言去构建，自然就要入手去使用，达到最好运行效果！ 嗯哼， 之所以入手Rust语言，除了项目用的上，更简单的原因就是：看上了&lt;a href=&#34;https://github.com/tikv/tikv&#34; title=&#34;TikV in GitHub&#34;&gt;&lt;strong&gt;TiKV&lt;/strong&gt;&lt;/a&gt; ~&lt;em&gt;So Easy To Nice&lt;/em&gt;~&lt;/p&gt;
+&lt;p&gt;欲攻其事，必先善其器，各门语言有他们擅长的使用场景，都有他们各自溜的舞台，项目需要或适合什么语言去构建，自然就要入手去使用，达到最好运行效果！ 学过很多语言，所以会多种语言，但日常编程用的最多的还是Go和Java， 嗯哼， 之所以还入手Rust语言，除了项目用的上，更简单的原因就是：看上了&lt;a href=&#34;https://github.com/tikv/tikv&#34; title=&#34;TikV in GitHub&#34;&gt;&lt;strong&gt;TiKV&lt;/strong&gt;&lt;/a&gt; ~&lt;em&gt;So Easy To Nice&lt;/em&gt;~&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
