@@ -290,6 +290,63 @@ TiDB 是新一代开源分布式 NewSQL 数据库，模型受 Google Spanner / F
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201804192316/" title="阅读全文">Logus:另一种简单、优雅、高效打Log的方式 </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="起源">起源：</h3>
+
+<p>最近项目中有使用Uber的<a href="https://github.com/uber-go/zap" title="zap in GitHub">zap</a>（Go语言生态中一种高效打印Log的实用库，久经考验）打印log，用的顺手，于是借鉴其中的设计思想，在Android环境下封装Log类提供相似功能。</p>
+
+<h3 id="设计思想">设计思想：</h3>
+
+<p>分离消息与数据域，避免字符串拼接和效率低的字符串格式化</p>
+
+<ul>
+<li>把log信息分两段：消息和数据域；消息是必须的， 数据域是个数可变的键-值对</li>
+<li>消息仅仅是String，不带任何格式化或字符串拼接</li>
+<li>数据域是以key-value的形式成对作为参数传给打印函数，忽略最后一个不成对参数</li>
+<li>内部实现是使用StringBuilder组合最终要打印的信息，避免过多的字符串拼接导致log打印频繁时给gc过多压力</li>
+<li>StackTrace信息是可以设置打印或不打印</li>
+</ul>
+
+<h3 id="用例">用例：</h3>
+
+<pre><code>// file: MainActivity.java
+@Override
+protected void onResume() {
+    super.onResume();
+    Logus.d(&quot;just a message&quot;);
+    Logus.e(&quot;a field message&quot;, &quot;a&quot;, 1);
+    Logus.w(&quot;3 fields but see 2&quot;, &quot;a&quot;, 1, &quot;b&quot;, true, &quot;c&quot;);
+    Logus.V(&quot;Main&quot;, &quot;with prefix just a message&quot;);
+    Logus.E(&quot;Main&quot;, &quot;with prefix 2 fields&quot;, &quot;a&quot;, 10, &quot;b&quot;, false);
+    Logus.E(&quot;Main&quot;, &quot;with prefix 3 fields but log 2&quot;, &quot;a&quot;, 10, &quot;b&quot;, true, &quot;c&quot;);
+    Logus.setStackTrace(false);
+    Logus.E(&quot;Main&quot;, &quot;no stack trace with prefix&quot;);
+}
+
+// 输出：
+04-19 22:12:56.209 3256-3256/net.gility.note  D/Logus: MainActivity.java(425)#onResume &gt; just a message
+04-19 22:12:56.210 3256-3256/net.gility.note  E/Logus: MainActivity.java(426)#onResume &gt; a field message { a=1; }
+04-19 22:12:56.210 3256-3256/net.gility.note  W/Logus: MainActivity.java(427)#onResume &gt; 3 fields but see 2 { a=1; b=true; }
+04-19 22:12:56.211 3256-3256/net.gility.note  V/Logus: MainActivity.java(428)#onResume Main&gt; with prefix just a message
+04-19 22:12:56.212 3256-3256/net.gility.note  E/Logus: MainActivity.java(429)#onResume Main&gt; with prefix 2 fields { a=10; b=false; }
+04-19 22:12:56.213 3256-3256/net.gility.note  E/Logus: MainActivity.java(430)#onResume Main&gt; with prefix 3 fields but log 2 { a=10; b=true; }
+04-19 22:12:56.213 3256-3256/net.gility.note  D/Logus: &gt; no stack trace no prefix
+04-19 22:12:56.213 3256-3256/net.gility.note  E/Logus: Main&gt; no stack trace with prefix
+</code></pre>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201804192316/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201803241218/" title="阅读全文">rsync: 基本命令和用法 </a> </h2>
 
 </header>
@@ -448,49 +505,6 @@ TiDB 是新一代开源分布式 NewSQL 数据库，模型受 Google Spanner / F
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201803122145/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201803031932/" title="阅读全文">Golang Tutorial: What&#39;s DefaultServeMux in net/http </a> </h2>
-
-</header>
-<div class="summary">
-    <p>craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:</p>
-
-<pre><code>package main
-
-import (
-	&quot;net/http&quot;
-	&quot;fmt&quot;
-	&quot;log&quot;
-)
-
-func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;[%s]: hello!&quot;, r.Host)
-}
-
-func world(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;[%s]: world!&quot;, r.Host)
-}
-
-func main() {
-	server := http.Server{
-		Addr: &quot;127.0.0.1:8080&quot;,
-	}
-	http.HandleFunc(&quot;/hello&quot;, hello)
-	http.HandleFunc(&quot;/world&quot;, world)
-
-	log.Fatal(server.ListenAndServe())
-}
-</code></pre>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201803031932/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

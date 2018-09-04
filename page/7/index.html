@@ -266,6 +266,47 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603112100/" title="阅读全文">Jackson: jackson Mix- In Annotations </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class</p>
+
+<h3 id="jackson-mix-in-example">Jackson Mix-In Example</h3>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.io.File;
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class SerializeExample3 {
+    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.addMixInAnnotations(Bird.class, BirdMixIn.class);
+        Bird bird = new Bird(&quot;scarlet Ibis&quot;);
+        bird.setSound(&quot;eee&quot;);
+        bird.setHabitat(&quot;water&quot;);
+
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(&quot;bird.json&quot;), bird);
+    }
+
+}
+</code></pre>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112100/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
 
 </header>
@@ -482,71 +523,6 @@ public class AlbumsFilter {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112020/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092120/" title="阅读全文">XStream: XML Transformation </a> </h2>
-
-</header>
-<div class="summary">
-    <p>XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example</p>
-
-<pre><code>package com.studytrails.xml.xstream;
-
-import java.util.ArrayList;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.TraxSource;
-
-public class XStreamTransformationExample {
-	public static void main(String[] args) throws TransformerFactoryConfigurationError, TransformerException {
-		XStreamTransformationExample transformationExample = new XStreamTransformationExample();
-		transformationExample.runTransformation();
-	}
-
-	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
-		XStream xstream = new XStream();
-		xstream.alias(&quot;rss&quot;, Rss2.class);
-		xstream.alias(&quot;item&quot;, Item2.class);
-		Rss2 rss = new Rss2();
-		Channel2 channel = new Channel2();
-		rss.channel = channel;
-		channel.title = &quot;Title&quot;;
-		channel.link = &quot;link&quot;;
-		channel.image = new Image2();
-		channel.image.link = &quot;image link&quot;;
-		Item2 item1 = new Item2();
-		item1.link = &quot;item link&quot;;
-		item1.title = &quot;Item Title&quot;;
-		channel.items = new ArrayList&lt;Item2&gt;();
-		channel.items.add(item1);
-		System.out.println(xstream.toXML(rss));
-
-		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&quot;bbc.xsl&quot;));
-		TraxSource traxSource = new TraxSource(rss, xstream);
-		StreamResult result = new StreamResult(System.out);
-		transformer.transform(traxSource, result);
-
-		// prints the html on console
-
-	}
-}
-</code></pre>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092120/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
