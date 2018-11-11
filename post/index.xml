@@ -7,7 +7,44 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 01 Sep 2018 19:42:00 CST</updated>
+    <updated>Sun, 11 Nov 2018 19:46:00 CST</updated>
+    
+    <item>
+      <title>Athens:香港服务器Docker部署</title>
+      <link>http://alimy.me/post/dev_201811111946/</link>
+      <pubDate>Sun, 11 Nov 2018 19:46:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201811111946/</guid>
+      <description>&lt;h4 id=&#34;源起&#34;&gt;源起&lt;/h4&gt;
+
+&lt;p&gt;go1.11开始加入module功能支持GOPROXY，解决go依赖包下载问题(你懂的！),Athens应运而生。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://docs.gomods.io/&#34; title=&#34;Athens&#34;&gt;官网介绍&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;Athens is a project building on top of vgo (or go1.11+) trying to bring dependencies closer to you so you can count on repeatable builds even at a time when VCS is down.&lt;/p&gt;
+
+&lt;p&gt;The big goal of Athens is to provide a new place where dependencies — not code — live. Dependencies are immutable blobs of code and associated metadata that come from Github. They live in storage that Athens controls.&lt;/p&gt;
+
+&lt;h4 id=&#34;docker部署&#34;&gt;Docker部署&lt;/h4&gt;
+
+&lt;p&gt;使用Docker进行部署,官方镜像&lt;a href=&#34;https://hub.docker.com/r/gomods/proxy/&#34; title=&#34;Athens&#39;s docker image&#34;&gt;gomods/proxy:latest&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker volume create data-athens
+$ docker run -d --name athens-proxy --restart always -p 3000:3000 \
+    -v data-athens:/var/lib/athens \
+    -e ATHENS_DISK_STORAGE_ROOT=/var/lib/athens \ 
+    -e ATHENS_STORAGE_TYPE=disk \
+    gomods/proxy:latest
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;use-memory-backend-defualt&#34;&gt;Use Memory Backend (Defualt)&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker run -d --name athens-proxy --restart always -p 3000:3000 gomods/proxy:latest
+$ docker logs -f athens-proxy # display logs
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
     
     <item>
       <title>Hello, Rustacean</title>
@@ -4058,25 +4095,6 @@ Password:
       <description>&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1034&#34; title=&#34;DOMAIN NAMES - CONCEPTS AND FACILITIES&#34;&gt;&lt;strong&gt;DNS - CONCEPTS AND FACILITIES&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1034.txt&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1035&#34; title=&#34;DOMAIN NAMES - IMPLEMENTATION AND SPECIFICATION&#34;&gt;&lt;strong&gt;DNS - IMPLEMENTATION AND SPECIFICATION&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1035.txt&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(&lt;a href=&#34;https://tools.ietf.org/html/&#34; title=&#34;IETF Documents&#34;&gt;&lt;strong&gt;IETF Documents&lt;/strong&gt;&lt;/a&gt; &amp;amp;&amp;amp; &lt;a href=&#34;https://datatracker.ietf.org/&#34; title=&#34;IETF Datatracker&#34;&gt;&lt;strong&gt;IETF Datatracker&lt;/strong&gt;&lt;/a&gt;)&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>RFC: SMTP/POP3/IMAP</title>
-      <link>http://alimy.me/post/dev_201803181718/</link>
-      <pubDate>Sun, 18 Mar 2018 17:18:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201803181718/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc5321&#34; title=&#34;Simple Mail Transfer Protocol&#34;&gt;&lt;strong&gt;SMTP&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc5321.txt&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1939&#34; title=&#34;Post Office Protocol - Version 3&#34;&gt;&lt;strong&gt;POP3&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1939.txt&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc3501&#34; title=&#34; INTERNET MESSAGE ACCESS PROTOCOL - VERSION 4rev1&#34;&gt;&lt;strong&gt;IMAP&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc3501.txt&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;
 

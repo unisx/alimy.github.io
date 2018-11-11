@@ -1,11 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.30.2" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> 北 野 &middot; 北 野 </title>
+    <title> Athens:香港服务器Docker部署 &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -186,17 +185,15 @@ fathom('trackPageview');
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover panel-cover--collapsed
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -287,273 +284,75 @@ fathom('trackPageview');
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201601021221/" title="阅读全文">TOML v0.4.0 </a> </h2>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Athens:香港服务器Docker部署</h2>
+          
+          <h4 id="源起">源起</h4>
 
-</header>
-<div class="summary">
-    <p>Tom&rsquo;s Obvious, Minimal Language.</p>
+<p>go1.11开始加入module功能支持GOPROXY，解决go依赖包下载问题(你懂的！),Athens应运而生。</p>
 
-<p>By Tom Preston-Werner.</p>
+<p><a href="https://docs.gomods.io/" title="Athens">官网介绍</a>:</p>
 
-<p>Be warned, this spec is still changing a lot. Until it&rsquo;s marked as 1.0, you
-should assume that it is unstable and act accordingly.
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201601021221/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<p>Athens is a project building on top of vgo (or go1.11+) trying to bring dependencies closer to you so you can count on repeatable builds even at a time when VCS is down.</p>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/day_201601010000/" title="阅读全文">2016年的第一天 </a> </h2>
+<p>The big goal of Athens is to provide a new place where dependencies — not code — live. Dependencies are immutable blobs of code and associated metadata that come from Github. They live in storage that Athens controls.</p>
 
-</header>
-<div class="summary">
-    <p>2016年，很好。<br />
-<img src="http://alimy.me/images/post/20160101121200.webp" alt="请使用支持Webp的浏览器(最新版Chrome/FireFox)查看" />
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/day_201601010000/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<h4 id="docker部署">Docker部署</h4>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/day_201512312359/" title="阅读全文">2015年的最后一天 </a> </h2>
+<p>使用Docker进行部署,官方镜像<a href="https://hub.docker.com/r/gomods/proxy/" title="Athens's docker image">gomods/proxy:latest</a></p>
 
-</header>
-<div class="summary">
-    <p><img src="http://alimy.me/images/post/20151231235900.webp" alt="" /></p>
-
-<ul>
-<li>今天是2015年的最后一天，天气晴，我决定去 <em>逛一逛</em> 。
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/day_201512312359/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201512301212/" title="阅读全文">童话 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20151230121200.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20151230121201.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201512301212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/day_201512292359/" title="阅读全文">Hello World:博客开张 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><img src="http://alimy.me/images/post/20151229235900.webp" alt="" /></p>
-
-<h3 id="亲-博客正式开张啦-哈哈哈">～亲～博客正式开张啦～～哈哈哈～～</h3>
-
-<p><img src="http://alimy.me/images/post/20151229235901.webp" alt="" /></p>
-
-<h3 id="hello-world">～Hello World～</h3>
-
-<p><img src="http://alimy.me/images/post/20151229235902.webp" alt="" /></p>
-
-<h3 id="欢迎光临-请随便吐糟-呵呵呵">～欢迎光临～请随便吐糟～～呵呵呵～～</h3>
+<pre><code>$ docker volume create data-athens
+$ docker run -d --name athens-proxy --restart always -p 3000:3000 \
+    -v data-athens:/var/lib/athens \
+    -e ATHENS_DISK_STORAGE_ROOT=/var/lib/athens \ 
+    -e ATHENS_STORAGE_TYPE=disk \
+    gomods/proxy:latest
+</code></pre>
 
 <p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/day_201512292359/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
 
-                        
-                    </div>
-                    </br>
-                    <h4>
-                        <a href="http://alimy.me/post/" title="文章列表">Archive</a>
-                    </h4>
-                </section>
-                <div class="pages">
-  
+<h4 id="use-memory-backend-defualt">Use Memory Backend (Defualt)</h4>
 
-<ul class="pagination">
-    
-    <li>
-        <a href="http://alimy.me/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-    </li>
-    
-    <li
-    >
-    <a href="http://alimy.me/page/11/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-    </li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/">1</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/page/2/">2</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/page/3/">3</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/page/11/">11</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    class="active"><a href="http://alimy.me/page/12/">12</a></li>
-    
-    
-    <li
-    class="disabled">
-    <a href="" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-    </li>
-    
-    <li>
-        <a href="http://alimy.me/page/12/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-    </li>
-    
-</ul>
-
-</div>
-
-              <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
-
-            </div>
+<pre><code>$ docker run -d --name athens-proxy --restart always -p 3000:3000 gomods/proxy:latest
+$ docker logs -f athens-proxy # display logs
+</code></pre>
         </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/day_2018090119142/" title="上一篇">&lt;&lt; Hello, Rustacean</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
+  </body>
 </html>
