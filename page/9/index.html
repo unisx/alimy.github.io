@@ -295,6 +295,31 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603081441/" title="阅读全文">XStream: Java to XML Using Annotation </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the previous tutorials we saw an example of how to <a href="http://alimy.me/post/dev_201603081411">create a java object from XML</a>. That tutorial also explained the concept of aliases and implicit collection. In this tutorial we continue with that but use annotation on the java class. The advantage with annotation is that it is faster to code and develop. the disadvantage is that you bind the java class to XStream.</p>
+
+<p>In the example below we convert an object of type JazzArtist to XML. JazzArtist contains fields name, isAlive, a url and a list of albums. This example uses the following annotations</p>
+
+<ul>
+<li>@XStreamAlias - Used on the type, field or attribute. To understand &lsquo;aliases&rsquo; look at this tutorial</li>
+<li>@XStreamImplicit - Used on Collections or array. To understand &lsquo;Implicit Collections/Arrays&rsquo; look at the this tutorial.</li>
+<li>@XStreamAsAttribute - Used to mark a field as an attribute.</li>
+
+<li><p>@XStreamConverter - Use a specific converter for this field. We will look at Converters in detail in a later tutorial. In this example we use a Boolean converter for &lsquo;isAlive&rsquo; field, we want the XML to have values yes or no instead of true or false.
+
+Here is the complete example. In this example we want to create an XML from an object of type JazzArtist2.</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603081441/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603081433/" title="阅读全文">XStream: Java to XML </a> </h2>
 
 </header>
@@ -493,36 +518,6 @@ Version 1.8 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spe
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201602021955/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/etc_201602011221/" title="阅读全文">客家习俗 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://www.baidu.com/s?ie=utf-8&amp;f=8&amp;rsv_bp=1&amp;tn=baidu&amp;wd=%E5%AE%A2%E5%AE%B6%E4%BA%BA&amp;oq=%E5%AE%A2%E5%AE%B6%E4%BA%BA&amp;rsv_pq=e920500800005141&amp;rsv_t=e610oAaNKPlSpi7L3iFEog5KaXPzJwzEq5qS3j8RegQpcQvdRL2A20h6b7w&amp;rsv_enter=0&amp;rsv_sug7=000" title="百度：客家人">客家人</a> 的习俗大致上包括全国性的传统岁序节俗，地方性崇拜、礼节等。</p>
-
-<h4 id="主要节日">主要节日</h4>
-
-<ul>
-<li><strong>春节</strong>：有拜年，游乐活动等，是最隆重的节日。</li>
-<li><strong>立春</strong>：即交春。</li>
-<li><strong>元宵节</strong>：正月十五是中国民间传统的元宵节。元宵节吃元宵，玩灯，赏灯，猜灯谜。</li>
-<li><strong>二月二</strong>：开正节。</li>
-<li><strong>清明</strong>：客家扫墓习俗多从春分开始，清明达到高潮。</li>
-<li><strong>端午</strong>：客家普遍称为五月节。节日主要内容是吃粽子，雄黄酒，龙舟赛。</li>
-<li><strong>七月节</strong>：也即鬼节。</li>
-<li><strong>中秋</strong>：民间通称八月节。吃月饼，赏月等风俗大体各地相同。</li>
-<li><strong>重阳节</strong>：客家人叫“九月节”。</li>
-
-<li><p><strong>冬至</strong>：客家人有“冬大过年”之说。
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/etc_201602011221/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

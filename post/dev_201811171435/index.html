@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Tags &middot; 北 野 </title>
+    <title> AppArmor的前世今生和基本使用 &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -185,7 +185,7 @@ fathom('trackPageview');
     </style>
 </head>
 
-<body>
+  <body>
     <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
@@ -193,9 +193,7 @@ fathom('trackPageview');
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -287,103 +285,173 @@ fathom('trackPageview');
 </noscript>
 
     <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <section id="main">
-              <div>
-                <h1 id="title">Tags</h1>
-                <style type="text/css">
-                        #double ul{
-                          width:760px;
-                          margin-bottom:20px;
-                          overflow:hidden;
-                        }
-                        #double li{
-                          line-height:1.5em;
-                          float:left;
-                          display:inline;
-                          width:50%;
-                        }
-                </style>
-                <ul id="double">
-                
-                
-                    <li>
-                        <a href="android">android</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="art">art</a> 13
-                    </li>
-                
-                    <li>
-                        <a href="cloud">cloud</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="database">database</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="development">development</a> 73
-                    </li>
-                
-                    <li>
-                        <a href="game">game</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="go">go</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="golang">golang</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="gopher">gopher</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="history">history</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="information">information</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="java">java</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="json">json</a> 23
-                    </li>
-                
-                    <li>
-                        <a href="language">language</a> 6
-                    </li>
-                
-                    <li>
-                        <a href="other">other</a> 8
-                    </li>
-                
-                    <li>
-                        <a href="transport">transport</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="xml">xml</a> 14
-                    </li>
-                
-               </ul>
-              </div>
-            </section>
-            </div>
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>AppArmor的前世今生和基本使用</h2>
+          
+          <h4 id="一-mac和dac-一些前置知识">一：MAC和DAC (一些前置知识)</h4>
+
+<p>DAC(Discretionary Access Control)，自主访问控制，是最常用的一类访问控制机制，意思为主体（文件所有者）可以自主指定系统中其它用户对其文件的所有权，最典型的就是Linux的&rdquo;拥有者/同组用户/其他&rdquo;。这种方式虽然为用户提供了很大的灵活性，但是缺乏必要的安全性</p>
+
+<p>MAC(Mandat-ory Access Control)，强制访问控制,在这种机制下，系统中的每一个进程，每一个文件，每一个IPC主体都被管理员按照严格的规则设置了相应的安全属性，不能被用户和其它直接或间接的修改。</p>
+
+<h4 id="二-apparmor-https-gitlab-com-apparmor-apparmor-apparmor-in-gitlab">二：<a href="https://gitlab.com/apparmor/apparmor" title="AppArmor in GitLab">AppArmor</a></h4>
+
+<p>由于SELinux使用复杂，适用于对安全要求特别高的企业或者组织，为了简化操作，就推出了AppArmor，所以可以说AppArmor脱胎于SELinux，但与SELinux基于角色的MAC不同的是，AppArmor是与程序绑定的基于路径的MAC，也就是说如果路径发生改变，策略就会失效。一般的Linux的系统，都会内置以上两种MAC其中的一种，这也意味着，你需要对文件（其它）进行操作，你需要同时通过DAC和 MAC的检测。</p>
+
+<p>AppArmor有两种工作模式：enforcement、complain/learning</p>
+
+<ul>
+<li><p>Enforcement – 在这种模式下，配置文件里列出的限制条件都会得到执行，并且对于违反这些限制条件的程序会进行日志记录。</p></li>
+
+<li><p>Complain – 在这种模式下，配置文件里的限制条件不会得到执行，AppArmor只是对程序的行为进行记录。例如程序可以写一个在配置文件里注明只读的文件，但AppArmor不会对程序的行为进行限制，只是进行记录。这种模式也叫学习模式，如果某个程序的行为不符合其配置文件的限制，可以将其行为记录到系统日志，并且可以根据程序的行为，将日志转换成配置文件。</p></li>
+</ul>
+
+<p>AppArmor可以对程序进行多方面的限制，详细可以看官方文档，这里只提供几个基本的例子：</p>
+
+<ol>
+<li>文件系统的访问控制   例：  /home/Desktop/a.c rw 表示程序可以对/home/Desktop/a.c 进行读和写。</li>
+<li>资源限制   例： set rlimit as&lt;=1M ，表示该程序可以使用的虚拟内存小于等于1M</li>
+<li>访问网络   例： network inet tcp ,表示该程序可以在IPV4的情况下使用TCP协议 　</li>
+<li>capability条目 例：capability setgid，表示程序进行setgid操作。</li>
+</ol>
+
+<p></p>
+
+<h4 id="三-基本使用">三：基本使用</h4>
+
+<p>ubuntu自带AppArmor，所以以ubuntu14.04为例。
+最好先安装了apparmor的管理工具套装：apt-get install apparmor-utils</p>
+
+<p>测试程序源码如下：</p>
+
+<pre><code>#include&lt;stdio.h&gt;  
+#include &lt;string.h&gt;  
+int main(int argc, char *argv[])  
+{  
+ 　　FILE *f;  
+ 　　int nn, i;   char ch;   
+ 　　if(3 == argc){   
+  　　　　f = fopen(argv[1], &quot;w&quot;);   
+  　 if(f == NULL){                          printf(&quot;Open file %s with write ERROR\n&quot;, argv[1]);  
+   　　return 2;  
+　　　}   
+  　nn = strlen(argv[2]);   
+   i = 0;   
+   while(i &lt; nn){   
+   　　fputc(argv[2][i], f);  
+   　　++i; 
+  　}  
+  fclose(f); 
+  }else if(argc == 2){  
+  　　f = fopen(argv[1], &quot;r&quot;);  
+  　　if(NULL == f){  
+   　　　　printf(&quot;Open file %s with read ERROR\n&quot;, argv[1]);  
+   　　　　return 2;  
+  　　}   
+  　　while((ch=fgetc(f)) != EOF){   
+   　　　　printf(&quot;%c&quot;, ch);  
+ 　　 }   
+  　　printf(&quot;\n&quot;); 
+  　　fclose(f); 
+ }else{ 
+  　　printf(&quot;Usage: test file **\n&quot;);   
+  　　return 3;  
+ } 
+ 
+　　 return 0;  
+}
+</code></pre>
+
+<p>基本功能是对，文件进行读写，使用如下：</p>
+
+<pre><code>　$　./test a.c &quot;hello,world&quot;  #进行写
+　$　./test a.c  #进行读
+</code></pre>
+
+<p>可以根据 aa-genprof 生成配置文件，生成的文件在/etc/apparmor.d下，文件名为home.jdchen.test</p>
+
+<p>生成的文件如下：</p>
+
+<pre><code># Last Modified: Fri Nov 11 03:54:40 2016
+#include &lt;tunables/global&gt;
+
+/home/jdchen/test {
+  #include &lt;abstractions/base&gt;
+
+
+}
+</code></pre>
+
+<p>由于apparmor采取类似于白名单的机制，所以不能进行任何操作。
+现在给配置文件添加可写的权限并重新加载。</p>
+
+<pre><code># Last Modified: Fri Nov 11 03:54:40 2016
+#include &lt;tunables/global&gt;
+
+/home/jdchen/test {
+  #include &lt;abstractions/base&gt;
+    /home/jdchen/a.c w，
+
+}
+</code></pre>
+
+<p>然后介绍几个命令：</p>
+
+<pre><code>$ Start : sudo /etc/init.d/apparmor start   #启动
+$ Stop : sudo /etc/init.d/apparmor stop   #停止
+$ reload: sudo /etc/init.d/apparmor reload 重新加载
+</code></pre>
+
+<p>在修改配置之后，需要重载：</p>
+
+<p>可以试着查看一下日志，节选：</p>
+
+<pre><code>ov 11 04:23:53 ubuntu kernel: [ 2419.881291] audit_printk_skb: 15 callbacks suppressed
+Nov 11 04:23:53 ubuntu kernel: [ 2419.881306] audit: type=1400 audit(1478867033.872:204): apparmor=&quot;DENIED&quot; operation=&quot;open&quot; profile=&quot;/home/jdchen/test&quot; name=&quot;/home/jdchen/a.c&quot; pid=4108 comm=&quot;test&quot; requested_mask=&quot;r&quot; denied_mask=&quot;r&quot; fsuid=0 ouid=0
+Nov 11 04:24:07 ubuntu kernel: [ 2433.212034] audit: type=1400 audit(1478867047.204:205): apparmor=&quot;DENIED&quot; operation=&quot;open&quot; profile=&quot;/home/jdchen/test&quot; name=&quot;/home/jdchen/a.c&quot; pid=4111 comm=&quot;test&quot; requested_mask=&quot;r&quot; denied_mask=&quot;r&quot; fsuid=0 ouid=0
+</code></pre>
+
+<p>如果不需要配置，可以直接将配置文件删除。</p>
+
+<hr />
+
+<p>(备注: 原文的链接在 <a href="https://www.cnblogs.com/0xJDchen/p/6055531.html" title="Apparmor的前世今生和基本使用"><em>这里</em></a> )</p>
         </div>
-    </body>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201811111946/" title="上一篇">&lt;&lt; Athens:香港服务器Docker部署</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+  </body>
 </html>

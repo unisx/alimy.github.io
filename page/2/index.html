@@ -295,6 +295,45 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201806040842/" title="阅读全文">Gogs: PR-5262 </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="fix-make-build-failure-when-enviroment-of-gopath-have-multiple-items">Fix make build failure when enviroment of <code>GOPATH</code> have multiple items</h3>
+
+<pre><code>[alimy@rover gogs]$ pwd
+/home/alimy/art/arg/src/github.com/gogs/gogs
+[alimy@rover gogs]$ echo $GOPATH
+/home/alimy/art/ago:/home/alimy/art/arg
+[alimy@rover gogs]$ make
+go install &quot;-v&quot; -ldflags '-X &quot;github.com/gogs/gogs/pkg/setting.BuildTime=2018-06-04 06:17:19 UTC&quot; -X &quot;github.com/gogs/gogs/pkg/setting.BuildGitHash=c08aab90ec696b7fcc56b8da0a468e74d266b89e&quot;' -tags '&quot;&quot;'
+cp '/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs' .
+cp: cannot stat '/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs': No such file or directory
+Makefile:36: recipe for target 'build' failed
+make: *** [build] Error 1
+</code></pre>
+
+<p>In this scene <code>GOPATH</code> have two item (/home/alimy/art/ago and /home/alimy/art/arg) and gogs source is not in first <code>GOPATH</code> items, when excecute <code>go install ...</code> will install to path that contain the source of gogs&rsquo;s <code>GOPATH</code> items. when cp gogs file back will occur error like above.
+this patch fixed this problem.</p>
+
+<pre><code>[alimy@rover gogs]$ echo $GOPATH
+/home/alimy/art/ago:/home/alimy/art/arg
+[alimy@rover gogs]$ pwd
+/home/alimy/art/arg/src/github.com/gogs/gogs
+[alimy@rover gogs]$ echo ${PWD%%src*}
+/home/alimy/art/arg/
+</code></pre>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201806040842/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/info_201805210818/" title="阅读全文">收藏: 技术相关网站 </a> </h2>
 
 </header>
@@ -513,28 +552,6 @@ protected void onResume() {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201803130721/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201803122215/" title="阅读全文">RFC: HTTP 0.9/1.0/1.1/2.0 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://www.w3.org/Protocols/HTTP/AsImplemented.html" title="The Original HTTP as defined in 1991"><strong>HTTP 0.9</strong> https://www.w3.org/Protocols/HTTP/AsImplemented.html </a></p>
-
-<p><a href="https://tools.ietf.org/html/rfc1945" title="Hypertext Transfer Protocol -- HTTP/1.0"><strong>HTTP 1.0</strong> RFC https://www.ietf.org/rfc/rfc1945.txt </a></p>
-
-<p><a href="https://tools.ietf.org/html/rfc2616" title="Hypertext Transfer Protocol -- HTTP/1.1"><strong>HTTP 1.1</strong> RFC https://www.ietf.org/rfc/rfc2616.txt </a></p>
-
-<p><a href="https://tools.ietf.org/html/rfc7540" title="Hypertext Transfer Protocol Version 2 -- HTTP/2"><strong>HTTP 2.0</strong> RFC https://www.ietf.org/rfc/rfc7540.txt </a></p>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201803122215/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
