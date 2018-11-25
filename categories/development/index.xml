@@ -7,7 +7,44 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 17 Nov 2018 14:35:00 CST</updated>
+    <updated>Sun, 25 Nov 2018 07:57:00 CST</updated>
+    
+    <item>
+      <title>sshuttle：不需配置的 VPN</title>
+      <link>http://alimy.me/post/dev_201811250757/</link>
+      <pubDate>Sun, 25 Nov 2018 07:57:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201811250757/</guid>
+      <description>&lt;p&gt;sshuttle 被其作者称为 “穷人的 VPN”（A poor man’s instant VPN），甚至不需要远端服务器的 root 权限就可以用（只需要一个普通 SSH 帐号），和在 Mac/Linux 客户端直接用 ssh -D 的方式有点类似。如果不想花钱买 VPN，又懒得自己在 VPS 上安装和设置复杂的 VPN 服务，又不想用 ssh -D 这么朴素的技巧的话可以试一下这个 sshuttle，按照作者的说法 sshuttle 比 sshd -D 的方式快一点，因为 It’s just data-over-TCP，而不是 TCP-over-TCP，TCP-over-TCP 的方式会带来不必要的性能问题，因为 TCP 本身就是可靠传输协议，保证了包的有序性和无差错，并确保包被接受，如果有包丢失的话 TCP 协议可以自己立即重传弥补，所以没必要两层都 TCP，一层 TCP 就比较安全了。&lt;/p&gt;
+
+&lt;p&gt;sshuttle 的用法很简单，在客户端下载和运行就可以了（需要有 Python 的支持），无需在服务器端做任何配置（但是需要一个 ssh 帐号和 Python 支持）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/sshuttle/sshuttle
+$ cd sshuttle
+$ sudo ./setup.py install
+$ sshuttle -r username@sshserver 0.0.0.0/0 -vv
+Starting sshuttle proxy.
+[local sudo] Password: 
+firewall manager: Starting firewall with Python version 2.7.15
+firewall manager: ready method name nat.
+IPv6 enabled: False
+UDP enabled: False
+DNS enabled: False
+User enabled: False
+Binding redirector: 12300 12299
+TCP redirector listening on (&#39;127.0.0.1&#39;, 12299).
+TCP redirector listening with &amp;lt;socket._socketobject object at 0x7f5eb68b1c90&amp;gt;.
+Starting client with Python version 2.7.15
+c : connecting to server...
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(备注: 原文的链接在 &lt;a href=&#34;https://www.vpsee.com/2011/05/sshuttle-a-simple-instant-vpn/&#34; title=&#34;sshuttle as vpn&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>AppArmor的前世今生和基本使用</title>
@@ -4166,25 +4203,6 @@ Password:
       <description>&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1034&#34; title=&#34;DOMAIN NAMES - CONCEPTS AND FACILITIES&#34;&gt;&lt;strong&gt;DNS - CONCEPTS AND FACILITIES&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1034.txt&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1035&#34; title=&#34;DOMAIN NAMES - IMPLEMENTATION AND SPECIFICATION&#34;&gt;&lt;strong&gt;DNS - IMPLEMENTATION AND SPECIFICATION&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1035.txt&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(&lt;a href=&#34;https://tools.ietf.org/html/&#34; title=&#34;IETF Documents&#34;&gt;&lt;strong&gt;IETF Documents&lt;/strong&gt;&lt;/a&gt; &amp;amp;&amp;amp; &lt;a href=&#34;https://datatracker.ietf.org/&#34; title=&#34;IETF Datatracker&#34;&gt;&lt;strong&gt;IETF Datatracker&lt;/strong&gt;&lt;/a&gt;)&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>RFC: SMTP/POP3/IMAP</title>
-      <link>http://alimy.me/post/dev_201803181718/</link>
-      <pubDate>Sun, 18 Mar 2018 17:18:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201803181718/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc5321&#34; title=&#34;Simple Mail Transfer Protocol&#34;&gt;&lt;strong&gt;SMTP&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc5321.txt&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc1939&#34; title=&#34;Post Office Protocol - Version 3&#34;&gt;&lt;strong&gt;POP3&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc1939.txt&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc3501&#34; title=&#34; INTERNET MESSAGE ACCESS PROTOCOL - VERSION 4rev1&#34;&gt;&lt;strong&gt;IMAP&lt;/strong&gt; RFC https://www.ietf.org/rfc/rfc3501.txt&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;
 

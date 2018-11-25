@@ -1,11 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.30.2" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> 北 野 &middot; 北 野 </title>
+    <title> sshuttle：不需配置的 VPN &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -186,17 +185,15 @@ fathom('trackPageview');
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover panel-cover--collapsed
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -287,326 +284,75 @@ fathom('trackPageview');
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201601131558/" title="阅读全文">Markdown </a> </h2>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>sshuttle：不需配置的 VPN</h2>
+          
+          <p>sshuttle 被其作者称为 “穷人的 VPN”（A poor man’s instant VPN），甚至不需要远端服务器的 root 权限就可以用（只需要一个普通 SSH 帐号），和在 Mac/Linux 客户端直接用 ssh -D 的方式有点类似。如果不想花钱买 VPN，又懒得自己在 VPS 上安装和设置复杂的 VPN 服务，又不想用 ssh -D 这么朴素的技巧的话可以试一下这个 sshuttle，按照作者的说法 sshuttle 比 sshd -D 的方式快一点，因为 It’s just data-over-TCP，而不是 TCP-over-TCP，TCP-over-TCP 的方式会带来不必要的性能问题，因为 TCP 本身就是可靠传输协议，保证了包的有序性和无差错，并确保包被接受，如果有包丢失的话 TCP 协议可以自己立即重传弥补，所以没必要两层都 TCP，一层 TCP 就比较安全了。</p>
 
-</header>
-<div class="summary">
-    <h3 id="sect-what-is-markdown">&sect; What is Markdown?</h3>
+<p>sshuttle 的用法很简单，在客户端下载和运行就可以了（需要有 Python 的支持），无需在服务器端做任何配置（但是需要一个 ssh 帐号和 Python 支持）：</p>
 
-<p>Markdown is a way to style text on the web. You control the display of the
-document; formatting words as bold or italic, adding images, and creating lists
-are just a few of the things we can do with Markdown. Mostly, Markdown is just
-regular text with a few non-alphabetic characters thrown in, like # or *.<br />
-<a href="http://daringfireball.net/projects/markdown/" title="Daring FireBall: Home">[Markdown Reference]</a> <a href="https://guides.github.com/features/mastering-markdown/" title="GitHub's Mastering Markdown">[Mastering Markdown]</a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201601131558/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
+<pre><code>$ git clone https://github.com/sshuttle/sshuttle
+$ cd sshuttle
+$ sudo ./setup.py install
+$ sshuttle -r username@sshserver 0.0.0.0/0 -vv
+Starting sshuttle proxy.
+[local sudo] Password: 
+firewall manager: Starting firewall with Python version 2.7.15
+firewall manager: ready method name nat.
+IPv6 enabled: False
+UDP enabled: False
+DNS enabled: False
+User enabled: False
+Binding redirector: 12300 12299
+TCP redirector listening on ('127.0.0.1', 12299).
+TCP redirector listening with &lt;socket._socketobject object at 0x7f5eb68b1c90&gt;.
+Starting client with Python version 2.7.15
+c : connecting to server...
+...
+</code></pre>
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201601121531/" title="阅读全文">Too many open files 的解决方法 </a> </h2>
+<p></p>
 
-</header>
-<div class="summary">
-    <h2 id="由来">&gt;由来</h2>
+<hr />
 
-<p>gogs 打开一个android app库的资源文件夹(/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi)
-返回 500
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201601121531/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201601111212/" title="阅读全文">诱惑 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20160111121200.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160111121200.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201601111212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201601100836/" title="阅读全文">咏春 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20160110095600.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160110095600.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201601100836/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201601090836/" title="阅读全文">陌陌 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20160109084900.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160109084900.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201601090836/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201601080836/" title="阅读全文">冰月 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20160108084900.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160108084900.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201601080836/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201601071212/" title="阅读全文">少女 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20160107161300.png" title="点击查看大图"><img src="http://alimy.me/images/post/20160107165800.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201601071212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201601061212/" title="阅读全文">猎人 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20160106161600.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160106165800.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201601061212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201601051212/" title="阅读全文">朝阳 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20160105091801.jpg" title="点击查看大图"><img src="http://alimy.me/images/post/20160105091800.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a>
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201601051212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                    </div>
-                    </br>
-                    <h4>
-                        <a href="http://alimy.me/post/" title="文章列表">Archive</a>
-                    </h4>
-                </section>
-                <div class="pages">
-  
-
-<ul class="pagination">
-    
-    <li>
-        <a href="http://alimy.me/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-    </li>
-    
-    <li
-    >
-    <a href="http://alimy.me/page/10/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-    </li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/">1</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/page/2/">2</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/page/3/">3</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/page/10/">10</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    class="active"><a href="http://alimy.me/page/11/">11</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li
-    ><a href="http://alimy.me/page/12/">12</a></li>
-    
-    
-    <li
-    >
-    <a href="http://alimy.me/page/12/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-    </li>
-    
-    <li>
-        <a href="http://alimy.me/page/12/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-    </li>
-    
-</ul>
-
-</div>
-
-              <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
-
-            </div>
+<p>(备注: 原文的链接在 <a href="https://www.vpsee.com/2011/05/sshuttle-a-simple-instant-vpn/" title="sshuttle as vpn"><em>这里</em></a> )</p>
         </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201811171435/" title="上一篇">&lt;&lt; AppArmor的前世今生和基本使用</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
+  </body>
 </html>

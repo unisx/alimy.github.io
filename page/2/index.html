@@ -295,6 +295,45 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201806301842/" title="阅读全文">Gogs: PR-5322 </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="add-new-dockerfile-docker-ce-for-docker-ce-v17-06-to-build-gogs-s-docker-image">Add new Dockerfile.docker-ce for docker-ce(&gt;=v17.06) to build Gogs&rsquo;s docker image</h3>
+
+<p>Docker-CE can be given to a new build stage by adding <code>AS</code> name to the<code>FROM</code> instruction sine release version of v17.06. The Dockerfile&rsquo;s <code>FROM</code> instruction like below:</p>
+
+<h4 id="from">FROM</h4>
+
+<pre><code>FROM &lt;image&gt; [AS &lt;name&gt;]
+</code></pre>
+
+<p>Or</p>
+
+<pre><code>FROM &lt;image&gt;[:&lt;tag&gt;] [AS &lt;name&gt;]
+</code></pre>
+
+<p>Or</p>
+
+<pre><code>FROM &lt;image&gt;[@&lt;digest&gt;] [AS &lt;name&gt;]
+</code></pre>
+
+<ul>
+<li>Optionally a name can be given to a new build stage by adding <code>AS</code> name to the <code>FROM</code> instruction. The name can be used in subsequent <code>FROM</code> and <code>COPY --from=&lt;name|index&gt;</code> instructions to refer to the image built in this stage.</li>
+</ul>
+
+<p>Find Docker-ce official document <a href="https://docs.docker.com/v17.06/engine/reference/builder/#from" title="Docker official Document">here</a>.</p>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201806301842/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201806040842/" title="阅读全文">Gogs: PR-5262 </a> </h2>
 
 </header>
@@ -528,30 +567,6 @@ protected void onResume() {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201803181718/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201803130721/" title="阅读全文">AMP: Accelerated Mobile Pages </a> </h2>
-
-</header>
-<div class="summary">
-    <p>The AMP Project is an open-source initiative aiming to make the web better for all. The project enables the creation of websites and ads that are consistently fast, beautiful and high-performing across devices and distribution platforms.</p>
-
-<p>AMP pages are built with 3 core components:</p>
-
-<h3 id="amp-html">AMP HTML ⚡</h3>
-
-<p><a href="https://www.ampproject.org/docs/get_started/about-amp.html">AMP HTML</a> is a way to build web pages that render with reliable and fast performance. It is our attempt at fixing what many perceive as painfully slow page load times – especially when reading content on the mobile web.  AMP HTML is built on existing web technologies; an AMP page will load (quickly) in any modern browser.</p>
-
-<p>You can learn more at <a href="https://www.ampproject.org/">ampproject.org</a> including <a href="https://www.ampproject.org/learn/about-amp/">what AMP is</a>, <a href="https://www.ampproject.org/learn/how-amp-works/">how it works</a> and the importance of <a href="https://www.ampproject.org/docs/guides/validate">validation in AMP</a>.  You can also walk through <a href="https://www.ampproject.org/docs/get_started/create">creating an AMP page</a> and read through the <a href="https://www.ampproject.org/docs/reference/components">reference docs</a>.</p>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201803130721/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
