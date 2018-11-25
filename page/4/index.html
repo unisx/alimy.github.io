@@ -295,6 +295,42 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201604101827/" title="阅读全文">Go - See what packages my app imports </a> </h2>
+
+</header>
+<div class="summary">
+    <p>It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.</p>
+
+<p>Go to your app and run the following.</p>
+
+<pre><code>$ go list -f '{{join .Deps &quot;\n&quot;}}' |  xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
+</code></pre>
+
+<p>Here is an example with the clirescue refactoring example:</p>
+
+<pre><code>$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
+$ go list -f '{{join .Deps &quot;\n&quot;}}' | xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
+github.com/GoBootcamp/clirescue/cmdutil
+github.com/GoBootcamp/clirescue/trackerapi
+github.com/GoBootcamp/clirescue/user
+github.com/codegangsta/cli
+</code></pre>
+
+<p>If you want the list to also contain standard packages, edit the template and use:</p>
+
+<pre><code>$ go list -f '{{join .Deps &quot;\n&quot;}}' |  xargs go list -f '{{.ImportPath}}'
+</code></pre>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201604101827/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/art_201604091521/" title="阅读全文">爱 </a> </h2>
 
 </header>
@@ -509,26 +545,6 @@ b.o: b.c c.h
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/arc_201603192259/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603192255/" title="阅读全文">Intro to BoltDB: Painless Performant Persistence </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://github.com/boltdb/bolt" title="BoltDB">BoltDB</a> is a pure Go persistence solution that saves data to a memory mapped file. I call it a persistence solution and not a database, because the word database has a lot of baggage associated with it that doesn’t apply to bolt. And that lack of baggage is what makes bolt so awesome.</p>
-
-<p>Bolt is just a Go package. There’s nothing you need to install on the system, no configuration to figure out before you can start coding, nothing. You just go get github.com/boltdb/bolt and then import “github.com/boltdb/bolt”.</p>
-
-<p>All you need to fully use bolt as storage is a file name. This is fantastic from both a developer’s point of view, and a user’s point of view. I don’t know about you, but I’ve spent months of work time over my career configuring and setting up databases and debugging configuration problems, users and permissions and all the other crap you get from more traditional databases like Postgres and Mongo. There’s none of that with bolt. No users, no setup, just a file name. This is also a boon for users of your application, because they don’t have to futz with all that crap either.</p>
-
-<p>Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603192255/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
