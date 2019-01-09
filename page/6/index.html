@@ -295,6 +295,38 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603132025/" title="阅读全文">Java: org.json </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="overview-of-the-api-classes">Overview of The API Classes</h3>
+
+<p>org.json has classes to parse and write json string. It also converts between json and xml, HTTP header, Cookies, and CDF. The main classes are:</p>
+
+<ol>
+<li>org.json.JSONObject - This class stores unordered key value pairs. The value can be Boolean, JSONArray, Number, String or JSONObject.NULL. It has constructors to take in a json string and store it as key value pairs. It also has constructors that take in a Map, a bean or a String</li>
+<li>org.json.JSONTokener - This class parses a JSON string and is also used internally by the JSONObject and JSONArray classes to parse JSON Strings</li>
+<li>org.json.JSONArray - This class stores an ordered sequence of values. Externally it represents a JSON Array</li>
+<li>org.json.JSONWriter - This class represents method to produce json text. It has an append(String) method to append a string to a json text, key(String) and value(String) method to add key and values to json string. It can also write an array.</li>
+<li>org.json.CDL- This class has methods to convert comma delimited text to JSONArray and a JSONArray to a comma delimited text. The array contains rows of comma separed strings, with rows separated by newline. The first row contains names.</li>
+<li>org.json.Cookie - This class has method to convert a web browser cookie to a JSONObject and back.</li>
+<li>org.json.CookieList - This class has method to convert a list of cookies to JSONObject and back.
+Lets see some examples</li>
+</ol>
+
+<h3 id="parse-json">Parse JSON</h3>
+
+<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org
+</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603132025/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603132015/" title="阅读全文">Java: Json Simple </a> </h2>
 
 </header>
@@ -569,21 +601,6 @@ public class DeSerializeListExample5 {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122022/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603122020/" title="阅读全文">Gson: Convert json to a java object tree </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class
-</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603122020/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

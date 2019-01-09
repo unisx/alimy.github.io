@@ -295,6 +295,89 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201901091450/" title="阅读全文">YAML Reference card </a> </h2>
+
+</header>
+<div class="summary">
+    <pre><code>%YAML 1.1   # Reference card
+---
+Collection indicators:
+    '? ' : Key indicator.
+    ': ' : Value indicator.
+    '- ' : Nested series entry indicator.
+    ', ' : Separate in-line branch entries.
+    '[]' : Surround in-line series branch.
+    '{}' : Surround in-line keyed branch.
+Scalar indicators:
+    '''' : Surround in-line unescaped scalar ('' escaped ').
+    '&quot;'  : Surround in-line escaped scalar (see escape codes below).
+    '|'  : Block scalar indicator.
+    '&gt;'  : Folded scalar indicator.
+    '-'  : Strip chomp modifier ('|-' or '&gt;-').
+    '+'  : Keep chomp modifier ('|+' or '&gt;+').
+    1-9  : Explicit indentation modifier ('|1' or '&gt;2').
+           # Modifiers can be combined ('|2-', '&gt;+1').
+Alias indicators:
+    '&amp;'  : Anchor property.
+    '*'  : Alias indicator.
+Tag property: # Usually unspecified.
+    none    : Unspecified tag (automatically resolved by application).
+    '!'     : Non-specific tag (by default, &quot;!!map&quot;/&quot;!!seq&quot;/&quot;!!str&quot;).
+    '!foo'  : Primary (by convention, means a local &quot;!foo&quot; tag).
+    '!!foo' : Secondary (by convention, means &quot;tag:yaml.org,2002:foo&quot;).
+    '!h!foo': Requires &quot;%TAG !h! &lt;prefix&gt;&quot; (and then means &quot;&lt;prefix&gt;foo&quot;).
+    '!&lt;foo&gt;': Verbatim tag (always means &quot;foo&quot;).
+Document indicators:
+    '%'  : Directive indicator.
+    '---': Document header.
+    '...': Document terminator.
+Misc indicators:
+    ' #' : Throwaway comment indicator.
+    '`@' : Both reserved for future use.
+Special keys:
+    '='  : Default &quot;value&quot; mapping key.
+    '&lt;&lt;' : Merge keys from another mapping.
+Core types: # Default automatic tags.
+    '!!map' : { Hash table, dictionary, mapping }
+    '!!seq' : { List, array, tuple, vector, sequence }
+    '!!str' : Unicode string
+More types:
+    '!!set' : { cherries, plums, apples }
+    '!!omap': [ one: 1, two: 2 ]
+Language Independent Scalar types:
+    { ~, null }              : Null (no value).
+    [ 1234, 0x4D2, 02333 ]   : [ Decimal int, Hexadecimal int, Octal int ]
+    [ 1_230.15, 12.3015e+02 ]: [ Fixed float, Exponential float ]
+    [ .inf, -.Inf, .NAN ]    : [ Infinity (float), Negative, Not a number ]
+    { Y, true, Yes, ON  }    : Boolean true
+    { n, FALSE, No, off }    : Boolean false
+    ? !!binary &gt;
+        R0lG...BADS=
+    : &gt;-
+        Base 64 binary value.
+Escape codes:
+ Numeric   : { &quot;\x12&quot;: 8-bit, &quot;\u1234&quot;: 16-bit, &quot;\U00102030&quot;: 32-bit }
+ Protective: { &quot;\\&quot;: '\', &quot;\&quot;&quot;: '&quot;', &quot;\ &quot;: ' ', &quot;\&lt;TAB&gt;&quot;: TAB }
+ C         : { &quot;\0&quot;: NUL, &quot;\a&quot;: BEL, &quot;\b&quot;: BS, &quot;\f&quot;: FF, &quot;\n&quot;: LF, &quot;\r&quot;: CR,
+               &quot;\t&quot;: TAB, &quot;\v&quot;: VTAB }
+ Additional: { &quot;\e&quot;: ESC, &quot;\_&quot;: NBSP, &quot;\N&quot;: NEL, &quot;\L&quot;: LS, &quot;\P&quot;: PS }
+...
+</code></pre>
+
+<hr />
+
+<p>(备注: 原文的链接在 <a href="https://yaml.org/refcard.html" title="YAML Reference card"><em>这里</em></a> )</p>
+
+<p></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201901091450/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201811252059/" title="阅读全文">FAQs: ssh </a> </h2>
 
 </header>
@@ -639,56 +722,6 @@ or other conditions. The main features are:</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201807151843/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201807012219/" title="阅读全文">Docker: 对Docker Remote API进行认证 </a> </h2>
-
-</header>
-<div class="summary">
-    <ul>
-<li>建立证书授权中心</li>
-</ul>
-
-<pre><code>$ sudo mkdir /etc/docker
-$ cd /etc/docker
-$ echo 01 | sudo tee ca.csl
-$ sudo openssl genrsa -des3 -out ca-key.pem
-$ sudo openssl req -new -x509 -days 365 -key ca-key.pem -out ca.pem
-</code></pre>
-
-<ul>
-<li>创建服务器的证书签名请求和密钥</li>
-</ul>
-
-<pre><code>$ sudo openssl genrsa -des3 -out server-key.pem
-$ sudo openssl req -new -key server-key.pem -out server.csr
-$ sudo openssl x509 -req -days 365 -in server.csr -CA ca.pem -CAkey ca-key.pem -out server-cert.pem
-$ sudo openssl rsa -in server-key.pem -out server-key.pem
-$ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/docker/ca-key.pem /etc/docker/ca.pem
-</code></pre>
-
-<ul>
-<li>配置Docker守护进程 (/etc/docker/daemon.json on Linux systems, or C:\ProgramData\docker\config\daemon.json on Windows.)</li>
-</ul>
-
-<pre><code>{
-  &quot;debug&quot;: true,
-  &quot;tls&quot;: true,
-  &quot;tlscacert&quot;: &quot;/etc/docker/ca.pem&quot;,
-  &quot;tlscert&quot;: &quot;/etc/docker/server-cert.pem&quot;,
-  &quot;tlskey&quot;: &quot;/etc/docker/server-key.pem&quot;,
-  &quot;hosts&quot;: [&quot;tcp://&lt;config of CN&gt;:2376&quot;]
-}
-</code></pre>
-
-<p></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201807012219/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
