@@ -1,7 +1,7 @@
     <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.30.2" />
+	<meta name="generator" content="Hugo 0.54-DEV" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -299,8 +299,7 @@ fathom('trackPageview');
 
 </header>
 <div class="summary">
-    <p>In the <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class
-</p>
+    <p>In the <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122020/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -314,8 +313,7 @@ fathom('trackPageview');
 
 </header>
 <div class="summary">
-    <p>In the earlier tutorials we saw how to <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.
-</p>
+    <p>In the earlier tutorials we saw how to <a href="http://alimy.me/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122015/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -371,8 +369,8 @@ latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new m
 <ol>
 <li><p><a href="http://alimy.me/post/dev_201603122010" title="Java to JSON and Back - Data Binding">Java to JSON and Back - Data Binding</a> - In this example we look at how to bind a Json to a java object. Gson is quite powerful when it comes to binding a json to Java since it has a lot of built in serializers and deserializers. A serializer has code that helps in converting a Json string to corresponding java type. For example if you have an array in JSON (elements enclosed in &lsquo;[&rsquo; and &lsquo;]&rsquo;) and you want to convert that to a Java array then Gson would internally use an ArrayTypeAdapter to convert the Json Array to Java Array and back. If you are looking at Gson primarily to parse JSON then we would suggest that you start with a simple Java class, convert that to JSON and make sure it looks like the JSON that you want to parse. You can then gradually start adding complexities to the java class and at each step convert it to a JSON and ensure that the JSON is similar to the one that you are trying to parse. It is good to think of parsing a JSON as creating a java class that can give you the JSON that you want to parse. Also note that you have certain flexibility while creating the java object. You could represent a Json Array as a Java array or a Java List. The choice may be driven more by how you want to use the class. If you map a Json property to a java array Gson would use an Array adapter but if you map it to a List it would use the collection adapter and you, the user, does not have to worry about that. Gson also handles null gracefully</p></li>
 
-<li><p><a href="http://alimy.me/post/dev_201603122015" title="Java to JSON and Back - Streaming">Java to JSON and Back - Streaming</a> - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.
-</p>
+<li><p><a href="http://alimy.me/post/dev_201603122015" title="Java to JSON and Back - Streaming">Java to JSON and Back - Streaming</a> - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.</p></li>
+</ol>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122005/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -459,8 +457,6 @@ public class SerializeExample3 {
 
 }
 </code></pre>
-
-<p></p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112100/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -517,8 +513,6 @@ public class AlbumsFilter {
     }
 }
 </code></pre>
-
-<p></p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112055/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -537,9 +531,8 @@ public class AlbumsFilter {
 <ol>
 <li>@JsonProperty-This annotation is used to mark a method as a getter or setter for a property. In other words, it associates a json field with a java property. If a name is specified (@JsonProperty(&ldquo;age&rdquo;)) then the java property that is annotated with this annotation is mapped to the &lsquo;age&rsquo; field of the json, If no name is specified the java property name is used.</li>
 <li>@JsonCreator-This annotation is used the define constructors that are used to create java objects from json string. It is used during data binding and specifies properties that will be used to create java objects during deserialization.</li>
-
-<li><p>@JsonAnyGetter and @JsonAnySetter - This annotations are used to mark methods that set or read fields that are not handled by any other java property. These act like catch-all and handle all fields that are not handled by any other java property. The fields are stored in a map as key value pairs.
-</p>
+<li>@JsonAnyGetter and @JsonAnySetter - This annotations are used to mark methods that set or read fields that are not handled by any other java property. These act like catch-all and handle all fields that are not handled by any other java property. The fields are stored in a map as key value pairs.</li>
+</ol>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112050/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -597,13 +590,12 @@ public class AlbumsFilter {
 
 <ul class="pagination">
     
-    <li>
-        <a href="http://alimy.me/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    <li class="page-item">
+        <a href="http://alimy.me/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
     </li>
     
-    <li
-    >
-    <a href="http://alimy.me/page/6/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    <li class="page-item">
+    <a href="http://alimy.me/page/6/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
     </li>
     
     
@@ -615,8 +607,7 @@ public class AlbumsFilter {
         
     
     
-    <li
-    ><a href="http://alimy.me/">1</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/">1</a></li>
     
     
     
@@ -627,8 +618,7 @@ public class AlbumsFilter {
         
     
     
-    <li
-    ><a href="http://alimy.me/page/2/">2</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/2/">2</a></li>
     
     
     
@@ -639,8 +629,7 @@ public class AlbumsFilter {
         
     
     
-    <li
-    ><a href="http://alimy.me/page/3/">3</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/3/">3</a></li>
     
     
     
@@ -651,7 +640,7 @@ public class AlbumsFilter {
         
     
     
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
     
     
     
@@ -671,8 +660,7 @@ public class AlbumsFilter {
         
     
     
-    <li
-    ><a href="http://alimy.me/page/6/">6</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/6/">6</a></li>
     
     
     
@@ -683,8 +671,7 @@ public class AlbumsFilter {
         
     
     
-    <li
-    class="active"><a href="http://alimy.me/page/7/">7</a></li>
+    <li class="page-item active"><a class="page-link" href="http://alimy.me/page/7/">7</a></li>
     
     
     
@@ -695,8 +682,7 @@ public class AlbumsFilter {
         
     
     
-    <li
-    ><a href="http://alimy.me/page/8/">8</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/8/">8</a></li>
     
     
     
@@ -707,7 +693,7 @@ public class AlbumsFilter {
         
     
     
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
     
     
     
@@ -736,17 +722,15 @@ public class AlbumsFilter {
         
     
     
-    <li
-    ><a href="http://alimy.me/page/12/">12</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/12/">12</a></li>
     
     
-    <li
-    >
-    <a href="http://alimy.me/page/8/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    <li class="page-item">
+    <a href="http://alimy.me/page/8/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
     </li>
     
-    <li>
-        <a href="http://alimy.me/page/12/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    <li class="page-item">
+        <a href="http://alimy.me/page/12/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>
@@ -759,7 +743,7 @@ public class AlbumsFilter {
         </div>
         <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
     </body>

@@ -1,7 +1,7 @@
     <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.30.2" />
+	<meta name="generator" content="Hugo 0.54-DEV" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -316,8 +316,7 @@ Lets see some examples</li>
 
 <h3 id="parse-json">Parse JSON</h3>
 
-<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org
-</p>
+<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603132025/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -344,8 +343,7 @@ Lets see some examples</li>
 
 <h3 id="parse-json">Parse JSON</h3>
 
-<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org
-</p>
+<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603132015/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -381,6 +379,9 @@ Lets see some examples</li>
 <li><a href="#TOC-Custom-Serialization-and-Deserialization">Custom Serialization and Deserialization</a></li>
 <li><a href="#TOC-Writing-a-Serializer">Writing a Serializer</a></li>
 <li><a href="#TOC-Writing-a-Deserializer">Writing a Deserializer</a>
+<br /></li>
+</ul></li>
+</ol>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122045/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -399,9 +400,8 @@ Lets see some examples</li>
 <ol>
 <li>By defining a custom annotation and ignoring fields that are annotated with that.</li>
 <li>By Defining a custom exclusion class by extending the ExclusionStrategy interface and implementing the public boolean shouldSkipField(FieldAttributes f); and public boolean shouldSkipClass(Class clazz); methods</li>
-
-<li><p>By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.
-</p>
+<li>By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.</li>
+</ol>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122040/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -419,8 +419,7 @@ Lets see some examples</li>
 
 <h3 id="custom-serializer">Custom Serializer</h3>
 
-<p>Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.
-</p>
+<p>Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122035/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -490,9 +489,8 @@ public class DatasetTypeAdapterExample8 {
 <li>Serializing static nested class (without the enclosing type)</li>
 <li>Serializing non static nested class (without the enclosing type)</li>
 <li>De-serializing json to a static nested class (without the enclosing type)</li>
-
-<li><p>De-serializing json to a non static nested class (without the enclosing type)
-</p>
+<li>De-serializing json to a non static nested class (without the enclosing type)</li>
+</ol>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122028/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -547,8 +545,6 @@ public class GenericTypesExample8 {
 	}
 }
 </code></pre>
-
-<p></p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122025/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -596,8 +592,6 @@ public class DeSerializeListExample5 {
 	}
 }
 </code></pre>
-
-<p></p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122022/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -616,13 +610,12 @@ public class DeSerializeListExample5 {
 
 <ul class="pagination">
     
-    <li>
-        <a href="http://alimy.me/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    <li class="page-item">
+        <a href="http://alimy.me/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
     </li>
     
-    <li
-    >
-    <a href="http://alimy.me/page/5/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    <li class="page-item">
+    <a href="http://alimy.me/page/5/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
     </li>
     
     
@@ -634,8 +627,7 @@ public class DeSerializeListExample5 {
         
     
     
-    <li
-    ><a href="http://alimy.me/">1</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/">1</a></li>
     
     
     
@@ -646,8 +638,7 @@ public class DeSerializeListExample5 {
         
     
     
-    <li
-    ><a href="http://alimy.me/page/2/">2</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/2/">2</a></li>
     
     
     
@@ -658,8 +649,7 @@ public class DeSerializeListExample5 {
         
     
     
-    <li
-    ><a href="http://alimy.me/page/3/">3</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/3/">3</a></li>
     
     
     
@@ -670,7 +660,7 @@ public class DeSerializeListExample5 {
         
     
     
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
     
     
     
@@ -681,8 +671,7 @@ public class DeSerializeListExample5 {
         
     
     
-    <li
-    ><a href="http://alimy.me/page/5/">5</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/5/">5</a></li>
     
     
     
@@ -693,8 +682,7 @@ public class DeSerializeListExample5 {
         
     
     
-    <li
-    class="active"><a href="http://alimy.me/page/6/">6</a></li>
+    <li class="page-item active"><a class="page-link" href="http://alimy.me/page/6/">6</a></li>
     
     
     
@@ -705,8 +693,7 @@ public class DeSerializeListExample5 {
         
     
     
-    <li
-    ><a href="http://alimy.me/page/7/">7</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/7/">7</a></li>
     
     
     
@@ -717,7 +704,7 @@ public class DeSerializeListExample5 {
         
     
     
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
     
     
     
@@ -755,17 +742,15 @@ public class DeSerializeListExample5 {
         
     
     
-    <li
-    ><a href="http://alimy.me/page/12/">12</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/12/">12</a></li>
     
     
-    <li
-    >
-    <a href="http://alimy.me/page/7/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    <li class="page-item">
+    <a href="http://alimy.me/page/7/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
     </li>
     
-    <li>
-        <a href="http://alimy.me/page/12/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    <li class="page-item">
+        <a href="http://alimy.me/page/12/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>
@@ -778,7 +763,7 @@ public class DeSerializeListExample5 {
         </div>
         <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
     </body>

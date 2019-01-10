@@ -297,20 +297,17 @@ fathom('trackPageview');
 <li>@XStreamAlias - Used on the type, field or attribute. To understand &lsquo;aliases&rsquo; look at this tutorial</li>
 <li>@XStreamImplicit - Used on Collections or array. To understand &lsquo;Implicit Collections/Arrays&rsquo; look at the this tutorial.</li>
 <li>@XStreamAsAttribute - Used to mark a field as an attribute.</li>
+<li>@XStreamConverter - Use a specific converter for this field. We will look at Converters in detail in a later tutorial. In this example we use a Boolean converter for &lsquo;isAlive&rsquo; field, we want the XML to have values yes or no instead of true or false.</li>
+</ul>
 
-<li><p>@XStreamConverter - Use a specific converter for this field. We will look at Converters in detail in a later tutorial. In this example we use a Boolean converter for &lsquo;isAlive&rsquo; field, we want the XML to have values yes or no instead of true or false.
+<p>Here is the complete example. In this example we want to create an XML from an object of type JazzArtist2.</p>
 
-Here is the complete example. In this example we want to create an XML from an object of type JazzArtist2.</p></li>
-
-<li><p>We use annotation to first use an alias of &lsquo;artist&rsquo; for JazzArtist2. Each Jazz Artist has a list of albums.</p></li>
-
-<li><p>In the resulting XML we dont want the albums to appear under the element &lsquo;albums&rsquo;, rather we want each album to be the child of the artist element. We therefore mark &lsquo;albums&rsquo; as an implicit collection using the @XStreamImplicit annotation.</p></li>
-
-<li><p>We don&rsquo;t want to include the &lsquo;noOfRecords&rsquo; in the resulting XML, we therefore use the @XStreamOmitField to omit that field.</p></li>
-
-<li><p>We want genre to be an attribute of the album instead of a child. we use @XStreamAsAttribute to mark genre as an attribute.</p></li>
-
-<li><p>In this example we also use an annotation for a Converter. There is a boolean field in the JazzArtist2 class called isAlive. We dont want the   XML to have values &lsquo;true&rsquo; or &lsquo;false&rsquo; but values &lsquo;yes&rsquo; or &lsquo;no&rsquo; since they are more human friendly. The @XStreamConverter can be used to specify a Converter and pass values to its constructor.</p></li>
+<ul>
+<li>We use annotation to first use an alias of &lsquo;artist&rsquo; for JazzArtist2. Each Jazz Artist has a list of albums.</li>
+<li>In the resulting XML we dont want the albums to appear under the element &lsquo;albums&rsquo;, rather we want each album to be the child of the artist element. We therefore mark &lsquo;albums&rsquo; as an implicit collection using the @XStreamImplicit annotation.</li>
+<li>We don&rsquo;t want to include the &lsquo;noOfRecords&rsquo; in the resulting XML, we therefore use the @XStreamOmitField to omit that field.</li>
+<li>We want genre to be an attribute of the album instead of a child. we use @XStreamAsAttribute to mark genre as an attribute.</li>
+<li>In this example we also use an annotation for a Converter. There is a boolean field in the JazzArtist2 class called isAlive. We dont want the   XML to have values &lsquo;true&rsquo; or &lsquo;false&rsquo; but values &lsquo;yes&rsquo; or &lsquo;no&rsquo; since they are more human friendly. The @XStreamConverter can be used to specify a Converter and pass values to its constructor.</li>
 </ul>
 
 <pre><code>package com.studytrails.xml.xstream;
@@ -443,7 +440,7 @@ class Album2 {
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
   </body>

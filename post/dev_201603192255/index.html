@@ -297,9 +297,9 @@ fathom('trackPageview');
 
 <p>Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.</p>
 
-<p>Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.
+<p>Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.</p>
 
-… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:</p>
+<p>… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:</p>
 
 <pre><code>package main
 
@@ -433,7 +433,7 @@ BenchmarkJsonDecode   200000      12993 ns/op
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
   </body>

@@ -295,8 +295,7 @@ fathom('trackPageview');
 
 <h3 id="creating-an-xstream-instance">Creating an XStream Instance</h3>
 
-<p>The first step is to create an instance of com.thoughtworks.xstream.XStream. This class is a facade to the XStream API and provides all major functionalities. If this class does not solve your problem then you could directly call the API methods. After obtaining the instance of XStream use the fromXML method to convert the XML to a java object. Note that creating an XStream instance is an expensive operation. It is therefore advisable to create a proper instance once and then reuse it for multiple calls (even in parallel). The setup is not threadsafe but any subsequent marshalling/unmarshalling is threadsafe.
-</p>
+<p>The first step is to create an instance of com.thoughtworks.xstream.XStream. This class is a facade to the XStream API and provides all major functionalities. If this class does not solve your problem then you could directly call the API methods. After obtaining the instance of XStream use the fromXML method to convert the XML to a java object. Note that creating an XStream instance is an expensive operation. It is therefore advisable to create a proper instance once and then reuse it for multiple calls (even in parallel). The setup is not threadsafe but any subsequent marshalling/unmarshalling is threadsafe.</p>
 
 <h3 id="aliases">Aliases</h3>
 
@@ -630,7 +629,7 @@ class Image {
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
   </body>

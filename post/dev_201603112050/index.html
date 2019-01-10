@@ -294,100 +294,92 @@ fathom('trackPageview');
 <ol>
 <li>@JsonProperty-This annotation is used to mark a method as a getter or setter for a property. In other words, it associates a json field with a java property. If a name is specified (@JsonProperty(&ldquo;age&rdquo;)) then the java property that is annotated with this annotation is mapped to the &lsquo;age&rsquo; field of the json, If no name is specified the java property name is used.</li>
 <li>@JsonCreator-This annotation is used the define constructors that are used to create java objects from json string. It is used during data binding and specifies properties that will be used to create java objects during deserialization.</li>
-
-<li><p>@JsonAnyGetter and @JsonAnySetter - This annotations are used to mark methods that set or read fields that are not handled by any other java property. These act like catch-all and handle all fields that are not handled by any other java property. The fields are stored in a map as key value pairs.
-</p>
+<li>@JsonAnyGetter and @JsonAnySetter - This annotations are used to mark methods that set or read fields that are not handled by any other java property. These act like catch-all and handle all fields that are not handled by any other java property. The fields are stored in a map as key value pairs.</li>
+</ol>
 
 <h3 id="data-binding-example">Data Binding Example</h3>
 
 <h4 id="databinding">Databinding</h4>
 
-<p>```
-package com.studytrails.json.jackson;</p></li>
-</ol>
+<pre><code>package com.studytrails.json.jackson;
 
-<p>public class AlbumsDynamic {</p>
+public class AlbumsDynamic {
 
-<pre><code>private String title;
-private DatasetDynamic[] dataset;
+    private String title;
+    private DatasetDynamic[] dataset;
 
-public void setTitle(String title) {
-    this.title = title;
-}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-public void setDataset(DatasetDynamic[] dataset) {
-    this.dataset = dataset;
-}
+    public void setDataset(DatasetDynamic[] dataset) {
+        this.dataset = dataset;
+    }
 
-public String getTitle() {
-    return title;
-}
+    public String getTitle() {
+        return title;
+    }
 
-public DatasetDynamic[] getDataset() {
-    return dataset;
+    public DatasetDynamic[] getDataset() {
+        return dataset;
+    }
 }
 </code></pre>
 
-<p>}</p>
+<h4 id="dataset-class">Dataset class</h4>
 
-<pre><code>
-#### Dataset class
-</code></pre>
+<pre><code>package com.studytrails.json.jackson;
 
-<p>package com.studytrails.json.jackson;</p>
+import java.util.HashMap;
+import java.util.Map;
 
-<p>import java.util.HashMap;
-import java.util.Map;</p>
-
-<p>import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;</p>
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-<p>public class DatasetDynamic {
+public class DatasetDynamic {
     private String album_id;
     private String album_title;
-    private Map<String , Object> otherProperties = new HashMap<String , Object>();</p>
+    private Map&lt;String , Object&gt; otherProperties = new HashMap&lt;String , Object&gt;();
 
-<pre><code>@JsonCreator
-public DatasetDynamic(@JsonProperty(&quot;album_id&quot;) String album_id, @JsonProperty(&quot;album_title&quot;) String album_title) {
-    this.album_id = album_id;
-    this.album_title = album_title;
-}
+    @JsonCreator
+    public DatasetDynamic(@JsonProperty(&quot;album_id&quot;) String album_id, @JsonProperty(&quot;album_title&quot;) String album_title) {
+        this.album_id = album_id;
+        this.album_title = album_title;
+    }
 
-public String getAlbum_id() {
-    return album_id;
-}
+    public String getAlbum_id() {
+        return album_id;
+    }
 
-public void setAlbum_id(String album_id) {
-    this.album_id = album_id;
-}
+    public void setAlbum_id(String album_id) {
+        this.album_id = album_id;
+    }
 
-public String getAlbum_title() {
-    return album_title;
-}
+    public String getAlbum_title() {
+        return album_title;
+    }
 
-public void setAlbum_title(String album_title) {
-    this.album_title = album_title;
-}
+    public void setAlbum_title(String album_title) {
+        this.album_title = album_title;
+    }
 
-public Object get(String name) {
-    return otherProperties.get(name);
-}
+    public Object get(String name) {
+        return otherProperties.get(name);
+    }
 
-@JsonAnyGetter
-public Map&lt;String , Object&gt; any() {
-    return otherProperties;
-}
+    @JsonAnyGetter
+    public Map&lt;String , Object&gt; any() {
+        return otherProperties;
+    }
 
-@JsonAnySetter
-public void set(String name, Object value) {
-    otherProperties.put(name, value);
+    @JsonAnySetter
+    public void set(String name, Object value) {
+        otherProperties.put(name, value);
+    }
 }
 </code></pre>
-
-<p>}
-```</p>
 
 <hr />
 
@@ -425,7 +417,7 @@ public void set(String name, Object value) {
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
   </body>

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Information on 北 野 </title>
-      <generator uri="https://gohugo.io">Hugo</generator>
+    <title>Information on 北 野</title>
     <link>http://alimy.me/categories/information/</link>
-    
-    
+    <description>Recent content in Information on 北 野</description>
+    <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Mon, 21 May 2018 08:19:00 CST</updated>
+    <lastBuildDate>Mon, 21 May 2018 08:19:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://alimy.me/categories/information/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>收藏: 技术相关网站</title>
       <link>http://alimy.me/post/info_201805210818/</link>
-      <pubDate>Mon, 21 May 2018 08:19:00 CST</pubDate>
+      <pubDate>Mon, 21 May 2018 08:19:00 +0800</pubDate>
       
       <guid>http://alimy.me/post/info_201805210818/</guid>
       <description>&lt;h3 id=&#34;kubernetes-https-kubernetes-io-kubernetes官网&#34;&gt;&lt;a href=&#34;https://kubernetes.io/&#34; title=&#34;Kubernetes官网&#34;&gt;Kubernetes&lt;/a&gt;&lt;/h3&gt;
@@ -22,9 +24,7 @@
 &lt;li&gt;&lt;a href=&#34;https://kubernetes.feisky.xyz/zh/&#34; title=&#34;feisky版 Kubernetes指南&#34;&gt;Kubernetes指南&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://jimmysong.io/kubernetes-handbook/&#34; title=&#34;Jimmy版 Kubernetes指南&#34;&gt;Kubernetes指南&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://feisky.gitbooks.io/sdn/&#34; title=&#34;SDN指南&#34;&gt;SDN指南&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;/ul&gt;</description>
     </item>
     
   </channel>

@@ -302,14 +302,14 @@ fathom('trackPageview');
 <li>TreeSet<String> treeSet</li>
 <li>enum</li>
 <li>EnumMap<testEnum, String> testEnum is an enum</li>
-<li>EnumSet<testEnum> testEnum is an enum
-
-Here&rsquo;s the complete example
-```
-package com.studytrails.xml.xstream;</li>
+<li>EnumSet<testEnum> testEnum is an enum</li>
 </ol>
 
-<p>import java.util.ArrayList;
+<p>Here&rsquo;s the complete example</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -318,89 +318,103 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
-import java.util.TreeSet;</p>
+import java.util.TreeSet;
 
-<p>import com.thoughtworks.xstream.XStream;</p>
+import com.thoughtworks.xstream.XStream;
 
-<p>public class ConverterExample2 {
+public class ConverterExample2 {
 	public static void main(String[] args) {
 		ConverterExample2 example2 = new ConverterExample2();
 		example2.runExample();
-	}</p>
+	}
 
-<p>	public void runExample() {
+	public void runExample() {
 		XStream xStream = new XStream();
 		CollectionConverterExample classContainingCollection = new CollectionConverterExample();
 		classContainingCollection.initialize();
 		String xml = xStream.toXML(classContainingCollection);
 		System.out.println(xml);
 	}
-}</p>
+}
 
-<p>class CollectionConverterExample {</p>
+class CollectionConverterExample {
 
-<p>	String[] stringArray = new String[] { &ldquo;StringA&rdquo;, &ldquo;StringB&rdquo;, &ldquo;StringC&rdquo; };
-	char[] charArray = new char[] { &lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;, &rsquo;d&rsquo;, &lsquo;e&rsquo; };
-	List<String> listA = new ArrayList<String>();
-	Map<String, String> mapA = new HashMap<String, String>();
+	String[] stringArray = new String[] { &quot;StringA&quot;, &quot;StringB&quot;, &quot;StringC&quot; };
+	char[] charArray = new char[] { 'a', 'b', 'c', 'd', 'e' };
+	List&lt;String&gt; listA = new ArrayList&lt;String&gt;();
+	Map&lt;String, String&gt; mapA = new HashMap&lt;String, String&gt;();
 	Properties properties = new Properties();
-	List<String> singletonList;
-	Map<String, String> singletonMap;</p>
+	List&lt;String&gt; singletonList;
+	Map&lt;String, String&gt; singletonMap;
 
-<p>	TreeMap<String, String> treeMap = new TreeMap<String, String>();
-	TreeSet<String> treeSet = new TreeSet<String>();
+	TreeMap&lt;String, String&gt; treeMap = new TreeMap&lt;String, String&gt;();
+	TreeSet&lt;String&gt; treeSet = new TreeSet&lt;String&gt;();
 	enum testEnum {testA, testB}
 	testEnum testeEnumValue = testEnum.testA;
-	EnumMap<testEnum, String> testEnumMap = new EnumMap<CollectionConverterExample.testEnum, String>(testEnum.class);
-	EnumSet<testEnum> testEnumSet = EnumSet.range(testEnum.testA, testEnum.testB);</p>
+	EnumMap&lt;testEnum, String&gt; testEnumMap = new EnumMap&lt;CollectionConverterExample.testEnum, String&gt;(testEnum.class);
+	EnumSet&lt;testEnum&gt; testEnumSet = EnumSet.range(testEnum.testA, testEnum.testB);
 
-<p>	public void initialize() {
-		listA.add(&ldquo;testA&rdquo;);
-		mapA.put(&ldquo;keyA&rdquo;, &ldquo;ValueA&rdquo;);
-		properties.put(&ldquo;propertyA&rdquo;, &ldquo;valueA&rdquo;);
-		treeMap.put(&ldquo;treeA&rdquo;, &ldquo;valueA&rdquo;);
-		treeMap.put(&ldquo;treeB&rdquo;, &ldquo;valueB&rdquo;);
-		treeSet.add(&ldquo;treeB&rdquo;);
-		treeSet.add(&ldquo;treeA&rdquo;);
-		singletonList = Collections.singletonList(&ldquo;singletonListA&rdquo;);
-		singletonMap = Collections.singletonMap(&ldquo;key1&rdquo;, &ldquo;value1&rdquo;);</p>
+	public void initialize() {
+		listA.add(&quot;testA&quot;);
+		mapA.put(&quot;keyA&quot;, &quot;ValueA&quot;);
+		properties.put(&quot;propertyA&quot;, &quot;valueA&quot;);
+		treeMap.put(&quot;treeA&quot;, &quot;valueA&quot;);
+		treeMap.put(&quot;treeB&quot;, &quot;valueB&quot;);
+		treeSet.add(&quot;treeB&quot;);
+		treeSet.add(&quot;treeA&quot;);
+		singletonList = Collections.singletonList(&quot;singletonListA&quot;);
+		singletonMap = Collections.singletonMap(&quot;key1&quot;, &quot;value1&quot;);
 
-<p>		testEnumMap.put(testEnum.testA, &ldquo;testEnumMapValue1&rdquo;);
-		testEnumMap.put(testEnum.testB, &ldquo;testEnumMapValue2&rdquo;);</p>
+		testEnumMap.put(testEnum.testA, &quot;testEnumMapValue1&quot;);
+		testEnumMap.put(testEnum.testB, &quot;testEnumMapValue2&quot;);
 
-<p>	}
-}</p>
-
-<pre><code>
-The resultant XML looks like this
-
+	}
+}
 </code></pre>
 
-<p>		StringA
+<p>The resultant XML looks like this</p>
+
+<pre><code>
+		StringA
 		StringB
-		StringC</p>
+		StringC
 
-<p>	abcde</p>
+	abcde
 
-<p>		testA</p>
+		testA
 
-<p>	  keyA
-	  ValueA</p>
 
-<p>		singletonListA</p>
 
-<p>	  key1
-	  value1</p>
+	  keyA
+	  ValueA
 
-<p>	  treeA
-	  valueA</p>
 
-<p>	  treeB
-	  valueB</p>
 
-<p>		treeA
+
+
+
+		singletonListA
+
+
+
+	  key1
+	  value1
+
+
+
+
+	  treeA
+	  valueA
+
+
+	  treeB
+	  valueB
+
+
+
+		treeA
 		treeB
-```</p>
+</code></pre>
 
 <hr />
 
@@ -438,7 +452,7 @@ The resultant XML looks like this
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
   </body>

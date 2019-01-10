@@ -1,7 +1,7 @@
     <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.30.2" />
+	<meta name="generator" content="Hugo 0.54-DEV" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -320,6 +320,8 @@ fathom('trackPageview');
 <p>虬髯客身旁闪出一团绿影，娇喝道：“正是，正是我射中的那只狐狸，那小畜生呢？”</p>
 
 <p>书生只闻香风扑面，迎面是一张如花笑脸，书生猛然间惊慌失措，意迷情乱，好半天才回过神来，指着身后结结巴巴的说：“刚刚从这边跑过。”</p>
+
+<p>少女娇声说道：“多谢书生！我们追！”</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/arc_201603192259/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -340,6 +342,8 @@ fathom('trackPageview');
 <p>All you need to fully use bolt as storage is a file name. This is fantastic from both a developer’s point of view, and a user’s point of view. I don’t know about you, but I’ve spent months of work time over my career configuring and setting up databases and debugging configuration problems, users and permissions and all the other crap you get from more traditional databases like Postgres and Mongo. There’s none of that with bolt. No users, no setup, just a file name. This is also a boon for users of your application, because they don’t have to futz with all that crap either.</p>
 
 <p>Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.</p>
+
+<p>Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603192255/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -370,12 +374,8 @@ fathom('trackPageview');
 <li>使用GZIP压缩下载内容，且压缩操作对用户是透明的。</li>
 <li>利用响应缓存来避免重复的网络请求。</li>
 <li>当网络出现问题的时候，OKHttp会依然有效，它将从常见的连接问题当中恢复。</li>
-<li>如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。
-
-因此使用 OkHttp 作为替代是好的选择.</li>
+<li>如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。</li>
 </ul>
-
-<p>首先用 OkHttp 实现一个新的 <code>HurlStack</code> 用于构建 Volley 的 requestQueue.</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603192245/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -406,6 +406,8 @@ fathom('trackPageview');
 <p>我的第二个反应是，赶忙把第二个扣子给扣了起来。</p>
 
 <p>我的第三个反应是，脑袋嗡地一声……世界果然大不同，居然有女子主动找我搭讪。</p>
+
+<p>我把头深深地埋在怀里，用了半分钟的时间，猜度了种种可能，唯一把美女相约的可能排除掉后，勇敢地抬起头来，面对这个脸上可能涂了八层防晒霜的恐龙。</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/arc_201603192212/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -430,6 +432,8 @@ fathom('trackPageview');
 <h3 id="指纹歌的地图-盛行于东南沿海">指纹歌的地图：盛行于东南沿海</h3>
 
 <p>在一些童谣集中载录了大量的指纹歌，如商务印书馆《各省童谣集》第一集（1923年）就收录了三首，分别采自安徽休宁、浙江杭县、浙江新昌；上海世界书局《绘图童谣大观》（1924年）也收录了三首，分别采自江苏的吴县、无锡和江都。</p>
+
+<p>《各省童谣集》的编者说：“看螺纹定一生贫富贵贱，各省都有这种事，但所说各不相同，可见这事不足深信。”这话听起来，好像如果各地所说一致，就可以深信似的。这首曾经被打入“封建迷信”另册的趣味童谣，正因为异文众多，不足为信，才会给我们的童年生活带来许多相互打趣的快乐。</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/etc_201603192115/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -446,6 +450,23 @@ fathom('trackPageview');
     <p>Go is a simple and fun language, but, like any other language, it has a few gotchas&hellip; Many of those gotchas are not entirely Go&rsquo;s fault. Some of these mistakes are natural traps if you are coming from another language. Others are due to faulty assumptions and missing details.</p>
 
 <p>A lot of these gotchas may seem obvious if you took the time to learn the language reading the official spec, wiki, mailing list discussions, many great posts and presentations by Rob Pike, and the source code. Not everybody starts the same way though and that&rsquo;s OK. If you are new to Go the information here will save you hours debugging your code.</p>
+
+<p>This post covers Go 1.5 and below.</p>
+
+<h3 id="total-beginner">Total Beginner:</h3>
+
+<ol>
+<li><a href="#1">Opening Brace Can&rsquo;t Be Placed on a Separate Line</a></li>
+<li><a href="#2">Unused Variables</a></li>
+<li><a href="#3">Unused Imports</a></li>
+<li><a href="#4">Short Variable Declarations Can Be Used Only Inside Functions</a></li>
+<li><a href="#5">Redeclaring Variables Using Short Variable Declarations</a></li>
+<li><a href="#6">Can&rsquo;t Use Short Variable Declarations to Set Field Values</a></li>
+<li><a href="#7">Accidental Variable Shadowing</a></li>
+<li><a href="#8">Can&rsquo;t Use &ldquo;nil&rdquo; to Initialize a Variable Without an Explicit Type</a></li>
+<li><a href="#9">Using &ldquo;nil&rdquo; Slices and Maps</a></li>
+<li><a href="#10">Map Capacity</a></li>
+</ol>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603182045/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -459,7 +480,7 @@ fathom('trackPageview');
 
 </header>
 <div class="summary">
-    
+    <p><a href="http://alimy.me/images/post/20160315210501.webp" title="点击查看大图"><img src="http://alimy.me/images/post/20160315210501.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a></p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/etc_201603152115/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -483,8 +504,7 @@ fathom('trackPageview');
 
 <h3 id="the-dark-ages">The Dark Ages</h3>
 
-<p>In the 90’s, we used XML. And it sucked. XML is verbose, it’s hard for humans to read and write, and it still doesn’t solve a lot of the problems above (like how to specify the type of a value). In addition, the XML spec is huge, processing is very complicated, and all the extra features invite abuse and overcomplication.
-</p>
+<p>In the 90’s, we used XML. And it sucked. XML is verbose, it’s hard for humans to read and write, and it still doesn’t solve a lot of the problems above (like how to specify the type of a value). In addition, the XML spec is huge, processing is very complicated, and all the extra features invite abuse and overcomplication.</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603132045/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -511,8 +531,8 @@ The DAY_OF_MONTH starts from 1<br />
 the DAY_OF_WEEK starts from SUNDAY with a value of 1.<br />
 HOUR starts from 0</p></li>
 
-<li><p>java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples
-</p>
+<li><p>java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples</p></li>
+</ul>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603132030/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -531,13 +551,12 @@ HOUR starts from 0</p></li>
 
 <ul class="pagination">
     
-    <li>
-        <a href="http://alimy.me/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    <li class="page-item">
+        <a href="http://alimy.me/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
     </li>
     
-    <li
-    >
-    <a href="http://alimy.me/page/4/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    <li class="page-item">
+    <a href="http://alimy.me/page/4/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
     </li>
     
     
@@ -549,8 +568,7 @@ HOUR starts from 0</p></li>
         
     
     
-    <li
-    ><a href="http://alimy.me/">1</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/">1</a></li>
     
     
     
@@ -561,8 +579,7 @@ HOUR starts from 0</p></li>
         
     
     
-    <li
-    ><a href="http://alimy.me/page/2/">2</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/2/">2</a></li>
     
     
     
@@ -573,8 +590,7 @@ HOUR starts from 0</p></li>
         
     
     
-    <li
-    ><a href="http://alimy.me/page/3/">3</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/3/">3</a></li>
     
     
     
@@ -585,8 +601,7 @@ HOUR starts from 0</p></li>
         
     
     
-    <li
-    ><a href="http://alimy.me/page/4/">4</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/4/">4</a></li>
     
     
     
@@ -597,8 +612,7 @@ HOUR starts from 0</p></li>
         
     
     
-    <li
-    class="active"><a href="http://alimy.me/page/5/">5</a></li>
+    <li class="page-item active"><a class="page-link" href="http://alimy.me/page/5/">5</a></li>
     
     
     
@@ -609,8 +623,7 @@ HOUR starts from 0</p></li>
         
     
     
-    <li
-    ><a href="http://alimy.me/page/6/">6</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/6/">6</a></li>
     
     
     
@@ -621,7 +634,7 @@ HOUR starts from 0</p></li>
         
     
     
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
     
     
     
@@ -668,17 +681,15 @@ HOUR starts from 0</p></li>
         
     
     
-    <li
-    ><a href="http://alimy.me/page/12/">12</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/12/">12</a></li>
     
     
-    <li
-    >
-    <a href="http://alimy.me/page/6/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    <li class="page-item">
+    <a href="http://alimy.me/page/6/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
     </li>
     
-    <li>
-        <a href="http://alimy.me/page/12/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    <li class="page-item">
+        <a href="http://alimy.me/page/12/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>
@@ -691,7 +702,7 @@ HOUR starts from 0</p></li>
         </div>
         <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
     </body>

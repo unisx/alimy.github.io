@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Security on 北 野 </title>
-      <generator uri="https://gohugo.io">Hugo</generator>
+    <title>Security on 北 野</title>
     <link>http://alimy.me/categories/security/</link>
-    
-    
+    <description>Recent content in Security on 北 野</description>
+    <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 17 Nov 2018 14:35:00 CST</updated>
+    <lastBuildDate>Sat, 17 Nov 2018 14:35:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://alimy.me/categories/security/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>AppArmor的前世今生和基本使用</title>
       <link>http://alimy.me/post/dev_201811171435/</link>
-      <pubDate>Sat, 17 Nov 2018 14:35:00 CST</pubDate>
+      <pubDate>Sat, 17 Nov 2018 14:35:00 +0800</pubDate>
       
       <guid>http://alimy.me/post/dev_201811171435/</guid>
       <description>&lt;h4 id=&#34;一-mac和dac-一些前置知识&#34;&gt;一：MAC和DAC (一些前置知识)&lt;/h4&gt;
@@ -40,109 +42,7 @@
 &lt;li&gt;资源限制   例： set rlimit as&amp;lt;=1M ，表示该程序可以使用的虚拟内存小于等于1M&lt;/li&gt;
 &lt;li&gt;访问网络   例： network inet tcp ,表示该程序可以在IPV4的情况下使用TCP协议 　&lt;/li&gt;
 &lt;li&gt;capability条目 例：capability setgid，表示程序进行setgid操作。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;三-基本使用&#34;&gt;三：基本使用&lt;/h4&gt;
-
-&lt;p&gt;ubuntu自带AppArmor，所以以ubuntu14.04为例。
-最好先安装了apparmor的管理工具套装：apt-get install apparmor-utils&lt;/p&gt;
-
-&lt;p&gt;测试程序源码如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#include&amp;lt;stdio.h&amp;gt;  
-#include &amp;lt;string.h&amp;gt;  
-int main(int argc, char *argv[])  
-{  
- 　　FILE *f;  
- 　　int nn, i;   char ch;   
- 　　if(3 == argc){   
-  　　　　f = fopen(argv[1], &amp;quot;w&amp;quot;);   
-  　 if(f == NULL){                          printf(&amp;quot;Open file %s with write ERROR\n&amp;quot;, argv[1]);  
-   　　return 2;  
-　　　}   
-  　nn = strlen(argv[2]);   
-   i = 0;   
-   while(i &amp;lt; nn){   
-   　　fputc(argv[2][i], f);  
-   　　++i; 
-  　}  
-  fclose(f); 
-  }else if(argc == 2){  
-  　　f = fopen(argv[1], &amp;quot;r&amp;quot;);  
-  　　if(NULL == f){  
-   　　　　printf(&amp;quot;Open file %s with read ERROR\n&amp;quot;, argv[1]);  
-   　　　　return 2;  
-  　　}   
-  　　while((ch=fgetc(f)) != EOF){   
-   　　　　printf(&amp;quot;%c&amp;quot;, ch);  
- 　　 }   
-  　　printf(&amp;quot;\n&amp;quot;); 
-  　　fclose(f); 
- }else{ 
-  　　printf(&amp;quot;Usage: test file **\n&amp;quot;);   
-  　　return 3;  
- } 
- 
-　　 return 0;  
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;基本功能是对，文件进行读写，使用如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;　$　./test a.c &amp;quot;hello,world&amp;quot;  #进行写
-　$　./test a.c  #进行读
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;可以根据 aa-genprof 生成配置文件，生成的文件在/etc/apparmor.d下，文件名为home.jdchen.test&lt;/p&gt;
-
-&lt;p&gt;生成的文件如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# Last Modified: Fri Nov 11 03:54:40 2016
-#include &amp;lt;tunables/global&amp;gt;
-
-/home/jdchen/test {
-  #include &amp;lt;abstractions/base&amp;gt;
-
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;由于apparmor采取类似于白名单的机制，所以不能进行任何操作。
-现在给配置文件添加可写的权限并重新加载。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# Last Modified: Fri Nov 11 03:54:40 2016
-#include &amp;lt;tunables/global&amp;gt;
-
-/home/jdchen/test {
-  #include &amp;lt;abstractions/base&amp;gt;
-    /home/jdchen/a.c w，
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后介绍几个命令：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ Start : sudo /etc/init.d/apparmor start   #启动
-$ Stop : sudo /etc/init.d/apparmor stop   #停止
-$ reload: sudo /etc/init.d/apparmor reload 重新加载
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;在修改配置之后，需要重载：&lt;/p&gt;
-
-&lt;p&gt;可以试着查看一下日志，节选：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;ov 11 04:23:53 ubuntu kernel: [ 2419.881291] audit_printk_skb: 15 callbacks suppressed
-Nov 11 04:23:53 ubuntu kernel: [ 2419.881306] audit: type=1400 audit(1478867033.872:204): apparmor=&amp;quot;DENIED&amp;quot; operation=&amp;quot;open&amp;quot; profile=&amp;quot;/home/jdchen/test&amp;quot; name=&amp;quot;/home/jdchen/a.c&amp;quot; pid=4108 comm=&amp;quot;test&amp;quot; requested_mask=&amp;quot;r&amp;quot; denied_mask=&amp;quot;r&amp;quot; fsuid=0 ouid=0
-Nov 11 04:24:07 ubuntu kernel: [ 2433.212034] audit: type=1400 audit(1478867047.204:205): apparmor=&amp;quot;DENIED&amp;quot; operation=&amp;quot;open&amp;quot; profile=&amp;quot;/home/jdchen/test&amp;quot; name=&amp;quot;/home/jdchen/a.c&amp;quot; pid=4111 comm=&amp;quot;test&amp;quot; requested_mask=&amp;quot;r&amp;quot; denied_mask=&amp;quot;r&amp;quot; fsuid=0 ouid=0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;如果不需要配置，可以直接将配置文件删除。&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(备注: 原文的链接在 &lt;a href=&#34;https://www.cnblogs.com/0xJDchen/p/6055531.html&#34; title=&#34;Apparmor的前世今生和基本使用&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
+&lt;/ol&gt;</description>
     </item>
     
   </channel>

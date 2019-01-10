@@ -1,7 +1,7 @@
     <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.30.2" />
+	<meta name="generator" content="Hugo 0.54-DEV" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -300,6 +300,15 @@ fathom('trackPageview');
 </header>
 <div class="summary">
     <p>A thing that most java developers love to deal with is &hellip;. Java POJO. Wouldn&rsquo;t you love a black box where you can see JSON string entering from one side and POJOs coming out from the other. That&rsquo;s what Jackson data binding does. This can be best explained by an example. We use the json from free music archive. It has an API to get latest albums in the form of JSON. we would read that json string (Click on this link to see the json) into Albums object. The Albums object contains an array of Dataset.</p>
+
+<p>Here&rsquo;s how The JSON to Java conversion works</p>
+
+<ol>
+<li>The first step is to create the Java class that would hold the JSON data. Look at the json. we create an Albums object to hold the entire json. The json contains an array of &lsquo;dataset&rsquo; elements. We create a Java Object of type DataSet and in the Albums object we create a dataset property that is an array of type DataSet.</li>
+<li>Create an instance of the com.fasterxml.jackson.databind.ObjectMapper class. This is the class that maps a JSON to a Java Object.<code>ObjectMapper mapper = new ObjectMapper();</code></li>
+<li>We use the <em>readValue</em> method of the ObjectMapper to read. There are multiple versions of this method and we use the method that takes in a URL. However, there are method that read from a file, inputstream, String or a ByteArray.</li>
+<li>The ObjectMapper caches serializers and deserializers so it would be a good idea to reuse an ObjectMapper instance for multiple conversions</li>
+</ol>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112040/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -313,8 +322,7 @@ fathom('trackPageview');
 
 </header>
 <div class="summary">
-    <p>Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string
-</p>
+    <p>Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112035/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -330,8 +338,7 @@ fathom('trackPageview');
 <div class="summary">
     <h3 id="streaming-parser-and-generator">Streaming Parser and Generator</h3>
 
-<p>Jackson provides a low level API to parse json string. The API provides token for each json object. For example, the start of json &lsquo;{&rsquo; is the first object that the parser provides. The key value pair is another single object. The client code can use the tokens and get the json properties or build a java object out of it if required. This low level API is extremely powerful but needs a lot of coding. For most cases, Jackson&rsquo;s tree traversing and data binding capability should be explored instead. We provide two examples below. The first example demonstrates json parsing and the second demonstrated json generation.
-</p>
+<p>Jackson provides a low level API to parse json string. The API provides token for each json object. For example, the start of json &lsquo;{&rsquo; is the first object that the parser provides. The key value pair is another single object. The client code can use the tokens and get the json properties or build a java object out of it if required. This low level API is extremely powerful but needs a lot of coding. For most cases, Jackson&rsquo;s tree traversing and data binding capability should be explored instead. We provide two examples below. The first example demonstrates json parsing and the second demonstrated json generation.</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112030/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -388,8 +395,7 @@ fathom('trackPageview');
 <li>Building a Json Stream</li>
 </ul>
 
-<p>In the <a href="http://alimy.me/post/dev_201603112025" title="Java to JSON and back">first tutorial</a> we look at all the three ways of creating JSON. Note that if you are new to Jackson this is probably the best place to begin even if you are looking at a way to parse JSON.
-</p>
+<p>In the <a href="http://alimy.me/post/dev_201603112025" title="Java to JSON and back">first tutorial</a> we look at all the three ways of creating JSON. Note that if you are new to Jackson this is probably the best place to begin even if you are looking at a way to parse JSON.</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112020/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -453,8 +459,6 @@ public class XStreamTransformationExample {
 	}
 }
 </code></pre>
-
-<p></p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603092120/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -470,8 +474,7 @@ public class XStreamTransformationExample {
 <div class="summary">
     <p>XStream can also be used with JSON. XStream provides two drivers : a JsonHierarchicalStreamDriver and a JettisonMappedXmlDriver. The JsonHierarchicalStreamDriver can be used to write a JSON string but cannot deserialize a JSON. JettisonMappedXmlDriver can be used to deserialize a JSON but it introduces an additional dependency. In this example we deserialize a json string into a java object.</p>
 
-<p>Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).
-</p>
+<p>Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603092115/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -498,23 +501,8 @@ public class XStreamTransformationExample {
 <li>TreeSet<String> treeSet</li>
 <li>enum</li>
 <li>EnumMap<testEnum, String> testEnum is an enum</li>
-<li>EnumSet<testEnum> testEnum is an enum
-
-Here&rsquo;s the complete example
-```
-package com.studytrails.xml.xstream;</li>
+<li>EnumSet<testEnum> testEnum is an enum</li>
 </ol>
-
-<p>import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
-import java.util.TreeSet;</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603092105/' title="继续阅读"><nobr>Read More →</nobr></a>
@@ -547,13 +535,12 @@ import java.util.TreeSet;</p>
 
 <ul class="pagination">
     
-    <li>
-        <a href="http://alimy.me/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    <li class="page-item">
+        <a href="http://alimy.me/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
     </li>
     
-    <li
-    >
-    <a href="http://alimy.me/page/7/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    <li class="page-item">
+    <a href="http://alimy.me/page/7/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
     </li>
     
     
@@ -565,8 +552,7 @@ import java.util.TreeSet;</p>
         
     
     
-    <li
-    ><a href="http://alimy.me/">1</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/">1</a></li>
     
     
     
@@ -577,8 +563,7 @@ import java.util.TreeSet;</p>
         
     
     
-    <li
-    ><a href="http://alimy.me/page/2/">2</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/2/">2</a></li>
     
     
     
@@ -589,8 +574,7 @@ import java.util.TreeSet;</p>
         
     
     
-    <li
-    ><a href="http://alimy.me/page/3/">3</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/3/">3</a></li>
     
     
     
@@ -601,16 +585,7 @@ import java.util.TreeSet;</p>
         
     
     
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
+    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
     
     
     
@@ -630,8 +605,16 @@ import java.util.TreeSet;</p>
         
     
     
-    <li
-    ><a href="http://alimy.me/page/7/">7</a></li>
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/7/">7</a></li>
     
     
     
@@ -642,8 +625,7 @@ import java.util.TreeSet;</p>
         
     
     
-    <li
-    class="active"><a href="http://alimy.me/page/8/">8</a></li>
+    <li class="page-item active"><a class="page-link" href="http://alimy.me/page/8/">8</a></li>
     
     
     
@@ -654,8 +636,7 @@ import java.util.TreeSet;</p>
         
     
     
-    <li
-    ><a href="http://alimy.me/page/9/">9</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/9/">9</a></li>
     
     
     
@@ -666,7 +647,7 @@ import java.util.TreeSet;</p>
         
     
     
-    <li class="disabled"><span aria-hidden="true">&hellip;</span></li>
+    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
     
     
     
@@ -686,17 +667,15 @@ import java.util.TreeSet;</p>
         
     
     
-    <li
-    ><a href="http://alimy.me/page/12/">12</a></li>
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/12/">12</a></li>
     
     
-    <li
-    >
-    <a href="http://alimy.me/page/9/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    <li class="page-item">
+    <a href="http://alimy.me/page/9/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
     </li>
     
-    <li>
-        <a href="http://alimy.me/page/12/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    <li class="page-item">
+        <a href="http://alimy.me/page/12/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>
@@ -709,7 +688,7 @@ import java.util.TreeSet;</p>
         </div>
         <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
     </body>

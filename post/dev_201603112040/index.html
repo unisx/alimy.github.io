@@ -297,10 +297,10 @@ fathom('trackPageview');
 <li>The first step is to create the Java class that would hold the JSON data. Look at the json. we create an Albums object to hold the entire json. The json contains an array of &lsquo;dataset&rsquo; elements. We create a Java Object of type DataSet and in the Albums object we create a dataset property that is an array of type DataSet.</li>
 <li>Create an instance of the com.fasterxml.jackson.databind.ObjectMapper class. This is the class that maps a JSON to a Java Object.<code>ObjectMapper mapper = new ObjectMapper();</code></li>
 <li>We use the <em>readValue</em> method of the ObjectMapper to read. There are multiple versions of this method and we use the method that takes in a URL. However, there are method that read from a file, inputstream, String or a ByteArray.</li>
-<li>The ObjectMapper caches serializers and deserializers so it would be a good idea to reuse an ObjectMapper instance for multiple conversions
-
-If you have an InputStream then pass it to Jackson as such and do not wrap it in InputStreamReader for performance reasons.</li>
+<li>The ObjectMapper caches serializers and deserializers so it would be a good idea to reuse an ObjectMapper instance for multiple conversions</li>
 </ol>
+
+<p>If you have an InputStream then pass it to Jackson as such and do not wrap it in InputStreamReader for performance reasons.</p>
 
 <h3 id="data-binding-example">Data Binding Example</h3>
 
@@ -433,7 +433,7 @@ public class Dataset {
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
   </body>

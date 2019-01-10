@@ -294,12 +294,10 @@ fathom('trackPageview');
 <ol>
 <li>By defining a custom annotation and ignoring fields that are annotated with that.</li>
 <li>By Defining a custom exclusion class by extending the ExclusionStrategy interface and implementing the public boolean shouldSkipField(FieldAttributes f); and public boolean shouldSkipClass(Class clazz); methods</li>
-
-<li><p>By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.
-</p>
-
-<h4 id="the-example-below-demonstrates-all-three">The example below demonstrates all three</h4></li>
+<li>By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.</li>
 </ol>
+
+<h4 id="the-example-below-demonstrates-all-three">The example below demonstrates all three</h4>
 
 <pre><code>package com.studytrails.json.gson;
 
@@ -470,7 +468,7 @@ public class CustomExclusionStrategy implements ExclusionStrategy {
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
   </body>

@@ -302,58 +302,57 @@ The DAY_OF_MONTH starts from 1<br />
 the DAY_OF_WEEK starts from SUNDAY with a value of 1.<br />
 HOUR starts from 0</p></li>
 
-<li><p>java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples
-</p>
+<li><p>java.util.GregorialCalendar - A GregorianCalendar is the default implementation of the Abstract Calendar class. Next let us look at examples</p></li>
+</ul>
 
 <h4 id="create-a-date-object-and-print-it">Create a Date object and print it</h4>
 
-<pre><code>public void createDateAndPrintIt() {
-// create and prints the current date. It prints the data in the local
-// timezone
-System.out.println(new java.util.Date());
-// prints Sun Jul 28 20:09:36 IST 2013
-// get the number of milli seconds since epock
-System.out.println(new java.util.Date().getTime());
-// prints 1375022617792
+<pre><code>    public void createDateAndPrintIt() {
+    // create and prints the current date. It prints the data in the local
+    // timezone
+    System.out.println(new java.util.Date());
+    // prints Sun Jul 28 20:09:36 IST 2013
+    // get the number of milli seconds since epock
+    System.out.println(new java.util.Date().getTime());
+    // prints 1375022617792
 }
 </code></pre>
 
 <h4 id="get-an-instance-of-calendar-object-and-print-it">get an instance of Calendar object and print it</h4>
 
 <pre><code>public void createCalendarAndPrintIt() {
-Calendar cal = Calendar.getInstance();
-System.out.println(cal);
-// java.util.GregorianCalendar[time=1375025205859,areFieldsSet=true,areAllFieldsSet=true,lenient=true,
-// zone=sun.util.calendar.ZoneInfo[id=&quot;Asia/Calcutta&quot;,offset=19800000,dstSavings=0,useDaylight=false,transitions=6,lastRule=null],
-// firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2013,MONTH=6,WEEK_OF_YEAR=31,WEEK_OF_MONTH=5,DAY_OF_MONTH=28,
-// DAY_OF_YEAR=209,DAY_OF_WEEK=1,DAY_OF_WEEK_IN_MONTH=4,AM_PM=1,HOUR=8,HOUR_OF_DAY=20,MINUTE=56,SECOND=45,MILLISECOND=859,ZONE_OFFSET=19800000,DST_OFFSET=0]
-System.out.println(cal.getTime());
-// prints Sun Jul 28 20:56:45 IST 2013
+    Calendar cal = Calendar.getInstance();
+    System.out.println(cal);
+    // java.util.GregorianCalendar[time=1375025205859,areFieldsSet=true,areAllFieldsSet=true,lenient=true,
+    // zone=sun.util.calendar.ZoneInfo[id=&quot;Asia/Calcutta&quot;,offset=19800000,dstSavings=0,useDaylight=false,transitions=6,lastRule=null],
+    // firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2013,MONTH=6,WEEK_OF_YEAR=31,WEEK_OF_MONTH=5,DAY_OF_MONTH=28,
+    // DAY_OF_YEAR=209,DAY_OF_WEEK=1,DAY_OF_WEEK_IN_MONTH=4,AM_PM=1,HOUR=8,HOUR_OF_DAY=20,MINUTE=56,SECOND=45,MILLISECOND=859,ZONE_OFFSET=19800000,DST_OFFSET=0]
+    System.out.println(cal.getTime());
+    // prints Sun Jul 28 20:56:45 IST 2013
 }
 </code></pre>
 
 <h4 id="manipulate-calendar">Manipulate Calendar</h4>
 
 <pre><code>public void manipulateCalendar() {
-Calendar cal = Calendar.getInstance();
-System.out.println(cal.getTime());// Sun Jul 28 21:53:55 IST 2013
-// add a day
-cal.add(Calendar.DAY_OF_MONTH, 1);
-System.out.println(cal.getTime());// Mon Jul 29 21:53:55 IST 2013
-cal.add(Calendar.DAY_OF_WEEK, 1);
-System.out.println(cal.getTime());// Tue Jul 30 21:53:55 IST 2013
-cal.add(Calendar.HOUR, 1);
-System.out.println(cal.getTime());// Tue Jul 30 22:53:55 IST 2013
-cal.add(Calendar.HOUR_OF_DAY, 1);
-System.out.println(cal.getTime());// Tue Jul 30 23:53:55 IST 2013
-cal.add(Calendar.MINUTE, 100);
-System.out.println(cal.getTime());// Wed Jul 31 01:33:55 IST 2013
-// demonstrate leniency
-cal.add(Calendar.DAY_OF_MONTH, 32);
-System.out.println(cal.getTime());// Sun Sep 01 01:33:55 IST 2013
+    Calendar cal = Calendar.getInstance();
+    System.out.println(cal.getTime());// Sun Jul 28 21:53:55 IST 2013
+    // add a day
+    cal.add(Calendar.DAY_OF_MONTH, 1);
+    System.out.println(cal.getTime());// Mon Jul 29 21:53:55 IST 2013
+    cal.add(Calendar.DAY_OF_WEEK, 1);
+    System.out.println(cal.getTime());// Tue Jul 30 21:53:55 IST 2013
+    cal.add(Calendar.HOUR, 1);
+    System.out.println(cal.getTime());// Tue Jul 30 22:53:55 IST 2013
+    cal.add(Calendar.HOUR_OF_DAY, 1);
+    System.out.println(cal.getTime());// Tue Jul 30 23:53:55 IST 2013
+    cal.add(Calendar.MINUTE, 100);
+    System.out.println(cal.getTime());// Wed Jul 31 01:33:55 IST 2013
+    // demonstrate leniency
+    cal.add(Calendar.DAY_OF_MONTH, 32);
+    System.out.println(cal.getTime());// Sun Sep 01 01:33:55 IST 2013
 }
-</code></pre></li>
-</ul>
+</code></pre>
 
 <hr />
 
@@ -391,7 +390,7 @@ System.out.println(cal.getTime());// Sun Sep 01 01:33:55 IST 2013
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
   </body>

@@ -53,8 +53,6 @@ YAML在使用逗号及冒号时，后面都必须接一个空白字符，所以�
 
 &lt;p&gt;另外还有两个特殊符号在YAML中被保留，有可能在未来的版本被使用&amp;ndash;（ @ ）和（ ` ）。&lt;/p&gt;
 
-&lt;p&gt;&lt;/p&gt;
-
 &lt;h3 id=&#34;sect-参考小抄&#34;&gt;&amp;sect;参考小抄&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;%YAML 1.1   # Reference card
@@ -170,8 +168,6 @@ Escape codes:
 这样30分钟没操作就自动LOGOUT&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;/p&gt;
-
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;方法四、
 利用expect 模拟键盘动作，在闲置时间之内模拟地给个键盘响应,将下列代码保存为xxx，然后用expect执行&lt;/p&gt;
@@ -279,8 +275,6 @@ c : connecting to server...
 ...
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;/p&gt;
-
 &lt;hr /&gt;
 
 &lt;p&gt;(备注: 原文的链接在 &lt;a href=&#34;https://www.vpsee.com/2011/05/sshuttle-a-simple-instant-vpn/&#34; title=&#34;sshuttle as vpn&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
@@ -318,8 +312,6 @@ c : connecting to server...
 &lt;li&gt;访问网络   例： network inet tcp ,表示该程序可以在IPV4的情况下使用TCP协议 　&lt;/li&gt;
 &lt;li&gt;capability条目 例：capability setgid，表示程序进行setgid操作。&lt;/li&gt;
 &lt;/ol&gt;
-
-&lt;p&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;三-基本使用&#34;&gt;三：基本使用&lt;/h4&gt;
 
@@ -450,8 +442,6 @@ $ docker run -d --name athens-proxy --restart always -p 3000:3000 \
     gomods/proxy:latest
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;/p&gt;
-
 &lt;h4 id=&#34;use-memory-backend-defualt&#34;&gt;Use Memory Backend (Defualt)&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code&gt;$ docker run -d --name athens-proxy --restart always -p 3000:3000 gomods/proxy:latest
@@ -501,9 +491,7 @@ $ docker logs -f athens-proxy # display logs
 
 &lt;p&gt;话说，&lt;a href=&#34;https://golang.org&#34; title=&#34;Go official site&#34;&gt;&lt;strong&gt;Golang&lt;/strong&gt;&lt;/a&gt;的吉祥物是Gopher（囊地鼠），陆上跑地欢；Rust的吉祥物是Crab（螃蟹），海里游地慌；巧合吗，很有意思！既如此，已经入坑了陆上跑地欢的&lt;code&gt;Go&lt;/code&gt;，再入手个海里游地慌的&lt;code&gt;Rust&lt;/code&gt;，又有何妨，乐哉!似乎还有一个&lt;code&gt;Swift&lt;/code&gt;，吉祥物是天上飞的雨燕， 也是计划入手的一门语言，但不是现在（项目暂时没用上,不急）， 到时候就海陆空全齐了， 哈哈哈～&lt;/p&gt;
 
-&lt;p&gt;欲攻其事，必先善其器，各门语言有他们擅长的使用场景，都有他们各自溜的舞台，项目需要或适合什么语言去构建，自然就要入手去使用，达到最好运行效果！ 学过很多语言，但日常编程用的最多的还是Go和Java， 嗯哼， 之所以还入手Rust语言，除了项目用的上，更简单的原因就是：看上了&lt;a href=&#34;https://github.com/tikv/tikv&#34; title=&#34;TikV in GitHub&#34;&gt;&lt;strong&gt;TiKV&lt;/strong&gt;&lt;/a&gt; ~&lt;em&gt;So Easy To Nice&lt;/em&gt;~&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;欲攻其事，必先善其器，各门语言有他们擅长的使用场景，都有他们各自溜的舞台，项目需要或适合什么语言去构建，自然就要入手去使用，达到最好运行效果！ 学过很多语言，但日常编程用的最多的还是Go和Java， 嗯哼， 之所以还入手Rust语言，除了项目用的上，更简单的原因就是：看上了&lt;a href=&#34;https://github.com/tikv/tikv&#34; title=&#34;TikV in GitHub&#34;&gt;&lt;strong&gt;TiKV&lt;/strong&gt;&lt;/a&gt; ~&lt;em&gt;So Easy To Nice&lt;/em&gt;~&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -528,8 +516,6 @@ $ docker logs -f athens-proxy # display logs
 | Node2(TD) | 172.22.0.10 |   TiKV2    |     tikv-data   |    /data    |
 | Node3(TE) | 172.22.0.15 |   TiKV3    |     tikv-data   |    /data    |
 &lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;准备工作&#34;&gt;准备工作&lt;/h4&gt;
 
@@ -797,8 +783,7 @@ replace (
 )
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;
-Note that a dependency not directly imported in the module&amp;rsquo;s source code by
+&lt;p&gt;Note that a dependency not directly imported in the module&amp;rsquo;s source code by
 an import statement is indentified as &lt;em&gt;indirect&lt;/em&gt; in the file.&lt;/p&gt;
 
 &lt;p&gt;A module can contain other modules, in which case their content is excluded
@@ -977,8 +962,7 @@ or other conditions. The main features are:&lt;/p&gt;
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;
-Here we register three routes mapping URL paths to handlers. This is
+&lt;p&gt;Here we register three routes mapping URL paths to handlers. This is
 equivalent to how &lt;code&gt;http.HandleFunc()&lt;/code&gt; works: if an incoming request URL matches
 one of the paths, the corresponding handler is called passing
 &lt;code&gt;(http.ResponseWriter, *http.Request)&lt;/code&gt; as parameters.&lt;/p&gt;
@@ -1318,8 +1302,6 @@ $ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/do
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;/p&gt;
-
 &lt;ul&gt;
 &lt;li&gt;创建客户端证书和密钥&lt;/li&gt;
 &lt;/ul&gt;
@@ -1367,9 +1349,7 @@ alias docker=&#39;docker --tlsverify&#39;
       <description>&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.importnew.com/3292.html&#34; title=&#34;Finding a needle in Haystack: Facebook’s photo storage&#34;&gt;经典论文翻译导读之《Finding a needle in Haystack: Facebook’s photo storage》&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s?__biz=MzI4NDMyNTU2Mw==&amp;amp;mid=2247483679&amp;amp;idx=1&amp;amp;sn=584dbd80aa08fa1188627ad725680928&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1208L9z4yXKLW60rPph2ZmMn#rd&#34; title=&#34;微信序列号生成器架构设计及演变&#34;&gt;万亿级调用系统：微信序列号生成器架构设计及演变&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;/ul&gt;</description>
     </item>
     
     <item>
@@ -1402,8 +1382,6 @@ alias docker=&#39;docker --tlsverify&#39;
 &lt;/ul&gt;
 
 &lt;p&gt;Find Docker-ce official document &lt;a href=&#34;https://docs.docker.com/v17.06/engine/reference/builder/#from&#34; title=&#34;Docker official Document&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;You can use this patch to build docker image if  docker-ce that version &amp;gt;=v17.06 is installed:&lt;/p&gt;
 
@@ -1517,8 +1495,6 @@ this patch fixed this problem.&lt;/p&gt;
 /home/alimy/art/arg/
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;/p&gt;
-
 &lt;p&gt;Also when have multiple item in &lt;code&gt;GOPATH&lt;/code&gt; env you should do this:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;export GOPATH=$HOME/art/ago:$HOME/art/arg
@@ -1629,9 +1605,7 @@ legacy:
 &lt;li&gt;&lt;a href=&#34;https://kubernetes.feisky.xyz/zh/&#34; title=&#34;feisky版 Kubernetes指南&#34;&gt;Kubernetes指南&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://jimmysong.io/kubernetes-handbook/&#34; title=&#34;Jimmy版 Kubernetes指南&#34;&gt;Kubernetes指南&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://feisky.gitbooks.io/sdn/&#34; title=&#34;SDN指南&#34;&gt;SDN指南&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;/ul&gt;</description>
     </item>
     
     <item>
@@ -1649,8 +1623,6 @@ TiDB 是新一代开源分布式 NewSQL 数据库，模型受 Google Spanner / F
 
 &lt;p&gt;CockroachDB（中文名蟑螂DB，所以又可以称为小强DB），是构建于事务处理及强一致性KV存储上的分布式SQL数据库，支持水平扩展、自动容错处理、强一致性事务，并且提供SQL接口用于数据处理，是Google Spanner/F1的开源实现。
    CockroachDB适用于应用对数据要求精确、可靠、完全正确的场景，支持自动复制、均匀分布、基于极小配置的数据恢复，可用于分布式的、可复制的联机事务处理（OLTP），多数据中心的部署，私有云的基础构建，它不适用于读少写多的场景，可以用内存数据库来代替，也不适用于复杂的join查询，重量级的数据分析及联机分析处理（OLAP）。&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;CockroachDB is a distributed SQL database built on a transactional and strongly-consistent key-value store. It scales horizontally; survives disk, machine, rack, and even datacenter failures with minimal latency disruption and no manual intervention; supports strongly-consistent ACID transactions; and provides a familiar SQL API for structuring, manipulating, and querying data.SQL queries reach CockroachDB&amp;rsquo;s cluster through the &lt;a href=&#34;https://www.postgresql.org/docs/10/static/index.html&#34; title=&#34;PostgreSQL 10.3 Documentation&#34;&gt;PostgreSQL&lt;/a&gt; wire protocol.&lt;/p&gt;</description>
     </item>
