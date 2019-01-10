@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <title> 北 野 &middot; 北 野 </title>
     
-    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
     
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
@@ -295,6 +295,53 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603122022/" title="阅读全文">Gson: Serializing Collections </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="serializing-list">Serializing list</h3>
+
+<p>Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.</p>
+
+<pre><code>package com.studytrails.json.gson;
+
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+public class DeSerializeListExample5 {
+	public static void main(String[] args) {
+		String json = &quot;[{album_id:1,album_title:'album1'},{album_id:2,album_title:'album2'}]&quot;;
+
+		Gson gson = new Gson();
+		// create the type for the collection. In this case define that the collection is of type Dataset
+		Type datasetListType = new TypeToken&lt;Collection&lt;Dataset&gt;&gt;() {}.getType();
+		List&lt;Dataset&gt; datasets = gson.fromJson(json, datasetListType);
+		for (Dataset dataset : datasets) {
+			System.out.println(dataset.getAlbum_title());
+			System.out.println(dataset.getAlbum_id());
+		}
+		// Prints
+		//album1
+		//1
+		//album2
+		//2
+
+	}
+}
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122022/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122020/" title="阅读全文">Gson: Convert json to a java object tree </a> </h2>
 
 </header>
@@ -540,45 +587,6 @@ public class AlbumsFilter {
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112045/" title="阅读全文">Jackson: List serialization </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In this tutorial we will see how to convert a java List to JSON. Serializing list is a little tricky since by default the type info is not stored while serializing and deserializing lists. In this tutorial we look at two examples. In the first example we serialize an Object that has a java List as one of its properties. In the second example we try and serialize the List directly. In both examples we use special configuration to preserve type info.</p>
-
-<h3 id="example-1-serializing-object-containing-a-list">Example 1 : Serializing Object containing a list</h3>
-
-<p>The example converts a Zoo class to json. the zoo class contains the name of zoo, its city and a list of animals. The list is of type &lsquo;Animal&rsquo;, i.e. the list contains elements that are subclass of the Abstract class Animal. Lets see what happens when we try to serialize zoo. First we create the Zoo class. Notice how the constructor looks. When we try to get the Zoo Object back from the JSON, Jackson has to know that it should create the Zoo Object using the constructor that takes in the name and city properties.</p>
-
-<pre><code>class Zoo {
-    public String name;
-    public String city;
-
-
-    @JsonCreator
-    public Zoo(@JsonProperty(&quot;name&quot;) String name,@JsonProperty(&quot;city&quot;) String city) {
-        this.name = name;
-        this.city = city;
-    }
-
-    public List&lt;Animal&gt; animals = new ArrayList&lt;Animal&gt;();
-
-    public List&lt;Animal&gt; addAnimal(Animal animal) {
-        animals.add(animal);
-        return animals;
-    }
-
-}
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112045/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     <h4>
@@ -722,7 +730,16 @@ public class AlbumsFilter {
         
     
     
-    <li class="page-item"><a class="page-link" href="http://alimy.me/page/12/">12</a></li>
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/13/">13</a></li>
     
     
     <li class="page-item">
@@ -730,7 +747,7 @@ public class AlbumsFilter {
     </li>
     
     <li class="page-item">
-        <a href="http://alimy.me/page/12/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="http://alimy.me/page/13/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>

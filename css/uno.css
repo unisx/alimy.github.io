@@ -42,9 +42,46 @@ q:before, q:after {
   content: '';
   content: none; }
 
+.post table {
+  width: 95%;
+}
+
 table {
   border-collapse: collapse;
-  border-spacing: 0; }
+  border-spacing: 0;
+  display: block;
+  overflow: auto; }
+
+thead {
+  display: table-header-group;
+  vertical-align: middle;
+  border-color:inherit;
+}
+
+tr {
+  display: table-row;
+  vertical-align: inderit;
+  border-color: inherit;
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color:inherit;
+}
+
+td, th {
+  border: 1px solid #dfe2e5;
+  padding: 8px 14px;
+  display: table-cell;
+  vertical-align: inherit;
+}
 
 body {
   width: 100%;

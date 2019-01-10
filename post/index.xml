@@ -6,10 +6,29 @@
     <description>Recent content in Posts on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 09 Jan 2019 14:50:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 18:04:00 +0800</lastBuildDate>
     
 	<atom:link href="http://alimy.me/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>OpenAPI Specification</title>
+      <link>http://alimy.me/post/dev_201901101804/</link>
+      <pubDate>Thu, 10 Jan 2019 18:04:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201901101804/</guid>
+      <description>&lt;h4 id=&#34;version-3-0-2&#34;&gt;Version 3.0.2&lt;/h4&gt;
+
+&lt;p&gt;The key words &amp;ldquo;MUST&amp;rdquo;, &amp;ldquo;MUST NOT&amp;rdquo;, &amp;ldquo;REQUIRED&amp;rdquo;, &amp;ldquo;SHALL&amp;rdquo;, &amp;ldquo;SHALL NOT&amp;rdquo;, &amp;ldquo;SHOULD&amp;rdquo;, &amp;ldquo;SHOULD NOT&amp;rdquo;, &amp;ldquo;RECOMMENDED&amp;rdquo;, &amp;ldquo;NOT RECOMMENDED&amp;rdquo;, &amp;ldquo;MAY&amp;rdquo;, and &amp;ldquo;OPTIONAL&amp;rdquo; in this document are to be interpreted as described in &lt;a href=&#34;https://tools.ietf.org/html/bcp14&#34;&gt;BCP 14&lt;/a&gt; &lt;a href=&#34;https://tools.ietf.org/html/rfc2119&#34;&gt;RFC2119&lt;/a&gt; &lt;a href=&#34;https://tools.ietf.org/html/rfc8174&#34;&gt;RFC8174&lt;/a&gt; when, and only when, they appear in all capitals, as shown here.&lt;/p&gt;
+
+&lt;p&gt;This document is licensed under &lt;a href=&#34;https://www.apache.org/licenses/LICENSE-2.0.html&#34;&gt;The Apache License, Version 2.0&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;The OpenAPI Specification (OAS) defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.&lt;/p&gt;
+
+&lt;p&gt;An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>YAML 简明参考</title>

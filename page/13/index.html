@@ -1,10 +1,11 @@
-  <!DOCTYPE html>
+    <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
+	<meta name="generator" content="Hugo 0.54-DEV" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Gson: Serializing Collections &middot; 北 野 </title>
+    <title> 北 野 &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -185,15 +186,17 @@ fathom('trackPageview');
     </style>
 </head>
 
-  <body>
-    <div id="scriptHeader">
+    <body>
+        <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-            panel-cover panel-cover--collapsed
+        
+                panel-cover panel-cover--collapsed
+        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -284,119 +287,205 @@ fathom('trackPageview');
     </header>
 </noscript>
 
-    <div class="content-wrapper">
-      <div class="content-wrapper__inner">
-        <div class="post panel-wrapper">
-            <h2>Gson: Serializing Collections</h2>
-          
-          <h3 id="serializing-list">Serializing list</h3>
+        <div class="content-wrapper">
+            <div class="content-wrapper__inner">
+                <section id="main">
+                    <div>
+                        
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="http://alimy.me/post/day_201512292359/" title="阅读全文">Hello World:博客开张 </a> </h2>
 
-<p>Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.</p>
+</header>
+<div class="summary">
+    <p><img src="http://alimy.me/images/post/20151229235900.webp" alt="" /></p>
 
-<pre><code>package com.studytrails.json.gson;
+<h3 id="亲-博客正式开张啦-哈哈哈">～亲～博客正式开张啦～～哈哈哈～～</h3>
 
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
+<p><img src="http://alimy.me/images/post/20151229235901.webp" alt="" /></p>
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+<h3 id="hello-world">～Hello World～</h3>
 
-public class DeSerializeListExample5 {
-	public static void main(String[] args) {
-		String json = &quot;[{album_id:1,album_title:'album1'},{album_id:2,album_title:'album2'}]&quot;;
+<p><img src="http://alimy.me/images/post/20151229235902.webp" alt="" /></p>
 
-		Gson gson = new Gson();
-		// create the type for the collection. In this case define that the collection is of type Dataset
-		Type datasetListType = new TypeToken&lt;Collection&lt;Dataset&gt;&gt;() {}.getType();
-		List&lt;Dataset&gt; datasets = gson.fromJson(json, datasetListType);
-		for (Dataset dataset : datasets) {
-			System.out.println(dataset.getAlbum_title());
-			System.out.println(dataset.getAlbum_id());
-		}
-		// Prints
-		//album1
-		//1
-		//album2
-		//2
+<h3 id="欢迎光临-请随便吐糟-呵呵呵">～欢迎光临～请随便吐糟～～呵呵呵～～</h3>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/day_201512292359/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
 
-	}
-}
-</code></pre>
+                        
+                    </div>
+                    </br>
+                    <h4>
+                        <a href="http://alimy.me/post/" title="文章列表">Archive</a>
+                    </h4>
+                </section>
+                <div class="pages">
+  
 
-<h4 id="the-dataset-class">The Dataset Class</h4>
+<ul class="pagination">
+    
+    <li class="page-item">
+        <a href="http://alimy.me/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li class="page-item">
+    <a href="http://alimy.me/page/12/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="http://alimy.me/">1</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/2/">2</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/3/">3</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/12/">12</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item active"><a class="page-link" href="http://alimy.me/page/13/">13</a></li>
+    
+    
+    <li class="page-item disabled">
+    <a href="" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li class="page-item">
+        <a href="http://alimy.me/page/13/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
 
-<pre><code>package com.studytrails.json.gson;
+</div>
 
-import java.util.HashMap;
-import java.util.Map;
+              <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
 
-public class Dataset {
-	private String album_id;
-	private String album_title;
-	private Map&lt;String , Object&gt; otherProperties = new HashMap&lt;String , Object&gt;();
-
-	public String getAlbum_id() {
-		return album_id;
-	}
-
-	public void setAlbum_id(String album_id) {
-		this.album_id = album_id;
-	}
-
-	public String getAlbum_title() {
-		return album_title;
-	}
-
-	public void setAlbum_title(String album_title) {
-		this.album_title = album_title;
-	}
-
-	public Object get(String name) {
-		return otherProperties.get(name);
-	}
-
-}
-</code></pre>
-
-<hr />
-
-<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-google-json-serializing-collections.jsp" title="Serializing Collections"><em>here</em></a> )</p>
+            </div>
         </div>
-        <div id="post-navigator">
-          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603122020/" title="上一篇">&lt;&lt; Gson: Convert json to a java object tree</a>
-          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603122025/" title="下一篇">Gson: Serializing and deserializing Java Generic Classes >></a>
-        </div>
-        <div id="post-comments">
-          <h3>Comments</h3>
-          
-
-
-<div id="disqus_thread"></div>
-
-<script type="text/javascript">
-  var disqusUsername = "alimy";
-
-  (function() { 
-  var d = document, s = d.createElement('script');
-
-  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
-
-  s.setAttribute('data-timestamp', +new Date());
-  (d.head || d.body).appendChild(s);
-  })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-
-
-        </div>
-          <footer id="copyright"> <p>&copy;2018 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
-
-    </div>
-    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-  </body>
+    </body>
 </html>

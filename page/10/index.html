@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <title> 北 野 &middot; 北 野 </title>
     
-    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
     
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
@@ -295,6 +295,37 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603081313/" title="阅读全文">SimpleXML: Example </a> </h2>
+
+</header>
+<div class="summary">
+    <p>This page provides a series of examples illustrating how a class can be annotated. It acts as a quick and dirty overview of how the framework can be used and also acts as a reference page. All examples can be downloaded for convenience. For further information take a look at the <a href="http://alimy.me/post/dev_201603032011" title="SimpleXML Tutorial">Tutorial</a>.</p>
+
+<h3 id="sect-creating-nested-path-elements">&sect;Creating nested path elements</h3>
+
+<p>Here an example of how to use the <a href="http://simple.sourceforge.net/download/stream/doc/javadoc/org/simpleframework/xml/Path.html">Path</a> annotation to create nested elements and attributes using a single annotated class. Below is an example showing two elements nested within a XPath expression.</p>
+
+<pre><code>@Root
+public class Example {
+
+   @Path(&quot;a/b[1]&quot;)
+   @Element
+   private String x;
+
+   @Path(&quot;a/b[2]&quot;)
+   @Element
+   private String y;
+}
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603081313/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/art_201603071419/" title="阅读全文">吻 </a> </h2>
 
 </header>
@@ -441,26 +472,6 @@ Version 1.8 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spe
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201601222145/" title="阅读全文">History of IRC </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sect-about">&sect;About</h3>
-
-<p>IRC(Internet Relay Chat) is an application layer protocol that facilitates communication in the form of text.<a href="https://en.wikipedia.org/wiki/Internet_Relay_Chat" title="Internet Relay Chat">[wikipedia]</a></p>
-
-<h3 id="sect-the-beginning">&sect;The Beginning</h3>
-
-<p>IRC was born during summer 1988 when Jarkko &ldquo;WiZ&rdquo; Oikarinen wrote the first IRC client and server at the University of Oulu, Finland (where he was working at the Department of Information Processing Science).</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201601222145/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     <h4>
@@ -602,7 +613,18 @@ Version 1.8 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spe
         
     
     
-    <li class="page-item"><a class="page-link" href="http://alimy.me/page/12/">12</a></li>
+    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/13/">13</a></li>
     
     
     <li class="page-item">
@@ -610,7 +632,7 @@ Version 1.8 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spe
     </li>
     
     <li class="page-item">
-        <a href="http://alimy.me/page/12/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="http://alimy.me/page/13/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <title> 北 野 &middot; 北 野 </title>
     
-    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
     
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
@@ -295,6 +295,45 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603112045/" title="阅读全文">Jackson: List serialization </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In this tutorial we will see how to convert a java List to JSON. Serializing list is a little tricky since by default the type info is not stored while serializing and deserializing lists. In this tutorial we look at two examples. In the first example we serialize an Object that has a java List as one of its properties. In the second example we try and serialize the List directly. In both examples we use special configuration to preserve type info.</p>
+
+<h3 id="example-1-serializing-object-containing-a-list">Example 1 : Serializing Object containing a list</h3>
+
+<p>The example converts a Zoo class to json. the zoo class contains the name of zoo, its city and a list of animals. The list is of type &lsquo;Animal&rsquo;, i.e. the list contains elements that are subclass of the Abstract class Animal. Lets see what happens when we try to serialize zoo. First we create the Zoo class. Notice how the constructor looks. When we try to get the Zoo Object back from the JSON, Jackson has to know that it should create the Zoo Object using the constructor that takes in the name and city properties.</p>
+
+<pre><code>class Zoo {
+    public String name;
+    public String city;
+
+
+    @JsonCreator
+    public Zoo(@JsonProperty(&quot;name&quot;) String name,@JsonProperty(&quot;city&quot;) String city) {
+        this.name = name;
+        this.city = city;
+    }
+
+    public List&lt;Animal&gt; animals = new ArrayList&lt;Animal&gt;();
+
+    public List&lt;Animal&gt; addAnimal(Animal animal) {
+        animals.add(animal);
+        return animals;
+    }
+
+}
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112045/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603112040/" title="阅读全文">Jackson: Json Data Binding </a> </h2>
 
 </header>
@@ -510,20 +549,6 @@ public class XStreamTransformationExample {
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092100/" title="阅读全文">XStream: Basic Built-in Converters </a> </h2>
-
-</header>
-<div class="summary">
-    In the previous tutorials we saw an example of how to convert java object to XML and back. That tutorial also explained the concept of aliases and implicit collection.In the last tutorial we show how to write a custom converter. In this tutorial, lets see some of the basic built in converters of XStream and how the resultant XML from those converters look like. We will look at how the following types are converted.
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092100/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     <h4>
@@ -667,7 +692,16 @@ public class XStreamTransformationExample {
         
     
     
-    <li class="page-item"><a class="page-link" href="http://alimy.me/page/12/">12</a></li>
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/13/">13</a></li>
     
     
     <li class="page-item">
@@ -675,7 +709,7 @@ public class XStreamTransformationExample {
     </li>
     
     <li class="page-item">
-        <a href="http://alimy.me/page/12/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="http://alimy.me/page/13/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>
