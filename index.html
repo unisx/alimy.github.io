@@ -295,6 +295,20 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/art_201903101706/" title="阅读全文">Toyota GT86 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="http://alimy.me/images/post/20190310170600.webp" title="点击查看大图"><img src="http://alimy.me/images/post/20190310170600.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/art_201903101706/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201901101804/" title="阅读全文">OpenAPI Specification </a> </h2>
 
 </header>
@@ -598,66 +612,6 @@ $ docker run -d --name athens-proxy --restart always -p 3000:3000 \
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201808191316/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201807232147/" title="阅读全文">Go modules </a> </h2>
-
-</header>
-<div class="summary">
-    <h4 id="sect-definition">&sect;Definition</h4>
-
-<p>A module is a collection of related go packages. Modules are the unit of
-source code interchange and versionning.</p>
-
-<h4 id="sect-quick-history">&sect;Quick history</h4>
-
-<ul>
-<li>Go before 1.5: populating <em>GOPATH</em> with <code>go get</code>.</li>
-<li>Go 1.5 and after: dependency vendoring is introduced.</li>
-<li><a href="https://github.com/golang/vgo">vgo</a> is proposed as a prototype for Go modules support.</li>
-<li>Go 1.11 (beta): <code>vgo</code> is being merged and refined as <code>go mod</code> (experimental).</li>
-</ul>
-
-<h4 id="sect-terminology">&sect;Terminology</h4>
-
-<p>This article refers to recurrent expressions. Let&rsquo;s clarify them:</p>
-
-<ul>
-<li><em>&ldquo;Module root&rdquo;</em>: the directory containing the file named <code>go.mod</code>.</li>
-<li><em>&ldquo;Module path&rdquo;</em>: the import path prefix corresponding to the module root.</li>
-<li><em>&ldquo;Main module&rdquo;</em>: the module containing the directory where the <code>go</code> command
-is run.</li>
-</ul>
-
-<h4 id="sect-module-structure">&sect;Module structure</h4>
-
-<p>A module is a tree of Go source files to which is added a file named <em>go.mod</em>.
-It contains the module import name, and the declaration of dependency
-requirements, exclusions and replacements. Its content would look like this:</p>
-
-<pre><code class="language-text">module my/thing
-  
-require (
-        one/thing v1.3.2
-        other/thing v2.5.0 // indirect
-        ...
-)
-
-exclude (
-        bad/thing v0.7.3
-)
-
-replace (
-        src/thing 1.0.2 =&gt; dst/thing v1.1.0
-)
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201807232147/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

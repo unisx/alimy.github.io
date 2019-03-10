@@ -7,7 +7,20 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Thu, 10 Jan 2019 18:04:00 CST</updated>
+    <updated>Sun, 10 Mar 2019 17:06:00 CST</updated>
+    
+    <item>
+      <title>Toyota GT86</title>
+      <link>http://alimy.me/post/art_201903101706/</link>
+      <pubDate>Sun, 10 Mar 2019 17:06:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/art_201903101706/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://alimy.me/images/post/20190310170600.webp&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;http://alimy.me/images/post/20190310170600.webp&#34; alt=&#34;图片加载中...请使用支持Webp的浏览器加速查看&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Toyota GT86（&lt;a href=&#34;http://alimy.me/images/post/20190310170600.jpeg&#34; title=&#34;jpeg格式图片&#34;&gt;查看大图&lt;/a&gt;）&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
     
     <item>
       <title>OpenAPI Specification</title>
@@ -6277,22 +6290,6 @@ legacy:
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/gogs/gogs/pull/5262&#34; title=&#34;Gogs PR-5262&#34;&gt;Note a PR-5322 for Gogs.&lt;/a&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>收藏: 技术相关网站</title>
-      <link>http://alimy.me/post/info_201805210818/</link>
-      <pubDate>Mon, 21 May 2018 08:19:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/info_201805210818/</guid>
-      <description>&lt;h3 id=&#34;kubernetes-https-kubernetes-io-kubernetes官网&#34;&gt;&lt;a href=&#34;https://kubernetes.io/&#34; title=&#34;Kubernetes官网&#34;&gt;Kubernetes&lt;/a&gt;&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/cn/docs/&#34; title=&#34;官方中文文档&#34;&gt;官方中文文档&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.feisky.xyz/zh/&#34; title=&#34;feisky版 Kubernetes指南&#34;&gt;Kubernetes指南&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://jimmysong.io/kubernetes-handbook/&#34; title=&#34;Jimmy版 Kubernetes指南&#34;&gt;Kubernetes指南&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://feisky.gitbooks.io/sdn/&#34; title=&#34;SDN指南&#34;&gt;SDN指南&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description>
     </item>
     
   </channel>
