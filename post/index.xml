@@ -6,10 +6,91 @@
     <description>Recent content in Posts on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 15 Mar 2019 12:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 14 Apr 2019 10:55:00 +0800</lastBuildDate>
     
 	<atom:link href="http://alimy.me/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tus Resumable Upload Protocol</title>
+      <link>http://alimy.me/post/dev_201904141055/</link>
+      <pubDate>Sun, 14 Apr 2019 10:55:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201904141055/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Version:&lt;/strong&gt; 1.0.0 (&lt;a href=&#34;http://semver.org&#34;&gt;SemVer&lt;/a&gt;)&lt;br&gt;
+&lt;strong&gt;Date:&lt;/strong&gt; 2016-03-25&lt;br&gt;
+&lt;strong&gt;Authors:&lt;/strong&gt; &lt;a href=&#34;https://twitter.com/felixge&#34;&gt;Felix Geisendörfer&lt;/a&gt;, &lt;a href=&#34;https://twitter.com/kvz&#34;&gt;Kevin van
+Zonneveld&lt;/a&gt;, &lt;a href=&#34;https://twitter.com/tim_kos&#34;&gt;Tim Koschützki&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/vayam&#34;&gt;Naren Venkataraman&lt;/a&gt;, &lt;a href=&#34;https://twitter.com/Acconut_&#34;&gt;Marius
+Kleidl&lt;/a&gt;&lt;br&gt;
+&lt;strong&gt;Collaborators&lt;/strong&gt;:
+&lt;a href=&#34;https://github.com/biasedbit&#34;&gt;Bruno de Carvalho&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/sandfox&#34;&gt;James Butler&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/cybic&#34;&gt;Øystein Steimler&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/srijs&#34;&gt;Sam Rijs&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/khangtoh&#34;&gt;Khang Toh&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/Amodio&#34;&gt;Jacques Boscq&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/jerefrer&#34;&gt;Jérémy FRERE&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/hintjens&#34;&gt;Pieter Hintjens&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/ehd&#34;&gt;Stephan Seidt&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/aranw&#34;&gt;Aran Wilkinson&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/Baughn&#34;&gt;Svein Ove Aas&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/noptic&#34;&gt;Oliver Anan&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/schmerg&#34;&gt;Tim&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/j4james&#34;&gt;j4james&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/reschke&#34;&gt;Julian Reschke&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/evert&#34;&gt;Evert Pot&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/homeworkprod&#34;&gt;Jochen Kupperschmidt&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/andrewfenn&#34;&gt;Andrew Fenn&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/kevinswiber&#34;&gt;Kevin Swiber&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/0x20h&#34;&gt;Jan Kohlhof&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/radiospiel&#34;&gt;eno&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/luk-&#34;&gt;Luke Arduini&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/sheeep&#34;&gt;Jim Schmid&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/jf&#34;&gt;Jeffrey &amp;lsquo;jf&amp;rsquo; Lim&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/timemachine3030&#34;&gt;Daniel Lopretto&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/MarkMurphy&#34;&gt;Mark Murphy&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/pmdarrow&#34;&gt;Peter Darrow&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/Gargaj&#34;&gt;Gargaj&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/qsorix&#34;&gt;Tomasz Rydzyński&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/tino&#34;&gt;Tino de Bruijn&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/kless&#34;&gt;Jonas mg&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/ChristianUlbrich&#34;&gt;Christian Ulbrich&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/jonhoo&#34;&gt;Jon Gjengset&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/wronglink&#34;&gt;Michael Elovskikh&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/technoweenie&#34;&gt;Rick Olson&lt;/a&gt;,
+&lt;a href=&#34;https://convolv.es&#34;&gt;J. Ryan Stinnett&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/ifedapoolarewaju&#34;&gt;Ifedapo Olarewaju&lt;/a&gt;
+&lt;a href=&#34;https://github.com/ronag&#34;&gt;Robert Nagy&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The key words &amp;ldquo;MUST&amp;rdquo;, &amp;ldquo;MUST NOT&amp;rdquo;, &amp;ldquo;REQUIRED&amp;rdquo;, &amp;ldquo;SHALL&amp;rdquo;, &amp;ldquo;SHALL NOT&amp;rdquo;, &amp;ldquo;SHOULD&amp;rdquo;,
+&amp;ldquo;SHOULD NOT&amp;rdquo;, &amp;ldquo;RECOMMENDED&amp;rdquo;, &amp;ldquo;MAY&amp;rdquo;, and &amp;ldquo;OPTIONAL&amp;rdquo; in this document are to be
+interpreted as described in &lt;a href=&#34;http://www.ietf.org/rfc/rfc2119.txt&#34;&gt;RFC 2119&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;status&#34;&gt;Status&lt;/h2&gt;
+
+&lt;p&gt;Following &lt;a href=&#34;http://semver.org&#34;&gt;SemVer&lt;/a&gt;, as of 1.0.0 tus is ready for general
+adoption. We don&amp;rsquo;t expect to make breaking changes, but if we do, those will
+have to be in a 2.0.0. Introducing a new extension or any backwards-compatible
+change adding new functionality will result in a bumped MINOR version.&lt;/p&gt;
+
+&lt;h2 id=&#34;contributing&#34;&gt;Contributing&lt;/h2&gt;
+
+&lt;p&gt;This protocol is authored and owned by the tus community. We welcome patches
+and feedback via
+&lt;a href=&#34;https://github.com/tus/tus-resumable-upload-protocol&#34;&gt;GitHub&lt;/a&gt;. All authors and
+collaborators will be listed as such in the protocol header.&lt;/p&gt;
+
+&lt;p&gt;Please also &lt;a href=&#34;https://github.com/tus/tus.io/issues/new&#34;&gt;let us know&lt;/a&gt; about any
+implementations (open source or commercial) if you&amp;rsquo;d like to be listed on the
+&lt;a href=&#34;https://www.tus.io/implementations.html&#34;&gt;implementations&lt;/a&gt; page.&lt;/p&gt;
+
+&lt;h2 id=&#34;abstract&#34;&gt;Abstract&lt;/h2&gt;
+
+&lt;p&gt;The protocol provides a mechanism for resumable file uploads via HTTP/1.1 (&lt;a href=&#34;https://tools.ietf.org/html/rfc7230&#34;&gt;RFC
+7230&lt;/a&gt;) and HTTP/2 (&lt;a href=&#34;https://tools.ietf.org/html/rfc7540&#34;&gt;RFC
+7540&lt;/a&gt;).&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>熊猫人</title>

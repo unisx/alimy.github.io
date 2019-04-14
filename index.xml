@@ -7,7 +7,738 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Fri, 15 Mar 2019 12:00:00 CST</updated>
+    <updated>Sun, 14 Apr 2019 10:55:00 CST</updated>
+    
+    <item>
+      <title>Tus Resumable Upload Protocol</title>
+      <link>http://alimy.me/post/dev_201904141055/</link>
+      <pubDate>Sun, 14 Apr 2019 10:55:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201904141055/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Version:&lt;/strong&gt; 1.0.0 (&lt;a href=&#34;http://semver.org&#34;&gt;SemVer&lt;/a&gt;)&lt;br&gt;
+&lt;strong&gt;Date:&lt;/strong&gt; 2016-03-25&lt;br&gt;
+&lt;strong&gt;Authors:&lt;/strong&gt; &lt;a href=&#34;https://twitter.com/felixge&#34;&gt;Felix Geisendörfer&lt;/a&gt;, &lt;a href=&#34;https://twitter.com/kvz&#34;&gt;Kevin van
+Zonneveld&lt;/a&gt;, &lt;a href=&#34;https://twitter.com/tim_kos&#34;&gt;Tim Koschützki&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/vayam&#34;&gt;Naren Venkataraman&lt;/a&gt;, &lt;a href=&#34;https://twitter.com/Acconut_&#34;&gt;Marius
+Kleidl&lt;/a&gt;&lt;br&gt;
+&lt;strong&gt;Collaborators&lt;/strong&gt;:
+&lt;a href=&#34;https://github.com/biasedbit&#34;&gt;Bruno de Carvalho&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/sandfox&#34;&gt;James Butler&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/cybic&#34;&gt;Øystein Steimler&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/srijs&#34;&gt;Sam Rijs&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/khangtoh&#34;&gt;Khang Toh&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/Amodio&#34;&gt;Jacques Boscq&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/jerefrer&#34;&gt;Jérémy FRERE&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/hintjens&#34;&gt;Pieter Hintjens&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/ehd&#34;&gt;Stephan Seidt&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/aranw&#34;&gt;Aran Wilkinson&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/Baughn&#34;&gt;Svein Ove Aas&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/noptic&#34;&gt;Oliver Anan&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/schmerg&#34;&gt;Tim&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/j4james&#34;&gt;j4james&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/reschke&#34;&gt;Julian Reschke&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/evert&#34;&gt;Evert Pot&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/homeworkprod&#34;&gt;Jochen Kupperschmidt&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/andrewfenn&#34;&gt;Andrew Fenn&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/kevinswiber&#34;&gt;Kevin Swiber&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/0x20h&#34;&gt;Jan Kohlhof&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/radiospiel&#34;&gt;eno&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/luk-&#34;&gt;Luke Arduini&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/sheeep&#34;&gt;Jim Schmid&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/jf&#34;&gt;Jeffrey &amp;lsquo;jf&amp;rsquo; Lim&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/timemachine3030&#34;&gt;Daniel Lopretto&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/MarkMurphy&#34;&gt;Mark Murphy&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/pmdarrow&#34;&gt;Peter Darrow&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/Gargaj&#34;&gt;Gargaj&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/qsorix&#34;&gt;Tomasz Rydzyński&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/tino&#34;&gt;Tino de Bruijn&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/kless&#34;&gt;Jonas mg&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/ChristianUlbrich&#34;&gt;Christian Ulbrich&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/jonhoo&#34;&gt;Jon Gjengset&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/wronglink&#34;&gt;Michael Elovskikh&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/technoweenie&#34;&gt;Rick Olson&lt;/a&gt;,
+&lt;a href=&#34;https://convolv.es&#34;&gt;J. Ryan Stinnett&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/ifedapoolarewaju&#34;&gt;Ifedapo Olarewaju&lt;/a&gt;
+&lt;a href=&#34;https://github.com/ronag&#34;&gt;Robert Nagy&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The key words &amp;ldquo;MUST&amp;rdquo;, &amp;ldquo;MUST NOT&amp;rdquo;, &amp;ldquo;REQUIRED&amp;rdquo;, &amp;ldquo;SHALL&amp;rdquo;, &amp;ldquo;SHALL NOT&amp;rdquo;, &amp;ldquo;SHOULD&amp;rdquo;,
+&amp;ldquo;SHOULD NOT&amp;rdquo;, &amp;ldquo;RECOMMENDED&amp;rdquo;, &amp;ldquo;MAY&amp;rdquo;, and &amp;ldquo;OPTIONAL&amp;rdquo; in this document are to be
+interpreted as described in &lt;a href=&#34;http://www.ietf.org/rfc/rfc2119.txt&#34;&gt;RFC 2119&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;status&#34;&gt;Status&lt;/h2&gt;
+
+&lt;p&gt;Following &lt;a href=&#34;http://semver.org&#34;&gt;SemVer&lt;/a&gt;, as of 1.0.0 tus is ready for general
+adoption. We don&amp;rsquo;t expect to make breaking changes, but if we do, those will
+have to be in a 2.0.0. Introducing a new extension or any backwards-compatible
+change adding new functionality will result in a bumped MINOR version.&lt;/p&gt;
+
+&lt;h2 id=&#34;contributing&#34;&gt;Contributing&lt;/h2&gt;
+
+&lt;p&gt;This protocol is authored and owned by the tus community. We welcome patches
+and feedback via
+&lt;a href=&#34;https://github.com/tus/tus-resumable-upload-protocol&#34;&gt;GitHub&lt;/a&gt;. All authors and
+collaborators will be listed as such in the protocol header.&lt;/p&gt;
+
+&lt;p&gt;Please also &lt;a href=&#34;https://github.com/tus/tus.io/issues/new&#34;&gt;let us know&lt;/a&gt; about any
+implementations (open source or commercial) if you&amp;rsquo;d like to be listed on the
+&lt;a href=&#34;https://www.tus.io/implementations.html&#34;&gt;implementations&lt;/a&gt; page.&lt;/p&gt;
+
+&lt;h2 id=&#34;abstract&#34;&gt;Abstract&lt;/h2&gt;
+
+&lt;p&gt;The protocol provides a mechanism for resumable file uploads via HTTP/1.1 (&lt;a href=&#34;https://tools.ietf.org/html/rfc7230&#34;&gt;RFC
+7230&lt;/a&gt;) and HTTP/2 (&lt;a href=&#34;https://tools.ietf.org/html/rfc7540&#34;&gt;RFC
+7540&lt;/a&gt;).&lt;/p&gt;
+
+&lt;h2 id=&#34;notation&#34;&gt;Notation&lt;/h2&gt;
+
+&lt;p&gt;Characters enclosed by square brackets indicate a placeholder (e.g. &lt;code&gt;[size]&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;The terms space, comma, and semicolon refer to their ASCII representations.&lt;/p&gt;
+
+&lt;h2 id=&#34;core-protocol&#34;&gt;Core Protocol&lt;/h2&gt;
+
+&lt;p&gt;The core protocol describes how to resume an interrupted upload. It assumes that
+you already have a URL for the upload, usually created via the
+&lt;a href=&#34;#creation&#34;&gt;Creation&lt;/a&gt; extension.&lt;/p&gt;
+
+&lt;p&gt;All Clients and Servers MUST implement the core protocol.&lt;/p&gt;
+
+&lt;p&gt;This specification does not describe the structure of URLs, as that is left for
+the specific implementation to decide.  All URLs shown in this document are
+meant for example purposes only.&lt;/p&gt;
+
+&lt;p&gt;In addition, the implementation of authentication and authorization is left for
+the Server to decide.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+
+&lt;p&gt;A &lt;code&gt;HEAD&lt;/code&gt; request is used to determine the offset at which the upload should be
+continued.&lt;/p&gt;
+
+&lt;p&gt;The example below shows the continuation of a 100 byte upload that was
+interrupted after 70 bytes were transferred.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Request:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;HEAD /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+Host: tus.example.org
+Tus-Resumable: 1.0.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Response:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 200 OK
+Upload-Offset: 70
+Tus-Resumable: 1.0.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Given the offset, the Client uses the &lt;code&gt;PATCH&lt;/code&gt; method to resume the upload:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Request:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;PATCH /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+Host: tus.example.org
+Content-Type: application/offset+octet-stream
+Content-Length: 30
+Upload-Offset: 70
+Tus-Resumable: 1.0.0
+
+[remaining 30 bytes]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Response:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 204 No Content
+Tus-Resumable: 1.0.0
+Upload-Offset: 100
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;headers&#34;&gt;Headers&lt;/h3&gt;
+
+&lt;h4 id=&#34;upload-offset&#34;&gt;Upload-Offset&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;Upload-Offset&lt;/code&gt; request and response header indicates a byte offset within a
+resource. The value MUST be a non-negative integer.&lt;/p&gt;
+
+&lt;h4 id=&#34;upload-length&#34;&gt;Upload-Length&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;Upload-Length&lt;/code&gt; request and response header indicates the size of the entire
+upload in bytes. The value MUST be a non-negative integer.&lt;/p&gt;
+
+&lt;h4 id=&#34;tus-version&#34;&gt;Tus-Version&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;Tus-Version&lt;/code&gt; response header MUST be a comma-separated list of protocol versions
+supported by the Server. The list MUST be sorted by Server&amp;rsquo;s preference
+where the first one is the most preferred one.&lt;/p&gt;
+
+&lt;h4 id=&#34;tus-resumable&#34;&gt;Tus-Resumable&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;Tus-Resumable&lt;/code&gt; header MUST be included in every request and response except
+for &lt;code&gt;OPTIONS&lt;/code&gt; requests. The value MUST be the version of the protocol used by
+the Client or the Server.&lt;/p&gt;
+
+&lt;p&gt;If the the version specified by the Client is not supported by the Server, it
+MUST respond with the &lt;code&gt;412 Precondition Failed&lt;/code&gt; status and MUST include the
+&lt;code&gt;Tus-Version&lt;/code&gt; header into the response.
+In addition, the Server MUST NOT process the request.&lt;/p&gt;
+
+&lt;h4 id=&#34;tus-extension&#34;&gt;Tus-Extension&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;Tus-Extension&lt;/code&gt; response header MUST be a comma-separated list of the extensions
+supported by the Server. If no extensions are supported, the &lt;code&gt;Tus-Extension&lt;/code&gt;
+header MUST be omitted.&lt;/p&gt;
+
+&lt;h4 id=&#34;tus-max-size&#34;&gt;Tus-Max-Size&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;Tus-Max-Size&lt;/code&gt; response header MUST be a non-negative integer indicating the maximum
+allowed size of an entire upload in bytes. The Server SHOULD set this header if
+there is a known hard limit.&lt;/p&gt;
+
+&lt;h4 id=&#34;x-http-method-override&#34;&gt;X-HTTP-Method-Override&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;X-HTTP-Method-Override&lt;/code&gt; request header MUST be a string which MUST be
+interpreted as the request&amp;rsquo;s method by the Server, if the header is presented.
+The actual method of the request MUST be ignored. The Client SHOULD use this
+header if its environment does not support the PATCH or DELETE methods.&lt;/p&gt;
+
+&lt;h3 id=&#34;requests&#34;&gt;Requests&lt;/h3&gt;
+
+&lt;h4 id=&#34;head&#34;&gt;HEAD&lt;/h4&gt;
+
+&lt;p&gt;The Server MUST always include the &lt;code&gt;Upload-Offset&lt;/code&gt; header in the response for a
+&lt;code&gt;HEAD&lt;/code&gt; request, even if the offset is &lt;code&gt;0&lt;/code&gt;, or the upload is already considered
+completed. If the size of the upload is known, the Server MUST include the
+&lt;code&gt;Upload-Length&lt;/code&gt; header in the response. If the resource is not found, the Server
+SHOULD return either the &lt;code&gt;404 Not Found&lt;/code&gt;, &lt;code&gt;410 Gone&lt;/code&gt; or &lt;code&gt;403 Forbidden&lt;/code&gt; status
+without the &lt;code&gt;Upload-Offset&lt;/code&gt; header.&lt;/p&gt;
+
+&lt;p&gt;The Server MUST prevent the client and/or proxies from caching the response by
+adding the &lt;code&gt;Cache-Control: no-store&lt;/code&gt; header to the response.&lt;/p&gt;
+
+&lt;h4 id=&#34;patch&#34;&gt;PATCH&lt;/h4&gt;
+
+&lt;p&gt;The Server SHOULD accept &lt;code&gt;PATCH&lt;/code&gt; requests against any upload URL and apply the
+bytes contained in the message at the given offset specified by the
+&lt;code&gt;Upload-Offset&lt;/code&gt; header. All &lt;code&gt;PATCH&lt;/code&gt; requests MUST use
+&lt;code&gt;Content-Type: application/offset+octet-stream&lt;/code&gt;, otherwise the server SHOULD
+return a &lt;code&gt;415 Unsupported Media Type&lt;/code&gt; status.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;Upload-Offset&lt;/code&gt; header&amp;rsquo;s value MUST be equal to the current offset of the
+resource. In order to achieve parallel upload the
+&lt;a href=&#34;#concatenation&#34;&gt;Concatenation&lt;/a&gt; extension MAY be used. If the offsets do not
+match, the Server MUST respond with the &lt;code&gt;409 Conflict&lt;/code&gt; status without modifying
+the upload resource.&lt;/p&gt;
+
+&lt;p&gt;The Client SHOULD send all the remaining bytes of an upload in a single &lt;code&gt;PATCH&lt;/code&gt;
+request, but MAY also use multiple small requests successively for scenarios
+where this is desirable. One example for these situations is when the
+&lt;a href=&#34;#checksum&#34;&gt;Checksum&lt;/a&gt; extension is used.&lt;/p&gt;
+
+&lt;p&gt;The Server MUST acknowledge successful &lt;code&gt;PATCH&lt;/code&gt; requests with the
+&lt;code&gt;204 No Content&lt;/code&gt; status. It MUST include the &lt;code&gt;Upload-Offset&lt;/code&gt; header containing
+the new offset. The new offset MUST be the sum of the offset before the &lt;code&gt;PATCH&lt;/code&gt;
+request and the number of bytes received and processed or stored during the
+current &lt;code&gt;PATCH&lt;/code&gt; request.&lt;/p&gt;
+
+&lt;p&gt;If the servers receives a &lt;code&gt;PATCH&lt;/code&gt; request against a non-existent resource
+it SHOULD return a &lt;code&gt;404 Not Found&lt;/code&gt; status.&lt;/p&gt;
+
+&lt;p&gt;Both, Client and Server, SHOULD attempt to detect and handle network errors
+predictably. They MAY do so by checking for read/write socket errors, as well
+as setting read/write timeouts. A timeout SHOULD be handled by closing the underlying connection.&lt;/p&gt;
+
+&lt;p&gt;The Server SHOULD always attempt to store as much of the received data as possible.&lt;/p&gt;
+
+&lt;h4 id=&#34;options&#34;&gt;OPTIONS&lt;/h4&gt;
+
+&lt;p&gt;An &lt;code&gt;OPTIONS&lt;/code&gt; request MAY be used to gather information about the Server&amp;rsquo;s current
+configuration. A successful response indicated by the &lt;code&gt;204 No Content&lt;/code&gt; or &lt;code&gt;200 OK&lt;/code&gt; status
+MUST contain the &lt;code&gt;Tus-Version&lt;/code&gt; header. It MAY include the &lt;code&gt;Tus-Extension&lt;/code&gt; and
+&lt;code&gt;Tus-Max-Size&lt;/code&gt; headers.&lt;/p&gt;
+
+&lt;p&gt;The Client SHOULD NOT include the &lt;code&gt;Tus-Resumable&lt;/code&gt; header in the request and the
+Server MUST ignore the header.&lt;/p&gt;
+
+&lt;h5 id=&#34;example-1&#34;&gt;Example&lt;/h5&gt;
+
+&lt;p&gt;This example clarifies the response for an &lt;code&gt;OPTIONS&lt;/code&gt; request. The version used
+in both, request and response, is &lt;code&gt;1.0.0&lt;/code&gt; while the Server is also capable of
+handling &lt;code&gt;0.2.2&lt;/code&gt; and &lt;code&gt;0.2.1&lt;/code&gt;. Uploads with a total size of up to 1GB are
+allowed and the extensions for &lt;a href=&#34;#creation&#34;&gt;Creation&lt;/a&gt; and
+&lt;a href=&#34;#expiration&#34;&gt;Expiration&lt;/a&gt; are enabled.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Request:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;OPTIONS /files HTTP/1.1
+Host: tus.example.org
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Response:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 204 No Content
+Tus-Resumable: 1.0.0
+Tus-Version: 1.0.0,0.2.2,0.2.1
+Tus-Max-Size: 1073741824
+Tus-Extension: creation,expiration
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;protocol-extensions&#34;&gt;Protocol Extensions&lt;/h2&gt;
+
+&lt;p&gt;Clients and Servers are encouraged to implement as many of the extensions
+as possible. Feature detection SHOULD be achieved by the Client sending an
+&lt;code&gt;OPTIONS&lt;/code&gt; request and the Server responding with the &lt;code&gt;Tus-Extension&lt;/code&gt; header.&lt;/p&gt;
+
+&lt;h3 id=&#34;creation&#34;&gt;Creation&lt;/h3&gt;
+
+&lt;p&gt;The Client and the Server SHOULD implement the upload creation extension. If
+the Server supports this extension, it MUST add &lt;code&gt;creation&lt;/code&gt; to the &lt;code&gt;Tus-Extension&lt;/code&gt;
+header.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-2&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;An empty &lt;code&gt;POST&lt;/code&gt; request is used to create a new upload resource. The
+&lt;code&gt;Upload-Length&lt;/code&gt; header indicates the size of entire upload in bytes.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Request:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;POST /files HTTP/1.1
+Host: tus.example.org
+Content-Length: 0
+Upload-Length: 100
+Tus-Resumable: 1.0.0
+Upload-Metadata: filename d29ybGRfZG9taW5hdGlvbl9wbGFuLnBkZg==
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Response:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 201 Created
+Location: https://tus.example.org/files/24e533e02ec3bc40c387f1a0e460e216
+Tus-Resumable: 1.0.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The new resource has an implicit offset of &lt;code&gt;0&lt;/code&gt; allowing the Client to use the
+core protocol for performing the actual upload.&lt;/p&gt;
+
+&lt;h4 id=&#34;headers-1&#34;&gt;Headers&lt;/h4&gt;
+
+&lt;h5 id=&#34;upload-defer-length&#34;&gt;Upload-Defer-Length&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;Upload-Defer-Length&lt;/code&gt; request and response header indicates that the size of
+the upload is not known currently and will be transferred later. Its value MUST
+be &lt;code&gt;1&lt;/code&gt;. If the length of an upload is not deferred, this header MUST be omitted.&lt;/p&gt;
+
+&lt;h5 id=&#34;upload-metadata&#34;&gt;Upload-Metadata&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;Upload-Metadata&lt;/code&gt; request and response header MUST consist of one or more comma-separated
+key-value pairs. The key and value MUST be separated by a space. The key
+MUST NOT contain spaces and commas and MUST NOT be empty. The key SHOULD be
+ASCII encoded and the value MUST be Base64 encoded. All keys MUST be unique.&lt;/p&gt;
+
+&lt;h4 id=&#34;requests-1&#34;&gt;Requests&lt;/h4&gt;
+
+&lt;h5 id=&#34;post&#34;&gt;POST&lt;/h5&gt;
+
+&lt;p&gt;The Client MUST send a &lt;code&gt;POST&lt;/code&gt; request against a known upload creation URL to
+request a new upload resource. The request MUST include one of the following headers:&lt;/p&gt;
+
+&lt;p&gt;a) &lt;code&gt;Upload-Length&lt;/code&gt; to indicate the size of an entire upload in bytes.&lt;/p&gt;
+
+&lt;p&gt;b) &lt;code&gt;Upload-Defer-Length: 1&lt;/code&gt; if upload size is not known at the time. Once it is
+known the Client MUST set the &lt;code&gt;Upload-Length&lt;/code&gt; header in the next &lt;code&gt;PATCH&lt;/code&gt; request.
+Once set the length MUST NOT be changed. As long as the length of the upload is
+not known, the Server MUST set &lt;code&gt;Upload-Defer-Length: 1&lt;/code&gt; in all responses to
+&lt;code&gt;HEAD&lt;/code&gt; requests. If the &lt;code&gt;Upload-Defer-Length&lt;/code&gt; header contains any other value
+than &lt;code&gt;1&lt;/code&gt; the server should return a &lt;code&gt;400 Bad Request&lt;/code&gt; status.&lt;/p&gt;
+
+&lt;p&gt;If the Server supports deferring length, it MUST add &lt;code&gt;creation-defer-length&lt;/code&gt; to
+the &lt;code&gt;Tus-Extension&lt;/code&gt; header.&lt;/p&gt;
+
+&lt;p&gt;The Client MAY supply the &lt;code&gt;Upload-Metadata&lt;/code&gt; header to add additional metadata to the
+upload creation request. The Server MAY decide to ignore or use this information to
+further process the request or to reject it. If an upload contains additional
+metadata, responses to &lt;code&gt;HEAD&lt;/code&gt; requests MUST include the &lt;code&gt;Upload-Metadata&lt;/code&gt; header
+and its value as specified by the Client during the creation.&lt;/p&gt;
+
+&lt;p&gt;If the length of the upload exceeds the maximum, which MAY be specified using
+the &lt;code&gt;Tus-Max-Size&lt;/code&gt; header, the Server MUST respond with the
+&lt;code&gt;413 Request Entity Too Large&lt;/code&gt; status.&lt;/p&gt;
+
+&lt;p&gt;The Server MUST acknowledge a successful upload creation with the &lt;code&gt;201 Created&lt;/code&gt;
+status. The Server MUST set the &lt;code&gt;Location&lt;/code&gt; header to the URL of the created
+resource. This URL MAY be absolute or relative.&lt;/p&gt;
+
+&lt;p&gt;The Client MUST perform the actual upload using the core protocol.&lt;/p&gt;
+
+&lt;h3 id=&#34;expiration&#34;&gt;Expiration&lt;/h3&gt;
+
+&lt;p&gt;The Server MAY remove unfinished uploads once they expire. In order to indicate
+this behavior to the Client, the Server MUST add &lt;code&gt;expiration&lt;/code&gt; to the
+&lt;code&gt;Tus-Extension&lt;/code&gt; header.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-3&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;The unfinished upload is available until the time specified in &lt;code&gt;Upload-Expires&lt;/code&gt;.
+After this date the upload can not be resumed.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Request:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;PATCH /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+Host: tus.example.org
+Content-Type: application/offset+octet-stream
+Content-Length: 30
+Upload-Offset: 70
+Tus-Resumable: 1.0.0
+
+[remaining 30 bytes]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Response:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 204 No Content
+Upload-Expires: Wed, 25 Jun 2014 16:00:00 GMT
+Tus-Resumable: 1.0.0
+Upload-Offset: 100
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;headers-2&#34;&gt;Headers&lt;/h4&gt;
+
+&lt;h5 id=&#34;upload-expires&#34;&gt;Upload-Expires&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;Upload-Expires&lt;/code&gt; response header indicates the time after which the unfinished upload
+expires. A Server MAY wish to remove incomplete uploads after a given
+period of time to prevent abandoned uploads from taking up extra storage. The
+Client SHOULD use this header to determine if an upload is still valid before
+attempting to resume the upload.&lt;/p&gt;
+
+&lt;p&gt;This header MUST be included in every &lt;code&gt;PATCH&lt;/code&gt; response if the upload is going
+to expire. If the expiration is known at the creation, the &lt;code&gt;Upload-Expires&lt;/code&gt;
+header MUST be included in the response to the initial &lt;code&gt;POST&lt;/code&gt; request.
+Its value MAY change over time.&lt;/p&gt;
+
+&lt;p&gt;If a Client does attempt to resume an upload which has since been removed by the
+Server, the Server SHOULD respond with the&lt;code&gt;404 Not Found&lt;/code&gt; or &lt;code&gt;410 Gone&lt;/code&gt; status.
+The latter one SHOULD be used if the Server is keeping track of expired uploads.
+In both cases the Client SHOULD start a new upload.&lt;/p&gt;
+
+&lt;p&gt;The value of the &lt;code&gt;Upload-Expires&lt;/code&gt; header MUST be in
+&lt;a href=&#34;https://tools.ietf.org/html/rfc7231#section-7.1.1.1&#34;&gt;RFC 7231&lt;/a&gt; datetime format.&lt;/p&gt;
+
+&lt;h3 id=&#34;checksum&#34;&gt;Checksum&lt;/h3&gt;
+
+&lt;p&gt;The Client and the Server MAY implement and use this extension to verify data
+integrity of each &lt;code&gt;PATCH&lt;/code&gt; request. If supported, the Server MUST add &lt;code&gt;checksum&lt;/code&gt;
+to the &lt;code&gt;Tus-Extension&lt;/code&gt; header.&lt;/p&gt;
+
+&lt;p&gt;A Client MAY include the &lt;code&gt;Upload-Checksum&lt;/code&gt; header in a &lt;code&gt;PATCH&lt;/code&gt; request.
+Once the entire request has been received, the Server MUST verify the uploaded
+chunk against the provided checksum using the specified algorithm. Depending on
+the result the Server MAY respond with one of the following status code:
+1) &lt;code&gt;400 Bad Request&lt;/code&gt; if the checksum algorithm is not supported by the server,
+2) &lt;code&gt;460 Checksum Mismatch&lt;/code&gt; if the checksums mismatch or
+3) &lt;code&gt;204 No Content&lt;/code&gt; if the checksums match and the processing of the data
+succeeded.
+In the first two cases the uploaded chunk MUST be discarded, and the upload and
+its offset MUST NOT be updated.&lt;/p&gt;
+
+&lt;p&gt;The Server MUST support at least the SHA1 checksum algorithm identified
+by &lt;code&gt;sha1&lt;/code&gt;. The names of the checksum algorithms MUST only consist of ASCII
+characters with the modification that uppercase characters are excluded.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;Tus-Checksum-Algorithm&lt;/code&gt; header MUST be included in the response to an
+&lt;code&gt;OPTIONS&lt;/code&gt; request.&lt;/p&gt;
+
+&lt;p&gt;If the hash cannot be calculated at the beginning of the upload, it MAY be
+included as a trailer. If the Server can handle trailers, this behavior MUST be
+announced by adding &lt;code&gt;checksum-trailer&lt;/code&gt; to the &lt;code&gt;Tus-Extension&lt;/code&gt; header.
+Trailers, also known as trailing headers, are headers which are sent after the
+request&amp;rsquo;s body has been transmitted already. Following
+&lt;a href=&#34;https://tools.ietf.org/html/rfc7230#section-4.1.2&#34;&gt;RFC 7230&lt;/a&gt; they
+MUST be announced using the &lt;code&gt;Trailer&lt;/code&gt; header and are only allowed in chunked
+transfers.&lt;/p&gt;
+
+&lt;h4 id=&#34;headers-3&#34;&gt;Headers&lt;/h4&gt;
+
+&lt;h5 id=&#34;tus-checksum-algorithm&#34;&gt;Tus-Checksum-Algorithm&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;Tus-Checksum-Algorithm&lt;/code&gt; response header MUST be a comma-separated list of
+the checksum algorithms supported by the server.&lt;/p&gt;
+
+&lt;h5 id=&#34;upload-checksum&#34;&gt;Upload-Checksum&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;Upload-Checksum&lt;/code&gt; request header contains information about the checksum of
+the current body payload. The header MUST consist of the name of the used
+checksum algorithm and the Base64 encoded checksum separated by a space.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-4&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;Request&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;OPTIONS /files HTTP/1.1
+Host: tus.example.org
+Tus-Resumable: 1.0.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Response&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 204 No Content
+Tus-Resumable: 1.0.0
+Tus-Version: 1.0.0
+Tus-Extension: checksum
+Tus-Checksum-Algorithm: md5,sha1,crc32
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Request&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;PATCH /files/17f44dbe1c4bace0e18ab850cf2b3a83 HTTP/1.1
+Content-Length: 11
+Upload-Offset: 0
+Tus-Resumable: 1.0.0
+Upload-Checksum: sha1 Kq5sNclPz7QV2+lfQIuc6R7oRu0=
+
+hello world
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Response&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 204 No Content
+Tus-Resumable: 1.0.0
+Upload-Offset: 11
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;termination&#34;&gt;Termination&lt;/h3&gt;
+
+&lt;p&gt;This extension defines a way for the Client to terminate completed and unfinished
+uploads allowing the Server to free up used resources.&lt;/p&gt;
+
+&lt;p&gt;If this extension is supported by the Server, it MUST be announced by adding
+&lt;code&gt;termination&lt;/code&gt; to the &lt;code&gt;Tus-Extension&lt;/code&gt; header.&lt;/p&gt;
+
+&lt;h4 id=&#34;requests-2&#34;&gt;Requests&lt;/h4&gt;
+
+&lt;h5 id=&#34;delete&#34;&gt;DELETE&lt;/h5&gt;
+
+&lt;p&gt;When receiving a &lt;code&gt;DELETE&lt;/code&gt; request for an existing upload the Server SHOULD free
+associated resources and MUST respond with the &lt;code&gt;204 No Content&lt;/code&gt; status
+confirming that the upload was terminated. For all future requests to this URL
+the Server SHOULD respond with the &lt;code&gt;404 Not Found&lt;/code&gt; or &lt;code&gt;410 Gone&lt;/code&gt; status.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-5&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;Request:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;DELETE /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+Host: tus.example.org
+Content-Length: 0
+Tus-Resumable: 1.0.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Response:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 204 No Content
+Tus-Resumable: 1.0.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;concatenation&#34;&gt;Concatenation&lt;/h3&gt;
+
+&lt;p&gt;This extension can be used to concatenate multiple uploads into a single one enabling
+Clients to perform parallel uploads and to upload non-contiguous chunks. If the
+Server supports this extension, it MUST add &lt;code&gt;concatenation&lt;/code&gt; to the
+&lt;code&gt;Tus-Extension&lt;/code&gt; header.&lt;/p&gt;
+
+&lt;p&gt;A partial upload represents a chunk of a file. It is constructed by including the
+&lt;code&gt;Upload-Concat: partial&lt;/code&gt; header while creating a new upload using the
+&lt;a href=&#34;#creation&#34;&gt;Creation&lt;/a&gt; extension. Multiple partial uploads are concatenated
+into a final upload in the specified order. The Server SHOULD NOT process these
+partial uploads until they are concatenated to form a final upload. The length of the
+final upload MUST be the sum of the length of all partial uploads.&lt;/p&gt;
+
+&lt;p&gt;In order to create a new final upload the Client MUST add the &lt;code&gt;Upload-Concat&lt;/code&gt; header
+to the upload creation request. The value MUST be &lt;code&gt;final&lt;/code&gt; followed by a semicolon
+and a space-separated list of the partial upload URLs that need to be concatenated.
+The partial uploads MUST be concatenated as per the order specified in the list.
+This concatenation request SHOULD happen after all of the corresponding partial uploads
+are completed. The Client MUST NOT include the &lt;code&gt;Upload-Length&lt;/code&gt; header in the final
+upload creation.&lt;/p&gt;
+
+&lt;p&gt;The Client MAY send the concatenation request while the partial uploads are still
+in progress. This feature MUST be explicitly announced by the Server by adding
+&lt;code&gt;concatenation-unfinished&lt;/code&gt; to the &lt;code&gt;Tus-Extension&lt;/code&gt; header.&lt;/p&gt;
+
+&lt;p&gt;When creating a new final upload the partial uploads&amp;rsquo; metadata SHALL NOT be
+transferred to the new final upload. All metadata SHOULD be included in the
+concatenation request using the &lt;code&gt;Upload-Metadata&lt;/code&gt; header.&lt;/p&gt;
+
+&lt;p&gt;The Server MAY delete partial uploads after concatenation. They MAY however be
+used multiple times to form a final resource.&lt;/p&gt;
+
+&lt;p&gt;The Server MUST respond with the &lt;code&gt;403 Forbidden&lt;/code&gt; status to &lt;code&gt;PATCH&lt;/code&gt; requests against
+a final upload URL and MUST NOT modify the final or its partial uploads.&lt;/p&gt;
+
+&lt;p&gt;The response to a HEAD request for a final upload SHOULD NOT contain the &lt;code&gt;Upload-Offset&lt;/code&gt;
+header unless the concatenation has been successfully finished. After successful
+concatenation, the &lt;code&gt;Upload-Offset&lt;/code&gt; and &lt;code&gt;Upload-Length&lt;/code&gt; MUST be set and their values MUST be
+equal. The value of the &lt;code&gt;Upload-Offset&lt;/code&gt; header before concatenation is not defined for a
+final upload.&lt;/p&gt;
+
+&lt;p&gt;The response to a HEAD request for a partial upload MUST contain the &lt;code&gt;Upload-Offset&lt;/code&gt; header.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;Upload-Length&lt;/code&gt; header MUST be included if the length of the final resource can
+be calculated at the time of the request. Response to &lt;code&gt;HEAD&lt;/code&gt; request against partial
+or final upload MUST include the &lt;code&gt;Upload-Concat&lt;/code&gt; header and its value as received in
+the upload creation request.&lt;/p&gt;
+
+&lt;h4 id=&#34;headers-4&#34;&gt;Headers&lt;/h4&gt;
+
+&lt;h5 id=&#34;upload-concat&#34;&gt;Upload-Concat&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;Upload-Concat&lt;/code&gt; request and response header MUST be set in both partial and final upload creation
+requests. It indicates whether the upload is either a partial
+or final upload. If the upload is a partial one, the header value MUST be &lt;code&gt;partial&lt;/code&gt;.
+In the case of a final upload, its value MUST be &lt;code&gt;final&lt;/code&gt; followed by a
+semicolon and a space-separated list of partial upload URLs that will be
+concatenated. The partial uploads URLs MAY be absolute or relative and MUST NOT contain
+spaces as defined in &lt;a href=&#34;https://tools.ietf.org/html/rfc3986&#34;&gt;RFC 3986&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;example-6&#34;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;In the following example the &lt;code&gt;Host&lt;/code&gt; and &lt;code&gt;Tus-Resumable&lt;/code&gt; headers are omitted for
+readability although they are required by the specification.
+In the beginning two partial uploads are created:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;POST /files HTTP/1.1
+Upload-Concat: partial
+Upload-Length: 5
+
+HTTP/1.1 201 Created
+Location: https://tus.example.org/files/a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;POST /files HTTP/1.1
+Upload-Concat: partial
+Upload-Length: 6
+
+HTTP/1.1 201 Created
+Location: https://tus.example.org/files/b
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You are now able to upload data to the two partial resources using &lt;code&gt;PATCH&lt;/code&gt;
+requests:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;PATCH /files/a HTTP/1.1
+Upload-Offset: 0
+Content-Length: 5
+
+hello
+
+HTTP/1.1 204 No Content
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;PATCH /files/b HTTP/1.1
+Upload-Offset: 0
+Content-Length: 6
+
+ world
+
+HTTP/1.1 204 No Content
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the first request the string &lt;code&gt;hello&lt;/code&gt; was uploaded while the second file now
+contains &lt;code&gt;world&lt;/code&gt; with a leading space.&lt;/p&gt;
+
+&lt;p&gt;The next step is to create the final upload consisting of the two earlier
+generated partial uploads. In following request no &lt;code&gt;Upload-Length&lt;/code&gt; header is
+presented.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;POST /files HTTP/1.1
+Upload-Concat: final;/files/a /files/b
+
+HTTP/1.1 201 Created
+Location: https://tus.example.org/files/ab
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The length of the final resource is now 11 bytes consisting of the string
+&lt;code&gt;hello world&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;HEAD /files/ab HTTP/1.1
+
+HTTP/1.1 200 OK
+Upload-Length: 11
+Upload-Concat: final;/files/a /files/b
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;faq&#34;&gt;FAQ&lt;/h2&gt;
+
+&lt;h3 id=&#34;why-is-the-protocol-using-custom-headers&#34;&gt;Why is the protocol using custom headers?&lt;/h3&gt;
+
+&lt;p&gt;We have carefully investigated the use of existing headers such as &lt;code&gt;Range&lt;/code&gt; and
+&lt;code&gt;Content-Range&lt;/code&gt;, but unfortunately they are defined in a way that makes them
+unsuitable for resumable file uploads.&lt;/p&gt;
+
+&lt;p&gt;We also considered using existing &lt;code&gt;PATCH&lt;/code&gt; payload formats such as
+&lt;a href=&#34;http://greenbytes.de/tech/webdav/draft-ietf-httpbis-p5-range-latest.html#internet.media.type.multipart.byteranges&#34;&gt;multipart/byteranges&lt;/a&gt;,
+but unfortunately the XHR2 &lt;a href=&#34;http://www.w3.org/TR/XMLHttpRequest/#interface-formdata&#34;&gt;FormData
+interface&lt;/a&gt; does not
+support custom headers for multipart parts, and the &lt;a href=&#34;http://www.w3.org/TR/XMLHttpRequest/#the-send-method&#34;&gt;send()
+method&lt;/a&gt; does not allow
+streaming arbitrary data without loading all of it into memory.&lt;/p&gt;
+
+&lt;p&gt;That being said, custom headers also allowed us to greatly simplify the
+Client and Server implementations, so we&amp;rsquo;re quite happy with them.&lt;/p&gt;
+
+&lt;h3 id=&#34;why-are-you-not-using-the-x-prefix-for-your-headers&#34;&gt;Why are you not using the &amp;ldquo;X-&amp;rdquo; prefix for your headers?&lt;/h3&gt;
+
+&lt;p&gt;The &amp;ldquo;X-&amp;rdquo; prefix for headers has been deprecated, see &lt;a href=&#34;http://tools.ietf.org/html/rfc6648&#34;&gt;RFC
+6648&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;how-can-i-deal-with-bad-http-proxies&#34;&gt;How can I deal with bad HTTP proxies?&lt;/h3&gt;
+
+&lt;p&gt;If you are dealing with HTTP proxies that strip/modify HTTP headers or can&amp;rsquo;t
+handle &lt;code&gt;PATCH&lt;/code&gt; requests properly, you should consider using HTTPS which will
+make it impossible for proxies to modify your requests and use the
+&lt;a href=&#34;#x-http-method-override&#34;&gt;&lt;code&gt;X-HTTP-Method-Override&lt;/code&gt;&lt;/a&gt; header which allows you to use
+&lt;code&gt;POST&lt;/code&gt; requests.&lt;/p&gt;
+
+&lt;p&gt;If that is not an option for you, please reach out to us, we are open to
+defining a compatibility protocol extension.&lt;/p&gt;
+
+&lt;h3 id=&#34;how-are-pause-resume-handled-when-should-i-delete-partial-uploads&#34;&gt;How are pause/resume handled? When should I delete partial uploads?&lt;/h3&gt;
+
+&lt;p&gt;The tus protocol is built upon the principles of simple pausing and resuming. In
+order to pause an upload you are allowed to end the current open request. The
+Server will store the uploaded data as long as no violations against other
+constraints (e.g. checksums) or internal errors occur. Once you are ready to
+resume an upload, send a &lt;code&gt;HEAD&lt;/code&gt; request to the corresponding upload URL in order to
+obtain the available offset. After receiving a valid response you can upload
+more data using &lt;code&gt;PATCH&lt;/code&gt; requests. You should keep in mind that the Server may
+delete an unfinished upload if it is not continued for a longer time period (see
+&lt;a href=&#34;#expiration&#34;&gt;Expiration&lt;/a&gt; extension).&lt;/p&gt;
+
+&lt;p&gt;Before deleting an outstanding upload the Server should give the Client enough
+time to resolve potential networking issues. Since this duration depends heavily
+on the underlying application model, the protocol does not contain a specific
+number, but we recommend one week for a general use case.&lt;/p&gt;
+
+&lt;h3 id=&#34;how-can-i-get-the-file-name-or-file-type-for-an-upload&#34;&gt;How can I get the file name or file type for an upload?&lt;/h3&gt;
+
+&lt;p&gt;For itself, the tus protocol does not have a direct mechanism to obtain the type or
+filename of an upload as the specification does not have the principle of a disk-based
+file, allowing you to upload arbitrary data using tus. However, the wanted
+functionality can be achieved by utilizing metadata. A Client can attach the file&amp;rsquo;s
+name and type to an upload when it&amp;rsquo;s being created by setting the &lt;code&gt;Upload-Metadata&lt;/code&gt;
+header. On the other side, the Server can read these values and determine the name and
+type of the upload.&lt;/p&gt;
+
+&lt;h2 id=&#34;license&#34;&gt;License&lt;/h2&gt;
+
+&lt;p&gt;Licensed under the MIT license, see
+&lt;a href=&#34;https://github.com/tus/tus-resumable-upload-protocol/blob/master/LICENSE.txt&#34;&gt;LICENSE.txt&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Copyright &amp;copy; 2013-2016 Transloadit Ltd and Contributors.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://tus.io/protocols/resumable-upload.html&#34; title=&#34;tus resumable upload protocol&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>熊猫人</title>
@@ -6063,118 +6794,6 @@ alias docker=&#39;docker --tlsverify&#39;
 &lt;li&gt;&lt;a href=&#34;http://www.importnew.com/3292.html&#34; title=&#34;Finding a needle in Haystack: Facebook’s photo storage&#34;&gt;经典论文翻译导读之《Finding a needle in Haystack: Facebook’s photo storage》&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s?__biz=MzI4NDMyNTU2Mw==&amp;amp;mid=2247483679&amp;amp;idx=1&amp;amp;sn=584dbd80aa08fa1188627ad725680928&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1208L9z4yXKLW60rPph2ZmMn#rd&#34; title=&#34;微信序列号生成器架构设计及演变&#34;&gt;万亿级调用系统：微信序列号生成器架构设计及演变&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>
-    </item>
-    
-    <item>
-      <title>Gogs: PR-5322</title>
-      <link>http://alimy.me/post/dev_201806301842/</link>
-      <pubDate>Sat, 30 Jun 2018 18:42:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201806301842/</guid>
-      <description>&lt;h3 id=&#34;add-new-dockerfile-docker-ce-for-docker-ce-v17-06-to-build-gogs-s-docker-image&#34;&gt;Add new Dockerfile.docker-ce for docker-ce(&amp;gt;=v17.06) to build Gogs&amp;rsquo;s docker image&lt;/h3&gt;
-
-&lt;p&gt;Docker-CE can be given to a new build stage by adding &lt;code&gt;AS&lt;/code&gt; name to the&lt;code&gt;FROM&lt;/code&gt; instruction sine release version of v17.06. The Dockerfile&amp;rsquo;s &lt;code&gt;FROM&lt;/code&gt; instruction like below:&lt;/p&gt;
-
-&lt;h4 id=&#34;from&#34;&gt;FROM&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt; [AS &amp;lt;name&amp;gt;]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Or&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt;[:&amp;lt;tag&amp;gt;] [AS &amp;lt;name&amp;gt;]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Or&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt;[@&amp;lt;digest&amp;gt;] [AS &amp;lt;name&amp;gt;]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Optionally a name can be given to a new build stage by adding &lt;code&gt;AS&lt;/code&gt; name to the &lt;code&gt;FROM&lt;/code&gt; instruction. The name can be used in subsequent &lt;code&gt;FROM&lt;/code&gt; and &lt;code&gt;COPY --from=&amp;lt;name|index&amp;gt;&lt;/code&gt; instructions to refer to the image built in this stage.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Find Docker-ce official document &lt;a href=&#34;https://docs.docker.com/v17.06/engine/reference/builder/#from&#34; title=&#34;Docker official Document&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;You can use this patch to build docker image if  docker-ce that version &amp;gt;=v17.06 is installed:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;gt;docker version
-Client:
- Version:      18.03.1-ce
- API version:  1.37
- Go version:   go1.9.5
- Git commit:   9ee9f40
- Built:        Thu Apr 26 07:20:16 2018
- OS/Arch:      linux/amd64
- Experimental: false
- Orchestrator: swarm
-
-Server:
- Engine:
-  Version:      18.03.1-ce
-  API version:  1.37 (minimum version 1.12)
-  Go version:   go1.9.5
-  Git commit:   9ee9f40
-  Built:        Thu Apr 26 07:23:58 2018
-  OS/Arch:      linux/amd64
-  Experimental: false
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Build docker image&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;gt; cd $GOPATH/src/github.com/gogs/gogs
-&amp;gt; docker build -t &amp;lt;your/image-tag&amp;gt; -f Dockerfile.docker-ce .
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Dockerfile.docker-ce&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;FROM golang:1.10.3-alpine AS binarybuilder
-# Install build deps
-RUN apk --no-cache --no-progress add --virtual build-deps build-base git linux-pam-dev
-WORKDIR /go/src/github.com/gogs/gogs
-COPY . .
-RUN make build TAGS=&amp;quot;sqlite cert pam&amp;quot;
-
-FROM alpine:3.7
-# Install system utils &amp;amp; Gogs runtime dependencies
-ADD https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 /usr/sbin/gosu
-RUN chmod +x /usr/sbin/gosu \
-  &amp;amp;&amp;amp; echo http://dl-2.alpinelinux.org/alpine/edge/community/ &amp;gt;&amp;gt; /etc/apk/repositories \
-  &amp;amp;&amp;amp; apk --no-cache --no-progress add \
-    bash \
-    ca-certificates \
-    curl \
-    git \
-    linux-pam \
-    openssh \
-    s6 \
-    shadow \
-    socat \
-    tzdata
-
-ENV GOGS_CUSTOM /data/gogs
-
-# Configure LibC Name Service
-COPY docker/nsswitch.conf /etc/nsswitch.conf
-
-WORKDIR /app/gogs
-COPY docker ./docker
-COPY templates ./templates
-COPY public ./public
-COPY --from=binarybuilder /go/src/github.com/gogs/gogs/gogs .
-
-RUN ./docker/finalize-docker-ce.sh
-
-# Configure Docker Container
-VOLUME [&amp;quot;/data&amp;quot;]
-EXPOSE 22 3000
-ENTRYPOINT [&amp;quot;/app/gogs/docker/start.sh&amp;quot;]
-CMD [&amp;quot;/bin/s6-svscan&amp;quot;, &amp;quot;/app/gogs/docker/s6/&amp;quot;]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/gogs/gogs/pull/5322&#34; title=&#34;Gogs PR-5322&#34;&gt;Note a PR-5322 for Gogs.&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -1,0 +1,1052 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> Tus Resumable Upload Protocol &middot; 北 野 </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75081327-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+<script>
+  "use strict";
+  
+  !function() {
+    var t = window.driftt = window.drift = window.driftt || [];
+    if (!t.init) {
+      if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+      t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+      t.factory = function(e) {
+        return function() {
+          var n = Array.prototype.slice.call(arguments);
+          return n.unshift(e), t.push(n), t;
+        };
+      }, t.methods.forEach(function(e) {
+        t[e] = t.factory(e);
+      }), t.load = function(t) {
+        var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+        o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+        var i = document.getElementsByTagName("script")[0];
+        i.parentNode.insertBefore(o, i);
+      };
+    }
+  }();
+  drift.SNIPPET_VERSION = '0.3.1';
+  drift.load('b8zniyzvbfap');
+  </script>
+
+
+
+<script>
+(function(f, a, t, h, o, m){
+a[h]=a[h]||function(){
+  (a[h].q=a[h].q||[]).push(arguments)
+};
+o=f.createElement('script'),
+m=f.getElementsByTagName('script')[0];
+o.async=1; o.src=t; o.id='fathom-script';
+m.parentNode.insertBefore(o,m)
+})(document, window, '//fathom.traefic.com/tracker.js', 'fathom');
+fathom('trackPageview');
+</script>
+
+
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+        .pages {
+            text-align: center;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .pages>ul {
+            font-weight: lighter;
+        }
+        .pages>.pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0px;
+            border-radius: 4px;
+        }
+        .pages .pagination>li {
+            display:inline;
+        }
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.428571429;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.pagination>li:first-child>a, .pagination>li:first-child>span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus {
+    color: #999;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="142" height="142" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">北 野</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  糊涂小栈  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
+                            <li class="navigation__item"><a href="http://alimy.me/post/" title="文章列表" class="blog-button">Archive</a> </li>
+                            </br>  </ul>
+                            <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+
+                    </nav>  </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">北 野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  糊涂小栈  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Tus Resumable Upload Protocol</h2>
+          
+          <p><strong>Version:</strong> 1.0.0 (<a href="http://semver.org">SemVer</a>)<br>
+<strong>Date:</strong> 2016-03-25<br>
+<strong>Authors:</strong> <a href="https://twitter.com/felixge">Felix Geisendörfer</a>, <a href="https://twitter.com/kvz">Kevin van
+Zonneveld</a>, <a href="https://twitter.com/tim_kos">Tim Koschützki</a>,
+<a href="https://github.com/vayam">Naren Venkataraman</a>, <a href="https://twitter.com/Acconut_">Marius
+Kleidl</a><br>
+<strong>Collaborators</strong>:
+<a href="https://github.com/biasedbit">Bruno de Carvalho</a>,
+<a href="https://github.com/sandfox">James Butler</a>,
+<a href="https://github.com/cybic">Øystein Steimler</a>,
+<a href="https://github.com/srijs">Sam Rijs</a>,
+<a href="https://github.com/khangtoh">Khang Toh</a>,
+<a href="https://github.com/Amodio">Jacques Boscq</a>,
+<a href="https://github.com/jerefrer">Jérémy FRERE</a>,
+<a href="https://github.com/hintjens">Pieter Hintjens</a>,
+<a href="https://github.com/ehd">Stephan Seidt</a>,
+<a href="https://github.com/aranw">Aran Wilkinson</a>,
+<a href="https://github.com/Baughn">Svein Ove Aas</a>,
+<a href="https://github.com/noptic">Oliver Anan</a>,
+<a href="https://github.com/schmerg">Tim</a>,
+<a href="https://github.com/j4james">j4james</a>,
+<a href="https://github.com/reschke">Julian Reschke</a>,
+<a href="https://github.com/evert">Evert Pot</a>,
+<a href="https://github.com/homeworkprod">Jochen Kupperschmidt</a>,
+<a href="https://github.com/andrewfenn">Andrew Fenn</a>,
+<a href="https://github.com/kevinswiber">Kevin Swiber</a>,
+<a href="https://github.com/0x20h">Jan Kohlhof</a>,
+<a href="https://github.com/radiospiel">eno</a>,
+<a href="https://github.com/luk-">Luke Arduini</a>,
+<a href="https://github.com/sheeep">Jim Schmid</a>,
+<a href="https://github.com/jf">Jeffrey &lsquo;jf&rsquo; Lim</a>,
+<a href="https://github.com/timemachine3030">Daniel Lopretto</a>,
+<a href="https://github.com/MarkMurphy">Mark Murphy</a>,
+<a href="https://github.com/pmdarrow">Peter Darrow</a>,
+<a href="https://github.com/Gargaj">Gargaj</a>,
+<a href="https://github.com/qsorix">Tomasz Rydzyński</a>,
+<a href="https://github.com/tino">Tino de Bruijn</a>,
+<a href="https://github.com/kless">Jonas mg</a>,
+<a href="https://github.com/ChristianUlbrich">Christian Ulbrich</a>,
+<a href="https://github.com/jonhoo">Jon Gjengset</a>,
+<a href="https://github.com/wronglink">Michael Elovskikh</a>,
+<a href="https://github.com/technoweenie">Rick Olson</a>,
+<a href="https://convolv.es">J. Ryan Stinnett</a>,
+<a href="https://github.com/ifedapoolarewaju">Ifedapo Olarewaju</a>
+<a href="https://github.com/ronag">Robert Nagy</a></p>
+
+<p>The key words &ldquo;MUST&rdquo;, &ldquo;MUST NOT&rdquo;, &ldquo;REQUIRED&rdquo;, &ldquo;SHALL&rdquo;, &ldquo;SHALL NOT&rdquo;, &ldquo;SHOULD&rdquo;,
+&ldquo;SHOULD NOT&rdquo;, &ldquo;RECOMMENDED&rdquo;, &ldquo;MAY&rdquo;, and &ldquo;OPTIONAL&rdquo; in this document are to be
+interpreted as described in <a href="http://www.ietf.org/rfc/rfc2119.txt">RFC 2119</a>.</p>
+
+<h2 id="status">Status</h2>
+
+<p>Following <a href="http://semver.org">SemVer</a>, as of 1.0.0 tus is ready for general
+adoption. We don&rsquo;t expect to make breaking changes, but if we do, those will
+have to be in a 2.0.0. Introducing a new extension or any backwards-compatible
+change adding new functionality will result in a bumped MINOR version.</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>This protocol is authored and owned by the tus community. We welcome patches
+and feedback via
+<a href="https://github.com/tus/tus-resumable-upload-protocol">GitHub</a>. All authors and
+collaborators will be listed as such in the protocol header.</p>
+
+<p>Please also <a href="https://github.com/tus/tus.io/issues/new">let us know</a> about any
+implementations (open source or commercial) if you&rsquo;d like to be listed on the
+<a href="https://www.tus.io/implementations.html">implementations</a> page.</p>
+
+<h2 id="abstract">Abstract</h2>
+
+<p>The protocol provides a mechanism for resumable file uploads via HTTP/1.1 (<a href="https://tools.ietf.org/html/rfc7230">RFC
+7230</a>) and HTTP/2 (<a href="https://tools.ietf.org/html/rfc7540">RFC
+7540</a>).</p>
+
+<h2 id="notation">Notation</h2>
+
+<p>Characters enclosed by square brackets indicate a placeholder (e.g. <code>[size]</code>).</p>
+
+<p>The terms space, comma, and semicolon refer to their ASCII representations.</p>
+
+<h2 id="core-protocol">Core Protocol</h2>
+
+<p>The core protocol describes how to resume an interrupted upload. It assumes that
+you already have a URL for the upload, usually created via the
+<a href="#creation">Creation</a> extension.</p>
+
+<p>All Clients and Servers MUST implement the core protocol.</p>
+
+<p>This specification does not describe the structure of URLs, as that is left for
+the specific implementation to decide.  All URLs shown in this document are
+meant for example purposes only.</p>
+
+<p>In addition, the implementation of authentication and authorization is left for
+the Server to decide.</p>
+
+<h3 id="example">Example</h3>
+
+<p>A <code>HEAD</code> request is used to determine the offset at which the upload should be
+continued.</p>
+
+<p>The example below shows the continuation of a 100 byte upload that was
+interrupted after 70 bytes were transferred.</p>
+
+<p><strong>Request:</strong></p>
+
+<pre><code>HEAD /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+Host: tus.example.org
+Tus-Resumable: 1.0.0
+</code></pre>
+
+<p><strong>Response:</strong></p>
+
+<pre><code>HTTP/1.1 200 OK
+Upload-Offset: 70
+Tus-Resumable: 1.0.0
+</code></pre>
+
+<p>Given the offset, the Client uses the <code>PATCH</code> method to resume the upload:</p>
+
+<p><strong>Request:</strong></p>
+
+<pre><code>PATCH /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+Host: tus.example.org
+Content-Type: application/offset+octet-stream
+Content-Length: 30
+Upload-Offset: 70
+Tus-Resumable: 1.0.0
+
+[remaining 30 bytes]
+</code></pre>
+
+<p><strong>Response:</strong></p>
+
+<pre><code>HTTP/1.1 204 No Content
+Tus-Resumable: 1.0.0
+Upload-Offset: 100
+</code></pre>
+
+<h3 id="headers">Headers</h3>
+
+<h4 id="upload-offset">Upload-Offset</h4>
+
+<p>The <code>Upload-Offset</code> request and response header indicates a byte offset within a
+resource. The value MUST be a non-negative integer.</p>
+
+<h4 id="upload-length">Upload-Length</h4>
+
+<p>The <code>Upload-Length</code> request and response header indicates the size of the entire
+upload in bytes. The value MUST be a non-negative integer.</p>
+
+<h4 id="tus-version">Tus-Version</h4>
+
+<p>The <code>Tus-Version</code> response header MUST be a comma-separated list of protocol versions
+supported by the Server. The list MUST be sorted by Server&rsquo;s preference
+where the first one is the most preferred one.</p>
+
+<h4 id="tus-resumable">Tus-Resumable</h4>
+
+<p>The <code>Tus-Resumable</code> header MUST be included in every request and response except
+for <code>OPTIONS</code> requests. The value MUST be the version of the protocol used by
+the Client or the Server.</p>
+
+<p>If the the version specified by the Client is not supported by the Server, it
+MUST respond with the <code>412 Precondition Failed</code> status and MUST include the
+<code>Tus-Version</code> header into the response.
+In addition, the Server MUST NOT process the request.</p>
+
+<h4 id="tus-extension">Tus-Extension</h4>
+
+<p>The <code>Tus-Extension</code> response header MUST be a comma-separated list of the extensions
+supported by the Server. If no extensions are supported, the <code>Tus-Extension</code>
+header MUST be omitted.</p>
+
+<h4 id="tus-max-size">Tus-Max-Size</h4>
+
+<p>The <code>Tus-Max-Size</code> response header MUST be a non-negative integer indicating the maximum
+allowed size of an entire upload in bytes. The Server SHOULD set this header if
+there is a known hard limit.</p>
+
+<h4 id="x-http-method-override">X-HTTP-Method-Override</h4>
+
+<p>The <code>X-HTTP-Method-Override</code> request header MUST be a string which MUST be
+interpreted as the request&rsquo;s method by the Server, if the header is presented.
+The actual method of the request MUST be ignored. The Client SHOULD use this
+header if its environment does not support the PATCH or DELETE methods.</p>
+
+<h3 id="requests">Requests</h3>
+
+<h4 id="head">HEAD</h4>
+
+<p>The Server MUST always include the <code>Upload-Offset</code> header in the response for a
+<code>HEAD</code> request, even if the offset is <code>0</code>, or the upload is already considered
+completed. If the size of the upload is known, the Server MUST include the
+<code>Upload-Length</code> header in the response. If the resource is not found, the Server
+SHOULD return either the <code>404 Not Found</code>, <code>410 Gone</code> or <code>403 Forbidden</code> status
+without the <code>Upload-Offset</code> header.</p>
+
+<p>The Server MUST prevent the client and/or proxies from caching the response by
+adding the <code>Cache-Control: no-store</code> header to the response.</p>
+
+<h4 id="patch">PATCH</h4>
+
+<p>The Server SHOULD accept <code>PATCH</code> requests against any upload URL and apply the
+bytes contained in the message at the given offset specified by the
+<code>Upload-Offset</code> header. All <code>PATCH</code> requests MUST use
+<code>Content-Type: application/offset+octet-stream</code>, otherwise the server SHOULD
+return a <code>415 Unsupported Media Type</code> status.</p>
+
+<p>The <code>Upload-Offset</code> header&rsquo;s value MUST be equal to the current offset of the
+resource. In order to achieve parallel upload the
+<a href="#concatenation">Concatenation</a> extension MAY be used. If the offsets do not
+match, the Server MUST respond with the <code>409 Conflict</code> status without modifying
+the upload resource.</p>
+
+<p>The Client SHOULD send all the remaining bytes of an upload in a single <code>PATCH</code>
+request, but MAY also use multiple small requests successively for scenarios
+where this is desirable. One example for these situations is when the
+<a href="#checksum">Checksum</a> extension is used.</p>
+
+<p>The Server MUST acknowledge successful <code>PATCH</code> requests with the
+<code>204 No Content</code> status. It MUST include the <code>Upload-Offset</code> header containing
+the new offset. The new offset MUST be the sum of the offset before the <code>PATCH</code>
+request and the number of bytes received and processed or stored during the
+current <code>PATCH</code> request.</p>
+
+<p>If the servers receives a <code>PATCH</code> request against a non-existent resource
+it SHOULD return a <code>404 Not Found</code> status.</p>
+
+<p>Both, Client and Server, SHOULD attempt to detect and handle network errors
+predictably. They MAY do so by checking for read/write socket errors, as well
+as setting read/write timeouts. A timeout SHOULD be handled by closing the underlying connection.</p>
+
+<p>The Server SHOULD always attempt to store as much of the received data as possible.</p>
+
+<h4 id="options">OPTIONS</h4>
+
+<p>An <code>OPTIONS</code> request MAY be used to gather information about the Server&rsquo;s current
+configuration. A successful response indicated by the <code>204 No Content</code> or <code>200 OK</code> status
+MUST contain the <code>Tus-Version</code> header. It MAY include the <code>Tus-Extension</code> and
+<code>Tus-Max-Size</code> headers.</p>
+
+<p>The Client SHOULD NOT include the <code>Tus-Resumable</code> header in the request and the
+Server MUST ignore the header.</p>
+
+<h5 id="example-1">Example</h5>
+
+<p>This example clarifies the response for an <code>OPTIONS</code> request. The version used
+in both, request and response, is <code>1.0.0</code> while the Server is also capable of
+handling <code>0.2.2</code> and <code>0.2.1</code>. Uploads with a total size of up to 1GB are
+allowed and the extensions for <a href="#creation">Creation</a> and
+<a href="#expiration">Expiration</a> are enabled.</p>
+
+<p><strong>Request:</strong></p>
+
+<pre><code>OPTIONS /files HTTP/1.1
+Host: tus.example.org
+</code></pre>
+
+<p><strong>Response:</strong></p>
+
+<pre><code>HTTP/1.1 204 No Content
+Tus-Resumable: 1.0.0
+Tus-Version: 1.0.0,0.2.2,0.2.1
+Tus-Max-Size: 1073741824
+Tus-Extension: creation,expiration
+</code></pre>
+
+<h2 id="protocol-extensions">Protocol Extensions</h2>
+
+<p>Clients and Servers are encouraged to implement as many of the extensions
+as possible. Feature detection SHOULD be achieved by the Client sending an
+<code>OPTIONS</code> request and the Server responding with the <code>Tus-Extension</code> header.</p>
+
+<h3 id="creation">Creation</h3>
+
+<p>The Client and the Server SHOULD implement the upload creation extension. If
+the Server supports this extension, it MUST add <code>creation</code> to the <code>Tus-Extension</code>
+header.</p>
+
+<h4 id="example-2">Example</h4>
+
+<p>An empty <code>POST</code> request is used to create a new upload resource. The
+<code>Upload-Length</code> header indicates the size of entire upload in bytes.</p>
+
+<p><strong>Request:</strong></p>
+
+<pre><code>POST /files HTTP/1.1
+Host: tus.example.org
+Content-Length: 0
+Upload-Length: 100
+Tus-Resumable: 1.0.0
+Upload-Metadata: filename d29ybGRfZG9taW5hdGlvbl9wbGFuLnBkZg==
+</code></pre>
+
+<p><strong>Response:</strong></p>
+
+<pre><code>HTTP/1.1 201 Created
+Location: https://tus.example.org/files/24e533e02ec3bc40c387f1a0e460e216
+Tus-Resumable: 1.0.0
+</code></pre>
+
+<p>The new resource has an implicit offset of <code>0</code> allowing the Client to use the
+core protocol for performing the actual upload.</p>
+
+<h4 id="headers-1">Headers</h4>
+
+<h5 id="upload-defer-length">Upload-Defer-Length</h5>
+
+<p>The <code>Upload-Defer-Length</code> request and response header indicates that the size of
+the upload is not known currently and will be transferred later. Its value MUST
+be <code>1</code>. If the length of an upload is not deferred, this header MUST be omitted.</p>
+
+<h5 id="upload-metadata">Upload-Metadata</h5>
+
+<p>The <code>Upload-Metadata</code> request and response header MUST consist of one or more comma-separated
+key-value pairs. The key and value MUST be separated by a space. The key
+MUST NOT contain spaces and commas and MUST NOT be empty. The key SHOULD be
+ASCII encoded and the value MUST be Base64 encoded. All keys MUST be unique.</p>
+
+<h4 id="requests-1">Requests</h4>
+
+<h5 id="post">POST</h5>
+
+<p>The Client MUST send a <code>POST</code> request against a known upload creation URL to
+request a new upload resource. The request MUST include one of the following headers:</p>
+
+<p>a) <code>Upload-Length</code> to indicate the size of an entire upload in bytes.</p>
+
+<p>b) <code>Upload-Defer-Length: 1</code> if upload size is not known at the time. Once it is
+known the Client MUST set the <code>Upload-Length</code> header in the next <code>PATCH</code> request.
+Once set the length MUST NOT be changed. As long as the length of the upload is
+not known, the Server MUST set <code>Upload-Defer-Length: 1</code> in all responses to
+<code>HEAD</code> requests. If the <code>Upload-Defer-Length</code> header contains any other value
+than <code>1</code> the server should return a <code>400 Bad Request</code> status.</p>
+
+<p>If the Server supports deferring length, it MUST add <code>creation-defer-length</code> to
+the <code>Tus-Extension</code> header.</p>
+
+<p>The Client MAY supply the <code>Upload-Metadata</code> header to add additional metadata to the
+upload creation request. The Server MAY decide to ignore or use this information to
+further process the request or to reject it. If an upload contains additional
+metadata, responses to <code>HEAD</code> requests MUST include the <code>Upload-Metadata</code> header
+and its value as specified by the Client during the creation.</p>
+
+<p>If the length of the upload exceeds the maximum, which MAY be specified using
+the <code>Tus-Max-Size</code> header, the Server MUST respond with the
+<code>413 Request Entity Too Large</code> status.</p>
+
+<p>The Server MUST acknowledge a successful upload creation with the <code>201 Created</code>
+status. The Server MUST set the <code>Location</code> header to the URL of the created
+resource. This URL MAY be absolute or relative.</p>
+
+<p>The Client MUST perform the actual upload using the core protocol.</p>
+
+<h3 id="expiration">Expiration</h3>
+
+<p>The Server MAY remove unfinished uploads once they expire. In order to indicate
+this behavior to the Client, the Server MUST add <code>expiration</code> to the
+<code>Tus-Extension</code> header.</p>
+
+<h4 id="example-3">Example</h4>
+
+<p>The unfinished upload is available until the time specified in <code>Upload-Expires</code>.
+After this date the upload can not be resumed.</p>
+
+<p><strong>Request:</strong></p>
+
+<pre><code>PATCH /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+Host: tus.example.org
+Content-Type: application/offset+octet-stream
+Content-Length: 30
+Upload-Offset: 70
+Tus-Resumable: 1.0.0
+
+[remaining 30 bytes]
+</code></pre>
+
+<p><strong>Response:</strong></p>
+
+<pre><code>HTTP/1.1 204 No Content
+Upload-Expires: Wed, 25 Jun 2014 16:00:00 GMT
+Tus-Resumable: 1.0.0
+Upload-Offset: 100
+</code></pre>
+
+<h4 id="headers-2">Headers</h4>
+
+<h5 id="upload-expires">Upload-Expires</h5>
+
+<p>The <code>Upload-Expires</code> response header indicates the time after which the unfinished upload
+expires. A Server MAY wish to remove incomplete uploads after a given
+period of time to prevent abandoned uploads from taking up extra storage. The
+Client SHOULD use this header to determine if an upload is still valid before
+attempting to resume the upload.</p>
+
+<p>This header MUST be included in every <code>PATCH</code> response if the upload is going
+to expire. If the expiration is known at the creation, the <code>Upload-Expires</code>
+header MUST be included in the response to the initial <code>POST</code> request.
+Its value MAY change over time.</p>
+
+<p>If a Client does attempt to resume an upload which has since been removed by the
+Server, the Server SHOULD respond with the<code>404 Not Found</code> or <code>410 Gone</code> status.
+The latter one SHOULD be used if the Server is keeping track of expired uploads.
+In both cases the Client SHOULD start a new upload.</p>
+
+<p>The value of the <code>Upload-Expires</code> header MUST be in
+<a href="https://tools.ietf.org/html/rfc7231#section-7.1.1.1">RFC 7231</a> datetime format.</p>
+
+<h3 id="checksum">Checksum</h3>
+
+<p>The Client and the Server MAY implement and use this extension to verify data
+integrity of each <code>PATCH</code> request. If supported, the Server MUST add <code>checksum</code>
+to the <code>Tus-Extension</code> header.</p>
+
+<p>A Client MAY include the <code>Upload-Checksum</code> header in a <code>PATCH</code> request.
+Once the entire request has been received, the Server MUST verify the uploaded
+chunk against the provided checksum using the specified algorithm. Depending on
+the result the Server MAY respond with one of the following status code:
+1) <code>400 Bad Request</code> if the checksum algorithm is not supported by the server,
+2) <code>460 Checksum Mismatch</code> if the checksums mismatch or
+3) <code>204 No Content</code> if the checksums match and the processing of the data
+succeeded.
+In the first two cases the uploaded chunk MUST be discarded, and the upload and
+its offset MUST NOT be updated.</p>
+
+<p>The Server MUST support at least the SHA1 checksum algorithm identified
+by <code>sha1</code>. The names of the checksum algorithms MUST only consist of ASCII
+characters with the modification that uppercase characters are excluded.</p>
+
+<p>The <code>Tus-Checksum-Algorithm</code> header MUST be included in the response to an
+<code>OPTIONS</code> request.</p>
+
+<p>If the hash cannot be calculated at the beginning of the upload, it MAY be
+included as a trailer. If the Server can handle trailers, this behavior MUST be
+announced by adding <code>checksum-trailer</code> to the <code>Tus-Extension</code> header.
+Trailers, also known as trailing headers, are headers which are sent after the
+request&rsquo;s body has been transmitted already. Following
+<a href="https://tools.ietf.org/html/rfc7230#section-4.1.2">RFC 7230</a> they
+MUST be announced using the <code>Trailer</code> header and are only allowed in chunked
+transfers.</p>
+
+<h4 id="headers-3">Headers</h4>
+
+<h5 id="tus-checksum-algorithm">Tus-Checksum-Algorithm</h5>
+
+<p>The <code>Tus-Checksum-Algorithm</code> response header MUST be a comma-separated list of
+the checksum algorithms supported by the server.</p>
+
+<h5 id="upload-checksum">Upload-Checksum</h5>
+
+<p>The <code>Upload-Checksum</code> request header contains information about the checksum of
+the current body payload. The header MUST consist of the name of the used
+checksum algorithm and the Base64 encoded checksum separated by a space.</p>
+
+<h4 id="example-4">Example</h4>
+
+<p><strong>Request</strong>:</p>
+
+<pre><code>OPTIONS /files HTTP/1.1
+Host: tus.example.org
+Tus-Resumable: 1.0.0
+</code></pre>
+
+<p><strong>Response</strong>:</p>
+
+<pre><code>HTTP/1.1 204 No Content
+Tus-Resumable: 1.0.0
+Tus-Version: 1.0.0
+Tus-Extension: checksum
+Tus-Checksum-Algorithm: md5,sha1,crc32
+</code></pre>
+
+<p><strong>Request</strong>:</p>
+
+<pre><code>PATCH /files/17f44dbe1c4bace0e18ab850cf2b3a83 HTTP/1.1
+Content-Length: 11
+Upload-Offset: 0
+Tus-Resumable: 1.0.0
+Upload-Checksum: sha1 Kq5sNclPz7QV2+lfQIuc6R7oRu0=
+
+hello world
+</code></pre>
+
+<p><strong>Response</strong>:</p>
+
+<pre><code>HTTP/1.1 204 No Content
+Tus-Resumable: 1.0.0
+Upload-Offset: 11
+</code></pre>
+
+<h3 id="termination">Termination</h3>
+
+<p>This extension defines a way for the Client to terminate completed and unfinished
+uploads allowing the Server to free up used resources.</p>
+
+<p>If this extension is supported by the Server, it MUST be announced by adding
+<code>termination</code> to the <code>Tus-Extension</code> header.</p>
+
+<h4 id="requests-2">Requests</h4>
+
+<h5 id="delete">DELETE</h5>
+
+<p>When receiving a <code>DELETE</code> request for an existing upload the Server SHOULD free
+associated resources and MUST respond with the <code>204 No Content</code> status
+confirming that the upload was terminated. For all future requests to this URL
+the Server SHOULD respond with the <code>404 Not Found</code> or <code>410 Gone</code> status.</p>
+
+<h4 id="example-5">Example</h4>
+
+<p><strong>Request:</strong></p>
+
+<pre><code>DELETE /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+Host: tus.example.org
+Content-Length: 0
+Tus-Resumable: 1.0.0
+</code></pre>
+
+<p><strong>Response:</strong></p>
+
+<pre><code>HTTP/1.1 204 No Content
+Tus-Resumable: 1.0.0
+</code></pre>
+
+<h3 id="concatenation">Concatenation</h3>
+
+<p>This extension can be used to concatenate multiple uploads into a single one enabling
+Clients to perform parallel uploads and to upload non-contiguous chunks. If the
+Server supports this extension, it MUST add <code>concatenation</code> to the
+<code>Tus-Extension</code> header.</p>
+
+<p>A partial upload represents a chunk of a file. It is constructed by including the
+<code>Upload-Concat: partial</code> header while creating a new upload using the
+<a href="#creation">Creation</a> extension. Multiple partial uploads are concatenated
+into a final upload in the specified order. The Server SHOULD NOT process these
+partial uploads until they are concatenated to form a final upload. The length of the
+final upload MUST be the sum of the length of all partial uploads.</p>
+
+<p>In order to create a new final upload the Client MUST add the <code>Upload-Concat</code> header
+to the upload creation request. The value MUST be <code>final</code> followed by a semicolon
+and a space-separated list of the partial upload URLs that need to be concatenated.
+The partial uploads MUST be concatenated as per the order specified in the list.
+This concatenation request SHOULD happen after all of the corresponding partial uploads
+are completed. The Client MUST NOT include the <code>Upload-Length</code> header in the final
+upload creation.</p>
+
+<p>The Client MAY send the concatenation request while the partial uploads are still
+in progress. This feature MUST be explicitly announced by the Server by adding
+<code>concatenation-unfinished</code> to the <code>Tus-Extension</code> header.</p>
+
+<p>When creating a new final upload the partial uploads&rsquo; metadata SHALL NOT be
+transferred to the new final upload. All metadata SHOULD be included in the
+concatenation request using the <code>Upload-Metadata</code> header.</p>
+
+<p>The Server MAY delete partial uploads after concatenation. They MAY however be
+used multiple times to form a final resource.</p>
+
+<p>The Server MUST respond with the <code>403 Forbidden</code> status to <code>PATCH</code> requests against
+a final upload URL and MUST NOT modify the final or its partial uploads.</p>
+
+<p>The response to a HEAD request for a final upload SHOULD NOT contain the <code>Upload-Offset</code>
+header unless the concatenation has been successfully finished. After successful
+concatenation, the <code>Upload-Offset</code> and <code>Upload-Length</code> MUST be set and their values MUST be
+equal. The value of the <code>Upload-Offset</code> header before concatenation is not defined for a
+final upload.</p>
+
+<p>The response to a HEAD request for a partial upload MUST contain the <code>Upload-Offset</code> header.</p>
+
+<p>The <code>Upload-Length</code> header MUST be included if the length of the final resource can
+be calculated at the time of the request. Response to <code>HEAD</code> request against partial
+or final upload MUST include the <code>Upload-Concat</code> header and its value as received in
+the upload creation request.</p>
+
+<h4 id="headers-4">Headers</h4>
+
+<h5 id="upload-concat">Upload-Concat</h5>
+
+<p>The <code>Upload-Concat</code> request and response header MUST be set in both partial and final upload creation
+requests. It indicates whether the upload is either a partial
+or final upload. If the upload is a partial one, the header value MUST be <code>partial</code>.
+In the case of a final upload, its value MUST be <code>final</code> followed by a
+semicolon and a space-separated list of partial upload URLs that will be
+concatenated. The partial uploads URLs MAY be absolute or relative and MUST NOT contain
+spaces as defined in <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>.</p>
+
+<h4 id="example-6">Example</h4>
+
+<p>In the following example the <code>Host</code> and <code>Tus-Resumable</code> headers are omitted for
+readability although they are required by the specification.
+In the beginning two partial uploads are created:</p>
+
+<pre><code>POST /files HTTP/1.1
+Upload-Concat: partial
+Upload-Length: 5
+
+HTTP/1.1 201 Created
+Location: https://tus.example.org/files/a
+</code></pre>
+
+<pre><code>POST /files HTTP/1.1
+Upload-Concat: partial
+Upload-Length: 6
+
+HTTP/1.1 201 Created
+Location: https://tus.example.org/files/b
+</code></pre>
+
+<p>You are now able to upload data to the two partial resources using <code>PATCH</code>
+requests:</p>
+
+<pre><code>PATCH /files/a HTTP/1.1
+Upload-Offset: 0
+Content-Length: 5
+
+hello
+
+HTTP/1.1 204 No Content
+</code></pre>
+
+<pre><code>PATCH /files/b HTTP/1.1
+Upload-Offset: 0
+Content-Length: 6
+
+ world
+
+HTTP/1.1 204 No Content
+</code></pre>
+
+<p>In the first request the string <code>hello</code> was uploaded while the second file now
+contains <code>world</code> with a leading space.</p>
+
+<p>The next step is to create the final upload consisting of the two earlier
+generated partial uploads. In following request no <code>Upload-Length</code> header is
+presented.</p>
+
+<pre><code>POST /files HTTP/1.1
+Upload-Concat: final;/files/a /files/b
+
+HTTP/1.1 201 Created
+Location: https://tus.example.org/files/ab
+</code></pre>
+
+<p>The length of the final resource is now 11 bytes consisting of the string
+<code>hello world</code>.</p>
+
+<pre><code>HEAD /files/ab HTTP/1.1
+
+HTTP/1.1 200 OK
+Upload-Length: 11
+Upload-Concat: final;/files/a /files/b
+</code></pre>
+
+<h2 id="faq">FAQ</h2>
+
+<h3 id="why-is-the-protocol-using-custom-headers">Why is the protocol using custom headers?</h3>
+
+<p>We have carefully investigated the use of existing headers such as <code>Range</code> and
+<code>Content-Range</code>, but unfortunately they are defined in a way that makes them
+unsuitable for resumable file uploads.</p>
+
+<p>We also considered using existing <code>PATCH</code> payload formats such as
+<a href="http://greenbytes.de/tech/webdav/draft-ietf-httpbis-p5-range-latest.html#internet.media.type.multipart.byteranges">multipart/byteranges</a>,
+but unfortunately the XHR2 <a href="http://www.w3.org/TR/XMLHttpRequest/#interface-formdata">FormData
+interface</a> does not
+support custom headers for multipart parts, and the <a href="http://www.w3.org/TR/XMLHttpRequest/#the-send-method">send()
+method</a> does not allow
+streaming arbitrary data without loading all of it into memory.</p>
+
+<p>That being said, custom headers also allowed us to greatly simplify the
+Client and Server implementations, so we&rsquo;re quite happy with them.</p>
+
+<h3 id="why-are-you-not-using-the-x-prefix-for-your-headers">Why are you not using the &ldquo;X-&rdquo; prefix for your headers?</h3>
+
+<p>The &ldquo;X-&rdquo; prefix for headers has been deprecated, see <a href="http://tools.ietf.org/html/rfc6648">RFC
+6648</a>.</p>
+
+<h3 id="how-can-i-deal-with-bad-http-proxies">How can I deal with bad HTTP proxies?</h3>
+
+<p>If you are dealing with HTTP proxies that strip/modify HTTP headers or can&rsquo;t
+handle <code>PATCH</code> requests properly, you should consider using HTTPS which will
+make it impossible for proxies to modify your requests and use the
+<a href="#x-http-method-override"><code>X-HTTP-Method-Override</code></a> header which allows you to use
+<code>POST</code> requests.</p>
+
+<p>If that is not an option for you, please reach out to us, we are open to
+defining a compatibility protocol extension.</p>
+
+<h3 id="how-are-pause-resume-handled-when-should-i-delete-partial-uploads">How are pause/resume handled? When should I delete partial uploads?</h3>
+
+<p>The tus protocol is built upon the principles of simple pausing and resuming. In
+order to pause an upload you are allowed to end the current open request. The
+Server will store the uploaded data as long as no violations against other
+constraints (e.g. checksums) or internal errors occur. Once you are ready to
+resume an upload, send a <code>HEAD</code> request to the corresponding upload URL in order to
+obtain the available offset. After receiving a valid response you can upload
+more data using <code>PATCH</code> requests. You should keep in mind that the Server may
+delete an unfinished upload if it is not continued for a longer time period (see
+<a href="#expiration">Expiration</a> extension).</p>
+
+<p>Before deleting an outstanding upload the Server should give the Client enough
+time to resolve potential networking issues. Since this duration depends heavily
+on the underlying application model, the protocol does not contain a specific
+number, but we recommend one week for a general use case.</p>
+
+<h3 id="how-can-i-get-the-file-name-or-file-type-for-an-upload">How can I get the file name or file type for an upload?</h3>
+
+<p>For itself, the tus protocol does not have a direct mechanism to obtain the type or
+filename of an upload as the specification does not have the principle of a disk-based
+file, allowing you to upload arbitrary data using tus. However, the wanted
+functionality can be achieved by utilizing metadata. A Client can attach the file&rsquo;s
+name and type to an upload when it&rsquo;s being created by setting the <code>Upload-Metadata</code>
+header. On the other side, the Server can read these values and determine the name and
+type of the upload.</p>
+
+<h2 id="license">License</h2>
+
+<p>Licensed under the MIT license, see
+<a href="https://github.com/tus/tus-resumable-upload-protocol/blob/master/LICENSE.txt">LICENSE.txt</a>.</p>
+
+<p>Copyright &copy; 2013-2016 Transloadit Ltd and Contributors.</p>
+
+<hr />
+
+<p>(Notice: Origin official document is <a href="https://tus.io/protocols/resumable-upload.html" title="tus resumable upload protocol"><em>Here</em></a>)</p>
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/art_201903151200/" title="上一篇">&lt;&lt; 熊猫人</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2015-2019 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+  </body>
+</html>

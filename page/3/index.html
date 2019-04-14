@@ -295,6 +295,28 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201805021940/" title="阅读全文">NewSQL: 分布式数据库TiDB、CockroachDB </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="tidb-https-pingcap-com-pingcap官网"><a href="https://pingcap.com/" title="PingCap官网">TiDB</a></h3>
+
+<p>TiDB 开源分布式 NewSQL 关系型数据库
+TiDB 是新一代开源分布式 NewSQL 数据库，模型受 Google Spanner / F1 论文的启发，实现了自动的水平伸缩，强一致性的分布式事务，基于 Raft 算法的多副本复制等重要 NewSQL 特性。TiDB 结合了 RDBMS 和 NoSQL 的优点，部署简单，在线弹性扩容和异步表结构变更不影响业务， 真正的异地多活及自动故障恢复保障数据安全，同时兼容 <a href="https://mariadb.com/kb/en/library/documentation/" title="MariaDB Documentation">MySQL</a> 协议，使迁移使用成本降到极低。</p>
+
+<h3 id="cockroachdb-https-www-cockroachlabs-com-cockroach-labs-蟑螂db-小强db"><a href="https://www.cockroachlabs.com/" title="Cockroach LABS">CockroachDB</a> (蟑螂DB/小强DB)</h3>
+
+<p>CockroachDB（中文名蟑螂DB，所以又可以称为小强DB），是构建于事务处理及强一致性KV存储上的分布式SQL数据库，支持水平扩展、自动容错处理、强一致性事务，并且提供SQL接口用于数据处理，是Google Spanner/F1的开源实现。
+   CockroachDB适用于应用对数据要求精确、可靠、完全正确的场景，支持自动复制、均匀分布、基于极小配置的数据恢复，可用于分布式的、可复制的联机事务处理（OLTP），多数据中心的部署，私有云的基础构建，它不适用于读少写多的场景，可以用内存数据库来代替，也不适用于复杂的join查询，重量级的数据分析及联机分析处理（OLAP）。</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201805021940/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201804192316/" title="阅读全文">Logus:另一种简单、优雅、高效打Log的方式 </a> </h2>
 
 </header>
@@ -498,47 +520,6 @@ protected void onResume() {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201803122145/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201803031932/" title="阅读全文">Golang Tutorial: What&#39;s DefaultServeMux in net/http </a> </h2>
-
-</header>
-<div class="summary">
-    <p>craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:</p>
-
-<pre><code>package main
-
-import (
-	&quot;net/http&quot;
-	&quot;fmt&quot;
-	&quot;log&quot;
-)
-
-func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;[%s]: hello!&quot;, r.Host)
-}
-
-func world(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;[%s]: world!&quot;, r.Host)
-}
-
-func main() {
-	server := http.Server{
-		Addr: &quot;127.0.0.1:8080&quot;,
-	}
-	http.HandleFunc(&quot;/hello&quot;, hello)
-	http.HandleFunc(&quot;/world&quot;, world)
-
-	log.Fatal(server.ListenAndServe())
-}
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201803031932/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
