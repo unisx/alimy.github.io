@@ -295,6 +295,40 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201811111946/" title="阅读全文">Athens:香港服务器Docker部署 </a> </h2>
+
+</header>
+<div class="summary">
+    <h4 id="源起">源起</h4>
+
+<p>go1.11开始加入module功能支持GOPROXY，解决go依赖包下载问题(你懂的！),Athens应运而生。</p>
+
+<p><a href="https://docs.gomods.io/" title="Athens">官网介绍</a>:</p>
+
+<p>Athens is a project building on top of vgo (or go1.11+) trying to bring dependencies closer to you so you can count on repeatable builds even at a time when VCS is down.</p>
+
+<p>The big goal of Athens is to provide a new place where dependencies — not code — live. Dependencies are immutable blobs of code and associated metadata that come from Github. They live in storage that Athens controls.</p>
+
+<h4 id="docker部署">Docker部署</h4>
+
+<p>使用Docker进行部署,官方镜像<a href="https://hub.docker.com/r/gomods/proxy/" title="Athens's docker image">gomods/proxy:latest</a></p>
+
+<pre><code>$ docker volume create data-athens
+$ docker run -d --name athens-proxy --restart always -p 3000:3000 \
+    -v data-athens:/var/lib/athens \
+    -e ATHENS_DISK_STORAGE_ROOT=/var/lib/athens \ 
+    -e ATHENS_STORAGE_TYPE=disk \
+    gomods/proxy:latest
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201811111946/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/day_2018090119142/" title="阅读全文">Hello, Rustacean </a> </h2>
 
 </header>
@@ -610,27 +644,6 @@ this patch fixed this problem.</p>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201806040842/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/info_201805210818/" title="阅读全文">收藏: 技术相关网站 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="kubernetes-https-kubernetes-io-kubernetes官网"><a href="https://kubernetes.io/" title="Kubernetes官网">Kubernetes</a></h3>
-
-<ul>
-<li><a href="https://kubernetes.io/cn/docs/" title="官方中文文档">官方中文文档</a></li>
-<li><a href="https://kubernetes.feisky.xyz/zh/" title="feisky版 Kubernetes指南">Kubernetes指南</a></li>
-<li><a href="https://jimmysong.io/kubernetes-handbook/" title="Jimmy版 Kubernetes指南">Kubernetes指南</a></li>
-<li><a href="https://feisky.gitbooks.io/sdn/" title="SDN指南">SDN指南</a></li>
-</ul>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/info_201805210818/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

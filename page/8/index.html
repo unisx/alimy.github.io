@@ -295,6 +295,53 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603112105/" title="阅读全文">Jackson: Json Polymorphism </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.</p>
+
+<h3 id="data-serialization-and-polymorphism-example">Data Serialization and Polymorphism Example</h3>
+
+<pre><code>package com.studytrails.json.jackson;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class SerializeExample1 {
+    private static String outputFile = &quot;zoo.json&quot;;
+
+    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
+        // let start creating the zoo
+        Zoo zoo = new Zoo(&quot;Samba Wild Park&quot;, &quot;Paz&quot;);
+        Lion lion = new Lion(&quot;Simba&quot;);
+        Elephant elephant = new Elephant(&quot;Manny&quot;);
+        List&lt;Animal&gt; animals = new ArrayList&lt;&gt;();
+        animals.add(lion);
+        animals.add(elephant);
+        zoo.setAnimals(animals);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter(new File(outputFile)), zoo);
+    }
+}
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112105/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603112100/" title="阅读全文">Jackson: jackson Mix- In Annotations </a> </h2>
 
 </header>
@@ -525,34 +572,6 @@ public class AlbumsFilter {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112025/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112020/" title="阅读全文">Jackson: Introduction </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="overview-of-the-jackson-api">Overview of The Jackson API</h3>
-
-<p><a href="http://wiki.fasterxml.com/JacksonHome" title="Jackson Api">Jackson Api</a> contains a lot of functionalities to read and build json using java. It has very powerful data binding capabilities and provides a framework to serialize custom java objects to json string and deserialize json string back to java objects. Json written with jackson can contain embedded class information that helps in creating the complete object tree during deserialization.</p>
-
-<h3 id="creating-json-from-java">Creating JSON from JAVA</h3>
-
-<p>There are three ways to create JSON from JAVA:</p>
-
-<ul>
-<li>From a Java Object (The Same object can also be then used to read the JSON)</li>
-<li>From a JsonNode Tree</li>
-<li>Building a Json Stream</li>
-</ul>
-
-<p>In the <a href="http://alimy.me/post/dev_201603112025" title="Java to JSON and back">first tutorial</a> we look at all the three ways of creating JSON. Note that if you are new to Jackson this is probably the best place to begin even if you are looking at a way to parse JSON.</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112020/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

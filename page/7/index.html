@@ -295,6 +295,24 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603122035/" title="阅读全文">Gson: Custom Serializer </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Just as we saw in the <a href="http://alimy.me/post/dev_201603122030">previous</a> tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.</p>
+
+<h3 id="custom-serializer">Custom Serializer</h3>
+
+<p>Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122035/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122030/" title="阅读全文">Gson: Custom Type Adapter </a> </h2>
 
 </header>
@@ -546,53 +564,6 @@ latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new m
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603122005/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112105/" title="阅读全文">Jackson: Json Polymorphism </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.</p>
-
-<h3 id="data-serialization-and-polymorphism-example">Data Serialization and Polymorphism Example</h3>
-
-<pre><code>package com.studytrails.json.jackson;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-public class SerializeExample1 {
-    private static String outputFile = &quot;zoo.json&quot;;
-
-    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
-        // let start creating the zoo
-        Zoo zoo = new Zoo(&quot;Samba Wild Park&quot;, &quot;Paz&quot;);
-        Lion lion = new Lion(&quot;Simba&quot;);
-        Elephant elephant = new Elephant(&quot;Manny&quot;);
-        List&lt;Animal&gt; animals = new ArrayList&lt;&gt;();
-        animals.add(lion);
-        animals.add(elephant);
-        zoo.setAnimals(animals);
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter(new File(outputFile)), zoo);
-    }
-}
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112105/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

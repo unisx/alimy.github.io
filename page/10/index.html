@@ -295,6 +295,37 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603081433/" title="阅读全文">XStream: Java to XML </a> </h2>
+
+</header>
+<div class="summary">
+    <p>In the <a href="http://alimy.me/post/dev_201603081411">previous</a> example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &lsquo;JazzArtist&rsquo;. This object has a list of &lsquo;Album&rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.</p>
+
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
+
+public class CreateXMLFromMusicArtistObject {
+
+    public static void main(String[] args) {
+        CreateXMLFromMusicArtistObject marshaller = new CreateXMLFromMusicArtistObject();
+        marshaller.createXMlFromObject();
+        marshaller.createXMLFromObjectUsingAlias();
+        marshaller.createXMLFromObjectUsingAliasAndImplicitCollection();
+    }
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603081433/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603081427/" title="阅读全文">XStream: XML To Java </a> </h2>
 
 </header>
@@ -486,22 +517,6 @@ Version 1.8 <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spe
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/etc_201602011221/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/day_201601292229/" title="阅读全文">无题 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><em>漫漫人生路，花开无尽天。</em></p>
-
-<p><em>莲步意随行，风清心亦欢。</em></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/day_201601292229/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
