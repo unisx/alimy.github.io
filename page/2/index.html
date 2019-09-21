@@ -295,6 +295,42 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201811250757/" title="阅读全文">sshuttle：不需配置的 VPN </a> </h2>
+
+</header>
+<div class="summary">
+    <p>sshuttle 被其作者称为 “穷人的 VPN”（A poor man’s instant VPN），甚至不需要远端服务器的 root 权限就可以用（只需要一个普通 SSH 帐号），和在 Mac/Linux 客户端直接用 ssh -D 的方式有点类似。如果不想花钱买 VPN，又懒得自己在 VPS 上安装和设置复杂的 VPN 服务，又不想用 ssh -D 这么朴素的技巧的话可以试一下这个 sshuttle，按照作者的说法 sshuttle 比 sshd -D 的方式快一点，因为 It’s just data-over-TCP，而不是 TCP-over-TCP，TCP-over-TCP 的方式会带来不必要的性能问题，因为 TCP 本身就是可靠传输协议，保证了包的有序性和无差错，并确保包被接受，如果有包丢失的话 TCP 协议可以自己立即重传弥补，所以没必要两层都 TCP，一层 TCP 就比较安全了。</p>
+
+<p>sshuttle 的用法很简单，在客户端下载和运行就可以了（需要有 Python 的支持），无需在服务器端做任何配置（但是需要一个 ssh 帐号和 Python 支持）：</p>
+
+<pre><code>$ git clone https://github.com/sshuttle/sshuttle
+$ cd sshuttle
+$ sudo ./setup.py install
+$ sshuttle -r username@sshserver 0.0.0.0/0 -vv
+Starting sshuttle proxy.
+[local sudo] Password: 
+firewall manager: Starting firewall with Python version 2.7.15
+firewall manager: ready method name nat.
+IPv6 enabled: False
+UDP enabled: False
+DNS enabled: False
+User enabled: False
+Binding redirector: 12300 12299
+TCP redirector listening on ('127.0.0.1', 12299).
+TCP redirector listening with &lt;socket._socketobject object at 0x7f5eb68b1c90&gt;.
+Starting client with Python version 2.7.15
+c : connecting to server...
+...
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201811250757/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201811171435/" title="阅读全文">AppArmor的前世今生和基本使用 </a> </h2>
 
 </header>
@@ -609,43 +645,6 @@ $ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/do
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201807011459/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201806301842/" title="阅读全文">Gogs: PR-5322 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="add-new-dockerfile-docker-ce-for-docker-ce-v17-06-to-build-gogs-s-docker-image">Add new Dockerfile.docker-ce for docker-ce(&gt;=v17.06) to build Gogs&rsquo;s docker image</h3>
-
-<p>Docker-CE can be given to a new build stage by adding <code>AS</code> name to the<code>FROM</code> instruction sine release version of v17.06. The Dockerfile&rsquo;s <code>FROM</code> instruction like below:</p>
-
-<h4 id="from">FROM</h4>
-
-<pre><code>FROM &lt;image&gt; [AS &lt;name&gt;]
-</code></pre>
-
-<p>Or</p>
-
-<pre><code>FROM &lt;image&gt;[:&lt;tag&gt;] [AS &lt;name&gt;]
-</code></pre>
-
-<p>Or</p>
-
-<pre><code>FROM &lt;image&gt;[@&lt;digest&gt;] [AS &lt;name&gt;]
-</code></pre>
-
-<ul>
-<li>Optionally a name can be given to a new build stage by adding <code>AS</code> name to the <code>FROM</code> instruction. The name can be used in subsequent <code>FROM</code> and <code>COPY --from=&lt;name|index&gt;</code> instructions to refer to the image built in this stage.</li>
-</ul>
-
-<p>Find Docker-ce official document <a href="https://docs.docker.com/v17.06/engine/reference/builder/#from" title="Docker official Document">here</a>.</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201806301842/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Protocol Buffers Version 2 Language Specification &middot; 北 野 </title>
+    <title> Protocol Buffers Version 3 Language Specification &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -287,9 +287,9 @@ fathom('trackPageview');
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
         <div class="post panel-wrapper">
-            <h2>Protocol Buffers Version 2 Language Specification</h2>
+            <h2>Protocol Buffers Version 3 Language Specification</h2>
           
-          <p>This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
+          <p>This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
 
 <pre><code>|   alternation
 ()  grouping
@@ -297,14 +297,13 @@ fathom('trackPageview');
 {}  repetition (any number of times)
 </code></pre>
 
-<p>For more information about using proto2, see the language guide.</p>
+<p>For more information about using proto3, see the language guide.</p>
 
 <h3 id="lexical-elements">Lexical elements</h3>
 
 <h4 id="letters-and-digits">Letters and digits</h4>
 
 <pre><code>letter = &quot;A&quot; … &quot;Z&quot; | &quot;a&quot; … &quot;z&quot;
-capitalLetter =  &quot;A&quot; … &quot;Z&quot;
 decimalDigit = &quot;0&quot; … &quot;9&quot;
 octalDigit   = &quot;0&quot; … &quot;7&quot;
 hexDigit     = &quot;0&quot; … &quot;9&quot; | &quot;A&quot; … &quot;F&quot; | &quot;a&quot; … &quot;f&quot;
@@ -321,10 +320,8 @@ oneofName = ident
 mapName = ident
 serviceName = ident
 rpcName = ident
-streamName = ident
 messageType = [ &quot;.&quot; ] { ident &quot;.&quot; } messageName
 enumType = [ &quot;.&quot; ] { ident &quot;.&quot; } enumName
-groupName = capitalLetter { letter | decimalDigit | &quot;_&quot; }
 </code></pre>
 
 <h4 id="integer-literals">Integer literals</h4>
@@ -349,7 +346,7 @@ exponent  = ( &quot;e&quot; | &quot;E&quot; ) [ &quot;+&quot; | &quot;-&quot; ] 
 
 <h4 id="string-literals">String literals</h4>
 
-<pre><code>strLit = ( &quot;'&quot; { charValue } &quot;'&quot; ) | ( '&quot;' { charValue } '&quot;' )
+<pre><code>strLit = ( &quot;'&quot; { charValue } &quot;'&quot; ) |  ( '&quot;' { charValue } '&quot;' )
 charValue = hexEscape | octEscape | charEscape | /[^\0\n\\]/
 hexEscape = '\' ( &quot;x&quot; | &quot;X&quot; ) hexDigit hexDigit
 octEscape = '\' octalDigit octalDigit octalDigit
@@ -364,16 +361,19 @@ quote = &quot;'&quot; | '&quot;'
 
 <h4 id="constant">Constant</h4>
 
-<pre><code>constant = fullIdent | ( [ &quot;-&quot; | &quot;+&quot; ] intLit ) | ( [ &quot;-&quot; | &quot;+&quot; ] floatLit ) |
-                strLit | boolLit 
-
+<pre><code>constant = fullIdent | ( [ &quot;-&quot; | &quot;+&quot; ] intLit ) | ( [ &quot;-&quot; | &quot;+&quot; ] floatLit ) | strLit | boolLit 
 </code></pre>
 
 <h4 id="syntax">Syntax</h4>
 
 <p>The syntax statement is used to define the protobuf version.</p>
 
-<pre><code>syntax = &quot;syntax&quot; &quot;=&quot; quote &quot;proto2&quot; quote &quot;;&quot;
+<pre><code>syntax = &quot;syntax&quot; &quot;=&quot; quote &quot;proto3&quot; quote &quot;;&quot;
+</code></pre>
+
+<p>Example:</p>
+
+<pre><code>syntax = &quot;proto3&quot;;
 </code></pre>
 
 <h4 id="import-statement">Import Statement</h4>
@@ -408,17 +408,16 @@ quote = &quot;'&quot; | '&quot;'
 optionName = ( ident | &quot;(&quot; fullIdent &quot;)&quot; ) { &quot;.&quot; ident }
 </code></pre>
 
-<p>For examples:</p>
+<p>Example:</p>
 
 <pre><code>option java_package = &quot;com.example.foo&quot;;
 </code></pre>
 
 <h4 id="fields">Fields</h4>
 
-<p>Fields are the basic elements of a protocol buffer message. Fields can be normal fields, group fields, oneof fields, or map fields. A field has a label, type and field number.</p>
+<p>Fields are the basic elements of a protocol buffer message. Fields can be normal fields, oneof fields, or map fields. A field has a type and field number.</p>
 
-<pre><code>label = &quot;required&quot; | &quot;optional&quot; | &quot;repeated&quot;
-type = &quot;double&quot; | &quot;float&quot; | &quot;int32&quot; | &quot;int64&quot; | &quot;uint32&quot; | &quot;uint64&quot;
+<pre><code>type = &quot;double&quot; | &quot;float&quot; | &quot;int32&quot; | &quot;int64&quot; | &quot;uint32&quot; | &quot;uint64&quot;
       | &quot;sint32&quot; | &quot;sint64&quot; | &quot;fixed32&quot; | &quot;fixed64&quot; | &quot;sfixed32&quot; | &quot;sfixed64&quot;
       | &quot;bool&quot; | &quot;string&quot; | &quot;bytes&quot; | messageType | enumType
 fieldNumber = intLit;
@@ -426,40 +425,22 @@ fieldNumber = intLit;
 
 <h4 id="normal-field">Normal field</h4>
 
-<p>Each field has label, type, name and field number. It may have field options.</p>
+<p>Each field has type, name and field number. It may have field options.</p>
 
-<pre><code>field = label type fieldName &quot;=&quot; fieldNumber [ &quot;[&quot; fieldOptions &quot;]&quot; ] &quot;;&quot;
+<pre><code>field = [ &quot;repeated&quot; ] type fieldName &quot;=&quot; fieldNumber [ &quot;[&quot; fieldOptions &quot;]&quot; ] &quot;;&quot;
 fieldOptions = fieldOption { &quot;,&quot;  fieldOption }
 fieldOption = optionName &quot;=&quot; constant
 </code></pre>
 
 <p>Examples:</p>
 
-<pre><code>optional foo.bar nested_message = 2;
+<pre><code>foo.bar nested_message = 2;
 repeated int32 samples = 4 [packed=true];
-</code></pre>
-
-<h4 id="group-field">Group field</h4>
-
-<p>Note that this feature is deprecated and should not be used when creating new message types – use nested message types instead.</p>
-
-<p>Groups are one way to nest information in message definitions. The group name must begin with capital letter.</p>
-
-<pre><code>group = label &quot;group&quot; groupName &quot;=&quot; fieldNumber messageBody
-</code></pre>
-
-<p>Example:</p>
-
-<pre><code>repeated group Result = 1 {
-    required string url = 2;
-    optional string title = 3;
-    repeated string snippets = 4;
-}
 </code></pre>
 
 <h4 id="oneof-and-oneof-field">Oneof and oneof field</h4>
 
-<p>A oneof consists of oneof fields and a oneof name. Oneof fields do not have labels.</p>
+<p>A oneof consists of oneof fields and a oneof name.</p>
 
 <pre><code>oneof = &quot;oneof&quot; oneofName &quot;{&quot; { oneofField | emptyStatement } &quot;}&quot;
 oneofField = type fieldName &quot;=&quot; fieldNumber [ &quot;[&quot; fieldOptions &quot;]&quot; ] &quot;;&quot;
@@ -487,30 +468,13 @@ keyType = &quot;int32&quot; | &quot;int64&quot; | &quot;uint32&quot; | &quot;uin
 <pre><code>map&lt;string, Project&gt; projects = 3;
 </code></pre>
 
-<h3 id="extensions-and-reserved">Extensions and Reserved</h3>
-
-<p>Extensions and reserved are message elements that declare a range of field numbers or field names.</p>
-
-<h4 id="extensions">Extensions</h4>
-
-<p>Extensions declare that a range of field numbers in a message are available for third-party extensions. Other people can declare new fields for your message type with those numeric tags in their own .proto files without having to edit the original file.</p>
-
-<pre><code>extensions = &quot;extensions&quot; ranges &quot;;&quot;
-ranges = range { &quot;,&quot; range }
-range =  intLit [ &quot;to&quot; ( intLit | &quot;max&quot; ) ]
-</code></pre>
-
-<p>Examples:</p>
-
-<pre><code>extensions 100 to 199;
-extensions 4, 20 to max;
-</code></pre>
-
 <h4 id="reserved">Reserved</h4>
 
-<p>Reserved declares a range of field numbers or field names in a message that can not be used.</p>
+<p>Reserved statements declare a range of field numbers or field names that cannot be used in this message.</p>
 
 <pre><code>reserved = &quot;reserved&quot; ( ranges | fieldNames ) &quot;;&quot;
+ranges = range { &quot;,&quot; range }
+range =  intLit [ &quot;to&quot; ( intLit | &quot;max&quot; ) ]
 fieldNames = fieldName { &quot;,&quot; fieldName }
 </code></pre>
 
@@ -524,7 +488,7 @@ reserved &quot;foo&quot;, &quot;bar&quot;;
 
 <h4 id="enum-definition">Enum definition</h4>
 
-<p>The enum definition consists of a name and an enum body. The enum body can have options and enum fields.</p>
+<p>The enum definition consists of a name and an enum body. The enum body can have options and enum fields. Enum definitions must start with enum value zero.</p>
 
 <pre><code>enum = &quot;enum&quot; enumName enumBody
 enumBody = &quot;{&quot; { option | enumField | emptyStatement } &quot;}&quot;
@@ -544,11 +508,11 @@ enumValueOption = optionName &quot;=&quot; constant
 
 <h4 id="message-definition">Message definition</h4>
 
-<p>A message consists of a message name and a message body. The message body can have fields, nested enum definitions, nested message definitions, extend statements, extensions, groups, options, oneofs, map fields, and reserved statements.</p>
+<p>A message consists of a message name and a message body. The message body can have fields, nested enum definitions, nested message definitions, options, oneofs, map fields, and reserved statements.</p>
 
 <pre><code>message = &quot;message&quot; messageName messageBody
-messageBody = &quot;{&quot; { field | enum | message | extend | extensions | group |
-option | oneof | mapField | reserved | emptyStatement } &quot;}&quot;
+messageBody = &quot;{&quot; { field | enum | message | option | oneof | mapField |
+reserved | emptyStatement } &quot;}&quot;
 </code></pre>
 
 <p>Example:</p>
@@ -556,34 +520,17 @@ option | oneof | mapField | reserved | emptyStatement } &quot;}&quot;
 <pre><code>message Outer {
   option (my_option).a = true;
   message Inner {   // Level 2
-    required int64 ival = 1;
+    int64 ival = 1;
   }
   map&lt;int32, string&gt; my_map = 2;
-  extensions 20 to 30;
-}
-</code></pre>
-
-<h4 id="extend">Extend</h4>
-
-<p>If a message in the same or imported .proto file has reserved a range for extensions, the message can be extended.</p>
-
-<pre><code>extend = &quot;extend&quot; messageType &quot;{&quot; {field | group | emptyStatement} &quot;}&quot;
-</code></pre>
-
-<p>Example:</p>
-
-<pre><code>extend Foo {
-  optional int32 bar = 126;
 }
 </code></pre>
 
 <h4 id="service-definition">Service definition</h4>
 
-<pre><code>service = &quot;service&quot; serviceName &quot;{&quot; { option | rpc | stream | emptyStatement } &quot;}&quot;
+<pre><code>service = &quot;service&quot; serviceName &quot;{&quot; { option | rpc | emptyStatement } &quot;}&quot;
 rpc = &quot;rpc&quot; rpcName &quot;(&quot; [ &quot;stream&quot; ] messageType &quot;)&quot; &quot;returns&quot; &quot;(&quot; [ &quot;stream&quot; ]
-messageType &quot;)&quot; (( &quot;{&quot; { option | emptyStatement } &quot;}&quot; ) | &quot;;&quot; )
-stream = &quot;stream&quot; streamName &quot;(&quot; messageType &quot;,&quot; messageType &quot;)&quot; (( &quot;{&quot;
-{ option | emptyStatement } &quot;}&quot;) | &quot;;&quot; )
+messageType &quot;)&quot; (( &quot;{&quot; {option | emptyStatement } &quot;}&quot; ) | &quot;;&quot;)
 </code></pre>
 
 <p>Example:</p>
@@ -596,44 +543,41 @@ stream = &quot;stream&quot; streamName &quot;(&quot; messageType &quot;,&quot; m
 <h4 id="proto-file">Proto file</h4>
 
 <pre><code>proto = syntax { import | package | option | topLevelDef | emptyStatement }
-topLevelDef = message | enum | extend | service
+topLevelDef = message | enum | service
 </code></pre>
 
 <p>An example .proto file:</p>
 
-<pre><code>syntax = &quot;proto2&quot;;
+<pre><code>syntax = &quot;proto3&quot;;
+
 import public &quot;other.proto&quot;;
 option java_package = &quot;com.example.foo&quot;;
+
 enum EnumAllowingAlias {
   option allow_alias = true;
   UNKNOWN = 0;
   STARTED = 1;
   RUNNING = 2 [(custom_option) = &quot;hello world&quot;];
 }
+
 message outer {
   option (my_option).a = true;
   message inner {   // Level 2
-    required int64 ival = 1;
+    int64 ival = 1;
   }
   repeated inner inner_message = 2;
-  optional EnumAllowingAlias enum_field = 3;
+  EnumAllowingAlias enum_field =3;
   map&lt;int32, string&gt; my_map = 4;
-  extensions 20 to 30;
-}
-message foo {
-  optional group GroupMessage {
-    optional a = 1;
-  }
 }
 </code></pre>
 
 <hr />
 
-<p>(Notice: Origin official document is <a href="https://developers.google.com/protocol-buffers/docs/reference/proto2-spec" title="proto2-spec"><em>Here</em></a>)</p>
+<p>(Notice: Origin official document is <a href="https://developers.google.com/protocol-buffers/docs/reference/proto3-spec" title="proto3-spec"><em>Here</em></a>)</p>
         </div>
         <div id="post-navigator">
-          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201909211159/" title="上一篇">&lt;&lt; Cap&#39;n Proto Schema Language</a>
-          <a id="post-navigator-next" href="http://alimy.me/post/dev_201909211536/" title="下一篇">Protocol Buffers Version 3 Language Specification >></a>
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201909211516/" title="上一篇">&lt;&lt; Protocol Buffers Version 2 Language Specification</a>
+          
         </div>
         <div id="post-comments">
           <h3>Comments</h3>
