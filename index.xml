@@ -15,9 +15,7 @@
       <pubDate>Sat, 21 Sep 2019 11:59:00 CST</pubDate>
       
       <guid>http://alimy.me/post/dev_201909211159/</guid>
-      <description>
-
-&lt;h2 id=&#34;schema-language&#34;&gt;Schema Language&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;schema-language&#34;&gt;Schema Language&lt;/h2&gt;
 
 &lt;p&gt;Like Protocol Buffers and Thrift (but unlike JSON or MessagePack), Cap’n Proto messages are strongly-typed and not self-describing. You must define your message structure in a special language, then invoke the Cap’n Proto compiler (capnp compile) to generate source code to manipulate that message type in your desired language.&lt;/p&gt;
 
@@ -620,8 +618,7 @@ struct Entry {
 
 &lt;hr /&gt;
 
-&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://capnproto.org/language.html&#34; title=&#34;cap&#39;n proto schema language&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;
-</description>
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://capnproto.org/language.html&#34; title=&#34;cap&#39;n proto schema language&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
     </item>
     
     <item>
