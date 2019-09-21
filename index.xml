@@ -17,7 +17,7 @@
       <guid>http://alimy.me/post/dev_201909211159/</guid>
       <description>&lt;h2 id=&#34;schema-language&#34;&gt;Schema Language&lt;/h2&gt;
 
-&lt;p&gt;Like Protocol Buffers and Thrift (but unlike JSON or MessagePack), Cap’n Proto messages are strongly-typed and not self-describing. You must define your message structure in a special language, then invoke the Cap’n Proto compiler (capnp compile) to generate source code to manipulate that message type in your desired language.&lt;/p&gt;
+&lt;p&gt;Like Protocol Buffers and Thrift (but unlike JSON or MessagePack), Cap’n Proto messages are strongly-typed and not self-describing. You must define your message structure in a special language, then invoke the Cap’n Proto compiler (&lt;code&gt;capnp compile&lt;/code&gt;) to generate source code to manipulate that message type in your desired language.&lt;/p&gt;
 
 &lt;h4 id=&#34;for-example&#34;&gt;For example:&lt;/h4&gt;
 
