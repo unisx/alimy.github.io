@@ -6,10 +6,37 @@
     <description>Recent content in Development on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 21 Sep 2019 11:59:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 21 Sep 2019 15:16:00 +0800</lastBuildDate>
     
 	<atom:link href="http://alimy.me/tags/development/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Protocol Buffers Version 2 Language Specification</title>
+      <link>http://alimy.me/post/dev_201909211516/</link>
+      <pubDate>Sat, 21 Sep 2019 15:16:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201909211516/</guid>
+      <description>&lt;p&gt;This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;|   alternation
+()  grouping
+[]  option (zero or one time)
+{}  repetition (any number of times)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For more information about using proto2, see the language guide.&lt;/p&gt;
+
+&lt;h4 id=&#34;lexical-elements&#34;&gt;Lexical elements&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;Letters and digits
+letter = &amp;quot;A&amp;quot; … &amp;quot;Z&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;z&amp;quot;
+capitalLetter =  &amp;quot;A&amp;quot; … &amp;quot;Z&amp;quot;
+decimalDigit = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot;
+octalDigit   = &amp;quot;0&amp;quot; … &amp;quot;7&amp;quot;
+hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp;quot; … &amp;quot;F&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;f&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
     
     <item>
       <title>Cap&#39;n Proto Schema Language</title>

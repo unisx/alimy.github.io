@@ -295,6 +295,38 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201909211516/" title="阅读全文">Protocol Buffers Version 2 Language Specification </a> </h2>
+
+</header>
+<div class="summary">
+    <p>This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
+
+<pre><code>|   alternation
+()  grouping
+[]  option (zero or one time)
+{}  repetition (any number of times)
+</code></pre>
+
+<p>For more information about using proto2, see the language guide.</p>
+
+<h4 id="lexical-elements">Lexical elements</h4>
+
+<pre><code>Letters and digits
+letter = &quot;A&quot; … &quot;Z&quot; | &quot;a&quot; … &quot;z&quot;
+capitalLetter =  &quot;A&quot; … &quot;Z&quot;
+decimalDigit = &quot;0&quot; … &quot;9&quot;
+octalDigit   = &quot;0&quot; … &quot;7&quot;
+hexDigit     = &quot;0&quot; … &quot;9&quot; | &quot;A&quot; … &quot;F&quot; | &quot;a&quot; … &quot;f&quot;
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201909211516/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201909211159/" title="阅读全文">Cap&#39;n Proto Schema Language </a> </h2>
 
 </header>
@@ -606,45 +638,6 @@ c : connecting to server...
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201811250757/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201811171435/" title="阅读全文">AppArmor的前世今生和基本使用 </a> </h2>
-
-</header>
-<div class="summary">
-    <h4 id="一-mac和dac-一些前置知识">一：MAC和DAC (一些前置知识)</h4>
-
-<p>DAC(Discretionary Access Control)，自主访问控制，是最常用的一类访问控制机制，意思为主体（文件所有者）可以自主指定系统中其它用户对其文件的所有权，最典型的就是Linux的&rdquo;拥有者/同组用户/其他&rdquo;。这种方式虽然为用户提供了很大的灵活性，但是缺乏必要的安全性</p>
-
-<p>MAC(Mandatory Access Control)，强制访问控制,在这种机制下，系统中的每一个进程，每一个文件，每一个IPC主体都被管理员按照严格的规则设置了相应的安全属性，不能被用户和其它直接或间接的修改。</p>
-
-<h4 id="二-apparmor-https-gitlab-com-apparmor-apparmor-apparmor-in-gitlab">二：<a href="https://gitlab.com/apparmor/apparmor" title="AppArmor in GitLab">AppArmor</a></h4>
-
-<p>由于SELinux使用复杂，适用于对安全要求特别高的企业或者组织，为了简化操作，就推出了AppArmor，所以可以说AppArmor脱胎于SELinux，但与SELinux基于角色的MAC不同的是，AppArmor是与程序绑定的基于路径的MAC，也就是说如果路径发生改变，策略就会失效。一般的Linux的系统，都会内置以上两种MAC其中的一种，这也意味着，你需要对文件（其它）进行操作，你需要同时通过DAC和 MAC的检测。</p>
-
-<p>AppArmor有两种工作模式：enforcement、complain/learning</p>
-
-<ul>
-<li><p>Enforcement – 在这种模式下，配置文件里列出的限制条件都会得到执行，并且对于违反这些限制条件的程序会进行日志记录。</p></li>
-
-<li><p>Complain – 在这种模式下，配置文件里的限制条件不会得到执行，AppArmor只是对程序的行为进行记录。例如程序可以写一个在配置文件里注明只读的文件，但AppArmor不会对程序的行为进行限制，只是进行记录。这种模式也叫学习模式，如果某个程序的行为不符合其配置文件的限制，可以将其行为记录到系统日志，并且可以根据程序的行为，将日志转换成配置文件。</p></li>
-</ul>
-
-<p>AppArmor可以对程序进行多方面的限制，详细可以看官方文档，这里只提供几个基本的例子：</p>
-
-<ol>
-<li>文件系统的访问控制   例：  /home/Desktop/a.c rw 表示程序可以对/home/Desktop/a.c 进行读和写。</li>
-<li>资源限制   例： set rlimit as&lt;=1M ，表示该程序可以使用的虚拟内存小于等于1M</li>
-<li>访问网络   例： network inet tcp ,表示该程序可以在IPV4的情况下使用TCP协议 　</li>
-<li>capability条目 例：capability setgid，表示程序进行setgid操作。</li>
-</ol>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201811171435/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

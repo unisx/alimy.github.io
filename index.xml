@@ -7,7 +7,355 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 21 Sep 2019 11:59:00 CST</updated>
+    <updated>Sat, 21 Sep 2019 15:16:00 CST</updated>
+    
+    <item>
+      <title>Protocol Buffers Version 2 Language Specification</title>
+      <link>http://alimy.me/post/dev_201909211516/</link>
+      <pubDate>Sat, 21 Sep 2019 15:16:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201909211516/</guid>
+      <description>&lt;p&gt;This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;|   alternation
+()  grouping
+[]  option (zero or one time)
+{}  repetition (any number of times)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For more information about using proto2, see the language guide.&lt;/p&gt;
+
+&lt;h4 id=&#34;lexical-elements&#34;&gt;Lexical elements&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;Letters and digits
+letter = &amp;quot;A&amp;quot; … &amp;quot;Z&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;z&amp;quot;
+capitalLetter =  &amp;quot;A&amp;quot; … &amp;quot;Z&amp;quot;
+decimalDigit = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot;
+octalDigit   = &amp;quot;0&amp;quot; … &amp;quot;7&amp;quot;
+hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp;quot; … &amp;quot;F&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;f&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;identifiers&#34;&gt;Identifiers&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;ident = letter { letter | decimalDigit | &amp;quot;_&amp;quot; }
+fullIdent = ident { &amp;quot;.&amp;quot; ident }
+messageName = ident
+enumName = ident
+fieldName = ident
+oneofName = ident
+mapName = ident
+serviceName = ident
+rpcName = ident
+streamName = ident
+messageType = [ &amp;quot;.&amp;quot; ] { ident &amp;quot;.&amp;quot; } messageName
+enumType = [ &amp;quot;.&amp;quot; ] { ident &amp;quot;.&amp;quot; } enumName
+groupName = capitalLetter { letter | decimalDigit | &amp;quot;_&amp;quot; }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;integer-literals&#34;&gt;Integer literals&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;intLit     = decimalLit | octalLit | hexLit
+decimalLit = ( &amp;quot;1&amp;quot; … &amp;quot;9&amp;quot; ) { decimalDigit }
+octalLit   = &amp;quot;0&amp;quot; { octalDigit }
+hexLit     = &amp;quot;0&amp;quot; ( &amp;quot;x&amp;quot; | &amp;quot;X&amp;quot; ) hexDigit { hexDigit } 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;floating-point-literals&#34;&gt;Floating-point literals&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;floatLit = ( decimals &amp;quot;.&amp;quot; [ decimals ] [ exponent ] | decimals exponent | &amp;quot;.&amp;quot;decimals [ exponent ] ) | &amp;quot;inf&amp;quot; | &amp;quot;nan&amp;quot;
+decimals  = decimalDigit { decimalDigit }
+exponent  = ( &amp;quot;e&amp;quot; | &amp;quot;E&amp;quot; ) [ &amp;quot;+&amp;quot; | &amp;quot;-&amp;quot; ] decimals 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;boolean&#34;&gt;Boolean&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;boolLit = &amp;quot;true&amp;quot; | &amp;quot;false&amp;quot; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;string-literals&#34;&gt;String literals&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;strLit = ( &amp;quot;&#39;&amp;quot; { charValue } &amp;quot;&#39;&amp;quot; ) | ( &#39;&amp;quot;&#39; { charValue } &#39;&amp;quot;&#39; )
+charValue = hexEscape | octEscape | charEscape | /[^\0\n\\]/
+hexEscape = &#39;\&#39; ( &amp;quot;x&amp;quot; | &amp;quot;X&amp;quot; ) hexDigit hexDigit
+octEscape = &#39;\&#39; octalDigit octalDigit octalDigit
+charEscape = &#39;\&#39; ( &amp;quot;a&amp;quot; | &amp;quot;b&amp;quot; | &amp;quot;f&amp;quot; | &amp;quot;n&amp;quot; | &amp;quot;r&amp;quot; | &amp;quot;t&amp;quot; | &amp;quot;v&amp;quot; | &#39;\&#39; | &amp;quot;&#39;&amp;quot; | &#39;&amp;quot;&#39; )
+quote = &amp;quot;&#39;&amp;quot; | &#39;&amp;quot;&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;emptystatement&#34;&gt;EmptyStatement&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;emptyStatement = &amp;quot;;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;constant&#34;&gt;Constant&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;constant = fullIdent | ( [ &amp;quot;-&amp;quot; | &amp;quot;+&amp;quot; ] intLit ) | ( [ &amp;quot;-&amp;quot; | &amp;quot;+&amp;quot; ] floatLit ) |
+                strLit | boolLit 
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;syntax&#34;&gt;Syntax&lt;/h4&gt;
+
+&lt;p&gt;The syntax statement is used to define the protobuf version.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;syntax = &amp;quot;syntax&amp;quot; &amp;quot;=&amp;quot; quote &amp;quot;proto2&amp;quot; quote &amp;quot;;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;import-statement&#34;&gt;Import Statement&lt;/h4&gt;
+
+&lt;p&gt;The import statement is used to import another .proto&amp;rsquo;s definitions.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import = &amp;quot;import&amp;quot; [ &amp;quot;weak&amp;quot; | &amp;quot;public&amp;quot; ] strLit &amp;quot;;&amp;quot; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import public &amp;quot;other.proto&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;package&#34;&gt;Package&lt;/h3&gt;
+
+&lt;p&gt;The package specifier can be used to prevent name clashes between protocol message types.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package = &amp;quot;package&amp;quot; fullIdent &amp;quot;;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package foo.bar;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;option&#34;&gt;Option&lt;/h4&gt;
+
+&lt;p&gt;Options can be used in proto files, messages, enums and services. An option can be a protobuf defined option or a custom option. For more information, see Options in the language guide.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;option = &amp;quot;option&amp;quot; optionName  &amp;quot;=&amp;quot; constant &amp;quot;;&amp;quot;
+optionName = ( ident | &amp;quot;(&amp;quot; fullIdent &amp;quot;)&amp;quot; ) { &amp;quot;.&amp;quot; ident }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For examples:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;option java_package = &amp;quot;com.example.foo&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;fields&#34;&gt;Fields&lt;/h4&gt;
+
+&lt;p&gt;Fields are the basic elements of a protocol buffer message. Fields can be normal fields, group fields, oneof fields, or map fields. A field has a label, type and field number.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;label = &amp;quot;required&amp;quot; | &amp;quot;optional&amp;quot; | &amp;quot;repeated&amp;quot;
+type = &amp;quot;double&amp;quot; | &amp;quot;float&amp;quot; | &amp;quot;int32&amp;quot; | &amp;quot;int64&amp;quot; | &amp;quot;uint32&amp;quot; | &amp;quot;uint64&amp;quot;
+      | &amp;quot;sint32&amp;quot; | &amp;quot;sint64&amp;quot; | &amp;quot;fixed32&amp;quot; | &amp;quot;fixed64&amp;quot; | &amp;quot;sfixed32&amp;quot; | &amp;quot;sfixed64&amp;quot;
+      | &amp;quot;bool&amp;quot; | &amp;quot;string&amp;quot; | &amp;quot;bytes&amp;quot; | messageType | enumType
+fieldNumber = intLit;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;normal-field&#34;&gt;Normal field&lt;/h4&gt;
+
+&lt;p&gt;Each field has label, type, name and field number. It may have field options.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;field = label type fieldName &amp;quot;=&amp;quot; fieldNumber [ &amp;quot;[&amp;quot; fieldOptions &amp;quot;]&amp;quot; ] &amp;quot;;&amp;quot;
+fieldOptions = fieldOption { &amp;quot;,&amp;quot;  fieldOption }
+fieldOption = optionName &amp;quot;=&amp;quot; constant
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Examples:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;optional foo.bar nested_message = 2;
+repeated int32 samples = 4 [packed=true];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;group-field&#34;&gt;Group field&lt;/h4&gt;
+
+&lt;p&gt;Note that this feature is deprecated and should not be used when creating new message types – use nested message types instead.&lt;/p&gt;
+
+&lt;p&gt;Groups are one way to nest information in message definitions. The group name must begin with capital letter.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;group = label &amp;quot;group&amp;quot; groupName &amp;quot;=&amp;quot; fieldNumber messageBody
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;repeated group Result = 1 {
+    required string url = 2;
+    optional string title = 3;
+    repeated string snippets = 4;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;oneof-and-oneof-field&#34;&gt;Oneof and oneof field&lt;/h4&gt;
+
+&lt;p&gt;A oneof consists of oneof fields and a oneof name. Oneof fields do not have labels.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;oneof = &amp;quot;oneof&amp;quot; oneofName &amp;quot;{&amp;quot; { oneofField | emptyStatement } &amp;quot;}&amp;quot;
+oneofField = type fieldName &amp;quot;=&amp;quot; fieldNumber [ &amp;quot;[&amp;quot; fieldOptions &amp;quot;]&amp;quot; ] &amp;quot;;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;oneof foo {
+    string name = 4;
+    SubMessage sub_message = 9;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;map-field&#34;&gt;Map field&lt;/h4&gt;
+
+&lt;p&gt;A map field has a key type, value type, name, and field number. The key type can be any integral or string type.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mapField = &amp;quot;map&amp;quot; &amp;quot;&amp;lt;&amp;quot; keyType &amp;quot;,&amp;quot; type &amp;quot;&amp;gt;&amp;quot; mapName &amp;quot;=&amp;quot; fieldNumber [ &amp;quot;[&amp;quot; fieldOptions &amp;quot;]&amp;quot; ] &amp;quot;;&amp;quot;
+keyType = &amp;quot;int32&amp;quot; | &amp;quot;int64&amp;quot; | &amp;quot;uint32&amp;quot; | &amp;quot;uint64&amp;quot; | &amp;quot;sint32&amp;quot; | &amp;quot;sint64&amp;quot; |
+          &amp;quot;fixed32&amp;quot; | &amp;quot;fixed64&amp;quot; | &amp;quot;sfixed32&amp;quot; | &amp;quot;sfixed64&amp;quot; | &amp;quot;bool&amp;quot; | &amp;quot;string&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;map&amp;lt;string, Project&amp;gt; projects = 3;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;extensions-and-reserved&#34;&gt;Extensions and Reserved&lt;/h3&gt;
+
+&lt;p&gt;Extensions and reserved are message elements that declare a range of field numbers or field names.&lt;/p&gt;
+
+&lt;h4 id=&#34;extensions&#34;&gt;Extensions&lt;/h4&gt;
+
+&lt;p&gt;Extensions declare that a range of field numbers in a message are available for third-party extensions. Other people can declare new fields for your message type with those numeric tags in their own .proto files without having to edit the original file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;extensions = &amp;quot;extensions&amp;quot; ranges &amp;quot;;&amp;quot;
+ranges = range { &amp;quot;,&amp;quot; range }
+range =  intLit [ &amp;quot;to&amp;quot; ( intLit | &amp;quot;max&amp;quot; ) ]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Examples:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;extensions 100 to 199;
+extensions 4, 20 to max;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;reserved&#34;&gt;Reserved&lt;/h4&gt;
+
+&lt;p&gt;Reserved declares a range of field numbers or field names in a message that can not be used.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;reserved = &amp;quot;reserved&amp;quot; ( ranges | fieldNames ) &amp;quot;;&amp;quot;
+fieldNames = fieldName { &amp;quot;,&amp;quot; fieldName }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Examples:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;reserved 2, 15, 9 to 11;
+reserved &amp;quot;foo&amp;quot;, &amp;quot;bar&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;top-level-definitions&#34;&gt;Top Level definitions&lt;/h3&gt;
+
+&lt;h4 id=&#34;enum-definition&#34;&gt;Enum definition&lt;/h4&gt;
+
+&lt;p&gt;The enum definition consists of a name and an enum body. The enum body can have options and enum fields.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;enum = &amp;quot;enum&amp;quot; enumName enumBody
+enumBody = &amp;quot;{&amp;quot; { option | enumField | emptyStatement } &amp;quot;}&amp;quot;
+enumField = ident &amp;quot;=&amp;quot; intLit [ &amp;quot;[&amp;quot; enumValueOption { &amp;quot;,&amp;quot;  enumValueOption } &amp;quot;]&amp;quot; ]&amp;quot;;&amp;quot;
+enumValueOption = optionName &amp;quot;=&amp;quot; constant
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;enum EnumAllowingAlias {
+  option allow_alias = true;
+  UNKNOWN = 0;
+  STARTED = 1;
+  RUNNING = 2 [(custom_option) = &amp;quot;hello world&amp;quot;];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;message-definition&#34;&gt;Message definition&lt;/h4&gt;
+
+&lt;p&gt;A message consists of a message name and a message body. The message body can have fields, nested enum definitions, nested message definitions, extend statements, extensions, groups, options, oneofs, map fields, and reserved statements.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;message = &amp;quot;message&amp;quot; messageName messageBody
+messageBody = &amp;quot;{&amp;quot; { field | enum | message | extend | extensions | group |
+option | oneof | mapField | reserved | emptyStatement } &amp;quot;}&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;message Outer {
+  option (my_option).a = true;
+  message Inner {   // Level 2
+    required int64 ival = 1;
+  }
+  map&amp;lt;int32, string&amp;gt; my_map = 2;
+  extensions 20 to 30;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;extend&#34;&gt;Extend&lt;/h4&gt;
+
+&lt;p&gt;If a message in the same or imported .proto file has reserved a range for extensions, the message can be extended.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;extend = &amp;quot;extend&amp;quot; messageType &amp;quot;{&amp;quot; {field | group | emptyStatement} &amp;quot;}&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;extend Foo {
+  optional int32 bar = 126;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;service-definition&#34;&gt;Service definition&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;service = &amp;quot;service&amp;quot; serviceName &amp;quot;{&amp;quot; { option | rpc | stream | emptyStatement } &amp;quot;}&amp;quot;
+rpc = &amp;quot;rpc&amp;quot; rpcName &amp;quot;(&amp;quot; [ &amp;quot;stream&amp;quot; ] messageType &amp;quot;)&amp;quot; &amp;quot;returns&amp;quot; &amp;quot;(&amp;quot; [ &amp;quot;stream&amp;quot; ]
+messageType &amp;quot;)&amp;quot; (( &amp;quot;{&amp;quot; { option | emptyStatement } &amp;quot;}&amp;quot; ) | &amp;quot;;&amp;quot; )
+stream = &amp;quot;stream&amp;quot; streamName &amp;quot;(&amp;quot; messageType &amp;quot;,&amp;quot; messageType &amp;quot;)&amp;quot; (( &amp;quot;{&amp;quot;
+{ option | emptyStatement } &amp;quot;}&amp;quot;) | &amp;quot;;&amp;quot; )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;service SearchService {
+  rpc Search (SearchRequest) returns (SearchResponse);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;proto-file&#34;&gt;Proto file&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;proto = syntax { import | package | option | topLevelDef | emptyStatement }
+topLevelDef = message | enum | extend | service
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;An example .proto file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;syntax = &amp;quot;proto2&amp;quot;;
+import public &amp;quot;other.proto&amp;quot;;
+option java_package = &amp;quot;com.example.foo&amp;quot;;
+enum EnumAllowingAlias {
+  option allow_alias = true;
+  UNKNOWN = 0;
+  STARTED = 1;
+  RUNNING = 2 [(custom_option) = &amp;quot;hello world&amp;quot;];
+}
+message outer {
+  option (my_option).a = true;
+  message inner {   // Level 2
+    required int64 ival = 1;
+  }
+  repeated inner inner_message = 2;
+  optional EnumAllowingAlias enum_field = 3;
+  map&amp;lt;int32, string&amp;gt; my_map = 4;
+  extensions 20 to 30;
+}
+message foo {
+  optional group GroupMessage {
+    optional a = 1;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://developers.google.com/protocol-buffers/docs/reference/proto2-spec&#34; title=&#34;proto2-spec&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Cap&#39;n Proto Schema Language</title>
@@ -7314,86 +7662,6 @@ r.Use(amw.Middleware)
 &lt;p&gt;Note: The handler chain will be stopped if your middleware doesn&amp;rsquo;t call &lt;code&gt;next.ServeHTTP()&lt;/code&gt; with the corresponding parameters. This can be used to abort a request if the middleware writer wants to.&lt;/p&gt;
 
 &lt;p&gt;(Origin official document is &lt;a href=&#34;http://www.gorillatoolkit.org/pkg/mux&#34; title=&#34;gorilla/mux document&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt; and &lt;a href=&#34;https://github.com/gorilla/mux&#34; title=&#34;gorilla/mux source code in GitHub&#34;&gt;&lt;em&gt;Source code in GitHub&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Docker: 对Docker Remote API进行认证</title>
-      <link>http://alimy.me/post/dev_201807012219/</link>
-      <pubDate>Sun, 01 Jul 2018 22:19:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201807012219/</guid>
-      <description>&lt;ul&gt;
-&lt;li&gt;建立证书授权中心&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;$ sudo mkdir /etc/docker
-$ cd /etc/docker
-$ echo 01 | sudo tee ca.csl
-$ sudo openssl genrsa -des3 -out ca-key.pem
-$ sudo openssl req -new -x509 -days 365 -key ca-key.pem -out ca.pem
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;创建服务器的证书签名请求和密钥&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;$ sudo openssl genrsa -des3 -out server-key.pem
-$ sudo openssl req -new -key server-key.pem -out server.csr
-$ sudo openssl x509 -req -days 365 -in server.csr -CA ca.pem -CAkey ca-key.pem -out server-cert.pem
-$ sudo openssl rsa -in server-key.pem -out server-key.pem
-$ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/docker/ca-key.pem /etc/docker/ca.pem
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;配置Docker守护进程 (/etc/docker/daemon.json on Linux systems, or C:\ProgramData\docker\config\daemon.json on Windows.)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;{
-  &amp;quot;debug&amp;quot;: true,
-  &amp;quot;tls&amp;quot;: true,
-  &amp;quot;tlscacert&amp;quot;: &amp;quot;/etc/docker/ca.pem&amp;quot;,
-  &amp;quot;tlscert&amp;quot;: &amp;quot;/etc/docker/server-cert.pem&amp;quot;,
-  &amp;quot;tlskey&amp;quot;: &amp;quot;/etc/docker/server-key.pem&amp;quot;,
-  &amp;quot;hosts&amp;quot;: [&amp;quot;tcp://&amp;lt;config of CN&amp;gt;:2376&amp;quot;]
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;创建客户端证书和密钥&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;$ sudo openssl genrsa -des3 -out client-key.pem
-$ sudo openssl req -new -key client-key.pem -out client.csr
-$ echo extendedKeyUsage = clientAuth &amp;gt; extfile.config
-$ sudo openssl x509 -req -days 365 -in client.csr -CA ca.pem -CAkey ca-key.pem -out client-cert.pem -extfile extfile.cnf
-$ sudo openssl rsa -in client-key.pem -out client-key.pem
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;配置Docker客户端开启认证功能&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;$ mkdir -p ~/.docker
-$ cp ca.pem ~/.docker/ca.pem
-$ cp client-key.pem ~/.docker/key.pem
-$ cp client-cert.pem ~/.docker/cert.pem
-$ chmod 0600 ~/.docker/key.pem ~/.docker/cert.pem
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;测试TLS认证过的连接&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;$ sudo docker -H=&amp;lt;config of CN&amp;gt;:2376 --tlsverify info
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;可以添加环境变量(~/.bashrc)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;export DOCKER_HOST=&amp;lt;config of CN&amp;gt;:2376
-alias docker=&#39;docker --tlsverify&#39;
-&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
   </channel>
