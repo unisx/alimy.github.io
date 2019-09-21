@@ -295,6 +295,36 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201909211645/" title="阅读全文">Protocol Buffers Messages Encoding </a> </h2>
+
+</header>
+<div class="summary">
+    <p>This document describes the binary wire format for protocol buffer messages. You don&rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.</p>
+
+<h3 id="a-simple-message">A Simple Message</h3>
+
+<p>Let&rsquo;s say you have the following very simple message definition:</p>
+
+<pre><code>message Test1 {
+  optional int32 a = 1;
+}
+</code></pre>
+
+<p>In an application, you create a <code>Test1</code> message and set <code>a</code> to 150. You then serialize the message to an output stream. If you were able to examine the encoded message, you&rsquo;d see three bytes:</p>
+
+<pre><code>08 96 01
+</code></pre>
+
+<p>So far, so small and numeric – but what does it mean? Read on&hellip;</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201909211645/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201909211630/" title="阅读全文">Cap&#39;n Proto Encoding Spec </a> </h2>
 
 </header>
@@ -573,30 +603,6 @@ implementations (open source or commercial) if you&rsquo;d like to be listed on 
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201901101804/" title="阅读全文">OpenAPI Specification </a> </h2>
-
-</header>
-<div class="summary">
-    <h4 id="version-3-0-2">Version 3.0.2</h4>
-
-<p>The key words &ldquo;MUST&rdquo;, &ldquo;MUST NOT&rdquo;, &ldquo;REQUIRED&rdquo;, &ldquo;SHALL&rdquo;, &ldquo;SHALL NOT&rdquo;, &ldquo;SHOULD&rdquo;, &ldquo;SHOULD NOT&rdquo;, &ldquo;RECOMMENDED&rdquo;, &ldquo;NOT RECOMMENDED&rdquo;, &ldquo;MAY&rdquo;, and &ldquo;OPTIONAL&rdquo; in this document are to be interpreted as described in <a href="https://tools.ietf.org/html/bcp14">BCP 14</a> <a href="https://tools.ietf.org/html/rfc2119">RFC2119</a> <a href="https://tools.ietf.org/html/rfc8174">RFC8174</a> when, and only when, they appear in all capitals, as shown here.</p>
-
-<p>This document is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0.html">The Apache License, Version 2.0</a>.</p>
-
-<h2 id="introduction">Introduction</h2>
-
-<p>The OpenAPI Specification (OAS) defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.</p>
-
-<p>An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases.</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201901101804/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     <h4>
@@ -741,7 +747,16 @@ implementations (open source or commercial) if you&rsquo;d like to be listed on 
         
     
     
-    <li class="page-item"><a class="page-link" href="http://alimy.me/page/13/">13</a></li>
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/14/">14</a></li>
     
     
     <li class="page-item">
@@ -749,7 +764,7 @@ implementations (open source or commercial) if you&rsquo;d like to be listed on 
     </li>
     
     <li class="page-item">
-        <a href="http://alimy.me/page/13/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="http://alimy.me/page/14/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>

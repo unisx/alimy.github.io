@@ -6,10 +6,35 @@
     <description>Recent content in Development on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 21 Sep 2019 16:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 21 Sep 2019 16:45:00 +0800</lastBuildDate>
     
 	<atom:link href="http://alimy.me/categories/development/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Protocol Buffers Messages Encoding</title>
+      <link>http://alimy.me/post/dev_201909211645/</link>
+      <pubDate>Sat, 21 Sep 2019 16:45:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201909211645/</guid>
+      <description>&lt;p&gt;This document describes the binary wire format for protocol buffer messages. You don&amp;rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.&lt;/p&gt;
+
+&lt;h3 id=&#34;a-simple-message&#34;&gt;A Simple Message&lt;/h3&gt;
+
+&lt;p&gt;Let&amp;rsquo;s say you have the following very simple message definition:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;message Test1 {
+  optional int32 a = 1;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In an application, you create a &lt;code&gt;Test1&lt;/code&gt; message and set &lt;code&gt;a&lt;/code&gt; to 150. You then serialize the message to an output stream. If you were able to examine the encoded message, you&amp;rsquo;d see three bytes:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;08 96 01
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So far, so small and numeric – but what does it mean? Read on&amp;hellip;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Cap&#39;n Proto Encoding Spec</title>

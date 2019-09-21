@@ -7,7 +7,323 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 21 Sep 2019 16:30:00 CST</updated>
+    <updated>Sat, 21 Sep 2019 16:45:00 CST</updated>
+    
+    <item>
+      <title>Protocol Buffers Messages Encoding</title>
+      <link>http://alimy.me/post/dev_201909211645/</link>
+      <pubDate>Sat, 21 Sep 2019 16:45:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201909211645/</guid>
+      <description>&lt;p&gt;This document describes the binary wire format for protocol buffer messages. You don&amp;rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.&lt;/p&gt;
+
+&lt;h3 id=&#34;a-simple-message&#34;&gt;A Simple Message&lt;/h3&gt;
+
+&lt;p&gt;Let&amp;rsquo;s say you have the following very simple message definition:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;message Test1 {
+  optional int32 a = 1;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In an application, you create a &lt;code&gt;Test1&lt;/code&gt; message and set &lt;code&gt;a&lt;/code&gt; to 150. You then serialize the message to an output stream. If you were able to examine the encoded message, you&amp;rsquo;d see three bytes:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;08 96 01
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So far, so small and numeric – but what does it mean? Read on&amp;hellip;&lt;/p&gt;
+
+&lt;h3 id=&#34;base-128-varints&#34;&gt;Base 128 Varints&lt;/h3&gt;
+
+&lt;p&gt;To understand your simple protocol buffer encoding, you first need to understand varints. Varints are a method of serializing integers using one or more bytes. Smaller numbers take a smaller number of bytes.&lt;/p&gt;
+
+&lt;p&gt;Each byte in a varint, except the last byte, has the most significant bit (msb) set – this indicates that there are further bytes to come. The lower 7 bits of each byte are used to store the two&amp;rsquo;s complement representation of the number in groups of 7 bits, &lt;strong&gt;least significant group first&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;So, for example, here is the number 1 – it&amp;rsquo;s a single byte, so the msb is not set:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;0000 0001
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And here is 300 – this is a bit more complicated:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1010 1100 0000 0010
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;How do you figure out that this is 300? First you drop the msb from each byte, as this is just there to tell us whether we&amp;rsquo;ve reached the end of the number (as you can see, it&amp;rsquo;s set in the first byte as there is more than one byte in the varint):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 1010 1100 0000 0010
+→ 010 1100  000 0010
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You reverse the two groups of 7 bits because, as you remember, varints store numbers with the least significant group first. Then you concatenate them to get your final value:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;000 0010  010 1100
+→  000 0010 ++ 010 1100
+→  100101100
+→  256 + 32 + 8 + 4 = 300
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;message-structure&#34;&gt;Message Structure&lt;/h3&gt;
+
+&lt;p&gt;As you know, a protocol buffer message is a series of key-value pairs. The binary version of a message just uses the field&amp;rsquo;s number as the key – the name and declared type for each field can only be determined on the decoding end by referencing the message type&amp;rsquo;s definition (i.e. the .proto file).&lt;/p&gt;
+
+&lt;p&gt;When a message is encoded, the keys and values are concatenated into a byte stream. When the message is being decoded, the parser needs to be able to skip fields that it doesn&amp;rsquo;t recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the &amp;ldquo;key&amp;rdquo; for each pair in a wire-format message is actually two values – the field number from your .proto file, plus a wire type that provides just enough information to find the length of the following value. In most language implementations this key is referred to as a tag.&lt;/p&gt;
+
+&lt;p&gt;The available wire types are as follows:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Meaning&lt;/th&gt;
+&lt;th&gt;Used For&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;Varint&lt;/td&gt;
+&lt;td&gt;int32, int64, uint32, uint64, sint32, sint64, bool, enum&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;64-bit&lt;/td&gt;
+&lt;td&gt;fixed64, sfixed64, double&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Length-delimited&lt;/td&gt;
+&lt;td&gt;string, bytes, embedded messages, packed repeated fields&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;Start group&lt;/td&gt;
+&lt;td&gt;groups (deprecated)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;End group&lt;/td&gt;
+&lt;td&gt;groups (deprecated)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;32-bit&lt;/td&gt;
+&lt;td&gt;fixed32, sfixed32, float&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Each key in the streamed message is a varint with the value &lt;code&gt;(field_number &amp;lt;&amp;lt; 3) | wire_type&lt;/code&gt; – in other words, the last three bits of the number store the wire type.&lt;/p&gt;
+
+&lt;p&gt;Now let&amp;rsquo;s look at our simple example again. You now know that the first number in the stream is always a varint key, and here it&amp;rsquo;s 08, or (dropping the msb):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;000 1000
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You take the last three bits to get the wire type (0) and then right-shift by three to get the field number (1). So you now know that the field number is 1 and the following value is a varint. Using your varint-decoding knowledge from the previous section, you can see that the next two bytes store the value 150.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;96 01 = 1001 0110  0000 0001
+       → 000 0001  ++  001 0110 (drop the msb and reverse the groups of 7 bits)
+       → 10010110
+       → 128 + 16 + 4 + 2 = 150
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;more-value-types&#34;&gt;More Value Types&lt;/h3&gt;
+
+&lt;h4 id=&#34;signed-integers&#34;&gt;Signed Integers&lt;/h4&gt;
+
+&lt;p&gt;As you saw in the previous section, all the protocol buffer types associated with wire type 0 are encoded as varints. However, there is an important difference between the signed int types (sint32 and sint64) and the &amp;ldquo;standard&amp;rdquo; int types (int32 and int64) when it comes to encoding negative numbers. If you use int32 or int64 as the type for a negative number, the resulting varint is always ten bytes long – it is, effectively, treated like a very large unsigned integer. If you use one of the signed types, the resulting varint uses ZigZag encoding, which is much more efficient.&lt;/p&gt;
+
+&lt;p&gt;ZigZag encoding maps signed integers to unsigned integers so that numbers with a small absolute value (for instance, -1) have a small varint encoded value too. It does this in a way that &amp;ldquo;zig-zags&amp;rdquo; back and forth through the positive and negative integers, so that -1 is encoded as 1, 1 is encoded as 2, -2 is encoded as 3, and so on, as you can see in the following table:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Signed Original&lt;/th&gt;
+&lt;th&gt;Encoded As&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-1&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-2&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;2147483647&lt;/td&gt;
+&lt;td&gt;4294967294&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-2147483648&lt;/td&gt;
+&lt;td&gt;4294967295&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;In other words, each value &lt;code&gt;n&lt;/code&gt; is encoded using&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(n &amp;lt;&amp;lt; 1) ^ (n &amp;gt;&amp;gt; 31)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;for &lt;code&gt;sint32s&lt;/code&gt;, or&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(n &amp;lt;&amp;lt; 1) ^ (n &amp;gt;&amp;gt; 63)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;for the 64-bit version.&lt;/p&gt;
+
+&lt;p&gt;Note that the second shift – the &lt;code&gt;(n &amp;gt;&amp;gt; 31)&lt;/code&gt; part – is an arithmetic shift. So, in other words, the result of the shift is either a number that is all zero bits (if &lt;code&gt;n&lt;/code&gt; is positive) or all one bits (if &lt;code&gt;n&lt;/code&gt; is negative).&lt;/p&gt;
+
+&lt;p&gt;When the &lt;code&gt;sint32&lt;/code&gt; or &lt;code&gt;sint64&lt;/code&gt; is parsed, its value is decoded back to the original, signed version.&lt;/p&gt;
+
+&lt;h3 id=&#34;non-varint-numbers&#34;&gt;Non-varint Numbers&lt;/h3&gt;
+
+&lt;p&gt;Non-varint numeric types are simple – double and fixed64 have wire type 1, which tells the parser to expect a fixed 64-bit lump of data; similarly float and fixed32 have wire type 5, which tells it to expect 32 bits. In both cases the values are stored in little-endian byte order.&lt;/p&gt;
+
+&lt;h3 id=&#34;strings&#34;&gt;Strings&lt;/h3&gt;
+
+&lt;p&gt;A wire type of 2 (length-delimited) means that the value is a varint encoded length followed by the specified number of bytes of data.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;message Test2 {
+  optional string b = 2;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Setting the value of b to &amp;ldquo;testing&amp;rdquo; gives you:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;12 07 74 65 73 74 69 6e 67
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The red bytes are the UTF8 of &amp;ldquo;testing&amp;rdquo;. The key here is 0x12 → field number = 2, type = 2. The length varint in the value is 7 and lo and behold, we find seven bytes following it – our string.&lt;/p&gt;
+
+&lt;h3 id=&#34;embedded-messages&#34;&gt;Embedded Messages&lt;/h3&gt;
+
+&lt;p&gt;Here&amp;rsquo;s a message definition with an embedded message of our example type, Test1:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;message Test3 {
+  optional Test1 c = 3;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And here&amp;rsquo;s the encoded version, again with the Test1&amp;rsquo;s a field set to 150:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 1a 03 08 96 01
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As you can see, the last three bytes are exactly the same as our first example (08 96 01), and they&amp;rsquo;re preceded by the number 3 – embedded messages are treated in exactly the same way as strings (wire type = 2).&lt;/p&gt;
+
+&lt;h3 id=&#34;optional-and-repeated-elements&#34;&gt;Optional And Repeated Elements&lt;/h3&gt;
+
+&lt;p&gt;If a proto2 message definition has repeated elements (without the [packed=true] option), the encoded message has zero or more key-value pairs with the same field number. These repeated values do not have to appear consecutively; they may be interleaved with other fields. The order of the elements with respect to each other is preserved when parsing, though the ordering with respect to other fields is lost. In proto3, repeated fields use &lt;strong&gt;packed encoding&lt;/strong&gt;, which you can read about below.&lt;/p&gt;
+
+&lt;p&gt;For any non-repeated fields in proto3, or optional fields in proto2, the encoded message may or may not have a key-value pair with that field number.&lt;/p&gt;
+
+&lt;p&gt;Normally, an encoded message would never have more than one instance of a non-repeated field. However, parsers are expected to handle the case in which they do. For numeric types and strings, if the same field appears multiple times, the parser accepts the last value it sees. For embedded message fields, the parser merges multiple instances of the same field, as if with the Message::MergeFrom method – that is, all singular scalar fields in the latter instance replace those in the former, singular embedded messages are merged, and repeated fields are concatenated. The effect of these rules is that parsing the concatenation of two encoded messages produces exactly the same result as if you had parsed the two messages separately and merged the resulting objects. That is, this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;MyMessage message;
+message.ParseFromString(str1 + str2);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;is equivalent to this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;MyMessage message, message2;
+message.ParseFromString(str1);
+message2.ParseFromString(str2);
+message.MergeFrom(message2);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This property is occasionally useful, as it allows you to merge two messages even if you do not know their types.&lt;/p&gt;
+
+&lt;h3 id=&#34;packed-repeated-fields&#34;&gt;Packed Repeated Fields&lt;/h3&gt;
+
+&lt;p&gt;Version 2.1.0 introduced packed repeated fields, which in proto2 are declared like repeated fields but with the special &lt;code&gt;[packed=true]&lt;/code&gt; option. In proto3, repeated fields of scalar numeric types are packed by default. These function like repeated fields, but are encoded differently. A packed repeated field containing zero elements does not appear in the encoded message. Otherwise, all of the elements of the field are packed into a single key-value pair with wire type 2 (length-delimited). Each element is encoded the same way it would be normally, except without a key preceding it.&lt;/p&gt;
+
+&lt;p&gt;For example, imagine you have the message type:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;message Test4 {
+  repeated int32 d = 4 [packed=true];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now let&amp;rsquo;s say you construct a Test4, providing the values 3, 270, and 86942 for the repeated field d. Then, the encoded form would be:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;22        // key (field number 4, wire type 2)
+06        // payload size (6 bytes)
+03        // first element (varint 3)
+8E 02     // second element (varint 270)
+9E A7 05  // third element (varint 86942)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Only repeated fields of primitive numeric types (types which use the varint, 32-bit, or 64-bit wire types) can be declared &amp;ldquo;packed&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;Note that although there&amp;rsquo;s usually no reason to encode more than one key-value pair for a packed repeated field, encoders must be prepared to accept multiple key-value pairs. In this case, the payloads should be concatenated. Each pair must contain a whole number of elements.&lt;/p&gt;
+
+&lt;p&gt;Protocol buffer parsers must be able to parse repeated fields that were compiled as &lt;code&gt;packed&lt;/code&gt; as if they were not packed, and vice versa. This permits adding &lt;code&gt;[packed=true]&lt;/code&gt; to existing fields in a forward- and backward-compatible way.&lt;/p&gt;
+
+&lt;h3 id=&#34;field-order&#34;&gt;Field Order&lt;/h3&gt;
+
+&lt;p&gt;Field numbers may be used in any order in a &lt;code&gt;.proto&lt;/code&gt; file. The order chosen has no effect on how the messages are serialized.&lt;/p&gt;
+
+&lt;p&gt;When a message is serialized, there is no guaranteed order for how its known or &lt;strong&gt;unknown fields&lt;/strong&gt; should be written. Serialization order is an implementation detail and the details of any particular implementation may change in the future. Therefore, protocol buffer parsers must be able to parse fields in any order.&lt;/p&gt;
+
+&lt;h3 id=&#34;implications&#34;&gt;Implications&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Do not assume the byte output of a serialized message is stable. This is especially true for messages with transitive bytes fields representing other serialized protocol buffer messages.&lt;/li&gt;
+&lt;li&gt;By default, repeated invocations of serialization methods on the same protocol buffer message instance may not return the same byte output; i.e. the default serialization is not deterministic.
+
+&lt;ul&gt;
+&lt;li&gt;Deterministic serialization only guarantees the same byte output for a particular binary. The byte output may change across different versions of the binary.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The following checks may fail for a protocol buffer message instance foo.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;foo.SerializeAsString() == foo.SerializeAsString()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Hash(foo.SerializeAsString()) == Hash(foo.SerializeAsString())&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CRC(foo.SerializeAsString()) == CRC(foo.SerializeAsString())&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FingerPrint(foo.SerializeAsString()) == FingerPrint(foo.SerializeAsString())&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Here&amp;rsquo;re a few example scenarios where logically equivalent protocol buffer messages foo and bar may serialize to different byte outputs.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;bar&lt;/code&gt; is serialized by an old server that treats some fields as unknown.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bar&lt;/code&gt; is serialized by a server that is implemented in a different programming language and serializes fields in different order.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bar&lt;/code&gt; has a field that serializes in non-deterministic manner.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bar&lt;/code&gt; has a field that stores a serialized byte output of a protocol buffer message which is serialized differently.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bar&lt;/code&gt; is serialized by a new server that serializes fields in different order due to an implementation change.&lt;/li&gt;
+&lt;li&gt;Both &lt;code&gt;foo&lt;/code&gt; and bar are concatenation of individual messages but with different order.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://developers.google.com/protocol-buffers/docs/encoding&#34; title=&#34;protocol-buffers encoding&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Cap&#39;n Proto Encoding Spec</title>
@@ -7936,51 +8252,6 @@ $ docker run -d --name athens-proxy --restart always -p 3000:3000 \
 &lt;pre&gt;&lt;code&gt;$ docker run -d --name athens-proxy --restart always -p 3000:3000 gomods/proxy:latest
 $ docker logs -f athens-proxy # display logs
 &lt;/code&gt;&lt;/pre&gt;</description>
-    </item>
-    
-    <item>
-      <title>Hello, Rustacean</title>
-      <link>http://alimy.me/post/day_2018090119142/</link>
-      <pubDate>Sat, 01 Sep 2018 19:42:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/day_2018090119142/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;fn main() {
-    let greetings = [&amp;quot;Hello&amp;quot;, &amp;quot;Hola&amp;quot;, &amp;quot;Bonjour&amp;quot;,
-                     &amp;quot;Ciao&amp;quot;, &amp;quot;こんにちは&amp;quot;, &amp;quot;안녕하세요&amp;quot;,
-                     &amp;quot;Cześć&amp;quot;, &amp;quot;Olá&amp;quot;, &amp;quot;Здравствуйте&amp;quot;,
-                     &amp;quot;Chào bạn&amp;quot;, &amp;quot;您好&amp;quot;, &amp;quot;Hallo&amp;quot;,
-                     &amp;quot;Hej&amp;quot;, &amp;quot;Ahoj&amp;quot;, &amp;quot;سلام&amp;quot;,&amp;quot;สวัสดี&amp;quot;];
-
-    for (num, greeting) in greetings.iter().enumerate() {
-        print!(&amp;quot;{} : &amp;quot;, greeting);
-        match num {
-            0 =&amp;gt;  println!(&amp;quot;This code is editable and runnable!&amp;quot;),
-            1 =&amp;gt;  println!(&amp;quot;¡Este código es editable y ejecutable!&amp;quot;),
-            2 =&amp;gt;  println!(&amp;quot;Ce code est modifiable et exécutable !&amp;quot;),
-            3 =&amp;gt;  println!(&amp;quot;Questo codice è modificabile ed eseguibile!&amp;quot;),
-            4 =&amp;gt;  println!(&amp;quot;このコードは編集して実行出来ます！&amp;quot;),
-            5 =&amp;gt;  println!(&amp;quot;여기에서 코드를 수정하고 실행할 수 있습니다!&amp;quot;),
-            6 =&amp;gt;  println!(&amp;quot;Ten kod można edytować oraz uruchomić!&amp;quot;),
-            7 =&amp;gt;  println!(&amp;quot;Este código é editável e executável!&amp;quot;),
-            8 =&amp;gt;  println!(&amp;quot;Этот код можно отредактировать и запустить!&amp;quot;),
-            9 =&amp;gt;  println!(&amp;quot;Bạn có thể edit và run code trực tiếp!&amp;quot;),
-            10 =&amp;gt; println!(&amp;quot;这段代码是可以编辑并且能够运行的！&amp;quot;),
-            11 =&amp;gt; println!(&amp;quot;Dieser Code kann bearbeitet und ausgeführt werden!&amp;quot;),
-            12 =&amp;gt; println!(&amp;quot;Den här koden kan redigeras och köras!&amp;quot;),
-            13 =&amp;gt; println!(&amp;quot;Tento kód můžete upravit a spustit&amp;quot;),
-            14 =&amp;gt; println!(&amp;quot;این کد قابلیت ویرایش و اجرا دارد!&amp;quot;),
-            15 =&amp;gt; println!(&amp;quot;โค้ดนี้สามารถแก้ไขได้และรันได้&amp;quot;),
-            _ =&amp;gt;  {},
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;没错，今天开始，正式入坑&lt;a href=&#34;https://www.rust-lang.org&#34; title=&#34;Rust official site&#34;&gt;&lt;strong&gt;Rust&lt;/strong&gt;&lt;/a&gt;，我要成为&lt;a href=&#34;http://www.rustacean.net/&#34; title=&#34;Hello, crustaceans&#34;&gt;&lt;strong&gt;Rustacean&lt;/strong&gt;&lt;/a&gt;（Rust社区的成员被称为 Rustacean）的一员！我已经是一名Gopher（Golang程序猿的昵称），日常就是使用Go写写bug，研究一下大佬们的代码，然后继续写自个儿的bug，标准的Gopher节奏，WTF～&lt;/p&gt;
-
-&lt;p&gt;话说，&lt;a href=&#34;https://golang.org&#34; title=&#34;Go official site&#34;&gt;&lt;strong&gt;Golang&lt;/strong&gt;&lt;/a&gt;的吉祥物是Gopher（囊地鼠），陆上跑地欢；Rust的吉祥物是Crab（螃蟹），海里游地慌；巧合吗，很有意思！既如此，已经入坑了陆上跑地欢的&lt;code&gt;Go&lt;/code&gt;，再入手个海里游地慌的&lt;code&gt;Rust&lt;/code&gt;，又有何妨，乐哉!似乎还有一个&lt;code&gt;Swift&lt;/code&gt;，吉祥物是天上飞的雨燕， 也是计划入手的一门语言，但不是现在（项目暂时没用上,不急）， 到时候就海陆空全齐了， 哈哈哈～&lt;/p&gt;
-
-&lt;p&gt;欲攻其事，必先善其器，各门语言有他们擅长的使用场景，都有他们各自溜的舞台，项目需要或适合什么语言去构建，自然就要入手去使用，达到最好运行效果！ 学过很多语言，但日常编程用的最多的还是Go和Java， 嗯哼， 之所以还入手Rust语言，除了项目用的上，更简单的原因就是：看上了&lt;a href=&#34;https://github.com/tikv/tikv&#34; title=&#34;TikV in GitHub&#34;&gt;&lt;strong&gt;TiKV&lt;/strong&gt;&lt;/a&gt; ~&lt;em&gt;So Easy To Nice&lt;/em&gt;~&lt;/p&gt;</description>
     </item>
     
   </channel>

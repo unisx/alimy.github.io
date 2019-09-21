@@ -295,6 +295,30 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201901101804/" title="阅读全文">OpenAPI Specification </a> </h2>
+
+</header>
+<div class="summary">
+    <h4 id="version-3-0-2">Version 3.0.2</h4>
+
+<p>The key words &ldquo;MUST&rdquo;, &ldquo;MUST NOT&rdquo;, &ldquo;REQUIRED&rdquo;, &ldquo;SHALL&rdquo;, &ldquo;SHALL NOT&rdquo;, &ldquo;SHOULD&rdquo;, &ldquo;SHOULD NOT&rdquo;, &ldquo;RECOMMENDED&rdquo;, &ldquo;NOT RECOMMENDED&rdquo;, &ldquo;MAY&rdquo;, and &ldquo;OPTIONAL&rdquo; in this document are to be interpreted as described in <a href="https://tools.ietf.org/html/bcp14">BCP 14</a> <a href="https://tools.ietf.org/html/rfc2119">RFC2119</a> <a href="https://tools.ietf.org/html/rfc8174">RFC8174</a> when, and only when, they appear in all capitals, as shown here.</p>
+
+<p>This document is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0.html">The Apache License, Version 2.0</a>.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>The OpenAPI Specification (OAS) defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.</p>
+
+<p>An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases.</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201901101804/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201901091450/" title="阅读全文">YAML 简明参考 </a> </h2>
 
 </header>
@@ -638,49 +662,6 @@ replace (
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201807151843/" title="阅读全文">Guide: gorilla/mux </a> </h2>
-
-</header>
-<div class="summary">
-    <p>The name mux stands for &ldquo;HTTP request multiplexer&rdquo;. Like the standard
-<code>http.ServeMux</code>, <code>mux.Router</code> matches incoming requests against a list of
-registered routes and calls a handler for the route that matches the URL
-or other conditions. The main features are:</p>
-
-<pre><code>* Requests can be matched based on URL host, path, path prefix, schemes,
-  header and query values, HTTP methods or using custom matchers.
-* URL hosts, paths and query values can have variables with an optional
-  regular expression.
-* Registered URLs can be built, or &quot;reversed&quot;, which helps maintaining
-  references to resources.
-* Routes can be used as subrouters: nested routes are only tested if the
-  parent route matches. This is useful to define groups of routes that
-  share common conditions like a host, a path prefix or other repeated
-  attributes. As a bonus, this optimizes request matching.
-* It implements the http.Handler interface so it is compatible with the
-  standard http.ServeMux.
-</code></pre>
-
-<p>Let&rsquo;s start registering a couple of URL paths and handlers:</p>
-
-<pre><code>func main() {
-  r := mux.NewRouter()
-  r.HandleFunc(&quot;/&quot;, HomeHandler)
-  r.HandleFunc(&quot;/products&quot;, ProductsHandler)
-  r.HandleFunc(&quot;/articles&quot;, ArticlesHandler)
-  http.Handle(&quot;/&quot;, r)
-  log.Fatal(http.ListenAndServe(&quot;:12345&quot;, nil))
-}
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201807151843/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     <h4>
@@ -825,7 +806,16 @@ or other conditions. The main features are:</p>
         
     
     
-    <li class="page-item"><a class="page-link" href="http://alimy.me/page/13/">13</a></li>
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="http://alimy.me/page/14/">14</a></li>
     
     
     <li class="page-item">
@@ -833,7 +823,7 @@ or other conditions. The main features are:</p>
     </li>
     
     <li class="page-item">
-        <a href="http://alimy.me/page/13/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="http://alimy.me/page/14/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>
