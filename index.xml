@@ -7,7 +7,507 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 21 Sep 2019 15:36:00 CST</updated>
+    <updated>Sat, 21 Sep 2019 15:56:00 CST</updated>
+    
+    <item>
+      <title>Tars语言与协议</title>
+      <link>http://alimy.me/post/dev_201909211556/</link>
+      <pubDate>Sat, 21 Sep 2019 15:56:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201909211556/</guid>
+      <description>&lt;h3 id=&#34;目录&#34;&gt;目录&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#main-chapter-1&#34;&gt;Tars语言&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#main-chapter-2&#34;&gt;Tars协议&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;1-tars语言-a-id-main-chapter-1-a&#34;&gt;1. Tars语言 &lt;a id=&#34;main-chapter-1&#34;&gt;&lt;/a&gt;&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-1-接口文件&#34;&gt;1.1. 接口文件&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Tars语言是一种类c++标识符的语言，用于生成具体的服务接口文件&lt;/li&gt;
+&lt;li&gt;Tars文件是Tars框架中客户端和服务端的通信接口，通过Tars的映射实现远程对象调用&lt;/li&gt;
+&lt;li&gt;Tars文件的扩展名必须以.tars为扩展名&lt;/li&gt;
+&lt;li&gt;对于结构定义，可以支持扩展字段，即可以增加字段而不影响原有结构的解析，可以在存储/协议等地方单独使用&lt;/li&gt;
+&lt;li&gt;大小写敏感&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;1-2-词法规则&#34;&gt;1.2. 词法规则&lt;/h3&gt;
+
+&lt;h4 id=&#34;1-2-1-注释&#34;&gt;1.2.1. 注释&lt;/h4&gt;
+
+&lt;p&gt;采用c++的注释规范。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//表示注释一行，/**/表示注释范围中的所有代码。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;1-2-2-关键字&#34;&gt;1.2.2. 关键字&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;void&lt;/code&gt;  &lt;code&gt;struct&lt;/code&gt;  &lt;code&gt;bool&lt;/code&gt;  &lt;code&gt;byte&lt;/code&gt;  &lt;code&gt;short&lt;/code&gt;  &lt;code&gt;int&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;double&lt;/code&gt;  &lt;code&gt;float&lt;/code&gt;  &lt;code&gt;long&lt;/code&gt;  &lt;code&gt;string&lt;/code&gt;  &lt;code&gt;vector&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;map&lt;/code&gt;  &lt;code&gt;key&lt;/code&gt;  &lt;code&gt;routekey&lt;/code&gt;  &lt;code&gt;module&lt;/code&gt;  &lt;code&gt;interface&lt;/code&gt;  &lt;code&gt;out&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;require&lt;/code&gt;  &lt;code&gt;optional&lt;/code&gt;  &lt;code&gt;false&lt;/code&gt;  &lt;code&gt;true&lt;/code&gt;  &lt;code&gt;enum&lt;/code&gt;  &lt;code&gt;const&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;1-2-3-标识符&#34;&gt;1.2.3. 标识符&lt;/h4&gt;
+
+&lt;p&gt;所有标识符不能带有&amp;rsquo;tars_’符号，且必须以字母开头，同时不能和关键字冲突。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-3-基本类型&#34;&gt;1.3. 基本类型&lt;/h3&gt;
+
+&lt;p&gt;支持的基本类型包括以下：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;void&lt;/code&gt;  ：只能在函数的返回值表示&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bool&lt;/code&gt;  ：布尔类型，映射到 &lt;code&gt;tars::Bool&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;byte&lt;/code&gt;  ：有符号字符，映射到 &lt;code&gt;tars::Char&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;short&lt;/code&gt; ：有符号短整型，映射到 &lt;code&gt;tars::Short&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;int&lt;/code&gt;   ：有符号整型，映射到 &lt;code&gt;tars::Int32&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;long&lt;/code&gt;  ：有符号长整型，映射到 &lt;code&gt;tars::Int64&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;float&lt;/code&gt; ：映射到 &lt;code&gt;tars::Float&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;double&lt;/code&gt;：映射到 &lt;code&gt;tars::Double&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;string&lt;/code&gt;：映射到 &lt;code&gt;std::string，java:String&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;unsigned byte&lt;/code&gt;：无符号字符,c++映射到 &lt;code&gt;unsigend char&lt;/code&gt; 其它版本 &lt;code&gt;tars::Short&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;unsigned short&lt;/code&gt;：无符号短整形c++映射到 &lt;code&gt;unsigned short&lt;/code&gt; 其它版本 &lt;code&gt;tars::Int32&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;Unsigned int&lt;/code&gt;:无符号整形c++映射到 &lt;code&gt;unsigned int&lt;/code&gt;其它版本 &lt;code&gt;tars::Int64&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;1-4-复杂类型&#34;&gt;1.4. 复杂类型&lt;/h3&gt;
+
+&lt;h4 id=&#34;1-4-1-枚举&#34;&gt;1.4.1. 枚举&lt;/h4&gt;
+
+&lt;p&gt;枚举类型的定义如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;enum TE
+{
+    E1,
+    E2,
+    E3
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;说明：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;枚举类型支持在指定枚举变量的值，例如支持：E1 = 1这种定义方式；&lt;/li&gt;
+&lt;li&gt;第一个定义的枚举类型值为0，这里E1的值为0；&lt;/li&gt;
+&lt;li&gt;枚举类型在tars文件定义后，通过tars2cpp生成以后，除了会生成相应的enum定义之外，会生成etos和stoe函数，将枚举值转换成字符串，以及将字符串转换成枚举值，在代码调试时会非常方便。&lt;/li&gt;
+&lt;li&gt;建议在c++的tars文件中，所有接口都以int返回，且返回值在tars文件中以枚举来定义。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;1-4-2-常量&#34;&gt;1.4.2. 常量&lt;/h4&gt;
+
+&lt;p&gt;Tars文件中可以定义常量，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;const int a = 0;
+
+const string s = “abc”;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;说明：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;由于map，vector没有描述常量的值，因此不支持map，vector的定义；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;1-4-3-结构&#34;&gt;1.4.3. 结构&lt;/h4&gt;
+
+&lt;p&gt;结构定义如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct Test
+{
+    0  require  string s;
+    1  optional int  i = 23;
+};
+
+key[Test, s, i];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;说明：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;第一列数字表示该字段的标识（tag），无论结构增减字段，该字段得值都不变，必须和响应的字段对应；&lt;/li&gt;
+&lt;li&gt;Tag的值必须要&amp;gt;=0且&amp;lt;=255；&lt;/li&gt;
+&lt;li&gt;require表示该字段必选；&lt;/li&gt;
+&lt;li&gt;optional表示该字段可选；&lt;/li&gt;
+&lt;li&gt;对于optional字段，可以有一个缺省值，缺省值在编码时默认不打包；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;key说明：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;表示结构的小于比较符号，缺省时Struct是没有小于操作的，如果定义了key，则生成小于比较符。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;key详细说明：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;key[Stuct, member…]：&lt;/li&gt;
+&lt;li&gt;Struct：表示结构的名称&lt;/li&gt;
+&lt;li&gt;Member：表示该结构的成员变量，可以有多个；&lt;/li&gt;
+&lt;li&gt;生成的小于比较操作符，按照key中成员变量定义的顺序进行优先&amp;lt;比较；&lt;/li&gt;
+&lt;li&gt;生成小于比较操作符以后，该结构就可以作为map的key；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;其他说明：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在Tars的c++语言中，对于结构而言，提供两个成员函数用于直接打印出结构的内容，可以用于调试和记录日志：&lt;/li&gt;
+&lt;li&gt;ostream&amp;amp; display(ostream&amp;amp; _os, int _level=0)：直接打印结构的详细内容，主要用于调试；&lt;/li&gt;
+&lt;li&gt;ostream&amp;amp; displaySimple(ostream&amp;amp; _os, int _level=0)：所有成员变量自动按照顺序以|分隔打印出来，用于记录日志；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;1-4-4-序列&#34;&gt;1.4.4. 序列&lt;/h4&gt;
+
+&lt;p&gt;序列用vector来定义，如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;vector&amp;lt;int&amp;gt; vi;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;1-4-5-字典&#34;&gt;1.4.5. 字典&lt;/h4&gt;
+
+&lt;p&gt;字典用map来定义，如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;map&amp;lt;int, string&amp;gt; m;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;说明：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;对于struct，通常不能作为map的key，因此struct没有大小比较符号；&lt;/li&gt;
+&lt;li&gt;如果需要struct能够作为map的key，需要用less定义struct中成员的比较顺序；&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;1-4-6-数组&#34;&gt;1.4.6. 数组&lt;/h4&gt;
+
+&lt;p&gt;结构中可以定义数组类型，数组用[]来定义，如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;byte m[5];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;说明：
+* 对数组类型，在C++生成代码中会同时生成数组长度&lt;code&gt;mLen&lt;/code&gt;
+* 对数组赋值后必须同时对数组长度赋值
+* 在非c++版本中数组类型将翻译为&lt;code&gt;vector&amp;lt;类型&amp;gt;&lt;/code&gt;
+* &lt;code&gt;byte m[5]&lt;/code&gt; 等价于定义&lt;code&gt;vector&amp;lt;byte&amp;gt;:5&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;1-4-7-指针&#34;&gt;1.4.7 指针&lt;/h4&gt;
+
+&lt;p&gt;结构中可以定义byte指针类型，指针用*来定义，如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;byte *m;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;指针类型使用时需要提前预分配内存块，指针需要内存时通过偏移指向预分配内存块，减少解码过程中的内存申请。&lt;/p&gt;
+
+&lt;p&gt;说明：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;对于指针类型，在c++代码中会同时生成mLen，用来指定指针长度。&lt;/li&gt;
+&lt;li&gt;对指针赋值后必须对长度mLen赋值&lt;/li&gt;
+&lt;li&gt;在非c++版本中指针类型将翻译为&lt;code&gt;vector&amp;lt;类型&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;含有指针类型的数据读取时BufferReader必须用MapBufferReader,同时需要提前设定指针指向内存的buffer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;1-4-8-嵌套&#34;&gt;1.4.8 嵌套&lt;/h4&gt;
+
+&lt;p&gt;任何&lt;code&gt;struct&lt;/code&gt;，&lt;code&gt;map&lt;/code&gt;，&lt;code&gt;vector&lt;/code&gt;都可以嵌套；&lt;/p&gt;
+
+&lt;h3 id=&#34;1-5-接口&#34;&gt;1.5. 接口&lt;/h3&gt;
+
+&lt;p&gt;接口定义如下，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;interface Demo
+{
+    int get(out vector&amp;lt;map&amp;lt;int, string&amp;gt;&amp;gt; v);
+    
+    int set(vector&amp;lt;map&amp;lt;int, string&amp;gt;&amp;gt; v);
+};
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;说明：
+* 表示输出参数
+* 接口定义后，通过自动代码生成工具（如：tars2cpp)会生成同步接口和异步接口等代码&lt;/p&gt;
+
+&lt;h3 id=&#34;1-6-名字空间&#34;&gt;1.6. 名字空间&lt;/h3&gt;
+
+&lt;p&gt;所有的struct，interface必须在名字空间中，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;module MemCache
+{
+    struct Key
+    {
+        0 require string s;
+    };
+
+    struct Value
+    {
+        0 require string s;
+    };
+
+    interface MemCacheI
+    {
+        int get(Key k, out Value v);
+
+        int set(Key k, Value v);
+    };
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;说明：
+* 名字空间不能嵌套;
+* 可以引用其他名字空间,例如:Demo1::Key&lt;/p&gt;
+
+&lt;h2 id=&#34;2-tars协议-a-id-main-chapter-2-a&#34;&gt;2. Tars协议 &lt;a id=&#34;main-chapter-2&#34;&gt;&lt;/a&gt;&lt;/h2&gt;
+
+&lt;h3 id=&#34;2-1-数据编码&#34;&gt;2.1. 数据编码&lt;/h3&gt;
+
+&lt;h4 id=&#34;2-1-1-基本结构&#34;&gt;2.1.1. 基本结构&lt;/h4&gt;
+
+&lt;p&gt;每一个数据由两个部分组成，如下图：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;| 头信息 | 实际数据 |
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;而其中头信息包括以下几个部分：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;| Type(4 bits) | Tag 1(4 bits) | Tag 2(1 byte) |
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;Tag 2&lt;/code&gt;是可选的，当&lt;code&gt;Tag&lt;/code&gt;的值不超过14时，只需要用&lt;code&gt;Tag 1&lt;/code&gt;就可以表示；当&lt;code&gt;Tag&lt;/code&gt;的值超过14而小于256时，&lt;code&gt;Tag 1&lt;/code&gt;固定为15，而用&lt;code&gt;Tag 2&lt;/code&gt;表示&lt;code&gt;Tag&lt;/code&gt;的值。&lt;code&gt;Tag&lt;/code&gt;不允许大于255。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;Type&lt;/code&gt;表示类型，用4个二进制位表示，取值范围是0~15，用来标识该数据的类型。不同类型的数据，其后紧跟着的实际数据的长度和格式都是不一样的，详见一下的类型表。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;Tag&lt;/code&gt;由&lt;code&gt;Tag 1&lt;/code&gt;和&lt;code&gt;Tag 2&lt;/code&gt;一起表示。取值范围是0~255，即该数据在结构中的字段ID，用来区分不同的字段。&lt;/p&gt;
+
+&lt;h4 id=&#34;2-1-2-编码类型表&#34;&gt;2.1.2. 编码类型表&lt;/h4&gt;
+
+&lt;p&gt;注意，这里的类型与tars文件定义的类型是两个不同的概念，这里的类型只是标识数据存储的类型，而不是数据定义的类型。&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;取值&lt;/th&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;备注&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;int1&lt;/td&gt;
+&lt;td&gt;紧跟1个字节整型数据&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;int2&lt;/td&gt;
+&lt;td&gt;紧跟2个字节整型数据&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;int4&lt;/td&gt;
+&lt;td&gt;紧跟4个字节整型数据&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;int8&lt;/td&gt;
+&lt;td&gt;紧跟8个字节整型数据&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;float&lt;/td&gt;
+&lt;td&gt;紧跟4个字节浮点型数据&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;double&lt;/td&gt;
+&lt;td&gt;紧跟8个字节浮点型数据&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;String1&lt;/td&gt;
+&lt;td&gt;紧跟1个字节长度，再跟内容&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;String4&lt;/td&gt;
+&lt;td&gt;紧跟4个字节长度，再跟内容&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;Map&lt;/td&gt;
+&lt;td&gt;紧跟一个整型数据表示Map的大小，再跟[key, value]对列表&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;List&lt;/td&gt;
+&lt;td&gt;紧跟一个整型数据表示List的大小，再跟元素列表&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;自定义结构开始&lt;/td&gt;
+&lt;td&gt;自定义结构开始标志&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;自定义结构结束&lt;/td&gt;
+&lt;td&gt;自定义结构结束标志，Tag为0&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;数字0&lt;/td&gt;
+&lt;td&gt;表示数字0，后面不跟数据&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;SimpleList&lt;/td&gt;
+&lt;td&gt;简单列表（目前用在byte数组），紧跟一个类型字段（目前只支持byte），紧跟一个整型数据表示长度，再跟byte数据&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&#34;2-1-3-各类型详细描述&#34;&gt;2.1.3. 各类型详细描述&lt;/h4&gt;
+
+&lt;p&gt;1.基本类型（包括&lt;code&gt;int1&lt;/code&gt;、&lt;code&gt;int2&lt;/code&gt;、&lt;code&gt;int4&lt;/code&gt;、&lt;code&gt;int8&lt;/code&gt;、&lt;code&gt;float&lt;/code&gt;、&lt;code&gt;double&lt;/code&gt;）&lt;/p&gt;
+
+&lt;p&gt;头信息后紧跟数值数据。char、bool也被看作整型。所有的整型数据之间不做区分，也就是说一个short的值可以赋值给一个int。&lt;/p&gt;
+
+&lt;p&gt;2.数字0&lt;/p&gt;
+
+&lt;p&gt;头信息后不跟数据，表示数值0。所有基本类型的0值都可以这样来表示。&lt;/p&gt;
+
+&lt;p&gt;这是考虑到数字0出现的概率比较大，所以单独提一个类型，以节省空间。&lt;/p&gt;
+
+&lt;p&gt;3.字符串（包括String1、String4）&lt;/p&gt;
+
+&lt;p&gt;String1跟一个字节的长度（该长度数据不包括头信息），接着紧跟内容。&lt;/p&gt;
+
+&lt;p&gt;String4与之类似。&lt;/p&gt;
+
+&lt;p&gt;4.Map&lt;/p&gt;
+
+&lt;p&gt;紧跟一个整形数据（包括头信息）表示Map的大小，然后紧跟[Key数据（Tag为0），Value数据（Tag为1）]对列表。&lt;/p&gt;
+
+&lt;p&gt;5.List&lt;/p&gt;
+
+&lt;p&gt;紧跟一个整形数据（包括头信息）表示&lt;code&gt;List&lt;/code&gt;的大小，然后紧跟元素列表（&lt;code&gt;Tag&lt;/code&gt;为0）&lt;/p&gt;
+
+&lt;p&gt;6.自定义结构开始&lt;/p&gt;
+
+&lt;p&gt;自定义结构开始标志，后面紧跟字段数据，字段按照tag升序顺序排列&lt;/p&gt;
+
+&lt;p&gt;7.自定义结构结束&lt;/p&gt;
+
+&lt;p&gt;自定义结构结束标志，Tag为0&lt;/p&gt;
+
+&lt;h4 id=&#34;2-1-4-对象持久化&#34;&gt;2.1.4 对象持久化&lt;/h4&gt;
+
+&lt;p&gt;对于自定义结构的持久化，由开始标志与结束标志来标识。&lt;/p&gt;
+
+&lt;p&gt;比如如下结构定义：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct TestInfo
+{
+    1  require  int    ii  = 34;
+    2  optional string s   = &amp;quot;abc&amp;quot;;
+};
+
+struct TestInfo2
+{
+    1  require TestInfo  t;
+    2  require int       a = 12345;
+};
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中，默认的TestInfo2结构编码后结果为：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://alimy.me/images/post/20190921155601.png&#34; alt=&#34;tars&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;2-2-消息格式&#34;&gt;2.2. 消息格式&lt;/h3&gt;
+
+&lt;p&gt;TUP底层协议完全采用Tars定义，与Tars的底层数据包定义一致，其中&lt;code&gt;require&lt;/code&gt;的字段为TUP必须的字段，&lt;code&gt;optional&lt;/code&gt;为访问Tars服务时额外需要用到的字段。&lt;/p&gt;
+
+&lt;h4 id=&#34;2-2-1-请求包&#34;&gt;2.2.1. 请求包&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;//请求包体
+struct RequestPacket
+{
+    1  require short        iVersion;         //版本号
+    2  optional byte        cPacketType;      //包类型
+    3  optional int         iMessageType;     //消息类型
+    4  require int          iRequestId;       //请求ID
+    5  require string       sServantName;     //servant名字
+    6  require string       sFuncName;        //函数名称
+    7  require vector&amp;lt;byte&amp;gt; sBuffer;          //二进制buffer
+    8  optional int         iTimeout;         //超时时间（毫秒）
+    9  optional map&amp;lt;string, string&amp;gt; context;  //业务上下文
+    10 optional map&amp;lt;string, string&amp;gt; status;   //框架协议上下文
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;2-2-2-响应包&#34;&gt;2.2.2. 响应包&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;//响应包体
+struct ResponsePacket
+{
+    1 require short         iVersion;       //版本号
+    2 optional byte         cPacketType;    //包类型
+    3 require int           iRequestId;     //请求ID
+    4 optional int          iMessageType;   //消息类型
+    5 optional int          iRet;           //返回值
+    6 require vector&amp;lt;byte&amp;gt;  sBuffer;        //二进制流
+    7 optional map&amp;lt;string, string&amp;gt; status;  //协议上下文
+    8 optional string       sResultDesc;    //结果描述
+};
+
+//返回值
+const int TAFSERVERSUCCESS       = 0;       //服务器端处理成功
+const int TAFSERVERDECODEERR     = -1;      //服务器端解码异常
+const int TAFSERVERENCODEERR     = -2;      //服务器端编码异常
+const int TAFSERVERNOFUNCERR     = -3;      //服务器端没有该函数
+const int TAFSERVERNOSERVANTERR  = -4;      //服务器端没有该Servant对象
+const int TAFSERVERRESETGRID     = -5;      //服务器端灰度状态不一致
+const int TAFSERVERQUEUETIMEOUT  = -6;      //服务器队列超过限制
+const int TAFASYNCCALLTIMEOUT    = -7;      //异步调用超时
+const int TAFINVOKETIMEOUT       = -7;      //调用超时
+const int TAFPROXYCONNECTERR     = -8;      //proxy链接异常
+const int TAFSERVEROVERLOAD      = -9;      //服务器端超负载,超过队列长度
+const int TAFADAPTERNULL         = -10;     //客户端选路为空，服务不存在或者所有服务down掉了
+const int TAFINVOKEBYINVALIDESET = -11;     //客户端按set规则调用非法
+const int TAFCLIENTDECODEERR     = -12;     //客户端解码异常
+const int TAFSERVERUNKNOWNERR    = -99;     //服务器端位置异常
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://github.com/TarsCloud/TarsProtocol/blob/master/docs/tars_protocol.md&#34; title=&#34;tars protocol&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Protocol Buffers Version 3 Language Specification</title>
@@ -7425,202 +7925,6 @@ func main() {
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://www.pingcap.com/docs/tikv/deploy-tikv-using-docker/&#34; title=&#34;deploy-tikv-using-docker&#34;&gt;Docker部署TiKV官方文档&lt;/a&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Go modules</title>
-      <link>http://alimy.me/post/dev_201807232147/</link>
-      <pubDate>Mon, 23 Jul 2018 21:47:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201807232147/</guid>
-      <description>&lt;h4 id=&#34;sect-definition&#34;&gt;&amp;sect;Definition&lt;/h4&gt;
-
-&lt;p&gt;A module is a collection of related go packages. Modules are the unit of
-source code interchange and versionning.&lt;/p&gt;
-
-&lt;h4 id=&#34;sect-quick-history&#34;&gt;&amp;sect;Quick history&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Go before 1.5: populating &lt;em&gt;GOPATH&lt;/em&gt; with &lt;code&gt;go get&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Go 1.5 and after: dependency vendoring is introduced.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/golang/vgo&#34;&gt;vgo&lt;/a&gt; is proposed as a prototype for Go modules support.&lt;/li&gt;
-&lt;li&gt;Go 1.11 (beta): &lt;code&gt;vgo&lt;/code&gt; is being merged and refined as &lt;code&gt;go mod&lt;/code&gt; (experimental).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;sect-terminology&#34;&gt;&amp;sect;Terminology&lt;/h4&gt;
-
-&lt;p&gt;This article refers to recurrent expressions. Let&amp;rsquo;s clarify them:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;em&gt;&amp;ldquo;Module root&amp;rdquo;&lt;/em&gt;: the directory containing the file named &lt;code&gt;go.mod&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;&amp;ldquo;Module path&amp;rdquo;&lt;/em&gt;: the import path prefix corresponding to the module root.&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;&amp;ldquo;Main module&amp;rdquo;&lt;/em&gt;: the module containing the directory where the &lt;code&gt;go&lt;/code&gt; command
-is run.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;sect-module-structure&#34;&gt;&amp;sect;Module structure&lt;/h4&gt;
-
-&lt;p&gt;A module is a tree of Go source files to which is added a file named &lt;em&gt;go.mod&lt;/em&gt;.
-It contains the module import name, and the declaration of dependency
-requirements, exclusions and replacements. Its content would look like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;module my/thing
-  
-require (
-        one/thing v1.3.2
-        other/thing v2.5.0 // indirect
-        ...
-)
-
-exclude (
-        bad/thing v0.7.3
-)
-
-replace (
-        src/thing 1.0.2 =&amp;gt; dst/thing v1.1.0
-)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Note that a dependency not directly imported in the module&amp;rsquo;s source code by
-an import statement is indentified as &lt;em&gt;indirect&lt;/em&gt; in the file.&lt;/p&gt;
-
-&lt;p&gt;A module can contain other modules, in which case their content is excluded
-from the parent module.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://alimy.me/images/post/20180723215300.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Alongside &lt;em&gt;go.mod&lt;/em&gt;, a file named &lt;code&gt;go.sum&lt;/code&gt; may be present. This file retains
-cryptographic cheksums of module dependencies, if any. It is used to verify
-that cached dependencies meet module requirements.&lt;/p&gt;
-
-&lt;p&gt;A module root can reside &lt;strong&gt;anywhere&lt;/strong&gt; on the filesystem, whatever is the
-current &lt;em&gt;GOPATH&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h4 id=&#34;sect-module-dependencies&#34;&gt;&amp;sect;Module dependencies&lt;/h4&gt;
-
-&lt;p&gt;Dependencies are downloaded and stored in &lt;code&gt;GOPATH/src/mod&lt;/code&gt;. A direct
-consequence is that the use of a &lt;em&gt;vendor&lt;/em&gt; directory is now obsolete.&lt;/p&gt;
-
-&lt;p&gt;What does this new structure looks like? Suppose we are working on a module
-that depends on &lt;em&gt;github.com/me/lib&lt;/em&gt; at version &lt;em&gt;1.0.0&lt;/em&gt;. For such a case, in
-&lt;em&gt;GOPATH/src/mod&lt;/em&gt; we would find:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://alimy.me/images/post/20180723215301.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;What we can observe is:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Dependencies source trees are placed at the root of this directory, with a
-slight change: the import path is suffixed with &lt;code&gt;@version&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Source archives retrieved or built from VCS are stored in the &lt;em&gt;download&lt;/em&gt;
-folder.&lt;/li&gt;
-&lt;li&gt;VCS data is stored in the &lt;em&gt;vcs&lt;/em&gt; folder.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;sect-enabling-go-modules-support&#34;&gt;&amp;sect;Enabling Go modules support&lt;/h4&gt;
-
-&lt;p&gt;In &lt;em&gt;Go 1.11beta2&lt;/em&gt;, the environment variable &lt;code&gt;GO111MODULE&lt;/code&gt; controls whether
-module support is enabled or disabled. It accepts three values: &lt;code&gt;on&lt;/code&gt;, &lt;code&gt;off&lt;/code&gt;,
-&lt;code&gt;auto&lt;/code&gt; (default).&lt;/p&gt;
-
-&lt;p&gt;If set to &lt;em&gt;&amp;ldquo;on&amp;rdquo;&lt;/em&gt;, module support is enabled whatever path we are in.&lt;/p&gt;
-
-&lt;p&gt;If set to &lt;em&gt;&amp;ldquo;off&amp;rdquo;&lt;/em&gt;, it is permanently disabled.&lt;/p&gt;
-
-&lt;p&gt;If unset or set to &lt;em&gt;&amp;ldquo;auto&amp;rdquo;&lt;/em&gt;, module support is enabled outside of
-&lt;em&gt;GOPATH&lt;/em&gt; only if the current directory is a module root or one of
-its subdirectories.&lt;/p&gt;
-
-&lt;h4 id=&#34;sect-integration&#34;&gt;&amp;sect;Integration&lt;/h4&gt;
-
-&lt;p&gt;Go modules are integrated with Go tools, for instance upon invocation of
-commands such as &lt;code&gt;go build&lt;/code&gt;, &lt;code&gt;go install&lt;/code&gt;, &lt;code&gt;go run&lt;/code&gt;, &lt;code&gt;go test&lt;/code&gt; appropriate
-actions will fire up like populating the cache, creating or updating &lt;em&gt;go.mod&lt;/em&gt;
-and &lt;em&gt;go.sum&lt;/em&gt; etc.&lt;/p&gt;
-
-&lt;h4 id=&#34;sect-autoformat&#34;&gt;&amp;sect;Autoformat&lt;/h4&gt;
-
-&lt;p&gt;You should never have to run these commands on your own since they are
-invoked by other commands, but for the sake of completeness, let&amp;rsquo;s mention
-that &lt;code&gt;go mod -fmt&lt;/code&gt; is the equivalent of &lt;code&gt;go fmt&lt;/code&gt; for &lt;em&gt;go.mod&lt;/em&gt; and &lt;em&gt;go.sum&lt;/em&gt;
-files and that &lt;code&gt;go mod -fix&lt;/code&gt; do some smart things in order to keep &lt;em&gt;go.mod&lt;/em&gt;
-clean, like:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Rewriting non-canonical version identifiers to semantic versioning form.&lt;/li&gt;
-&lt;li&gt;Removing duplicates.&lt;/li&gt;
-&lt;li&gt;Updating requirements to reflect exclusions.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;sect-initialization&#34;&gt;&amp;sect;Initialization&lt;/h4&gt;
-
-&lt;p&gt;To create &lt;em&gt;go.mod&lt;/em&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;go mod -init
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You may have to pass the command an import path with &lt;code&gt;-module &amp;lt;path&amp;gt;&lt;/code&gt; if the
-module root lives outside a VCS.&lt;/p&gt;
-
-&lt;p&gt;For the sake of backward compatibility and in order to ease the transition
-process, module creation has support for popular dependency management tools
-like &lt;code&gt;dep&lt;/code&gt;, &lt;code&gt;glide&lt;/code&gt;, &lt;code&gt;glock&lt;/code&gt;, &lt;code&gt;godep&lt;/code&gt; and so on.&lt;/p&gt;
-
-&lt;h4 id=&#34;sect-synchronization&#34;&gt;&amp;sect;Synchronization&lt;/h4&gt;
-
-&lt;p&gt;In order to clean up unused dependencies or to fetch new ones, use the sync
-option:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;go mod -sync
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;sect-adding-excluding-and-replacing-dependencies&#34;&gt;&amp;sect;Adding, excluding and replacing dependencies&lt;/h4&gt;
-
-&lt;p&gt;Two possibilities: either edit &lt;em&gt;go.mod&lt;/em&gt; by hand or use the CLI. The latter
-comes with the following commands:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# require a new dependency
-go mod -require one/thing@version
-
-# drop a requirement
-go mod -droprequire one/thing
-
-# exclude a dependency
-go mod -exclude bad/thing@version
-
-# drop an exclusion
-go mod -dropexclude bad/thing@version
-
-# replace a dependency
-go mod -replace src/thing@version=dst/thing@version
-
-# drop a replacement
-go mod -dropreplace src/thing@version
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;sect-dependency-graph&#34;&gt;&amp;sect;Dependency graph&lt;/h4&gt;
-
-&lt;p&gt;To print the graph of module dependencies:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;go mod -graph
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;sect-generating-vendor&#34;&gt;&amp;sect;Generating &lt;em&gt;vendor&lt;/em&gt;&lt;/h4&gt;
-
-&lt;p&gt;If for backward compatibility reasons you need to ship your application with
-vendoring, you can generate the &lt;em&gt;vendor&lt;/em&gt; directory from &lt;em&gt;go.mod&lt;/em&gt; thanks to:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;go mod -vendor
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;sect-getting-help&#34;&gt;&amp;sect;Getting help&lt;/h4&gt;
-
-&lt;p&gt;Don&amp;rsquo;t hesistate to refer to &lt;code&gt;go help mod&lt;/code&gt; and &lt;code&gt;go help modules&lt;/code&gt; for further
-details about Go module support!&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;https://systemdump.io/posts/2018-07-22-go-modules&#34; title=&#34;go modules&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>

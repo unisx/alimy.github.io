@@ -295,6 +295,20 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603112035/" title="阅读全文">Jackson: build java tree model from json </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603112035/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603112030/" title="阅读全文">Jackson: json and java - Streaming </a> </h2>
 
 </header>
@@ -497,31 +511,6 @@ public class XStreamTransformationExample {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603092055/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603092051/" title="阅读全文">XStream: Referencing Objects </a> </h2>
-
-</header>
-<div class="summary">
-    <p>XStream allows you to store references while converting a java object to XML. Consider a case where you have an Artist Object. The object contains albums that the artist has released, but you also want to store a reference to a &lsquo;similar artist&rsquo;. People listening to an artist might be interested in listening to a similar artist. When you convert this object to XML, XStream preserves the reference to the similar artist. It also manages circular references, so if there are no similar artist then the &lsquo;similar artist&rsquo; field could store a reference to the Owner Artist.</p>
-
-<p>XStream has multiple ways to store references. you need to use the setMode(int mode) method to set the mode. XStream allows following modes:</p>
-
-<ul>
-<li>NO_REFERENCES</li>
-<li>ID_REFERENCES</li>
-<li>XPATH_RELATIVE_REFERENCES</li>
-<li>XPATH_ABSOLUTE_REFERENCES</li>
-<li>SINGLE_NODE_XPATH_RELATIVE_REFERENCES</li>
-<li>SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES</li>
-</ul>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603092051/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

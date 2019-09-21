@@ -295,6 +295,28 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603192255/" title="阅读全文">Intro to BoltDB: Painless Performant Persistence </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://github.com/boltdb/bolt" title="BoltDB">BoltDB</a> is a pure Go persistence solution that saves data to a memory mapped file. I call it a persistence solution and not a database, because the word database has a lot of baggage associated with it that doesn’t apply to bolt. And that lack of baggage is what makes bolt so awesome.</p>
+
+<p>Bolt is just a Go package. There’s nothing you need to install on the system, no configuration to figure out before you can start coding, nothing. You just go get github.com/boltdb/bolt and then import “github.com/boltdb/bolt”.</p>
+
+<p>All you need to fully use bolt as storage is a file name. This is fantastic from both a developer’s point of view, and a user’s point of view. I don’t know about you, but I’ve spent months of work time over my career configuring and setting up databases and debugging configuration problems, users and permissions and all the other crap you get from more traditional databases like Postgres and Mongo. There’s none of that with bolt. No users, no setup, just a file name. This is also a boon for users of your application, because they don’t have to futz with all that crap either.</p>
+
+<p>Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.</p>
+
+<p>Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603192255/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603192245/" title="阅读全文">Android: Volley&#43;OkHttp with https </a> </h2>
 
 </header>
@@ -509,33 +531,6 @@ Lets see some examples</li>
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603132025/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603132015/" title="阅读全文">Java: Json Simple </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Json Simple is, as the name suggest, a very simple API. The API itself is made up of around 13 classes. The main classes are :</p>
-
-<ul>
-<li>JSONParser - This parses Json text. It takes in a java.io.Reader or a String Object. It is also possible to pass a ContentHandler or ContainerHandler to the parser.</li>
-<li>JSONObject - This is a java representation of JSON string. It stores key value pairs. JsonObject extends HashMap. It has method to encode a map to a JSON text (writeJSONString(Map map, Writer out))</li>
-<li>JSONArray - Represents a collection. It extends an ArrayList. It implements the JSONAware and JSONStreamAware interface</li>
-<li>JSONValue - This class has methods to parse JSON string into Java objects. It uses the JSONParser to do so. It has methods to write JSON string from many java types (writeJSONString(Object value, Writer out)). It also has methods to escapte special characters using the escape(String s) method. This method escapes quotes, \, /, \r, \n, \b, \f, \t and other control characters (U+0000 through U+001F)</li>
-<li>JSONAware - Beans that support output to JSON form should implement this interface.
-Lets see some examples</li>
-</ul>
-
-<h3 id="parse-json">Parse JSON</h3>
-
-<p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603132015/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

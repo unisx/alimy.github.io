@@ -1,0 +1,821 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> Tars语言与协议 &middot; 北 野 </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75081327-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+<script>
+  "use strict";
+  
+  !function() {
+    var t = window.driftt = window.drift = window.driftt || [];
+    if (!t.init) {
+      if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+      t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+      t.factory = function(e) {
+        return function() {
+          var n = Array.prototype.slice.call(arguments);
+          return n.unshift(e), t.push(n), t;
+        };
+      }, t.methods.forEach(function(e) {
+        t[e] = t.factory(e);
+      }), t.load = function(t) {
+        var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+        o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+        var i = document.getElementsByTagName("script")[0];
+        i.parentNode.insertBefore(o, i);
+      };
+    }
+  }();
+  drift.SNIPPET_VERSION = '0.3.1';
+  drift.load('b8zniyzvbfap');
+  </script>
+
+
+
+<script>
+(function(f, a, t, h, o, m){
+a[h]=a[h]||function(){
+  (a[h].q=a[h].q||[]).push(arguments)
+};
+o=f.createElement('script'),
+m=f.getElementsByTagName('script')[0];
+o.async=1; o.src=t; o.id='fathom-script';
+m.parentNode.insertBefore(o,m)
+})(document, window, '//fathom.traefic.com/tracker.js', 'fathom');
+fathom('trackPageview');
+</script>
+
+
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+        .pages {
+            text-align: center;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .pages>ul {
+            font-weight: lighter;
+        }
+        .pages>.pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0px;
+            border-radius: 4px;
+        }
+        .pages .pagination>li {
+            display:inline;
+        }
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.428571429;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.pagination>li:first-child>a, .pagination>li:first-child>span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus {
+    color: #999;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="142" height="142" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">北 野</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  糊涂小栈  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
+                            <li class="navigation__item"><a href="http://alimy.me/post/" title="文章列表" class="blog-button">Archive</a> </li>
+                            </br>  </ul>
+                            <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+
+                    </nav>  </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">北 野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  糊涂小栈  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Tars语言与协议</h2>
+          
+          <h3 id="目录">目录</h3>
+
+<ul>
+<li><a href="#main-chapter-1">Tars语言</a></li>
+<li><a href="#main-chapter-2">Tars协议</a></li>
+</ul>
+
+<h2 id="1-tars语言-a-id-main-chapter-1-a">1. Tars语言 <a id="main-chapter-1"></a></h2>
+
+<h3 id="1-1-接口文件">1.1. 接口文件</h3>
+
+<ul>
+<li>Tars语言是一种类c++标识符的语言，用于生成具体的服务接口文件</li>
+<li>Tars文件是Tars框架中客户端和服务端的通信接口，通过Tars的映射实现远程对象调用</li>
+<li>Tars文件的扩展名必须以.tars为扩展名</li>
+<li>对于结构定义，可以支持扩展字段，即可以增加字段而不影响原有结构的解析，可以在存储/协议等地方单独使用</li>
+<li>大小写敏感</li>
+</ul>
+
+<h3 id="1-2-词法规则">1.2. 词法规则</h3>
+
+<h4 id="1-2-1-注释">1.2.1. 注释</h4>
+
+<p>采用c++的注释规范。</p>
+
+<pre><code>//表示注释一行，/**/表示注释范围中的所有代码。
+</code></pre>
+
+<h4 id="1-2-2-关键字">1.2.2. 关键字</h4>
+
+<p><code>void</code>  <code>struct</code>  <code>bool</code>  <code>byte</code>  <code>short</code>  <code>int</code><br />
+<code>double</code>  <code>float</code>  <code>long</code>  <code>string</code>  <code>vector</code><br />
+<code>map</code>  <code>key</code>  <code>routekey</code>  <code>module</code>  <code>interface</code>  <code>out</code><br />
+<code>require</code>  <code>optional</code>  <code>false</code>  <code>true</code>  <code>enum</code>  <code>const</code></p>
+
+<h4 id="1-2-3-标识符">1.2.3. 标识符</h4>
+
+<p>所有标识符不能带有&rsquo;tars_’符号，且必须以字母开头，同时不能和关键字冲突。</p>
+
+<h3 id="1-3-基本类型">1.3. 基本类型</h3>
+
+<p>支持的基本类型包括以下：</p>
+
+<p><code>void</code>  ：只能在函数的返回值表示</p>
+
+<p><code>bool</code>  ：布尔类型，映射到 <code>tars::Bool</code></p>
+
+<p><code>byte</code>  ：有符号字符，映射到 <code>tars::Char</code></p>
+
+<p><code>short</code> ：有符号短整型，映射到 <code>tars::Short</code></p>
+
+<p><code>int</code>   ：有符号整型，映射到 <code>tars::Int32</code></p>
+
+<p><code>long</code>  ：有符号长整型，映射到 <code>tars::Int64</code></p>
+
+<p><code>float</code> ：映射到 <code>tars::Float</code></p>
+
+<p><code>double</code>：映射到 <code>tars::Double</code></p>
+
+<p><code>string</code>：映射到 <code>std::string，java:String</code></p>
+
+<p><code>unsigned byte</code>：无符号字符,c++映射到 <code>unsigend char</code> 其它版本 <code>tars::Short</code></p>
+
+<p><code>unsigned short</code>：无符号短整形c++映射到 <code>unsigned short</code> 其它版本 <code>tars::Int32</code></p>
+
+<p><code>Unsigned int</code>:无符号整形c++映射到 <code>unsigned int</code>其它版本 <code>tars::Int64</code></p>
+
+<h3 id="1-4-复杂类型">1.4. 复杂类型</h3>
+
+<h4 id="1-4-1-枚举">1.4.1. 枚举</h4>
+
+<p>枚举类型的定义如下：</p>
+
+<pre><code>enum TE
+{
+    E1,
+    E2,
+    E3
+};
+</code></pre>
+
+<p>说明：</p>
+
+<ul>
+<li>枚举类型支持在指定枚举变量的值，例如支持：E1 = 1这种定义方式；</li>
+<li>第一个定义的枚举类型值为0，这里E1的值为0；</li>
+<li>枚举类型在tars文件定义后，通过tars2cpp生成以后，除了会生成相应的enum定义之外，会生成etos和stoe函数，将枚举值转换成字符串，以及将字符串转换成枚举值，在代码调试时会非常方便。</li>
+<li>建议在c++的tars文件中，所有接口都以int返回，且返回值在tars文件中以枚举来定义。</li>
+</ul>
+
+<h4 id="1-4-2-常量">1.4.2. 常量</h4>
+
+<p>Tars文件中可以定义常量，例如：</p>
+
+<pre><code>const int a = 0;
+
+const string s = “abc”;
+</code></pre>
+
+<p>说明：</p>
+
+<ul>
+<li>由于map，vector没有描述常量的值，因此不支持map，vector的定义；</li>
+</ul>
+
+<h4 id="1-4-3-结构">1.4.3. 结构</h4>
+
+<p>结构定义如下：</p>
+
+<pre><code>struct Test
+{
+    0  require  string s;
+    1  optional int  i = 23;
+};
+
+key[Test, s, i];
+</code></pre>
+
+<p>说明：</p>
+
+<ul>
+<li>第一列数字表示该字段的标识（tag），无论结构增减字段，该字段得值都不变，必须和响应的字段对应；</li>
+<li>Tag的值必须要&gt;=0且&lt;=255；</li>
+<li>require表示该字段必选；</li>
+<li>optional表示该字段可选；</li>
+<li>对于optional字段，可以有一个缺省值，缺省值在编码时默认不打包；</li>
+</ul>
+
+<p>key说明：</p>
+
+<ul>
+<li>表示结构的小于比较符号，缺省时Struct是没有小于操作的，如果定义了key，则生成小于比较符。</li>
+</ul>
+
+<p>key详细说明：</p>
+
+<ul>
+<li>key[Stuct, member…]：</li>
+<li>Struct：表示结构的名称</li>
+<li>Member：表示该结构的成员变量，可以有多个；</li>
+<li>生成的小于比较操作符，按照key中成员变量定义的顺序进行优先&lt;比较；</li>
+<li>生成小于比较操作符以后，该结构就可以作为map的key；</li>
+</ul>
+
+<p>其他说明：</p>
+
+<ul>
+<li>在Tars的c++语言中，对于结构而言，提供两个成员函数用于直接打印出结构的内容，可以用于调试和记录日志：</li>
+<li>ostream&amp; display(ostream&amp; _os, int _level=0)：直接打印结构的详细内容，主要用于调试；</li>
+<li>ostream&amp; displaySimple(ostream&amp; _os, int _level=0)：所有成员变量自动按照顺序以|分隔打印出来，用于记录日志；</li>
+</ul>
+
+<h4 id="1-4-4-序列">1.4.4. 序列</h4>
+
+<p>序列用vector来定义，如下：</p>
+
+<pre><code>vector&lt;int&gt; vi;
+</code></pre>
+
+<h4 id="1-4-5-字典">1.4.5. 字典</h4>
+
+<p>字典用map来定义，如下：</p>
+
+<pre><code>map&lt;int, string&gt; m;
+</code></pre>
+
+<p>说明：</p>
+
+<ul>
+<li>对于struct，通常不能作为map的key，因此struct没有大小比较符号；</li>
+<li>如果需要struct能够作为map的key，需要用less定义struct中成员的比较顺序；</li>
+</ul>
+
+<h4 id="1-4-6-数组">1.4.6. 数组</h4>
+
+<p>结构中可以定义数组类型，数组用[]来定义，如下：</p>
+
+<pre><code>byte m[5];
+</code></pre>
+
+<p>说明：
+* 对数组类型，在C++生成代码中会同时生成数组长度<code>mLen</code>
+* 对数组赋值后必须同时对数组长度赋值
+* 在非c++版本中数组类型将翻译为<code>vector&lt;类型&gt;</code>
+* <code>byte m[5]</code> 等价于定义<code>vector&lt;byte&gt;:5</code></p>
+
+<h4 id="1-4-7-指针">1.4.7 指针</h4>
+
+<p>结构中可以定义byte指针类型，指针用*来定义，如下：</p>
+
+<pre><code>byte *m;
+</code></pre>
+
+<p>指针类型使用时需要提前预分配内存块，指针需要内存时通过偏移指向预分配内存块，减少解码过程中的内存申请。</p>
+
+<p>说明：</p>
+
+<ul>
+<li>对于指针类型，在c++代码中会同时生成mLen，用来指定指针长度。</li>
+<li>对指针赋值后必须对长度mLen赋值</li>
+<li>在非c++版本中指针类型将翻译为<code>vector&lt;类型&gt;</code></li>
+<li>含有指针类型的数据读取时BufferReader必须用MapBufferReader,同时需要提前设定指针指向内存的buffer</li>
+</ul>
+
+<h4 id="1-4-8-嵌套">1.4.8 嵌套</h4>
+
+<p>任何<code>struct</code>，<code>map</code>，<code>vector</code>都可以嵌套；</p>
+
+<h3 id="1-5-接口">1.5. 接口</h3>
+
+<p>接口定义如下，例如：</p>
+
+<pre><code>interface Demo
+{
+    int get(out vector&lt;map&lt;int, string&gt;&gt; v);
+    
+    int set(vector&lt;map&lt;int, string&gt;&gt; v);
+};
+
+</code></pre>
+
+<p>说明：
+* 表示输出参数
+* 接口定义后，通过自动代码生成工具（如：tars2cpp)会生成同步接口和异步接口等代码</p>
+
+<h3 id="1-6-名字空间">1.6. 名字空间</h3>
+
+<p>所有的struct，interface必须在名字空间中，例如：</p>
+
+<pre><code>module MemCache
+{
+    struct Key
+    {
+        0 require string s;
+    };
+
+    struct Value
+    {
+        0 require string s;
+    };
+
+    interface MemCacheI
+    {
+        int get(Key k, out Value v);
+
+        int set(Key k, Value v);
+    };
+};
+</code></pre>
+
+<p>说明：
+* 名字空间不能嵌套;
+* 可以引用其他名字空间,例如:Demo1::Key</p>
+
+<h2 id="2-tars协议-a-id-main-chapter-2-a">2. Tars协议 <a id="main-chapter-2"></a></h2>
+
+<h3 id="2-1-数据编码">2.1. 数据编码</h3>
+
+<h4 id="2-1-1-基本结构">2.1.1. 基本结构</h4>
+
+<p>每一个数据由两个部分组成，如下图：</p>
+
+<pre><code>| 头信息 | 实际数据 |
+</code></pre>
+
+<p>而其中头信息包括以下几个部分：</p>
+
+<pre><code>| Type(4 bits) | Tag 1(4 bits) | Tag 2(1 byte) |
+</code></pre>
+
+<p><code>Tag 2</code>是可选的，当<code>Tag</code>的值不超过14时，只需要用<code>Tag 1</code>就可以表示；当<code>Tag</code>的值超过14而小于256时，<code>Tag 1</code>固定为15，而用<code>Tag 2</code>表示<code>Tag</code>的值。<code>Tag</code>不允许大于255。</p>
+
+<p><code>Type</code>表示类型，用4个二进制位表示，取值范围是0~15，用来标识该数据的类型。不同类型的数据，其后紧跟着的实际数据的长度和格式都是不一样的，详见一下的类型表。</p>
+
+<p><code>Tag</code>由<code>Tag 1</code>和<code>Tag 2</code>一起表示。取值范围是0~255，即该数据在结构中的字段ID，用来区分不同的字段。</p>
+
+<h4 id="2-1-2-编码类型表">2.1.2. 编码类型表</h4>
+
+<p>注意，这里的类型与tars文件定义的类型是两个不同的概念，这里的类型只是标识数据存储的类型，而不是数据定义的类型。</p>
+
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>类型</th>
+<th>备注</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0</td>
+<td>int1</td>
+<td>紧跟1个字节整型数据</td>
+</tr>
+
+<tr>
+<td>1</td>
+<td>int2</td>
+<td>紧跟2个字节整型数据</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>int4</td>
+<td>紧跟4个字节整型数据</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>int8</td>
+<td>紧跟8个字节整型数据</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>float</td>
+<td>紧跟4个字节浮点型数据</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>double</td>
+<td>紧跟8个字节浮点型数据</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>String1</td>
+<td>紧跟1个字节长度，再跟内容</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>String4</td>
+<td>紧跟4个字节长度，再跟内容</td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>Map</td>
+<td>紧跟一个整型数据表示Map的大小，再跟[key, value]对列表</td>
+</tr>
+
+<tr>
+<td>9</td>
+<td>List</td>
+<td>紧跟一个整型数据表示List的大小，再跟元素列表</td>
+</tr>
+
+<tr>
+<td>10</td>
+<td>自定义结构开始</td>
+<td>自定义结构开始标志</td>
+</tr>
+
+<tr>
+<td>11</td>
+<td>自定义结构结束</td>
+<td>自定义结构结束标志，Tag为0</td>
+</tr>
+
+<tr>
+<td>12</td>
+<td>数字0</td>
+<td>表示数字0，后面不跟数据</td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>SimpleList</td>
+<td>简单列表（目前用在byte数组），紧跟一个类型字段（目前只支持byte），紧跟一个整型数据表示长度，再跟byte数据</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="2-1-3-各类型详细描述">2.1.3. 各类型详细描述</h4>
+
+<p>1.基本类型（包括<code>int1</code>、<code>int2</code>、<code>int4</code>、<code>int8</code>、<code>float</code>、<code>double</code>）</p>
+
+<p>头信息后紧跟数值数据。char、bool也被看作整型。所有的整型数据之间不做区分，也就是说一个short的值可以赋值给一个int。</p>
+
+<p>2.数字0</p>
+
+<p>头信息后不跟数据，表示数值0。所有基本类型的0值都可以这样来表示。</p>
+
+<p>这是考虑到数字0出现的概率比较大，所以单独提一个类型，以节省空间。</p>
+
+<p>3.字符串（包括String1、String4）</p>
+
+<p>String1跟一个字节的长度（该长度数据不包括头信息），接着紧跟内容。</p>
+
+<p>String4与之类似。</p>
+
+<p>4.Map</p>
+
+<p>紧跟一个整形数据（包括头信息）表示Map的大小，然后紧跟[Key数据（Tag为0），Value数据（Tag为1）]对列表。</p>
+
+<p>5.List</p>
+
+<p>紧跟一个整形数据（包括头信息）表示<code>List</code>的大小，然后紧跟元素列表（<code>Tag</code>为0）</p>
+
+<p>6.自定义结构开始</p>
+
+<p>自定义结构开始标志，后面紧跟字段数据，字段按照tag升序顺序排列</p>
+
+<p>7.自定义结构结束</p>
+
+<p>自定义结构结束标志，Tag为0</p>
+
+<h4 id="2-1-4-对象持久化">2.1.4 对象持久化</h4>
+
+<p>对于自定义结构的持久化，由开始标志与结束标志来标识。</p>
+
+<p>比如如下结构定义：</p>
+
+<pre><code>struct TestInfo
+{
+    1  require  int    ii  = 34;
+    2  optional string s   = &quot;abc&quot;;
+};
+
+struct TestInfo2
+{
+    1  require TestInfo  t;
+    2  require int       a = 12345;
+};
+
+</code></pre>
+
+<p>其中，默认的TestInfo2结构编码后结果为：</p>
+
+<p><img src="http://alimy.me/images/post/20190921155601.png" alt="tars" /></p>
+
+<h3 id="2-2-消息格式">2.2. 消息格式</h3>
+
+<p>TUP底层协议完全采用Tars定义，与Tars的底层数据包定义一致，其中<code>require</code>的字段为TUP必须的字段，<code>optional</code>为访问Tars服务时额外需要用到的字段。</p>
+
+<h4 id="2-2-1-请求包">2.2.1. 请求包</h4>
+
+<pre><code>//请求包体
+struct RequestPacket
+{
+    1  require short        iVersion;         //版本号
+    2  optional byte        cPacketType;      //包类型
+    3  optional int         iMessageType;     //消息类型
+    4  require int          iRequestId;       //请求ID
+    5  require string       sServantName;     //servant名字
+    6  require string       sFuncName;        //函数名称
+    7  require vector&lt;byte&gt; sBuffer;          //二进制buffer
+    8  optional int         iTimeout;         //超时时间（毫秒）
+    9  optional map&lt;string, string&gt; context;  //业务上下文
+    10 optional map&lt;string, string&gt; status;   //框架协议上下文
+};
+</code></pre>
+
+<h4 id="2-2-2-响应包">2.2.2. 响应包</h4>
+
+<pre><code>//响应包体
+struct ResponsePacket
+{
+    1 require short         iVersion;       //版本号
+    2 optional byte         cPacketType;    //包类型
+    3 require int           iRequestId;     //请求ID
+    4 optional int          iMessageType;   //消息类型
+    5 optional int          iRet;           //返回值
+    6 require vector&lt;byte&gt;  sBuffer;        //二进制流
+    7 optional map&lt;string, string&gt; status;  //协议上下文
+    8 optional string       sResultDesc;    //结果描述
+};
+
+//返回值
+const int TAFSERVERSUCCESS       = 0;       //服务器端处理成功
+const int TAFSERVERDECODEERR     = -1;      //服务器端解码异常
+const int TAFSERVERENCODEERR     = -2;      //服务器端编码异常
+const int TAFSERVERNOFUNCERR     = -3;      //服务器端没有该函数
+const int TAFSERVERNOSERVANTERR  = -4;      //服务器端没有该Servant对象
+const int TAFSERVERRESETGRID     = -5;      //服务器端灰度状态不一致
+const int TAFSERVERQUEUETIMEOUT  = -6;      //服务器队列超过限制
+const int TAFASYNCCALLTIMEOUT    = -7;      //异步调用超时
+const int TAFINVOKETIMEOUT       = -7;      //调用超时
+const int TAFPROXYCONNECTERR     = -8;      //proxy链接异常
+const int TAFSERVEROVERLOAD      = -9;      //服务器端超负载,超过队列长度
+const int TAFADAPTERNULL         = -10;     //客户端选路为空，服务不存在或者所有服务down掉了
+const int TAFINVOKEBYINVALIDESET = -11;     //客户端按set规则调用非法
+const int TAFCLIENTDECODEERR     = -12;     //客户端解码异常
+const int TAFSERVERUNKNOWNERR    = -99;     //服务器端位置异常
+</code></pre>
+
+<hr />
+
+<p>(Notice: Origin official document is <a href="https://github.com/TarsCloud/TarsProtocol/blob/master/docs/tars_protocol.md" title="tars protocol"><em>Here</em></a>)</p>
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201909211536/" title="上一篇">&lt;&lt; Protocol Buffers Version 3 Language Specification</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2015-2019 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+  </body>
+</html>
