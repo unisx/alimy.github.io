@@ -295,6 +295,54 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201807012219/" title="阅读全文">Docker: 对Docker Remote API进行认证 </a> </h2>
+
+</header>
+<div class="summary">
+    <ul>
+<li>建立证书授权中心</li>
+</ul>
+
+<pre><code>$ sudo mkdir /etc/docker
+$ cd /etc/docker
+$ echo 01 | sudo tee ca.csl
+$ sudo openssl genrsa -des3 -out ca-key.pem
+$ sudo openssl req -new -x509 -days 365 -key ca-key.pem -out ca.pem
+</code></pre>
+
+<ul>
+<li>创建服务器的证书签名请求和密钥</li>
+</ul>
+
+<pre><code>$ sudo openssl genrsa -des3 -out server-key.pem
+$ sudo openssl req -new -key server-key.pem -out server.csr
+$ sudo openssl x509 -req -days 365 -in server.csr -CA ca.pem -CAkey ca-key.pem -out server-cert.pem
+$ sudo openssl rsa -in server-key.pem -out server-key.pem
+$ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/docker/ca-key.pem /etc/docker/ca.pem
+</code></pre>
+
+<ul>
+<li>配置Docker守护进程 (/etc/docker/daemon.json on Linux systems, or C:\ProgramData\docker\config\daemon.json on Windows.)</li>
+</ul>
+
+<pre><code>{
+  &quot;debug&quot;: true,
+  &quot;tls&quot;: true,
+  &quot;tlscacert&quot;: &quot;/etc/docker/ca.pem&quot;,
+  &quot;tlscert&quot;: &quot;/etc/docker/server-cert.pem&quot;,
+  &quot;tlskey&quot;: &quot;/etc/docker/server-key.pem&quot;,
+  &quot;hosts&quot;: [&quot;tcp://&lt;config of CN&gt;:2376&quot;]
+}
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201807012219/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201807011459/" title="阅读全文">存储系统: 札记 </a> </h2>
 
 </header>
@@ -536,22 +584,6 @@ protected void onResume() {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201803241012/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201803181751/" title="阅读全文">RFC: DNS </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://tools.ietf.org/html/rfc1034" title="DOMAIN NAMES - CONCEPTS AND FACILITIES"><strong>DNS - CONCEPTS AND FACILITIES</strong> RFC https://www.ietf.org/rfc/rfc1034.txt</a></p>
-
-<p><a href="https://tools.ietf.org/html/rfc1035" title="DOMAIN NAMES - IMPLEMENTATION AND SPECIFICATION"><strong>DNS - IMPLEMENTATION AND SPECIFICATION</strong> RFC https://www.ietf.org/rfc/rfc1035.txt</a></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201803181751/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

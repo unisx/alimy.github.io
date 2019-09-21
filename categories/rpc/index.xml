@@ -6,10 +6,29 @@
     <description>Recent content in Rpc on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 21 Sep 2019 15:56:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 21 Sep 2019 16:30:00 +0800</lastBuildDate>
     
 	<atom:link href="http://alimy.me/categories/rpc/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Cap&#39;n Proto Encoding Spec</title>
+      <link>http://alimy.me/post/dev_201909211630/</link>
+      <pubDate>Sat, 21 Sep 2019 16:30:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201909211630/</guid>
+      <description>&lt;h3 id=&#34;sect-organization&#34;&gt;&amp;sect;Organization&lt;/h3&gt;
+
+&lt;h4 id=&#34;64-bit-words&#34;&gt;64-bit Words&lt;/h4&gt;
+
+&lt;p&gt;For the purpose of Cap’n Proto, a “word” is defined as 8 bytes, or 64 bits. Since alignment of data is important, all objects (structs, lists, and blobs) are aligned to word boundaries, and sizes are usually expressed in terms of words. (Primitive values are aligned to a multiple of their size within a struct or list.)&lt;/p&gt;
+
+&lt;h4 id=&#34;messages&#34;&gt;Messages&lt;/h4&gt;
+
+&lt;p&gt;The unit of communication in Cap’n Proto is a “message”. A message is a tree of objects, with the root always being a struct.&lt;/p&gt;
+
+&lt;p&gt;Physically, messages may be split into several “segments”, each of which is a flat blob of bytes. Typically, a segment must be loaded into a contiguous block of memory before it can be accessed, so that the relative pointers within the segment can be followed quickly. However, when a message has multiple segments, it does not matter where those segments are located in memory relative to each other; inter-segment pointers are encoded differently, as we’ll see later.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Tars语言与协议</title>
