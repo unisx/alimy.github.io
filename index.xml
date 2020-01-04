@@ -79,7 +79,7 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;--net=host&lt;/code&gt; 让docker使用本地网络&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;-e INET=etho&lt;/code&gt; 本地网卡接口名,这里替换成对应系统环境的接口名字，比如这里就是eth0&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;-e MYSQL_HOST=192.168.124.18&lt;/code&gt; 对应上面网卡接口(eth0)网络地址&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-e MYSQL_HOST=192.168.124.18&lt;/code&gt; MySQL的host，如果mysql server部署在tars master的同一机器，比如上面，就对应网卡接口(eth0)的网络地址&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h4 id=&#34;效果展示&#34;&gt;效果展示&lt;/h4&gt;
