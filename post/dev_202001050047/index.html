@@ -344,7 +344,7 @@ fathom('trackPageview');
         -e INET=eth0 \
         -e REBUILD=false \
         -e SLAVE=false \
-        -e MYSQL_HOST=172.21.0.6 \
+        -e MYSQL_HOST=192.168.124.18 \
         -e MYSQL_ROOT_PASSWORD=root@appinside \
         -v /etc/localtime:/etc/localtime:ro \
         bitbus/tars:latest
@@ -353,14 +353,15 @@ fathom('trackPageview');
 <ul>
 <li><code>--net=host</code> 让docker使用本地网络</li>
 <li><code>-e INET=etho</code> 本地网卡接口名,这里替换成对应系统环境的接口名字，比如这里就是eth0</li>
-<li><code>-e MYSQL_HOST=172.21.0.6</code> 对应上面网卡接口(eth0)网络地址</li>
+<li><code>-e MYSQL_HOST=192.168.124.18</code> 对应上面网卡接口(eth0)网络地址</li>
 </ul>
 
 <h4 id="效果展示">效果展示</h4>
 
-<p>在浏览器访问<a href="http://172.21.0.6:3000">http://172.21.0.6:3000</a> 或 <a href="http://localhost:3000">http://localhost:3000</a> 如下：</p>
+<p>在浏览器访问<a href="http://192.168.124.18:3000">http://192.168.124.18:3000</a> 或 <a href="http://localhost:3000">http://localhost:3000</a> 如下：</p>
 
-<p><a href="http://alimy.me/images/post/20200105004700.png" title="点击查看大图"><img src="http://alimy.me/images/post/20200105004700.png" alt="图片加载中..." /></a></p>
+<p><a href="http://alimy.me/images/post/20200105004700.png" title="点击查看大图"><img src="http://alimy.me/images/post/20200105004700.png" alt="图片加载中..." /></a><br />
+<a href="http://alimy.me/images/post/20200105004701.png" title="点击查看大图"><img src="http://alimy.me/images/post/20200105004701.png" alt="图片加载中..." /></a></p>
 
 <h4 id="结语">结语</h4>
 

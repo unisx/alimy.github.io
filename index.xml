@@ -70,7 +70,7 @@
         -e INET=eth0 \
         -e REBUILD=false \
         -e SLAVE=false \
-        -e MYSQL_HOST=172.21.0.6 \
+        -e MYSQL_HOST=192.168.124.18 \
         -e MYSQL_ROOT_PASSWORD=root@appinside \
         -v /etc/localtime:/etc/localtime:ro \
         bitbus/tars:latest
@@ -79,14 +79,15 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;--net=host&lt;/code&gt; 让docker使用本地网络&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;-e INET=etho&lt;/code&gt; 本地网卡接口名,这里替换成对应系统环境的接口名字，比如这里就是eth0&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;-e MYSQL_HOST=172.21.0.6&lt;/code&gt; 对应上面网卡接口(eth0)网络地址&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-e MYSQL_HOST=192.168.124.18&lt;/code&gt; 对应上面网卡接口(eth0)网络地址&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h4 id=&#34;效果展示&#34;&gt;效果展示&lt;/h4&gt;
 
-&lt;p&gt;在浏览器访问&lt;a href=&#34;http://172.21.0.6:3000&#34;&gt;http://172.21.0.6:3000&lt;/a&gt; 或 &lt;a href=&#34;http://localhost:3000&#34;&gt;http://localhost:3000&lt;/a&gt; 如下：&lt;/p&gt;
+&lt;p&gt;在浏览器访问&lt;a href=&#34;http://192.168.124.18:3000&#34;&gt;http://192.168.124.18:3000&lt;/a&gt; 或 &lt;a href=&#34;http://localhost:3000&#34;&gt;http://localhost:3000&lt;/a&gt; 如下：&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://alimy.me/images/post/20200105004700.png&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;http://alimy.me/images/post/20200105004700.png&#34; alt=&#34;图片加载中...&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/images/post/20200105004700.png&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;http://alimy.me/images/post/20200105004700.png&#34; alt=&#34;图片加载中...&#34; /&gt;&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://alimy.me/images/post/20200105004701.png&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;http://alimy.me/images/post/20200105004701.png&#34; alt=&#34;图片加载中...&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;结语&#34;&gt;结语&lt;/h4&gt;
 
