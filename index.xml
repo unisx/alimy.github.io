@@ -7,7 +7,97 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 21 Sep 2019 16:45:00 CST</updated>
+    <updated>Sun, 05 Jan 2020 00:47:00 CST</updated>
+    
+    <item>
+      <title>简单使用docker部署Tars</title>
+      <link>http://alimy.me/post/dev_202001050047/</link>
+      <pubDate>Sun, 05 Jan 2020 00:47:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_202001050047/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/TarsCloud/Tars&#34;&gt;Tars&lt;/a&gt;是腾讯从2008年到今天一直在使用的后台逻辑层的统一应用框架TAF（Total Application Framework），目前支持C++,Java,PHP,Nodejs,Go语言。该框架为用户提供了涉及到开发、运维、以及测试的一整套解决方案，帮助一个产品或者服务快速开发、部署、测试、上线。 它集可扩展协议编解码、高性能RPC通信框架、名字路由与发现、发布监控、日志统计、配置管理等于一体，通过它可以快速用微服务的方式构建自己的稳定可靠的分布式应用，并实现完整有效的服务治理，非参Nice。本文简单介绍通过docker部署一套用于开发测试的Tars尝尝滋味。&lt;/p&gt;
+
+&lt;h4 id=&#34;配置清单&#34;&gt;配置清单&lt;/h4&gt;
+
+&lt;p&gt;单节点部署Tars：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;操作系统: CentOS 7&lt;/li&gt;
+&lt;li&gt;MySQL: 5.7&lt;/li&gt;
+&lt;li&gt;Tars: v1.0.1 (bitbus/tars:latest)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;docker安装&#34;&gt;Docker安装&lt;/h4&gt;
+
+&lt;p&gt;安装CentOS官方版本：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% sudo yum install -y docker
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;或者 安装Docker官方版本：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% sudo su
+% yum install -y yum-utils device-mapper-persistent-data lvm2
+% yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+% yum install -y docker-ce 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;启动Docker服务：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% sudo systemctl enable docker
+% sudo systemctl start docker
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;docker启动mysql-5-7&#34;&gt;Docker启动MySQL 5.7&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;% mkdir mysql-data
+% sudo docker pull mysql:5.7
+% sudo docker run -d --restart always --name tars-mysql \
+            --net=host \
+            -e MYSQL_ROOT_PASSWORD=&#39;root@appinside&#39; \
+            -v ${PWD}/mysql-data:/var/lib/mysql  \
+            -v /etc/localtime:/etc/localtime:ro \
+            mysql:5.7
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里&lt;code&gt;--net=host&lt;/code&gt;让docker使用本地网络。&lt;/p&gt;
+
+&lt;h4 id=&#34;docker启动tars-master&#34;&gt;Docker启动Tars master&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;% sudo docker pull bitbus/tars:latest
+% sudo docker run -d --restart always --name tars-master \
+        --net=host \
+        -e INET=eth0 \
+        -e REBUILD=false \
+        -e SLAVE=false \
+        -e MYSQL_HOST=172.21.0.6 \
+        -e MYSQL_ROOT_PASSWORD=root@appinside \
+        -v /etc/localtime:/etc/localtime:ro \
+        bitbus/tars:latest
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;--net=host&lt;/code&gt; 让docker使用本地网络&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-e INET=etho&lt;/code&gt; 本地网卡接口名,这里替换成对应系统环境的接口名字，比如这里就是eth0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-e MYSQL_HOST=172.21.0.6&lt;/code&gt; 对应上面网卡接口(eth0)网络地址&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;效果展示&#34;&gt;效果展示&lt;/h4&gt;
+
+&lt;p&gt;在浏览器访问&lt;a href=&#34;http://172.21.0.6:3000&#34;&gt;http://172.21.0.6:3000&lt;/a&gt; 或 &lt;a href=&#34;http://localhost:3000&#34;&gt;http://localhost:3000&lt;/a&gt; 如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://alimy.me/images/post/20200105004700.png&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;http://alimy.me/images/post/20200105004700.png&#34; alt=&#34;图片加载中...&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;结语&#34;&gt;结语&lt;/h4&gt;
+
+&lt;p&gt;Tars非常非常Nice，是一个非常完备的多语言支持RPC框架，自带一整套运维。目前相关可以搜到的使用文档非常少，本人是一个go开发，边看TarsGo源码边做开发然后熟悉Tars的细节，虽然有点累但很coding.后续再写文章描述Tars应用的开发流程与细节。Happy enjoy your heart from coding。&lt;/p&gt;
+
+&lt;h4 id=&#34;参考文档&#34;&gt;参考文档&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TarsCloud/TarsDocker&#34;&gt;TarsDocker&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
     
     <item>
       <title>Protocol Buffers Messages Encoding</title>
@@ -8217,41 +8307,6 @@ Nov 11 04:24:07 ubuntu kernel: [ 2433.212034] audit: type=1400 audit(1478867047.
 &lt;hr /&gt;
 
 &lt;p&gt;(备注: 原文的链接在 &lt;a href=&#34;https://www.cnblogs.com/0xJDchen/p/6055531.html&#34; title=&#34;Apparmor的前世今生和基本使用&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Athens:香港服务器Docker部署</title>
-      <link>http://alimy.me/post/dev_201811111946/</link>
-      <pubDate>Sun, 11 Nov 2018 19:46:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201811111946/</guid>
-      <description>&lt;h4 id=&#34;源起&#34;&gt;源起&lt;/h4&gt;
-
-&lt;p&gt;go1.11开始加入module功能支持GOPROXY，解决go依赖包下载问题(你懂的！),Athens应运而生。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://docs.gomods.io/&#34; title=&#34;Athens&#34;&gt;官网介绍&lt;/a&gt;:&lt;/p&gt;
-
-&lt;p&gt;Athens is a project building on top of vgo (or go1.11+) trying to bring dependencies closer to you so you can count on repeatable builds even at a time when VCS is down.&lt;/p&gt;
-
-&lt;p&gt;The big goal of Athens is to provide a new place where dependencies — not code — live. Dependencies are immutable blobs of code and associated metadata that come from Github. They live in storage that Athens controls.&lt;/p&gt;
-
-&lt;h4 id=&#34;docker部署&#34;&gt;Docker部署&lt;/h4&gt;
-
-&lt;p&gt;使用Docker进行部署,官方镜像&lt;a href=&#34;https://hub.docker.com/r/gomods/proxy/&#34; title=&#34;Athens&#39;s docker image&#34;&gt;gomods/proxy:latest&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ docker volume create data-athens
-$ docker run -d --name athens-proxy --restart always -p 3000:3000 \
-    -v data-athens:/var/lib/athens \
-    -e ATHENS_DISK_STORAGE_ROOT=/var/lib/athens \ 
-    -e ATHENS_STORAGE_TYPE=disk \
-    gomods/proxy:latest
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;use-memory-backend-defualt&#34;&gt;Use Memory Backend (Defualt)&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;$ docker run -d --name athens-proxy --restart always -p 3000:3000 gomods/proxy:latest
-$ docker logs -f athens-proxy # display logs
-&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
   </channel>

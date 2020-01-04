@@ -6,10 +6,50 @@
     <description>Recent content in Development on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 21 Sep 2019 16:45:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 05 Jan 2020 00:47:00 +0800</lastBuildDate>
     
 	<atom:link href="http://alimy.me/tags/development/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>简单使用docker部署Tars</title>
+      <link>http://alimy.me/post/dev_202001050047/</link>
+      <pubDate>Sun, 05 Jan 2020 00:47:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_202001050047/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/TarsCloud/Tars&#34;&gt;Tars&lt;/a&gt;是腾讯从2008年到今天一直在使用的后台逻辑层的统一应用框架TAF（Total Application Framework），目前支持C++,Java,PHP,Nodejs,Go语言。该框架为用户提供了涉及到开发、运维、以及测试的一整套解决方案，帮助一个产品或者服务快速开发、部署、测试、上线。 它集可扩展协议编解码、高性能RPC通信框架、名字路由与发现、发布监控、日志统计、配置管理等于一体，通过它可以快速用微服务的方式构建自己的稳定可靠的分布式应用，并实现完整有效的服务治理，非参Nice。本文简单介绍通过docker部署一套用于开发测试的Tars尝尝滋味。&lt;/p&gt;
+
+&lt;h4 id=&#34;配置清单&#34;&gt;配置清单&lt;/h4&gt;
+
+&lt;p&gt;单节点部署Tars：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;操作系统: CentOS 7&lt;/li&gt;
+&lt;li&gt;MySQL: 5.7&lt;/li&gt;
+&lt;li&gt;Tars: v1.0.1 (bitbus/tars:latest)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;docker安装&#34;&gt;Docker安装&lt;/h4&gt;
+
+&lt;p&gt;安装CentOS官方版本：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% sudo yum install -y docker
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;或者 安装Docker官方版本：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% sudo su
+% yum install -y yum-utils device-mapper-persistent-data lvm2
+% yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+% yum install -y docker-ce 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;启动Docker服务：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% sudo systemctl enable docker
+% sudo systemctl start docker
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
     
     <item>
       <title>Protocol Buffers Messages Encoding</title>

@@ -295,6 +295,51 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_202001050047/" title="阅读全文">简单使用docker部署Tars </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://github.com/TarsCloud/Tars">Tars</a>是腾讯从2008年到今天一直在使用的后台逻辑层的统一应用框架TAF（Total Application Framework），目前支持C++,Java,PHP,Nodejs,Go语言。该框架为用户提供了涉及到开发、运维、以及测试的一整套解决方案，帮助一个产品或者服务快速开发、部署、测试、上线。 它集可扩展协议编解码、高性能RPC通信框架、名字路由与发现、发布监控、日志统计、配置管理等于一体，通过它可以快速用微服务的方式构建自己的稳定可靠的分布式应用，并实现完整有效的服务治理，非参Nice。本文简单介绍通过docker部署一套用于开发测试的Tars尝尝滋味。</p>
+
+<h4 id="配置清单">配置清单</h4>
+
+<p>单节点部署Tars：</p>
+
+<ul>
+<li>操作系统: CentOS 7</li>
+<li>MySQL: 5.7</li>
+<li>Tars: v1.0.1 (bitbus/tars:latest)</li>
+</ul>
+
+<h4 id="docker安装">Docker安装</h4>
+
+<p>安装CentOS官方版本：</p>
+
+<pre><code>% sudo yum install -y docker
+</code></pre>
+
+<p>或者 安装Docker官方版本：</p>
+
+<pre><code>% sudo su
+% yum install -y yum-utils device-mapper-persistent-data lvm2
+% yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+% yum install -y docker-ce 
+</code></pre>
+
+<p>启动Docker服务：</p>
+
+<pre><code>% sudo systemctl enable docker
+% sudo systemctl start docker
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_202001050047/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201909211645/" title="阅读全文">Protocol Buffers Messages Encoding </a> </h2>
 
 </header>
@@ -585,20 +630,6 @@ implementations (open source or commercial) if you&rsquo;d like to be listed on 
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/art_201903151200/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201903101706/" title="阅读全文">Toyota GT86 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20190310170600.webp" title="点击查看大图"><img src="http://alimy.me/images/post/20190310170600.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201903101706/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
