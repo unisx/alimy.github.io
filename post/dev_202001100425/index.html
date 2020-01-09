@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> 简单使用docker部署Tars &middot; 北 野 </title>
+    <title> Rust系统环境变量配置 &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
@@ -287,95 +287,55 @@ fathom('trackPageview');
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
         <div class="post panel-wrapper">
-            <h2>简单使用docker部署Tars</h2>
+            <h2>Rust系统环境变量配置</h2>
           
-          <p><a href="https://github.com/TarsCloud/Tars">Tars</a>是腾讯从2008年到今天一直在使用的后台逻辑层的统一应用框架TAF（Total Application Framework），目前支持C++,Java,PHP,Nodejs,Go语言。该框架为用户提供了涉及到开发、运维、以及测试的一整套解决方案，帮助一个产品或者服务快速开发、部署、测试、上线。 它集可扩展协议编解码、高性能RPC通信框架、名字路由与发现、发布监控、日志统计、配置管理等于一体，通过它可以快速用微服务的方式构建自己的稳定可靠的分布式应用，并实现完整有效的服务治理，非参Nice。本文简单介绍通过docker部署一套用于开发测试的Tars尝尝滋味。</p>
+          <p>国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。</p>
 
-<h4 id="配置清单">配置清单</h4>
+<h4 id="科大-rust-crates-镜像">科大 Rust Crates 镜像</h4>
 
-<p>单节点部署Tars：</p>
+<p>在 $HOME/.cargo/config 中添加如下内容</p>
 
-<ul>
-<li>操作系统: CentOS 7</li>
-<li>MySQL: 5.7</li>
-<li>Tars: v1.0.1 (bitbus/tars:latest)</li>
-</ul>
-
-<h4 id="docker安装">Docker安装</h4>
-
-<p>安装CentOS官方版本：</p>
-
-<pre><code>% sudo yum install -y docker
+<pre><code>[registry]
+index = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
 </code></pre>
 
-<p>或者 安装Docker官方版本：</p>
+<p>如果所处的环境中不允许使用 git 协议, 可以把上述地址改为</p>
 
-<pre><code>% sudo su
-% yum install -y yum-utils device-mapper-persistent-data lvm2
-% yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-% yum install -y docker-ce 
+<pre><code>index = &quot;http://mirrors.ustc.edu.cn/crates.io-index&quot;
 </code></pre>
 
-<p>启动Docker服务：</p>
+<p>同步频率为每两个小时更新一次.</p>
 
-<pre><code>% sudo systemctl enable docker
-% sudo systemctl start docker
+<p>如果 cargo 版本为 0.13.0 或以上, 需要更改 $HOME/.cargo/config 为以下内容:</p>
+
+<pre><code>[source.crates-io]
+registry = &quot;https://github.com/rust-lang/crates.io-index&quot;
+replace-with = 'ustc'
+[source.ustc]
+registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
 </code></pre>
 
-<h4 id="docker启动mysql-5-7">Docker启动MySQL 5.7</h4>
+<h4 id="配置rust系统环境变量">配置Rust系统环境变量</h4>
 
-<pre><code>% mkdir mysql-data
-% sudo docker pull mysql:5.7
-% sudo docker run -d --restart always --name tars-mysql \
-            --net=host \
-            -e MYSQL_ROOT_PASSWORD='root@appinside' \
-            -v ${PWD}/mysql-data:/var/lib/mysql  \
-            -v /etc/localtime:/etc/localtime:ro \
-            mysql:5.7
+<p>Linux 环境，在$HOME/.bashrc或$HOME/.bash_profile中添加如下内容：</p>
+
+<pre><code># User specific environment and startup program
+export CARGO_HOME=$HOME/.cargo
+export RUSTUP_HOME=$HOME/.rustup
+export RUSTUP_DIST_SERVER=http://mirrors.ustc.edu.cn/rust-static
+export RUSTUP_UPDATE_ROOT=http://mirrors.ustc.edu.cn/rust-static/rustup
+export PATH=&quot;$HOME/.cargo/bin:$PATH&quot;
 </code></pre>
-
-<p>这里<code>--net=host</code>让docker使用本地网络。</p>
-
-<h4 id="docker启动tars-master">Docker启动Tars master</h4>
-
-<pre><code>% sudo docker pull bitbus/tars:latest
-% sudo docker run -d --restart always --name tars-master \
-        --net=host \
-        -e INET=eth0 \
-        -e REBUILD=false \
-        -e SLAVE=false \
-        -e MYSQL_HOST=192.168.124.18 \
-        -e MYSQL_ROOT_PASSWORD=root@appinside \
-        -v /etc/localtime:/etc/localtime:ro \
-        bitbus/tars:latest
-</code></pre>
-
-<ul>
-<li><code>--net=host</code> 让docker使用本地网络</li>
-<li><code>-e INET=etho</code> 本地网卡接口名,这里替换成对应系统环境的接口名字，比如这里就是eth0</li>
-<li><code>-e MYSQL_HOST=192.168.124.18</code> MySQL的host，如果mysql server部署在tars master的同一机器，比如上面，就对应网卡接口(eth0)的网络地址</li>
-</ul>
-
-<h4 id="效果展示">效果展示</h4>
-
-<p>在浏览器访问<a href="http://192.168.124.18:3000">http://192.168.124.18:3000</a> 或 <a href="http://localhost:3000">http://localhost:3000</a> 如下：</p>
-
-<p><a href="http://alimy.me/images/post/20200105004700.png" title="点击查看大图"><img src="http://alimy.me/images/post/20200105004700.png" alt="图片加载中..." /></a><br />
-<a href="http://alimy.me/images/post/20200105004701.png" title="点击查看大图"><img src="http://alimy.me/images/post/20200105004701.png" alt="图片加载中..." /></a></p>
-
-<h4 id="结语">结语</h4>
-
-<p>Tars非常非常Nice，是一个非常完备的多语言支持RPC框架，自带一整套运维。目前相关可以搜到的使用文档非常少，本人是一个go开发，边看TarsGo源码边做开发然后熟悉Tars的细节，虽然有点累但很coding.后续再写文章描述Tars应用的开发流程与细节。Happy enjoy your heart from coding。</p>
 
 <h4 id="参考文档">参考文档</h4>
 
 <ul>
-<li><a href="https://github.com/TarsCloud/TarsDocker">TarsDocker</a></li>
+<li><a href="https://lug.ustc.edu.cn/wiki/mirrors/help/rust-crates" title="科大mirrors">Rust Crates 镜像使用帮助</a></li>
 </ul>
         </div>
         <div id="post-navigator">
-          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201909211645/" title="上一篇">&lt;&lt; Protocol Buffers Messages Encoding</a>
-          <a id="post-navigator-next" href="http://alimy.me/post/dev_202001100425/" title="下一篇">Rust系统环境变量配置 >></a>
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_202001050047/" title="上一篇">&lt;&lt; 简单使用docker部署Tars</a>
+          
         </div>
         <div id="post-comments">
           <h3>Comments</h3>

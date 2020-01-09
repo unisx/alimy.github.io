@@ -7,7 +7,58 @@
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sun, 05 Jan 2020 00:47:00 CST</updated>
+    <updated>Fri, 10 Jan 2020 04:25:00 CST</updated>
+    
+    <item>
+      <title>Rust系统环境变量配置</title>
+      <link>http://alimy.me/post/dev_202001100425/</link>
+      <pubDate>Fri, 10 Jan 2020 04:25:00 CST</pubDate>
+      
+      <guid>http://alimy.me/post/dev_202001100425/</guid>
+      <description>&lt;p&gt;国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。&lt;/p&gt;
+
+&lt;h4 id=&#34;科大-rust-crates-镜像&#34;&gt;科大 Rust Crates 镜像&lt;/h4&gt;
+
+&lt;p&gt;在 $HOME/.cargo/config 中添加如下内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[registry]
+index = &amp;quot;git://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果所处的环境中不允许使用 git 协议, 可以把上述地址改为&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;index = &amp;quot;http://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;同步频率为每两个小时更新一次.&lt;/p&gt;
+
+&lt;p&gt;如果 cargo 版本为 0.13.0 或以上, 需要更改 $HOME/.cargo/config 为以下内容:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[source.crates-io]
+registry = &amp;quot;https://github.com/rust-lang/crates.io-index&amp;quot;
+replace-with = &#39;ustc&#39;
+[source.ustc]
+registry = &amp;quot;git://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;配置rust系统环境变量&#34;&gt;配置Rust系统环境变量&lt;/h4&gt;
+
+&lt;p&gt;Linux 环境，在$HOME/.bashrc或$HOME/.bash_profile中添加如下内容：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# User specific environment and startup program
+export CARGO_HOME=$HOME/.cargo
+export RUSTUP_HOME=$HOME/.rustup
+export RUSTUP_DIST_SERVER=http://mirrors.ustc.edu.cn/rust-static
+export RUSTUP_UPDATE_ROOT=http://mirrors.ustc.edu.cn/rust-static/rustup
+export PATH=&amp;quot;$HOME/.cargo/bin:$PATH&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;参考文档&#34;&gt;参考文档&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://lug.ustc.edu.cn/wiki/mirrors/help/rust-crates&#34; title=&#34;科大mirrors&#34;&gt;Rust Crates 镜像使用帮助&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
     
     <item>
       <title>简单使用docker部署Tars</title>
@@ -8174,140 +8225,6 @@ c : connecting to server...
 &lt;hr /&gt;
 
 &lt;p&gt;(备注: 原文的链接在 &lt;a href=&#34;https://www.vpsee.com/2011/05/sshuttle-a-simple-instant-vpn/&#34; title=&#34;sshuttle as vpn&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>AppArmor的前世今生和基本使用</title>
-      <link>http://alimy.me/post/dev_201811171435/</link>
-      <pubDate>Sat, 17 Nov 2018 14:35:00 CST</pubDate>
-      
-      <guid>http://alimy.me/post/dev_201811171435/</guid>
-      <description>&lt;h4 id=&#34;一-mac和dac-一些前置知识&#34;&gt;一：MAC和DAC (一些前置知识)&lt;/h4&gt;
-
-&lt;p&gt;DAC(Discretionary Access Control)，自主访问控制，是最常用的一类访问控制机制，意思为主体（文件所有者）可以自主指定系统中其它用户对其文件的所有权，最典型的就是Linux的&amp;rdquo;拥有者/同组用户/其他&amp;rdquo;。这种方式虽然为用户提供了很大的灵活性，但是缺乏必要的安全性&lt;/p&gt;
-
-&lt;p&gt;MAC(Mandatory Access Control)，强制访问控制,在这种机制下，系统中的每一个进程，每一个文件，每一个IPC主体都被管理员按照严格的规则设置了相应的安全属性，不能被用户和其它直接或间接的修改。&lt;/p&gt;
-
-&lt;h4 id=&#34;二-apparmor-https-gitlab-com-apparmor-apparmor-apparmor-in-gitlab&#34;&gt;二：&lt;a href=&#34;https://gitlab.com/apparmor/apparmor&#34; title=&#34;AppArmor in GitLab&#34;&gt;AppArmor&lt;/a&gt;&lt;/h4&gt;
-
-&lt;p&gt;由于SELinux使用复杂，适用于对安全要求特别高的企业或者组织，为了简化操作，就推出了AppArmor，所以可以说AppArmor脱胎于SELinux，但与SELinux基于角色的MAC不同的是，AppArmor是与程序绑定的基于路径的MAC，也就是说如果路径发生改变，策略就会失效。一般的Linux的系统，都会内置以上两种MAC其中的一种，这也意味着，你需要对文件（其它）进行操作，你需要同时通过DAC和 MAC的检测。&lt;/p&gt;
-
-&lt;p&gt;AppArmor有两种工作模式：enforcement、complain/learning&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Enforcement – 在这种模式下，配置文件里列出的限制条件都会得到执行，并且对于违反这些限制条件的程序会进行日志记录。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Complain – 在这种模式下，配置文件里的限制条件不会得到执行，AppArmor只是对程序的行为进行记录。例如程序可以写一个在配置文件里注明只读的文件，但AppArmor不会对程序的行为进行限制，只是进行记录。这种模式也叫学习模式，如果某个程序的行为不符合其配置文件的限制，可以将其行为记录到系统日志，并且可以根据程序的行为，将日志转换成配置文件。&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;AppArmor可以对程序进行多方面的限制，详细可以看官方文档，这里只提供几个基本的例子：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;文件系统的访问控制   例：  /home/Desktop/a.c rw 表示程序可以对/home/Desktop/a.c 进行读和写。&lt;/li&gt;
-&lt;li&gt;资源限制   例： set rlimit as&amp;lt;=1M ，表示该程序可以使用的虚拟内存小于等于1M&lt;/li&gt;
-&lt;li&gt;访问网络   例： network inet tcp ,表示该程序可以在IPV4的情况下使用TCP协议 　&lt;/li&gt;
-&lt;li&gt;capability条目 例：capability setgid，表示程序进行setgid操作。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&#34;三-基本使用&#34;&gt;三：基本使用&lt;/h4&gt;
-
-&lt;p&gt;ubuntu自带AppArmor，所以以ubuntu14.04为例。
-最好先安装了apparmor的管理工具套装：apt-get install apparmor-utils&lt;/p&gt;
-
-&lt;p&gt;测试程序源码如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#include&amp;lt;stdio.h&amp;gt;  
-#include &amp;lt;string.h&amp;gt;  
-int main(int argc, char *argv[])  
-{  
- 　　FILE *f;  
- 　　int nn, i;   char ch;   
- 　　if(3 == argc){   
-  　　　　f = fopen(argv[1], &amp;quot;w&amp;quot;);   
-  　 if(f == NULL){                          printf(&amp;quot;Open file %s with write ERROR\n&amp;quot;, argv[1]);  
-   　　return 2;  
-　　　}   
-  　nn = strlen(argv[2]);   
-   i = 0;   
-   while(i &amp;lt; nn){   
-   　　fputc(argv[2][i], f);  
-   　　++i; 
-  　}  
-  fclose(f); 
-  }else if(argc == 2){  
-  　　f = fopen(argv[1], &amp;quot;r&amp;quot;);  
-  　　if(NULL == f){  
-   　　　　printf(&amp;quot;Open file %s with read ERROR\n&amp;quot;, argv[1]);  
-   　　　　return 2;  
-  　　}   
-  　　while((ch=fgetc(f)) != EOF){   
-   　　　　printf(&amp;quot;%c&amp;quot;, ch);  
- 　　 }   
-  　　printf(&amp;quot;\n&amp;quot;); 
-  　　fclose(f); 
- }else{ 
-  　　printf(&amp;quot;Usage: test file **\n&amp;quot;);   
-  　　return 3;  
- } 
- 
-　　 return 0;  
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;基本功能是对，文件进行读写，使用如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;　$　./test a.c &amp;quot;hello,world&amp;quot;  #进行写
-　$　./test a.c  #进行读
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;可以根据 aa-genprof 生成配置文件，生成的文件在/etc/apparmor.d下，文件名为home.jdchen.test&lt;/p&gt;
-
-&lt;p&gt;生成的文件如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# Last Modified: Fri Nov 11 03:54:40 2016
-#include &amp;lt;tunables/global&amp;gt;
-
-/home/jdchen/test {
-  #include &amp;lt;abstractions/base&amp;gt;
-
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;由于apparmor采取类似于白名单的机制，所以不能进行任何操作。
-现在给配置文件添加可写的权限并重新加载。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# Last Modified: Fri Nov 11 03:54:40 2016
-#include &amp;lt;tunables/global&amp;gt;
-
-/home/jdchen/test {
-  #include &amp;lt;abstractions/base&amp;gt;
-    /home/jdchen/a.c w，
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后介绍几个命令：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ Start : sudo /etc/init.d/apparmor start   #启动
-$ Stop : sudo /etc/init.d/apparmor stop   #停止
-$ reload: sudo /etc/init.d/apparmor reload 重新加载
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;在修改配置之后，需要重载：&lt;/p&gt;
-
-&lt;p&gt;可以试着查看一下日志，节选：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;ov 11 04:23:53 ubuntu kernel: [ 2419.881291] audit_printk_skb: 15 callbacks suppressed
-Nov 11 04:23:53 ubuntu kernel: [ 2419.881306] audit: type=1400 audit(1478867033.872:204): apparmor=&amp;quot;DENIED&amp;quot; operation=&amp;quot;open&amp;quot; profile=&amp;quot;/home/jdchen/test&amp;quot; name=&amp;quot;/home/jdchen/a.c&amp;quot; pid=4108 comm=&amp;quot;test&amp;quot; requested_mask=&amp;quot;r&amp;quot; denied_mask=&amp;quot;r&amp;quot; fsuid=0 ouid=0
-Nov 11 04:24:07 ubuntu kernel: [ 2433.212034] audit: type=1400 audit(1478867047.204:205): apparmor=&amp;quot;DENIED&amp;quot; operation=&amp;quot;open&amp;quot; profile=&amp;quot;/home/jdchen/test&amp;quot; name=&amp;quot;/home/jdchen/a.c&amp;quot; pid=4111 comm=&amp;quot;test&amp;quot; requested_mask=&amp;quot;r&amp;quot; denied_mask=&amp;quot;r&amp;quot; fsuid=0 ouid=0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;如果不需要配置，可以直接将配置文件删除。&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;(备注: 原文的链接在 &lt;a href=&#34;https://www.cnblogs.com/0xJDchen/p/6055531.html&#34; title=&#34;Apparmor的前世今生和基本使用&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
     
   </channel>

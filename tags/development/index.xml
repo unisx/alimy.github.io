@@ -6,10 +6,43 @@
     <description>Recent content in Development on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 05 Jan 2020 00:47:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 10 Jan 2020 04:25:00 +0800</lastBuildDate>
     
 	<atom:link href="http://alimy.me/tags/development/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Rust系统环境变量配置</title>
+      <link>http://alimy.me/post/dev_202001100425/</link>
+      <pubDate>Fri, 10 Jan 2020 04:25:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_202001100425/</guid>
+      <description>&lt;p&gt;国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。&lt;/p&gt;
+
+&lt;h4 id=&#34;科大-rust-crates-镜像&#34;&gt;科大 Rust Crates 镜像&lt;/h4&gt;
+
+&lt;p&gt;在 $HOME/.cargo/config 中添加如下内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[registry]
+index = &amp;quot;git://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果所处的环境中不允许使用 git 协议, 可以把上述地址改为&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;index = &amp;quot;http://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;同步频率为每两个小时更新一次.&lt;/p&gt;
+
+&lt;p&gt;如果 cargo 版本为 0.13.0 或以上, 需要更改 $HOME/.cargo/config 为以下内容:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[source.crates-io]
+registry = &amp;quot;https://github.com/rust-lang/crates.io-index&amp;quot;
+replace-with = &#39;ustc&#39;
+[source.ustc]
+registry = &amp;quot;git://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
     
     <item>
       <title>简单使用docker部署Tars</title>

@@ -295,6 +295,44 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_202001100425/" title="阅读全文">Rust系统环境变量配置 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。</p>
+
+<h4 id="科大-rust-crates-镜像">科大 Rust Crates 镜像</h4>
+
+<p>在 $HOME/.cargo/config 中添加如下内容</p>
+
+<pre><code>[registry]
+index = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
+</code></pre>
+
+<p>如果所处的环境中不允许使用 git 协议, 可以把上述地址改为</p>
+
+<pre><code>index = &quot;http://mirrors.ustc.edu.cn/crates.io-index&quot;
+</code></pre>
+
+<p>同步频率为每两个小时更新一次.</p>
+
+<p>如果 cargo 版本为 0.13.0 或以上, 需要更改 $HOME/.cargo/config 为以下内容:</p>
+
+<pre><code>[source.crates-io]
+registry = &quot;https://github.com/rust-lang/crates.io-index&quot;
+replace-with = 'ustc'
+[source.ustc]
+registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
+</code></pre>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_202001100425/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_202001050047/" title="阅读全文">简单使用docker部署Tars </a> </h2>
 
 </header>
@@ -616,20 +654,6 @@ implementations (open source or commercial) if you&rsquo;d like to be listed on 
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201904141055/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/art_201903151200/" title="阅读全文">熊猫人 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="http://alimy.me/images/post/20190315120000.webp" title="点击查看大图"><img src="http://alimy.me/images/post/20190315120000.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a></p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/art_201903151200/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

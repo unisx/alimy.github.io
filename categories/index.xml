@@ -32,7 +32,7 @@
     <item>
       <title>Development</title>
       <link>http://alimy.me/categories/development/</link>
-      <pubDate>Sun, 05 Jan 2020 00:47:00 +0800</pubDate>
+      <pubDate>Fri, 10 Jan 2020 04:25:00 +0800</pubDate>
       
       <guid>http://alimy.me/categories/development/</guid>
       <description></description>
@@ -89,6 +89,15 @@
       <pubDate>Sun, 05 Jan 2020 00:47:00 +0800</pubDate>
       
       <guid>http://alimy.me/categories/rpc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rust</title>
+      <link>http://alimy.me/categories/rust/</link>
+      <pubDate>Fri, 10 Jan 2020 04:25:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/categories/rust/</guid>
       <description></description>
     </item>
     

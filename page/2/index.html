@@ -295,6 +295,20 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/art_201903151200/" title="阅读全文">熊猫人 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="http://alimy.me/images/post/20190315120000.webp" title="点击查看大图"><img src="http://alimy.me/images/post/20190315120000.webp" alt="图片加载中...请使用支持Webp的浏览器加速查看" /></a></p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/art_201903151200/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/art_201903101706/" title="阅读全文">Toyota GT86 </a> </h2>
 
 </header>
@@ -583,35 +597,6 @@ $ docker run -d --name athens-proxy --restart always -p 3000:3000 \
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/day_2018090119142/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201808191316/" title="阅读全文">SRE:3节点部署TiKV用于测试功能 </a> </h2>
-
-</header>
-<div class="summary">
-    <h4 id="源起">源起</h4>
-
-<p>闲置几台屌丝版腾讯云服务器（2 core <code>CPU</code> 4GB <code>Memory</code> 40GB <code>Disk</code>)，难得清闲，用其中的3台部署一套TiKV用于测试功能和代码研究。</p>
-
-<h4 id="节点分布">节点分布</h4>
-
-<p>使用Docker进行部署,官方镜像pingcap/pd:v2.0.6、pingcap/tikv:v2.0.6</p>
-
-<pre><code>|    Name   |   Host IP   |  Services  |  Docker Volume  |  Data Path  |
-| Node1(TB) | 172.22.0.6  |    PD1     |     pd-data     |    /data    |
-| Node2(TD) | 172.22.0.10 |    PD2     |     pd-data     |    /data    |
-| Node3(TE) | 172.22.0.15 |    PD3     |     pd-data     |    /data    |
-| Node1(TB) | 172.22.0.6  |   TiKV1    |     tikv-data   |    /data    |
-| Node2(TD) | 172.22.0.10 |   TiKV2    |     tikv-data   |    /data    |
-| Node3(TE) | 172.22.0.15 |   TiKV3    |     tikv-data   |    /data    |
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201808191316/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 

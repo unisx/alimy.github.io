@@ -295,6 +295,32 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_201603122028/" title="阅读全文">Gson: Serializing Inner Classes </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="serializing-inner-classes">Serializing inner classes</h3>
+
+<p>Gson can serialize inner classes and static nested classes. The detailed example below demonstrates the following things.</p>
+
+<ol>
+<li>Serializing class containing static nested class</li>
+<li>Serializing class containing non static nested class (Inner class)</li>
+<li>De-serializing json to a class containing static and non static inner class</li>
+<li>Serializing static nested class (without the enclosing type)</li>
+<li>Serializing non static nested class (without the enclosing type)</li>
+<li>De-serializing json to a static nested class (without the enclosing type)</li>
+<li>De-serializing json to a non static nested class (without the enclosing type)</li>
+</ol>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_201603122028/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_201603122025/" title="阅读全文">Gson: Serializing and deserializing Java Generic Classes </a> </h2>
 
 </header>
@@ -561,62 +587,6 @@ public class SerializeExample3 {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201603112100/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
-
-<ol>
-<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &lsquo;tags&rsquo; property from the albums dataset.</li>
-<li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
-<li>Using Custom filters</li>
-</ol>
-
-<p>The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.</p>
-
-<h3 id="data-binding-filters-example">Data Binding Filters Example</h3>
-
-<h4 id="databinding">Databinding</h4>
-
-<pre><code>package com.studytrails.json.jackson;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-// Do not use fields to autodetect. use the public getter methods to autodetect properties
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
-public class AlbumsFilter {
-
-    private String title;
-    private DatasetFilter[] datasetFilter;
-    public String total_pages;
-
-    protected String getTotal_pages() {
-        return total_pages;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    // this getter method is for the 'dataset' property
-    @JsonProperty(&quot;dataset&quot;)
-    public DatasetFilter[] getDatasetFilter() {
-        return datasetFilter;
-    }
-}
-</code></pre>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201603112055/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
